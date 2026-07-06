@@ -1,0 +1,10 @@
+{
+  "latestVersion": "1.0.3",
+  "minVersion": "1.0.3",
+  "androidUrl": "https://play.google.com/store/apps/details?id=com.abdllhekc.vera",
+  "iosUrl": "https://apps.apple.com/app/id123456789",
+  "releaseNotes": {
+    "tr": "Hata düzeltmeleri ve performans iyileştirmeleri eklendi.",
+    "en": "Bug fixes and performance improvements added."
+  }
+}
