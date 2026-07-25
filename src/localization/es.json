@@ -1,0 +1,157 @@
+{
+  "translation": {
+    "common": {
+      "loading": "Cargando...",
+      "error": "Ocurrió un error",
+      "retry": "Reintentar"
+    },
+    "home": {
+      "title": "Horarios de Oración",
+      "nextPrayer": "Próxima Oración",
+      "timeLeft": "Tiempo Restante",
+      "timeLeftUnits": {
+        "h": "h",
+        "m": "m",
+        "s": "s"
+      },
+      "prayers": {
+        "fajr": "Fajr",
+        "sunrise": "Amanecer",
+        "dhuhr": "Dhuhr",
+        "asr": "Asr",
+        "maghrib": "Maghrib",
+        "isha": "Isha"
+      }
+    },
+    "settings": {
+      "title": "Ajustes",
+      "language": "Idioma",
+      "theme": "Tema",
+      "dark": "Oscuro",
+      "light": "Claro",
+      "system": "Sistema"
+    },
+    "qibla": {
+      "title": "Qibla",
+      "holdFlat": "Mantenga el teléfono plano",
+      "calibrating": "Calibrando brújula...",
+      "found": "Estás frente a la Qibla"
+    },
+    "daily": {
+      "title": "Inspiración Diaria",
+      "verse": "Versículo del Día",
+      "hadith": "Hadiz del Día",
+      "quote": "Cita del Día",
+      "share": "Compartir",
+      "verseBody": "¡Haz clic para leer el versículo del día!",
+      "hadithBody": "¡Haz clic para leer el hadiz del día!",
+      "quoteBody": "¡Haz clic para leer la cita del día!"
+    },
+    "notifications": {
+      "fajr": {
+        "title": "🕌 Hora de Fajr",
+        "body": "Es hora de la oración de Fajr. La oración es mejor que el sueño."
+      },
+      "sunrise": {
+        "title": "🌅 Amanecer",
+        "body": "El sol ha salido. El tiempo de Fajr ha terminado."
+      },
+      "dhuhr": {
+        "title": "🕌 Hora de Dhuhr",
+        "body": "Es hora de la oración de Dhuhr. Tómate un descanso y encuentra paz."
+      },
+      "asr": {
+        "title": "🕌 Hora de Asr",
+        "body": "Es hora de la oración de Asr. Tómate un momento para conectarte con Allah."
+      },
+      "maghrib": {
+        "title": "🕌 Hora de Maghrib",
+        "body": "Ha entrado la hora de Maghrib. Agradezcamos a Allah por el día."
+      },
+      "isha": {
+        "title": "🕌 Hora de Isha",
+        "body": "Es hora de la oración de Isha. Completa tu día con paz."
+      }
+    },
+    "tasbih": {
+      "title": "Tasbih",
+      "subtitle": "Ciertamente, en el recuerdo de Allah los corazones encuentran descanso.",
+      "tapHint": "TOCA PARA INCREMENTAR",
+      "reset": "Restablecer",
+      "savedNotice": "Tu progreso está guardado y se reanudará cuando regreses.",
+      "addCustom": "+ Nuevo",
+      "modalTitle": "Agregar Dhikr Personalizado",
+      "dhikrName": "Nombre del Dhikr (ej. Subhanallah)",
+      "targetCount": "Objetivo (ej. 300)",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "namesAndDuas": "Nombres y Duas",
+      "names": "99 Nombres",
+      "duas": "Duas",
+      "defaultInfinite": "Dhikr Libre",
+      "default1": "Subhanallah",
+      "default2": "Alhamdulillah",
+      "default3": "Allahu Akbar",
+      "default4": "La ilaha illallah",
+      "default5": "Astaghfirullah",
+      "milestoneTitle": "🎉 ¡Felicidades!",
+      "milestoneBody": "¡Mashallah, has alcanzado {{total}} dhikrs este mes!",
+      "progressBtn": "Mi Progreso",
+      "progressTitle": "Progreso Mensual de Dhikr",
+      "totalThisMonth": "Total Este Mes:",
+      "noData": "Aún no hay datos para este mes.",
+      "resetConfirmTitle": "Restablecer Contador",
+      "resetConfirmMsg": "¿Estás seguro de que deseas restablecer el contador? (Esto no afecta tus estadísticas mensuales)",
+      "yes": "Sí",
+      "no": "No"
+    },
+    "update": {
+      "title": "¡Nueva Actualización Disponible!",
+      "forceTitle": "Actualización Requerida",
+      "message": "Hay una nueva versión de nuestra aplicación. Actualiza para una mejor experiencia.",
+      "forceMessage": "Por favor, actualiza a la última versión para continuar usando la aplicación.",
+      "updateBtn": "Actualizar Ahora",
+      "laterBtn": "Más Tarde",
+      "releaseNotes": "Notas de la Versión:"
+    },
+    "quran": {
+      "title": "Sagrado Corán",
+      "subtitle": "114 Suras • 604 Páginas",
+      "tabBrowse": "Navegar",
+      "tabHistory": "Última Lectura",
+      "featuredSurahs": "Suras Destacadas",
+      "seeAll": "Ver Todo",
+      "juzs": "Juz",
+      "juzCount": "30 Juz",
+      "juzNum": "Juz {{num}}",
+      "downloading": "Descargando... {{progress}}%",
+      "downloadToRead": "Descargar para leer",
+      "verseCount": "{{count}} versículos",
+      "allSurahs": "Todas las Suras",
+      "searchPlaceholder": "Nombre o número de Sura...",
+      "lastRead": "Última Lectura",
+      "pageNum": "Página {{num}}",
+      "noHistoryTitle": "Aún no tienes historial de lectura.",
+      "pastReadings": "Historial de Lectura",
+      "noPastReadings": "No se encontró historial de lectura.",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "noData": "No se encontraron datos en esta página.\nVerifica si el Juz está descargado.",
+      "styleTitle": "Selección de Estilo Coránico",
+      "styleSubtitle": "Elige el formato de escritura en el que deseas leer el Corán. Puedes cambiar esta configuración más adelante.",
+      "imlaeiTitle": "Estilo Turco & Diyanet",
+      "imlaeiDesc": "Estilo estándar y simplificado.",
+      "uthmaniTitle": "Estilo Uthmani",
+      "uthmaniDesc": "Mushaf de Medina. El estilo árabe más común.",
+      "indopakTitle": "Estilo Indo-Pak",
+      "indopakDesc": "Estilo grueso comúnmente usado en el sur de Asia.",
+      "saveAndContinue": "Guardar y Continuar",
+      "oldDownloadsWillBeDeleted": "Las Descargas Antiguas se Eliminarán",
+      "styleChangeWarning": "Al cambiar el estilo, los textos descargados anteriormente se eliminarán. ¿Deseas continuar?",
+      "cancel": "Cancelar",
+      "yesChange": "Sí, Cambiar",
+      "error": "Error",
+      "downloadError": "Ocurrió un error al descargar la fuente. Comprueba tu conexión a Internet."
+    }
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "translation": {
+    "common": {
+      "loading": "Loading...",
+      "error": "An error occurred",
+      "retry": "Retry"
+    },
+    "home": {
+      "title": "Prayer Times",
+      "nextPrayer": "Next Prayer",
+      "timeLeft": "Time Left",
+      "timeLeftUnits": {
+        "h": "h",
+        "m": "m",
+        "s": "s"
+      },
+      "prayers": {
+        "fajr": "Fajr",
+        "sunrise": "Sunrise",
+        "dhuhr": "Dhuhr",
+        "asr": "Asr",
+        "maghrib": "Maghrib",
+        "isha": "Isha"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "language": "Language",
+      "theme": "Theme",
+      "dark": "Dark",
+      "light": "Light",
+      "system": "System",
+      "calcMethod": "Calculation Method",
+      "methods": {
+        "diyanet": "Diyanet (Turkey)",
+        "isna": "ISNA (North America)",
+        "mwl": "Muslim World League (MWL)",
+        "ummAlQura": "Umm Al-Qura (Makkah)",
+        "egypt": "Egyptian General Authority",
+        "karachi": "Karachi (Pakistan)",
+        "france": "France (UOIF)",
+        "russia": "Russia (Spiritual Admin.)"
+      }
+    },
+    "qibla": {
+      "title": "Qibla",
+      "holdFlat": "Hold your device flat",
+      "calibrating": "Calibrating compass...",
+      "found": "You are facing Qibla",
+      "permissionRequired": "Location Permission Required",
+      "permissionDenied": "Location permission is required to show Qibla direction. Please enable it in settings.",
+      "openSettings": "Open Settings",
+      "description": "Rotate the device slowly to find the Qibla direction",
+      "hint": "The compass turns green and you will feel a vibration when aligned with Qibla.",
+      "errorCompass": "Could not read compass or location data.",
+      "angle": "Angle",
+      "distance": "Distance",
+      "status": "Status",
+      "aligned": "Aligned",
+      "aligning": "Rotate",
+      "alignedSuccess": "🕌 You are facing Qibla!"
+    },
+    "daily": {
+      "title": "Daily Inspiration",
+      "verse": "Verse of the Day",
+      "hadith": "Hadith of the Day",
+      "quote": "Quote of the Day",
+      "share": "Share",
+      "verseBody": "Click to read the verse of the day!",
+      "hadithBody": "Click to read the hadith of the day!",
+      "quoteBody": "Click to read the quote of the day!"
+    },
+    "search": {
+      "title": "Select Location",
+      "subtitle": "Search cities worldwide",
+      "placeholder": "e.g. London, New York...",
+      "recent": "Recent Searches",
+      "useGPS": "Use Current Location",
+      "gpsDenied": "Location permission denied.",
+      "gpsError": "Failed to get location."
+    },
+    "notifications": {
+      "exactAlert": "Exact Prayer Alert",
+      "warnAlert": "25-Min Warning Alert",
+      "warningTitle": "Time Approaching",
+      "warningBody": "25 minutes left until {{prayer}}.",
+      "bannerTitle": "Enable Notifications",
+      "bannerDesc": "Enable notification permissions to stay notified about prayer times.",
+      "bannerBtn": "Grant Permission",
+      "fajr": {
+        "title": "🕌 Fajr Time",
+        "body": "It's time for Fajr prayer. Prayer is better than sleep."
+      },
+      "sunrise": {
+        "title": "🌅 Sunrise",
+        "body": "The sun has risen. The time for Fajr prayer has ended."
+      },
+      "dhuhr": {
+        "title": "🕌 Dhuhr Time",
+        "body": "It's time for Dhuhr prayer. Take a break and find peace."
+      },
+      "asr": {
+        "title": "🕌 Asr Time",
+        "body": "It's time for Asr prayer. Take a moment to connect with Allah."
+      },
+      "maghrib": {
+        "title": "🕌 Maghrib Time",
+        "body": "Maghrib time has entered. Let's thank Allah for the day."
+      },
+      "isha": {
+        "title": "🕌 Isha Time",
+        "body": "It's time for Isha prayer. Complete your day with peace."
+      }
+    },
+    "tasbih": {
+      "title": "Tasbih",
+      "recTitle": "Daily Recommendation",
+      "recBtnText": "Start Reciting",
+      "soundOn": "Sound On",
+      "soundOff": "Sound Off",
+      "subtitle": "Verily, in the remembrance of Allah do hearts find rest.",
+      "tapHint": "TAP TO INCREMENT",
+      "reset": "Reset",
+      "savedNotice": "Your progress is saved and will resume when you return.",
+      "addCustom": "+ New",
+      "modalTitle": "Add Custom Dhikr",
+      "dhikrName": "Dhikr Name (e.g. Subhanallah)",
+      "targetCount": "Target Count (e.g. 300)",
+      "save": "Save",
+      "cancel": "Cancel",
+      "namesAndDuas": "Names & Duas",
+      "names": "99 Names",
+      "duas": "Duas",
+      "defaultInfinite": "Free Dhikr",
+      "default1": "Subhanallah",
+      "default2": "Alhamdulillah",
+      "default3": "Allahu Akbar",
+      "default4": "La ilaha illallah",
+      "default5": "Astaghfirullah",
+      "milestoneTitle": "🎉 Congratulations!",
+      "milestoneBody": "Mashallah, you've reached {{total}} dhikrs this month!",
+      "progressBtn": "My Progress",
+      "progressTitle": "Monthly Dhikr Progress",
+      "totalThisMonth": "Total This Month:",
+      "noData": "No data for this month yet.",
+      "resetConfirmTitle": "Reset Counter",
+      "resetConfirmMsg": "Are you sure you want to reset the counter? (This does not affect your monthly stats)",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "update": {
+      "title": "New Update Available!",
+      "forceTitle": "Update Required",
+      "message": "A new version of our app is available. Please update for a better experience.",
+      "forceMessage": "Please update to the latest version to continue using the app.",
+      "updateBtn": "Update Now",
+      "laterBtn": "Later",
+      "releaseNotes": "Release Notes:"
+    },
+    "quran": {
+      "title": "Holy Quran",
+      "subtitle": "114 Surahs • 604 Pages",
+      "tabBrowse": "Browse",
+      "tabHistory": "Last Read",
+      "featuredSurahs": "Featured Surahs",
+      "seeAll": "See All",
+      "juzs": "Juz",
+      "juzCount": "30 Juz",
+      "juzNum": "Juz {{num}}",
+      "downloading": "Downloading... {{progress}}%",
+      "downloadToRead": "Download to read",
+      "verseCount": "{{count}} verses",
+      "allSurahs": "All Surahs",
+      "searchPlaceholder": "Surah name or number...",
+      "lastRead": "Last Read",
+      "pageNum": "Page {{num}}",
+      "noHistoryTitle": "You don't have any reading history yet.",
+      "pastReadings": "Reading History",
+      "noPastReadings": "No reading history found.",
+      "previous": "Previous",
+      "next": "Next",
+      "noData": "No data found on this page.\nCheck if the Juz is downloaded.",
+      "styleTitle": "Quran Script Selection",
+      "styleSubtitle": "Choose the script format you want to read the Holy Quran in. You can change this setting later from the settings section at the top right anytime.",
+      "imlaeiTitle": "Turkish & Diyanet Script",
+      "imlaeiDesc": "Standard, simplified script for Turkish readers.",
+      "uthmaniTitle": "Uthmani Script",
+      "uthmaniDesc": "Madinah Mushaf. The most common Arabic script worldwide.",
+      "indopakTitle": "Indo-Pak Script",
+      "indopakDesc": "Thick script commonly used in India, Pakistan, and South Asia.",
+      "saveAndContinue": "Save and Continue",
+      "oldDownloadsWillBeDeleted": "Old Downloads Will Be Deleted",
+      "styleChangeWarning": "When you change the Quran script style, your previously downloaded juz texts will be deleted as they won't match the new format. Do you want to continue?",
+      "cancel": "Cancel",
+      "yesChange": "Yes, Change",
+      "error": "Error",
+      "downloadError": "An error occurred while downloading the font. Please check your internet connection."
+    }
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "translation": {
+    "common": {
+      "loading": "Inapakia...",
+      "error": "Hitilafu imetokea",
+      "retry": "Jaribu tena"
+    },
+    "home": {
+      "title": "Nyakati za Swala",
+      "nextPrayer": "Swala Inayofuata",
+      "timeLeft": "Muda Uliobaki",
+      "timeLeftUnits": {
+        "h": "s",
+        "m": "d",
+        "s": "s"
+      },
+      "prayers": {
+        "fajr": "Alfajiri",
+        "sunrise": "Macheo",
+        "dhuhr": "Adhuhuri",
+        "asr": "Alasiri",
+        "maghrib": "Magharibi",
+        "isha": "Isha"
+      }
+    },
+    "settings": {
+      "title": "Mipangilio",
+      "language": "Lugha",
+      "theme": "Mandhari",
+      "dark": "Giza",
+      "light": "Nuru",
+      "system": "Mfumo"
+    },
+    "qibla": {
+      "title": "Qibla",
+      "holdFlat": "Shika simu yako sawa",
+      "calibrating": "Inarekebisha dira...",
+      "found": "Unakabili Qibla"
+    },
+    "daily": {
+      "title": "Ujumbe wa Leo",
+      "verse": "Aya ya Leo",
+      "hadith": "Hadithi ya Leo",
+      "quote": "Nukuu ya Leo",
+      "share": "Shiriki",
+      "verseBody": "Bofya ili kusoma aya ya siku!",
+      "hadithBody": "Bonyeza kusoma hadith ya siku!",
+      "quoteBody": "Bofya ili kusoma nukuu ya siku hiyo!"
+    },
+    "notifications": {
+      "fajr": {
+        "title": "🕌 Wakati wa Alfajiri",
+        "body": "Wakati wa swala ya Alfajiri umefika. Swala ni bora kuliko usingizi."
+      },
+      "sunrise": {
+        "title": "🌅 Macheo",
+        "body": "Jua limechomoza."
+      },
+      "dhuhr": {
+        "title": "🕌 Wakati wa Adhuhuri",
+        "body": "Wakati wa swala ya Adhuhuri umefika."
+      },
+      "asr": {
+        "title": "🕌 Wakati wa Alasiri",
+        "body": "Wakati wa swala ya Alasiri umefika."
+      },
+      "maghrib": {
+        "title": "🕌 Wakati wa Magharibi",
+        "body": "Wakati wa swala ya Magharibi umefika."
+      },
+      "isha": {
+        "title": "🕌 Wakati wa Isha",
+        "body": "Wakati wa swala ya Isha umefika."
+      }
+    },
+    "tasbih": {
+      "title": "Tasbih",
+      "subtitle": "Hakika, kwa kumkumbuka Allah nyoyo hutulia.",
+      "tapHint": "BONYEZA KUONGEZA",
+      "reset": "Rudisha upya",
+      "savedNotice": "Maendeleo yako yamehifadhiwa.",
+      "addCustom": "+ Mpya",
+      "modalTitle": "Ongeza Dhikr",
+      "dhikrName": "Jina (k.m. Subhanallah)",
+      "targetCount": "Lengo (k.m. 300)",
+      "save": "Hifadhi",
+      "cancel": "Ghairi",
+      "namesAndDuas": "Majina na Dua",
+      "names": "Majina 99",
+      "duas": "Dua",
+      "defaultInfinite": "Dhikr Huru",
+      "default1": "Subhanallah",
+      "default2": "Alhamdulillah",
+      "default3": "Allahu Akbar",
+      "default4": "La ilaha illallah",
+      "default5": "Astaghfirullah",
+      "milestoneTitle": "🎉 Hongera!",
+      "milestoneBody": "MashaAllah, umefikia dhikr {{total}} mwezi huu!",
+      "progressBtn": "Maendeleo Yangu",
+      "progressTitle": "Maendeleo ya Kila Mwezi",
+      "totalThisMonth": "Jumla Mwezi Huu:",
+      "noData": "Hakuna data ya mwezi huu.",
+      "resetConfirmTitle": "Rudisha upya Kihesabu",
+      "resetConfirmMsg": "Una uhakika unataka kurudisha upya?",
+      "yes": "Ndio",
+      "no": "Hapana"
+    },
+    "update": {
+      "title": "Sasisho Jipya Lipo!",
+      "forceTitle": "Sasisho Linahitajika",
+      "message": "Toleo jipya la programu lipo.",
+      "forceMessage": "Tafadhali sasisha hadi toleo la hivi karibuni.",
+      "updateBtn": "Sasisha Sasa",
+      "laterBtn": "Baadaye",
+      "releaseNotes": "Maelezo:"
+    },
+    "quran": {
+      "title": "Kurani Tukufu",
+      "subtitle": "Sura 114 • Kurasa 604",
+      "tabBrowse": "Vinjari",
+      "tabHistory": "Soma Mwisho",
+      "featuredSurahs": "Sura Zilizopendekezwa",
+      "seeAll": "Tazama Zote",
+      "juzs": "Juzuu",
+      "juzCount": "Juzuu 30",
+      "juzNum": "Juzuu {{num}}",
+      "downloading": "Inapakua... {{progress}}%",
+      "downloadToRead": "Pakua ili usome",
+      "verseCount": "Aya {{count}}",
+      "allSurahs": "Sura Zote",
+      "searchPlaceholder": "Jina au nambari ya Sura...",
+      "lastRead": "Soma Mwisho",
+      "pageNum": "Ukurasa {{num}}",
+      "noHistoryTitle": "Huna historia ya kusoma bado.",
+      "pastReadings": "Historia ya Kusoma",
+      "noPastReadings": "Hakuna historia iliyopatikana.",
+      "previous": "Iliyopita",
+      "next": "Inayofuata",
+      "noData": "Hakuna data iliyopatikana.",
+      "styleTitle": "Uchaguzi wa Mtindo",
+      "styleSubtitle": "Chagua muundo unaotaka.",
+      "imlaeiTitle": "Mtindo wa Kituruki",
+      "imlaeiDesc": "Mtindo rahisi.",
+      "uthmaniTitle": "Mtindo wa Uthmani",
+      "uthmaniDesc": "Mushaf wa Madina.",
+      "indopakTitle": "Mtindo wa Indo-Pak",
+      "indopakDesc": "Mtindo mpana wa Asia Kusini.",
+      "saveAndContinue": "Hifadhi na Uendelee",
+      "oldDownloadsWillBeFutwa": "Vipakuliwa Vya Zamani Vitafutwa",
+      "styleChangeWarning": "Ukibadilisha mtindo, vipakuliwa vya awali vitafutwa. Endelea?",
+      "cancel": "Ghairi",
+      "yesChange": "Ndio, Badilisha",
+      "error": "Kosa",
+      "downloadError": "Kosa limetokea wakati wa kupakua."
+    }
+  }
+}

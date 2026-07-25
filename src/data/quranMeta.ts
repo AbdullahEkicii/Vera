@@ -1,0 +1,147 @@
+export interface SurahMeta {
+  number: number;        // Sure numarası (1–114)
+  nameArabic: string;   // Arapça isim
+  nameTurkish: string;  // Türkçe isim
+  verseCount: number;   // Ayet sayısı
+  page: number;         // Mushaf'ta başladığı sayfa
+  juz: number;          // Hangi cüzde başladığı
+  featured?: boolean;   // Öne çıkan sure mi?
+}
+
+export const SURAHS: SurahMeta[] = [
+  { number: 1,   nameArabic: 'الفاتحة',    nameTurkish: 'Fatiha',        verseCount: 7,   page: 1,   juz: 1,  featured: true },
+  { number: 2,   nameArabic: 'البقرة',     nameTurkish: 'Bakara',        verseCount: 286, page: 2,   juz: 1,  featured: true },
+  { number: 3,   nameArabic: 'آل عمران',   nameTurkish: 'Âl-i İmrân',   verseCount: 200, page: 50,  juz: 3  },
+  { number: 4,   nameArabic: 'النساء',     nameTurkish: 'Nisâ',          verseCount: 176, page: 77,  juz: 4  },
+  { number: 5,   nameArabic: 'المائدة',    nameTurkish: 'Mâide',         verseCount: 120, page: 106, juz: 6  },
+  { number: 6,   nameArabic: 'الأنعام',    nameTurkish: 'En\'âm',        verseCount: 165, page: 128, juz: 7  },
+  { number: 7,   nameArabic: 'الأعراف',    nameTurkish: 'A\'râf',        verseCount: 206, page: 151, juz: 8  },
+  { number: 8,   nameArabic: 'الأنفال',    nameTurkish: 'Enfâl',         verseCount: 75,  page: 177, juz: 9  },
+  { number: 9,   nameArabic: 'التوبة',     nameTurkish: 'Tevbe',         verseCount: 129, page: 187, juz: 10 },
+  { number: 10,  nameArabic: 'يونس',       nameTurkish: 'Yûnus',         verseCount: 109, page: 208, juz: 11 },
+  { number: 11,  nameArabic: 'هود',        nameTurkish: 'Hûd',           verseCount: 123, page: 221, juz: 11 },
+  { number: 12,  nameArabic: 'يوسف',       nameTurkish: 'Yûsuf',         verseCount: 111, page: 235, juz: 12 },
+  { number: 13,  nameArabic: 'الرعد',      nameTurkish: 'Ra\'d',         verseCount: 43,  page: 249, juz: 13 },
+  { number: 14,  nameArabic: 'إبراهيم',    nameTurkish: 'İbrâhîm',       verseCount: 52,  page: 255, juz: 13 },
+  { number: 15,  nameArabic: 'الحجر',      nameTurkish: 'Hicr',          verseCount: 99,  page: 262, juz: 14 },
+  { number: 16,  nameArabic: 'النحل',      nameTurkish: 'Nahl',          verseCount: 128, page: 267, juz: 14 },
+  { number: 17,  nameArabic: 'الإسراء',    nameTurkish: 'İsrâ',          verseCount: 111, page: 282, juz: 15 },
+  { number: 18,  nameArabic: 'الكهف',      nameTurkish: 'Kehf',          verseCount: 110, page: 293, juz: 15, featured: true },
+  { number: 19,  nameArabic: 'مريم',       nameTurkish: 'Meryem',        verseCount: 98,  page: 305, juz: 16 },
+  { number: 20,  nameArabic: 'طه',         nameTurkish: 'Tâhâ',          verseCount: 135, page: 312, juz: 16 },
+  { number: 21,  nameArabic: 'الأنبياء',   nameTurkish: 'Enbiyâ',        verseCount: 112, page: 322, juz: 17 },
+  { number: 22,  nameArabic: 'الحج',       nameTurkish: 'Hac',           verseCount: 78,  page: 332, juz: 17 },
+  { number: 23,  nameArabic: 'المؤمنون',   nameTurkish: 'Mü\'minûn',     verseCount: 118, page: 342, juz: 18 },
+  { number: 24,  nameArabic: 'النور',      nameTurkish: 'Nûr',           verseCount: 64,  page: 350, juz: 18 },
+  { number: 25,  nameArabic: 'الفرقان',    nameTurkish: 'Furkân',        verseCount: 77,  page: 359, juz: 18 },
+  { number: 26,  nameArabic: 'الشعراء',    nameTurkish: 'Şuarâ',         verseCount: 227, page: 367, juz: 19 },
+  { number: 27,  nameArabic: 'النمل',      nameTurkish: 'Neml',          verseCount: 93,  page: 377, juz: 19 },
+  { number: 28,  nameArabic: 'القصص',      nameTurkish: 'Kasas',         verseCount: 88,  page: 385, juz: 20 },
+  { number: 29,  nameArabic: 'العنكبوت',   nameTurkish: 'Ankebût',       verseCount: 69,  page: 396, juz: 20 },
+  { number: 30,  nameArabic: 'الروم',      nameTurkish: 'Rûm',           verseCount: 60,  page: 404, juz: 21 },
+  { number: 31,  nameArabic: 'لقمان',      nameTurkish: 'Lokmân',        verseCount: 34,  page: 411, juz: 21 },
+  { number: 32,  nameArabic: 'السجدة',     nameTurkish: 'Secde',         verseCount: 30,  page: 415, juz: 21 },
+  { number: 33,  nameArabic: 'الأحزاب',    nameTurkish: 'Ahzâb',         verseCount: 73,  page: 418, juz: 21 },
+  { number: 34,  nameArabic: 'سبأ',        nameTurkish: 'Sebe\'',        verseCount: 54,  page: 428, juz: 22 },
+  { number: 35,  nameArabic: 'فاطر',       nameTurkish: 'Fâtır',         verseCount: 45,  page: 434, juz: 22 },
+  { number: 36,  nameArabic: 'يس',         nameTurkish: 'Yâsîn',         verseCount: 83,  page: 440, juz: 22, featured: true },
+  { number: 37,  nameArabic: 'الصافات',    nameTurkish: 'Sâffât',        verseCount: 182, page: 446, juz: 23 },
+  { number: 38,  nameArabic: 'ص',          nameTurkish: 'Sâd',           verseCount: 88,  page: 453, juz: 23 },
+  { number: 39,  nameArabic: 'الزمر',      nameTurkish: 'Zümer',         verseCount: 75,  page: 458, juz: 23 },
+  { number: 40,  nameArabic: 'غافر',       nameTurkish: 'Mü\'min/Ğâfir', verseCount: 85,  page: 467, juz: 24 },
+  { number: 41,  nameArabic: 'فصلت',       nameTurkish: 'Fussilet',      verseCount: 54,  page: 477, juz: 24 },
+  { number: 42,  nameArabic: 'الشورى',     nameTurkish: 'Şûrâ',          verseCount: 53,  page: 483, juz: 25 },
+  { number: 43,  nameArabic: 'الزخرف',     nameTurkish: 'Zuhruf',        verseCount: 89,  page: 489, juz: 25 },
+  { number: 44,  nameArabic: 'الدخان',     nameTurkish: 'Duhân',         verseCount: 59,  page: 496, juz: 25 },
+  { number: 45,  nameArabic: 'الجاثية',    nameTurkish: 'Câsiye',        verseCount: 37,  page: 499, juz: 25 },
+  { number: 46,  nameArabic: 'الأحقاف',    nameTurkish: 'Ahkâf',         verseCount: 35,  page: 502, juz: 26 },
+  { number: 47,  nameArabic: 'محمد',       nameTurkish: 'Muhammed',      verseCount: 38,  page: 507, juz: 26 },
+  { number: 48,  nameArabic: 'الفتح',      nameTurkish: 'Feth',          verseCount: 29,  page: 511, juz: 26 },
+  { number: 49,  nameArabic: 'الحجرات',    nameTurkish: 'Hucurât',       verseCount: 18,  page: 515, juz: 26 },
+  { number: 50,  nameArabic: 'ق',          nameTurkish: 'Kâf',           verseCount: 45,  page: 518, juz: 26 },
+  { number: 51,  nameArabic: 'الذاريات',   nameTurkish: 'Zâriyât',       verseCount: 60,  page: 520, juz: 26 },
+  { number: 52,  nameArabic: 'الطور',      nameTurkish: 'Tûr',           verseCount: 49,  page: 523, juz: 27 },
+  { number: 53,  nameArabic: 'النجم',      nameTurkish: 'Necm',          verseCount: 62,  page: 526, juz: 27 },
+  { number: 54,  nameArabic: 'القمر',      nameTurkish: 'Kamer',         verseCount: 55,  page: 528, juz: 27 },
+  { number: 55,  nameArabic: 'الرحمن',     nameTurkish: 'Rahmân',        verseCount: 78,  page: 531, juz: 27, featured: true },
+  { number: 56,  nameArabic: 'الواقعة',    nameTurkish: 'Vâkıa',         verseCount: 96,  page: 534, juz: 27, featured: true },
+  { number: 57,  nameArabic: 'الحديد',     nameTurkish: 'Hadîd',         verseCount: 29,  page: 537, juz: 27 },
+  { number: 58,  nameArabic: 'المجادلة',   nameTurkish: 'Mücâdile',      verseCount: 22,  page: 542, juz: 28 },
+  { number: 59,  nameArabic: 'الحشر',      nameTurkish: 'Haşr',          verseCount: 24,  page: 545, juz: 28 },
+  { number: 60,  nameArabic: 'الممتحنة',   nameTurkish: 'Mümtehine',     verseCount: 13,  page: 549, juz: 28 },
+  { number: 61,  nameArabic: 'الصف',       nameTurkish: 'Saf',           verseCount: 14,  page: 551, juz: 28 },
+  { number: 62,  nameArabic: 'الجمعة',     nameTurkish: 'Cum\'a',        verseCount: 11,  page: 553, juz: 28 },
+  { number: 63,  nameArabic: 'المنافقون',  nameTurkish: 'Münâfikûn',     verseCount: 11,  page: 554, juz: 28 },
+  { number: 64,  nameArabic: 'التغابن',    nameTurkish: 'Teğâbün',       verseCount: 18,  page: 556, juz: 28 },
+  { number: 65,  nameArabic: 'الطلاق',     nameTurkish: 'Talâk',         verseCount: 12,  page: 558, juz: 28 },
+  { number: 66,  nameArabic: 'التحريم',    nameTurkish: 'Tahrîm',        verseCount: 12,  page: 560, juz: 28 },
+  { number: 67,  nameArabic: 'الملك',      nameTurkish: 'Mülk',          verseCount: 30,  page: 562, juz: 29, featured: true },
+  { number: 68,  nameArabic: 'القلم',      nameTurkish: 'Kalem',         verseCount: 52,  page: 564, juz: 29 },
+  { number: 69,  nameArabic: 'الحاقة',     nameTurkish: 'Hâkka',         verseCount: 52,  page: 566, juz: 29 },
+  { number: 70,  nameArabic: 'المعارج',    nameTurkish: 'Meâric',        verseCount: 44,  page: 568, juz: 29 },
+  { number: 71,  nameArabic: 'نوح',        nameTurkish: 'Nûh',           verseCount: 28,  page: 570, juz: 29 },
+  { number: 72,  nameArabic: 'الجن',       nameTurkish: 'Cin',           verseCount: 28,  page: 572, juz: 29 },
+  { number: 73,  nameArabic: 'المزمل',     nameTurkish: 'Müzzemmil',     verseCount: 20,  page: 574, juz: 29 },
+  { number: 74,  nameArabic: 'المدثر',     nameTurkish: 'Müddessir',     verseCount: 56,  page: 575, juz: 29 },
+  { number: 75,  nameArabic: 'القيامة',    nameTurkish: 'Kıyâme',        verseCount: 40,  page: 577, juz: 29 },
+  { number: 76,  nameArabic: 'الإنسان',    nameTurkish: 'İnsan/Dehr',    verseCount: 31,  page: 578, juz: 29 },
+  { number: 77,  nameArabic: 'المرسلات',   nameTurkish: 'Mürselât',      verseCount: 50,  page: 580, juz: 29 },
+  { number: 78,  nameArabic: 'النبأ',      nameTurkish: 'Nebe\'',        verseCount: 40,  page: 582, juz: 30 },
+  { number: 79,  nameArabic: 'النازعات',   nameTurkish: 'Nâziât',        verseCount: 46,  page: 583, juz: 30 },
+  { number: 80,  nameArabic: 'عبس',        nameTurkish: 'Abese',         verseCount: 42,  page: 585, juz: 30 },
+  { number: 81,  nameArabic: 'التكوير',    nameTurkish: 'Tekvîr',        verseCount: 29,  page: 586, juz: 30 },
+  { number: 82,  nameArabic: 'الانفطار',   nameTurkish: 'İnfitâr',       verseCount: 19,  page: 587, juz: 30 },
+  { number: 83,  nameArabic: 'المطففين',   nameTurkish: 'Mutaffifîn',    verseCount: 36,  page: 587, juz: 30 },
+  { number: 84,  nameArabic: 'الانشقاق',   nameTurkish: 'İnşikâk',       verseCount: 25,  page: 589, juz: 30 },
+  { number: 85,  nameArabic: 'البروج',     nameTurkish: 'Bürûc',         verseCount: 22,  page: 590, juz: 30 },
+  { number: 86,  nameArabic: 'الطارق',     nameTurkish: 'Târık',         verseCount: 17,  page: 591, juz: 30 },
+  { number: 87,  nameArabic: 'الأعلى',     nameTurkish: 'A\'lâ',         verseCount: 19,  page: 591, juz: 30 },
+  { number: 88,  nameArabic: 'الغاشية',    nameTurkish: 'Ğâşiye',        verseCount: 26,  page: 592, juz: 30 },
+  { number: 89,  nameArabic: 'الفجر',      nameTurkish: 'Fecr',          verseCount: 30,  page: 593, juz: 30 },
+  { number: 90,  nameArabic: 'البلد',      nameTurkish: 'Beled',         verseCount: 20,  page: 594, juz: 30 },
+  { number: 91,  nameArabic: 'الشمس',      nameTurkish: 'Şems',          verseCount: 15,  page: 595, juz: 30 },
+  { number: 92,  nameArabic: 'الليل',      nameTurkish: 'Leyl',          verseCount: 21,  page: 595, juz: 30 },
+  { number: 93,  nameArabic: 'الضحى',      nameTurkish: 'Duhâ',          verseCount: 11,  page: 596, juz: 30 },
+  { number: 94,  nameArabic: 'الشرح',      nameTurkish: 'İnşirâh',       verseCount: 8,   page: 596, juz: 30 },
+  { number: 95,  nameArabic: 'التين',      nameTurkish: 'Tîn',           verseCount: 8,   page: 597, juz: 30 },
+  { number: 96,  nameArabic: 'العلق',      nameTurkish: 'Alak',          verseCount: 19,  page: 597, juz: 30 },
+  { number: 97,  nameArabic: 'القدر',      nameTurkish: 'Kadr',          verseCount: 5,   page: 598, juz: 30, featured: true },
+  { number: 98,  nameArabic: 'البينة',     nameTurkish: 'Beyyine',       verseCount: 8,   page: 598, juz: 30 },
+  { number: 99,  nameArabic: 'الزلزلة',    nameTurkish: 'Zilzâl',        verseCount: 8,   page: 599, juz: 30 },
+  { number: 100, nameArabic: 'العاديات',   nameTurkish: 'Âdiyât',        verseCount: 11,  page: 599, juz: 30 },
+  { number: 101, nameArabic: 'القارعة',    nameTurkish: 'Kâria',         verseCount: 11,  page: 600, juz: 30 },
+  { number: 102, nameArabic: 'التكاثر',    nameTurkish: 'Tekâsür',       verseCount: 8,   page: 600, juz: 30 },
+  { number: 103, nameArabic: 'العصر',      nameTurkish: 'Asr',           verseCount: 3,   page: 601, juz: 30 },
+  { number: 104, nameArabic: 'الهمزة',     nameTurkish: 'Hümeze',        verseCount: 9,   page: 601, juz: 30 },
+  { number: 105, nameArabic: 'الفيل',      nameTurkish: 'Fîl',           verseCount: 5,   page: 601, juz: 30 },
+  { number: 106, nameArabic: 'قريش',       nameTurkish: 'Kureyş',        verseCount: 4,   page: 602, juz: 30 },
+  { number: 107, nameArabic: 'الماعون',    nameTurkish: 'Mâûn',          verseCount: 7,   page: 602, juz: 30 },
+  { number: 108, nameArabic: 'الكوثر',     nameTurkish: 'Kevser',        verseCount: 3,   page: 602, juz: 30 },
+  { number: 109, nameArabic: 'الكافرون',   nameTurkish: 'Kâfirûn',       verseCount: 6,   page: 603, juz: 30 },
+  { number: 110, nameArabic: 'النصر',      nameTurkish: 'Nasr',          verseCount: 3,   page: 603, juz: 30 },
+  { number: 111, nameArabic: 'المسد',      nameTurkish: 'Tebbet/Mesed',  verseCount: 5,   page: 603, juz: 30 },
+  { number: 112, nameArabic: 'الإخلاص',    nameTurkish: 'İhlâs',         verseCount: 4,   page: 604, juz: 30, featured: true },
+  { number: 113, nameArabic: 'الفلق',      nameTurkish: 'Felak',         verseCount: 5,   page: 604, juz: 30, featured: true },
+  { number: 114, nameArabic: 'الناس',      nameTurkish: 'Nâs',           verseCount: 6,   page: 604, juz: 30, featured: true },
+];
+
+/** Belirli bir cüzdeki sureleri döndürür */
+export function getSurahsInJuz(juzNo: number): SurahMeta[] {
+  // Crude ama etkili: API'nin cüz-sure eşleşmesi statik verimizle aynı değil,
+  // bu yüzden sadece o cüzde BAŞLAYAN sureleri filtreliyoruz.
+  return SURAHS.filter((s) => s.juz === juzNo);
+}
+
+/** Cüz numarasından başlangıç sayfasını döndürür (statik) */
+export function getJuzStartPageStatic(juzNo: number): number {
+  const JUZ_START_PAGES: Record<number, number> = {
+    1: 1, 2: 22, 3: 42, 4: 62, 5: 82, 6: 102, 7: 121, 8: 142, 9: 162,
+    10: 182, 11: 200, 12: 219, 13: 236, 14: 255, 15: 272, 16: 293,
+    17: 312, 18: 330, 19: 350, 20: 369, 21: 389, 22: 409, 23: 428,
+    24: 447, 25: 467, 26: 485, 27: 504, 28: 523, 29: 542, 30: 562,
+  };
+  return JUZ_START_PAGES[juzNo] ?? 1;
+}
+
+/** Öne çıkan sureleri döndürür */
+export const FEATURED_SURAHS = SURAHS.filter((s) => s.featured === true);

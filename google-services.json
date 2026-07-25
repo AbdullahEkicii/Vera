@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "167234076330",
+    "project_id": "vera-azan",
+    "storage_bucket": "vera-azan.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167234076330:android:032ad8fc839fc2b7e89ad3",
+        "android_client_info": {
+          "package_name": "com.abdllhekc.vera"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdup-Gt57cB2NLxnypLmMLwQHAXAJ7Vbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

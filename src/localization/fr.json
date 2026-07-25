@@ -1,0 +1,157 @@
+{
+  "translation": {
+    "common": {
+      "loading": "Chargement...",
+      "error": "Une erreur s'est produite",
+      "retry": "Réessayer"
+    },
+    "home": {
+      "title": "Heures de Prière",
+      "nextPrayer": "Prochaine Prière",
+      "timeLeft": "Temps Restant",
+      "timeLeftUnits": {
+        "h": "h",
+        "m": "m",
+        "s": "s"
+      },
+      "prayers": {
+        "fajr": "Fajr",
+        "sunrise": "Lever du soleil",
+        "dhuhr": "Dhuhr",
+        "asr": "Asr",
+        "maghrib": "Maghrib",
+        "isha": "Isha"
+      }
+    },
+    "settings": {
+      "title": "Paramètres",
+      "language": "Langue",
+      "theme": "Thème",
+      "dark": "Sombre",
+      "light": "Clair",
+      "system": "Système"
+    },
+    "qibla": {
+      "title": "Qibla",
+      "holdFlat": "Tenez votre téléphone à plat",
+      "calibrating": "Étalonnage de la boussole...",
+      "found": "Vous faites face à la Qibla"
+    },
+    "daily": {
+      "title": "Inspiration Quotidienne",
+      "verse": "Verset du Jour",
+      "hadith": "Hadith du Jour",
+      "quote": "Citation du Jour",
+      "share": "Partager",
+      "verseBody": "Cliquez pour lire le verset du jour !",
+      "hadithBody": "Cliquez pour lire le hadith du jour !",
+      "quoteBody": "Cliquez pour lire la citation du jour !"
+    },
+    "notifications": {
+      "fajr": {
+        "title": "🕌 Heure de Fajr",
+        "body": "Il est l'heure de la prière de Fajr. La prière est meilleure que le sommeil."
+      },
+      "sunrise": {
+        "title": "🌅 Lever du soleil",
+        "body": "Le soleil s'est levé. L'heure de Fajr est terminée."
+      },
+      "dhuhr": {
+        "title": "🕌 Heure de Dhuhr",
+        "body": "Il est l'heure de la prière de Dhuhr. Faites une pause et trouvez la paix."
+      },
+      "asr": {
+        "title": "🕌 Heure de Asr",
+        "body": "Il est l'heure de la prière de Asr. Prenez un moment pour vous connecter avec Allah."
+      },
+      "maghrib": {
+        "title": "🕌 Heure de Maghrib",
+        "body": "L'heure de Maghrib a commencé. Remercions Allah pour la journée."
+      },
+      "isha": {
+        "title": "🕌 Heure de Isha",
+        "body": "Il est l'heure de la prière d'Isha. Terminez votre journée en paix."
+      }
+    },
+    "tasbih": {
+      "title": "Tasbih",
+      "subtitle": "N'est-ce point par l'évocation d'Allah que se tranquillisent les cœurs?",
+      "tapHint": "APPUYEZ POUR INCRÉMENTER",
+      "reset": "Réinitialiser",
+      "savedNotice": "Votre progression est sauvegardée et reprendra à votre retour.",
+      "addCustom": "+ Nouveau",
+      "modalTitle": "Ajouter un Dhikr Personnalisé",
+      "dhikrName": "Nom du Dhikr (ex. Subhanallah)",
+      "targetCount": "Objectif (ex. 300)",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "namesAndDuas": "Noms et Invocations",
+      "names": "99 Noms",
+      "duas": "Invocations",
+      "defaultInfinite": "Dhikr Libre",
+      "default1": "Subhanallah",
+      "default2": "Alhamdulillah",
+      "default3": "Allahu Akbar",
+      "default4": "La ilaha illallah",
+      "default5": "Astaghfirullah",
+      "milestoneTitle": "🎉 Félicitations!",
+      "milestoneBody": "Mashallah, vous avez atteint {{total}} dhikrs ce mois-ci!",
+      "progressBtn": "Mes Progrès",
+      "progressTitle": "Progression Mensuelle de Dhikr",
+      "totalThisMonth": "Total Ce Mois:",
+      "noData": "Pas encore de données pour ce mois.",
+      "resetConfirmTitle": "Réinitialiser le Compteur",
+      "resetConfirmMsg": "Êtes-vous sûr de vouloir réinitialiser le compteur? (Cela n'affecte pas vos statistiques mensuelles)",
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "update": {
+      "title": "Nouvelle Mise à Jour Disponible!",
+      "forceTitle": "Mise à Jour Requise",
+      "message": "Une nouvelle version de notre application est disponible. Veuillez mettre à jour pour une meilleure expérience.",
+      "forceMessage": "Veuillez mettre à jour vers la dernière version pour continuer à utiliser l'application.",
+      "updateBtn": "Mettre à Jour Maintenant",
+      "laterBtn": "Plus Tard",
+      "releaseNotes": "Notes de Version :"
+    },
+    "quran": {
+      "title": "Saint Coran",
+      "subtitle": "114 Sourates • 604 Pages",
+      "tabBrowse": "Parcourir",
+      "tabHistory": "Dernière Lecture",
+      "featuredSurahs": "Sourates Recommandées",
+      "seeAll": "Voir Tout",
+      "juzs": "Juz",
+      "juzCount": "30 Juz",
+      "juzNum": "Juz {{num}}",
+      "downloading": "Téléchargement... {{progress}}%",
+      "downloadToRead": "Télécharger pour lire",
+      "verseCount": "{{count}} versets",
+      "allSurahs": "Toutes les Sourates",
+      "searchPlaceholder": "Nom ou numéro de Sourate...",
+      "lastRead": "Dernière Lecture",
+      "pageNum": "Page {{num}}",
+      "noHistoryTitle": "Vous n'avez pas encore d'historique de lecture.",
+      "pastReadings": "Historique de Lecture",
+      "noPastReadings": "Aucun historique de lecture trouvé.",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "noData": "Aucune donnée trouvée sur cette page.\nVérifiez si le Juz est téléchargé.",
+      "styleTitle": "Sélection du Style Coranique",
+      "styleSubtitle": "Choisissez le format d'écriture dans lequel vous souhaitez lire le Saint Coran. Vous pouvez modifier ce paramètre plus tard.",
+      "imlaeiTitle": "Style Turc & Diyanet",
+      "imlaeiDesc": "Style standard et simplifié.",
+      "uthmaniTitle": "Style Othmani",
+      "uthmaniDesc": "Mushaf de Médine. Le style arabe le plus courant.",
+      "indopakTitle": "Style Indo-Pak",
+      "indopakDesc": "Style épais couramment utilisé en Asie du Sud.",
+      "saveAndContinue": "Enregistrer et Continuer",
+      "oldDownloadsWillBeDeleted": "Les Anciens Téléchargements seront Supprimés",
+      "styleChangeWarning": "Lorsque vous modifiez le style, les textes téléchargés précédemment seront supprimés. Voulez-vous continuer?",
+      "cancel": "Annuler",
+      "yesChange": "Oui, Changer",
+      "error": "Erreur",
+      "downloadError": "Une erreur s'est produite lors du téléchargement de la police. Veuillez vérifier votre connexion Internet."
+    }
+  }
+}
