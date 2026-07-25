@@ -1,0 +1,157 @@
+{
+  "translation": {
+    "common": {
+      "loading": "Sedang memuat...",
+      "error": "Ralat berlaku",
+      "retry": "Cuba lagi"
+    },
+    "home": {
+      "title": "Waktu Solat",
+      "nextPrayer": "Solat Seterusnya",
+      "timeLeft": "Masa Tinggal",
+      "timeLeftUnits": {
+        "h": "j",
+        "m": "m",
+        "s": "s"
+      },
+      "prayers": {
+        "fajr": "Subuh",
+        "sunrise": "Syuruk",
+        "dhuhr": "Zohor",
+        "asr": "Asar",
+        "maghrib": "Maghrib",
+        "isha": "Isyak"
+      }
+    },
+    "settings": {
+      "title": "Tetapan",
+      "language": "Bahasa",
+      "theme": "Tema",
+      "dark": "Gelap",
+      "light": "Cerah",
+      "system": "Sistem"
+    },
+    "qibla": {
+      "title": "Kiblat",
+      "holdFlat": "Pegang telefon anda rata",
+      "calibrating": "Menentukur kompas...",
+      "found": "Anda menghadap Kiblat"
+    },
+    "daily": {
+      "title": "Inspirasi Harian",
+      "verse": "Ayat Hari Ini",
+      "hadith": "Hadis Hari Ini",
+      "quote": "Petikan Hari Ini",
+      "share": "Kongsi",
+      "verseBody": "Klik untuk membaca ayat hari ini!",
+      "hadithBody": "Klik untuk membaca hadis hari ini!",
+      "quoteBody": "Klik untuk membaca petikan hari ini!"
+    },
+    "notifications": {
+      "fajr": {
+        "title": "🕌 Waktu Subuh",
+        "body": "Telah masuk waktu solat Subuh. Solat itu lebih baik daripada tidur."
+      },
+      "sunrise": {
+        "title": "🌅 Syuruk",
+        "body": "Matahari telah terbit."
+      },
+      "dhuhr": {
+        "title": "🕌 Waktu Zohor",
+        "body": "Telah masuk waktu solat Zohor."
+      },
+      "asr": {
+        "title": "🕌 Waktu Asar",
+        "body": "Telah masuk waktu solat Asar."
+      },
+      "maghrib": {
+        "title": "🕌 Waktu Maghrib",
+        "body": "Telah masuk waktu solat Maghrib."
+      },
+      "isha": {
+        "title": "🕌 Waktu Isyak",
+        "body": "Telah masuk waktu solat Isyak."
+      }
+    },
+    "tasbih": {
+      "title": "Tasbih",
+      "subtitle": "Ketahuilah, dengan mengingati Allah hati akan menjadi tenang.",
+      "tapHint": "Ketik Untuk Menambah",
+      "reset": "Tetapkan Semula",
+      "savedNotice": "Kemajuan anda disimpan.",
+      "addCustom": "+ Baru",
+      "modalTitle": "Tambah Zikir Tersuai",
+      "dhikrName": "Nama Zikir (cth. Subhanallah)",
+      "targetCount": "Sasaran (cth. 300)",
+      "save": "Simpan",
+      "cancel": "Batal",
+      "namesAndDuas": "Nama & Doa",
+      "names": "99 Nama",
+      "duas": "Doa",
+      "defaultInfinite": "Zikir Bebas",
+      "default1": "Subhanallah",
+      "default2": "Alhamdulillah",
+      "default3": "Allahu Akbar",
+      "default4": "La ilaha illallah",
+      "default5": "Astaghfirullah",
+      "milestoneTitle": "🎉 Tahniah!",
+      "milestoneBody": "MashaAllah, anda telah mencapai {{total}} zikir bulan ini!",
+      "progressBtn": "Kemajuan Saya",
+      "progressTitle": "Kemajuan Zikir Bulanan",
+      "totalThisMonth": "Jumlah Bulan Ini:",
+      "noData": "Tiada data untuk bulan ini lagi.",
+      "resetConfirmTitle": "Tetapkan Semula Pembilang",
+      "resetConfirmMsg": "Adakah anda pasti mahu menetapkan semula pembilang?",
+      "yes": "Ya",
+      "no": "Tidak"
+    },
+    "update": {
+      "title": "Kemas Kini Baru Tersedia!",
+      "forceTitle": "Kemas Kini Diperlukan",
+      "message": "Versi baru aplikasi kami tersedia.",
+      "forceMessage": "Sila kemas kini ke versi terkini.",
+      "updateBtn": "Kemas Kini Sekarang",
+      "laterBtn": "Nanti",
+      "releaseNotes": "Nota Keluaran:"
+    },
+    "quran": {
+      "title": "Al-Quran",
+      "subtitle": "114 Surah • 604 Halaman",
+      "tabBrowse": "Semak Imbas",
+      "tabHistory": "Terakhir Dibaca",
+      "featuredSurahs": "Surah Pilihan",
+      "seeAll": "Lihat Semua",
+      "juzs": "Juzuk",
+      "juzCount": "30 Juzuk",
+      "juzNum": "Juzuk {{num}}",
+      "downloading": "Memuat turun... {{progress}}%",
+      "downloadToRead": "Muat turun untuk membaca",
+      "verseCount": "{{count}} ayat",
+      "allSurahs": "Semua Surah",
+      "searchPlaceholder": "Nama atau nombor Surah...",
+      "lastRead": "Terakhir Dibaca",
+      "pageNum": "Halaman {{num}}",
+      "noHistoryTitle": "Anda belum mempunyai sejarah bacaan.",
+      "pastReadings": "Sejarah Bacaan",
+      "noPastReadings": "Tiada sejarah bacaan dijumpai.",
+      "previous": "Sebelumnya",
+      "next": "Seterusnya",
+      "noData": "Tiada data dijumpai.",
+      "styleTitle": "Pemilihan Gaya Tulisan",
+      "styleSubtitle": "Pilih format tulisan yang anda inginkan untuk membaca Al-Quran.",
+      "imlaeiTitle": "Gaya Turki",
+      "imlaeiDesc": "Gaya standard dan ringkas.",
+      "uthmaniTitle": "Gaya Uthmani",
+      "uthmaniDesc": "Mushaf Madinah.",
+      "indopakTitle": "Gaya Indo-Pak",
+      "indopakDesc": "Gaya tebal untuk Asia Selatan.",
+      "saveAndContinue": "Simpan dan Teruskan",
+      "oldDownloadsWillBeDeleted": "Muat Turun Lama Akan Dihapus",
+      "styleChangeWarning": "Jika anda menukar gaya, muat turun sebelumnya akan dipadamkan. Teruskan?",
+      "cancel": "Batal",
+      "yesChange": "Ya, Tukar",
+      "error": "Ralat",
+      "downloadError": "Ralat berlaku semasa memuat turun fon."
+    }
+  }
+}

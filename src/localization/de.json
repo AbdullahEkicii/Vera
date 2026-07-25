@@ -1,0 +1,157 @@
+{
+  "translation": {
+    "common": {
+      "loading": "Wird geladen...",
+      "error": "Ein Fehler ist aufgetreten",
+      "retry": "Erneut versuchen"
+    },
+    "home": {
+      "title": "Gebetszeiten",
+      "nextPrayer": "Nächstes Gebet",
+      "timeLeft": "Verbleibende Zeit",
+      "timeLeftUnits": {
+        "h": "Std",
+        "m": "Min",
+        "s": "Sek"
+      },
+      "prayers": {
+        "fajr": "Fadschr",
+        "sunrise": "Sonnenaufgang",
+        "dhuhr": "Dhuhr",
+        "asr": "Asr",
+        "maghrib": "Maghrib",
+        "isha": "Ischa"
+      }
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "language": "Sprache",
+      "theme": "Design",
+      "dark": "Dunkel",
+      "light": "Hell",
+      "system": "System"
+    },
+    "qibla": {
+      "title": "Qibla",
+      "holdFlat": "Halten Sie Ihr Telefon flach",
+      "calibrating": "Kompass kalibrieren...",
+      "found": "Sie blicken in Richtung Qibla"
+    },
+    "daily": {
+      "title": "Tägliche Inspiration",
+      "verse": "Vers des Tages",
+      "hadith": "Hadith des Tages",
+      "quote": "Zitat des Tages",
+      "share": "Teilen",
+      "verseBody": "Klicken Sie hier, um den Vers des Tages zu lesen!",
+      "hadithBody": "Klicken Sie hier, um den Hadith des Tages zu lesen!",
+      "quoteBody": "Klicken Sie hier, um das Zitat des Tages zu lesen!"
+    },
+    "notifications": {
+      "fajr": {
+        "title": "🕌 Fadschr Zeit",
+        "body": "Es ist Zeit für das Fadschr-Gebet. Das Gebet ist besser als der Schlaf."
+      },
+      "sunrise": {
+        "title": "🌅 Sonnenaufgang",
+        "body": "Die Sonne ist aufgegangen."
+      },
+      "dhuhr": {
+        "title": "🕌 Dhuhr Zeit",
+        "body": "Es ist Zeit für das Dhuhr-Gebet."
+      },
+      "asr": {
+        "title": "🕌 Asr Zeit",
+        "body": "Es ist Zeit für das Asr-Gebet."
+      },
+      "maghrib": {
+        "title": "🕌 Maghrib Zeit",
+        "body": "Es ist Zeit für das Maghrib-Gebet."
+      },
+      "isha": {
+        "title": "🕌 Ischa Zeit",
+        "body": "Es ist Zeit für das Ischa-Gebet."
+      }
+    },
+    "tasbih": {
+      "title": "Tasbih",
+      "subtitle": "Wahrlich, im Gedenken Allahs finden die Herzen Ruhe.",
+      "tapHint": "TIPPEN UM ZU ERHÖHEN",
+      "reset": "Zurücksetzen",
+      "savedNotice": "Ihr Fortschritt wird gespeichert.",
+      "addCustom": "+ Neu",
+      "modalTitle": "Eigenen Dhikr hinzufügen",
+      "dhikrName": "Name (z.B. Subhanallah)",
+      "targetCount": "Ziel (z.B. 300)",
+      "save": "Speichern",
+      "cancel": "Abbrechen",
+      "namesAndDuas": "Namen und Bittgebete",
+      "names": "99 Namen",
+      "duas": "Bittgebete",
+      "defaultInfinite": "Freier Dhikr",
+      "default1": "Subhanallah",
+      "default2": "Alhamdulillah",
+      "default3": "Allahu Akbar",
+      "default4": "La ilaha illallah",
+      "default5": "Astaghfirullah",
+      "milestoneTitle": "🎉 Glückwunsch!",
+      "milestoneBody": "MaschaAllah, Sie haben diesen Monat {{total}} Dhikr erreicht!",
+      "progressBtn": "Mein Fortschritt",
+      "progressTitle": "Monatlicher Dhikr-Fortschritt",
+      "totalThisMonth": "Gesamt diesen Monat:",
+      "noData": "Noch keine Daten für diesen Monat.",
+      "resetConfirmTitle": "Zähler zurücksetzen",
+      "resetConfirmMsg": "Sind Sie sicher, dass Sie den Zähler zurücksetzen möchten?",
+      "yes": "Ja",
+      "no": "Nein"
+    },
+    "update": {
+      "title": "Neues Update verfügbar!",
+      "forceTitle": "Update erforderlich",
+      "message": "Eine neue Version unserer App ist verfügbar.",
+      "forceMessage": "Bitte aktualisieren Sie auf die neueste Version.",
+      "updateBtn": "Jetzt aktualisieren",
+      "laterBtn": "Später",
+      "releaseNotes": "Versionshinweise:"
+    },
+    "quran": {
+      "title": "Der Heilige Koran",
+      "subtitle": "114 Suren • 604 Seiten",
+      "tabBrowse": "Durchsuchen",
+      "tabHistory": "Zuletzt gelesen",
+      "featuredSurahs": "Ausgewählte Suren",
+      "seeAll": "Alle sehen",
+      "juzs": "Dschuz",
+      "juzCount": "30 Dschuz",
+      "juzNum": "Dschuz {{num}}",
+      "downloading": "Wird heruntergeladen... {{progress}}%",
+      "downloadToRead": "Zum Lesen herunterladen",
+      "verseCount": "{{count}} Verse",
+      "allSurahs": "Alle Suren",
+      "searchPlaceholder": "Name oder Nummer der Sure...",
+      "lastRead": "Zuletzt gelesen",
+      "pageNum": "Seite {{num}}",
+      "noHistoryTitle": "Sie haben noch keinen Leseverlauf.",
+      "pastReadings": "Leseverlauf",
+      "noPastReadings": "Kein Leseverlauf gefunden.",
+      "previous": "Zurück",
+      "next": "Weiter",
+      "noData": "Keine Daten gefunden.",
+      "styleTitle": "Auswahl des Schriftstils",
+      "styleSubtitle": "Wählen Sie das Format, in dem Sie den Koran lesen möchten.",
+      "imlaeiTitle": "Türkischer Stil",
+      "imlaeiDesc": "Standard-Stil.",
+      "uthmaniTitle": "Uthmani-Stil",
+      "uthmaniDesc": "Medina Mushaf. Am weitesten verbreitet.",
+      "indopakTitle": "Indo-Pak-Stil",
+      "indopakDesc": "Dicker Stil für Südasien.",
+      "saveAndContinue": "Speichern und weiter",
+      "oldDownloadsWillBeDeleted": "Alte Downloads werden gelöscht",
+      "styleChangeWarning": "Wenn Sie den Stil ändern, werden alte Downloads gelöscht. Fortfahren?",
+      "cancel": "Abbrechen",
+      "yesChange": "Ja, ändern",
+      "error": "Fehler",
+      "downloadError": "Fehler beim Herunterladen der Schriftart."
+    }
+  }
+}

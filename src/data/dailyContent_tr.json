@@ -1,0 +1,1352 @@
+[
+  {
+    "id": 1,
+    "verse": "Şüphesiz Allah, adaleti, iyilik yapmayı, yakınlara yardım etmeyi emreder; hayasızlığı, fenalık ve azgınlığı da yasaklar.",
+    "verseSource": "Nahl, 16/90",
+    "hadith": "Ameller niyetlere göredir. Herkesin niyeti ne ise eline geçecek olan odur.",
+    "hadithSource": "Buhârî, Bed'ü'l-Vahy, 1",
+    "quote": "Nasibinde varsa alırsın karıncadan bile ders. Nasibinde yoksa bütün cihan önüne serilse sana ters.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 2,
+    "verse": "Rabbin, kendisinden başkasına asla ibadet etmemenizi, anaya babaya iyi davranmanızı kesin olarak emretti.",
+    "verseSource": "İsrâ, 17/23",
+    "hadith": "Müslümanın müslüman üzerindeki hakkı beştir: Selamını almak, hastasını ziyaret etmek, cenazesine katılmak, davetine icabet etmek ve hapşırdığında 'yerhamükellah' demek.",
+    "hadithSource": "Buhârî, Cenâiz 2",
+    "quote": "İncitme! İncittiğin yerden incinirsin.",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 3,
+    "verse": "Kim zerre miktarı hayır yapmışsa onu (karşılığını) görür. Kim de zerre miktarı şer işlemişse onu görür.",
+    "verseSource": "Zilzâl, 99/7-8",
+    "hadith": "Sizin en hayırlınız, Kur'an'ı öğrenen ve öğretendir.",
+    "hadithSource": "Buhârî, Fezâilü'l-Kur'ân 21",
+    "quote": "Güzel konuşmanın sırrı, lüzumsuz sözleri terk etmektir.",
+    "quoteSource": "Hz. Ebubekir (r.a.)"
+  },
+  {
+    "id": 4,
+    "verse": "Ey iman edenler! Sabır ve namaz ile Allah'tan yardım isteyin. Şüphesiz Allah sabredenlerle beraberdir.",
+    "verseSource": "Bakara, 2/153",
+    "hadith": "İki nimet vardır ki, insanların çoğu bu konuda aldanmıştır: Sağlık ve boş vakit.",
+    "hadithSource": "Buhârî, Rikâk 1",
+    "quote": "Bir kimsenin ilmi, ahlakından üstünse, o kimsenin ilmi ona ancak zarar verir.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 5,
+    "verse": "O gün, ne mal fayda verir ne de evlat. Ancak Allah'a kalb-i selim (temiz bir kalp) ile gelenler (o günde fayda bulur).",
+    "verseSource": "Şuarâ, 26/88-89",
+    "hadith": "Kolaylaştırın, zorlaştırmayın; müjdeleyin, nefret ettirmeyin.",
+    "hadithSource": "Buhârî, İlim 11",
+    "quote": "Kalp ne ile doluysa, dudaklardan o dökülür.",
+    "quoteSource": "Johann Wolfgang von Goethe"
+  },
+  {
+    "id": 6,
+    "verse": "Her zorluğun yanında bir kolaylık vardır.",
+    "verseSource": "İnşirah, 94/5",
+    "hadith": "Allah sizin dış görünüşlerinize ve mallarınıza bakmaz, kalplerinize ve amellerininize bakar.",
+    "hadithSource": "Müslim, Birr 34",
+    "quote": "Üzülme! Derdin ne olursa olsun, bir abdest al, seccadeni ser ve otur ağla. Göreceksin ki, derdin küçülecek, kalbin ferahlayacak.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 7,
+    "verse": "Allah, göklerin ve yerin nurudur.",
+    "verseSource": "Nûr, 24/35",
+    "hadith": "Söz taşıyan (dedikoducu) cennete giremez.",
+    "hadithSource": "Müslim, Îmân 168",
+    "quote": "Başkalarının kusurlarını arayan, kendi kusurlarını göremez.",
+    "quoteSource": "Hz. Ömer (r.a.)"
+  },
+  {
+    "id": 8,
+    "verse": "Eğer şükrederseniz elbette size (nimetimi) artırırım.",
+    "verseSource": "İbrâhîm, 14/7",
+    "hadith": "Mümin müminin aynasıdır; mümin müminin kardeşidir.",
+    "hadithSource": "Ebû Dâvûd, Edeb 49",
+    "quote": "Dünyada en büyük zenginlik kanaattir.",
+    "quoteSource": "Hz. Osman (r.a.)"
+  },
+  {
+    "id": 9,
+    "verse": "Sizi bir çamurdan yaratan, sonra (herkese) bir ecel tayin eden O’dur.",
+    "verseSource": "En'âm, 6/2",
+    "hadith": "Kim bir Müslümanın dünya sıkıntılarından bir sıkıntısını giderirse, Allah da kıyamet gününde onun sıkıntılarından birini giderir.",
+    "hadithSource": "Buhârî, Mezâlim 3",
+    "quote": "Kalp kırmak, Kâbe yıkmak gibidir.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 10,
+    "verse": "De ki: Ey kendilerinin aleyhine aşırı giden kullarım! Allah'ın rahmetinden ümidinizi kesmeyin. Şüphesiz Allah bütün günahları affeder.",
+    "verseSource": "Zümer, 39/53",
+    "hadith": "İşçiye ücretini teri kurumadan önce veriniz.",
+    "hadithSource": "İbn Mâce, Rühûn 4",
+    "quote": "Bozuk bir saat bile günde iki defa doğruyu gösterir.",
+    "quoteSource": "Anonim"
+  },
+  {
+    "id": 11,
+    "verse": "O takvâ sahipleri ki, bollukta da darlıkta da Allah için harcarlar; öfkelerini yutarlar ve insanları affederler. Allah da güzel davranışta bulunanları sever.",
+    "verseSource": "Âl-i İmrân, 3/134",
+    "hadith": "İnsanlara merhamet etmeyene, Allah da merhamet etmez.",
+    "hadithSource": "Müslim, Fedâil 66",
+    "quote": "Aynı dili konuşanlar değil, aynı duyguyu paylaşanlar anlaşabilir.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 12,
+    "verse": "O, hanginizin daha güzel amel yapacağını sınamak için ölümü ve hayatı yaratandır. O, mutlak güç sahibidir, çok bağışlayandır.",
+    "verseSource": "Mülk, 67/2",
+    "hadith": "Kişinin malayaniyi (faydasız şeyleri) terk etmesi, İslam'ının güzelliğindendir.",
+    "hadithSource": "Tirmizî, Zühd 11",
+    "quote": "Senin hakkında ne düşündükleri onların meselesi, sen kendi niyetine bak.",
+    "quoteSource": "İmam Şafiî"
+  },
+  {
+    "id": 13,
+    "verse": "İyilikle kötülük bir olmaz. Sen (kötülüğü) en güzel bir şekilde önle. O zaman seninle arasında düşmanlık bulunan kimse, sanki candan bir dost olur.",
+    "verseSource": "Fussilet, 41/34",
+    "hadith": "Mümin cana yakındır. İnsanlarla kaynaşmayan ve kendisiyle kaynaşılamayan kimsede hayır yoktur.",
+    "hadithSource": "Buhârî, Edeb 27",
+    "quote": "Kalp denizdir, dil kıyı. Denizde ne varsa kıyıya o vurur.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 14,
+    "verse": "Eğer siz ona (Peygamber'e) yardım etmezseniz, (biliyorsunuz ki) inkar edenler onu iki kişiden biri olarak (Mekke'den) çıkardıkları zaman, ona bizzat Allah yardım etmişti... 'Üzülme, çünkü Allah bizimle beraberdir' diyordu.",
+    "verseSource": "Tevbe, 9/40",
+    "hadith": "Müslüman, dilinden ve elinden diğer Müslümanların güvende olduğu kimsedir.",
+    "hadithSource": "Buhârî, İman 7",
+    "quote": "Sevelim sevilelim, dünya kimseye kalmaz.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 15,
+    "verse": "Ey iman edenler! Zannın çoğundan sakının. Çünkü zannın bir kısmı günahtır. Birbirinizin kusurlarını ve mahremiyetlerini araştırmayın. Birbirinizin gıybetini yapmayın.",
+    "verseSource": "Hucurât, 49/12",
+    "hadith": "Kardeşinle tartışma, onunla kırıcı şekilde şakalaşma ve ona yerine getiremeyeceğin sözü verme.",
+    "hadithSource": "Ebû Dâvûd, Edeb 35",
+    "quote": "İncinsen de incitme.",
+    "quoteSource": "Hacı Bektaş-ı Veli"
+  },
+  {
+    "id": 16,
+    "verse": "...De ki: 'Hiç bilenlerle bilmeyenler bir olur mu?' Ancak akıl sahipleri öğüt alırlar.",
+    "verseSource": "Zümer, 39/9",
+    "hadith": "İlim talep etmek her Müslümana farzdır.",
+    "hadithSource": "İbn Mâce, Mukaddime 17",
+    "quote": "Ceviz kabuğunu kırıp özüne inmeyen, cevizin hepsini kabuk zanneder.",
+    "quoteSource": "İmam Gazali"
+  },
+  {
+    "id": 17,
+    "verse": "Allah hiçbir nefse gücünün yeteceğinden fazlasını yüklemez...",
+    "verseSource": "Bakara, 2/286",
+    "hadith": "Gece namazına devam edin, zira o sizden önceki salihlerin adetidir.",
+    "hadithSource": "Buhârî, Teheccüd 1",
+    "quote": "Hayatta olabileceğin en güzel yer, bir duanın içinde olmaktır.",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 18,
+    "verse": "Onlar, inananlar ve kalpleri Allah'ı anmakla huzura kavuşanlardır. Bilesiniz ki, kalpler ancak Allah'ı anmakla huzur bulur.",
+    "verseSource": "Ra'd, 13/28",
+    "hadith": "Allah'ı zikredenle zikretmeyenin misali, diri ile ölünün misali gibidir.",
+    "hadithSource": "Buhârî, Deavât 2",
+    "quote": "Sırrını saklayan, muradına erer.",
+    "quoteSource": "Hz. Ömer (r.a.)"
+  },
+  {
+    "id": 19,
+    "verse": "Ey iman edenler! Allah'ı çokça anın. Sabah akşam O'nu tespih edin.",
+    "verseSource": "Ahzâb, 33/41-42",
+    "hadith": "Dua, ibadetin özüdür.",
+    "hadithSource": "Tirmizî, Deavât 85",
+    "quote": "Gecenin ne kadar uzun olduğunu ancak hastalar ve dertliler bilir.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 20,
+    "verse": "...Kim Allah'a karşı gelmekten sakınırsa, Allah ona bir çıkış yolu açar. Ve onu ummadığı yerden rızıklandırır...",
+    "verseSource": "Talâk, 65/2-3",
+    "hadith": "Eğer siz Allah'a hakkıyla tevekkül etseydiniz, sabah aç çıkıp akşam tok dönen kuşlar gibi rızıklandırılırdınız.",
+    "hadithSource": "İbn Mâce, Zühd 14",
+    "quote": "Kader, gayrete aşıktır.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 21,
+    "verse": "Her can ölümü tadacaktır...",
+    "verseSource": "Enbiyâ, 21/35",
+    "hadith": "Lezzetleri yok eden ölümü çokça anın.",
+    "hadithSource": "Tirmizî, Zühd 4",
+    "quote": "Geçmiş için üzülme, gelecek için de endişelenme. Sadece şu anı yaşa ve Allah'a güven.",
+    "quoteSource": "İmam Şafiî"
+  },
+  {
+    "id": 22,
+    "verse": "...Kim bir canı kurtarırsa, bütün insanların hayatını kurtarmış gibi olur...",
+    "verseSource": "Mâide, 5/32",
+    "hadith": "Küçüklerimize merhamet etmeyen, büyüklerimizin hakkını tanımayan bizden değildir.",
+    "hadithSource": "Buhârî, Edeb 18",
+    "quote": "İlim ilim bilmektir, ilim kendin bilmektir.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 23,
+    "verse": "Rahmân'ın has kulları yeryüzünde vakarla yürüyen, cahiller onlara laf attığında 'selam' deyip geçenlerdir.",
+    "verseSource": "Furkân, 25/63",
+    "hadith": "Allah refik (yumuşak huylu)tir, her işte rıfkı (yumuşaklığı) sever.",
+    "hadithSource": "Buhârî, Rikak 18",
+    "quote": "Zulümle abad olanın, sonu berbat olur.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 24,
+    "verse": "Allah'ın sana verdiğinden ahiret yurdunu iste, ama dünyadan da nasibini unutma...",
+    "verseSource": "Kasas, 28/77",
+    "hadith": "Senin kendi nefsine, ailene ve bedenine karşı sorumlulukların vardır.",
+    "hadithSource": "Buhârî, Nafakât 1",
+    "quote": "Ayağında diken yarası olmayan, sinesine gül kokusu süremez.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 25,
+    "verse": "Hep birlikte Allah'ın ipine (Kur'an'a) sımsıkı sarılın, parçalanıp bölünmeyin...",
+    "verseSource": "Âl-i İmrân, 3/103",
+    "hadith": "Müminler birbirlerini sevmekte, birbirlerine merhamet etmekte ve birbirlerini korumakta bir vücut gibidirler.",
+    "hadithSource": "Müslim, Birr 66",
+    "quote": "Sevmeye layık olmayanı hatırlayarak israf etme sevgini.",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 26,
+    "verse": "Yalnız sana ibadet eder ve yalnız senden yardım dileriz.",
+    "verseSource": "Fâtiha, 1/5",
+    "hadith": "Bir şey istediğin zaman Allah'tan iste. Yardım dilediğin zaman Allah'tan dile.",
+    "hadithSource": "Ebû Dâvûd, Vitir 26",
+    "quote": "İnandığınız gibi yaşamazsanız, yaşadığınız gibi inanmaya başlarsınız.",
+    "quoteSource": "Hz. Ömer (r.a.)"
+  },
+  {
+    "id": 27,
+    "verse": "Mallarını Allah yolunda harcayanların durumu, yedi başak bitiren ve her başakta yüz dane bulunan bir tohum gibidir...",
+    "verseSource": "Bakara, 2/261",
+    "hadith": "Sadaka malı eksiltmez.",
+    "hadithSource": "Müslim, Zekât 56",
+    "quote": "Ölümü arzulama, o sana mutlaka gelecektir; sen ölüme hazırlan.",
+    "quoteSource": "Hz. Ebubekir (r.a.)"
+  },
+  {
+    "id": 28,
+    "verse": "Şüphesiz insan için kendi çalışmasından başkası yoktur.",
+    "verseSource": "Necm, 53/39",
+    "hadith": "Hiç kimse kendi elinin emeğinden daha hayırlı bir yiyecek yememiştir.",
+    "hadithSource": "Buhârî, Büyû' 15",
+    "quote": "Allah'a dayan, sa'ye sarıl, hikmete râm ol. Yol varsa budur, bilmiyorum başka çıkar yol.",
+    "quoteSource": "Mehmet Âkif Ersoy"
+  },
+  {
+    "id": 29,
+    "verse": "Nefsini arındıran kurtuluşa ermiştir. Onu kötülüklere gömen de ziyan etmiştir.",
+    "verseSource": "Şems, 91/9-10",
+    "hadith": "Gerçek mücahit, Allah'a itaat konusunda nefsiyle cihat edendir.",
+    "hadithSource": "Müslim, Zikir 73",
+    "quote": "En büyük cehalet, insanın kendini tanımamasıdır.",
+    "quoteSource": "İmam Gazali"
+  },
+  {
+    "id": 30,
+    "verse": "İman edip salih ameller işleyenler için Rahmân (gönüllerde) bir sevgi yaratacaktır.",
+    "verseSource": "Meryem, 19/96",
+    "hadith": "Gülümsemek sadakadır.",
+    "hadithSource": "Buhârî, Edeb 96",
+    "quote": "Mum olmak kolay değildir. Işık saçmak için önce yanmak gerekir.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 31,
+    "verse": "Biz insanı en güzel biçimde yarattık.",
+    "verseSource": "Tîn, 95/4",
+    "hadith": "Hiçbir baba, çocuğuna güzel ahlaktan daha hayırlı bir miras bırakamaz.",
+    "hadithSource": "Tirmizî, Birr 33",
+    "quote": "Eğrinin gölgesi de eğri olur.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 32,
+    "verse": "Yiyiniz, içiniz fakat israf etmeyiniz. Çünkü Allah israf edenleri sevmez.",
+    "verseSource": "A'râf, 7/31",
+    "hadith": "Bizi aldatan bizden değildir.",
+    "hadithSource": "Müslim, Îmân 164",
+    "quote": "Göz kapakları kapalı insana gündüz bile gecedir.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 33,
+    "verse": "Sözü dinleyip de onun en güzeline uyanlar, işte onlar Allah’ın hidayete erdirdiği kimselerdir.",
+    "verseSource": "Zümer, 39/18",
+    "hadith": "Hayra vesile olan, hayrı yapan gibidir.",
+    "hadithSource": "Tirmizî, İlim 14",
+    "quote": "Unutma, her karanlık gecenin bir sabahı vardır.",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 34,
+    "verse": "Nerede olursanız olun, O sizinle beraberdir.",
+    "verseSource": "Hadîd, 57/4",
+    "hadith": "Haklı bile olsa çekişip tartışmayı bırakan kimseye cennetin kenarında bir köşk verileceğine kefilim.",
+    "hadithSource": "Ebû Dâvûd, Edeb 7",
+    "quote": "Altın ateşle, insan dertle olgunlaşır.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 35,
+    "verse": "İyiliğin karşılığı, yalnız iyilik değil midir?",
+    "verseSource": "Rahmân, 55/60",
+    "hadith": "İman etmedikçe cennete giremezsiniz, birbirinizi sevmedikçe de iman etmiş olmazsınız.",
+    "hadithSource": "Müslim, Îmân 93",
+    "quote": "Dünle beraber gitti cancağızım, ne varsa düne ait. Şimdi yeni şeyler söylemek lazım.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 36,
+    "verse": "Rabbiniz şöyle buyurdu: Bana dua edin, duanıza cevap vereyim.",
+    "verseSource": "Mü'min, 40/60",
+    "hadith": "Utanmıyorsan dilediğini yap!",
+    "hadithSource": "Buhârî, Enbiyâ 54",
+    "quote": "Adalet mülkün temelidir.",
+    "quoteSource": "Hz. Ömer (r.a.)"
+  },
+  {
+    "id": 37,
+    "verse": "Kullarım sana beni sorduklarında bilsinler ki şüphesiz ben onlara çok yakınım...",
+    "verseSource": "Bakara, 2/186",
+    "hadith": "Güzel söz sadakadır.",
+    "hadithSource": "Buhârî, Cihâd 128",
+    "quote": "Kibir, bele bağlanmış taş gibidir. Onunla ne yüzülür, ne de uçulur.",
+    "quoteSource": "Hacı Bayram-ı Velî"
+  },
+  {
+    "id": 38,
+    "verse": "Küçümseyerek surat asıp insanlardan yüz çevirme ve yeryüzünde böbürlenerek yürüme...",
+    "verseSource": "Lokmân, 31/18",
+    "hadith": "Komşusu açken tok yatan bizden değildir.",
+    "hadithSource": "Hâkim, Müstedrek, II, 15",
+    "quote": "Dilini terbiye etmeden önce yüreğini terbiye et; çünkü söz yürekten gelir, dilden çıkar.",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 39,
+    "verse": "O, geceyi gündüze katar, gündüzü de geceye katar. O, kalplerde olanı hakkıyla bilendir.",
+    "verseSource": "Hadîd, 57/6",
+    "hadith": "Dünya, müminin zindanı, kafirin ise cennetidir.",
+    "hadithSource": "Müslim, Zühd 1",
+    "quote": "Cahil kimsenin yanında kitap gibi sessiz ol.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 40,
+    "verse": "Ey iman edenler! Kendinizin, anne babanızın ve yakınlarınızın aleyhine de olsa, adaletle şahitlik edenler olun...",
+    "verseSource": "Nisâ, 4/135",
+    "hadith": "Güçlü kimse, güreşte galip gelen değil, öfke anında kendine hakim olandır.",
+    "hadithSource": "Buhârî, Edeb 76",
+    "quote": "Hasetçi, başkalarının nimetine üzülen, kendi dertlerine kör olandır.",
+    "quoteSource": "İmam Gazali"
+  },
+  {
+    "id": 41,
+    "verse": "Onlar ki boş ve yararsız şeylerden yüz çevirirler.",
+    "verseSource": "Mü'minûn, 23/3",
+    "hadith": "Temizlik imanın yarısıdır.",
+    "hadithSource": "Müslim, Tahâret 1",
+    "quote": "Kendini temizlemeyen, başkasını temizleyemez.",
+    "quoteSource": "Hacı Bektaş-ı Veli"
+  },
+  {
+    "id": 42,
+    "verse": "Allah katında en değerli olanınız, O'na karşı gelmekten en çok sakınanınızdır.",
+    "verseSource": "Hucurât, 49/13",
+    "hadith": "İki göz vardır ki, onlara ateş dokunmaz: Allah korkusundan ağlayan göz ve Allah yolunda nöbet tutan göz.",
+    "hadithSource": "Tirmizî, Fezâilü'l-Cihâd 12",
+    "quote": "Gönül gözü kör olunca, baş gözünün görmesi bir işe yaramaz.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 43,
+    "verse": "Hiçbir günahkar başkasının günahını yüklenmez.",
+    "verseSource": "Fâtır, 35/18",
+    "hadith": "Din nasihattir (samimiyettir).",
+    "hadithSource": "Müslim, Îmân 95",
+    "quote": "Ömür bir masal gibidir, ne kadar uzun olduğu değil, ne kadar güzel yaşandığı önemlidir.",
+    "quoteSource": "Seneca"
+  },
+  {
+    "id": 44,
+    "verse": "Sana ölüm gelinceye kadar Rabbine ibadet et.",
+    "verseSource": "Hicr, 15/99",
+    "hadith": "Sizden biriniz, kendisi için istediğini kardeşi için de istemedikçe tam iman etmiş olmaz.",
+    "hadithSource": "Buhârî, Îmân 7",
+    "quote": "Nice insanlar gördüm üzerinde elbise yok, nice elbiseler gördüm içinde insan yok.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 45,
+    "verse": "Onların işleri, aralarında istişare (danışma) iledir.",
+    "verseSource": "Şûrâ, 42/38",
+    "hadith": "İstişare eden asla pişman olmaz.",
+    "hadithSource": "Taberânî, el-Mu'cemü'l-Kebîr, VI, 365",
+    "quote": "Akıllı insan, hem kendi aklını kullanır hem de başkalarının aklından faydalanır.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 46,
+    "verse": "Şüphesiz namaz, hayâsızlıktan ve kötülükten alıkoyar.",
+    "verseSource": "Ankebût, 29/45",
+    "hadith": "Namaz dinin direğidir.",
+    "hadithSource": "Tirmizî, Îmân 8",
+    "quote": "Ahlakı güzel olanın seveni çok olur.",
+    "quoteSource": "Hz. Osman (r.a.)"
+  },
+  {
+    "id": 47,
+    "verse": "Ey iman edenler! Allah'tan korkun ve doğru söz söyleyin.",
+    "verseSource": "Ahzâb, 33/70",
+    "hadith": "Doğruluktan ayrılmayın. Çünkü doğruluk iyiliğe, iyilik de cennete götürür.",
+    "hadithSource": "Müslim, Birr 105",
+    "quote": "Doğru olanı yapmak, her zaman en güvenli yoldur.",
+    "quoteSource": "Hz. Ebubekir (r.a.)"
+  },
+  {
+    "id": 48,
+    "verse": "De ki: Şüphesiz benim namazım, ibadetlerim, hayatım ve ölümüm alemlerin Rabbi olan Allah içindir.",
+    "verseSource": "En'âm, 6/162",
+    "hadith": "Zenginlik mal çokluğu değil, gönül zenginliğidir.",
+    "hadithSource": "Buhârî, Rikâk 15",
+    "quote": "Gönlü zengin olanın dünyası geniş olur.",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 49,
+    "verse": "Göğü biz kurduk ve şüphesiz biz onu genişletmekteyiz.",
+    "verseSource": "Zâriyât, 51/47",
+    "hadith": "Her derdin bir devası vardır. Allah her hastalığın şifasını yaratmıştır.",
+    "hadithSource": "Buhârî, Tıb 1",
+    "quote": "Evrende hiçbir şey tesadüf değildir, her şey bir nizam içindedir.",
+    "quoteSource": "İbn Rüşd"
+  },
+  {
+    "id": 50,
+    "verse": "O, yeryüzünü sizin için bir döşek, göğü de bir bina kıldı...",
+    "verseSource": "Bakara, 2/22",
+    "hadith": "Yerdekilere merhamet edin ki göktekiler de size merhamet etsin.",
+    "hadithSource": "Tirmizî, Birr 16",
+    "quote": "Merhamet, insanlığın en büyük ziynetidir.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 51,
+    "verse": "Dinde zorlama yoktur...",
+    "verseSource": "Bakara, 2/256",
+    "hadith": "Kolaylık gösteren, müsamaha eden kimseye Allah rahmet etsin.",
+    "hadithSource": "Buhârî, Büyû' 16",
+    "quote": "Fikirlerin çarpışmasından hakikat şimşeği doğar.",
+    "quoteSource": "Namık Kemal"
+  },
+  {
+    "id": 52,
+    "verse": "O şüphesiz gaybı da bilir, görünen alemi de. O çok büyüktür, yücedir.",
+    "verseSource": "Ra'd, 13/9",
+    "hadith": "Kul, din kardeşinin yardımında olduğu sürece Allah da kulunun yardımındadır.",
+    "hadithSource": "Müslim, Zikir 38",
+    "quote": "Bir mum, diğer bir mumu tutuşturmakla ışığından bir şey kaybetmez.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 53,
+    "verse": "Ey insanlar! Şüphesiz Allah'ın vaadi gerçektir; sakın dünya hayatı sizi aldatmasın.",
+    "verseSource": "Fâtır, 35/5",
+    "hadith": "Akıllı kişi, nefsini hesaba çeken ve ölümden sonrası için çalışandır.",
+    "hadithSource": "Tirmizî, Kıyamet 25",
+    "quote": "Dünya bir köprüdür; üzerinden geç git, ama üzerine ev yapmaya kalkma.",
+    "quoteSource": "İmam Gazali"
+  },
+  {
+    "id": 54,
+    "verse": "Göklerde ve yerde ne varsa hepsi Allah'ı tespih etmektedir.",
+    "verseSource": "Hadîd, 57/1",
+    "hadith": "Dile hafif, mizanda ağır gelen iki kelime vardır: Sübhânallâhi ve bi-hamdihî, Sübhânallâhi'l-azîm.",
+    "hadithSource": "Buhârî, Daavât 65",
+    "quote": "Sükut, lüzumsuz sözden çok daha hayırlıdır.",
+    "quoteSource": "Hz. Ömer (r.a.)"
+  },
+  {
+    "id": 55,
+    "verse": "Şüphesiz Biz sana Kevser'i verdik.",
+    "verseSource": "Kevser, 108/1",
+    "hadith": "Ben güzel ahlakı tamamlamak üzere gönderildim.",
+    "hadithSource": "Muvatta, Hüsnü'l-Hulk 8",
+    "quote": "Ahlakı olmayan bir insanın bilgisi, elinde fener olan bir hırsıza benzer.",
+    "quoteSource": "Anonim"
+  },
+  {
+    "id": 56,
+    "verse": "Biz Kur'an'dan, müminler için şifa ve rahmet olacak şeyler indiriyoruz.",
+    "verseSource": "İsrâ, 17/82",
+    "hadith": "Kur'an okuyan mümin, kokusu güzel ve tadı güzel olan turunç gibidir.",
+    "hadithSource": "Buhârî, Et'ime 30",
+    "quote": "Kitaplar, ruhun gıdası ve aklın ışığıdır.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 57,
+    "verse": "Ey iman edenler! Yapmayacağınız şeyleri niçin söylüyorsunuz?",
+    "verseSource": "Saf, 61/2",
+    "hadith": "Münafığın alameti üçtür: Konuştuğunda yalan söyler, söz verdiğinde cayar, emanete hıyanet eder.",
+    "hadithSource": "Buhârî, Îmân 24",
+    "quote": "Göründüğün gibi ol ya da olduğun gibi görün.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 58,
+    "verse": "De ki: Hak geldi, batıl yıkılıp gitti. Zaten batıl yıkılmaya mahkumdur.",
+    "verseSource": "İsrâ, 17/81",
+    "hadith": "Sizden kim bir kötülük görürse, onu eliyle değiştirsin. Buna gücü yetmezse diliyle değiştirsin...",
+    "hadithSource": "Müslim, Îmân 78",
+    "quote": "Zulme sessiz kalan, zalimin ortağı olur.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 59,
+    "verse": "Geceyi ve gündüzü, güneşi ve ayı yaratan O’dur. Her biri bir yörüngede yüzmektedir.",
+    "verseSource": "Enbiyâ, 21/33",
+    "hadith": "Hayat şartları sizinkinden daha aşağıda olanlara bakın; sizden üstün olanlara bakmayın.",
+    "hadithSource": "Müslim, Zühd 9",
+    "quote": "Kanaat, tükenmez bir hazinedir.",
+    "quoteSource": "Hz. Ebubekir (r.a.)"
+  },
+  {
+    "id": 60,
+    "verse": "Onlar, ayakta dururken, otururken, yanları üzerine yatarken Allah'ı anarlar, göklerin ve yerin yaratılışı hakkında derin derin düşünürler...",
+    "verseSource": "Âl-i İmrân, 3/191",
+    "hadith": "Bir saat tefekkür (derin düşünme), bir sene nafile ibadet etmekten daha hayırlıdır.",
+    "hadithSource": "Suyûtî, el-Câmiu's-Sağîr, II, 365",
+    "quote": "Düşünmeden konuşmak, nişan almadan ateş etmeye benzer.",
+    "quoteSource": "Hz. Osman (r.a.)"
+  },
+  {
+    "id": 61,
+    "verse": "Allah hikmeti dilediğine verir. Kime hikmet verilmişse, şüphesiz ona çok büyük bir hayır verilmiştir.",
+    "verseSource": "Bakara, 2/269",
+    "hadith": "Dünya tatlı ve caziptir. Allah onu sizin tasarrufunuza bırakacak ve nasıl davranacağınıza bakacaktır.",
+    "hadithSource": "Müslim, Zikir 99",
+    "quote": "Hesaba çekilmeden önce kendinizi hesaba çekin.",
+    "quoteSource": "Hz. Ömer (r.a.)"
+  },
+  {
+    "id": 62,
+    "verse": "Şüphesiz biz sizi yakın bir azapla uyardık. O gün kişi kendi ellerinin geleceğe ne hazırladığına bakacaktır ve inkârcı, 'Keşke toprak olsaydım!' diyecektir.",
+    "verseSource": "Nebe, 78/40",
+    "hadith": "Veren el, alan elden üstündür.",
+    "hadithSource": "Buhârî, Zekât 18",
+    "quote": "Cümleler doğrudur sen doğru isen, doğruluk bulunmaz sen eğri isen.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 63,
+    "verse": "Yavrum! Namazı dosdoğru kıl. İyiliği emret, kötülükten sakındır ve başına gelenlere sabret. Şüphesiz bunlar, azmedilmeye değer işlerdendir.",
+    "verseSource": "Lokmân, 31/17",
+    "hadith": "İnsanlara teşekkür etmeyen, Allah'a da şükretmez.",
+    "hadithSource": "Tirmizî, Birr 35",
+    "quote": "Kapımıza değil, kalbimize vuran buyursun.",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 64,
+    "verse": "Onlar, ufak tefek kusurlar dışında, büyük günahlardan ve hayâsızlıklardan kaçınırlar. Şüphesiz Rabbinin bağışlaması çok geniştir...",
+    "verseSource": "Necm, 53/32",
+    "hadith": "Allah'ın rızası anne babanın rızasında, öfkesi de anne babanın öfkesindedir.",
+    "hadithSource": "Tirmizî, Birr 3",
+    "quote": "Dil sükût ederse gönül selamete erer.",
+    "quoteSource": "İmam Gazali"
+  },
+  {
+    "id": 65,
+    "verse": "Çoğaltma yarışı (ve güç gösterisi) sizi oyaladı; ta kabirlere varıncaya kadar.",
+    "verseSource": "Tekâsür, 102/1-2",
+    "hadith": "Allah'ım! Bana doğru olanı ilham et ve beni nefsimin şerrinden koru.",
+    "hadithSource": "Tirmizî, Deavât 70",
+    "quote": "Söz ağızdan çıkana kadar senin esirindir, ağızdan çıktıktan sonra ise sen onun esiri olursun.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 66,
+    "verse": "Andolsun, insanı biz yarattık ve nefsinin ona ne vesveseler verdiğini biliriz. Çünkü biz ona şah damarından daha yakınız.",
+    "verseSource": "Kâf, 50/16",
+    "hadith": "Gıybet, kardeşini onun hoşlanmayacağı bir şekilde anmandır.",
+    "hadithSource": "Müslim, Birr 70",
+    "quote": "Gözden ırak olan gönülden de ırak olur mu? Gönle giren gözden ırak olsa ne yazar.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 67,
+    "verse": "O, kendisinden başka hiçbir ilâh bulunmayan Allah'tır. O, mülkün gerçek sahibi, kutsal, barış ve esenlik veren, güven veren, gözeten, mutlak güç sahibi, her şeyi dilediği gibi yapan, büyüklükte eşi olmayandır...",
+    "verseSource": "Haşr, 59/23",
+    "hadith": "Fitne zamanında oturan ayakta durandan, ayakta duran yürüyenden daha hayırlıdır.",
+    "hadithSource": "Buhârî, Fiten 9",
+    "quote": "Söylesem tesiri yok, sussam gönül razı değil.",
+    "quoteSource": "Fuzuli"
+  },
+  {
+    "id": 68,
+    "verse": "Sizden birine ölüm gelip de, 'Rabbim! Beni yakın bir süreye kadar geciktirsen de sadaka verip salihlerden olsam!' demeden önce, size rızık olarak verdiğimiz şeylerden Allah yolunda harcayın.",
+    "verseSource": "Münâfikûn, 63/10",
+    "hadith": "Amellerin Allah'a en sevimli olanı, az da olsa devamlı olanıdır.",
+    "hadithSource": "Buhârî, Îmân 32",
+    "quote": "Ölümü yastığının altında bil.",
+    "quoteSource": "Hz. Ömer (r.a.)"
+  },
+  {
+    "id": 69,
+    "verse": "Onlar, 'Rabbimiz! Eşlerimizi ve çocuklarımızı bize göz aydınlığı kıl ve bizi günahtan sakınanlara önder yap' diyenlerdir.",
+    "verseSource": "Furkân, 25/74",
+    "hadith": "Sizin en hayırlınız, kadınlarına karşı en hayırlı olanınızdır.",
+    "hadithSource": "Tirmizî, Radâ 11",
+    "quote": "Aşk, her şeydedir ama hiçbir şeyde görünmez.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 70,
+    "verse": "Bir şeyi dilediği zaman, O'nun emri sadece ona 'Ol' demektir, o da hemen oluverir.",
+    "verseSource": "Yâsîn, 36/82",
+    "hadith": "Kalbinde zerre kadar kibir olan kimse cennete giremez.",
+    "hadithSource": "Müslim, Îmân 147",
+    "quote": "Çok konuşan çok yanılır, çok yanılanın ise günahı çok olur.",
+    "quoteSource": "Hz. Ebubekir (r.a.)"
+  },
+  {
+    "id": 71,
+    "verse": "De ki: O, Allah birdir. Allah sameddir. O, doğurmamış ve doğurulmamıştır. Onun hiçbir dengi yoktur.",
+    "verseSource": "İhlâs, 112/1-4",
+    "hadith": "Sizden kim güven içinde, bedeni sağlıklı ve günlük yiyeceği yanında olarak sabahlarsa, sanki dünya tümüyle ona verilmiş gibidir.",
+    "hadithSource": "Tirmizî, Zühd 34",
+    "quote": "Devler gibi eserler bırakmak için, karıncalar gibi çalışmak gerekir.",
+    "quoteSource": "Necip Fazıl Kısakürek"
+  },
+  {
+    "id": 72,
+    "verse": "Rabbin seni terk etmedi ve sana darılmadı.",
+    "verseSource": "Duhâ, 93/3",
+    "hadith": "Hayâ bütünüyle hayırdır.",
+    "hadithSource": "Müslim, Îmân 65",
+    "quote": "İnsanı yaşat ki devlet yaşasın.",
+    "quoteSource": "Şeyh Edebali"
+  },
+  {
+    "id": 73,
+    "verse": "Sakın, Allah'ı zalimlerin yaptıklarından habersiz sanma! Ancak Allah, onları gözlerin dışa fırlayacağı bir güne erteliyor.",
+    "verseSource": "İbrâhîm, 14/42",
+    "hadith": "Allah kimin için hayır dilerse, onu dinde derin anlayış sahibi (fakih) kılar.",
+    "hadithSource": "Buhârî, İlim 10",
+    "quote": "Her şey üstüne gelip seni dayanamayacağın bir noktaya getirdiğinde, sakın vazgeçme; çünkü orası kaderinin değişeceği yerdir.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 74,
+    "verse": "Sabrederek ve namaz kılarak Allah'tan yardım dileyin. Şüphesiz bu, Allah'a derin saygı duyanlardan başkasına ağır gelir.",
+    "verseSource": "Bakara, 2/45",
+    "hadith": "Zulüm, kıyamet gününde zifiri karanlıklardır.",
+    "hadithSource": "Müslim, Birr 56",
+    "quote": "Bana bir harf öğretenin kırk yıl kölesi olurum.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 75,
+    "verse": "(Ey Muhammed!) Biz seni ancak âlemlere rahmet olarak gönderdik.",
+    "verseSource": "Enbiyâ, 21/107",
+    "hadith": "Sözlerin en hayırlısı Allah'ın kitabı, yolların en hayırlısı ise Muhammed'in yoludur.",
+    "hadithSource": "Müslim, Cum'a 43",
+    "quote": "Şu hayatta tek başına inzivaya çekilerek sadece kendi sesinin yankısını duymak, insanı hakikate ulaştırmaz.",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 76,
+    "verse": "Şüphesiz sen yüce bir ahlâk üzerinesin.",
+    "verseSource": "Kalem, 68/4",
+    "hadith": "Seni şüphelendiren şeyi bırak, şüphe vermeyene bak.",
+    "hadithSource": "Tirmizî, Kıyamet 60",
+    "quote": "Gelin tanış olalım, işi kolay kılalım, sevelim sevilelim, dünya kimseye kalmaz.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 77,
+    "verse": "İnsanlar, imtihandan geçirilmeden, sadece 'İman ettik' demeleriyle bırakılacaklarını mı sandılar?",
+    "verseSource": "Ankebût, 29/2",
+    "hadith": "Mümin, bir delikten iki defa ısırılmaz (aynı hataya iki kez düşmez).",
+    "hadithSource": "Buhârî, Edeb 83",
+    "quote": "Zaman bir kılıç gibidir; eğer sen onu kesmezsen o seni keser.",
+    "quoteSource": "İmam Şafiî"
+  },
+  {
+    "id": 78,
+    "verse": "Senin izzet sahibi Rabbin, onların isnat ettiği vasıflardan yücedir, münezzehtir.",
+    "verseSource": "Sâffât, 37/180",
+    "hadith": "Beş şey gelmeden önce beş şeyin kıymetini bil: Yaşlanmadan önce gençliğinin, hastalanmadan önce sağlığının, fakirleşmeden önce zenginliğinin, meşguliyetten önce boş vaktinin ve ölümünden önce hayatının.",
+    "hadithSource": "Hâkim, Müstedrek, IV, 341",
+    "quote": "Ya çaresizsiniz ya da çare sizsiniz.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 79,
+    "verse": "Kendileriyle huzur bulasınız diye sizin için türünüzden eşler yaratması ve aranıza sevgi ve merhamet koyması O'nun varlığının delillerindendir...",
+    "verseSource": "Rûm, 30/21",
+    "hadith": "Öfkelendiğin zaman sus!",
+    "hadithSource": "Ahmed b. Hanbel, Müsned, I, 239",
+    "quote": "Çok gülenin heybeti azalır.",
+    "quoteSource": "Hz. Ömer (r.a.)"
+  },
+  {
+    "id": 80,
+    "verse": "Şüphesiz ki bir kavim kendi durumunu değiştirmedikçe, Allah onların durumunu değiştirmez...",
+    "verseSource": "Ra'd, 13/11",
+    "hadith": "Nerede olursan ol Allah'tan kork ve kötülüğün arkasından hemen bir iyilik yap ki onu yok etsin.",
+    "hadithSource": "Tirmizî, Birr 55",
+    "quote": "Düzenim bozulur, hayatımın altı üstüne gelir diye endişe etme. Nereden biliyorsun hayatın altının üstünden daha iyi olmayacağını?",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 81,
+    "verse": "Ben cinleri ve insanları, ancak bana kulluk etsinler diye yarattım.",
+    "verseSource": "Zâriyât, 51/56",
+    "hadith": "Dünya geçici bir metadır. Onun en hayırlı nimeti ise saliha bir kadındır.",
+    "hadithSource": "Müslim, Radâ 64",
+    "quote": "Savaş, ölünce değil düşmana benzeyince kaybedilir.",
+    "quoteSource": "Aliya İzzetbegović"
+  },
+  {
+    "id": 82,
+    "verse": "Yaratan bilmez mi? O, en ince işleri görüp bilendir, her şeyden haberdardır.",
+    "verseSource": "Mülk, 67/14",
+    "hadith": "Dünyada sanki bir garip veya bir yolcuymuş gibi ol.",
+    "hadithSource": "Buhârî, Rikâk 3",
+    "quote": "Mal sahibi, mülk sahibi, hani bunun ilk sahibi? Mal da yalan, mülk de yalan, var biraz da sen oyalan.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 83,
+    "verse": "Kulları içinden ancak alimler, Allah'tan gereğince korkar. Şüphesiz Allah mutlak güç sahibidir, çok bağışlayandır.",
+    "verseSource": "Fâtır, 35/28",
+    "hadith": "İlim müminin yitik malıdır, onu nerede bulursa almaya daha layıktır.",
+    "hadithSource": "Tirmizî, İlim 19",
+    "quote": "Ahmakla dost olmaktan sakın; zira sana fayda vermek isterken zarar verir.",
+    "quoteSource": "İmam Gazali"
+  },
+  {
+    "id": 84,
+    "verse": "De ki: Rabbim, kullarından dilediğine rızkı bol verir ve dilediğine de kısar. Siz Allah yolunda ne harcarsanız, O onun yerine başkasını verir...",
+    "verseSource": "Sebe', 34/39",
+    "hadith": "Halkın en hayırlısı, insanlara en faydalı olanıdır.",
+    "hadithSource": "Taberânî, el-Mu'cemü'l-Evsat, VI, 58",
+    "quote": "Dün akıllıydım, dünyayı değiştirmek istiyordum. Bugün bilgeyim, kendimi değiştiriyorum.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 85,
+    "verse": "Doğu da Allah'ındır batı da. Nereye dönerseniz dönün Allah'ın zatı (rahmeti ve tecellisi) oradadır...",
+    "verseSource": "Bakara, 2/115",
+    "hadith": "Gece namazına dikkat edin; çünkü o, sizden önceki salihlerin sünnetidir, Rabbinize yakınlaşma vesilesidir.",
+    "hadithSource": "Tirmizî, Deavât 101",
+    "quote": "Hüzün, taze tutar aşk yarasını.",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 86,
+    "verse": "Şüphesiz kıyamet saatinin bilgisi ancak Allah katındadır. Yağmuru O indirir, rahimlerde olanı O bilir...",
+    "verseSource": "Lokmân, 31/34",
+    "hadith": "Dünya malına karşı zahid ol (rağbet etme) ki Allah seni sevsin; insanların elindeki şeylere karşı zahid ol ki insanlar seni sevsin.",
+    "hadithSource": "İbn Mâce, Zühd 1",
+    "quote": "Haksızlığa karşı eğilmeyiniz; zira hakkınızla beraber şerefinizi de kaybedersiniz.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 87,
+    "verse": "De ki: Rabbimin sözleri için denizler mürekkep olsa, Rabbimin sözleri tükenmeden önce denizler tükenirdi...",
+    "verseSource": "Kehf, 18/109",
+    "hadith": "Kim ilim tahsil etmek için bir yola girerse, Allah ona cennete giden yolu kolaylaştırır.",
+    "hadithSource": "Tirmizî, İlim 1",
+    "quote": "Derdi dünya olanın, dünya kadar derdi olur.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 88,
+    "verse": "Asra yemin olsun ki, insan mutlaka ziyan içindedir. Ancak iman edip salih ameller işleyenler, birbirlerine hakkı tavsiye edenler ve birbirlerine sabrı tavsiye edenler müstesna.",
+    "verseSource": "Asr, 103/1-3",
+    "hadith": "Birbirinize haset etmeyin, birbirinize küsmeyin, birbirinize sırt çevirmeyin ve ey Allah'ın kulları, kardeş olun!",
+    "hadithSource": "Müslim, Birr 23",
+    "quote": "Her şey vaktini bekler; ne gül vaktinden önce açar, ne güneş vaktinden önce doğar.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 89,
+    "verse": "Heva ve hevesini ilah edinen, Allah'ın da ilmi uyarınca saptırdığı kimseyi gördün mü?",
+    "verseSource": "Câsiye, 45/23",
+    "hadith": "Cennetin anahtarı namazdır, namazın anahtarı ise abdesttir.",
+    "hadithSource": "Tirmizî, Tahâret 1",
+    "quote": "Hiçbir acı, cehaletten daha yıkıcı değildir.",
+    "quoteSource": "İmam Gazali"
+  },
+  {
+    "id": 90,
+    "verse": "Öyleyse beni anın ki ben de sizi anayım. Bana şükredin, nankörlük etmeyin.",
+    "verseSource": "Bakara, 2/152",
+    "hadith": "Canımı elinde tutan Allah'a yemin ederim ki, ya iyiliği emreder kötülükten sakındırırsınız ya da Allah size bir azap gönderir de sonra yalvarırsınız ama duanız kabul edilmez.",
+    "hadithSource": "Tirmizî, Fiten 9",
+    "quote": "Kalp bir bahçe gibidir; ona ne ekersen onu biçersin.",
+    "quoteSource": "Hz. Osman (r.a.)"
+  },
+  {
+    "id": 91,
+    "verse": "Şüphesiz Allah, tevbe edenleri sever, temizlenenleri de sever.",
+    "verseSource": "Bakara, 2/222",
+    "hadith": "Mümin, taze ekin gibidir; rüzgar estikçe yatar, rüzgar durunca doğrulur.",
+    "hadithSource": "Buhârî, Merdâ 1",
+    "quote": "Senin kalbin tertemiz olursa, dışın da pırıl pırıl olur.",
+    "quoteSource": "Abdülkadir Geylani"
+  },
+  {
+    "id": 92,
+    "verse": "Göklerin ve yerin mülkü Allah'ındır. Dönüş de ancak Allah'adır.",
+    "verseSource": "Nûr, 24/42",
+    "hadith": "En hayırlı dost, seni Allah'a yaklaştıran dosttur.",
+    "hadithSource": "Taberânî",
+    "quote": "Bize gözün değil, gönlün gördüğü yürek gerek.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 93,
+    "verse": "Rabbin, sadece kendisine kulluk etmenizi, ana babanıza da iyi davranmanızı kesin bir şekilde emretti.",
+    "verseSource": "İsrâ, 17/23",
+    "hadith": "Büyüklerine saygı göstermeyen, küçüklerine merhamet etmeyen bizden değildir.",
+    "hadithSource": "Tirmizî, Birr 15",
+    "quote": "İnsan, dilinin altında gizlidir.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 94,
+    "verse": "Şüphesiz ki Allah, zerre kadar haksızlık etmez.",
+    "verseSource": "Nisâ, 4/40",
+    "hadith": "Haklı dahi olsa kavgayı terk edene cennetin köşkünde bir ev vaat ediyorum.",
+    "hadithSource": "Ebû Dâvûd, Edeb 7",
+    "quote": "İşin başı sabır, sonu selâmettir.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 95,
+    "verse": "Ey inananlar! Sabredin, sabır yarışında düşmanlarınızı geçin.",
+    "verseSource": "Âl-i İmrân, 3/200",
+    "hadith": "Hiç kimseye sabırdan daha hayırlı ve daha geniş bir nimet verilmemiştir.",
+    "hadithSource": "Müslim, Zekât 124",
+    "quote": "Dostluk gül olmaktır, yaprağıyla dikeniyle.",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 96,
+    "verse": "Görmedin mi Allah nasıl bir misal getirdi: Güzel bir söz, kökü (yerde) sabit, dalları gökte olan güzel bir ağaç gibidir.",
+    "verseSource": "İbrâhîm, 14/24",
+    "hadith": "Kim Allah'a ve ahiret gününe inanıyorsa ya hayır söylesin ya da sussun.",
+    "hadithSource": "Buhârî, Edeb 31",
+    "quote": "Gönül incitmek, Kabe yıkmaktan daha büyük günahtır.",
+    "quoteSource": "Hz. Ebubekir (r.a.)"
+  },
+  {
+    "id": 97,
+    "verse": "Allah, kendisine karşı gelmekten sakınanları başarıları sebebiyle kurtarır.",
+    "verseSource": "Zümer, 39/61",
+    "hadith": "Kim bir kardeşinin ihtiyacını giderirse, Allah da onun ihtiyacını giderir.",
+    "hadithSource": "Buhârî, Mezâlim 3",
+    "quote": "Bilmeyen ne bilsin bizi, bilenlere selam olsun.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 98,
+    "verse": "Yeryüzünde hiçbir canlı yoktur ki, rızkı Allah'a ait olmasın.",
+    "verseSource": "Hûd, 11/6",
+    "hadith": "Allah sizin ne suretlerinize ne de mallarınıza bakar. O sadece sizin kalplerinize ve amellerinize bakar.",
+    "hadithSource": "Müslim, Birr 34",
+    "quote": "Doğruların yemin etmeye ihtiyacı yoktur.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 99,
+    "verse": "Eğer siz Allah'a (dinine) yardım ederseniz, O da size yardım eder ve ayaklarınızı sağlam bastırır.",
+    "verseSource": "Muhammed, 47/7",
+    "hadith": "Niyetler, amellerin ruhudur.",
+    "hadithSource": "Buhârî, Bed’ü'l-Vahy 1",
+    "quote": "İnsan, düşüncesi kadardır.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 100,
+    "verse": "O, sizi yeryüzünün halifeleri kılan ve verdiği nimetlerle sizi denemek için kiminizi kiminize derecelerle üstün kılandır.",
+    "verseSource": "En'âm, 6/165",
+    "hadith": "Kim güzel bir işe öncülük ederse, hem onun sevabını hem de ondan sonra o işi yapanların sevabını alır.",
+    "hadithSource": "Müslim, İlim 15",
+    "quote": "Ne kadar bilirsen bil, söylediklerin karşındakinin anladığı kadardır.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 101,
+    "verse": "Kim Allah'a tevekkül ederse, O, ona yeter.",
+    "verseSource": "Talâk, 65/3",
+    "hadith": "Kul, kardeşine yardım ettiği sürece Allah da kula yardım eder.",
+    "hadithSource": "Müslim, Zikir 38",
+    "quote": "Tevekkül, gemiyi sağlam bağlayıp sonra Allah'a güvenmektir.",
+    "quoteSource": "Hz. Muhammed (s.a.v.)"
+  },
+  {
+    "id": 102,
+    "verse": "Mallarınızı aranızda haksızlıkla yemeyin.",
+    "verseSource": "Bakara, 2/188",
+    "hadith": "İşçiye, teri kurumadan hakkını veriniz.",
+    "hadithSource": "İbn Mâce, Rühûn 4",
+    "quote": "Helal kazanç, ibadetin onda dokuzudur.",
+    "quoteSource": "Hz. Ömer (r.a.)"
+  },
+  {
+    "id": 103,
+    "verse": "Müminler ancak kardeştirler.",
+    "verseSource": "Hucurât, 49/10",
+    "hadith": "Kendiniz için istediğinizi, din kardeşiniz için de istemedikçe kamil mümin olamazsınız.",
+    "hadithSource": "Buhârî, Îmân 7",
+    "quote": "Kardeşlik, düşmek üzere olan birine el uzatmaktır.",
+    "quoteSource": "Hacı Bayram-ı Veli"
+  },
+  {
+    "id": 104,
+    "verse": "Muhakkak ki Allah, çok affedicidir, çok bağışlayıcıdır.",
+    "verseSource": "Hac, 22/60",
+    "hadith": "Allah'ım! Sen affedicisin, affetmeyi seversin, beni de affet.",
+    "hadithSource": "Tirmizî, Deavât 84",
+    "quote": "Affetmek, en güzel intikamdır.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 105,
+    "verse": "Görmedin mi ki, Allah gökten su indirdi de onu yerin içindeki kaynaklara ulaştırdı.",
+    "verseSource": "Zümer, 39/21",
+    "hadith": "Müslümanın diktiği ağaçtan yenilen şey onun için sadakadır.",
+    "hadithSource": "Müslim, Müsâkât 7",
+    "quote": "Toprak gibi ol, her şeyi ört ve yeşert.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 106,
+    "verse": "Ölçtüğünüz zaman tastamam ölçün, doğru terazi ile tartın.",
+    "verseSource": "İsrâ, 17/35",
+    "hadith": "Bizi aldatan bizden değildir.",
+    "hadithSource": "Müslim, Îmân 164",
+    "quote": "Adalet, her şeyi layık olduğu yere koymaktır.",
+    "quoteSource": "İbn Teymiyye"
+  },
+  {
+    "id": 107,
+    "verse": "De ki: Duanız olmasa Rabbim size ne diye değer versin?",
+    "verseSource": "Furkân, 25/77",
+    "hadith": "Dua müminin silahı, dinin direği, göklerin ve yerin nurudur.",
+    "hadithSource": "Hâkim, Müstedrek, I, 669",
+    "quote": "Dua, kalbin Allah'a açılan penceresidir.",
+    "quoteSource": "İmam Gazali"
+  },
+  {
+    "id": 108,
+    "verse": "Bilesiniz ki, kalpler ancak Allah'ı anmakla huzur bulur.",
+    "verseSource": "Ra'd, 13/28",
+    "hadith": "Akrabalık bağlarını kesen cennete giremez.",
+    "hadithSource": "Müslim, Birr 19",
+    "quote": "Sıla-i rahim, ömrü uzatır.",
+    "quoteSource": "Hz. Ömer (r.a.)"
+  },
+  {
+    "id": 109,
+    "verse": "Kullarıma söyle, sözün en güzelini söylesinler.",
+    "verseSource": "İsrâ, 17/53",
+    "hadith": "Tatlı söz söylemek sadakadır.",
+    "hadithSource": "Buhârî, Edeb 34",
+    "quote": "Güzel söz, yılanı deliğinden çıkarır.",
+    "quoteSource": "Türk Atasözü"
+  },
+  {
+    "id": 110,
+    "verse": "Biz onu Kadir Gecesi'nde indirdik.",
+    "verseSource": "Kadir, 97/1",
+    "hadith": "Kadir gecesini, Ramazan'ın son on gününün tek gecelerinde arayın.",
+    "hadithSource": "Buhârî, Leyletü'l-Kadr 3",
+    "quote": "Gecesi kadir, gündüzü bayram olanın ömrü bereketli olur.",
+    "quoteSource": "Hacı Bayram-ı Veli"
+  },
+  {
+    "id": 111,
+    "verse": "İyilik yüzünüzü doğuya veya batıya çevirmeniz değildir.",
+    "verseSource": "Bakara, 2/177",
+    "hadith": "İyilik, ahlakın güzelliğidir.",
+    "hadithSource": "Müslim, Birr 14",
+    "quote": "İyilik yap, denize at; balık bilmezse Hâlık bilir.",
+    "quoteSource": "Türk Atasözü"
+  },
+  {
+    "id": 112,
+    "verse": "Eğer Allah sana bir zarar dokundurursa, onu yine O'ndan başka giderecek yoktur.",
+    "verseSource": "En'âm, 6/17",
+    "hadith": "Hastaları ziyaret edin, açları doyurun, esirleri kurtarın.",
+    "hadithSource": "Buhârî, Merdâ 4",
+    "quote": "Sağlık, başın üzerindeki görülmez taçtır.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 113,
+    "verse": "Andolsun, size kendi içinizden öyle bir peygamber gelmiştir ki, sizin sıkıntıya düşmeniz ona çok ağır gelir.",
+    "verseSource": "Tevbe, 9/128",
+    "hadith": "Bana en yakın olanınız, ahlakı en güzel olanınızdır.",
+    "hadithSource": "Tirmizî, Birr 71",
+    "quote": "O'nun (s.a.v.) ahlakı, Kur'an'dı.",
+    "quoteSource": "Hz. Aişe (r.a.)"
+  },
+  {
+    "id": 114,
+    "verse": "Allah katında din İslâm'dır.",
+    "verseSource": "Âl-i İmrân, 3/19",
+    "hadith": "Kibir, hakkı inkar etmek ve insanları küçük görmektir.",
+    "hadithSource": "Müslim, Îmân 147",
+    "quote": "Tevazu, yüceliğin merdivenidir.",
+    "quoteSource": "İmam Şafiî"
+  },
+  {
+    "id": 115,
+    "verse": "Şüphesiz benim namazım, ibadetlerim, dirimim ve ölümüm âlemlerin Rabbi olan Allah içindir.",
+    "verseSource": "En'âm, 6/162",
+    "hadith": "Hiç kimse rızkını tamamlamadan ölmez.",
+    "hadithSource": "İbn Mâce, Ticârât 2",
+    "quote": "Rızık, kapıyı çalmaz; sen ona yürümelisin.",
+    "quoteSource": "Hz. Ömer (r.a.)"
+  },
+  {
+    "id": 116,
+    "verse": "İyilik ve takva (Allah'a karşı gelmekten sakınma) üzere yardımlaşın.",
+    "verseSource": "Mâide, 5/2",
+    "hadith": "Merhamet edene Rahman da merhamet eder.",
+    "hadithSource": "Tirmizî, Birr 16",
+    "quote": "Şefkat ve merhamette güneş gibi ol.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 117,
+    "verse": "O, karanlıkları yarıp sabahı çıkarandır.",
+    "verseSource": "En'âm, 6/96",
+    "hadith": "Sabah namazının iki rekatı, dünyadan ve içindeki her şeyden daha hayırlıdır.",
+    "hadithSource": "Müslim, Müsâfirîn 96",
+    "quote": "Sabahın nuru, gecenin duasında gizlidir.",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 118,
+    "verse": "Allah’a sarılın, O sizin mevlânızdır.",
+    "verseSource": "Hac, 22/78",
+    "hadith": "Kuvvetli mümin, zayıf müminden daha hayırlı ve Allah'a daha sevimlidir.",
+    "hadithSource": "Müslim, Kader 34",
+    "quote": "Allah'a sığınan, yıkılmaz bir kaleye girmiş gibidir.",
+    "quoteSource": "İmam Gazali"
+  },
+  {
+    "id": 119,
+    "verse": "Yalnız sana kulluk eder ve yalnız senden yardım dileriz.",
+    "verseSource": "Fâtiha, 1/5",
+    "hadith": "Kim Allah'tan başkasına yemin ederse şirk koşmuş olur.",
+    "hadithSource": "Tirmizî, Nüzûr 8",
+    "quote": "Kulluk, kapıda beklemektir.",
+    "quoteSource": "Rabia el-Adeviyye"
+  },
+  {
+    "id": 120,
+    "verse": "Oku! Yaratan Rabbinin adıyla.",
+    "verseSource": "Alak, 96/1",
+    "hadith": "İslam, beş temel üzerine kurulmuştur.",
+    "hadithSource": "Buhârî, Îmân 1",
+    "quote": "İman, kalpte yanıp sönmeyen bir nurdur.",
+    "quoteSource": "Hz. Osman (r.a.)"
+  },
+  {
+    "id": 121,
+    "verse": "Rabbimiz! Bize dünyada da iyilik ver, ahirette de iyilik ver ve bizi ateş azabından koru.",
+    "verseSource": "Bakara, 2/201",
+    "hadith": "Oruç bir kalkandır; oruçlu, saygısızlık yapmasın, kötü söz söylemesin.",
+    "hadithSource": "Buhârî, Savm 9",
+    "quote": "Hatasız dost arayan dostsuz kalır.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 122,
+    "verse": "Şüphesiz Allah, kendisine ortak koşulmasını bağışlamaz. Bunun dışındaki günahları dilediği kimse için bağışlar.",
+    "verseSource": "Nisâ, 4/48",
+    "hadith": "İslam garip başladı, ileride yine garip haline dönecektir. Ne mutlu o gariplere!",
+    "hadithSource": "Müslim, Îmân 232",
+    "quote": "Sözü süz de söyle, manayı inci diz de söyle.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 123,
+    "verse": "Gevşemeyin, hüzünlenmeyin. Eğer (gerçekten) iman etmiş kimselerseniz üstün olan sizlersiniz.",
+    "verseSource": "Âl-i İmrân, 3/139",
+    "hadith": "Her kim bir yola girer ve onda ilim ararsa, Allah ona cennete giden yolu kolaylaştırır.",
+    "hadithSource": "Müslim, Zikir 39",
+    "quote": "Gözyaşının bile bir görevi varmış; ardından gelecek gülümseme için temizlik yaparmış.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 124,
+    "verse": "Sabredenlere mükafatları hesapsız verilecektir.",
+    "verseSource": "Zümer, 39/10",
+    "hadith": "Allah'a ve ahiret gününe iman eden komşusuna iyilik etsin.",
+    "hadithSource": "Buhârî, Edeb 31",
+    "quote": "Dünya bir penceredir, her gelen bakar geçer.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 125,
+    "verse": "Ey insanlar! Biz sizi bir erkek ve bir dişiden yarattık ve birbirinizle tanışmanız için sizi boylara ve kabilelere ayırdık.",
+    "verseSource": "Hucurât, 49/13",
+    "hadith": "Müminler, birbirlerini sevmekte, birbirlerine acımakta ve birbirlerini korumakta bir vücuda benzerler.",
+    "hadithSource": "Buhârî, Edeb 27",
+    "quote": "Kuşkusuz ki en büyük zenginlik, akıl zenginliğidir.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 126,
+    "verse": "O gün, ne mal fayda verir ne de evlat. Ancak Allah'a temiz bir kalp ile gelenler kurtulur.",
+    "verseSource": "Şuarâ, 26/88-89",
+    "hadith": "Kalp temiz olunca beden de temiz olur, kalp bozulunca beden de bozulur.",
+    "hadithSource": "Buhârî, Îmân 39",
+    "quote": "Aklın güzelliği dil ile, dilin güzelliği söz ile, kişinin güzelliği yüz ile, yüzün güzelliği göz ile belli olur.",
+    "quoteSource": "Yusuf Has Hacib"
+  },
+  {
+    "id": 127,
+    "verse": "O, gökleri ve yeri hak (ve hikmet) ile yaratandır.",
+    "verseSource": "En'âm, 6/73",
+    "hadith": "Ümmetimin en hayırlıları, görüldüklerinde Allah'ın hatırlandığı kimselerdir.",
+    "hadithSource": "Ahmed b. Hanbel, VI, 409",
+    "quote": "Nasip; çok güzel bir ihtimaldir, Allah'tan gelirse.",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 128,
+    "verse": "Kim Allah'ın yasaklarından sakınırsa, Allah ona bir çıkış yolu ihsan eder.",
+    "verseSource": "Talâk, 65/2",
+    "hadith": "Bütün insanlar hata edicidir. Hata edenlerin en hayırlısı ise tövbe edenlerdir.",
+    "hadithSource": "İbn Mâce, Zühd 30",
+    "quote": "Arayan bulur, inleyen derman bulur.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 129,
+    "verse": "Sen af yolunu tut, iyiliği emret ve cahillerden yüz çevir.",
+    "verseSource": "A'râf, 7/199",
+    "hadith": "Hiçbiriniz kendi nefsi için istediğini kardeşi için de istemedikçe tam iman etmiş olmaz.",
+    "hadithSource": "Müslim, Îmân 71",
+    "quote": "Bir kelebek avcısı bile adımlarını yumuşak atar, sen ki gönül alıcısın; incitme kimseyi.",
+    "quoteSource": "Anonim"
+  },
+  {
+    "id": 130,
+    "verse": "İyilikle kötülük bir olmaz. Sen (kötülüğü) en güzel bir şekilde önle.",
+    "verseSource": "Fussilet, 41/34",
+    "hadith": "Gerçek pehlivan öfkelendiğinde nefsine hakim olandır.",
+    "hadithSource": "Buhârî, Edeb 76",
+    "quote": "Hoşgörü, sevginin en güzel giysisidir.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 131,
+    "verse": "Siz şükredip iman ettikten sonra Allah size ne diye azap etsin?",
+    "verseSource": "Nisâ, 4/147",
+    "hadith": "İki nimet vardır ki insanların çoğu bunda aldanmıştır: Sıhhat ve boş vakit.",
+    "hadithSource": "Tirmizî, Zühd 1",
+    "quote": "Nefsini bilen Rabbini bilir.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 132,
+    "verse": "O (Allah), kullarının tövbesini kabul eden, günahları bağışlayan ve yaptıklarınızı bilendir.",
+    "verseSource": "Şûrâ, 42/25",
+    "hadith": "Her dinin bir ahlakı vardır; İslam'ın ahlakı da hayâdır.",
+    "hadithSource": "İbn Mâce, Zühd 17",
+    "quote": "Tövbe, günahın kirini yıkayan en güzel sudur.",
+    "quoteSource": "İmam Gazali"
+  },
+  {
+    "id": 133,
+    "verse": "Benim rahmetim ise her şeyi kuşatmıştır.",
+    "verseSource": "A'râf, 7/156",
+    "hadith": "Allah merhametlidir, ancak merhametli olanlara rahmet eder.",
+    "hadithSource": "Buhârî, Tevhîd 2",
+    "quote": "Sevgi, şifadır. Sevgi, güçtür. Sevgi, değişimin mührüdür.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 134,
+    "verse": "Biliniz ki Allah, kişi ile kalbi arasına girer.",
+    "verseSource": "Enfâl, 8/24",
+    "hadith": "Dua müminin silahıdır.",
+    "hadithSource": "Hâkim, el-Müstedrek, I, 669",
+    "quote": "Gönül, Allah'ın evidir. Oraya ancak O'nun sevgisi yakışır.",
+    "quoteSource": "Hacı Bayram-ı Veli"
+  },
+  {
+    "id": 135,
+    "verse": "Andolsun biz insanoğlunu şerefli kıldık.",
+    "verseSource": "İsrâ, 17/70",
+    "hadith": "Yetime bakan kimse ile ben cennette şu iki parmak gibi yan yanayız.",
+    "hadithSource": "Buhârî, Edeb 24",
+    "quote": "İnsanın en büyük zenginliği, dürüstlüğüdür.",
+    "quoteSource": "Hz. Ömer (r.a.)"
+  },
+  {
+    "id": 136,
+    "verse": "Eğer Allah size yardım ederse, artık size galip gelecek kimse yoktur.",
+    "verseSource": "Âl-i İmrân, 3/160",
+    "hadith": "Kim kardeşinin ihtiyacını giderirse, Allah da onun ihtiyacını giderir.",
+    "hadithSource": "Ebû Dâvûd, Edeb 60",
+    "quote": "Halk içinde Hak ile beraber olmak, veliliğin şiarıdır.",
+    "quoteSource": "Şah-ı Nakşibend"
+  },
+  {
+    "id": 137,
+    "verse": "Göğü kendi ellerimizle biz kurduk ve biz onu elbette genişletmekteyiz.",
+    "verseSource": "Zâriyât, 51/47",
+    "hadith": "Hiçbir kul, helalinden kazandığı bir maldan daha hayırlı bir şey yememiştir.",
+    "hadithSource": "Buhârî, Büyû 15",
+    "quote": "İlim, aşağıdakileri yukarı çıkarır; cehalet, yukarıdakileri aşağı indirir.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 138,
+    "verse": "Şüphesiz Allah, adaleti, iyilik yapmayı, yakınlara yardım etmeyi emreder.",
+    "verseSource": "Nahl, 16/90",
+    "hadith": "Zenginlik mal çokluğu değil, gönül zenginliğidir.",
+    "hadithSource": "Buhârî, Rikâk 15",
+    "quote": "Cömertlik, dostluğun mayasıdır.",
+    "quoteSource": "İmam Şafiî"
+  },
+  {
+    "id": 139,
+    "verse": "Ey insanlar! Şüphesiz Allah'ın vaadi gerçektir; sakın dünya hayatı sizi aldatmasın.",
+    "verseSource": "Fâtır, 35/5",
+    "hadith": "Söz taşıyan (dedikoducu) cennete giremez.",
+    "hadithSource": "Müslim, Îmân 168",
+    "quote": "Dedikodu, ruhun kiridir.",
+    "quoteSource": "Hasan el-Basri"
+  },
+  {
+    "id": 140,
+    "verse": "Şüphesiz Biz, her şeyi bir ölçüye göre yarattık.",
+    "verseSource": "Kamer, 54/49",
+    "hadith": "Kolaylaştırın, zorlaştırmayın; müjdeleyin, nefret ettirmeyin.",
+    "hadithSource": "Buhârî, İlim 11",
+    "quote": "Kader, insana yazılmış en güzel şiirdir; ancak anlamak için okumak gerekir.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 141,
+    "verse": "De ki: Ey kendilerinin aleyhine aşırı giden kullarım! Allah'ın rahmetinden ümidinizi kesmeyin.",
+    "verseSource": "Zümer, 39/53",
+    "hadith": "Müslümanın müslüman üzerindeki hakkı beştir: Selam almak, hastayı ziyaret etmek, cenazeyi takip etmek, davete icabet etmek, aksırana dua etmek.",
+    "hadithSource": "Buhârî, Cenâiz 2",
+    "quote": "Umutsuzluk, şeytanın en güçlü silahıdır.",
+    "quoteSource": "İmam Gazali"
+  },
+  {
+    "id": 142,
+    "verse": "Yeryüzünde yürüyen her canlının rızkı, ancak Allah'a aittir.",
+    "verseSource": "Hûd, 11/6",
+    "hadith": "Sadaka vermek malı eksiltmez.",
+    "hadithSource": "Müslim, Zekât 69",
+    "quote": "Bölüşürsek tok oluruz, bölünürsek yok oluruz.",
+    "quoteSource": "Yunus Emre"
+  },
+  {
+    "id": 143,
+    "verse": "Müminler ancak kardeştirler. Öyleyse kardeşlerinizin arasını düzeltin.",
+    "verseSource": "Hucurât, 49/10",
+    "hadith": "Haklı bile olsa çekişmeyi bırakan kimse için cennetin köşesinde bir ev yapılacağına kefilim.",
+    "hadithSource": "Ebû Dâvûd, Edeb 7",
+    "quote": "Barış, insanın kendi kalbinde başlar.",
+    "quoteSource": "Şems-i Tebrizi"
+  },
+  {
+    "id": 144,
+    "verse": "Ey iman edenler! Allah'ı çokça zikredin.",
+    "verseSource": "Ahzâb, 33/41",
+    "hadith": "Dile hafif, mizan da ağır ve Rahmân'a sevimli olan iki kelime vardır: 'Sübhânallâhi ve bi hamdihî, sübhânallâhi'l-azîm'.",
+    "hadithSource": "Buhârî, Deavât 65",
+    "quote": "Dilini Allah'ın zikriyle taze tut.",
+    "quoteSource": "Abdülkadir Geylani"
+  },
+  {
+    "id": 145,
+    "verse": "Biz, gökleri, yeri ve ikisi arasında bulunanları hak ve hikmetle yarattık.",
+    "verseSource": "Hicr, 15/85",
+    "hadith": "İki göz vardır ki cehennem ateşi onlara dokunmaz: Allah korkusundan ağlayan göz ve Allah yolunda nöbet bekleyen göz.",
+    "hadithSource": "Tirmizî, Fezâilü'l-Cihâd 12",
+    "quote": "Gözden yaş akmazsa kalp kurumuş demektir.",
+    "quoteSource": "Hz. Ali (r.a.)"
+  },
+  {
+    "id": 146,
+    "verse": "Muhakkak ki Allah, iyilik edenleri sever.",
+    "verseSource": "Bakara, 2/195",
+    "hadith": "Sizden kim bir kötülük görürse onu eliyle düzeltsin; gücü yetmezse diliyle düzeltsin; ona da gücü yetmezse kalbiyle buğzetsin.",
+    "hadithSource": "Müslim, Îmân 78",
+    "quote": "Kötülüğe karşı en iyi cevap, iyiliktir.",
+    "quoteSource": "Hacı Bektaş Veli"
+  },
+  {
+    "id": 147,
+    "verse": "Göklerin ve yerin sırrı Allah'a aittir.",
+    "verseSource": "Nahl, 16/77",
+    "hadith": "Kim Allah'a ve ahiret gününe iman ediyorsa, misafirine ikram etsin.",
+    "hadithSource": "Buhârî, Edeb 31",
+    "quote": "Misafir rızkı ile gelir, günahları siler gider.",
+    "quoteSource": "Hz. Muhammed (s.a.v.)"
+  },
+  {
+    "id": 148,
+    "verse": "Kendileri için hidayet yolu belli olduktan sonra gerisin geri dönenleri şeytan aldatmıştır.",
+    "verseSource": "Muhammed, 47/25",
+    "hadith": "Kişi, arkadaşının dini (yaşayışı) üzeredir. Öyleyse her biriniz kiminle arkadaşlık ettiğine dikkat etsin.",
+    "hadithSource": "Ebû Dâvûd, Edeb 16",
+    "quote": "Bülbül güle, karga çöplüğe götürür.",
+    "quoteSource": "Mevlânâ Celâleddîn-i Rûmî"
+  },
+  {
+    "id": 149,
+    "verse": "Allah'ın size verdiği rızıktan temiz ve helal olarak yiyin.",
+    "verseSource": "Mâide, 5/88",
+    "hadith": "Bedeninde bir et parçası vardır; o düzelirse bütün beden düzelir, bozulursa bütün beden bozulur. Dikkat edin, o kalptir.",
+    "hadithSource": "Buhârî, Îmân 39",
+    "quote": "Midesi haramla dolanın, kalbi imanla dolmaz.",
+    "quoteSource": "İmam Gazali"
+  },
+  {
+    "id": 150,
+    "verse": "Andolsun, sizin için, Allah'ı ve ahiret gününü umanlar ve Allah'ı çokça ananlar için Allah'ın Resulünde güzel bir örnek vardır.",
+    "verseSource": "Ahzâb, 33/21",
+    "hadith": "En hayırlınız, ahlakça en güzel olanınızdır.",
+    "hadithSource": "Buhârî, Menâkıb 23",
+    "quote": "Gülün kokusu nasıl yayılırsa, güzel ahlakın kokusu da öyle yayılır.",
+    "quoteSource": "Sadi Şirazi"
+  }
+]

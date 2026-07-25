@@ -1,0 +1,157 @@
+{
+  "translation": {
+    "common": {
+      "loading": "Ana lodin...",
+      "error": "An sami matsala",
+      "retry": "Sake gwadawa"
+    },
+    "home": {
+      "title": "Lokutan Sallah",
+      "nextPrayer": "Sallah ta gaba",
+      "timeLeft": "Sauran Lokaci",
+      "timeLeftUnits": {
+        "h": "a",
+        "m": "m",
+        "s": "s"
+      },
+      "prayers": {
+        "fajr": "Asuba",
+        "sunrise": "Fitowar rana",
+        "dhuhr": "Azahar",
+        "asr": "La'asar",
+        "maghrib": "Magariba",
+        "isha": "Isha'i"
+      }
+    },
+    "settings": {
+      "title": "Saituna",
+      "language": "Harshe",
+      "theme": "Jigo",
+      "dark": "Duhu",
+      "light": "Haske",
+      "system": "Na'ura"
+    },
+    "qibla": {
+      "title": "Alqibla",
+      "holdFlat": "Rike wayarka a kwance",
+      "calibrating": "Ana saita kamfas...",
+      "found": "Kana fuskantar Alqibla"
+    },
+    "daily": {
+      "title": "Ilhamar Yau",
+      "verse": "Ayar Yau",
+      "hadith": "Hadisin Yau",
+      "quote": "Kalaman Yau",
+      "share": "Raba",
+      "verseBody": "Click to read the verse of the day!",
+      "hadithBody": "Danna don karanta hadisan ranar!",
+      "quoteBody": "Danna don karanta maganar ranar!"
+    },
+    "notifications": {
+      "fajr": {
+        "title": "🕌 Lokacin Asuba",
+        "body": "Lokacin Asuba yayi. Sallah tafi barci."
+      },
+      "sunrise": {
+        "title": "🌅 Fitowar rana",
+        "body": "Rana ta fito."
+      },
+      "dhuhr": {
+        "title": "🕌 Lokacin Azahar",
+        "body": "Lokacin sallar Azahar yayi."
+      },
+      "asr": {
+        "title": "🕌 Lokacin La'asar",
+        "body": "Lokacin sallar La'asar yayi."
+      },
+      "maghrib": {
+        "title": "🕌 Lokacin Magariba",
+        "body": "Lokacin sallar Magariba yayi."
+      },
+      "isha": {
+        "title": "🕌 Lokacin Isha'i",
+        "body": "Lokacin sallar Isha'i yayi."
+      }
+    },
+    "tasbih": {
+      "title": "Tasbihi",
+      "subtitle": "Lallai da ambaton Allah ne zukatun suke nutsuwa.",
+      "tapHint": "DANA DON QARAWA",
+      "reset": "Sake Saita",
+      "savedNotice": "An ajiye cigabanka.",
+      "addCustom": "+ Sabo",
+      "modalTitle": "Ƙara Zikiri",
+      "dhikrName": "Sunan Zikiri (msl. Subhanallah)",
+      "targetCount": "Manufa (msl. 300)",
+      "save": "Ajiye",
+      "cancel": "Soke",
+      "namesAndDuas": "Sunaye & Addu'o'i",
+      "names": "Sunaye 99",
+      "duas": "Addu'o'i",
+      "defaultInfinite": "Zikiri na gaba ɗaya",
+      "default1": "Subhanallah",
+      "default2": "Alhamdulillah",
+      "default3": "Allahu Akbar",
+      "default4": "La ilaha illallah",
+      "default5": "Astaghfirullah",
+      "milestoneTitle": "🎉 Taya Murna!",
+      "milestoneBody": "MashaAllah, ka kai zikirai {{total}} a wannan watan!",
+      "progressBtn": "Cigabana",
+      "progressTitle": "Cigaban Tasbihi na Wata",
+      "totalThisMonth": "Jimillar Wannan Watan:",
+      "noData": "Babu bayanai na wannan watan.",
+      "resetConfirmTitle": "Sake saita",
+      "resetConfirmMsg": "Ka tabbata kana son sake saita?",
+      "yes": "Eh",
+      "no": "A'a"
+    },
+    "update": {
+      "title": "Akwai Sabon Sabuntawa!",
+      "forceTitle": "Dole Sabuntawa",
+      "message": "Sabon sigar app ɗinmu ya fito.",
+      "forceMessage": "Da fatan za a sabunta zuwa sabon siga.",
+      "updateBtn": "Sabunta Yanzu",
+      "laterBtn": "Daga Baya",
+      "releaseNotes": "Bayanan Siga:"
+    },
+    "quran": {
+      "title": "Alqur'ani Mai Girma",
+      "subtitle": "Surori 114 • Shafuka 604",
+      "tabBrowse": "Binciko",
+      "tabHistory": "Karatun Qarshe",
+      "featuredSurahs": "Zababbun Surori",
+      "seeAll": "Duba Duka",
+      "juzs": "Juzu'i",
+      "juzCount": "Juzu'i 30",
+      "juzNum": "Juzu'i {{num}}",
+      "downloading": "Ana saukewa... {{progress}}%",
+      "downloadToRead": "Sauke don karantawa",
+      "verseCount": "Ayoyi {{count}}",
+      "allSurahs": "Dukkan Surori",
+      "searchPlaceholder": "Sunan Sura ko lamba...",
+      "lastRead": "Karatun Qarshe",
+      "pageNum": "Shafi {{num}}",
+      "noHistoryTitle": "Baka da tarihin karatu tukunna.",
+      "pastReadings": "Tarihin Karatu",
+      "noPastReadings": "Ba a sami tarihin karatu ba.",
+      "previous": "Baya",
+      "next": "Gaba",
+      "noData": "Babu bayanai da aka samu.",
+      "styleTitle": "Zaɓin Tsarin Rubutu",
+      "styleSubtitle": "Zaɓi tsarin da kake son karanta Alqur'ani.",
+      "imlaeiTitle": "Tsarin Turkiyya",
+      "imlaeiDesc": "Tsari mai sauki.",
+      "uthmaniTitle": "Tsarin Uthmani",
+      "uthmaniDesc": "Tsarin Larabci mafi shahara.",
+      "indopakTitle": "Tsarin Indo-Pak",
+      "indopakDesc": "Gaurayen tsarin Asiya ta Kudu.",
+      "saveAndContinue": "Ajiye & Cigaba",
+      "oldDownloadsWillBeDeleted": "Za a goge tsoffin saukewa",
+      "styleChangeWarning": "Idan ka canza tsari, za a goge tsoffin saukewa. Cigaba?",
+      "cancel": "Soke",
+      "yesChange": "Eh, Canza",
+      "error": "Matsala",
+      "downloadError": "An sami matsala wajen saukewa."
+    }
+  }
+}

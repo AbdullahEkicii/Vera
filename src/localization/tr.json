@@ -1,0 +1,200 @@
+{
+  "translation": {
+    "common": {
+      "loading": "Yükleniyor...",
+      "error": "Bir hata oluştu",
+      "retry": "Tekrar Dene"
+    },
+    "home": {
+      "title": "Ezan Vakitleri",
+      "nextPrayer": "Sonraki Vakit",
+      "timeLeft": "Kalan Süre",
+      "timeLeftUnits": {
+        "h": "sa",
+        "m": "dk",
+        "s": "sn"
+      },
+      "prayers": {
+        "fajr": "İmsak",
+        "sunrise": "Güneş",
+        "dhuhr": "Öğle",
+        "asr": "İkindi",
+        "maghrib": "Akşam",
+        "isha": "Yatsı"
+      }
+    },
+    "settings": {
+      "title": "Ayarlar",
+      "language": "Dil",
+      "theme": "Tema",
+      "dark": "Koyu",
+      "light": "Açık",
+      "system": "Sistem",
+      "calcMethod": "Hesaplama Yöntemi",
+      "methods": {
+        "diyanet": "Diyanet İşleri (Türkiye)",
+        "isna": "ISNA (Kuzey Amerika)",
+        "mwl": "Müslüman Dünya Birliği",
+        "ummAlQura": "Umm Al-Qura (Mekke)",
+        "egypt": "Mısır Genel Heyeti",
+        "karachi": "Karaçi İslami İlimler",
+        "france": "Fransa İslam Kurulu (UOIF)",
+        "russia": "Rusya Müslümanları İdaresi"
+      }
+    },
+    "qibla": {
+      "title": "Kıble",
+      "holdFlat": "Telefonunuzu düz tutun",
+      "calibrating": "Pusula hazırlanıyor...",
+      "found": "Kıble yönündesiniz",
+      "permissionRequired": "Konum İzni Gerekli",
+      "permissionDenied": "Kıble yönünü göstermek için konum izni gereklidir. Lütfen ayarlardan izin verin.",
+      "openSettings": "Ayarlara Git",
+      "description": "Kabe'nin yönünü bulmak için telefonu yavaşça çevirin",
+      "hint": "Kıble yönüne geldiğinizde pusula yeşile döner ve titreşim hissedersiniz.",
+      "errorCompass": "Pusula veya konum verisi alınamadı.",
+      "angle": "Açı",
+      "distance": "Mesafe",
+      "status": "Durum",
+      "aligned": "Hizalı",
+      "aligning": "Döndürün",
+      "alignedSuccess": "🕌 Kıble yönündesiniz!"
+    },
+    "daily": {
+      "title": "Günün İçerikleri",
+      "verse": "Günün Ayeti",
+      "hadith": "Günün Hadisi",
+      "quote": "Günün Sözü",
+      "share": "Paylaş",
+      "verseBody": "Günün ayetini okumak için tıklayın!",
+      "hadithBody": "Günün hadisini okumak için tıklayın!",
+      "quoteBody": "Günün sözünü okumak için tıklayın!"
+    },
+    "search": {
+      "title": "Konum Seç",
+      "subtitle": "Dünya genelinde şehir arayın",
+      "placeholder": "örn. Aydın, Paris, London...",
+      "recent": "Son Aramalar",
+      "useGPS": "Mevcut Konumu Kullan",
+      "gpsDenied": "Konum izni reddedildi.",
+      "gpsError": "Konum alınamadı."
+    },
+    "notifications": {
+      "exactAlert": "Ezan Vakti Bildirimi",
+      "warnAlert": "25 Dakika Kala Uyarısı",
+      "warningTitle": "Vakit Yaklaşıyor",
+      "warningBody": "{{prayer}} vaktine 25 dakika kaldı.",
+      "bannerTitle": "Bildirimleri Aktifleştirin",
+      "bannerDesc": "Namaz vakitlerinden haberdar olabilmek için bildirim izni verin.",
+      "bannerBtn": "İzin Ver",
+      "fajr": {
+        "title": "🕌 İmsak Vakti",
+        "body": "Günün ilk ışıklarıyla birlikte sabah namazı vakti girdi. Namaz uykudan hayırlıdır."
+      },
+      "sunrise": {
+        "title": "🌅 Güneş Doğdu",
+        "body": "Güneş doğdu. Sabah namazı vakti çıktı."
+      },
+      "dhuhr": {
+        "title": "🕌 Öğle Vakti",
+        "body": "Öğle namazı vakti girdi. Dünya işlerine kısa bir ara verip huzura durma zamanı."
+      },
+      "asr": {
+        "title": "🕌 İkindi Vakti",
+        "body": "İkindi namazı vakti girdi. Günün yorgunluğunu ibadetle atma vakti."
+      },
+      "maghrib": {
+        "title": "🕌 Akşam Vakti",
+        "body": "Akşam ezanı okunuyor. Günü şükürle kapatma vakti."
+      },
+      "isha": {
+        "title": "🕌 Yatsı Vakti",
+        "body": "Yatsı namazı vakti girdi. Günü ibadetle huzur içinde tamamlama zamanı."
+      }
+    },
+    "tasbih": {
+      "title": "Zikirmatik",
+      "recTitle": "Günün Zikir Önerisi",
+      "recBtnText": "Zikre Başla",
+      "soundOn": "Ses Açık",
+      "soundOff": "Ses Kapalı",
+      "subtitle": "Kalpler ancak Allah'ı anmakla huzur bulur.",
+      "tapHint": "SAYACI ARTIRMAK İÇİN DOKUN",
+      "reset": "Sıfırla",
+      "savedNotice": "Yeniden girdiğinizde kaldığınız yerden devam edersiniz.",
+      "addCustom": "+ Yeni Ekle",
+      "modalTitle": "Yeni Zikir Ekle",
+      "dhikrName": "Zikir Adı (Örn: Sübhanallah)",
+      "targetCount": "Hedef Sayı (Örn: 300)",
+      "save": "Kaydet",
+      "cancel": "İptal",
+      "namesAndDuas": "Esmaül Hüsna ve Dualar",
+      "names": "Esmaül Hüsna",
+      "duas": "Dualar",
+      "defaultInfinite": "Serbest Zikir",
+      "default1": "Sübhanallah",
+      "default2": "Elhamdülillah",
+      "default3": "Allahu Ekber",
+      "default4": "Lâ ilâhe illallah",
+      "default5": "Estağfirullah",
+      "milestoneTitle": "🎉 Tebrikler!",
+      "milestoneBody": "Maşallah, bu ay toplam {{total}} zikre ulaştınız!",
+      "progressBtn": "Zikir İlerlemem",
+      "progressTitle": "Aylık Zikir İlerlemesi",
+      "totalThisMonth": "Bu Ayki Toplam:",
+      "noData": "Bu ay için henüz kayıt yok.",
+      "resetConfirmTitle": "Sayacı Sıfırla",
+      "resetConfirmMsg": "Sayacı sıfırlamak istediğinize emin misiniz? (Bu işlem aylık istatistiklerinizi etkilemez)",
+      "yes": "Evet",
+      "no": "Hayır"
+    },
+    "update": {
+      "title": "Yeni Güncelleme Mevcut!",
+      "forceTitle": "Zorunlu Güncelleme",
+      "message": "Uygulamamızın yeni versiyonu yayınlandı. Daha iyi bir deneyim için lütfen güncelleyin.",
+      "forceMessage": "Uygulamamızı kullanmaya devam edebilmek için lütfen son sürüme güncelleyin.",
+      "updateBtn": "Şimdi Güncelle",
+      "laterBtn": "Daha Sonra",
+      "releaseNotes": "Sürüm Notları:"
+    },
+    "quran": {
+      "title": "Kur'an-ı Kerim",
+      "subtitle": "114 Sure • 604 Sayfa",
+      "tabBrowse": "Göz At",
+      "tabHistory": "Kaldığım Yer",
+      "featuredSurahs": "Öne Çıkan Sureler",
+      "seeAll": "Tümünü Gör",
+      "juzs": "Cüzler",
+      "juzCount": "30 Cüz",
+      "juzNum": "{{num}}. Cüz",
+      "downloading": "İndiriliyor... %{{progress}}",
+      "downloadToRead": "Okumak için indirin",
+      "verseCount": "{{count}} ayet",
+      "allSurahs": "Tüm Sureler",
+      "searchPlaceholder": "Sure adı veya numarası...",
+      "lastRead": "Son Okunan",
+      "pageNum": "{{num}}. Sayfa",
+      "noHistoryTitle": "Henüz okuma geçmişiniz bulunmuyor.",
+      "pastReadings": "Geçmiş Okumalar",
+      "noPastReadings": "Geçmiş okuma kaydı bulunamadı.",
+      "previous": "Önceki",
+      "next": "Sonraki",
+      "noData": "Bu sayfada veri bulunamadı.\nCüzün indirilip indirilmediğini kontrol edin.",
+      "styleTitle": "Kur'an Hat Stili Seçimi",
+      "styleSubtitle": "Kur'an-ı Kerim'i hangi metin formatında okumak istediğinizi seçin. Bu ayarı daha sonra sağ üstteki ayarlar kısmından istediğiniz zaman değiştirebilirsiniz.",
+      "imlaeiTitle": "Türkiye & Diyanet Hattı",
+      "imlaeiDesc": "Türkçe okuyucular için standart, sadeleştirilmiş hat.",
+      "uthmaniTitle": "Uthmani (Osmani) Hat",
+      "uthmaniDesc": "Medine Mushafı. Tüm dünyada yaygın Arapça hattı.",
+      "indopakTitle": "Indo-Pak Hat",
+      "indopakDesc": "Hindistan, Pakistan ve Güney Asya bölgesi için kalın hat.",
+      "saveAndContinue": "Kaydet ve Devam Et",
+      "oldDownloadsWillBeDeleted": "Eski İndirmeler Silinecek",
+      "styleChangeWarning": "Kur'an hat stilini değiştirdiğinizde, daha önceden indirmiş olduğunuz cüzlerin metinleri yeni formatla uyuşmayacağı için silinecektir. Devam etmek istiyor musunuz?",
+      "cancel": "İptal",
+      "yesChange": "Evet, Değiştir",
+      "error": "Hata",
+      "downloadError": "Font indirilirken bir hata oluştu. Lütfen internet bağlantınızı kontrol edin."
+    }
+  }
+}

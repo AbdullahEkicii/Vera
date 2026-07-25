@@ -1,0 +1,157 @@
+{
+  "translation": {
+    "common": {
+      "loading": "Memuat...",
+      "error": "Terjadi kesalahan",
+      "retry": "Coba lagi"
+    },
+    "home": {
+      "title": "Waktu Shalat",
+      "nextPrayer": "Shalat Berikutnya",
+      "timeLeft": "Sisa Waktu",
+      "timeLeftUnits": {
+        "h": "j",
+        "m": "m",
+        "s": "d"
+      },
+      "prayers": {
+        "fajr": "Subuh",
+        "sunrise": "Terbit",
+        "dhuhr": "Dzuhur",
+        "asr": "Ashar",
+        "maghrib": "Maghrib",
+        "isha": "Isya"
+      }
+    },
+    "settings": {
+      "title": "Pengaturan",
+      "language": "Bahasa",
+      "theme": "Tema",
+      "dark": "Gelap",
+      "light": "Terang",
+      "system": "Sistem"
+    },
+    "qibla": {
+      "title": "Kiblat",
+      "holdFlat": "Pegang ponsel dengan datar",
+      "calibrating": "Mengkalibrasi kompas...",
+      "found": "Anda menghadap Kiblat"
+    },
+    "daily": {
+      "title": "Inspirasi Harian",
+      "verse": "Ayat Hari Ini",
+      "hadith": "Hadits Hari Ini",
+      "quote": "Kutipan Hari Ini",
+      "share": "Bagikan",
+      "verseBody": "Klik untuk membaca ayat hari ini!",
+      "hadithBody": "Klik untuk membaca hadis hari ini!",
+      "quoteBody": "Klik untuk membaca kutipan hari ini!"
+    },
+    "notifications": {
+      "fajr": {
+        "title": "🕌 Waktu Subuh",
+        "body": "Telah masuk waktu shalat Subuh. Shalat lebih baik dari pada tidur."
+      },
+      "sunrise": {
+        "title": "🌅 Matahari Terbit",
+        "body": "Matahari telah terbit. Waktu Subuh telah berakhir."
+      },
+      "dhuhr": {
+        "title": "🕌 Waktu Dzuhur",
+        "body": "Telah masuk waktu shalat Dzuhur. Sejenak istirahat dan temukan kedamaian."
+      },
+      "asr": {
+        "title": "🕌 Waktu Ashar",
+        "body": "Telah masuk waktu shalat Ashar."
+      },
+      "maghrib": {
+        "title": "🕌 Waktu Maghrib",
+        "body": "Telah masuk waktu shalat Maghrib."
+      },
+      "isha": {
+        "title": "🕌 Waktu Isya",
+        "body": "Telah masuk waktu shalat Isya. Akhiri harimu dengan kedamaian."
+      }
+    },
+    "tasbih": {
+      "title": "Tasbih",
+      "subtitle": "Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram.",
+      "tapHint": "KETUK UNTUK MENAMBAH",
+      "reset": "Atur Ulang",
+      "savedNotice": "Progres Anda disimpan dan akan dilanjutkan saat Anda kembali.",
+      "addCustom": "+ Baru",
+      "modalTitle": "Tambah Dzikir Khusus",
+      "dhikrName": "Nama Dzikir (misal: Subhanallah)",
+      "targetCount": "Target (misal: 300)",
+      "save": "Simpan",
+      "cancel": "Batal",
+      "namesAndDuas": "Asmaul Husna & Doa",
+      "names": "99 Nama",
+      "duas": "Doa",
+      "defaultInfinite": "Dzikir Bebas",
+      "default1": "Subhanallah",
+      "default2": "Alhamdulillah",
+      "default3": "Allahu Akbar",
+      "default4": "La ilaha illallah",
+      "default5": "Astaghfirullah",
+      "milestoneTitle": "🎉 Selamat!",
+      "milestoneBody": "Masya Allah, Anda telah mencapai {{total}} dzikir bulan ini!",
+      "progressBtn": "Progres Saya",
+      "progressTitle": "Progres Dzikir Bulanan",
+      "totalThisMonth": "Total Bulan Ini:",
+      "noData": "Belum ada data untuk bulan ini.",
+      "resetConfirmTitle": "Atur Ulang Penghitung",
+      "resetConfirmMsg": "Apakah Anda yakin ingin mengatur ulang penghitung? (Ini tidak memengaruhi statistik bulanan Anda)",
+      "yes": "Ya",
+      "no": "Tidak"
+    },
+    "update": {
+      "title": "Pembaruan Tersedia!",
+      "forceTitle": "Pembaruan Diperlukan",
+      "message": "Versi baru aplikasi kami tersedia. Harap perbarui untuk pengalaman yang lebih baik.",
+      "forceMessage": "Harap perbarui ke versi terbaru untuk terus menggunakan aplikasi.",
+      "updateBtn": "Perbarui Sekarang",
+      "laterBtn": "Nanti",
+      "releaseNotes": "Catatan Rilis:"
+    },
+    "quran": {
+      "title": "Al-Qur'an",
+      "subtitle": "114 Surah • 604 Halaman",
+      "tabBrowse": "Jelajahi",
+      "tabHistory": "Terakhir Dibaca",
+      "featuredSurahs": "Surah Pilihan",
+      "seeAll": "Lihat Semua",
+      "juzs": "Juz",
+      "juzCount": "30 Juz",
+      "juzNum": "Juz {{num}}",
+      "downloading": "Mengunduh... {{progress}}%",
+      "downloadToRead": "Unduh untuk membaca",
+      "verseCount": "{{count}} ayat",
+      "allSurahs": "Semua Surah",
+      "searchPlaceholder": "Nama atau nomor Surah...",
+      "lastRead": "Terakhir Dibaca",
+      "pageNum": "Halaman {{num}}",
+      "noHistoryTitle": "Anda belum memiliki riwayat membaca.",
+      "pastReadings": "Riwayat Membaca",
+      "noPastReadings": "Tidak ada riwayat membaca ditemukan.",
+      "previous": "Sebelumnya",
+      "next": "Berikutnya",
+      "noData": "Tidak ada data ditemukan di halaman ini.\nPeriksa apakah Juz sudah diunduh.",
+      "styleTitle": "Pilihan Gaya Tulisan",
+      "styleSubtitle": "Pilih format tulisan yang Anda inginkan untuk membaca Al-Qur'an. Anda dapat mengubahnya nanti.",
+      "imlaeiTitle": "Gaya Turki & Diyanet",
+      "imlaeiDesc": "Standar, tulisan yang disederhanakan.",
+      "uthmaniTitle": "Gaya Utsmani",
+      "uthmaniDesc": "Mushaf Madinah. Gaya tulisan Arab paling umum di seluruh dunia.",
+      "indopakTitle": "Gaya Indo-Pak",
+      "indopakDesc": "Tulisan tebal yang umum digunakan di Asia Selatan.",
+      "saveAndContinue": "Simpan dan Lanjutkan",
+      "oldDownloadsWillBeDeleted": "Unduhan Lama Akan Dihapus",
+      "styleChangeWarning": "Saat Anda mengubah gaya tulisan, teks juz yang sebelumnya diunduh akan dihapus. Apakah Anda ingin melanjutkan?",
+      "cancel": "Batal",
+      "yesChange": "Ya, Ubah",
+      "error": "Kesalahan",
+      "downloadError": "Terjadi kesalahan saat mengunduh font. Periksa koneksi internet Anda."
+    }
+  }
+}
