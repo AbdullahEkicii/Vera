@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,35 +8,61 @@ import {
   Platform,
   ActivityIndicator,
   useWindowDimensions,
+  Modal,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Feather, Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { FadeIn, Easing, useSharedValue, withTiming, useAnimatedStyle } from 'react-native-reanimated';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+
 import { useTheme } from '../context/ThemeContext';
 import { useQuranSettings } from '../context/QuranSettingsContext';
 import { saveLastRead } from '../services/quranStorage';
-import { getVersesByPage, getJuzStartPage } from '../services/quranRepository';
+import { SURAHS, getJuzForPage } from '../data/quranMeta';
+import {
+  checkJuzStatus,
+  downloadJuz,
+  getVersesByPage,
+  getJuzStartPage,
+} from '../services/quranRepository';
 import { Verse } from '../services/quranDatabase';
-import { SURAHS } from '../data/quranMeta';
 import { QuranStyleSelector } from '../components/QuranStyleSelector';
 
-// ── Tema Sabitleri ────────────────────────────────────────────────────────────
-const THEME = {
-  dark: {
-    bg: '#110D06',
-    pageBg: '#1A1208',
-    border: '#3A2E1A',
-    text: '#E2CFA0',
-    textSecondary: '#A08060',
-    primary: '#C9A84C',
-    header: 'rgba(17,13,6,0.97)',
-    footer: 'rgba(17,13,6,0.97)',
-    surahDivider: '#2A2010',
-  },
-  light: {
+// ── Tema Sabitleri ve Tipleri ──────────────────────────────────────────────────
+const QURAN_THEME_STORAGE_KEY = 'QURAN_READING_THEME_KEY';
+
+export type QuranThemeKey = 'sepia' | 'dark' | 'white' | 'green' | 'navy';
+
+export interface QuranTheme {
+  key: QuranThemeKey;
+  nameTR: string;
+  nameEN: string;
+  previewBg: string;
+  previewBorder: string;
+  previewText: string;
+  bg: string;
+  pageBg: string;
+  border: string;
+  text: string;
+  textSecondary: string;
+  primary: string;
+  header: string;
+  footer: string;
+  surahDivider: string;
+  isDarkContent: boolean;
+}
+
+export const QURAN_THEMES: Record<QuranThemeKey, QuranTheme> = {
+  sepia: {
+    key: 'sepia',
+    nameTR: 'Krem / Sepia',
+    nameEN: 'Cream / Sepia',
+    previewBg: '#FDF8ED',
+    previewBorder: '#D4C9AE',
+    previewText: '#2C1A0A',
     bg: '#EDE8DC',
     pageBg: '#FDF8ED',
     border: '#D4C9AE',
@@ -46,10 +72,157 @@ const THEME = {
     header: 'rgba(253,248,237,0.97)',
     footer: 'rgba(253,248,237,0.97)',
     surahDivider: '#EDE3CC',
+    isDarkContent: false,
+  },
+  dark: {
+    key: 'dark',
+    nameTR: 'Gece / Siyah',
+    nameEN: 'Dark Night',
+    previewBg: '#1A1208',
+    previewBorder: '#3A2E1A',
+    previewText: '#E2CFA0',
+    bg: '#110D06',
+    pageBg: '#1A1208',
+    border: '#3A2E1A',
+    text: '#E2CFA0',
+    textSecondary: '#A08060',
+    primary: '#C9A84C',
+    header: 'rgba(17,13,6,0.97)',
+    footer: 'rgba(17,13,6,0.97)',
+    surahDivider: '#2A2010',
+    isDarkContent: true,
+  },
+  white: {
+    key: 'white',
+    nameTR: 'Saf Beyaz',
+    nameEN: 'Classic White',
+    previewBg: '#FFFFFF',
+    previewBorder: '#CBD5E1',
+    previewText: '#0F172A',
+    bg: '#F1F5F9',
+    pageBg: '#FFFFFF',
+    border: '#CBD5E1',
+    text: '#0F172A',
+    textSecondary: '#64748B',
+    primary: '#0284C7',
+    header: 'rgba(255,255,255,0.97)',
+    footer: 'rgba(255,255,255,0.97)',
+    surahDivider: '#E2E8F0',
+    isDarkContent: false,
+  },
+  green: {
+    key: 'green',
+    nameTR: 'Safir Yeşil',
+    nameEN: 'Emerald Sage',
+    previewBg: '#EAF3EE',
+    previewBorder: '#A3D0B9',
+    previewText: '#0D3B2E',
+    bg: '#D5E5DB',
+    pageBg: '#EAF3EE',
+    border: '#A3D0B9',
+    text: '#0D3B2E',
+    textSecondary: '#3B7A68',
+    primary: '#059669',
+    header: 'rgba(234,243,238,0.97)',
+    footer: 'rgba(234,243,238,0.97)',
+    surahDivider: '#CCE3D6',
+    isDarkContent: false,
+  },
+  navy: {
+    key: 'navy',
+    nameTR: 'Gece Mavisi',
+    nameEN: 'Midnight Navy',
+    previewBg: '#1E293B',
+    previewBorder: '#334155',
+    previewText: '#F1F5F9',
+    bg: '#0F172A',
+    pageBg: '#1E293B',
+    border: '#334155',
+    text: '#F1F5F9',
+    textSecondary: '#94A3B8',
+    primary: '#38BDF8',
+    header: 'rgba(15,23,42,0.97)',
+    footer: 'rgba(15,23,42,0.97)',
+    surahDivider: '#1E293B',
+    isDarkContent: true,
   },
 };
 
 const BISMILLAH = 'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيمِ';
+
+const SurahEndDivider = ({ surahNo, colors }: { surahNo: number; colors: QuranTheme }) => {
+  const { t } = useTranslation();
+  const surah = SURAHS.find((s) => s.number === surahNo);
+  const nextSurah = SURAHS.find((s) => s.number === surahNo + 1);
+
+  if (!surah) return null;
+
+  return (
+    <View style={[surahEndStyles.container, { borderColor: colors.primary + '40', backgroundColor: colors.surahDivider }]}>
+      <View style={[surahEndStyles.iconBadge, { backgroundColor: colors.primary + '25' }]}>
+        <Ionicons name="sparkles" size={18} color={colors.primary} />
+      </View>
+
+      <Text style={[surahEndStyles.title, { color: colors.text }]}>
+        ✨ {surah.nameTurkish} {t('quran.surahEnd', 'End of Surah')}
+      </Text>
+
+      <Text style={[surahEndStyles.subtitle, { color: colors.textSecondary }]}>
+        {t('quran.totalVersesRead', 'All {{count}} Verses Read', { count: surah.verseCount })}
+      </Text>
+
+      {nextSurah && (
+        <View style={[surahEndStyles.nextSurahPill, { backgroundColor: colors.primary + '15', borderColor: colors.primary + '35' }]}>
+          <Text style={[surahEndStyles.nextSurahText, { color: colors.primary }]}>
+            {t('quran.nextSurah', 'Next Surah')}: {nextSurah.nameTurkish} ({nextSurah.nameArabic}) ➔
+          </Text>
+        </View>
+      )}
+    </View>
+  );
+};
+
+const surahEndStyles = StyleSheet.create({
+  container: {
+    marginVertical: 24,
+    borderWidth: 1.5,
+    borderRadius: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 14,
+    alignItems: 'center',
+    gap: 6,
+  },
+  iconBadge: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 2,
+  },
+  title: {
+    fontSize: 16,
+    fontFamily: 'Outfit_700Bold',
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontSize: 12,
+    fontFamily: 'Outfit_500Medium',
+    textAlign: 'center',
+    opacity: 0.85,
+  },
+  nextSurahPill: {
+    marginTop: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  nextSurahText: {
+    fontSize: 12,
+    fontFamily: 'Outfit_600SemiBold',
+  },
+});
 
 // ── Sure Başlığı Komponenti ────────────────────────────────────────────────
 const SurahHeader = ({
@@ -58,21 +231,19 @@ const SurahHeader = ({
   fontFamily,
 }: {
   surahNo: number;
-  colors: typeof THEME.dark;
+  colors: QuranTheme;
   fontFamily: string;
 }) => {
   const surah = SURAHS.find((s) => s.number === surahNo);
   if (!surah) return null;
 
-  // Fatiha (1) ve Tevbe (9) için Besmele yok
   const showBismillah = surahNo !== 9;
 
   return (
     <View style={[surahHeaderStyles.container, { borderColor: colors.border, backgroundColor: colors.surahDivider }]}>
-      {/* Dekoratif çizgiler */}
       <View style={[surahHeaderStyles.decorLine, { backgroundColor: colors.primary }]} />
-      <View style={[surahHeaderStyles.inner]}>
-        <Text style={[surahHeaderStyles.arabicName, { color: colors.primary }]}>{surah.nameArabic}</Text>
+      <View style={surahHeaderStyles.inner}>
+        <Text style={[surahHeaderStyles.arabicName, { color: colors.primary, fontFamily }]}>{surah.nameArabic}</Text>
         <Text style={[surahHeaderStyles.turkishName, { color: colors.textSecondary }]}>{surah.nameTurkish}</Text>
         <Text style={[surahHeaderStyles.verseCount, { color: colors.textSecondary }]}>{surah.verseCount} Ayet</Text>
       </View>
@@ -132,13 +303,14 @@ const PageContent = React.memo(({
   colors,
   fontFamily,
   baseFontSize,
+  isLandscape = false,
 }: {
   verses: Verse[];
-  colors: typeof THEME.dark;
+  colors: QuranTheme;
   fontFamily: string;
   baseFontSize: number;
+  isLandscape?: boolean;
 }) => {
-  // Sayfadaki sureleri grupla
   const surahGroups: { surahNo: number; verses: Verse[] }[] = [];
   for (const verse of verses) {
     const last = surahGroups[surahGroups.length - 1];
@@ -149,38 +321,48 @@ const PageContent = React.memo(({
     }
   }
 
+  const lineHeightCalc = baseFontSize * (isLandscape ? 1.85 : 2);
+
   return (
     <>
-      {surahGroups.map((group) => (
-        <View key={group.surahNo}>
-          {/* Sayfada yeni bir sure başlıyorsa ve surenin ilk ayeti 1 ise başlık göster */}
-          {group.verses[0].ayahNo === 1 && (
-            <SurahHeader surahNo={group.surahNo} colors={colors} fontFamily={fontFamily} />
-          )}
-          <Text style={[styles.arabicText, { color: colors.text, fontFamily, fontSize: baseFontSize, lineHeight: baseFontSize * 2 }]}>
-            {group.verses.map((verse) => (
-              <Text key={verse.id}>
-                {verse.arabicText}
-                <Text style={[styles.verseNumber, { color: colors.primary, fontFamily }]}>
-                  {' '}
-                  ﴿{verse.ayahNo}﴾{' '}
+      {surahGroups.map((group) => {
+        const surahInfo = SURAHS.find((s) => s.number === group.surahNo);
+        const lastAyahOnPage = group.verses[group.verses.length - 1];
+        const isSurahCompletedOnPage = surahInfo && lastAyahOnPage && lastAyahOnPage.ayahNo === surahInfo.verseCount;
+
+        return (
+          <View key={group.surahNo}>
+            {group.verses[0].ayahNo === 1 && (
+              <SurahHeader surahNo={group.surahNo} colors={colors} fontFamily={fontFamily} />
+            )}
+            <Text style={[styles.arabicText, { color: colors.text, fontFamily, fontSize: baseFontSize, lineHeight: lineHeightCalc }]}>
+              {group.verses.map((verse) => (
+                <Text key={verse.id}>
+                  {verse.arabicText}
+                  <Text style={[styles.verseNumber, { color: colors.primary, fontFamily }]}>
+                    {' '}
+                    ﴿{verse.ayahNo}﴾{' '}
+                  </Text>
                 </Text>
-              </Text>
-            ))}
-          </Text>
-        </View>
-      ))}
+              ))}
+            </Text>
+
+            {isSurahCompletedOnPage && (
+              <SurahEndDivider surahNo={group.surahNo} colors={colors} />
+            )}
+          </View>
+        );
+      })}
     </>
   );
 });
-PageContent.displayName = 'PageContent';
 
 // ── Ana Ekran ─────────────────────────────────────────────────────────────────
 export default function QuranReadingScreen() {
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const { isDark: appIsDark, isFullscreen } = useTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isLandscape = width > height;
 
   const params = useLocalSearchParams();
@@ -193,28 +375,67 @@ export default function QuranReadingScreen() {
   const [page, setPage] = useState<number>(initialPage || 1);
   const [verses, setVerses] = useState<Verse[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(appIsDark);
+
+  const [themeKey, setThemeKey] = useState<QuranThemeKey>(appIsDark ? 'dark' : 'sepia');
+  const [themeModalVisible, setThemeModalVisible] = useState(false);
   const [styleSelectorVisible, setStyleSelectorVisible] = useState(false);
 
-  const { scriptType, isFontLoaded, fontSizeMultiplier, isStyleSelected } = useQuranSettings();
-  
-  const customFontFamily = (scriptType !== 'quran-imlaei' && isFontLoaded) ? scriptType : 'serif';
-  // IndoPak generally needs a larger base font size to be readable
-  const defaultFontSize = scriptType === 'quran-indopak' ? 32 : 26;
+  useEffect(() => {
+    AsyncStorage.getItem(QURAN_THEME_STORAGE_KEY)
+      .then((saved: string | null) => {
+        if (saved && saved in QURAN_THEMES) {
+          setThemeKey(saved as QuranThemeKey);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const changeTheme = (key: QuranThemeKey) => {
+    setThemeKey(key);
+    AsyncStorage.setItem(QURAN_THEME_STORAGE_KEY, key).catch(() => {});
+  };
+
+  const { scriptType, isFontLoaded, fontSizeMultiplier, setFontSizeMultiplier, isStyleSelected } = useQuranSettings();
+
+  const increaseFontSize = () => {
+    if (setFontSizeMultiplier) {
+      const next = Math.min(2.2, Math.round((fontSizeMultiplier + 0.15) * 100) / 100);
+      setFontSizeMultiplier(next);
+    }
+  };
+
+  const decreaseFontSize = () => {
+    if (setFontSizeMultiplier) {
+      const next = Math.max(0.75, Math.round((fontSizeMultiplier - 0.15) * 100) / 100);
+      setFontSizeMultiplier(next);
+    }
+  };
+
+  const customFontFamily = isFontLoaded ? scriptType : 'serif';
+  const defaultFontSize = scriptType === 'quran-indopak' ? 32 : (scriptType === 'quran-husrev' ? 36 : 26);
   const currentFontSize = defaultFontSize * fontSizeMultiplier;
 
-  const colors = isDarkMode ? THEME.dark : THEME.light;
+  const colors = QURAN_THEMES[themeKey] || QURAN_THEMES.sepia;
 
-  // Footer görünürlüğü (dokunuşta toggle)
-  const footerOpacity = useSharedValue(1);
+  // UI Görünürlüğü (dokunuşta tam ekran)
   const [footerVisible, setFooterVisible] = useState(true);
-  const animatedFooter = useAnimatedStyle(() => ({ opacity: footerOpacity.value }));
+  const uiVisible = useSharedValue(true);
+
+  const animatedHeader = useAnimatedStyle(() => ({
+    transform: [{ translateY: withTiming(uiVisible.value ? 0 : -120, { duration: 300, easing: Easing.out(Easing.ease) }) }],
+    opacity: withTiming(uiVisible.value ? 1 : 0, { duration: 200 }),
+  }));
+
+  const animatedFooter = useAnimatedStyle(() => ({
+    transform: [{ translateY: withTiming(uiVisible.value ? 0 : 120, { duration: 300, easing: Easing.out(Easing.ease) }) }],
+    opacity: withTiming(uiVisible.value ? 1 : 0, { duration: 200 }),
+  }));
 
   const toggleFooter = useCallback(() => {
-    const next = !footerVisible;
+    const next = !uiVisible.value;
+    uiVisible.value = next;
     setFooterVisible(next);
-    footerOpacity.value = withTiming(next ? 1 : 0, { duration: 250 });
-  }, [footerVisible]);
+  }, []);
 
   useEffect(() => {
     if (!initialPage) {
@@ -223,25 +444,74 @@ export default function QuranReadingScreen() {
   }, [initialPage, juz]);
 
   useEffect(() => {
-    // İlk açılışta veya font yüklenmemişse font/stili kontrol et
     if (!isStyleSelected && isFontLoaded) {
       setStyleSelectorVisible(true);
     }
   }, [isStyleSelected, isFontLoaded]);
 
-  const loadVerses = useCallback(async (pageNo: number) => {
-    setLoading(true);
-    try {
-      const data = await getVersesByPage(pageNo);
-      setVerses(data);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const pageCacheRef = useRef<Map<number, Verse[]>>(new Map());
 
-  useEffect(() => { loadVerses(page); }, [page, loadVerses]);
+  const prevScriptTypeRef = useRef(scriptType);
+  useEffect(() => {
+    if (prevScriptTypeRef.current !== scriptType) {
+      prevScriptTypeRef.current = scriptType;
+      pageCacheRef.current.clear();
+      setVerses([]);
+      setLoading(true);
+    }
+  }, [scriptType]);
+
+  const fetchPageVerses = useCallback(async (pNo: number): Promise<Verse[]> => {
+    if (pageCacheRef.current.has(pNo)) {
+      return pageCacheRef.current.get(pNo)!;
+    }
+    const targetJuz = getJuzForPage(pNo);
+    const statusResult = await checkJuzStatus(targetJuz, scriptType);
+
+    let data = await getVersesByPage(pNo);
+    if (data.length === 0 || statusResult.status !== 'Downloaded') {
+      await downloadJuz(targetJuz, 'ar', scriptType);
+      data = await getVersesByPage(pNo);
+    }
+    if (data.length > 0) {
+      pageCacheRef.current.set(pNo, data);
+    }
+    return data;
+  }, [scriptType]);
+
+  const loadVerses = useCallback(async (pageNo: number) => {
+    if (pageCacheRef.current.has(pageNo)) {
+      setVerses(pageCacheRef.current.get(pageNo)!);
+      setLoading(false);
+    } else {
+      setLoading(true);
+      try {
+        const data = await fetchPageVerses(pageNo);
+        setVerses(data);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (pageNo < 604 && !pageCacheRef.current.has(pageNo + 1)) {
+      fetchPageVerses(pageNo + 1).catch(() => {});
+    }
+    if (pageNo > 1 && !pageCacheRef.current.has(pageNo - 1)) {
+      fetchPageVerses(pageNo - 1).catch(() => {});
+    }
+  }, [fetchPageVerses]);
+
+  // ── Pinch to Zoom & Gesture Handling ──
+  const scale = useSharedValue(1);
+  const savedScale = useSharedValue(1);
+
+  useEffect(() => {
+    scale.value = 1;
+    savedScale.value = 1;
+    loadVerses(page);
+  }, [page, loadVerses]);
 
   useEffect(() => {
     return () => {
@@ -257,6 +527,31 @@ export default function QuranReadingScreen() {
     if (page > 1) setPage((p) => p - 1);
   }, [page]);
 
+  const pinchGesture = Gesture.Pinch()
+    .onUpdate((e) => {
+      scale.value = Math.min(Math.max(savedScale.value * e.scale, 0.85), 2.5);
+    })
+    .onEnd(() => {
+      savedScale.value = scale.value;
+      if (scale.value < 0.95) {
+        scale.value = withTiming(1);
+        savedScale.value = 1;
+      }
+    })
+    .runOnJS(true);
+
+  const doubleTapGesture = Gesture.Tap()
+    .numberOfTaps(2)
+    .onEnd(() => {
+      scale.value = withTiming(1);
+      savedScale.value = 1;
+    })
+    .runOnJS(true);
+
+  const tapGesture = Gesture.Tap()
+    .onEnd(() => toggleFooter())
+    .runOnJS(true);
+
   const swipeGesture = Gesture.Pan()
     .activeOffsetX([-35, 35])
     .failOffsetY([-15, 15])
@@ -266,54 +561,92 @@ export default function QuranReadingScreen() {
     })
     .runOnJS(true);
 
-  const tapGesture = Gesture.Tap()
-    .onEnd(() => toggleFooter())
-    .runOnJS(true);
+  const composed = Gesture.Simultaneous(pinchGesture, doubleTapGesture, swipeGesture, tapGesture);
 
-  const composed = Gesture.Simultaneous(swipeGesture, tapGesture);
+  const animatedPageStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
 
-  const contentPaddingH = isLandscape ? Math.max(insets.left, insets.right, 48) : 24;
-  const contentPaddingHNarrow = isLandscape ? Math.max(insets.left, insets.right, 48) : 20;
+  const contentPaddingH = isLandscape ? Math.max(insets.left, insets.right, 24) : 24;
+  const contentPaddingHNarrow = isLandscape ? Math.max(insets.left, insets.right, 16) : 20;
+
+  const headerPaddingTop = isLandscape
+    ? (Platform.OS === 'ios' ? Math.max(insets.top, 10) : Math.max(StatusBar.currentHeight ?? 10, 10))
+    : (Platform.OS === 'ios' ? Math.max(insets.top, 44) : (StatusBar.currentHeight ?? 24) + 10);
+
+  const currentSurahNo = verses.length > 0 ? verses[0].surahNo : 1;
+  const currentSurahObj = SURAHS.find((s) => s.number === currentSurahNo);
+  const displaySurahName = currentSurahObj
+    ? currentSurahObj.nameTurkish
+    : surahName;
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={[styles.container, { backgroundColor: colors.bg }]}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} translucent backgroundColor="transparent" hidden={isFullscreen} />
+        <StatusBar barStyle={colors.isDarkContent ? 'light-content' : 'dark-content'} translucent backgroundColor="transparent" hidden={isFullscreen || !footerVisible} />
 
         {/* ── Header ── */}
         <Animated.View
+          pointerEvents={footerVisible ? 'auto' : 'none'}
           style={[
             styles.header,
             {
               backgroundColor: colors.header,
               borderBottomColor: colors.border,
-              paddingTop: Platform.OS === 'ios' ? Math.max(insets.top, 44) : (StatusBar.currentHeight ?? 24) + 10,
+              paddingTop: headerPaddingTop,
+              paddingBottom: isLandscape ? 6 : 12,
               paddingHorizontal: contentPaddingH,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              zIndex: 10,
             },
-            animatedFooter,
+            animatedHeader,
           ]}
         >
           <Pressable style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]} onPress={() => {
-            saveLastRead(juz, verses.length > 0 ? verses[0].surahNo : 1, surahName, page);
+            saveLastRead(juz, verses.length > 0 ? verses[0].surahNo : 1, displaySurahName, page);
             router.back();
           }}>
             <Feather name="arrow-left" size={20} color={colors.text} />
           </Pressable>
 
           <View style={styles.headerCenter}>
-            <Text style={[styles.headerSurah, { color: colors.text }]}>{surahName}</Text>
+            <Text style={[styles.headerSurah, { color: colors.text, fontSize: isLandscape ? 15 : 17 }]}>{displaySurahName}</Text>
             <Text style={[styles.headerMeta, { color: colors.textSecondary }]}>
               {t('quran.juzNum', { num: juz })}  •  {t('quran.pageNum', { num: page })}
             </Text>
           </View>
 
-          {/* Gece/Gündüz Modu */}
-          <Pressable
-            style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]}
-            onPress={() => setIsDarkMode((v) => !v)}
-          >
-            <Feather name={isDarkMode ? 'sun' : 'moon'} size={18} color={colors.text} />
-          </Pressable>
+          <View style={styles.headerRightControls}>
+            {/* Yazı Boyutu Küçült (A-) */}
+            <Pressable
+              style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]}
+              onPress={decreaseFontSize}
+              hitSlop={6}
+            >
+              <Text style={[styles.fontSizeBtnText, { color: colors.text }]}>A-</Text>
+            </Pressable>
+
+            {/* Yazı Boyutu Büyült (A+) */}
+            <Pressable
+              style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]}
+              onPress={increaseFontSize}
+              hitSlop={6}
+            >
+              <Text style={[styles.fontSizeBtnText, { color: colors.text, fontSize: 16 }]}>A+</Text>
+            </Pressable>
+
+            {/* Tema Seçici Buton */}
+            <Pressable
+              style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]}
+              onPress={() => setThemeModalVisible(true)}
+              hitSlop={6}
+            >
+              <Feather name="droplet" size={18} color={colors.text} />
+            </Pressable>
+          </View>
         </Animated.View>
 
         {/* ── İçerik ── */}
@@ -338,21 +671,22 @@ export default function QuranReadingScreen() {
                   styles.scrollContent,
                   {
                     paddingHorizontal: contentPaddingHNarrow,
-                    paddingBottom: 110,
-                    paddingTop: 24,
+                    paddingBottom: isLandscape ? 70 : 120, // Alt kısımda boşluk, scroll sonuna kadar gitsin
+                    paddingTop: headerPaddingTop + (isLandscape ? 30 : 50), // Üstte header'ın arkasında kalmasın
                   },
                 ]}
                 showsVerticalScrollIndicator={false}
               >
-                {/* Sayfa çerçevesi */}
-                <View style={[styles.pageFrame, { backgroundColor: colors.pageBg, borderColor: colors.border }]}>
+                {/* Sayfa çerçevesi ve Pinch Zoom */}
+                <Animated.View style={[styles.pageFrame, { backgroundColor: colors.pageBg, borderColor: colors.border, padding: isLandscape ? 14 : 20 }, animatedPageStyle]}>
                   <PageContent 
                     verses={verses} 
                     colors={colors} 
                     fontFamily={customFontFamily} 
                     baseFontSize={currentFontSize} 
+                    isLandscape={isLandscape}
                   />
-                </View>
+                </Animated.View>
               </Animated.ScrollView>
             )}
           </View>
@@ -360,13 +694,16 @@ export default function QuranReadingScreen() {
 
         {/* ── Footer ── */}
         <Animated.View
+          pointerEvents={footerVisible ? 'auto' : 'none'}
           style={[
             styles.footer,
             {
               backgroundColor: colors.footer,
               borderTopColor: colors.border,
               paddingHorizontal: contentPaddingH,
-              paddingBottom: Math.max(insets.bottom + 16, 16),
+              paddingBottom: isLandscape ? Math.max(insets.bottom + 8, 8) : Math.max(insets.bottom + 16, 16),
+              paddingTop: isLandscape ? 8 : 12,
+              zIndex: 10,
             },
             animatedFooter,
           ]}
@@ -394,6 +731,61 @@ export default function QuranReadingScreen() {
           </Pressable>
         </Animated.View>
 
+        {/* Renk Seçici Modal */}
+        <Modal
+          visible={themeModalVisible}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setThemeModalVisible(false)}
+        >
+          <Pressable style={styles.modalBackdrop} onPress={() => setThemeModalVisible(false)}>
+            <View style={[styles.themeModalCard, { backgroundColor: colors.pageBg, borderColor: colors.border }]}>
+              <View style={styles.themeModalHeader}>
+                <Text style={[styles.themeModalTitle, { color: colors.text }]}>
+                  {t('quran.readingTheme', 'Okuma Teması')}
+                </Text>
+                <Pressable onPress={() => setThemeModalVisible(false)} hitSlop={12}>
+                  <Feather name="x" size={20} color={colors.textSecondary} />
+                </Pressable>
+              </View>
+
+              <View style={styles.themeOptionsGrid}>
+                {(Object.keys(QURAN_THEMES) as QuranThemeKey[]).map((key) => {
+                  const item = QURAN_THEMES[key];
+                  const isSelected = key === themeKey;
+                  return (
+                    <Pressable
+                      key={key}
+                      style={[
+                        styles.themeOptionRow,
+                        { backgroundColor: item.bg, borderColor: isSelected ? item.primary : item.border },
+                      ]}
+                      onPress={() => {
+                        changeTheme(key);
+                        setThemeModalVisible(false);
+                      }}
+                    >
+                      <View style={[styles.themeColorBadge, { backgroundColor: item.pageBg, borderColor: item.border }]}>
+                        <Text style={[styles.themeBadgeSample, { color: item.text }]}>بِسْمِ</Text>
+                      </View>
+
+                      <View style={styles.themeNameContainer}>
+                        <Text style={[styles.themeNameText, { color: item.text }]}>
+                          {t(`quran.theme${key.charAt(0).toUpperCase() + key.slice(1)}`, i18n.language.startsWith('tr') ? item.nameTR : item.nameEN)}
+                        </Text>
+                      </View>
+
+                      {isSelected && (
+                        <Feather name="check-circle" size={20} color={item.primary} />
+                      )}
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </View>
+          </Pressable>
+        </Modal>
+
         {/* Hat / Stil Seçici Modal */}
         {styleSelectorVisible && (
           <QuranStyleSelector 
@@ -417,11 +809,21 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   headerBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  fontSizeBtnText: {
+    fontSize: 13,
+    fontWeight: '700',
+    fontFamily: 'Outfit_700Bold',
+  },
+  headerRightControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
   },
   headerCenter: { flex: 1, alignItems: 'center' },
   headerSurah: {
@@ -500,5 +902,65 @@ const styles = StyleSheet.create({
   pageChipText: {
     fontSize: 14,
     fontWeight: '700',
+  },
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  themeModalCard: {
+    width: '100%',
+    maxWidth: 380,
+    borderRadius: 20,
+    borderWidth: 1,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    elevation: 8,
+  },
+  themeModalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  themeModalTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  themeOptionsGrid: {
+    gap: 10,
+  },
+  themeOptionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    justifyContent: 'space-between',
+  },
+  themeColorBadge: {
+    width: 48,
+    height: 34,
+    borderRadius: 8,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  themeBadgeSample: {
+    fontSize: 14,
+    fontFamily: 'serif',
+  },
+  themeNameContainer: {
+    flex: 1,
+    marginLeft: 12,
+  },
+  themeNameText: {
+    fontSize: 15,
+    fontWeight: '600',
   },
 });

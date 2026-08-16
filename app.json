@@ -2,7 +2,7 @@
   "expo": {
     "name": "Vera",
     "slug": "ezan-app",
-    "version": "1.0.8",
+    "version": "1.0.24",
     "orientation": "default",
     "icon": "./assets/images/Vera_app_icon.png",
     "scheme": "ezanapp",
@@ -22,14 +22,14 @@
     "android": {
       "package": "com.abdllhekc.vera",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 9,
+      "versionCode": 26,
       "permissions": [
         "SCHEDULE_EXACT_ALARM",
         "USE_EXACT_ALARM",
         "RECEIVE_BOOT_COMPLETED",
-        "FOREGROUND_SERVICE",
-        "FOREGROUND_SERVICE_MEDIA_PLAYBACK",
         "WAKE_LOCK",
+        "POST_NOTIFICATIONS",
+        "FOREGROUND_SERVICE_SPECIAL_USE",
         "com.google.android.gms.permission.AD_ID"
       ],
       "adaptiveIcon": {
@@ -39,8 +39,7 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "output": "static"
     },
     "plugins": [
       "expo-router",
@@ -63,8 +62,12 @@
       [
         "expo-notifications",
         {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#D4AF37",
           "sounds": [
             "./assets/sounds/adhan.mp3",
+            "./assets/sounds/adhan_25minutes.mp3",
+            "./assets/sounds/allahu_akbar.mp3",
             "./assets/sounds/azizallah.mp3"
           ]
         }
@@ -83,7 +86,9 @@
         "expo-build-properties",
         {
           "android": {
-            "kotlinVersion": "2.1.0"
+            "kotlinVersion": "2.1.0",
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
           }
         }
       ],
@@ -99,6 +104,10 @@
       "router": {},
       "eas": {
         "projectId": "f2afb534-f923-452a-adcc-df20a05fdcf1"
+      },
+      "react-native-google-mobile-ads": {
+        "android_app_id": "ca-app-pub-3940256099942544~3347511713",
+        "ios_app_id": "ca-app-pub-3940256099942544~1458002511"
       }
     }
   }

@@ -31,7 +31,7 @@ import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Circle, Defs, LinearGradient as SvgLinearGradient, Stop } from 'react-native-svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAudioPlayer } from 'expo-audio';
+import { useAudioPlayer, createAudioPlayer } from 'expo-audio';
 
 import { useTheme } from '../context/ThemeContext';
 import { spacing, typography, borderRadius } from '../utils/theme';
@@ -90,8 +90,18 @@ const DAILY_DHIKRS_EN = [
 ];
 
 const TASBIH_SOUND_KEY = '@tasbih_sound_enabled';
+const DHIKR_BG_AUDIO_KEY = '@tasbih_bg_audio_id';
 
-export function TasbihScreen() {
+const DHIKR_AUDIO_OPTIONS = [
+  { id: 'off', labelKey: 'tasbih.bgAudioOff', defaultLabel: 'Sessiz / Kapalı', file: null },
+  { id: 'dikhr1', labelKey: 'tasbih.dikhr1', defaultLabel: 'Zikir Sesi 1', file: require('../../assets/sounds/dikhr/dikhr1.mp3') },
+];
+
+interface TasbihScreenProps {
+  isActiveTab?: boolean;
+}
+
+export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
   const { t, i18n } = useTranslation();
   const { theme, isDark } = useTheme();
   const insets = useSafeAreaInsets();
@@ -113,6 +123,10 @@ export function TasbihScreen() {
 
   const [soundEnabled, setSoundEnabled] = useState(true);
   const clickPlayer = useAudioPlayer(require('../../assets/sounds/click.wav'));
+
+  // Background Dhikr Audio Player State
+  const [selectedAudioId, setSelectedAudioId] = useState<string>('off');
+  const [isAudioModalVisible, setIsAudioModalVisible] = useState<boolean>(false);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [newDhikrName, setNewDhikrName] = useState('');
@@ -142,6 +156,72 @@ export function TasbihScreen() {
     progressVal.value = withSpring(progressRatio, { damping: 15, stiffness: 120 });
   }, [count, progressRatio]);
 
+  // Load saved background audio preference
+  useEffect(() => {
+    const loadAudioPref = async () => {
+      try {
+        const saved = await AsyncStorage.getItem(DHIKR_BG_AUDIO_KEY);
+        if (saved && DHIKR_AUDIO_OPTIONS.some((o) => o.id === saved)) {
+          setSelectedAudioId(saved);
+        }
+      } catch (e) {}
+    };
+    loadAudioPref();
+  }, []);
+
+  // Background Audio Lifecycle Hook (Looping & Strict Memory Leak Cleanup)
+  useEffect(() => {
+    let currentPlayer: any = null;
+    let isMounted = true;
+
+    const startAudio = async () => {
+      if (!isActiveTab || selectedAudioId === 'off') return;
+      const opt = DHIKR_AUDIO_OPTIONS.find((o) => o.id === selectedAudioId);
+      if (!opt || !opt.file) return;
+
+      try {
+        const player = createAudioPlayer(opt.file);
+        if (!isMounted) {
+          if (typeof player.remove === 'function') player.remove();
+          return;
+        }
+        if (player) {
+          player.loop = true;
+          player.volume = 0.70;
+
+          player.play();
+          currentPlayer = player;
+        }
+      } catch (err) {
+        console.error('[TasbihScreen] Error starting background dhikr audio:', err);
+      }
+    };
+
+    startAudio();
+
+    return () => {
+      isMounted = false;
+      if (currentPlayer) {
+        try {
+          if (typeof currentPlayer.pause === 'function') currentPlayer.pause();
+          if (typeof currentPlayer.remove === 'function') currentPlayer.remove();
+          else if (typeof currentPlayer.release === 'function') currentPlayer.release();
+        } catch (e) {
+          console.error('[TasbihScreen] Error releasing dhikr player:', e);
+        }
+        currentPlayer = null;
+      }
+    };
+  }, [selectedAudioId, isActiveTab]);
+
+  const selectBgAudio = async (audioId: string) => {
+    setSelectedAudioId(audioId);
+    setIsAudioModalVisible(false);
+    try {
+      await AsyncStorage.setItem(DHIKR_BG_AUDIO_KEY, audioId);
+    } catch (e) {}
+  };
+
   useEffect(() => {
     const loadState = async () => {
       try {
@@ -165,15 +245,16 @@ export function TasbihScreen() {
   }, []);
 
   useEffect(() => {
-    const saveState = async () => {
+    const timer = setTimeout(async () => {
       try {
         await AsyncStorage.setItem(
           TASBIH_STORAGE_KEY,
           JSON.stringify({ selectedId, count, customDhikrs, history })
         );
       } catch (e) {}
-    };
-    saveState();
+    }, 400);
+
+    return () => clearTimeout(timer);
   }, [selectedId, count, customDhikrs, history]);
 
   const toggleSound = async () => {
@@ -566,8 +647,8 @@ export function TasbihScreen() {
             ]}
             onPress={handleReset}
           >
-            <Feather name="rotate-ccw" size={15} color="#EF4444" />
-            <Text style={[styles.actionBtnText, { color: '#EF4444' }]}>
+            <Feather name="rotate-ccw" size={14} color="#EF4444" />
+            <Text style={[styles.actionBtnText, { color: '#EF4444' }]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75}>
               {t('tasbih.reset', 'Sıfırla')}
             </Text>
           </Pressable>
@@ -583,9 +664,30 @@ export function TasbihScreen() {
             ]}
             onPress={toggleSound}
           >
-            <Feather name={soundEnabled ? 'volume-2' : 'volume-x'} size={15} color={theme.colors.text} />
-            <Text style={[styles.actionBtnText, { color: theme.colors.text }]} numberOfLines={1}>
+            <Feather name={soundEnabled ? 'volume-2' : 'volume-x'} size={14} color={theme.colors.text} />
+            <Text style={[styles.actionBtnText, { color: theme.colors.text }]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75}>
               {soundEnabled ? t('tasbih.soundOn', 'Ses Açık') : t('tasbih.soundOff', 'Ses Kapalı')}
+            </Text>
+          </Pressable>
+
+          <Pressable
+            style={[
+              styles.actionBtn,
+              {
+                backgroundColor: selectedAudioId !== 'off'
+                  ? (isDark ? 'rgba(200, 134, 10, 0.2)' : 'rgba(200, 134, 10, 0.12)')
+                  : theme.colors.surface,
+                borderWidth: 1,
+                borderColor: selectedAudioId !== 'off' ? theme.colors.primary : theme.colors.border,
+              },
+            ]}
+            onPress={() => setIsAudioModalVisible(true)}
+          >
+            <Feather name="music" size={14} color={selectedAudioId !== 'off' ? theme.colors.primary : theme.colors.text} />
+            <Text style={[styles.actionBtnText, { color: selectedAudioId !== 'off' ? theme.colors.primary : theme.colors.text }]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75}>
+              {selectedAudioId !== 'off'
+                ? (t(DHIKR_AUDIO_OPTIONS.find((o) => o.id === selectedAudioId)?.labelKey || '', DHIKR_AUDIO_OPTIONS.find((o) => o.id === selectedAudioId)?.defaultLabel || 'Fon Sesi'))
+                : t('tasbih.bgAudioOff', 'Fon Sesi')}
             </Text>
           </Pressable>
 
@@ -600,9 +702,9 @@ export function TasbihScreen() {
             ]}
             onPress={() => setIsProgressModalVisible(true)}
           >
-            <Feather name="bar-chart-2" size={15} color={theme.colors.text} />
-            <Text style={[styles.actionBtnText, { color: theme.colors.text }]} numberOfLines={1}>
-              {t('tasbih.progressBtn', 'Zikir İlerlemem')}
+            <Feather name="bar-chart-2" size={14} color={theme.colors.text} />
+            <Text style={[styles.actionBtnText, { color: theme.colors.text }]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75}>
+              {t('tasbih.progressBtn', 'İlerleme')}
             </Text>
           </Pressable>
         </View>
@@ -768,6 +870,74 @@ export function TasbihScreen() {
       </Modal>
 
       {/* Progress Modal */}
+      {/* Background Dhikr Audio Selection Modal */}
+      <Modal
+        visible={isAudioModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setIsAudioModalVisible(false)}
+      >
+        <BlurView intensity={isDark ? 40 : 25} tint={isDark ? 'dark' : 'light'} style={styles.audioModalOverlay}>
+          <View style={[styles.audioModalCard, { backgroundColor: isDark ? 'rgba(22, 22, 30, 0.95)' : 'rgba(255, 255, 255, 0.97)', borderColor: theme.colors.border }]}>
+            <View style={styles.audioModalHeader}>
+              <View style={[styles.audioModalIconWrap, { backgroundColor: theme.colors.primary + '18' }]}>
+                <Feather name="music" size={20} color={theme.colors.primary} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.audioModalTitle, { color: theme.colors.text }]}>
+                  {t('tasbih.bgAudioTitle', 'Fon Zikir Sesi')}
+                </Text>
+                <Text style={[styles.audioModalSubtitle, { color: theme.colors.textSecondary }]}>
+                  {t('tasbih.bgAudioSelect', 'Zikir esnasında arkada çalacak sesi seçin')}
+                </Text>
+              </View>
+              <Pressable onPress={() => setIsAudioModalVisible(false)} hitSlop={10}>
+                <Feather name="x" size={20} color={theme.colors.textSecondary} />
+              </Pressable>
+            </View>
+
+            <View style={styles.audioOptionsList}>
+              {DHIKR_AUDIO_OPTIONS.map((opt) => {
+                const isSelected = selectedAudioId === opt.id;
+                const label = t(opt.labelKey, opt.defaultLabel);
+                return (
+                  <Pressable
+                    key={opt.id}
+                    style={[
+                      styles.audioOptionRow,
+                      {
+                        backgroundColor: isSelected
+                          ? (isDark ? 'rgba(200, 134, 10, 0.18)' : 'rgba(200, 134, 10, 0.1)')
+                          : (isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)'),
+                        borderColor: isSelected ? theme.colors.primary : theme.colors.border,
+                      },
+                    ]}
+                    onPress={() => selectBgAudio(opt.id)}
+                  >
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                      <Feather
+                        name={opt.id === 'off' ? 'volume-x' : 'disc'}
+                        size={18}
+                        color={isSelected ? theme.colors.primary : theme.colors.textSecondary}
+                      />
+                      <Text style={[styles.audioOptionLabel, { color: isSelected ? theme.colors.primary : theme.colors.text }]}>
+                        {label}
+                      </Text>
+                    </View>
+
+                    {isSelected && (
+                      <View style={[styles.audioCheckBadge, { backgroundColor: theme.colors.primary }]}>
+                        <Feather name="check" size={12} color="#FFF" />
+                      </View>
+                    )}
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+        </BlurView>
+      </Modal>
+
       <DhikrProgressModal
         visible={isProgressModalVisible}
         onClose={() => setIsProgressModalVisible(false)}
@@ -931,7 +1101,7 @@ const styles = StyleSheet.create({
   },
   actionsRow: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 6,
     width: '100%',
   },
   actionBtn: {
@@ -939,9 +1109,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 6,
-    paddingVertical: 12,
-    borderRadius: 16,
+    gap: 4,
+    paddingVertical: 10,
+    paddingHorizontal: 4,
+    borderRadius: 14,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.05,
@@ -949,7 +1120,8 @@ const styles = StyleSheet.create({
   },
   actionBtnText: {
     fontFamily: typography.fontFamily.semiBold,
-    fontSize: 13,
+    fontSize: 11,
+    textAlign: 'center',
   },
   noticeContainer: {
     flexDirection: 'row',
@@ -1139,5 +1311,70 @@ const styles = StyleSheet.create({
   recModalTargetText: {
     fontFamily: typography.fontFamily.semiBold,
     fontSize: 12,
+  },
+
+  // ── Background Audio Modal Styles ───────────────────────
+  audioModalOverlay: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: spacing.lg,
+  },
+  audioModalCard: {
+    width: '100%',
+    maxWidth: 360,
+    borderRadius: 24,
+    borderWidth: 1.5,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  audioModalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 16,
+  },
+  audioModalIconWrap: {
+    width: 42,
+    height: 42,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  audioModalTitle: {
+    fontFamily: typography.fontFamily.bold,
+    fontSize: 18,
+  },
+  audioModalSubtitle: {
+    fontFamily: typography.fontFamily.regular,
+    fontSize: 12,
+    marginTop: 2,
+  },
+  audioOptionsList: {
+    gap: 8,
+  },
+  audioOptionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderRadius: 14,
+    borderWidth: 1,
+  },
+  audioOptionLabel: {
+    fontFamily: typography.fontFamily.semiBold,
+    fontSize: 14,
+  },
+  audioCheckBadge: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

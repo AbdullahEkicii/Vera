@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Modal, Pressable, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, StyleSheet, Modal, Pressable, ActivityIndicator, Alert, ScrollView } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../context/ThemeContext';
 import { typography } from '../utils/theme';
 import { useQuranSettings, ScriptType } from '../context/QuranSettingsContext';
@@ -13,28 +14,39 @@ interface Props {
   isInitialSetup?: boolean;
 }
 
-const getScriptOptions = (t: any): { id: ScriptType; title: string; desc: string; sample: string }[] => [
+const getScriptOptions = (t: any): { id: ScriptType; title: string; desc: string; sample: string; fontFamily?: string }[] => [
   {
     id: 'quran-imlaei',
-    title: t('quran.imlaeiTitle'),
-    desc: t('quran.imlaeiDesc'),
+    title: t('quran.imlaeiTitle', 'Diyanet / İmla Hattı'),
+    desc: t('quran.imlaeiDesc', 'Standart okunaklı Türkçe imla hattı.'),
     sample: 'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحٖيمِ',
+    fontFamily: 'quran-imlaei',
   },
   {
     id: 'quran-uthmani',
-    title: t('quran.uthmaniTitle'),
-    desc: t('quran.uthmaniDesc'),
+    title: t('quran.uthmaniTitle', 'Medine / Osmanî Hat'),
+    desc: t('quran.uthmaniDesc', 'Klasik Medine baskısı Osmanî hat.'),
     sample: 'بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ',
+    fontFamily: 'quran-uthmani',
   },
   {
     id: 'quran-indopak',
-    title: t('quran.indopakTitle'),
-    desc: t('quran.indopakDesc'),
+    title: t('quran.indopakTitle', 'Hint / Asya Hattı'),
+    desc: t('quran.indopakDesc', 'Doğu & Asya bölgesi klasik kalın hat.'),
     sample: 'بِسۡمِ اللّٰهِ الرَّحۡمٰنِ الرَّحِيۡمِ',
+    fontFamily: 'quran-indopak',
+  },
+  {
+    id: 'quran-husrev',
+    title: t('quran.husrevTitle', 'Ahmet Hüsrev Hattı (Tevafuklu)'),
+    desc: t('quran.husrevDesc', 'Hayrat Neşriyat Tevafuklu Kur\'an-ı Kerim hattı.'),
+    sample: 'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحٖيمِ',
+    fontFamily: 'quran-husrev',
   },
 ];
 
 export const QuranStyleSelector: React.FC<Props> = ({ visible, onClose, isInitialSetup = false }) => {
+  const insets = useSafeAreaInsets();
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
   const { scriptType, changeScriptType, completeFirstSelection } = useQuranSettings();
@@ -47,7 +59,6 @@ export const QuranStyleSelector: React.FC<Props> = ({ visible, onClose, isInitia
       return;
     }
 
-    // Eğer farklı bir hat seçildiyse, eski verilerin silineceğini bildir.
     if (!isInitialSetup && selected !== scriptType) {
       Alert.alert(
         t('quran.oldDownloadsWillBeDeleted'),
@@ -64,8 +75,7 @@ export const QuranStyleSelector: React.FC<Props> = ({ visible, onClose, isInitia
 
   const performSave = async () => {
     setLoading(true);
-    
-    // Clear old data if changing
+
     if (!isInitialSetup && selected !== scriptType) {
       await clearAllJuzData();
     }
@@ -88,10 +98,16 @@ export const QuranStyleSelector: React.FC<Props> = ({ visible, onClose, isInitia
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <View style={[styles.overlay, { backgroundColor: isDark ? 'rgba(0,0,0,0.8)' : 'rgba(0,0,0,0.5)' }]}>
-        <View style={[styles.container, { backgroundColor: isDark ? '#1C1C1E' : '#FFF' }]}>
+        <View style={[
+          styles.container,
+          {
+            backgroundColor: isDark ? '#1C1C1E' : '#FFF',
+            paddingBottom: Math.max(insets.bottom + 16, 24),
+          }
+        ]}>
           <View style={styles.header}>
             <Text style={[styles.title, { color: theme.colors.text }]}>
-              {t('quran.styleTitle')}
+              {t('quran.styleTitle', 'Kur\'an Hat / Stil Seçimi')}
             </Text>
             {!isInitialSetup && (
               <Pressable onPress={onClose} style={[styles.closeBtn, { backgroundColor: theme.colors.surface }]}>
@@ -101,10 +117,14 @@ export const QuranStyleSelector: React.FC<Props> = ({ visible, onClose, isInitia
           </View>
 
           <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
-            {t('quran.styleSubtitle')}
+            {t('quran.styleSubtitle', 'Tercih ettiğiniz okuma stilini veya Hüsrev Hattı PDF formatını seçin.')}
           </Text>
 
-          <View style={styles.optionsList}>
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={styles.optionsList}
+            showsVerticalScrollIndicator={false}
+          >
             {getScriptOptions(t).map((opt) => {
               const isActive = selected === opt.id;
               return (
@@ -112,7 +132,7 @@ export const QuranStyleSelector: React.FC<Props> = ({ visible, onClose, isInitia
                   key={opt.id}
                   style={[
                     styles.optionCard,
-                    { 
+                    {
                       borderColor: isActive ? theme.colors.primary : theme.colors.border,
                       backgroundColor: isActive ? theme.colors.primary + '10' : theme.colors.surface,
                     }
@@ -129,14 +149,19 @@ export const QuranStyleSelector: React.FC<Props> = ({ visible, onClose, isInitia
                     {opt.desc}
                   </Text>
                   <View style={[styles.sampleBox, { backgroundColor: isDark ? '#000' : '#F5F5F5' }]}>
-                    <Text style={[styles.sampleText, { color: theme.colors.text }]}>
+                    <Text style={[
+                      styles.sampleText,
+                      { color: theme.colors.text },
+                      opt.fontFamily ? { fontFamily: opt.fontFamily } : null,
+                      opt.id === 'quran-husrev' ? { fontSize: 15, fontFamily: typography.fontFamily.semiBold, color: theme.colors.primary } : (opt.id === 'quran-indopak' ? { fontSize: 26 } : null)
+                    ]}>
                       {opt.sample}
                     </Text>
                   </View>
                 </Pressable>
               );
             })}
-          </View>
+          </ScrollView>
 
           <Pressable
             style={[styles.saveButton, { backgroundColor: theme.colors.primary, opacity: loading ? 0.7 : 1 }]}
@@ -146,7 +171,7 @@ export const QuranStyleSelector: React.FC<Props> = ({ visible, onClose, isInitia
             {loading ? (
               <ActivityIndicator color="#FFF" />
             ) : (
-              <Text style={styles.saveButtonText}>{t('quran.saveAndContinue')}</Text>
+              <Text style={styles.saveButtonText}>{t('quran.saveAndContinue', 'Kaydet ve Devam Et')}</Text>
             )}
           </Pressable>
         </View>
@@ -164,7 +189,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 24,
-    paddingBottom: 40,
+    maxHeight: '85%',
   },
   header: {
     flexDirection: 'row',
@@ -174,7 +199,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: typography.fontFamily.bold,
-    fontSize: 22,
+    fontSize: 20,
   },
   closeBtn: {
     width: 32,
@@ -185,13 +210,16 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontFamily: typography.fontFamily.regular,
-    fontSize: 14,
-    marginBottom: 24,
-    lineHeight: 20,
+    fontSize: 13,
+    marginBottom: 16,
+    lineHeight: 18,
+  },
+  scrollView: {
+    marginBottom: 16,
   },
   optionsList: {
     gap: 12,
-    marginBottom: 24,
+    paddingBottom: 8,
   },
   optionCard: {
     borderWidth: 2,

@@ -30,20 +30,7 @@ function withRemoveExpoAudioServices(config) {
       }
     });
 
-    // Restore Notifee ForegroundService with mediaPlayback type (since prebuild wipes manual manifest edits)
-    const notifeeService = app.service.find((s) => s.$['android:name'] === 'app.notifee.core.ForegroundService');
-    if (!notifeeService) {
-      app.service.push({
-        $: {
-          'android:name': 'app.notifee.core.ForegroundService',
-          'android:foregroundServiceType': 'mediaPlayback',
-          'tools:node': 'merge',
-        },
-      });
-    } else {
-      notifeeService.$['android:foregroundServiceType'] = 'mediaPlayback';
-      notifeeService.$['tools:node'] = 'merge';
-    }
+
 
     // Make sure xmlns:tools is in the manifest tag
     if (!androidManifest.$['xmlns:tools']) {

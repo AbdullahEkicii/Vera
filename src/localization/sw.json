@@ -3,7 +3,9 @@
     "common": {
       "loading": "Inapakia...",
       "error": "Hitilafu imetokea",
-      "retry": "Jaribu tena"
+      "retry": "Jaribu tena",
+      "success": "Success",
+      "fillAllFields": "Please fill in all fields."
     },
     "home": {
       "title": "Nyakati za Swala",
@@ -12,7 +14,8 @@
       "timeLeftUnits": {
         "h": "s",
         "m": "d",
-        "s": "s"
+        "s": "s",
+        "left": "iliyobaki"
       },
       "prayers": {
         "fajr": "Alfajiri",
@@ -21,7 +24,17 @@
         "asr": "Alasiri",
         "maghrib": "Magharibi",
         "isha": "Isha"
-      }
+      },
+      "currentLocation": "Eneo la Sasa",
+      "active": "Now",
+      "next": "Next",
+      "remaining": "Time Left",
+      "format12": "12-Hour",
+      "format24": "24-Hour",
+      "errorLoadingTitle": "Could Not Load Prayer Times",
+      "errorLoadingSubtitle": "Please check your internet connection or select your city.",
+      "retryBtn": "Retry",
+      "loadingTimes": "Loading Prayer Times..."
     },
     "settings": {
       "title": "Mipangilio",
@@ -29,13 +42,96 @@
       "theme": "Mandhari",
       "dark": "Giza",
       "light": "Nuru",
-      "system": "Mfumo"
+      "system": "Mfumo",
+      "calcMethod": "Njia ya Kuhesabu",
+      "methods": {
+        "diyanet": "Diyanet (Uturuki)",
+        "isna": "ISNA (Amerika Kaskazini)",
+        "mwl": "Muslim World League (MWL)",
+        "ummAlQura": "Ummu Al-Qura (Makka)",
+        "egypt": "Mamlaka Kuu ya Misri",
+        "karachi": "Karachi (Pakistani)",
+        "france": "Ufaransa (UOIF)",
+        "russia": "Urusi (Msimamizi wa Kiroho.)"
+      },
+      "palettes": {
+        "default": "Default",
+        "emerald": "Emerald",
+        "ocean": "Ocean",
+        "rose": "Rose",
+        "gold": "Gold",
+        "amethyst": "Amethyst",
+        "crimson": "Crimson",
+        "indigo": "Indigo",
+        "teal": "Teal",
+        "mint": "Mint",
+        "slate": "Slate"
+      },
+      "themePalette": "Theme Palette",
+      "mainTheme": "Main Theme Color",
+      "circlePalette": "Countdown Circle Color",
+      "soundSettings": "Adhan Sounds & Volume",
+      "exactSoundTitle": "Prayer Time Sound",
+      "warningSoundTitle": "25 Min Warning Sound",
+      "volumeLevelTitle": "Adhan Volume Level",
+      "previewSound": "Listen",
+      "stopPreview": "Stop",
+      "soundNames": {
+        "azizallah": "Azizallah (Prayer Time)",
+        "adhan_25minutes": "Adhan (25 Min Warning)",
+        "allahu_akbar": "Allahu Akbar"
+      },
+      "persistentNotifTitle": "Lock Screen & Status Bar",
+      "persistentNotif": "Persistent Prayer Countdown",
+      "persistentNotifDesc": "Track the time left for the next prayer live on your lock screen and notification panel.",
+      "widgetTitle": "Home Screen Widget",
+      "addWidget": "📌 Add Widget to Home Screen!",
+      "addWidgetDesc": "See prayer times and live countdown directly on your phone's home screen.",
+      "general": "General Settings",
+      "fullscreen": "Fullscreen Mode",
+      "warnNotifBtn": "-25m",
+      "exactNotifBtn": "Adhan",
+      "testNotifTitle": "Test Notification",
+      "testNotifBody": "Test notification will play in 10 seconds. Please check your device notification volume.",
+      "testWarnNotif": "Test 25m Warning (10s)",
+      "testExactNotif": "Test Full Adhan (10s)",
+      "themeDesc": "Customize app colors, dark mode, and home screen layout",
+      "themeMode": "Interface Mode",
+      "modeDark": "Dark Mode",
+      "modeLight": "Light Mode",
+      "modeSystem": "System",
+      "homeAppearance": "Home Screen Layout",
+      "homeStyle": {
+        "default": "Rich / Modern",
+        "defaultDesc": "Countdown circle, all prayers, and rich widgets",
+        "simple": "Simple / Minimalist",
+        "simpleDesc": "Clean distraction-free list and quick tracker"
+      }
     },
     "qibla": {
       "title": "Qibla",
       "holdFlat": "Shika simu yako sawa",
       "calibrating": "Inarekebisha dira...",
-      "found": "Unakabili Qibla"
+      "found": "Unakabili Qibla",
+      "permissionRequired": "Ruhusa ya Mahali Inahitajika",
+      "permissionDenied": "Ruhusa ya eneo inahitajika ili kuonyesha mwelekeo wa Qibla. Tafadhali iwashe katika mipangilio.",
+      "openSettings": "Fungua Mipangilio",
+      "description": "Zungusha kifaa polepole ili kupata mwelekeo wa Qibla",
+      "hint": "Dira hubadilika kuwa kijani na utahisi mtetemo unapopangiliwa na Qibla.",
+      "errorCompass": "Haikuweza kusoma dira au data ya eneo.",
+      "angle": "Pembe",
+      "distance": "Umbali",
+      "status": "Hali",
+      "aligned": "Imepangiliwa",
+      "aligning": "Zungusha",
+      "alignedSuccess": "🕌 Unaelekea Qibla!",
+      "subtitle": "Follow the steps to accurately find the Qibla direction",
+      "guideTitle": "How to Use?",
+      "step1": "1. Hold your phone FLAT in your hand",
+      "step2": "2. Turn your body SLOWLY around",
+      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
+      "heading": "Heading"
     },
     "daily": {
       "title": "Ujumbe wa Leo",
@@ -71,6 +167,34 @@
       "isha": {
         "title": "🕌 Wakati wa Isha",
         "body": "Wakati wa swala ya Isha umefika."
+      },
+      "exactAlert": "Tahadhari Hasa ya Maombi",
+      "warnAlert": "Tahadhari ya Onyo ya Dakika 25",
+      "warningTitle": "Wakati Unakaribia",
+      "warningBody": "Zimesalia dakika 25 kabla ya {{maombi}}.",
+      "quranReminderTitle": "📖 Wakati wa Kurani Tukufu",
+      "quranReminderBody": "Je, umesoma Quran leo? Gusa ili usome sasa.",
+      "namesReminderTitle": "✨ Majina ya Mwenyezi Mungu na Duas",
+      "namesReminderBody": "Gundua Majina mazuri ya Mwenyezi Mungu na Duas. Gusa ili kuchunguza.",
+      "bannerTitle": "Washa Arifa",
+      "bannerDesc": "Washa ruhusa za arifa ili uendelee kuarifiwa kuhusu nyakati za maombi.",
+      "bannerBtn": "Ruhusa ya Ruzuku",
+      "persistent": {
+        "countdown": "left",
+        "prayerEntered": "Prayer Time",
+        "hoursUnit": "h",
+        "minutesUnit": "m"
+      },
+      "silenceAction": "Mute",
+      "channels": {
+        "exactName": "Adhan Time",
+        "exactDesc": "Plays when prayer time arrives.",
+        "warningName": "Prayer Approaching (25 min)",
+        "warningDesc": "Gives a warning 25 minutes before prayer time.",
+        "dailyName": "Daily Inspiration",
+        "dailyDesc": "Daily verse, hadith, or quote arrives between Dhuhr and Asr.",
+        "persistentName": "Lock Screen & Status Bar",
+        "persistentDesc": "Displays next prayer name and live countdown in notification panel and lock screen."
       }
     },
     "tasbih": {
@@ -103,7 +227,17 @@
       "resetConfirmTitle": "Rudisha upya Kihesabu",
       "resetConfirmMsg": "Una uhakika unataka kurudisha upya?",
       "yes": "Ndio",
-      "no": "Hapana"
+      "no": "Hapana",
+      "recTitle": "Mapendekezo ya kila siku",
+      "recBtnText": "Anza Kukariri",
+      "soundOn": "Sauti Washa",
+      "soundOff": "Sauti Imezimwa",
+      "bgAudioTitle": "Usuli Dhikr Sauti",
+      "bgAudioOff": "Imezimwa / Kimya",
+      "bgAudioSelect": "Chagua Sauti ya Asili ya Dhikr",
+      "dikhr1": "Sauti ya Dhikr 1",
+      "dikhr2": "Sauti ya Dhikr 2",
+      "dikhr3": "Sauti ya Dhikr 3"
     },
     "update": {
       "title": "Sasisho Jipya Lipo!",
@@ -112,7 +246,13 @@
       "forceMessage": "Tafadhali sasisha hadi toleo la hivi karibuni.",
       "updateBtn": "Sasisha Sasa",
       "laterBtn": "Baadaye",
-      "releaseNotes": "Maelezo:"
+      "releaseNotes": "Maelezo:",
+      "sectionTitle": "Toleo la Programu",
+      "versionLabel": "Toleo",
+      "checkUpdate": "Angalia Usasisho",
+      "upToDateTitle": "Programu Imesasishwa",
+      "upToDateMessage": "Unatumia toleo jipya zaidi (v{{version}}).",
+      "checkFailed": "Imeshindwa kuangalia masasisho."
     },
     "quran": {
       "title": "Kurani Tukufu",
@@ -151,7 +291,238 @@
       "cancel": "Ghairi",
       "yesChange": "Ndio, Badilisha",
       "error": "Kosa",
-      "downloadError": "Kosa limetokea wakati wa kupakua."
+      "downloadError": "Kosa limetokea wakati wa kupakua.",
+      "husrevTitle": "Hati ya Ahmet Husrev (Tawafuq)",
+      "husrevDesc": "Hayrat Nesriyat Tawafuq mtindo wa Calligraphy Quran.",
+      "readingTheme": "Mandhari ya Kusoma",
+      "themeSepia": "Cream / Sepia",
+      "themeDark": "Usiku wa Giza",
+      "themeWhite": "Classic White",
+      "themeGreen": "Sage ya Emerald",
+      "themeNavy": "Usiku wa manane Bluu",
+      "oldDownloadsWillBeDeleted": "Vipakuliwa vya Zamani Vitafutwa",
+      "surahEnd": "Mwisho wa Surah",
+      "totalVersesRead": "Aya {{count}} Zote Zimesomwa",
+      "nextSurah": "Sura inayofuata"
+    },
+    "review": {
+      "title": "Tuunge Mkono",
+      "message": "Ikiwa unapenda programu yetu, tafadhali tupe nyota 5 kwenye Duka la Play na tujulishe unataka vipengele gani!",
+      "notNow": "Sio Sasa",
+      "review": "Kagua",
+      "subtitle": "Rate your experience with stars",
+      "fiveStarTitle": "We're thrilled to hear that! 🌟",
+      "fiveStarSubtitle": "Would you like to support Vera with a 5-star rating?",
+      "rateOnStore": "🌟 Give 5 Stars & Support",
+      "ratingLabels": {
+        "1": "Needs Improvement",
+        "2": "Fair",
+        "3": "Good",
+        "4": "Very Good",
+        "5": "Excellent!"
+      },
+      "feedbackTitle": "Help Us Improve 💬",
+      "feedbackSubtitle": "Share your thoughts and suggestions so we can make Vera even better.",
+      "feedbackPlaceholder": "Write your suggestions, ideas or any issues you faced...",
+      "sendFeedback": "Send Feedback",
+      "thankYouTitle": "Feedback Received! 🤲",
+      "thankYouSubtitle": "Your feedback is very valuable to us. We will work hard to make Vera even better.",
+      "close": "Close"
+    },
+    "share": {
+      "storyTitle": "Hadithi na Kushiriki Kadi",
+      "actionBtn": "Shiriki Kadi ya Hadithi",
+      "watermark": "V E R A • Nyakati za Maombi & Athani",
+      "themeGold": "Dhahabu na Usiku",
+      "themeEmerald": "Sage ya Emerald",
+      "themeNavy": "Usiku wa manane Bluu",
+      "themeSepia": "Sepia ya joto",
+      "appTagline": "Prayer Times, Quran & Qibla",
+      "storeSearchHint": "Search on Google Play: Vera",
+      "scanToDownload": "Scan to Download"
+    },
+    "checklist": {
+      "title": "Mfuatiliaji wa Maombi ya Kila Siku",
+      "completed": "Imekamilika",
+      "dayStreak": "Mfululizo wa Siku",
+      "viewHistory": "Tazama Historia Kamili",
+      "historyTitle": "Historia ya Maombi",
+      "historySubtitle": "Maombi yako yanarekodi kwa siku 30 zilizopita",
+      "totalLogged": "Jumla ya Maombi",
+      "activeStreak": "Mfululizo Amilifu",
+      "weeklyRate": "Kiwango cha Wiki",
+      "daysAgo": "siku zilizopita",
+      "today": "Leo",
+      "yesterday": "Jana",
+      "fajr": "Fajr",
+      "dhuhr": "Dhuhr",
+      "asr": "Asr",
+      "maghrib": "Magharibi",
+      "isha": "Isha",
+      "celebrationTitle": "Hongera! 🎉",
+      "celebrationSubtitle": "Masha'Allah!",
+      "celebrationMessage": "Umemaliza maombi yote 5 ya kila siku leo. Mwenyezi Mungu azikubali maombi yako!",
+      "celebrationBtn": "Alhamdulillah",
+      "trustNotice": "{{city}} • Muda wa maombi uliothibitishwa kwa eneo lako kwa kutumia {{njia}}"
+    },
+    "search": {
+      "title": "Chagua Mahali",
+      "subtitle": "Tafuta miji duniani kote",
+      "placeholder": "k.m. London, New York...",
+      "recent": "Utafutaji wa Hivi Karibuni",
+      "useGPS": "Tumia Mahali Ulipo",
+      "gpsDenied": "Ruhusa ya eneo imekataliwa.",
+      "gpsError": "Imeshindwa kupata eneo."
+    },
+    "calendar": {
+      "title": "Kalenda Iliyounganishwa",
+      "todayNotice": "Leo: {{gregorian}} • Hijri: {{hijri}}"
+    },
+    "imsakiye": {
+      "title": "Imsakiye ya kila wiki",
+      "subtitle": "Muda wa siku 7 zijazo",
+      "date": "Tarehe"
+    },
+    "religious": {
+      "title": "Siku za Dini",
+      "subtitle": "Kalenda na siku zijazo kwa usiku na siku zilizobarikiwa",
+      "today": "Leo",
+      "daysLeft": "siku",
+      "passed": "Imepitishwa"
+    },
+    "widgetPromo": {
+      "title": "Ongeza Wijeti ya Maombi",
+      "desc": "Ongeza wijeti ya Vera kwenye skrini yako ya nyumbani ili kuona nyakati za maombi na kuhesabu papo hapo bila kufungua programu.",
+      "addBtn": "Ongeza kwenye Skrini ya Nyumbani",
+      "dismissBtn": "Sio Sasa"
+    },
+    "names": {
+      "title": "Majina ya Mwenyezi Mungu na Duas",
+      "namesSubtitle": "Majina 99 Mazuri ya Mwenyezi Mungu",
+      "duasSubtitle": "Dua za kila siku",
+      "meaningLabel": "Maana",
+      "tabNames": "99 Majina",
+      "tabDuas": "Duas",
+      "namesCount": "{{count}} Names",
+      "duasCount": "{{count}} Duas",
+      "tapHint": "Tap for details",
+      "searchPlaceholder": "Search names or meaning..."
+    },
+    "batteryOptimization": {
+      "title": "Arifa za Swala Bila Kukatizwa",
+      "message": "Ili kupokea arifa na sauti kamili na kwa wakati wakati wa swala, inashauriwa kuzima uboreshaji wa betri kwa programu.",
+      "openSettings": "Fungua Mipangilio",
+      "later": "Baadaye"
+    },
+    "directions": {
+      "n": "N",
+      "ne": "NE",
+      "e": "E",
+      "se": "SE",
+      "s": "S",
+      "sw": "SW",
+      "w": "W",
+      "nw": "NW"
+    },
+    "onboarding": {
+      "title": "Welcome to Vera",
+      "subtitle": "Let's set your location for accurate prayer times and adhan notifications.",
+      "detectedCity": "Current City",
+      "detecting": "Detecting Location...",
+      "autoLocationBtn": "Find Location Automatically",
+      "manualCityBtn": "Select City from List",
+      "continueWithCity": "Continue with {{city}}",
+      "step2Title": "Prayer & Adhan Notifications",
+      "step2Subtitle": "Set your notification preferences to never miss a prayer.",
+      "verifiedMethodTitle": "Verified Calculation Method",
+      "verifiedMethodDesc": "The most accurate Islamic method for your region is selected automatically.",
+      "notificationsTitle": "Adhan & Prayer Alerts",
+      "notificationsDesc": "Receive gentle or audible reminders at prayer times.",
+      "startBtn": "Start Using Vera 🌟",
+      "featureQuran": "Quran & Audio",
+      "featureQibla": "Qibla",
+      "featureDhikr": "Dhikr Counter",
+      "backBtn": "← Go Back"
+    },
+    "weather": {
+      "title": "Weather Forecast",
+      "error": "Failed to load weather forecast.",
+      "high": "High",
+      "low": "Low",
+      "feelsLike": "Feels Like",
+      "today": "Today",
+      "hourlyTitle": "24-Hour Forecast",
+      "forecast7Day": "7-Day Forecast",
+      "humidity": "Humidity",
+      "wind": "Wind Speed",
+      "pressure": "Pressure",
+      "uvIndex": "UV Index",
+      "sunrise": "Sunrise",
+      "sunset": "Sunset",
+      "precipitation": "Precipitation",
+      "kmh": "km/h",
+      "hpa": "hPa"
+    },
+    "duas": {
+      "occasionTitle": "When & Why to Recite?",
+      "searchPlaceholder": "Search dua, healing, wealth, protection..."
+    },
+    "kaza": {
+      "title": "Missed Prayers & Fasting Tracker",
+      "subtitle": "Track and complete your missed prayers and fasts regularly",
+      "shortTitle": "Missed",
+      "fajr": "Fajr",
+      "dhuhr": "Dhuhr",
+      "asr": "Asr",
+      "maghrib": "Maghrib",
+      "isha": "Isha",
+      "witr": "Witr",
+      "fasting": "Fasting (Days)",
+      "remainingPrayers": "Remaining",
+      "completedPrayers": "Completed",
+      "progress": "Progress",
+      "addDailyBtn": "+1 Full Day",
+      "calcBtn": "Calculate Debt",
+      "debtOf": "Debt",
+      "left": "left",
+      "dailyAddedTitle": "1 Day of Missed Prayers Added!",
+      "dailyAddedDesc": "Fajr, Dhuhr, Asr, Maghrib, Isha, and Witr missed counts increased by 1. May Allah accept.",
+      "calculatorTitle": "Missed Debt Calculator",
+      "calculatorDesc": "Enter the estimated time since reaching maturity without regular prayers:",
+      "years": "Years",
+      "months": "Months",
+      "invalidTime": "Please enter a valid year or month.",
+      "invalidNumber": "Please enter a valid number.",
+      "applyCalc": "Update Debt",
+      "editDebtTitle": "Set Total Debt"
+    },
+    "greeting": {
+      "modalTitle": "Greeting Card Creator",
+      "modalSubtitle": "Share elegant Jummah, Kandil, and Eid greeting cards",
+      "shortTitle": "Greetings",
+      "chooseTemplate": "Preset Templates",
+      "customMessage": "Write Custom Message",
+      "titlePlaceholder": "Title (e.g. Jummah Mubarak)",
+      "messagePlaceholder": "Write your prayer or greeting message...",
+      "chooseTheme": "Card Theme",
+      "shareBtn": "Share to WhatsApp / Story 🌟",
+      "shareImageBtn": "Share Image Card 🌟",
+      "shareLinkBtn": "Share Direct Store Link 🔗"
+    },
+    "mosques": {
+      "title": "Nearby Mosques",
+      "subtitle": "Places of worship closest to your location",
+      "shortTitle": "Mosques",
+      "loading": "Scanning nearby mosques...",
+      "emptyTitle": "No Mosques Found Nearby",
+      "emptyDesc": "You can view all mosques directly on maps navigation.",
+      "openInMaps": "Search on Maps",
+      "directionsBtn": "Directions"
+    },
+    "dailyContent": {
+      "preparing": "Loading daily inspiration...",
+      "queueSuccess": "Content added to the approval queue.",
+      "queueError": "An error occurred while adding content."
     }
   }
 }

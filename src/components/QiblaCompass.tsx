@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Platform } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -13,13 +13,12 @@ import Animated, {
 import Svg, { Circle, G, Line, Path, Text as SvgText } from 'react-native-svg';
 import * as Haptics from 'expo-haptics';
 import { useTranslation } from 'react-i18next';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Feather } from '@expo/vector-icons';
+import { Feather, Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
 import { typography } from '../utils/theme';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const COMPASS_SIZE = Math.min(SCREEN_WIDTH - 64, 300);
+const COMPASS_SIZE = Math.min(SCREEN_WIDTH - 90, 250);
 const STROKE = COMPASS_SIZE * 0.04;
 
 interface QiblaCompassProps {
@@ -29,24 +28,24 @@ interface QiblaCompassProps {
   error?: string | null;
 }
 
-// 16 compass directions
+// 16 compass directions with localization keys
 const DIRECTIONS = [
-  { angle: 0,   label: 'K' },
-  { angle: 22.5, label: '' },
-  { angle: 45,  label: 'KD' },
-  { angle: 67.5, label: '' },
-  { angle: 90,  label: 'D' },
-  { angle: 112.5, label: '' },
-  { angle: 135, label: 'GD' },
-  { angle: 157.5, label: '' },
-  { angle: 180, label: 'G' },
-  { angle: 202.5, label: '' },
-  { angle: 225, label: 'GB' },
-  { angle: 247.5, label: '' },
-  { angle: 270, label: 'B' },
-  { angle: 292.5, label: '' },
-  { angle: 315, label: 'KB' },
-  { angle: 337.5, label: '' },
+  { angle: 0,   key: 'n' },
+  { angle: 22.5, key: '' },
+  { angle: 45,  key: 'ne' },
+  { angle: 67.5, key: '' },
+  { angle: 90,  key: 'e' },
+  { angle: 112.5, key: '' },
+  { angle: 135, key: 'se' },
+  { angle: 157.5, key: '' },
+  { angle: 180, key: 's' },
+  { angle: 202.5, key: '' },
+  { angle: 225, key: 'sw' },
+  { angle: 247.5, key: '' },
+  { angle: 270, key: 'w' },
+  { angle: 292.5, key: '' },
+  { angle: 315, key: 'nw' },
+  { angle: 337.5, key: '' },
 ];
 
 function getShortestAngle(from: number, to: number): number {
@@ -65,7 +64,7 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error }: QiblaComp
   const glowScale = useSharedValue(1);
 
   const qiblaDiff = Math.abs(getShortestAngle(heading, qiblaAngle));
-  const aligned = qiblaDiff <= 5;
+  const aligned = qiblaDiff <= 6;
 
   useEffect(() => {
     const diff = getShortestAngle(animatedHeading.value, -heading);
@@ -77,7 +76,9 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error }: QiblaComp
 
     if (aligned) {
       if (isAligned.value === 0) {
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        try {
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        } catch (_) {}
         glowScale.value = withRepeat(
           withSequence(
             withTiming(1.08, { duration: 600, easing: Easing.inOut(Easing.ease) }),
@@ -91,29 +92,25 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error }: QiblaComp
       isAligned.value = withTiming(0, { duration: 300 });
       glowScale.value = withTiming(1, { duration: 200 });
     }
-  }, [heading, qiblaAngle]);
+  }, [heading, qiblaAngle, aligned]);
 
-  // Animated rotate style for the compass rose
   const compassStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${animatedHeading.value}deg` }],
   }));
 
-  // Glow pulse when aligned
   const glowStyle = useAnimatedStyle(() => ({
     transform: [{ scale: glowScale.value }],
     opacity: isAligned.value * 0.35 + 0.05,
   }));
 
-  // Outer ring color: gray → green when aligned
   const ringStyle = useAnimatedStyle(() => ({
     borderColor: interpolateColor(
       isAligned.value,
       [0, 1],
-      [isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.1)', '#22C55E']
+      [isDark ? 'rgba(212, 175, 55, 0.3)' : 'rgba(0,0,0,0.1)', '#22C55E']
     ),
   }));
 
-  // Status text color
   const statusTextStyle = useAnimatedStyle(() => ({
     color: interpolateColor(
       isAligned.value,
@@ -125,14 +122,12 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error }: QiblaComp
   const CENTER = COMPASS_SIZE / 2;
   const R = CENTER - STROKE;
 
-  // Degree angle → SVG x/y on circle
   const pt = (angle: number, radius: number) => {
     const rad = ((angle - 90) * Math.PI) / 180;
     return { x: CENTER + radius * Math.cos(rad), y: CENTER + radius * Math.sin(rad) };
   };
 
-  // Qibla arrow path (pointing up from center)
-  const arrowLen = R * 0.52;
+  const arrowLen = R * 0.54;
   const arrowPt = pt(qiblaAngle, arrowLen);
   const arrowPath = `M ${CENTER} ${CENTER} L ${arrowPt.x} ${arrowPt.y}`;
 
@@ -145,20 +140,6 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error }: QiblaComp
 
   return (
     <View style={styles.container}>
-      {/* Degree display */}
-      <View style={[styles.degreeDisplay, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)', borderColor: theme.colors.border }]}>
-        <Feather name="compass" size={14} color={theme.colors.primary} />
-        <Text style={[styles.degreeText, { color: theme.colors.text }]}>
-          {Math.round(heading)}°
-        </Text>
-        <Text style={[styles.degreeLabel, { color: theme.colors.textSecondary }]}>
-          {heading < 22.5 || heading >= 337.5 ? 'K' :
-           heading < 67.5  ? 'KD' : heading < 112.5 ? 'D' :
-           heading < 157.5 ? 'GD' : heading < 202.5 ? 'G' :
-           heading < 247.5 ? 'GB' : heading < 292.5 ? 'B' : 'KB'}
-        </Text>
-      </View>
-
       {/* Compass container */}
       <View style={styles.compassOuter}>
         {/* Glow halo when aligned */}
@@ -166,7 +147,7 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error }: QiblaComp
 
         {/* Outer ring */}
         <Animated.View style={[styles.compassRing, ringStyle, {
-          backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.9)',
+          backgroundColor: isDark ? 'rgba(30, 22, 12, 0.8)' : 'rgba(255,255,255,0.95)',
           shadowColor: aligned ? '#22C55E' : '#000',
         }]}>
           {/* Rotating compass rose (N/S/E/W + ticks) */}
@@ -174,27 +155,29 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error }: QiblaComp
             <Svg width={COMPASS_SIZE} height={COMPASS_SIZE}>
               {/* Outer tick ring */}
               {DIRECTIONS.map((d, i) => {
-                const inner = pt(d.angle, R * (d.label ? 0.76 : 0.82));
+                const labelText = d.key ? t(`directions.${d.key}`, d.key.toUpperCase()) : '';
+                const inner = pt(d.angle, R * (labelText ? 0.76 : 0.82));
                 const outer = pt(d.angle, R * 0.88);
-                const isCardinal = ['K', 'D', 'G', 'B'].includes(d.label);
+                const isNorth = d.key === 'n';
+                const isCardinal = ['n', 'e', 's', 'w'].includes(d.key);
                 return (
                   <G key={i}>
                     <Line
                       x1={outer.x} y1={outer.y}
                       x2={inner.x} y2={inner.y}
-                      stroke={d.label === 'K' ? '#EF4444' : (isCardinal ? theme.colors.text : theme.colors.border)}
+                      stroke={isNorth ? '#EF4444' : (isCardinal ? (isDark ? '#FDF8ED' : '#1A1A24') : (isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)'))}
                       strokeWidth={isCardinal ? 1.5 : 0.8}
                     />
-                    {d.label ? (
+                    {labelText ? (
                       <SvgText
-                        x={pt(d.angle, R * 0.66).x}
-                        y={pt(d.angle, R * 0.66).y + 3}
-                        fill={d.label === 'K' ? '#EF4444' : (isCardinal ? theme.colors.text : theme.colors.textSecondary)}
+                        x={pt(d.angle, R * 0.64).x}
+                        y={pt(d.angle, R * 0.64).y + 3}
+                        fill={isNorth ? '#EF4444' : (isCardinal ? (isDark ? '#FDF8ED' : '#1A1A24') : (isDark ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.4)'))}
                         fontSize={isCardinal ? 11 : 7}
                         fontWeight={isCardinal ? 'bold' : 'normal'}
                         textAnchor="middle"
                       >
-                        {d.label}
+                        {labelText}
                       </SvgText>
                     ) : null}
                   </G>
@@ -205,73 +188,90 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error }: QiblaComp
               <Circle
                 cx={CENTER} cy={CENTER} r={R * 0.55}
                 fill="none"
-                stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}
+                stroke={isDark ? 'rgba(212, 175, 55, 0.15)' : 'rgba(0,0,0,0.06)'}
                 strokeWidth={1}
               />
             </Svg>
           </Animated.View>
 
-          {/* Qibla arrow (fixed, rotated by qibla angle offset from heading) */}
+          {/* Qibla needle with Kaaba Icon */}
           <Animated.View style={[StyleSheet.absoluteFillObject, compassStyle]}>
             <Svg width={COMPASS_SIZE} height={COMPASS_SIZE}>
               {/* Arrow shaft */}
               <Path
                 d={arrowPath}
-                stroke={aligned ? '#22C55E' : theme.colors.primary}
-                strokeWidth={3}
+                stroke={aligned ? '#22C55E' : '#D4AF37'}
+                strokeWidth={3.5}
                 strokeLinecap="round"
               />
               {/* Arrow head */}
               <Path
                 d={arrowHeadPath}
-                fill={aligned ? '#22C55E' : theme.colors.primary}
+                fill={aligned ? '#22C55E' : '#D4AF37'}
               />
-              {/* Kaaba dot at tip */}
-              <Circle
-                cx={tipX} cy={tipY} r={5}
-                fill={aligned ? '#22C55E' : theme.colors.primary}
-              />
+              {/* Kaaba 🕋 Icon at Needle Tip */}
+              <SvgText
+                x={tipX}
+                y={tipY + 6}
+                fontSize={20}
+                textAnchor="middle"
+              >
+                🕋
+              </SvgText>
             </Svg>
           </Animated.View>
 
           {/* Center hub */}
           <View style={[styles.centerHub, {
-            backgroundColor: aligned ? '#22C55E' : theme.colors.primary,
-            shadowColor: aligned ? '#22C55E' : theme.colors.primary,
+            backgroundColor: aligned ? '#22C55E' : '#D4AF37',
+            shadowColor: aligned ? '#22C55E' : '#D4AF37',
           }]} />
         </Animated.View>
       </View>
 
+      {/* Alignment Status Banner */}
+      <View style={[
+        styles.statusBanner,
+        {
+          backgroundColor: aligned
+            ? (isDark ? 'rgba(34, 197, 94, 0.15)' : 'rgba(34, 197, 94, 0.1)')
+            : (isDark ? 'rgba(212, 175, 55, 0.1)' : 'rgba(212, 175, 55, 0.08)'),
+          borderColor: aligned ? '#22C55E' : (isDark ? 'rgba(212, 175, 55, 0.3)' : 'rgba(212, 175, 55, 0.2)'),
+        }
+      ]}>
+        <Ionicons
+          name={aligned ? 'checkmark-circle' : 'navigate-circle-outline'}
+          size={18}
+          color={aligned ? '#22C55E' : '#D4AF37'}
+          style={{ marginRight: 8 }}
+        />
+        <Text style={[
+          styles.statusBannerText,
+          { color: aligned ? '#22C55E' : (isDark ? '#FDF8ED' : '#1A1A24') }
+        ]}>
+          {error ? error : aligned ? t('qibla.alignedSuccess', 'Kıble yönündesiniz! ✓') : t('qibla.aligning', 'Telefonu düz tutun ve döndürün')}
+        </Text>
+      </View>
+
       {/* Qibla info row */}
-      <View style={[styles.infoRow, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)', borderColor: theme.colors.border }]}>
+      <View style={[styles.infoRow, { backgroundColor: isDark ? '#1E160C' : '#FFFFFF', borderColor: isDark ? 'rgba(212, 175, 55, 0.25)' : 'rgba(0,0,0,0.08)' }]}>
         <View style={styles.infoCell}>
-          <Text style={[styles.infoLabel, { color: theme.colors.textSecondary }]}>{t('qibla.angle')}</Text>
-          <Text style={[styles.infoValue, { color: theme.colors.primary }]}>{Math.round(qiblaAngle)}°</Text>
+          <Text style={[styles.infoLabel, { color: theme.colors.textSecondary }]}>{t('qibla.angle', 'Kıble Açısı')}</Text>
+          <Text style={[styles.infoValue, { color: '#D4AF37' }]}>{Math.round(qiblaAngle)}°</Text>
         </View>
-        <View style={[styles.infoDivider, { backgroundColor: theme.colors.border }]} />
+        <View style={[styles.infoDivider, { backgroundColor: isDark ? 'rgba(212, 175, 55, 0.2)' : 'rgba(0,0,0,0.08)' }]} />
         <View style={styles.infoCell}>
-          <Text style={[styles.infoLabel, { color: theme.colors.textSecondary }]}>{t('qibla.distance')}</Text>
+          <Text style={[styles.infoLabel, { color: theme.colors.textSecondary }]}>{t('qibla.heading', 'Pusula')}</Text>
+          <Text style={[styles.infoValue, { color: theme.colors.text }]}>{Math.round(heading)}°</Text>
+        </View>
+        <View style={[styles.infoDivider, { backgroundColor: isDark ? 'rgba(212, 175, 55, 0.2)' : 'rgba(0,0,0,0.08)' }]} />
+        <View style={styles.infoCell}>
+          <Text style={[styles.infoLabel, { color: theme.colors.textSecondary }]}>{t('qibla.distance', 'Mesafe')}</Text>
           <Text style={[styles.infoValue, { color: theme.colors.text }]}>
             {distance !== null ? `${distance} km` : '...'}
           </Text>
         </View>
-        <View style={[styles.infoDivider, { backgroundColor: theme.colors.border }]} />
-        <View style={styles.infoCell}>
-          <Text style={[styles.infoLabel, { color: theme.colors.textSecondary }]}>{t('qibla.status')}</Text>
-          <Animated.Text style={[styles.infoStatus, statusTextStyle]}>
-            {aligned ? `✓ ${t('qibla.aligned')}` : t('qibla.aligning')}
-          </Animated.Text>
-        </View>
       </View>
-
-      {/* Status message */}
-      <Animated.Text style={[styles.statusText, { fontFamily: typography.fontFamily.medium }, statusTextStyle]}>
-        {error
-          ? error
-          : aligned
-            ? t('qibla.alignedSuccess')
-            : t('qibla.holdFlat')}
-      </Animated.Text>
     </View>
   );
 }
@@ -279,39 +279,21 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error }: QiblaComp
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    gap: 20,
-    paddingHorizontal: 24,
     width: '100%',
-  },
-  degreeDisplay: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 14,
-    borderWidth: 1,
-  },
-  degreeText: {
-    fontFamily: typography.fontFamily.bold,
-    fontSize: 18,
-    letterSpacing: -0.5,
-  },
-  degreeLabel: {
-    fontFamily: typography.fontFamily.medium,
-    fontSize: 14,
+    gap: 12,
   },
   compassOuter: {
-    width: COMPASS_SIZE + 24,
-    height: COMPASS_SIZE + 24,
+    width: COMPASS_SIZE + 20,
+    height: COMPASS_SIZE + 20,
     alignItems: 'center',
     justifyContent: 'center',
+    marginVertical: 4,
   },
   alignedGlow: {
     position: 'absolute',
-    width: COMPASS_SIZE + 24,
-    height: COMPASS_SIZE + 24,
-    borderRadius: (COMPASS_SIZE + 24) / 2,
+    width: COMPASS_SIZE + 20,
+    height: COMPASS_SIZE + 20,
+    borderRadius: (COMPASS_SIZE + 20) / 2,
   },
   compassRing: {
     width: COMPASS_SIZE,
@@ -320,10 +302,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowOffset: { width: 0, height: 6 },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
-    shadowRadius: 16,
-    elevation: 8,
+    shadowRadius: 12,
+    elevation: 6,
   },
   centerHub: {
     position: 'absolute',
@@ -335,9 +317,23 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 4,
   },
+  statusBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 14,
+    borderWidth: 1,
+    width: '100%',
+  },
+  statusBannerText: {
+    fontFamily: 'Outfit_600SemiBold',
+    fontSize: 13,
+  },
   infoRow: {
     flexDirection: 'row',
-    borderRadius: 18,
+    borderRadius: 16,
     borderWidth: 1,
     overflow: 'hidden',
     width: '100%',
@@ -345,30 +341,19 @@ const styles = StyleSheet.create({
   infoCell: {
     flex: 1,
     alignItems: 'center',
-    paddingVertical: 14,
-    gap: 4,
+    paddingVertical: 10,
   },
   infoDivider: {
     width: 1,
-    marginVertical: 12,
+    marginVertical: 8,
   },
   infoLabel: {
-    fontFamily: typography.fontFamily.regular,
+    fontFamily: 'Outfit_400Regular',
     fontSize: 11,
-    letterSpacing: 0.3,
+    marginBottom: 2,
   },
   infoValue: {
-    fontFamily: typography.fontFamily.bold,
-    fontSize: 20,
-    letterSpacing: -0.5,
-  },
-  infoStatus: {
-    fontFamily: typography.fontFamily.bold,
-    fontSize: 14,
-  },
-  statusText: {
-    fontSize: 15,
-    textAlign: 'center',
-    lineHeight: 22,
+    fontFamily: 'Outfit_700Bold',
+    fontSize: 16,
   },
 });

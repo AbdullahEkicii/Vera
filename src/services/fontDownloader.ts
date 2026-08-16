@@ -1,15 +1,16 @@
 import * as Font from 'expo-font';
 import type { ScriptType } from '../context/QuranSettingsContext';
 
-const FONT_ASSETS = {
+const FONT_ASSETS: Record<string, any> = {
+  'quran-imlaei': require('../../assets/fonts/quran-diyanet.ttf'),
   'quran-uthmani': require('../../assets/fonts/quran-uthmani.ttf'),
-  'quran-indopak': require('../../assets/fonts/quran-indopak.ttf'), 
+  'quran-indopak': require('../../assets/fonts/quran-indopak.ttf'),
 };
 
 export const loadQuranFont = async (scriptType: ScriptType): Promise<boolean> => {
-  // İmlai için sistemin varsayılan fontu yeterli olabilir
-  if (scriptType === 'quran-imlaei') {
-    return true; 
+  // Hüsrev Hattı uses PDF download directly instead of TTF font
+  if (scriptType === 'quran-husrev') {
+    return true;
   }
 
   const fontAsset = FONT_ASSETS[scriptType];
@@ -17,7 +18,6 @@ export const loadQuranFont = async (scriptType: ScriptType): Promise<boolean> =>
 
   const fontName = scriptType;
 
-  // Eğer belleğe daha önce yüklendiyse direkt geç
   if (Font.isLoaded(fontName)) {
     return true;
   }
@@ -27,7 +27,7 @@ export const loadQuranFont = async (scriptType: ScriptType): Promise<boolean> =>
     await Font.loadAsync({
       [fontName]: fontAsset,
     });
-    
+
     return true;
   } catch (error) {
     console.error(`Failed to load font ${fontName}:`, error);

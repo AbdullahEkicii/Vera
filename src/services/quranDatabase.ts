@@ -56,7 +56,14 @@ const initDb = async (database: SQLite.SQLiteDatabase) => {
     CREATE TABLE IF NOT EXISTS download_status (
       juz_no INTEGER PRIMARY KEY,
       status TEXT NOT NULL,
-      lang_code TEXT NOT NULL
+      lang_code TEXT NOT NULL,
+      script_type TEXT DEFAULT 'quran-imlaei'
     );
   `);
+
+  try {
+    await database.execAsync("ALTER TABLE download_status ADD COLUMN script_type TEXT DEFAULT 'quran-imlaei';");
+  } catch (e) {
+    // Column might already exist, ignore error
+  }
 };

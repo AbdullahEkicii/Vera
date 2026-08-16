@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Switch, ScrollView, Alert, Pressable, Modal } from 'react-native';
+import { View, Text, StyleSheet, Switch, ScrollView, Alert, Pressable, Modal, DeviceEventEmitter } from 'react-native';
+import Constants from 'expo-constants';
 import { useTranslation } from 'react-i18next';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppBackground } from '../../components/ProgressRing';
+import { WidgetPromptModal } from '../../components/WidgetPromptModal';
 import { useTheme } from '../../context/ThemeContext';
 import { borderRadius, spacing, typography } from '../../utils/theme';
 import {
@@ -14,10 +16,20 @@ import {
   saveNotificationPrefs,
   requestNotificationPermissions,
   schedulePrayerNotifications,
+  updatePersistentPrayerNotification,
+  scheduleTestNotification,
+  initNotifications,
 } from '../../services/notificationService';
+import { audioManager } from '../../services/audioManager';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from '@react-native-firebase/auth';
 import { TextInput } from 'react-native';
+
+const SOUND_OPTIONS = [
+  { id: 'azizallah', defaultName: 'Azizallah (Ezan Vakti)' },
+  { id: 'adhan_25minutes', defaultName: 'Ezan (25 Dk Kala)' },
+  { id: 'allahu_akbar', defaultName: 'Allahu Ekber' },
+];
 
 const PRAYER_KEYS = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
 
@@ -62,9 +74,31 @@ export default function SettingsScreen() {
   const [editorError, setEditorError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
+  // Persistent Notification & Widget State
+  const [persistentNotifEnabled, setPersistentNotifEnabled] = useState<boolean>(true);
+  const [widgetModalVisible, setWidgetModalVisible] = useState<boolean>(false);
+
+  // Sound Selection & Volume State
+  const [exactSound, setExactSound] = useState<string>('azizallah');
+  const [warningSound, setWarningSound] = useState<string>('adhan_25minutes');
+  const [volumeLevel, setVolumeLevel] = useState<number>(0.75);
+  const [playingSound, setPlayingSound] = useState<string | null>(null);
+
   useEffect(() => {
-    getNotificationPrefs().then(setPrefs);
+    getNotificationPrefs().then((p) => {
+      setPrefs(p);
+      if (p.exactSound) setExactSound(p.exactSound);
+      if (p.warningSound) setWarningSound(p.warningSound);
+    });
     
+    audioManager.getVolume().then((v) => {
+      setVolumeLevel(v);
+    });
+
+    AsyncStorage.getItem('PERSISTENT_NOTIF_ENABLED').then((saved) => {
+      setPersistentNotifEnabled(saved !== null ? saved === 'true' : true);
+    });
+
     // Load current calculation method
     AsyncStorage.getItem('PRAYER_CALCULATION_METHOD').then((saved) => {
       if (saved) {
@@ -79,6 +113,14 @@ export default function SettingsScreen() {
     return subscriber; // unsubscribe on unmount
   }, []);
 
+  const togglePersistentNotif = async (value: boolean) => {
+    setPersistentNotifEnabled(value);
+    await AsyncStorage.setItem('PERSISTENT_NOTIF_ENABLED', value ? 'true' : 'false');
+    if (!value) {
+      updatePersistentPrayerNotification('', '', '', 0, false);
+    }
+  };
+
   const rescheduleFromCache = async (currentPrefs: NotificationPrefs) => {
     const cachedString = await AsyncStorage.getItem('PRAYER_TIMES_CACHE');
     if (cachedString) {
@@ -86,6 +128,51 @@ export default function SettingsScreen() {
         const cached = JSON.parse(cachedString);
         await schedulePrayerNotifications(cached.data, currentPrefs, t);
       } catch {}
+    }
+  };
+
+  const handleSelectExactSound = async (soundId: string) => {
+    setExactSound(soundId);
+    if (prefs) {
+      const updated = { ...prefs, exactSound: soundId };
+      setPrefs(updated);
+      await saveNotificationPrefs(updated);
+      await initNotifications(soundId, warningSound);
+      await rescheduleFromCache(updated);
+    }
+  };
+
+  const handleSelectWarningSound = async (soundId: string) => {
+    setWarningSound(soundId);
+    if (prefs) {
+      const updated = { ...prefs, warningSound: soundId };
+      setPrefs(updated);
+      await saveNotificationPrefs(updated);
+      await initNotifications(exactSound, soundId);
+      await rescheduleFromCache(updated);
+    }
+  };
+
+  const handleVolumeChange = async (vol: number) => {
+    setVolumeLevel(vol);
+    await audioManager.setVolume(vol);
+  };
+
+  useEffect(() => {
+    return () => {
+      audioManager.stopAdhan();
+    };
+  }, []);
+
+  const handleTogglePreview = async (soundId: string) => {
+    if (playingSound === soundId) {
+      await audioManager.stopAdhan();
+      setPlayingSound(null);
+    } else {
+      setPlayingSound(soundId);
+      await audioManager.playAdhan(soundId, () => {
+        setPlayingSound(null);
+      });
     }
   };
 
@@ -107,7 +194,10 @@ export default function SettingsScreen() {
   const LANGUAGES = [
     { id: 'en', label: '🇬🇧 English' },
     { id: 'tr', label: '🇹🇷 Türkçe' },
+    { id: 'zh', label: '🇨🇳 简体中文' },
+    { id: 'it', label: '🇮🇹 Italiano' },
     { id: 'de', label: '🇩🇪 Deutsch' },
+    { id: 'nl', label: '🇳🇱 Nederlands' },
     { id: 'ar', label: '🇸🇦 العربية' },
     { id: 'es', label: '🇪🇸 Español' },
     { id: 'fr', label: '🇫🇷 Français' },
@@ -115,13 +205,31 @@ export default function SettingsScreen() {
     { id: 'ur', label: '🇵🇰 اردو' },
     { id: 'fa', label: '🇮🇷 فارسی' },
     { id: 'ru', label: '🇷🇺 Русский' },
+    { id: 'uz', label: '🇺🇿 Oʻzbekcha' },
     { id: 'bn', label: '🇧🇩 বাংলা' },
     { id: 'ms', label: '🇲🇾 Bahasa Melayu' },
+    { id: 'hi', label: '🇮🇳 हिन्दी' },
+    { id: 'sq', label: '🇦🇱 Shqip' },
     { id: 'ha', label: '🇳🇬 Hausa' },
     { id: 'sw', label: '🇹🇿 Kiswahili' },
+    { id: 'cs', label: '🇨🇿 Čeština' },
+    { id: 'da', label: '🇩🇰 Dansk' },
+    { id: 'fi', label: '🇫🇮 Suomi' },
+    { id: 'hu', label: '🇭🇺 Magyar' },
+    { id: 'ja', label: '🇯🇵 日本語' },
+    { id: 'ko', label: '🇰🇷 한국어' },
+    { id: 'no', label: '🇳🇴 Norsk' },
+    { id: 'pl', label: '🇵🇱 Polski' },
+    { id: 'pt', label: '🇧🇷 Português' },
+    { id: 'ro', label: '🇷🇴 Română' },
+    { id: 'sk', label: '🇸🇰 Slovenčina' },
+    { id: 'sv', label: '🇸🇪 Svenska' },
+    { id: 'th', label: '🇹🇭 ไทย' },
+    { id: 'uk', label: '🇺🇦 Українська' },
+    { id: 'vi', label: '🇻🇳 Tiếng Việt' },
   ];
 
-  const toggleTheme = (mode: 'light' | 'dark' | 'system') => setThemeMode(mode);
+  const toggleTheme = (mode: 'light' | 'dark') => setThemeMode(mode as any);
 
   const toggleNotification = async (key: keyof NotificationPrefs, val: boolean) => {
     if (val) {
@@ -139,10 +247,9 @@ export default function SettingsScreen() {
     }
   };
 
-  const themeOptions: { label: string; value: 'light' | 'dark' | 'system'; icon: any }[] = [
+  const themeOptions: { label: string; value: 'light' | 'dark'; icon: any }[] = [
     { label: t('settings.light'), value: 'light', icon: 'sun' },
     { label: t('settings.dark'),  value: 'dark',  icon: 'moon' },
-    { label: t('settings.system'), value: 'system', icon: 'smartphone' },
   ];
 
   const handleEditorLogin = async () => {
@@ -166,6 +273,19 @@ export default function SettingsScreen() {
     try {
       await signOut(getAuth());
     } catch (e) {}
+  };
+
+  const handleTestNotification = async (type: 'exact' | 'warning') => {
+    Alert.alert(
+      t('settings.testNotifTitle', 'Test Bildirimi'),
+      t('settings.testNotifBody', 'Test bildirimi 10 saniye içinde çalacak. Lütfen telefonunuzun ses tuşlarını kullanarak bildirim ses seviyesini kontrol edin veya ayarlayın.'),
+      [
+        {
+          text: t('common.ok', 'Tamam'),
+          onPress: () => scheduleTestNotification(type, t),
+        }
+      ]
+    );
   };
 
   return (
@@ -205,7 +325,7 @@ export default function SettingsScreen() {
                       size={18}
                       color={active ? '#FFF' : theme.colors.textSecondary}
                     />
-                    <Text style={[styles.themeChipLabel, { color: active ? '#FFF' : theme.colors.textSecondary }]}>
+                    <Text style={[styles.themeChipLabel, { color: active ? '#FFF' : theme.colors.textSecondary }]} numberOfLines={1} adjustsFontSizeToFit>
                       {opt.label}
                     </Text>
                   </LinearGradient>
@@ -225,7 +345,7 @@ export default function SettingsScreen() {
               colors={[theme.colors.surface, theme.colors.surface]}
               style={[styles.langChip, { borderColor: theme.colors.border }]}
             >
-              <Text style={[styles.langLabel, { color: theme.colors.text }]}>
+              <Text style={[styles.langLabel, { color: theme.colors.text, flex: 1, marginRight: 8 }]} numberOfLines={1}>
                 {LANGUAGES.find(l => l.id === i18n.language)?.label || LANGUAGES[0].label}
               </Text>
               <Feather name="chevron-down" size={20} color={theme.colors.textSecondary} />
@@ -243,7 +363,7 @@ export default function SettingsScreen() {
               colors={[theme.colors.surface, theme.colors.surface]}
               style={[styles.langChip, { borderColor: theme.colors.border }]}
             >
-              <Text style={[styles.langLabel, { color: theme.colors.text }]} numberOfLines={1}>
+              <Text style={[styles.langLabel, { color: theme.colors.text, flex: 1, marginRight: 8 }]} numberOfLines={1}>
                 {t(CALCULATION_METHODS.find(m => m.id === currentMethod)?.nameKey || '')}
               </Text>
               <Feather name="chevron-down" size={20} color={theme.colors.textSecondary} />
@@ -272,6 +392,204 @@ export default function SettingsScreen() {
           </View>
         </Animated.View>
 
+        {/* ── Persistent Notification & Lock Screen ── */}
+        <Animated.View entering={FadeInDown.delay(300).duration(500)}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.textSecondary }]}>
+            {t('settings.persistentNotifTitle', 'Lock Screen & Status Bar')}
+          </Text>
+          <View style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 14, paddingHorizontal: 16 }]}>
+            <View style={{ flex: 1, marginRight: 12 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+                <Feather name="lock" size={16} color={persistentNotifEnabled ? theme.colors.primary : theme.colors.textSecondary} />
+                <Text style={{ fontFamily: typography.fontFamily.semiBold, fontSize: 14, color: theme.colors.text }}>
+                  {t('settings.persistentNotif', 'Persistent Prayer Countdown')}
+                </Text>
+              </View>
+              <Text style={{ fontFamily: typography.fontFamily.regular, fontSize: 11, color: theme.colors.textSecondary, marginTop: 2 }}>
+                {t('settings.persistentNotifDesc', 'Track the time left for the next prayer live on your lock screen and notification panel.')}
+              </Text>
+            </View>
+            <Switch
+              value={persistentNotifEnabled}
+              onValueChange={togglePersistentNotif}
+              trackColor={{ false: theme.colors.border, true: theme.colors.primary }}
+              thumbColor="#fff"
+            />
+          </View>
+        </Animated.View>
+
+        {/* ── Home Screen App Widget Setting ── */}
+        <Animated.View entering={FadeInDown.delay(310).duration(500)}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.textSecondary }]}>
+            {t('settings.widgetTitle', 'Home Screen Widget')}
+          </Text>
+          <Pressable
+            onPress={() => setWidgetModalVisible(true)}
+            style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 14, paddingHorizontal: 16 }]}
+          >
+            <View style={{ flex: 1, marginRight: 12 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+                <Feather name="grid" size={16} color={theme.colors.primary} />
+                <Text style={{ fontFamily: typography.fontFamily.semiBold, fontSize: 14, color: theme.colors.text }}>
+                  {t('settings.addWidget', '📌 Add Widget to Home Screen!')}
+                </Text>
+              </View>
+              <Text style={{ fontFamily: typography.fontFamily.regular, fontSize: 11, color: theme.colors.textSecondary, marginTop: 2 }}>
+                {t('settings.addWidgetDesc', 'See prayer times and live countdown directly on your phone\'s home screen.')}
+              </Text>
+            </View>
+            <Feather name="chevron-right" size={20} color={theme.colors.textSecondary} />
+          </Pressable>
+        </Animated.View>
+
+        {/* ── Notification Sounds & Volume ───────────────────────────────────── */}
+        <Animated.View entering={FadeInDown.delay(330).duration(500)}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.textSecondary }]}>
+            {t('settings.soundSettings', 'Adhan Sounds & Volume')}
+          </Text>
+
+          {/* Sound Volume Level */}
+          <View style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, marginBottom: 12, padding: 14 }]}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <Feather name="volume-2" size={18} color={theme.colors.primary} />
+                <Text style={{ fontFamily: typography.fontFamily.semiBold, fontSize: 14, color: theme.colors.text }}>
+                  {t('settings.volumeLevelTitle', 'Adhan Volume Level')}
+                </Text>
+              </View>
+              <Text style={{ fontFamily: typography.fontFamily.bold, fontSize: 13, color: theme.colors.primary }}>
+                {Math.round(volumeLevel * 100)}%
+              </Text>
+            </View>
+            <View style={{ flexDirection: 'row', gap: 8 }}>
+              {[0.25, 0.50, 0.75, 1.00].map((vol) => {
+                const active = Math.abs(volumeLevel - vol) < 0.05;
+                return (
+                  <Pressable
+                    key={vol}
+                    onPress={() => handleVolumeChange(vol)}
+                    style={{
+                      flex: 1,
+                      paddingVertical: 8,
+                      borderRadius: borderRadius.sm,
+                      backgroundColor: active ? theme.colors.primary : theme.colors.surface,
+                      alignItems: 'center',
+                      borderWidth: 1,
+                      borderColor: active ? theme.colors.primary : theme.colors.border,
+                    }}
+                  >
+                    <Text style={{ fontFamily: typography.fontFamily.medium, fontSize: 12, color: active ? '#FFF' : theme.colors.text }}>
+                      {Math.round(vol * 100)}%
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+
+          {/* Exact Prayer Sound Selection */}
+          <View style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, marginBottom: 12, padding: 14 }]}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+              <Feather name="music" size={16} color={theme.colors.primary} />
+              <Text style={{ fontFamily: typography.fontFamily.semiBold, fontSize: 14, color: theme.colors.text }}>
+                {t('settings.exactSoundTitle', 'Prayer Time Sound')}
+              </Text>
+            </View>
+            {SOUND_OPTIONS.map((opt) => {
+              const active = exactSound === opt.id;
+              const isPlaying = playingSound === opt.id;
+              return (
+                <View key={opt.id} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 8, borderBottomWidth: 0.5, borderBottomColor: theme.colors.border }}>
+                  <Pressable
+                    onPress={() => handleSelectExactSound(opt.id)}
+                    style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 }}
+                  >
+                    <Ionicons
+                      name={active ? 'radio-button-on' : 'radio-button-off'}
+                      size={18}
+                      color={active ? theme.colors.primary : theme.colors.textSecondary}
+                    />
+                    <Text style={{ fontFamily: typography.fontFamily.medium, fontSize: 13, color: active ? theme.colors.text : theme.colors.textSecondary }}>
+                      {t(`settings.soundNames.${opt.id}`, opt.defaultName)}
+                    </Text>
+                  </Pressable>
+
+                  <Pressable
+                    onPress={() => handleTogglePreview(opt.id)}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 4,
+                      paddingHorizontal: 10,
+                      paddingVertical: 5,
+                      borderRadius: borderRadius.sm,
+                      backgroundColor: isPlaying ? theme.colors.primary : theme.colors.surface,
+                      borderWidth: 1,
+                      borderColor: isPlaying ? theme.colors.primary : theme.colors.border,
+                    }}
+                  >
+                    <Feather name={isPlaying ? 'square' : 'play'} size={12} color={isPlaying ? '#FFF' : theme.colors.primary} />
+                    <Text style={{ fontFamily: typography.fontFamily.medium, fontSize: 11, color: isPlaying ? '#FFF' : theme.colors.primary }}>
+                      {isPlaying ? t('settings.stopPreview', 'Stop') : t('settings.previewSound', 'Listen')}
+                    </Text>
+                  </Pressable>
+                </View>
+              );
+            })}
+          </View>
+
+          {/* 25 Min Warning Sound Selection */}
+          <View style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, marginBottom: 12, padding: 14 }]}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+              <Feather name="bell" size={16} color={theme.colors.primary} />
+              <Text style={{ fontFamily: typography.fontFamily.semiBold, fontSize: 14, color: theme.colors.text }}>
+                {t('settings.warningSoundTitle', '25 Min Warning Sound')}
+              </Text>
+            </View>
+            {SOUND_OPTIONS.map((opt) => {
+              const active = warningSound === opt.id;
+              const isPlaying = playingSound === opt.id;
+              return (
+                <View key={opt.id} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 8, borderBottomWidth: 0.5, borderBottomColor: theme.colors.border }}>
+                  <Pressable
+                    onPress={() => handleSelectWarningSound(opt.id)}
+                    style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 }}
+                  >
+                    <Ionicons
+                      name={active ? 'radio-button-on' : 'radio-button-off'}
+                      size={18}
+                      color={active ? theme.colors.primary : theme.colors.textSecondary}
+                    />
+                    <Text style={{ fontFamily: typography.fontFamily.medium, fontSize: 13, color: active ? theme.colors.text : theme.colors.textSecondary }}>
+                      {t(`settings.soundNames.${opt.id}`, opt.defaultName)}
+                    </Text>
+                  </Pressable>
+
+                  <Pressable
+                    onPress={() => handleTogglePreview(opt.id)}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 4,
+                      paddingHorizontal: 10,
+                      paddingVertical: 5,
+                      borderRadius: borderRadius.sm,
+                      backgroundColor: isPlaying ? theme.colors.primary : theme.colors.surface,
+                      borderWidth: 1,
+                      borderColor: isPlaying ? theme.colors.primary : theme.colors.border,
+                    }}
+                  >
+                    <Feather name={isPlaying ? 'square' : 'play'} size={12} color={isPlaying ? '#FFF' : theme.colors.primary} />
+                    <Text style={{ fontFamily: typography.fontFamily.medium, fontSize: 11, color: isPlaying ? '#FFF' : theme.colors.primary }}>
+                      {isPlaying ? t('settings.stopPreview', 'Stop') : t('settings.previewSound', 'Listen')}
+                    </Text>
+                  </Pressable>
+                </View>
+              );
+            })}
+          </View>
+        </Animated.View>
+
         {/* ── Notifications ─────────────────────────────────────────────── */}
         {prefs && (
           <Animated.View entering={FadeInDown.delay(320).duration(500)} style={styles.notifSection}>
@@ -279,67 +597,90 @@ export default function SettingsScreen() {
               {t('settings.notifications', 'Bildirimler')}
             </Text>
 
-            <View style={styles.prayerNotifContainer}>
-              {PRAYER_KEYS.map((key) => {
+            <View style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, overflow: 'hidden' }]}>
+              {PRAYER_KEYS.map((key, index) => {
                 const isExactOn = prefs[key];
                 const isWarnOn = prefs[`${key}_warn` as keyof NotificationPrefs];
+                const isLast = index === PRAYER_KEYS.length - 1;
                 return (
                   <View
                     key={key}
-                    style={[styles.prayerNotifCard, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border }]}
+                    style={[styles.compactNotifRow, !isLast && { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: theme.colors.border }]}
                   >
-                    {/* Card Header (Prayer Name) */}
-                    <View style={styles.prayerNotifHeader}>
-                      <View style={[styles.prayerNotifIconWrap, { backgroundColor: theme.colors.surface }]}>
-                        {getPrayerIcon(key, theme.colors.primary)}
-                      </View>
-                      <Text style={[styles.prayerNotifName, { color: theme.colors.text }]}>
+                    <View style={styles.compactNotifLeft}>
+                      {getPrayerIcon(key, theme.colors.primary)}
+                      <Text style={[styles.compactNotifName, { color: theme.colors.text }]}>
                         {t(`home.prayers.${key}`)}
                       </Text>
                     </View>
+                    <View style={styles.compactNotifRight}>
+                      <Pressable
+                        style={[styles.compactNotifBtn, isWarnOn ? { backgroundColor: theme.colors.primary } : { backgroundColor: theme.colors.surface, borderWidth: 1, borderColor: theme.colors.border }]}
+                        onPress={() => toggleNotification(`${key}_warn` as keyof NotificationPrefs, !isWarnOn)}
+                      >
+                        <Feather name="clock" size={13} color={isWarnOn ? '#FFF' : theme.colors.textSecondary} />
+                        <Text style={[styles.compactNotifBtnText, { color: isWarnOn ? '#FFF' : theme.colors.textSecondary }]}>{t('settings.warnNotifBtn', '-25dk')}</Text>
+                      </Pressable>
 
-                    {/* Switch Rows */}
-                    <View style={styles.prayerNotifRows}>
-                      {/* Row 1: Ezan Vakti */}
-                      <View style={styles.prayerSubRow}>
-                        <View style={styles.prayerSubLeft}>
-                          <Feather name="bell" size={14} color={isExactOn ? theme.colors.primary : theme.colors.textSecondary} />
-                          <Text style={[styles.prayerSubLabel, { color: theme.colors.text }]}>
-                            {t('notifications.exactAlert')}
-                          </Text>
-                        </View>
-                        <Switch
-                          value={isExactOn}
-                          onValueChange={(val) => toggleNotification(key, val)}
-                          trackColor={{ false: theme.colors.border, true: theme.colors.primary }}
-                          thumbColor="#fff"
-                        />
-                      </View>
-
-                      <View style={[styles.subRowDivider, { backgroundColor: theme.colors.border }]} />
-
-                      {/* Row 2: 25 Dk Kala */}
-                      <View style={styles.prayerSubRow}>
-                        <View style={styles.prayerSubLeft}>
-                          <Feather name="clock" size={14} color={isWarnOn ? theme.colors.primary : theme.colors.textSecondary} />
-                          <Text style={[styles.prayerSubLabel, { color: theme.colors.text }]}>
-                            {t('notifications.warnAlert')}
-                          </Text>
-                        </View>
-                        <Switch
-                          value={isWarnOn}
-                          onValueChange={(val) => toggleNotification(`${key}_warn` as keyof NotificationPrefs, val)}
-                          trackColor={{ false: theme.colors.border, true: theme.colors.primary }}
-                          thumbColor="#fff"
-                        />
-                      </View>
+                      <Pressable
+                        style={[styles.compactNotifBtn, isExactOn ? { backgroundColor: theme.colors.primary } : { backgroundColor: theme.colors.surface, borderWidth: 1, borderColor: theme.colors.border }]}
+                        onPress={() => toggleNotification(key, !isExactOn)}
+                      >
+                        <Feather name="bell" size={13} color={isExactOn ? '#FFF' : theme.colors.textSecondary} />
+                        <Text style={[styles.compactNotifBtnText, { color: isExactOn ? '#FFF' : theme.colors.textSecondary }]}>{t('settings.exactNotifBtn', 'Ezan')}</Text>
+                      </Pressable>
                     </View>
                   </View>
                 );
               })}
             </View>
+
+            <View style={styles.testButtonsContainer}>
+              <Pressable style={[styles.testBtn, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border }]} onPress={() => handleTestNotification('warning')}>
+                <Feather name="clock" size={16} color={theme.colors.primary} />
+                <Text style={[styles.testBtnText, { color: theme.colors.text }]}>{t('settings.testWarnNotif')}</Text>
+              </Pressable>
+              <Pressable style={[styles.testBtn, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border }]} onPress={() => handleTestNotification('exact')}>
+                <Feather name="bell" size={16} color={theme.colors.primary} />
+                <Text style={[styles.testBtnText, { color: theme.colors.text }]}>{t('settings.testExactNotif')}</Text>
+              </Pressable>
+            </View>
           </Animated.View>
         )}
+
+        {/* ── App Version & Update Check ───────────────────────────── */}
+        <Animated.View entering={FadeInDown.delay(420).duration(500)}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.textSecondary }]}>
+            {t('update.sectionTitle', 'Uygulama Sürümü')}
+          </Text>
+          <View style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, padding: 16 }]}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                <Feather name="info" size={18} color={theme.colors.primary} />
+                <Text style={{ fontFamily: typography.fontFamily.medium, fontSize: 14, color: theme.colors.text }}>
+                  {t('update.versionLabel', 'Sürüm')}: v{Constants.expoConfig?.version || Constants.nativeAppVersion || '1.0.0'}
+                </Text>
+              </View>
+              <Pressable
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 6,
+                  backgroundColor: theme.colors.primary + '15',
+                  paddingHorizontal: 12,
+                  paddingVertical: 8,
+                  borderRadius: 8,
+                }}
+                onPress={() => DeviceEventEmitter.emit('CHECK_FOR_UPDATE', { manual: true })}
+              >
+                <Feather name="refresh-cw" size={14} color={theme.colors.primary} />
+                <Text style={{ fontFamily: typography.fontFamily.semiBold, fontSize: 13, color: theme.colors.primary }}>
+                  {t('update.checkUpdate', 'Güncellemeleri Kontrol Et')}
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        </Animated.View>
 
         {/* ── About ─────────────────────────────────────────────────────── */}
         <Animated.View
@@ -478,6 +819,10 @@ export default function SettingsScreen() {
         </View>
       </Modal>
 
+      <WidgetPromptModal
+        visible={widgetModalVisible}
+        onClose={() => setWidgetModalVisible(false)}
+      />
     </AppBackground>
   );
 }
@@ -547,62 +892,65 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontFamily.semiBold,
     fontSize: 16,
   },
-  /* Notification card */
+  /* Compact Notifications */
   notifSection: {
-    gap: spacing.sm,
-  },
-  prayerNotifContainer: {
     gap: 12,
   },
-  prayerNotifCard: {
-    borderRadius: borderRadius.lg,
-    borderWidth: 1,
-    padding: spacing.md,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.04,
-    shadowRadius: 8,
-    elevation: 1,
+  compactNotifRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
   },
-  prayerNotifHeader: {
+  compactNotifLeft: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    marginBottom: 10,
+    flex: 1,
   },
-  prayerNotifIconWrap: {
-    width: 32,
-    height: 32,
-    borderRadius: 10,
+  compactNotifName: {
+    fontFamily: typography.fontFamily.semiBold,
+    fontSize: 15,
+  },
+  compactNotifRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  compactNotifBtn: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 4,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    minWidth: 70,
   },
-  prayerNotifName: {
-    fontFamily: typography.fontFamily.bold,
-    fontSize: 16,
-  },
-  prayerNotifRows: {
-    gap: 2,
-  },
-  prayerSubRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 4,
-  },
-  prayerSubLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  prayerSubLabel: {
+  compactNotifBtnText: {
     fontFamily: typography.fontFamily.medium,
-    fontSize: 14,
+    fontSize: 12,
   },
-  subRowDivider: {
-    height: StyleSheet.hairlineWidth,
-    marginVertical: 4,
-    opacity: 0.5,
+  /* Test Buttons */
+  testButtonsContainer: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 4,
+  },
+  testBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 12,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+  },
+  testBtnText: {
+    fontFamily: typography.fontFamily.semiBold,
+    fontSize: 13,
   },
   /* About */
   aboutCard: {

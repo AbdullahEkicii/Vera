@@ -231,6 +231,59 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
     }
   };
 
+  const renderSeparator = useCallback(() => (
+    <View style={[styles.separator, { backgroundColor: theme.colors.border }]} />
+  ), [theme.colors.border]);
+
+  const renderSuggestionItem = useCallback(({ item }: { item: NominatimResult }) => {
+    const cityName = extractCityName(item);
+    const parts = item.display_name.split(',');
+    const detail = parts.slice(1, 3).join(',').trim();
+    return (
+      <Pressable
+        style={({ pressed }) => [styles.suggestionRow, { opacity: pressed ? 0.7 : 1 }]}
+        onPress={() => handleSelectSuggestion(item)}
+      >
+        <View style={[styles.suggestionIconBox, { backgroundColor: theme.colors.primaryLight }]}>
+          <Feather name="map-pin" size={14} color={theme.colors.primary} />
+        </View>
+        <View style={styles.suggestionTexts}>
+          <Text style={[styles.suggestionCity, { color: theme.colors.text }]} numberOfLines={1}>
+            {cityName}
+          </Text>
+          {detail ? (
+            <Text style={[styles.suggestionDetail, { color: theme.colors.textSecondary }]} numberOfLines={1}>
+              {detail}
+            </Text>
+          ) : null}
+        </View>
+        <Feather name="chevron-right" size={16} color={theme.colors.textSecondary} />
+      </Pressable>
+    );
+  }, [handleSelectSuggestion, theme.colors]);
+
+  const renderRecentItem = useCallback(({ item }: { item: RecentCity }) => (
+    <Pressable
+      style={({ pressed }) => [styles.suggestionRow, { opacity: pressed ? 0.7 : 1 }]}
+      onPress={() => handleRecentPress(item)}
+    >
+      <View style={[styles.suggestionIconBox, { backgroundColor: theme.colors.primaryLight }]}>
+        <Feather name="clock" size={14} color={theme.colors.primary} />
+      </View>
+      <View style={styles.suggestionTexts}>
+        <Text style={[styles.suggestionCity, { color: theme.colors.text }]} numberOfLines={1}>
+          {item.city}
+        </Text>
+      </View>
+      <Pressable onPress={() => removeRecent(item.city)} hitSlop={10}>
+        <Feather name="x" size={16} color={theme.colors.textSecondary} />
+      </Pressable>
+    </Pressable>
+  ), [handleRecentPress, removeRecent, theme.colors]);
+
+  const keyExtractorSuggestion = useCallback((item: NominatimResult) => String(item.place_id), []);
+  const keyExtractorRecent = useCallback((item: RecentCity) => item.city, []);
+
   const showSuggestions = suggestions.length > 0 && searchQuery.trim().length >= 2;
   const showRecent = recentSearches.length > 0 && searchQuery.trim().length === 0;
 
@@ -341,38 +394,11 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
             >
               <FlatList
                 data={suggestions}
-                keyExtractor={(item) => String(item.place_id)}
+                keyExtractor={keyExtractorSuggestion}
                 scrollEnabled={false}
                 keyboardShouldPersistTaps="always"
-                ItemSeparatorComponent={() => (
-                  <View style={[styles.separator, { backgroundColor: theme.colors.border }]} />
-                )}
-                renderItem={({ item }) => {
-                  const cityName = extractCityName(item);
-                  const parts = item.display_name.split(',');
-                  const detail = parts.slice(1, 3).join(',').trim();
-                  return (
-                    <Pressable
-                      style={({ pressed }) => [styles.suggestionRow, { opacity: pressed ? 0.7 : 1 }]}
-                      onPress={() => handleSelectSuggestion(item)}
-                    >
-                      <View style={[styles.suggestionIconBox, { backgroundColor: theme.colors.primaryLight }]}>
-                        <Feather name="map-pin" size={14} color={theme.colors.primary} />
-                      </View>
-                      <View style={styles.suggestionTexts}>
-                        <Text style={[styles.suggestionCity, { color: theme.colors.text }]} numberOfLines={1}>
-                          {cityName}
-                        </Text>
-                        {detail ? (
-                          <Text style={[styles.suggestionDetail, { color: theme.colors.textSecondary }]} numberOfLines={1}>
-                            {detail}
-                          </Text>
-                        ) : null}
-                      </View>
-                      <Feather name="chevron-right" size={16} color={theme.colors.textSecondary} />
-                    </Pressable>
-                  );
-                }}
+                ItemSeparatorComponent={renderSeparator}
+                renderItem={renderSuggestionItem}
               />
             </Animated.View>
           )}
@@ -386,30 +412,11 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
               <View style={[styles.recentBox, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}>
                 <FlatList
                   data={recentSearches}
-                  keyExtractor={(item) => item.city}
+                  keyExtractor={keyExtractorRecent}
                   scrollEnabled={false}
                   keyboardShouldPersistTaps="always"
-                  ItemSeparatorComponent={() => (
-                    <View style={[styles.separator, { backgroundColor: theme.colors.border }]} />
-                  )}
-                  renderItem={({ item }) => (
-                    <Pressable
-                      style={({ pressed }) => [styles.suggestionRow, { opacity: pressed ? 0.7 : 1 }]}
-                      onPress={() => handleRecentPress(item)}
-                    >
-                      <View style={[styles.suggestionIconBox, { backgroundColor: theme.colors.primaryLight }]}>
-                        <Feather name="clock" size={14} color={theme.colors.primary} />
-                      </View>
-                      <View style={styles.suggestionTexts}>
-                        <Text style={[styles.suggestionCity, { color: theme.colors.text }]} numberOfLines={1}>
-                          {item.city}
-                        </Text>
-                      </View>
-                      <Pressable onPress={() => removeRecent(item.city)} hitSlop={10}>
-                        <Feather name="x" size={16} color={theme.colors.textSecondary} />
-                      </Pressable>
-                    </Pressable>
-                  )}
+                  ItemSeparatorComponent={renderSeparator}
+                  renderItem={renderRecentItem}
                 />
               </View>
             </View>

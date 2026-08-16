@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions, Pressable } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -44,29 +44,37 @@ export function AnimatedSplashScreen({ onAnimationComplete }: Props) {
   const textTranslateY = useSharedValue(20);
 
   useEffect(() => {
-    // 1. Logo fades in and scales up
-    opacity.value = withTiming(1, { duration: 800, easing: Easing.out(Easing.exp) });
-    scale.value = withSpring(1, { damping: 12, stiffness: 90 });
+    // 1. Logo fades in and scales up quickly
+    opacity.value = withTiming(1, { duration: 400, easing: Easing.out(Easing.exp) });
+    scale.value = withSpring(1, { damping: 14, stiffness: 120 });
 
-    // 2. Text fades in and moves up slightly after the logo
+    // 2. Text fades in slightly after logo
     textOpacity.value = withDelay(
-      500,
-      withTiming(1, { duration: 800, easing: Easing.out(Easing.ease) })
+      200,
+      withTiming(1, { duration: 400, easing: Easing.out(Easing.ease) })
     );
     textTranslateY.value = withDelay(
-      500,
-      withTiming(0, { duration: 800, easing: Easing.out(Easing.ease) })
+      200,
+      withTiming(0, { duration: 400, easing: Easing.out(Easing.ease) })
     );
 
-    // 3. Keep it on screen for a moment, then fade the whole screen out
-    setTimeout(() => {
-      opacity.value = withTiming(0, { duration: 500 });
-      textOpacity.value = withTiming(0, { duration: 400 });
-      scale.value = withTiming(1.1, { duration: 500 }, () => {
-        runOnJS(onAnimationComplete)();
-      });
-    }, 2500); // Toplam splash süresi
+    // 3. Keep it on screen briefly, then complete smoothly (total ~1.1s)
+    const timeout = setTimeout(() => {
+      opacity.value = withTiming(0, { duration: 300 });
+      textOpacity.value = withTiming(0, { duration: 250 });
+      scale.value = withTiming(1.05, { duration: 300 });
+
+      setTimeout(() => {
+        onAnimationComplete();
+      }, 320);
+    }, 1100);
+
+    return () => clearTimeout(timeout);
   }, []);
+
+  const handlePressToSkip = () => {
+    onAnimationComplete();
+  };
 
   const logoStyle = useAnimatedStyle(() => {
     return {
@@ -83,7 +91,7 @@ export function AnimatedSplashScreen({ onAnimationComplete }: Props) {
   });
 
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={handlePressToSkip}>
       {/* Premium karanlık arkaplan */}
       <LinearGradient
         colors={['#1A1207', '#0A0704']}
@@ -103,7 +111,7 @@ export function AnimatedSplashScreen({ onAnimationComplete }: Props) {
         <Animated.Text style={styles.title}>V E R A</Animated.Text>
         <Animated.Text style={styles.subtitle}>{SPLASH_SUBTITLES[i18n.language] || SPLASH_SUBTITLES['en']}</Animated.Text>
       </Animated.View>
-    </View>
+    </Pressable>
   );
 }
 
