@@ -117,7 +117,7 @@ export const getQueuedContentForToday = async (
       where('targetDate', '==', todayStr),
       limit(1)
     );
-    const snapshot = await withTimeout(getDocs(q), 5000);
+    const snapshot = await withTimeout(getDocs(q), 15000);
 
     if (!snapshot.empty) {
       return { id: snapshot.docs[0].id, ...snapshot.docs[0].data() } as QueuedContent;

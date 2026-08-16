@@ -39,15 +39,67 @@ export interface CachedData {
   data: DayData[];
 }
 
+export const autoDetectCalculationMethod = (latitude: number, longitude: number): number => {
+  // Turkey (Lat 35.5 - 42.5, Lng 25.0 - 45.0) -> Diyanet (13)
+  if (latitude >= 35.5 && latitude <= 42.5 && longitude >= 25.0 && longitude <= 45.0) {
+    return 13;
+  }
+
+  // Russia & CIS Countries (Lat 43.0 - 75.0, Lng 25.0 - 180.0) -> Russia Spiritual Admin (14)
+  if (latitude >= 43.0 && latitude <= 75.0 && longitude >= 25.0 && longitude <= 180.0) {
+    return 14;
+  }
+
+  // South Asia: India, Bangladesh, Pakistan, Afghanistan, Sri Lanka (Lng 60°E - 95°E, Lat 5°N - 38°N) -> Karachi (1)
+  if (latitude >= 5.0 && latitude <= 38.0 && longitude >= 60.0 && longitude <= 95.0) {
+    return 1;
+  }
+
+  // France & French territories (Lat 41.0 - 51.5, Lng -5.0 - 9.5) -> UOIF France (12)
+  if (latitude >= 41.0 && latitude <= 51.5 && longitude >= -5.0 && longitude <= 9.5) {
+    return 12;
+  }
+
+  // North America: USA / Canada / Mexico (Lng -170°W to -50°W, Lat 14°N to 75°N) -> ISNA (2)
+  if (latitude >= 14.0 && latitude <= 75.0 && longitude >= -170.0 && longitude <= -50.0) {
+    return 2;
+  }
+
+  // Saudi Arabia & Gulf States (UAE, Qatar, Kuwait, Oman, Yemen) -> Umm Al-Qura (4)
+  if (latitude >= 12.0 && latitude <= 32.0 && longitude >= 34.0 && longitude <= 60.0) {
+    return 4;
+  }
+
+  // Egypt & North Africa (Sudan, Libya, Algeria, Morocco, Tunisia) -> Egyptian General Authority (5)
+  if (latitude >= 10.0 && latitude <= 37.0 && longitude >= -17.0 && longitude <= 35.0) {
+    return 5;
+  }
+
+  // Italy, UK, Germany, Spain, Southeast Asia, Rest of World -> Muslim World League (3)
+  return 3;
+};
+
+export const getCachedPrayerTimes = async (): Promise<CachedData | null> => {
+  try {
+    const cachedString = await AsyncStorage.getItem(CACHE_KEY);
+    if (cachedString) {
+      return JSON.parse(cachedString) as CachedData;
+    }
+  } catch (e) {
+    console.warn('Error reading cached prayer times:', e);
+  }
+  return null;
+};
+
 export const fetchPrayerTimes = async (latitude: number, longitude: number): Promise<DayData[]> => {
   const date = new Date();
   const year = date.getFullYear();
   const month = date.getMonth() + 1; // 1-12
 
   try {
-    // Get current calculation method
+    // Get current calculation method or auto-detect based on location
     const savedMethod = await AsyncStorage.getItem('PRAYER_CALCULATION_METHOD');
-    const method = savedMethod ? parseInt(savedMethod, 10) : 13;
+    const method = savedMethod ? parseInt(savedMethod, 10) : autoDetectCalculationMethod(latitude, longitude);
 
     // Check Cache
     const cachedString = await AsyncStorage.getItem(CACHE_KEY);
@@ -65,18 +117,36 @@ export const fetchPrayerTimes = async (latitude: number, longitude: number): Pro
       }
     }
 
-    // Fetch from Aladhan API
-    console.log(`Fetching new prayer times from API using method ${method}...`);
+    // Fetch from Aladhan API (current month and next month for 30+ days coverage)
+    const highLatParam = Math.abs(latitude) > 45 ? '&latitudeAdjustmentMethod=3' : '';
+    console.log(`Fetching new prayer times from API using method ${method}... (highLat: ${Math.abs(latitude) > 45})`);
     const response = await fetch(
-      `https://api.aladhan.com/v1/calendar/${year}/${month}?latitude=${latitude}&longitude=${longitude}&method=${method}`
+      `https://api.aladhan.com/v1/calendar/${year}/${month}?latitude=${latitude}&longitude=${longitude}&method=${method}${highLatParam}`
     );
 
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error(`Network response was not ok: ${response.status}`);
     }
 
     const json = await response.json();
-    const data: DayData[] = json.data;
+    let data: DayData[] = json.data || [];
+
+    try {
+      const nextMonthDate = new Date(year, month, 1);
+      const nextYear = nextMonthDate.getFullYear();
+      const nextMonth = nextMonthDate.getMonth() + 1;
+      const nextResponse = await fetch(
+        `https://api.aladhan.com/v1/calendar/${nextYear}/${nextMonth}?latitude=${latitude}&longitude=${longitude}&method=${method}${highLatParam}`
+      );
+      if (nextResponse.ok) {
+        const nextJson = await nextResponse.json();
+        if (nextJson.data && Array.isArray(nextJson.data)) {
+          data = [...data, ...nextJson.data];
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to fetch next month prayer times:', e);
+    }
 
     // Save to Cache
     const cacheToSave: CachedData = {
@@ -91,7 +161,20 @@ export const fetchPrayerTimes = async (latitude: number, longitude: number): Pro
 
     return data;
   } catch (error) {
-    console.error('Error fetching prayer times:', error);
+    console.error('Error fetching prayer times, attempting offline fallback:', error);
+    // Offline resilience: if network fails, attempt to return any cached data
+    try {
+      const fallbackCache = await AsyncStorage.getItem(CACHE_KEY);
+      if (fallbackCache) {
+        const cached: CachedData = JSON.parse(fallbackCache);
+        if (cached.data && cached.data.length > 0) {
+          console.log('Returning fallback offline cached prayer times');
+          return cached.data;
+        }
+      }
+    } catch (fallbackErr) {
+      console.error('Fallback cache read error:', fallbackErr);
+    }
     throw error;
   }
 };
@@ -164,6 +247,27 @@ export interface ForecastDay {
   code: number;
 }
 
+export interface HourlyForecast {
+  time: string; // e.g. "14:00"
+  temp: number;
+  code: number;
+  pop: number; // precipitation probability %
+}
+
+export interface DetailedWeatherData {
+  temp: number;
+  feelsLike: number;
+  humidity: number;
+  windSpeed: number;
+  pressure: number;
+  uvIndex: number;
+  code: number;
+  sunrise: string;
+  sunset: string;
+  hourly: HourlyForecast[];
+  daily: ForecastDay[];
+}
+
 export const fetchWeatherForecast = async (latitude: number, longitude: number): Promise<ForecastDay[]> => {
   try {
     const response = await fetch(
@@ -185,6 +289,72 @@ export const fetchWeatherForecast = async (latitude: number, longitude: number):
   } catch (error) {
     console.error('Error fetching weather forecast:', error);
     return [];
+  }
+};
+
+export const fetchDetailedWeather = async (latitude: number, longitude: number): Promise<DetailedWeatherData | null> => {
+  try {
+    const response = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,uv_index&hourly=temperature_2m,precipitation_probability,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max,wind_speed_10m_max&timezone=auto`
+    );
+    if (!response.ok) return null;
+    const json = await response.json();
+    const current = json.current || {};
+    const daily = json.daily || {};
+    const hourly = json.hourly || {};
+
+    const dailyList: ForecastDay[] = [];
+    if (daily.time && Array.isArray(daily.time)) {
+      for (let i = 0; i < daily.time.length; i++) {
+        dailyList.push({
+          date: daily.time[i],
+          maxTemp: Math.round(daily.temperature_2m_max?.[i] ?? 0),
+          minTemp: Math.round(daily.temperature_2m_min?.[i] ?? 0),
+          code: daily.weather_code?.[i] ?? 0,
+        });
+      }
+    }
+
+    const hourlyList: HourlyForecast[] = [];
+    if (hourly.time && Array.isArray(hourly.time)) {
+      const now = new Date();
+      const currentHour = now.getHours();
+      // Find start hour
+      const todayDatePrefix = now.toISOString().split('T')[0];
+      let startIndex = hourly.time.findIndex((t: string) => t.startsWith(`${todayDatePrefix}T${String(currentHour).padStart(2, '0')}`));
+      if (startIndex === -1) startIndex = 0;
+
+      for (let i = startIndex; i < Math.min(startIndex + 24, hourly.time.length); i++) {
+        const timeStr = hourly.time[i];
+        const hourPart = timeStr.includes('T') ? timeStr.split('T')[1].slice(0, 5) : timeStr;
+        hourlyList.push({
+          time: hourPart,
+          temp: Math.round(hourly.temperature_2m?.[i] ?? 0),
+          code: hourly.weather_code?.[i] ?? 0,
+          pop: Math.round(hourly.precipitation_probability?.[i] ?? 0),
+        });
+      }
+    }
+
+    const sunriseStr = daily.sunrise?.[0] ? daily.sunrise[0].split('T')[1]?.slice(0, 5) : '--:--';
+    const sunsetStr = daily.sunset?.[0] ? daily.sunset[0].split('T')[1]?.slice(0, 5) : '--:--';
+
+    return {
+      temp: Math.round(current.temperature_2m ?? 0),
+      feelsLike: Math.round(current.apparent_temperature ?? current.temperature_2m ?? 0),
+      humidity: Math.round(current.relative_humidity_2m ?? 0),
+      windSpeed: Math.round(current.wind_speed_10m ?? 0),
+      pressure: Math.round(current.surface_pressure ?? 1013),
+      uvIndex: Math.round(current.uv_index ?? daily.uv_index_max?.[0] ?? 0),
+      code: current.weather_code ?? 0,
+      sunrise: sunriseStr,
+      sunset: sunsetStr,
+      hourly: hourlyList,
+      daily: dailyList,
+    };
+  } catch (error) {
+    console.error('Error fetching detailed weather:', error);
+    return null;
   }
 };
 

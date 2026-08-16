@@ -145,3 +145,41 @@ export function getJuzStartPageStatic(juzNo: number): number {
 
 /** Öne çıkan sureleri döndürür */
 export const FEATURED_SURAHS = SURAHS.filter((s) => s.featured === true);
+
+/** Belirli bir sayfa numarasının hangi cüze ait olduğunu hesaplar */
+export function getJuzForPage(pageNo: number): number {
+  if (pageNo <= 1) return 1;
+  if (pageNo >= 604) return 30;
+
+  const JUZ_PAGES = [
+    1, 22, 42, 62, 82, 102, 121, 142, 162, 182,
+    200, 219, 236, 255, 272, 293, 312, 330, 350, 369,
+    389, 409, 428, 447, 467, 485, 504, 523, 542, 562, 605
+  ];
+
+  for (let i = 0; i < 30; i++) {
+    if (pageNo >= JUZ_PAGES[i] && pageNo < JUZ_PAGES[i + 1]) {
+      return i + 1;
+    }
+  }
+  return 30;
+}
+
+/** Bir surenin kapsadığı tüm cüz numaralarını döndürür */
+export function getJuzsForSurah(surahNumber: number): number[] {
+  const surah = SURAHS.find((s) => s.number === surahNumber);
+  if (!surah) return [1];
+
+  const nextSurah = SURAHS.find((s) => s.number === surahNumber + 1);
+  const startPage = surah.page;
+  const endPage = nextSurah ? Math.max(nextSurah.page - 1, startPage) : 604;
+
+  const startJuz = getJuzForPage(startPage);
+  const endJuz = getJuzForPage(endPage);
+
+  const juzs: number[] = [];
+  for (let j = startJuz; j <= endJuz; j++) {
+    juzs.push(j);
+  }
+  return juzs;
+}

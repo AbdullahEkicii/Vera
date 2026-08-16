@@ -12,11 +12,11 @@ export const useQuranDownloader = (juzNo: number, langCode: string = 'tr') => {
 
   const checkStatus = useCallback(async () => {
     setIsChecking(true);
-    const result = await checkJuzStatus(juzNo);
+    const result = await checkJuzStatus(juzNo, scriptType);
     setStatus(result.status);
     setDownloadedLang(result.langCode);
     setIsChecking(false);
-  }, [juzNo]);
+  }, [juzNo, scriptType]);
 
   useEffect(() => {
     checkStatus();

@@ -3,7 +3,9 @@
     "common": {
       "loading": "Cargando...",
       "error": "Ocurrió un error",
-      "retry": "Reintentar"
+      "retry": "Reintentar",
+      "success": "Success",
+      "fillAllFields": "Please fill in all fields."
     },
     "home": {
       "title": "Horarios de Oración",
@@ -12,7 +14,8 @@
       "timeLeftUnits": {
         "h": "h",
         "m": "m",
-        "s": "s"
+        "s": "s",
+        "left": "restante"
       },
       "prayers": {
         "fajr": "Fajr",
@@ -21,21 +24,114 @@
         "asr": "Asr",
         "maghrib": "Maghrib",
         "isha": "Isha"
-      }
+      },
+      "currentLocation": "Ubicación actual",
+      "active": "Ahora",
+      "next": "Siguiente",
+      "remaining": "Tiempo restante",
+      "format12": "12 h",
+      "format24": "24 h",
+      "errorLoadingTitle": "Could Not Load Prayer Times",
+      "errorLoadingSubtitle": "Please check your internet connection or select your city.",
+      "retryBtn": "Retry",
+      "loadingTimes": "Loading Prayer Times..."
     },
     "settings": {
       "title": "Ajustes",
       "language": "Idioma",
-      "theme": "Tema",
+      "theme": "Theme",
       "dark": "Oscuro",
       "light": "Claro",
-      "system": "Sistema"
+      "system": "Sistema",
+      "calcMethod": "Método de cálculo",
+      "methods": {
+        "diyanet": "Diyanet (Turquía)",
+        "isna": "ISNA (Norteamérica)",
+        "mwl": "Liga Mundial Musulmana (MWL)",
+        "ummAlQura": "Umm Al-Qura (La Meca)",
+        "egypt": "Autoridad general egipcia",
+        "karachi": "Karachi (Pakistán)",
+        "france": "Francia (UOIF)",
+        "russia": "Rusia (administración espiritual)"
+      },
+      "palettes": {
+        "default": "Default",
+        "emerald": "Emerald",
+        "ocean": "Ocean",
+        "rose": "Rose",
+        "gold": "Gold",
+        "amethyst": "Amethyst",
+        "crimson": "Crimson",
+        "indigo": "Indigo",
+        "teal": "Teal",
+        "mint": "Mint",
+        "slate": "Slate"
+      },
+      "themePalette": "Theme Palette",
+      "mainTheme": "Main Theme Color",
+      "circlePalette": "Countdown Circle Color",
+      "soundSettings": "Sonidos del Adán y volumen",
+      "exactSoundTitle": "Sonido de la hora de oración",
+      "warningSoundTitle": "Sonido de aviso 25 min",
+      "volumeLevelTitle": "Nivel de volumen del Adán",
+      "previewSound": "Escuchar",
+      "stopPreview": "Detener",
+      "soundNames": {
+        "azizallah": "Azizallah (Hora de oración)",
+        "adhan_25minutes": "Adán (25 min antes)",
+        "allahu_akbar": "Allahu Akbar"
+      },
+      "persistentNotifTitle": "Pantalla de bloqueo y barra de estado",
+      "persistentNotif": "Cuenta atrás de oración permanente",
+      "persistentNotifDesc": "Siga el tiempo restante para la próxima oración en directo en su pantalla de bloqueo y panel de notificaciones.",
+      "widgetTitle": "Widget de pantalla de inicio",
+      "addWidget": "📌 ¡Añadir widget a la pantalla de inicio!",
+      "addWidgetDesc": "Vea los horarios de oración y la cuenta atrás en su pantalla de inicio sin abrir la aplicación.",
+      "general": "Ajustes generales",
+      "fullscreen": "Modo de pantalla completa",
+      "warnNotifBtn": "-25m",
+      "exactNotifBtn": "Adán",
+      "testNotifTitle": "Notificación de prueba",
+      "testNotifBody": "La notificación de prueba sonará en 10 segundos. Por favor revise el volumen de su dispositivo.",
+      "testWarnNotif": "Probar aviso 25m (10s)",
+      "testExactNotif": "Probar Adán completo (10s)",
+      "themeDesc": "Customize app colors, dark mode, and home screen layout",
+      "themeMode": "Interface Mode",
+      "modeDark": "Dark Mode",
+      "modeLight": "Light Mode",
+      "modeSystem": "System",
+      "homeAppearance": "Home Screen Layout",
+      "homeStyle": {
+        "default": "Rich / Modern",
+        "defaultDesc": "Countdown circle, all prayers, and rich widgets",
+        "simple": "Simple / Minimalist",
+        "simpleDesc": "Clean distraction-free list and quick tracker"
+      }
     },
     "qibla": {
-      "title": "Qibla",
+      "title": "Brújula de la Qibla",
       "holdFlat": "Mantenga el teléfono plano",
       "calibrating": "Calibrando brújula...",
-      "found": "Estás frente a la Qibla"
+      "found": "Estás frente a la Qibla",
+      "permissionRequired": "Se requiere permiso de ubicación",
+      "permissionDenied": "Se requiere permiso de ubicación para mostrar la dirección de Qibla. Habilítelo en la configuración.",
+      "openSettings": "Abrir configuración",
+      "description": "Gire el dispositivo lentamente para encontrar la dirección Qibla.",
+      "hint": "La brújula se vuelve verde y sentirás una vibración cuando estés alineado con la Qibla.",
+      "errorCompass": "No se pudieron leer los datos de la brújula o la ubicación.",
+      "angle": "Ángulo",
+      "distance": "Distancia",
+      "status": "Estado",
+      "aligned": "Alineado",
+      "aligning": "Girar",
+      "alignedSuccess": "🕌 ¡Estás frente a Qibla!",
+      "subtitle": "Siga los pasos para encontrar con precisión la Qibla",
+      "guideTitle": "How to Use?",
+      "step1": "1. Sostenga su teléfono PLANO en la mano",
+      "step2": "2. Gire su cuerpo LENTAMENTE",
+      "step3": "3. Cuando la aguja apunte a 🕋 la Kaaba y se vuelva VERDE, ¡estará frente a la Qibla!",
+      "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
+      "heading": "Heading"
     },
     "daily": {
       "title": "Inspiración Diaria",
@@ -71,6 +167,34 @@
       "isha": {
         "title": "🕌 Hora de Isha",
         "body": "Es hora de la oración de Isha. Completa tu día con paz."
+      },
+      "exactAlert": "Alerta de oración exacta",
+      "warnAlert": "Alerta de advertencia de 25 minutos",
+      "warningTitle": "El tiempo se acerca",
+      "warningBody": "Quedan 25 minutos para la {{oración}}.",
+      "quranReminderTitle": "📖 Hora del Sagrado Corán",
+      "quranReminderBody": "¿Has leído el Corán hoy? Toque para leer ahora.",
+      "namesReminderTitle": "✨ Nombres de Allah y Duas",
+      "namesReminderBody": "Descubre los hermosos nombres de Allah y Duas. Toca para explorar.",
+      "bannerTitle": "Habilitar notificaciones",
+      "bannerDesc": "Habilite los permisos de notificación para mantenerse informado sobre los tiempos de oración.",
+      "bannerBtn": "Conceder permiso",
+      "persistent": {
+        "countdown": "restante",
+        "prayerEntered": "Hora de oración",
+        "hoursUnit": "h",
+        "minutesUnit": "min"
+      },
+      "silenceAction": "Silenciar",
+      "channels": {
+        "exactName": "Adhan Time",
+        "exactDesc": "Plays when prayer time arrives.",
+        "warningName": "Prayer Approaching (25 min)",
+        "warningDesc": "Gives a warning 25 minutes before prayer time.",
+        "dailyName": "Daily Inspiration",
+        "dailyDesc": "Daily verse, hadith, or quote arrives between Dhuhr and Asr.",
+        "persistentName": "Lock Screen & Status Bar",
+        "persistentDesc": "Displays next prayer name and live countdown in notification panel and lock screen."
       }
     },
     "tasbih": {
@@ -103,7 +227,17 @@
       "resetConfirmTitle": "Restablecer Contador",
       "resetConfirmMsg": "¿Estás seguro de que deseas restablecer el contador? (Esto no afecta tus estadísticas mensuales)",
       "yes": "Sí",
-      "no": "No"
+      "no": "No",
+      "recTitle": "Recomendación diaria",
+      "recBtnText": "Empezar a recitar",
+      "soundOn": "Sonido activado",
+      "soundOff": "Quejarse",
+      "bgAudioTitle": "Sonido de fondo Dhikr",
+      "bgAudioOff": "Apagado/Silencio",
+      "bgAudioSelect": "Seleccionar sonido de fondo Dhikr",
+      "dikhr1": "Sonido dhikr 1",
+      "dikhr2": "Sonido dhikr 2",
+      "dikhr3": "Sonido dhikr 3"
     },
     "update": {
       "title": "¡Nueva Actualización Disponible!",
@@ -112,7 +246,13 @@
       "forceMessage": "Por favor, actualiza a la última versión para continuar usando la aplicación.",
       "updateBtn": "Actualizar Ahora",
       "laterBtn": "Más Tarde",
-      "releaseNotes": "Notas de la Versión:"
+      "releaseNotes": "Notas de la Versión:",
+      "sectionTitle": "Versión de la aplicación",
+      "versionLabel": "Versión",
+      "checkUpdate": "Buscar actualizaciones",
+      "upToDateTitle": "La aplicación está actualizada",
+      "upToDateMessage": "Estás utilizando la última versión (v{{versión}}).",
+      "checkFailed": "No se pudo buscar actualizaciones."
     },
     "quran": {
       "title": "Sagrado Corán",
@@ -151,7 +291,237 @@
       "cancel": "Cancelar",
       "yesChange": "Sí, Cambiar",
       "error": "Error",
-      "downloadError": "Ocurrió un error al descargar la fuente. Comprueba tu conexión a Internet."
+      "downloadError": "Ocurrió un error al descargar la fuente. Comprueba tu conexión a Internet.",
+      "husrevTitle": "Guión de Ahmet Husrev (Tawafuq)",
+      "husrevDesc": "Estilo de caligrafía del Corán Hayrat Nesriyat Tawafuq.",
+      "readingTheme": "Tema de lectura",
+      "themeSepia": "Crema / Sepia",
+      "themeDark": "noche oscura",
+      "themeWhite": "Blanco clásico",
+      "themeGreen": "Salvia Esmeralda",
+      "themeNavy": "Azul medianoche",
+      "surahEnd": "Fin de la sura",
+      "totalVersesRead": "Todos los {{count}} versículos leídos",
+      "nextSurah": "Siguiente sura"
+    },
+    "review": {
+      "title": "Apóyanos",
+      "message": "Si te gusta nuestra aplicación, danos 5 estrellas en Play Store y cuéntanos qué funciones te gustaría ver.",
+      "notNow": "Ahora no",
+      "review": "Valorar",
+      "subtitle": "Rate your experience with stars",
+      "fiveStarTitle": "We're thrilled to hear that! 🌟",
+      "fiveStarSubtitle": "Would you like to support Vera with a 5-star rating?",
+      "rateOnStore": "🌟 Give 5 Stars & Support",
+      "ratingLabels": {
+        "1": "Needs Improvement",
+        "2": "Fair",
+        "3": "Good",
+        "4": "Very Good",
+        "5": "Excellent!"
+      },
+      "feedbackTitle": "Help Us Improve 💬",
+      "feedbackSubtitle": "Share your thoughts and suggestions so we can make Vera even better.",
+      "feedbackPlaceholder": "Write your suggestions, ideas or any issues you faced...",
+      "sendFeedback": "Send Feedback",
+      "thankYouTitle": "Feedback Received! 🤲",
+      "thankYouSubtitle": "Your feedback is very valuable to us. We will work hard to make Vera even better.",
+      "close": "Close"
+    },
+    "share": {
+      "storyTitle": "Historia y tarjeta compartida",
+      "actionBtn": "Compartir tarjeta de historia",
+      "watermark": "V E R A • Tiempos de oración y Athan",
+      "themeGold": "Oro y noche",
+      "themeEmerald": "Salvia Esmeralda",
+      "themeNavy": "Azul medianoche",
+      "themeSepia": "Sepia cálida",
+      "appTagline": "Prayer Times, Quran & Qibla",
+      "storeSearchHint": "Search on Google Play: Vera",
+      "scanToDownload": "Scan to Download"
+    },
+    "checklist": {
+      "title": "Rastreador de oración diaria",
+      "completed": "Terminado",
+      "dayStreak": "Racha del día",
+      "viewHistory": "Ver historial completo",
+      "historyTitle": "Historia de la oración",
+      "historySubtitle": "Tus registros de oración de los últimos 30 días",
+      "totalLogged": "Oraciones totales",
+      "activeStreak": "Racha activa",
+      "weeklyRate": "Tarifa Semanal",
+      "daysAgo": "hace dias",
+      "today": "Hoy",
+      "yesterday": "Ayer",
+      "fajr": "Fayr",
+      "dhuhr": "Dhuhr",
+      "asr": "Asr",
+      "maghrib": "Magreb",
+      "isha": "Isha",
+      "celebrationTitle": "¡Felicidades! 🎉",
+      "celebrationSubtitle": "¡Masha'Allah!",
+      "celebrationMessage": "Completaste las 5 oraciones diarias hoy. ¡Que Allah acepte tus oraciones!",
+      "celebrationBtn": "Alhamdulillah",
+      "trustNotice": "{{ciudad}} • Horarios de oración verificados para tu región usando {{method}}"
+    },
+    "search": {
+      "title": "Seleccionar Ubicación",
+      "subtitle": "Buscar ciudades en todo el mundo",
+      "placeholder": "p.ej. Londres, Nueva York...",
+      "recent": "Búsquedas recientes",
+      "useGPS": "Usar ubicación actual",
+      "gpsDenied": "Permiso de ubicación denegado.",
+      "gpsError": "No se pudo obtener la ubicación."
+    },
+    "calendar": {
+      "title": "Calendario unificado",
+      "todayNotice": "Hoy: {{gregoriano}} • Hijri: {{hijri}}"
+    },
+    "imsakiye": {
+      "title": "Imsakiye semanal",
+      "subtitle": "Horarios de los próximos 7 días",
+      "date": "Fecha"
+    },
+    "religious": {
+      "title": "Días Religiosos",
+      "subtitle": "Calendario y cuenta atrás para noches y días benditos.",
+      "today": "Hoy",
+      "daysLeft": "días",
+      "passed": "Aprobado"
+    },
+    "widgetPromo": {
+      "title": "Agregar widget de oración",
+      "desc": "Agregue el widget de Vera a su pantalla de inicio para ver los tiempos de oración y la cuenta regresiva al instante sin abrir la aplicación.",
+      "addBtn": "Agregar a la pantalla de inicio",
+      "dismissBtn": "Ahora no"
+    },
+    "names": {
+      "title": "Nombres de Allah y Duas",
+      "namesSubtitle": "Los 99 Bellos Nombres de Allah",
+      "duasSubtitle": "Súplicas diarias",
+      "meaningLabel": "Significado",
+      "tabNames": "99 nombres",
+      "tabDuas": "Duas",
+      "namesCount": "{{count}} Nombres",
+      "duasCount": "{{count}} Duas",
+      "tapHint": "Toca para detalles",
+      "searchPlaceholder": "Search names or meaning..."
+    },
+    "batteryOptimization": {
+      "title": "Notificaciones de oración ininterrumpidas",
+      "message": "Para recibir notificaciones y sonidos completos a tiempo durante las horas de oración, se recomienda desactivar la optimización de la batería para la aplicación.",
+      "openSettings": "Abrir ajustes",
+      "later": "Más tarde"
+    },
+    "directions": {
+      "n": "N",
+      "ne": "NE",
+      "e": "E",
+      "se": "SE",
+      "s": "S",
+      "sw": "SO",
+      "w": "O",
+      "nw": "NO"
+    },
+    "onboarding": {
+      "title": "Welcome to Vera",
+      "subtitle": "Let's set your location for accurate prayer times and adhan notifications.",
+      "detectedCity": "Current City",
+      "detecting": "Detecting Location...",
+      "autoLocationBtn": "Find Location Automatically",
+      "manualCityBtn": "Select City from List",
+      "continueWithCity": "Continue with {{city}}",
+      "step2Title": "Prayer & Adhan Notifications",
+      "step2Subtitle": "Set your notification preferences to never miss a prayer.",
+      "verifiedMethodTitle": "Verified Calculation Method",
+      "verifiedMethodDesc": "The most accurate Islamic method for your region is selected automatically.",
+      "notificationsTitle": "Adhan & Prayer Alerts",
+      "notificationsDesc": "Receive gentle or audible reminders at prayer times.",
+      "startBtn": "Start Using Vera 🌟",
+      "featureQuran": "Quran & Audio",
+      "featureQibla": "Qibla",
+      "featureDhikr": "Dhikr Counter",
+      "backBtn": "← Go Back"
+    },
+    "weather": {
+      "title": "Weather Forecast",
+      "error": "Failed to load weather forecast.",
+      "high": "High",
+      "low": "Low",
+      "feelsLike": "Feels Like",
+      "today": "Today",
+      "hourlyTitle": "24-Hour Forecast",
+      "forecast7Day": "7-Day Forecast",
+      "humidity": "Humidity",
+      "wind": "Wind Speed",
+      "pressure": "Pressure",
+      "uvIndex": "UV Index",
+      "sunrise": "Sunrise",
+      "sunset": "Sunset",
+      "precipitation": "Precipitation",
+      "kmh": "km/h",
+      "hpa": "hPa"
+    },
+    "duas": {
+      "occasionTitle": "When & Why to Recite?",
+      "searchPlaceholder": "Search dua, healing, wealth, protection..."
+    },
+    "kaza": {
+      "title": "Missed Prayers & Fasting Tracker",
+      "subtitle": "Track and complete your missed prayers and fasts regularly",
+      "shortTitle": "Missed",
+      "fajr": "Fajr",
+      "dhuhr": "Dhuhr",
+      "asr": "Asr",
+      "maghrib": "Maghrib",
+      "isha": "Isha",
+      "witr": "Witr",
+      "fasting": "Fasting (Days)",
+      "remainingPrayers": "Remaining",
+      "completedPrayers": "Completed",
+      "progress": "Progress",
+      "addDailyBtn": "+1 Full Day",
+      "calcBtn": "Calculate Debt",
+      "debtOf": "Debt",
+      "left": "left",
+      "dailyAddedTitle": "1 Day of Missed Prayers Added!",
+      "dailyAddedDesc": "Fajr, Dhuhr, Asr, Maghrib, Isha, and Witr missed counts increased by 1. May Allah accept.",
+      "calculatorTitle": "Missed Debt Calculator",
+      "calculatorDesc": "Enter the estimated time since reaching maturity without regular prayers:",
+      "years": "Years",
+      "months": "Months",
+      "invalidTime": "Please enter a valid year or month.",
+      "invalidNumber": "Please enter a valid number.",
+      "applyCalc": "Update Debt",
+      "editDebtTitle": "Set Total Debt"
+    },
+    "greeting": {
+      "modalTitle": "Greeting Card Creator",
+      "modalSubtitle": "Share elegant Jummah, Kandil, and Eid greeting cards",
+      "shortTitle": "Greetings",
+      "chooseTemplate": "Preset Templates",
+      "customMessage": "Write Custom Message",
+      "titlePlaceholder": "Title (e.g. Jummah Mubarak)",
+      "messagePlaceholder": "Write your prayer or greeting message...",
+      "chooseTheme": "Card Theme",
+      "shareBtn": "Share to WhatsApp / Story 🌟",
+      "shareImageBtn": "Share Image Card 🌟",
+      "shareLinkBtn": "Share Direct Store Link 🔗"
+    },
+    "mosques": {
+      "title": "Nearby Mosques",
+      "subtitle": "Places of worship closest to your location",
+      "shortTitle": "Mosques",
+      "loading": "Scanning nearby mosques...",
+      "emptyTitle": "No Mosques Found Nearby",
+      "emptyDesc": "You can view all mosques directly on maps navigation.",
+      "openInMaps": "Search on Maps",
+      "directionsBtn": "Directions"
+    },
+    "dailyContent": {
+      "preparing": "Loading daily inspiration...",
+      "queueSuccess": "Content added to the approval queue.",
+      "queueError": "An error occurred while adding content."
     }
   }
 }

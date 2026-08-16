@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loadQuranFont } from '../services/fontDownloader';
 
-export type ScriptType = 'quran-uthmani' | 'quran-indopak' | 'quran-imlaei';
+export type ScriptType = 'quran-uthmani' | 'quran-indopak' | 'quran-imlaei' | 'quran-husrev';
 
 interface QuranSettingsState {
   scriptType: ScriptType;

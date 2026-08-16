@@ -3,7 +3,9 @@
     "common": {
       "loading": "Memuat...",
       "error": "Terjadi kesalahan",
-      "retry": "Coba lagi"
+      "retry": "Coba lagi",
+      "success": "Success",
+      "fillAllFields": "Please fill in all fields."
     },
     "home": {
       "title": "Waktu Shalat",
@@ -12,7 +14,8 @@
       "timeLeftUnits": {
         "h": "j",
         "m": "m",
-        "s": "d"
+        "s": "d",
+        "left": "tersisa"
       },
       "prayers": {
         "fajr": "Subuh",
@@ -21,21 +24,114 @@
         "asr": "Ashar",
         "maghrib": "Maghrib",
         "isha": "Isya"
-      }
+      },
+      "currentLocation": "Lokasi Saat Ini",
+      "active": "Now",
+      "next": "Next",
+      "remaining": "Time Left",
+      "format12": "12-Hour",
+      "format24": "24-Hour",
+      "errorLoadingTitle": "Could Not Load Prayer Times",
+      "errorLoadingSubtitle": "Please check your internet connection or select your city.",
+      "retryBtn": "Retry",
+      "loadingTimes": "Loading Prayer Times..."
     },
     "settings": {
       "title": "Pengaturan",
       "language": "Bahasa",
-      "theme": "Tema",
+      "theme": "Theme",
       "dark": "Gelap",
       "light": "Terang",
-      "system": "Sistem"
+      "system": "System",
+      "calcMethod": "Metode Perhitungan",
+      "methods": {
+        "diyanet": "Diyanet (Turki)",
+        "isna": "ISNA (Amerika Utara)",
+        "mwl": "Liga Dunia Muslim (MWL)",
+        "ummAlQura": "Ummu Al-Qura (Mekkah)",
+        "egypt": "Otoritas Umum Mesir",
+        "karachi": "Karachi (Pakistan)",
+        "france": "Perancis (UOIF)",
+        "russia": "Rusia (Admin Spiritual)"
+      },
+      "palettes": {
+        "default": "Default",
+        "emerald": "Emerald",
+        "ocean": "Ocean",
+        "rose": "Rose",
+        "gold": "Gold",
+        "amethyst": "Amethyst",
+        "crimson": "Crimson",
+        "indigo": "Indigo",
+        "teal": "Teal",
+        "mint": "Mint",
+        "slate": "Slate"
+      },
+      "themePalette": "Theme Palette",
+      "mainTheme": "Main Theme Color",
+      "circlePalette": "Countdown Circle Color",
+      "soundSettings": "Adhan Sounds & Volume",
+      "exactSoundTitle": "Prayer Time Sound",
+      "warningSoundTitle": "25 Min Warning Sound",
+      "volumeLevelTitle": "Adhan Volume Level",
+      "previewSound": "Listen",
+      "stopPreview": "Stop",
+      "soundNames": {
+        "azizallah": "Azizallah (Prayer Time)",
+        "adhan_25minutes": "Adhan (25 Min Warning)",
+        "allahu_akbar": "Allahu Akbar"
+      },
+      "persistentNotifTitle": "Lock Screen & Status Bar",
+      "persistentNotif": "Persistent Prayer Countdown",
+      "persistentNotifDesc": "Track the time left for the next prayer live on your lock screen and notification panel.",
+      "widgetTitle": "Home Screen Widget",
+      "addWidget": "📌 Add Widget to Home Screen!",
+      "addWidgetDesc": "See prayer times and live countdown directly on your phone's home screen.",
+      "general": "General Settings",
+      "fullscreen": "Fullscreen Mode",
+      "warnNotifBtn": "-25m",
+      "exactNotifBtn": "Adhan",
+      "testNotifTitle": "Test Notification",
+      "testNotifBody": "Test notification will play in 10 seconds. Please check your device notification volume.",
+      "testWarnNotif": "Test 25m Warning (10s)",
+      "testExactNotif": "Test Full Adhan (10s)",
+      "themeDesc": "Customize app colors, dark mode, and home screen layout",
+      "themeMode": "Interface Mode",
+      "modeDark": "Dark Mode",
+      "modeLight": "Light Mode",
+      "modeSystem": "System",
+      "homeAppearance": "Home Screen Layout",
+      "homeStyle": {
+        "default": "Rich / Modern",
+        "defaultDesc": "Countdown circle, all prayers, and rich widgets",
+        "simple": "Simple / Minimalist",
+        "simpleDesc": "Clean distraction-free list and quick tracker"
+      }
     },
     "qibla": {
       "title": "Kiblat",
       "holdFlat": "Pegang ponsel dengan datar",
       "calibrating": "Mengkalibrasi kompas...",
-      "found": "Anda menghadap Kiblat"
+      "found": "Anda menghadap Kiblat",
+      "permissionRequired": "Izin Lokasi Diperlukan",
+      "permissionDenied": "Izin lokasi diperlukan untuk menunjukkan arah kiblat. Silakan aktifkan di pengaturan.",
+      "openSettings": "Buka Pengaturan",
+      "description": "Putar perangkat secara perlahan untuk menemukan arah kiblat",
+      "hint": "Kompas berubah menjadi hijau dan Anda akan merasakan getaran saat sejajar dengan kiblat.",
+      "errorCompass": "Tidak dapat membaca kompas atau data lokasi.",
+      "angle": "Sudut",
+      "distance": "Jarak",
+      "status": "Status",
+      "aligned": "Selaras",
+      "aligning": "Memutar",
+      "alignedSuccess": "🕌 Anda menghadap kiblat!",
+      "subtitle": "Follow the steps to accurately find the Qibla direction",
+      "guideTitle": "How to Use?",
+      "step1": "1. Hold your phone FLAT in your hand",
+      "step2": "2. Turn your body SLOWLY around",
+      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
+      "heading": "Heading"
     },
     "daily": {
       "title": "Inspirasi Harian",
@@ -71,6 +167,34 @@
       "isha": {
         "title": "🕌 Waktu Isya",
         "body": "Telah masuk waktu shalat Isya. Akhiri harimu dengan kedamaian."
+      },
+      "exactAlert": "Peringatan Doa yang Tepat",
+      "warnAlert": "Peringatan Peringatan 25 Menit",
+      "warningTitle": "Waktu Mendekati",
+      "warningBody": "25 menit tersisa sampai {{doa}}.",
+      "quranReminderTitle": "📖 Waktu Alquran",
+      "quranReminderBody": "Sudahkah anda membaca Al Quran hari ini? Ketuk untuk membaca sekarang.",
+      "namesReminderTitle": "✨ Nama Allah & Duas",
+      "namesReminderBody": "Temukan Nama Allah dan Duas yang indah. Ketuk untuk menjelajah.",
+      "bannerTitle": "Aktifkan Notifikasi",
+      "bannerDesc": "Aktifkan izin notifikasi untuk tetap mendapat notifikasi tentang waktu sholat.",
+      "bannerBtn": "Berikan Izin",
+      "persistent": {
+        "countdown": "left",
+        "prayerEntered": "Prayer Time",
+        "hoursUnit": "h",
+        "minutesUnit": "m"
+      },
+      "silenceAction": "Mute",
+      "channels": {
+        "exactName": "Adhan Time",
+        "exactDesc": "Plays when prayer time arrives.",
+        "warningName": "Prayer Approaching (25 min)",
+        "warningDesc": "Gives a warning 25 minutes before prayer time.",
+        "dailyName": "Daily Inspiration",
+        "dailyDesc": "Daily verse, hadith, or quote arrives between Dhuhr and Asr.",
+        "persistentName": "Lock Screen & Status Bar",
+        "persistentDesc": "Displays next prayer name and live countdown in notification panel and lock screen."
       }
     },
     "tasbih": {
@@ -103,7 +227,17 @@
       "resetConfirmTitle": "Atur Ulang Penghitung",
       "resetConfirmMsg": "Apakah Anda yakin ingin mengatur ulang penghitung? (Ini tidak memengaruhi statistik bulanan Anda)",
       "yes": "Ya",
-      "no": "Tidak"
+      "no": "Tidak",
+      "recTitle": "Rekomendasi Harian",
+      "recBtnText": "Mulailah Membaca",
+      "soundOn": "Suara Aktif",
+      "soundOff": "Memperdengarkan",
+      "bgAudioTitle": "Latar Belakang Suara Dzikir",
+      "bgAudioOff": "Mati / Senyap",
+      "bgAudioSelect": "Pilih Latar Belakang Suara Dzikir",
+      "dikhr1": "Suara Dzikir 1",
+      "dikhr2": "Suara Dzikir 2",
+      "dikhr3": "Suara Dzikir 3"
     },
     "update": {
       "title": "Pembaruan Tersedia!",
@@ -112,7 +246,13 @@
       "forceMessage": "Harap perbarui ke versi terbaru untuk terus menggunakan aplikasi.",
       "updateBtn": "Perbarui Sekarang",
       "laterBtn": "Nanti",
-      "releaseNotes": "Catatan Rilis:"
+      "releaseNotes": "Catatan Rilis:",
+      "sectionTitle": "Versi Aplikasi",
+      "versionLabel": "Versi",
+      "checkUpdate": "Periksa Pembaruan",
+      "upToDateTitle": "Aplikasi Terkini",
+      "upToDateMessage": "Anda menggunakan versi terbaru (v{{version}}).",
+      "checkFailed": "Gagal memeriksa pembaruan."
     },
     "quran": {
       "title": "Al-Qur'an",
@@ -151,7 +291,237 @@
       "cancel": "Batal",
       "yesChange": "Ya, Ubah",
       "error": "Kesalahan",
-      "downloadError": "Terjadi kesalahan saat mengunduh font. Periksa koneksi internet Anda."
+      "downloadError": "Terjadi kesalahan saat mengunduh font. Periksa koneksi internet Anda.",
+      "husrevTitle": "Naskah Ahmet Husrev (Tawafuq)",
+      "husrevDesc": "Gaya kaligrafi Al-Quran Hayrat Nesriyat Tawafuq.",
+      "readingTheme": "Tema Bacaan",
+      "themeSepia": "Krim / Sepia",
+      "themeDark": "Malam Gelap",
+      "themeWhite": "Putih Klasik",
+      "themeGreen": "Sage Zamrud",
+      "themeNavy": "Biru Tengah Malam",
+      "surahEnd": "Akhir Surat",
+      "totalVersesRead": "Semua {{count}} Ayat Dibaca",
+      "nextSurah": "Surat berikutnya"
+    },
+    "review": {
+      "title": "Dukung Kami",
+      "message": "Jika Anda menyukai aplikasi kami, berikan kami 5 bintang di Play Store dan beri tahu kami fitur apa yang Anda inginkan!",
+      "notNow": "Nanti",
+      "review": "Ulas",
+      "subtitle": "Rate your experience with stars",
+      "fiveStarTitle": "We're thrilled to hear that! 🌟",
+      "fiveStarSubtitle": "Would you like to support Vera with a 5-star rating?",
+      "rateOnStore": "🌟 Give 5 Stars & Support",
+      "ratingLabels": {
+        "1": "Needs Improvement",
+        "2": "Fair",
+        "3": "Good",
+        "4": "Very Good",
+        "5": "Excellent!"
+      },
+      "feedbackTitle": "Help Us Improve 💬",
+      "feedbackSubtitle": "Share your thoughts and suggestions so we can make Vera even better.",
+      "feedbackPlaceholder": "Write your suggestions, ideas or any issues you faced...",
+      "sendFeedback": "Send Feedback",
+      "thankYouTitle": "Feedback Received! 🤲",
+      "thankYouSubtitle": "Your feedback is very valuable to us. We will work hard to make Vera even better.",
+      "close": "Close"
+    },
+    "share": {
+      "storyTitle": "Berbagi Cerita & Kartu",
+      "actionBtn": "Bagikan Kartu Cerita",
+      "watermark": "V E R A • Waktu Sholat & Adzan",
+      "themeGold": "Emas & Malam",
+      "themeEmerald": "Sage Zamrud",
+      "themeNavy": "Biru Tengah Malam",
+      "themeSepia": "Sepia yang hangat",
+      "appTagline": "Prayer Times, Quran & Qibla",
+      "storeSearchHint": "Search on Google Play: Vera",
+      "scanToDownload": "Scan to Download"
+    },
+    "checklist": {
+      "title": "Pelacak Doa Harian",
+      "completed": "Selesai",
+      "dayStreak": "Garis Harian",
+      "viewHistory": "Lihat Riwayat Lengkap",
+      "historyTitle": "Sejarah Doa",
+      "historySubtitle": "Catatan doa Anda selama 30 hari terakhir",
+      "totalLogged": "Jumlah Doa",
+      "activeStreak": "Garis Aktif",
+      "weeklyRate": "Tarif Mingguan",
+      "daysAgo": "beberapa hari yang lalu",
+      "today": "Hari ini",
+      "yesterday": "Kemarin",
+      "fajr": "Subuh",
+      "dhuhr": "Dhuhur",
+      "asr": "Asar",
+      "maghrib": "Maghrib",
+      "isha": "Isya",
+      "celebrationTitle": "Selamat! 🎉",
+      "celebrationSubtitle": "Masya Allah!",
+      "celebrationMessage": "Anda menyelesaikan semua salat 5 waktu hari ini. Semoga Allah menerima doa Anda!",
+      "celebrationBtn": "Alhamdulillah",
+      "trustNotice": "{{city}} • Waktu sholat terverifikasi untuk wilayah Anda menggunakan {{method}}"
+    },
+    "search": {
+      "title": "Pilih Lokasi",
+      "subtitle": "Cari kota di seluruh dunia",
+      "placeholder": "misalnya London, New York...",
+      "recent": "Pencarian Terbaru",
+      "useGPS": "Gunakan Lokasi Saat Ini",
+      "gpsDenied": "Izin lokasi ditolak.",
+      "gpsError": "Gagal mendapatkan lokasi."
+    },
+    "calendar": {
+      "title": "Kalender Terpadu",
+      "todayNotice": "Hari ini: {{gregorian}} • Hijriah: {{hijri}}"
+    },
+    "imsakiye": {
+      "title": "Imsakiye Mingguan",
+      "subtitle": "Waktu 7 hari berikutnya",
+      "date": "Tanggal"
+    },
+    "religious": {
+      "title": "Hari Keagamaan",
+      "subtitle": "Kalender dan hitung mundur untuk malam dan siang yang diberkati",
+      "today": "Hari ini",
+      "daysLeft": "hari",
+      "passed": "Lulus"
+    },
+    "widgetPromo": {
+      "title": "Tambahkan Widget Doa",
+      "desc": "Tambahkan widget Vera ke layar beranda Anda untuk melihat waktu sholat dan hitung mundur secara instan tanpa membuka aplikasi.",
+      "addBtn": "Tambahkan ke Layar Utama",
+      "dismissBtn": "Tidak Sekarang"
+    },
+    "names": {
+      "title": "Nama Allah & Duas",
+      "namesSubtitle": "99 Nama Indah Allah",
+      "duasSubtitle": "Doa sehari-hari",
+      "meaningLabel": "Arti",
+      "tabNames": "99 Nama",
+      "tabDuas": "Doa",
+      "namesCount": "{{count}} Names",
+      "duasCount": "{{count}} Duas",
+      "tapHint": "Tap for details",
+      "searchPlaceholder": "Search names or meaning..."
+    },
+    "batteryOptimization": {
+      "title": "Notifikasi Shalat Tanpa Gangguan",
+      "message": "Untuk menerima notifikasi dan suara penuh tepat waktu saat waktu shalat, disarankan untuk mematikan optimasi baterai untuk aplikasi.",
+      "openSettings": "Buka Pengaturan",
+      "later": "Nanti"
+    },
+    "directions": {
+      "n": "N",
+      "ne": "NE",
+      "e": "E",
+      "se": "SE",
+      "s": "S",
+      "sw": "SW",
+      "w": "W",
+      "nw": "NW"
+    },
+    "onboarding": {
+      "title": "Welcome to Vera",
+      "subtitle": "Let's set your location for accurate prayer times and adhan notifications.",
+      "detectedCity": "Current City",
+      "detecting": "Detecting Location...",
+      "autoLocationBtn": "Find Location Automatically",
+      "manualCityBtn": "Select City from List",
+      "continueWithCity": "Continue with {{city}}",
+      "step2Title": "Prayer & Adhan Notifications",
+      "step2Subtitle": "Set your notification preferences to never miss a prayer.",
+      "verifiedMethodTitle": "Verified Calculation Method",
+      "verifiedMethodDesc": "The most accurate Islamic method for your region is selected automatically.",
+      "notificationsTitle": "Adhan & Prayer Alerts",
+      "notificationsDesc": "Receive gentle or audible reminders at prayer times.",
+      "startBtn": "Start Using Vera 🌟",
+      "featureQuran": "Quran & Audio",
+      "featureQibla": "Qibla",
+      "featureDhikr": "Dhikr Counter",
+      "backBtn": "← Go Back"
+    },
+    "weather": {
+      "title": "Weather Forecast",
+      "error": "Failed to load weather forecast.",
+      "high": "High",
+      "low": "Low",
+      "feelsLike": "Feels Like",
+      "today": "Today",
+      "hourlyTitle": "24-Hour Forecast",
+      "forecast7Day": "7-Day Forecast",
+      "humidity": "Humidity",
+      "wind": "Wind Speed",
+      "pressure": "Pressure",
+      "uvIndex": "UV Index",
+      "sunrise": "Sunrise",
+      "sunset": "Sunset",
+      "precipitation": "Precipitation",
+      "kmh": "km/h",
+      "hpa": "hPa"
+    },
+    "duas": {
+      "occasionTitle": "When & Why to Recite?",
+      "searchPlaceholder": "Search dua, healing, wealth, protection..."
+    },
+    "kaza": {
+      "title": "Missed Prayers & Fasting Tracker",
+      "subtitle": "Track and complete your missed prayers and fasts regularly",
+      "shortTitle": "Missed",
+      "fajr": "Fajr",
+      "dhuhr": "Dhuhr",
+      "asr": "Asr",
+      "maghrib": "Maghrib",
+      "isha": "Isha",
+      "witr": "Witr",
+      "fasting": "Fasting (Days)",
+      "remainingPrayers": "Remaining",
+      "completedPrayers": "Completed",
+      "progress": "Progress",
+      "addDailyBtn": "+1 Full Day",
+      "calcBtn": "Calculate Debt",
+      "debtOf": "Debt",
+      "left": "left",
+      "dailyAddedTitle": "1 Day of Missed Prayers Added!",
+      "dailyAddedDesc": "Fajr, Dhuhr, Asr, Maghrib, Isha, and Witr missed counts increased by 1. May Allah accept.",
+      "calculatorTitle": "Missed Debt Calculator",
+      "calculatorDesc": "Enter the estimated time since reaching maturity without regular prayers:",
+      "years": "Years",
+      "months": "Months",
+      "invalidTime": "Please enter a valid year or month.",
+      "invalidNumber": "Please enter a valid number.",
+      "applyCalc": "Update Debt",
+      "editDebtTitle": "Set Total Debt"
+    },
+    "greeting": {
+      "modalTitle": "Greeting Card Creator",
+      "modalSubtitle": "Share elegant Jummah, Kandil, and Eid greeting cards",
+      "shortTitle": "Greetings",
+      "chooseTemplate": "Preset Templates",
+      "customMessage": "Write Custom Message",
+      "titlePlaceholder": "Title (e.g. Jummah Mubarak)",
+      "messagePlaceholder": "Write your prayer or greeting message...",
+      "chooseTheme": "Card Theme",
+      "shareBtn": "Share to WhatsApp / Story 🌟",
+      "shareImageBtn": "Share Image Card 🌟",
+      "shareLinkBtn": "Share Direct Store Link 🔗"
+    },
+    "mosques": {
+      "title": "Nearby Mosques",
+      "subtitle": "Places of worship closest to your location",
+      "shortTitle": "Mosques",
+      "loading": "Scanning nearby mosques...",
+      "emptyTitle": "No Mosques Found Nearby",
+      "emptyDesc": "You can view all mosques directly on maps navigation.",
+      "openInMaps": "Search on Maps",
+      "directionsBtn": "Directions"
+    },
+    "dailyContent": {
+      "preparing": "Loading daily inspiration...",
+      "queueSuccess": "Content added to the approval queue.",
+      "queueError": "An error occurred while adding content."
     }
   }
 }

@@ -2,17 +2,26 @@
   "translation": {
     "common": {
       "loading": "Yükleniyor...",
+      "success": "Başarılı",
       "error": "Bir hata oluştu",
-      "retry": "Tekrar Dene"
+      "retry": "Tekrar Dene",
+      "fillAllFields": "Lütfen tüm alanları doldurun."
     },
     "home": {
       "title": "Ezan Vakitleri",
+      "currentLocation": "Mevcut Konum",
       "nextPrayer": "Sonraki Vakit",
       "timeLeft": "Kalan Süre",
+      "format12": "12 Saat",
+      "format24": "24 Saat",
+      "active": "Şimdi",
+      "next": "Sonraki",
+      "remaining": "Kalan Süre",
       "timeLeftUnits": {
         "h": "sa",
         "m": "dk",
-        "s": "sn"
+        "s": "sn",
+        "left": "kaldı"
       },
       "prayers": {
         "fajr": "İmsak",
@@ -21,7 +30,50 @@
         "asr": "İkindi",
         "maghrib": "Akşam",
         "isha": "Yatsı"
-      }
+      },
+      "errorLoadingTitle": "Vakitler Yüklenemedi",
+      "errorLoadingSubtitle": "İnternet bağlantınızı kontrol edin veya şehir seçin.",
+      "retryBtn": "Yeniden Dene",
+      "loadingTimes": "Namaz Vakitleri Yükleniyor..."
+    },
+    "onboarding": {
+      "title": "Vera'ya Hoş Geldiniz",
+      "subtitle": "Doğru namaz vakitleri ve ezan bildirimleri için konumunuzu belirleyelim.",
+      "detectedCity": "Mevcut Şehir",
+      "detecting": "Konum Alınıyor...",
+      "autoLocationBtn": "Konumumu Otomatik Bul",
+      "manualCityBtn": "Listeden Şehir Seç",
+      "continueWithCity": "{{city}} İle Devam Et",
+      "step2Title": "Namaz & Ezan Bildirimleri",
+      "step2Subtitle": "Vakitleri kaçırmamak için bildirim tercihlerinizi tamamlayın.",
+      "verifiedMethodTitle": "Doğrulanmış Vakitler",
+      "verifiedMethodDesc": "Bölgenize en uygun İslami hesaplama yöntemi otomatik seçildi.",
+      "notificationsTitle": "Ezan Vakti Bildirimleri",
+      "notificationsDesc": "Ezan girdiğinde sesli veya sessiz hatırlatma alırsınız.",
+      "featureQuran": "Kuran & Ses",
+      "featureQibla": "Kıble",
+      "featureDhikr": "Zikirmatik",
+      "backBtn": "← Geri Dön",
+      "startBtn": "Vera'yı Kullanmaya Başla 🌟"
+    },
+    "weather": {
+      "title": "Hava Durumu",
+      "error": "Hava durumu verisi yüklenemedi.",
+      "high": "En Yüksek",
+      "low": "En Düşük",
+      "feelsLike": "Hissedilen",
+      "today": "Bugün",
+      "hourlyTitle": "24 Saatlik Tahmin",
+      "forecast7Day": "7 Günlük Tahmin",
+      "humidity": "Nem Oranı",
+      "wind": "Rüzgar Hızı",
+      "pressure": "Hava Basıncı",
+      "uvIndex": "UV İndeksi",
+      "sunrise": "Gün Doğumu",
+      "sunset": "Gün Batımı",
+      "precipitation": "Yağış İhtimali",
+      "kmh": "km/sa",
+      "hpa": "hPa"
     },
     "settings": {
       "title": "Ayarlar",
@@ -36,29 +88,99 @@
         "isna": "ISNA (Kuzey Amerika)",
         "mwl": "Müslüman Dünya Birliği",
         "ummAlQura": "Umm Al-Qura (Mekke)",
-        "egypt": "Mısır Genel Heyeti",
-        "karachi": "Karaçi İslami İlimler",
-        "france": "Fransa İslam Kurulu (UOIF)",
-        "russia": "Rusya Müslümanları İdaresi"
-      }
+        "egypt": "Mısır Genel Otoritesi",
+        "karachi": "Karaçi (Pakistan)",
+        "france": "Fransa (UOIF)",
+        "russia": "Rusya (Dini İdare)"
+      },
+      "general": "Genel Ayarlar",
+      "fullscreen": "Tam Ekran Modu",
+      "persistentNotifTitle": "Kilit Ekranı & Üst Panel",
+      "persistentNotif": "Sabit Kilit Ekranı Vakti",
+      "persistentNotifDesc": "Sıradaki vakte ne kadar kaldığını kilit ekranında ve üst panelde canlı takip edin.",
+      "widgetTitle": "Ana Ekran Widget'ı",
+      "addWidget": "📌 Ana Ekrana Widget Ekle!",
+      "addWidgetDesc": "Ezan vakitlerini ve canlı geri sayımı doğrudan telefonunuzun ana ekranında görün.",
+      "palettes": {
+        "default": "Varsayılan",
+        "emerald": "Zümrüt",
+        "ocean": "Okyanus",
+        "rose": "Gül",
+        "gold": "Altın",
+        "amethyst": "Ametist",
+        "crimson": "Kızıl",
+        "indigo": "Çivit",
+        "teal": "Turkuaz",
+        "mint": "Nane",
+        "slate": "Arduvaz"
+      },
+      "themePalette": "Tema Paleti",
+      "themeDesc": "Uygulama renklerini ve düzenini özelleştirin",
+      "themeMode": "Arayüz Modu",
+      "modeDark": "Koyu Mod",
+      "modeLight": "Açık Mod",
+      "modeSystem": "Sistem",
+      "homeAppearance": "Ana Ekran Düzeni",
+      "homeStyle": {
+        "default": "Zengin / Modern",
+        "defaultDesc": "Daire geri sayım, tüm vakitler ve zengin içerikler",
+        "simple": "Sade / Minimalist",
+        "simpleDesc": "Göz yormayan sade liste ve hızlı vakit takibi"
+      },
+      "mainTheme": "Ana Tema Rengi",
+      "circlePalette": "Sayaç Halkası Rengi",
+      "soundSettings": "Ezan Sesleri ve Ses Seviyesi",
+      "exactSoundTitle": "Ezan Vakti Sesi",
+      "warningSoundTitle": "25 Dk Kala Sesi",
+      "volumeLevelTitle": "Ezan Ses Seviyesi",
+      "previewSound": "Dinle",
+      "stopPreview": "Durdur",
+      "soundNames": {
+        "azizallah": "Azizallah (Ezan Vakti)",
+        "adhan_25minutes": "Ezan (25 Dk Kala)",
+        "allahu_akbar": "Allahu Ekber"
+      },
+      "warnNotifBtn": "-25dk",
+      "exactNotifBtn": "Ezan",
+      "testNotifTitle": "Test Bildirimi",
+      "testNotifBody": "Test bildirimi 10 saniye içinde çalacak. Lütfen telefonunuzun ses tuşlarını kullanarak bildirim ses seviyesini kontrol edin veya ayarlayın.",
+      "testWarnNotif": "-25dk Kala Test Et (10 sn)",
+      "testExactNotif": "Tam Ezan Test Et (10 sn)"
     },
     "qibla": {
-      "title": "Kıble",
+      "title": "Kıble Pusulası",
+      "subtitle": "Kıble yönünü doğru bulmak için adımları takip edin",
+      "guideTitle": "Nasıl Kullanılır?",
+      "step1": "1. Telefonunuzu elinizde DÜZ (paralel) tutun",
+      "step2": "2. Kendi etrafınızda YAVAŞÇA dönün",
+      "step3": "3. İbre 🕋 Kabe simgesine ulaşıp YEŞİL olunca Kıble yönündesiniz!",
       "holdFlat": "Telefonunuzu düz tutun",
       "calibrating": "Pusula hazırlanıyor...",
       "found": "Kıble yönündesiniz",
       "permissionRequired": "Konum İzni Gerekli",
       "permissionDenied": "Kıble yönünü göstermek için konum izni gereklidir. Lütfen ayarlardan izin verin.",
       "openSettings": "Ayarlara Git",
-      "description": "Kabe'nin yönünü bulmak için telefonu yavaşça çevirin",
-      "hint": "Kıble yönüne geldiğinizde pusula yeşile döner ve titreşim hissedersiniz.",
+      "description": "Telefonu düz tutarak ibre Kabe'ye (🕋) gelip yeşil olana kadar yavaşça dönün",
+      "hint": "🕌 İbre Kabe (🕋) yönüyle hizalandığında pusula yeşile döner ve cihazınız titreşir.",
       "errorCompass": "Pusula veya konum verisi alınamadı.",
-      "angle": "Açı",
-      "distance": "Mesafe",
+      "angle": "Kıble Açısı",
+      "heading": "Pusula",
+      "distance": "Kabe Mesafesi",
       "status": "Durum",
-      "aligned": "Hizalı",
+      "aligned": "Hizalandı",
       "aligning": "Döndürün",
-      "alignedSuccess": "🕌 Kıble yönündesiniz!"
+      "alignedSuccess": "🕌 Kıble Yönündesiniz!",
+      "fallbackNotice": "GPS alınamadığı için kayıtlı şehir koordinatlarına göre hesaplanmaktadır."
+    },
+    "directions": {
+      "n": "K",
+      "ne": "KD",
+      "e": "D",
+      "se": "GD",
+      "s": "G",
+      "sw": "GB",
+      "w": "B",
+      "nw": "KB"
     },
     "daily": {
       "title": "Günün İçerikleri",
@@ -70,10 +192,51 @@
       "hadithBody": "Günün hadisini okumak için tıklayın!",
       "quoteBody": "Günün sözünü okumak için tıklayın!"
     },
+    "dailyContent": {
+      "preparing": "Günlük içerikler yükleniyor...",
+      "queueSuccess": "İçerik onay bekleyen kuyruğa eklendi.",
+      "queueError": "İçerik eklenirken bir hata oluştu."
+    },
+    "share": {
+      "storyTitle": "Hikaye & Kart Paylaşımı",
+      "actionBtn": "Görsel Kartı Paylaş",
+      "watermark": "V E R A  •  Namaz Vakitleri & Ezan",
+      "appTagline": "Namaz Vakitleri, Kuran & Kıble",
+      "storeSearchHint": "Google Play'de Ara: Vera",
+      "scanToDownload": "Kameranla Tara & İndir",
+      "themeGold": "Altın & Gece",
+      "themeEmerald": "Zümrüt Yeşil",
+      "themeNavy": "Gece Mavisi",
+      "themeSepia": "Sıcak Krem"
+    },
+    "checklist": {
+      "title": "Günlük Namaz Takibi",
+      "completed": "Kılındı",
+      "dayStreak": "Gün Seri",
+      "viewHistory": "Tüm Geçmişi Gör",
+      "historyTitle": "Namaz Takip Geçmişi",
+      "historySubtitle": "Son 30 günlük ibadet kayıtlarınız",
+      "totalLogged": "Kılınan Vakit",
+      "activeStreak": "Aktif Seri",
+      "weeklyRate": "Haftalık Oran",
+      "daysAgo": "gün önce",
+      "today": "Bugün",
+      "yesterday": "Dün",
+      "fajr": "Sabah",
+      "dhuhr": "Öğle",
+      "asr": "İkindi",
+      "maghrib": "Akşam",
+      "isha": "Yatsı",
+      "celebrationTitle": "Tebrikler! 🎉",
+      "celebrationSubtitle": "Maşallah!",
+      "celebrationMessage": "Bugünkü 5 vakit namazınızın tamamını eda ettiniz. Allah kabul etsin!",
+      "celebrationBtn": "Elhamdülillah",
+      "trustNotice": "{{city}} • {{method}} yöntemiyle bölgeniz için doğrulanmış vakitler"
+    },
     "search": {
       "title": "Konum Seç",
       "subtitle": "Dünya genelinde şehir arayın",
-      "placeholder": "örn. Aydın, Paris, London...",
+      "placeholder": "örn. İstanbul, Ankara, İzmir...",
       "recent": "Son Aramalar",
       "useGPS": "Mevcut Konumu Kullan",
       "gpsDenied": "Konum izni reddedildi.",
@@ -84,6 +247,10 @@
       "warnAlert": "25 Dakika Kala Uyarısı",
       "warningTitle": "Vakit Yaklaşıyor",
       "warningBody": "{{prayer}} vaktine 25 dakika kaldı.",
+      "quranReminderTitle": "📖 Kur'an-ı Kerim Vakti",
+      "quranReminderBody": "Bugün Kur'an okudun mu? Tıkla ve hemen okumaya başla.",
+      "namesReminderTitle": "✨ Esmaül Hüsna ve Dualar",
+      "namesReminderBody": "Allah'ın güzel isimlerini ve duaları keşfetmeye ne dersin? Tıkla ve öğren.",
       "bannerTitle": "Bildirimleri Aktifleştirin",
       "bannerDesc": "Namaz vakitlerinden haberdar olabilmek için bildirim izni verin.",
       "bannerBtn": "İzin Ver",
@@ -110,6 +277,23 @@
       "isha": {
         "title": "🕌 Yatsı Vakti",
         "body": "Yatsı namazı vakti girdi. Günü ibadetle huzur içinde tamamlama zamanı."
+      },
+      "silenceAction": "Sustur",
+      "persistent": {
+        "countdown": "sonra",
+        "prayerEntered": "Vakit Girdi",
+        "hoursUnit": "sa",
+        "minutesUnit": "dk"
+      },
+      "channels": {
+        "exactName": "Ezan Vakti",
+        "exactDesc": "Namaz vakti girdiğinde çalar.",
+        "warningName": "Ezan Yaklaşıyor (25 dk)",
+        "warningDesc": "Ezan vaktine 25 dakika kala uyarı verir.",
+        "dailyName": "Günün İçeriği",
+        "dailyDesc": "Her gün öğle ile ikindi arasında günün ayeti/hadisi/sözü gelir.",
+        "persistentName": "Sabit Vakit & Kilit Ekranı",
+        "persistentDesc": "Üst bildirim panelinde ve kilit ekranında sıradaki vakit adı ve saatini gösterir."
       }
     },
     "tasbih": {
@@ -146,7 +330,13 @@
       "resetConfirmTitle": "Sayacı Sıfırla",
       "resetConfirmMsg": "Sayacı sıfırlamak istediğinize emin misiniz? (Bu işlem aylık istatistiklerinizi etkilemez)",
       "yes": "Evet",
-      "no": "Hayır"
+      "no": "Hayır",
+      "bgAudioTitle": "Fon Zikir Sesi",
+      "bgAudioOff": "Sessiz / Kapalı",
+      "bgAudioSelect": "Fon Zikir Sesi Seç",
+      "dikhr1": "Zikir Sesi 1",
+      "dikhr2": "Zikir Sesi 2",
+      "dikhr3": "Zikir Sesi 3"
     },
     "update": {
       "title": "Yeni Güncelleme Mevcut!",
@@ -155,7 +345,13 @@
       "forceMessage": "Uygulamamızı kullanmaya devam edebilmek için lütfen son sürüme güncelleyin.",
       "updateBtn": "Şimdi Güncelle",
       "laterBtn": "Daha Sonra",
-      "releaseNotes": "Sürüm Notları:"
+      "releaseNotes": "Sürüm Notları:",
+      "sectionTitle": "Uygulama Sürümü",
+      "versionLabel": "Sürüm",
+      "checkUpdate": "Güncellemeleri Kontrol Et",
+      "upToDateTitle": "Uygulamanız Güncel",
+      "upToDateMessage": "En son sürümü (v{{version}}) kullanıyorsunuz.",
+      "checkFailed": "Güncelleme kontrolü yapılırken bir hata oluştu."
     },
     "quran": {
       "title": "Kur'an-ı Kerim",
@@ -188,13 +384,143 @@
       "uthmaniDesc": "Medine Mushafı. Tüm dünyada yaygın Arapça hattı.",
       "indopakTitle": "Indo-Pak Hat",
       "indopakDesc": "Hindistan, Pakistan ve Güney Asya bölgesi için kalın hat.",
+      "husrevTitle": "Ahmet Hüsrev Hattı (Tevafuklu)",
+      "husrevDesc": "Hayrat Neşriyat Tevafuklu Kur'an-ı Kerim hattı.",
+      "readingTheme": "Okuma Teması",
+      "themeSepia": "Krem / Sepia",
+      "themeDark": "Gece / Siyah",
+      "themeWhite": "Klasik Beyaz",
+      "themeGreen": "Zümrüt Yeşil",
+      "themeNavy": "Gece Mavisi",
       "saveAndContinue": "Kaydet ve Devam Et",
       "oldDownloadsWillBeDeleted": "Eski İndirmeler Silinecek",
       "styleChangeWarning": "Kur'an hat stilini değiştirdiğinizde, daha önceden indirmiş olduğunuz cüzlerin metinleri yeni formatla uyuşmayacağı için silinecektir. Devam etmek istiyor musunuz?",
       "cancel": "İptal",
       "yesChange": "Evet, Değiştir",
-      "error": "Hata",
-      "downloadError": "Font indirilirken bir hata oluştu. Lütfen internet bağlantınızı kontrol edin."
+      "downloadError": "Font indirilirken bir hata oluştu. Lütfen internet bağlantınızı kontrol edin.",
+      "surahEnd": "Suresi Sonu",
+      "totalVersesRead": "{{count}} Ayetin Tamamı Okundu",
+      "nextSurah": "Sonraki Sure"
+    },
+    "review": {
+      "title": "Vera'yı Beğendiniz mi?",
+      "subtitle": "Deneyiminizi yıldızlarla puanlayın",
+      "message": "Sizlere en iyi deneyimi sunmak için sürekli çalışıyoruz.",
+      "notNow": "Şimdi Değil",
+      "review": "Değerlendir",
+      "fiveStarTitle": "Bunu duyduğumuza çok sevindik! 🌟",
+      "fiveStarSubtitle": "Uygulamamızı 5 yıldız vererek desteklemek ister misiniz?",
+      "rateOnStore": "🌟 5 Yıldız Ver & Destek Ol",
+      "ratingLabels": {
+        "1": "Geliştirilmeli",
+        "2": "Orta",
+        "3": "İyi",
+        "4": "Çok İyi",
+        "5": "Mükemmel!"
+      },
+      "feedbackTitle": "Birlikte Geliştirelim 💬",
+      "feedbackSubtitle": "Vera'yı daha iyi yapabilmemiz için öneri ve görüşlerinizi bizimle paylaşın.",
+      "feedbackPlaceholder": "Fikir, öneri veya karşılaştığınız bir sorunu yazın...",
+      "sendFeedback": "Geri Bildirim Gönder",
+      "thankYouTitle": "Geri Bildiriminiz Alındı! 🤲",
+      "thankYouSubtitle": "Görüşleriniz bizim için çok değerli. Vera'yı güzelleştirmek için var gücümüzle çalışıyoruz.",
+      "close": "Kapat"
+    },
+    "calendar": {
+      "title": "Bütüncül Takvim",
+      "todayNotice": "Bugün: {{gregorian}} • Hicri: {{hijri}}"
+    },
+    "imsakiye": {
+      "title": "Haftalık İmsakiye",
+      "subtitle": "Gelecek 7 günün vakitleri",
+      "date": "Tarih"
+    },
+    "religious": {
+      "title": "Dini Günler",
+      "subtitle": "Mübarek gece ve günlerin takvimi ve geri sayımı",
+      "today": "Bugün",
+      "daysLeft": "gün",
+      "passed": "Geçti"
+    },
+    "widgetPromo": {
+      "title": "Namaz Vakti Widget'ı",
+      "desc": "Ana ekrana Vera widget'ı ekleyerek uygulamayı açmadan vakitleri ve geri sayımı anında görebilirsiniz.",
+      "addBtn": "Ana Ekrana Ekle",
+      "dismissBtn": "Şimdi Değil"
+    },
+    "names": {
+      "title": "Esmaül Hüsna ve Dualar",
+      "namesSubtitle": "Allah'ın 99 güzel ismi",
+      "duasSubtitle": "Günlük hayat duaları",
+      "meaningLabel": "Türkçe Anlamı",
+      "tabNames": "Esmaül Hüsna",
+      "tabDuas": "Dualar",
+      "namesCount": "{{count}} İsim",
+      "duasCount": "{{count}} Dua",
+      "tapHint": "Detaylar için dokunun",
+      "searchPlaceholder": "İsim veya anlam ara..."
+    },
+    "duas": {
+      "occasionTitle": "Ne Zaman / Ne İçin Okunur?",
+      "searchPlaceholder": "Dua, şifa, rızık, nazar ara..."
+    },
+    "kaza": {
+      "title": "Kaza Namazı & Oruç Takipçisi",
+      "subtitle": "Geçmiş namaz ve oruç borçlarınızı düzenli takip edin",
+      "shortTitle": "Kaza",
+      "fajr": "Sabah",
+      "dhuhr": "Öğle",
+      "asr": "İkindi",
+      "maghrib": "Akşam",
+      "isha": "Yatsı",
+      "witr": "Vitir",
+      "fasting": "Oruç (Gün)",
+      "remainingPrayers": "Kalan Vakit",
+      "completedPrayers": "Kılınan",
+      "progress": "Tamamlanan",
+      "addDailyBtn": "+1 Günlük Kaza",
+      "calcBtn": "Borç Hesapla",
+      "debtOf": "Borç",
+      "left": "kaldı",
+      "dailyAddedTitle": "1 Günlük Kaza Eklendi!",
+      "dailyAddedDesc": "Sabah, Öğle, İkindi, Akşam, Yatsı ve Vitir kazalarınız 1 artırıldı. Allah kabul etsin.",
+      "calculatorTitle": "Kaza Borcu Hesaplayıcı",
+      "calculatorDesc": "Buluğ çağından bu yana kılmadığınız tahmini süreyi giriniz:",
+      "years": "Yıl",
+      "months": "Ay",
+      "invalidTime": "Lütfen geçerli bir yıl veya ay giriniz.",
+      "invalidNumber": "Geçerli bir sayı giriniz.",
+      "applyCalc": "Borcu Güncelle",
+      "editDebtTitle": "Borç Sayısını Belirle"
+    },
+    "greeting": {
+      "modalTitle": "Tebrik Kartı Oluşturucu",
+      "modalSubtitle": "Cuma, Kandil ve Bayram tebriklerini şık görselle paylaşın",
+      "shortTitle": "Tebrik",
+      "chooseTemplate": "Hazır Tebrik Şablonları",
+      "customMessage": "Kendi Mesajını Yaz",
+      "titlePlaceholder": "Başlık (Örn: Hayırlı Cumalar)",
+      "messagePlaceholder": "Tebrik veya dua mesajınızı yazın...",
+      "chooseTheme": "Kart Teması",
+      "shareBtn": "WhatsApp / Hikaye Olarak Paylaş 🌟",
+      "shareImageBtn": "Görsel Olarak Paylaş 🌟",
+      "shareLinkBtn": "Doğrudan Tıklanabilir Link Paylaş 🔗"
+    },
+    "mosques": {
+      "title": "Yakındaki Camiler",
+      "subtitle": "Konumunuza en yakın ibadethaneler",
+      "shortTitle": "Camiler",
+      "loading": "Yakındaki camiler taranıyor...",
+      "emptyTitle": "Cami Bilgisi Bulunamadı",
+      "emptyDesc": "Harita üzerinde doğrudan yakındaki tüm camileri görüntüleyebilirsiniz.",
+      "openInMaps": "Haritada Ara",
+      "directionsBtn": "Yol Tarifi"
+    },
+    "batteryOptimization": {
+      "title": "Kesintisiz Ezan Bildirimleri",
+      "message": "Ezan vakitlerinde tam ve düzgün bildirim ile ses alabilmek için uygulamanın pil tasarrufu kısıtlamasını kapatmanız önerilir.",
+      "openSettings": "Ayarları Aç",
+      "later": "Daha Sonra"
     }
   }
 }

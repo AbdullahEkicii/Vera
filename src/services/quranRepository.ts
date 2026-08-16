@@ -8,15 +8,15 @@ const LANG_EDITIONS: Record<string, string> = {
   // İhtiyaca göre diğer diller eklenebilir
 };
 
-export const checkJuzStatus = async (juzNo: number): Promise<{ status: DownloadStatus; langCode?: string }> => {
+export const checkJuzStatus = async (juzNo: number, scriptType: string = 'quran-imlaei'): Promise<{ status: DownloadStatus; langCode?: string }> => {
   try {
     const db = await getDb();
-    const result = await db.getFirstAsync<{ status: string; lang_code: string }>(
-      'SELECT status, lang_code FROM download_status WHERE juz_no = ?',
+    const result = await db.getFirstAsync<{ status: string; lang_code: string; script_type: string }>(
+      'SELECT status, lang_code, script_type FROM download_status WHERE juz_no = ?',
       [juzNo]
     );
 
-    if (result) {
+    if (result && result.script_type === scriptType) {
       return { status: result.status as DownloadStatus, langCode: result.lang_code };
     }
     return { status: 'NotDownloaded' };
@@ -26,52 +26,70 @@ export const checkJuzStatus = async (juzNo: number): Promise<{ status: DownloadS
   }
 };
 
+// API Script eşleştirmeleri
+const API_SCRIPT_MAP: Record<string, string> = {
+  'quran-imlaei': 'quran-simple-enhanced',
+  'quran-uthmani': 'quran-uthmani',
+  'quran-indopak': 'quran-indopak',
+  'quran-husrev': 'quran-uthmani',
+};
+
+// Active download promises map to prevent concurrent download & transaction conflicts
+const activeDownloadMap = new Map<string, Promise<boolean>>();
+
 export const downloadJuz = async (
   juzNo: number,
   langCode: string,
   scriptType: string = 'quran-imlaei',
   onProgress?: (progress: number) => void
 ): Promise<boolean> => {
-  try {
-    const db = await getDb();
-    
-    // Status'u Downloading olarak güncelle
-    await db.runAsync(
-      'INSERT OR REPLACE INTO download_status (juz_no, status, lang_code) VALUES (?, ?, ?)',
-      [juzNo, 'Downloading', langCode]
-    );
+  const downloadKey = `${juzNo}:${langCode}:${scriptType}`;
 
-    onProgress?.(10); // Başlangıç
+  // If Juz is ALREADY downloading, join existing promise
+  if (activeDownloadMap.has(downloadKey)) {
+    return activeDownloadMap.get(downloadKey)!;
+  }
 
-    // 1. Arapça metni çek
-    const arabicRes = await fetch(`https://api.alquran.cloud/v1/juz/${juzNo}/${scriptType}`);
-    const arabicData = await arabicRes.json();
-    
-    if (arabicData.code !== 200) throw new Error('Arapça API hatası');
-    onProgress?.(50); // Arapça çekildi
+  const downloadPromise = (async (): Promise<boolean> => {
+    try {
+      const db = await getDb();
 
-    // Meal isteği şimdilik iptal edildi ("mealler suan dursun sadece kuran olsun")
-    // İleride eklendiğinde API'den çekilecek.
+      // Check if already downloaded
+      const statusCheck = await checkJuzStatus(juzNo, scriptType);
+      if (statusCheck.status === 'Downloaded') {
+        onProgress?.(100);
+        return true;
+      }
 
-    const arabicAyahs = arabicData.data.ayahs;
+      // Status'u Downloading olarak güncelle
+      await db.runAsync(
+        'INSERT OR REPLACE INTO download_status (juz_no, status, lang_code, script_type) VALUES (?, ?, ?, ?)',
+        [juzNo, 'Downloading', langCode, scriptType]
+      );
 
-    // 3. Verileri SQLite için hazırla
-    const verses: Verse[] = arabicAyahs.map((ayah: any) => {
-      return {
+      onProgress?.(10);
+
+      // 1. Arapça metni çek
+      const apiEdition = API_SCRIPT_MAP[scriptType] || 'quran-simple-enhanced';
+      const arabicRes = await fetch(`https://api.alquran.cloud/v1/juz/${juzNo}/${apiEdition}`);
+      const arabicData = await arabicRes.json();
+
+      if (arabicData.code !== 200) throw new Error('Arapça API hatası');
+      onProgress?.(50);
+
+      const arabicAyahs = arabicData.data.ayahs;
+      const verses: Verse[] = arabicAyahs.map((ayah: any) => ({
         id: `${ayah.surah.number}:${ayah.numberInSurah}`,
         juzNo: juzNo,
         surahNo: ayah.surah.number,
         ayahNo: ayah.numberInSurah,
         pageNo: ayah.page,
         arabicText: ayah.text,
-        translationText: '', // Şimdilik boş
-        langCode: 'ar', // Varsayılan olarak sadece arapça indirildi
-      };
-    });
+        translationText: '',
+        langCode: 'ar',
+      }));
 
-    // 4. Batch Insert (Transaction)
-    await db.withTransactionAsync(async () => {
-      // Önce bu cüze ait eski verileri temizle (Güncelleme durumu için)
+      // Safe Batch Insert using prepared statement without nested transaction conflict
       await db.runAsync('DELETE FROM verses WHERE juz_no = ?', [juzNo]);
 
       const statement = await db.prepareAsync(`
@@ -79,6 +97,7 @@ export const downloadJuz = async (
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
       `);
 
+      let insertCount = 0;
       for (const v of verses) {
         await statement.executeAsync(
           v.id,
@@ -90,26 +109,37 @@ export const downloadJuz = async (
           v.translationText,
           v.langCode
         );
+        
+        insertCount++;
+        // React Native köprüsünün tıkanmasını (ANR) önlemek için her 50 ayette bir mikro mola veriyoruz
+        if (insertCount % 50 === 0) {
+          await new Promise(resolve => setTimeout(resolve, 5));
+        }
       }
       await statement.finalizeAsync();
 
       // Durumu Downloaded yap
       await db.runAsync(
-        'INSERT OR REPLACE INTO download_status (juz_no, status, lang_code) VALUES (?, ?, ?)',
-        [juzNo, 'Downloaded', langCode]
+        'INSERT OR REPLACE INTO download_status (juz_no, status, lang_code, script_type) VALUES (?, ?, ?, ?)',
+        [juzNo, 'Downloaded', langCode, scriptType]
       );
-    });
 
-    onProgress?.(100); // Bitti
-    return true;
+      onProgress?.(100);
+      return true;
+    } catch (error) {
+      console.error(`Error downloading Juz ${juzNo}:`, error);
+      try {
+        const db = await getDb();
+        await db.runAsync('DELETE FROM download_status WHERE juz_no = ?', [juzNo]);
+      } catch (e) {}
+      return false;
+    } finally {
+      activeDownloadMap.delete(downloadKey);
+    }
+  })();
 
-  } catch (error) {
-    console.error(`Error downloading Juz ${juzNo}:`, error);
-    // Hata durumunda statüyü geri al
-    const db = await getDb();
-    await db.runAsync('DELETE FROM download_status WHERE juz_no = ?', [juzNo]);
-    return false;
-  }
+  activeDownloadMap.set(downloadKey, downloadPromise);
+  return downloadPromise;
 };
 
 export const getVersesByPage = async (pageNo: number): Promise<Verse[]> => {

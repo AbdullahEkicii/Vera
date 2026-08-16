@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   View,
   Text,
@@ -6,13 +6,16 @@ import {
   FlatList,
   Pressable,
   Platform,
+  TextInput,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { Feather } from '@expo/vector-icons';
-import Animated, { FadeInDown, FadeIn, useAnimatedStyle, withSpring, useSharedValue } from 'react-native-reanimated';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Haptics from 'expo-haptics';
+
 import { useTheme } from '../context/ThemeContext';
-import { typography, spacing } from '../utils/theme';
+import { typography } from '../utils/theme';
 import { ESMAUL_HUSNA, EsmaulHusna } from '../data/esmaulhusna';
 import { DUAS, DuaItem } from '../data/duas';
 import { AdBanner } from './AdBanner';
@@ -25,39 +28,68 @@ export function NamesAndDuasScreen() {
   const { theme, isDark } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>('names');
   const [expandedId, setExpandedId] = useState<number | string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
   const isLangTR = i18n.language === 'tr' || i18n.language.startsWith('tr');
   const containerBg = isDark ? 'rgba(13, 13, 20, 0.2)' : 'rgba(245, 245, 247, 0.3)';
   const cardBg = isDark ? '#1A1A24' : '#FFFFFF';
   const cardBgExpanded = isDark ? '#22213A' : '#FFFBF0';
 
+  const cleanQuery = searchQuery.trim().toLowerCase();
+
+  const filteredNames = useMemo(() => {
+    if (!cleanQuery) return ESMAUL_HUSNA;
+    return ESMAUL_HUSNA.filter((item) => {
+      const matchName = item.transliteration.toLowerCase().includes(cleanQuery);
+      const matchMeaning = (isLangTR ? item.tr : item.en).toLowerCase().includes(cleanQuery);
+      return matchName || matchMeaning;
+    });
+  }, [cleanQuery, isLangTR]);
+
+  const filteredDuas = useMemo(() => {
+    if (!cleanQuery) return DUAS;
+    return DUAS.filter((item) => {
+      const title = (isLangTR ? item.title_tr : item.title_en).toLowerCase();
+      const meaning = (isLangTR ? item.tr : item.en).toLowerCase();
+      const occasion = (isLangTR ? item.occasion_tr : item.occasion_en).toLowerCase();
+      const translit = (item.transliteration || '').toLowerCase();
+      return title.includes(cleanQuery) || meaning.includes(cleanQuery) || occasion.includes(cleanQuery) || translit.includes(cleanQuery);
+    });
+  }, [cleanQuery, isLangTR]);
+
   const processedNames = useMemo(() => {
-    const list = [...ESMAUL_HUSNA];
-    if (list.length >= 4) {
+    const list = [...filteredNames];
+    if (list.length >= 4 && !cleanQuery) {
       list.splice(4, 0, { id: 'ad_names', isAd: true } as any);
     }
     return list;
-  }, []);
+  }, [filteredNames, cleanQuery]);
 
   const processedDuas = useMemo(() => {
-    const list = [...DUAS];
-    const sleepIdx = list.findIndex(d => d.id === 'sleeping');
-    if (sleepIdx !== -1) {
-      list.splice(sleepIdx + 1, 0, { id: 'ad_duas', isAd: true } as any);
+    const list = [...filteredDuas];
+    if (list.length >= 4 && !cleanQuery) {
+      list.splice(3, 0, { id: 'ad_duas', isAd: true } as any);
     }
     return list;
-  }, []);
+  }, [filteredDuas, cleanQuery]);
 
   const toggleExpand = (id: number | string) => {
+    try {
+      Haptics.selectionAsync();
+    } catch (_) {}
     setExpandedId(expandedId === id ? null : id);
   };
 
   const switchTab = (tab: TabType) => {
+    try {
+      Haptics.selectionAsync();
+    } catch (_) {}
     setActiveTab(tab);
     setExpandedId(null);
   };
 
   // ── Names Item ──────────────────────────────────────────────────────────────
-  const renderNameItem = ({ item, index }: { item: EsmaulHusna; index: number }) => {
+  const renderNameItem = useCallback(({ item, index }: { item: EsmaulHusna; index: number }) => {
     const isExpanded = expandedId === item.id;
     const meaning = isLangTR ? item.tr : item.en;
 
@@ -69,58 +101,34 @@ export function NamesAndDuasScreen() {
             styles.card,
             {
               backgroundColor: isExpanded ? cardBgExpanded : cardBg,
-              borderColor: isExpanded ? theme.colors.primary + '80' : theme.colors.border,
+              borderColor: isExpanded ? theme.colors.primary : theme.colors.border,
             },
           ]}
           onPress={() => toggleExpand(item.id)}
         >
-          <View style={styles.nameRow}>
-            {/* Number Badge */}
-            <View style={[styles.numBadge, {
-              backgroundColor: isExpanded ? theme.colors.primary : (isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)')
-            }]}>
-              <Text style={[styles.numText, {
-                color: isExpanded ? (isDark ? '#000' : '#FFF') : theme.colors.textSecondary
-              }]}>
-                {item.id}
-              </Text>
+          <View style={styles.cardHeader}>
+            <View style={[styles.numberBadge, { backgroundColor: theme.colors.primary + '18' }]}>
+              <Text style={[styles.numberText, { color: theme.colors.primary }]}>{item.id}</Text>
             </View>
 
-            {/* Latin name */}
-            <View style={styles.nameMeta}>
-              <Text style={[styles.latinName, { color: theme.colors.text }]}>
+            <View style={styles.titleCol}>
+              <Text style={[styles.translitText, { color: theme.colors.text }]}>
                 {item.transliteration}
               </Text>
+              <Text style={[styles.shortMeaningText, { color: theme.colors.textSecondary }]} numberOfLines={1}>
+                {meaning}
+              </Text>
             </View>
 
-            {/* Arabic */}
-            <Text style={[styles.arabicText, { color: theme.colors.primary }]}>
+            <Text style={[styles.arabicText, { color: isDark ? '#F5D061' : '#8A5C00' }]}>
               {item.arabic}
             </Text>
-
-            <Feather
-              name={isExpanded ? 'chevron-up' : 'chevron-down'}
-              size={15}
-              color={isExpanded ? theme.colors.primary : theme.colors.textSecondary}
-              style={{ marginLeft: 6 }}
-            />
           </View>
 
           {isExpanded && (
-            <Animated.View
-              entering={FadeIn.duration(250)}
-              style={[
-                styles.nameExpanded,
-                { 
-                  borderTopColor: theme.colors.border + '80',
-                  backgroundColor: isDark ? '#1E1D30' : '#FDF8ED',
-                  borderRadius: 10,
-                  marginTop: 10,
-                  padding: 12,
-                }
-              ]}
-            >
-              <Text style={[styles.meaningText, { color: isDark ? '#E0D8FF' : '#2C1A0A' }]}>
+            <Animated.View entering={FadeIn.duration(200)} style={styles.expandedBody}>
+              <View style={[styles.divider, { backgroundColor: theme.colors.border }]} />
+              <Text style={[styles.fullMeaningText, { color: theme.colors.text }]}>
                 {meaning}
               </Text>
             </Animated.View>
@@ -128,13 +136,14 @@ export function NamesAndDuasScreen() {
         </ScalePressable>
       </Animated.View>
     );
-  };
+  }, [expandedId, isLangTR, cardBgExpanded, cardBg, isDark, theme.colors]);
 
   // ── Duas Item ───────────────────────────────────────────────────────────────
-  const renderDuaItem = ({ item, index }: { item: DuaItem; index: number }) => {
+  const renderDuaItem = useCallback(({ item, index }: { item: DuaItem; index: number }) => {
     const isExpanded = expandedId === item.id;
     const title = isLangTR ? item.title_tr : item.title_en;
     const meaning = isLangTR ? item.tr : item.en;
+    const occasion = isLangTR ? item.occasion_tr : item.occasion_en;
 
     return (
       <Animated.View entering={FadeInDown.delay(Math.min(index * 30, 200)).duration(400)}>
@@ -144,14 +153,8 @@ export function NamesAndDuasScreen() {
           style={[styles.duaCard, {
             backgroundColor: isDark ? '#1A1A24' : '#FFFFFF',
             borderColor: isExpanded ? theme.colors.primary + '70' : theme.colors.border,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: isDark ? 0 : 0.07,
-            shadowRadius: 8,
-            elevation: isDark ? 0 : 2,
           }]}
         >
-          {/* Header row */}
           <View style={styles.duaHeader}>
             <View style={[styles.duaIconBox, {
               backgroundColor: isExpanded
@@ -161,9 +164,16 @@ export function NamesAndDuasScreen() {
               <Feather name="book-open" size={15} color={isExpanded ? (isDark ? '#000' : '#FFF') : theme.colors.primary} />
             </View>
 
-            <Text style={[styles.duaTitle, { color: theme.colors.text }]}>
-              {title}
-            </Text>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.duaTitle, { color: theme.colors.text }]}>
+                {title}
+              </Text>
+              {occasion && !isExpanded && (
+                <Text style={[styles.duaOccasionPreview, { color: theme.colors.textSecondary }]} numberOfLines={1}>
+                  {occasion}
+                </Text>
+              )}
+            </View>
 
             <View style={[styles.chevronBox, {
               backgroundColor: isExpanded
@@ -178,39 +188,56 @@ export function NamesAndDuasScreen() {
             </View>
           </View>
 
-          {/* Expanded Content */}
           {isExpanded && (
             <Animated.View entering={FadeIn.duration(250)} style={styles.duaBody}>
-              {/* Divider */}
               <View style={[styles.divider, { backgroundColor: theme.colors.border }]} />
 
-              {/* Arabic block */}
-              <LinearGradient
-                colors={isDark
-                  ? ['rgba(200,134,10,0.12)', 'rgba(200,134,10,0.04)']
-                  : ['rgba(200,134,10,0.08)', 'rgba(200,134,10,0.02)']}
-                style={styles.arabicBlock}
-              >
-                <Text style={[styles.duaArabic, { color: isDark ? '#F0C060' : '#8A5C00' }]}>
-                  {item.arabic}
-                </Text>
-              </LinearGradient>
+              {/* Occasion / Purpose Banner */}
+              {occasion && (
+                <View style={[styles.occasionBadge, {
+                  backgroundColor: isDark ? 'rgba(212, 175, 55, 0.12)' : 'rgba(212, 175, 55, 0.08)',
+                  borderColor: isDark ? 'rgba(212, 175, 55, 0.3)' : 'rgba(212, 175, 55, 0.25)',
+                }]}>
+                  <Ionicons name="sparkles" size={14} color="#D4AF37" style={{ marginRight: 8, marginTop: 1 }} />
+                  <View style={{ flex: 1 }}>
+                    <Text style={[styles.occasionLabel, { color: '#D4AF37' }]}>
+                      {t('duas.occasionTitle', 'Ne Zaman / Ne İçin Okunur?')}
+                    </Text>
+                    <Text style={[styles.occasionText, { color: isDark ? '#FDF8ED' : '#6B4A0E' }]}>
+                      {occasion}
+                    </Text>
+                  </View>
+                </View>
+              )}
 
-              {/* Transliteration */}
-              <View style={styles.translitRow}>
-                <View style={[styles.translitBar, { backgroundColor: theme.colors.primary }]} />
-                <Text style={[styles.duaTranslit, { color: theme.colors.text }]}>
-                  {item.transliteration}
-                </Text>
-              </View>
+              {item.arabic ? (
+                <LinearGradient
+                  colors={isDark
+                    ? ['rgba(200,134,10,0.12)', 'rgba(200,134,10,0.04)']
+                    : ['rgba(200,134,10,0.08)', 'rgba(200,134,10,0.02)']}
+                  style={styles.arabicBlock}
+                >
+                  <Text style={[styles.duaArabic, { color: isDark ? '#F0C060' : '#8A5C00' }]}>
+                    {item.arabic}
+                  </Text>
+                </LinearGradient>
+              ) : null}
 
-              {/* Meaning */}
+              {item.transliteration ? (
+                <View style={styles.translitRow}>
+                  <View style={[styles.translitBar, { backgroundColor: theme.colors.primary }]} />
+                  <Text style={[styles.duaTranslit, { color: theme.colors.text }]}>
+                    {item.transliteration}
+                  </Text>
+                </View>
+              ) : null}
+
               <View style={[styles.meaningBlock, {
                 backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)',
                 borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)'
               }]}>
                 <Text style={[styles.meaningLabel, { color: theme.colors.primary }]}>
-                  {isLangTR ? 'Türkçe Anlamı' : 'English Meaning'}
+                  {t('names.meaningLabel', 'Anlamı')}
                 </Text>
                 <Text style={[styles.duaMeaning, { color: theme.colors.text }]}>
                   {meaning}
@@ -221,19 +248,34 @@ export function NamesAndDuasScreen() {
         </ScalePressable>
       </Animated.View>
     );
-  };
+  }, [expandedId, isLangTR, isDark, theme.colors, t]);
+
+  const keyExtractor = useCallback((item: any) => item.id.toString(), []);
+
+  const renderListItem = useCallback(({ item, index }: { item: any; index: number }) => {
+    if ('isAd' in item) {
+      return (
+        <View style={{ paddingHorizontal: 20, marginVertical: 12 }}>
+          <AdBanner />
+        </View>
+      );
+    }
+    return activeTab === 'names'
+      ? renderNameItem({ item, index } as any)
+      : renderDuaItem({ item, index } as any);
+  }, [activeTab, renderNameItem, renderDuaItem]);
 
   return (
     <View style={[styles.container, { backgroundColor: containerBg }]}>
       {/* Page Title */}
       <Animated.View entering={FadeInDown.delay(0).duration(400)} style={styles.pageHeader}>
         <Text style={[styles.pageTitle, { color: theme.colors.text }]}>
-          {activeTab === 'names' ? t('tasbih.names', 'Esmaül Hüsna') : t('tasbih.duas', 'Dualar')}
+          {t('names.title', 'Esmaül Hüsna & Dualar')}
         </Text>
         <Text style={[styles.pageSubtitle, { color: theme.colors.textSecondary }]}>
           {activeTab === 'names'
-            ? (isLangTR ? "Allah'ın 99 güzel ismi" : "The 99 Beautiful Names of Allah")
-            : (isLangTR ? 'Günlük hayat duaları' : 'Everyday supplications')}
+            ? t('names.namesSubtitle', "Allah'ın 99 Güzel İsmi ve Anlamları")
+            : t('names.duasSubtitle', 'Her gün ve her duruma özel sahih dualar')}
         </Text>
       </Animated.View>
 
@@ -265,7 +307,7 @@ export function NamesAndDuasScreen() {
                   color={isActive ? '#FFF' : theme.colors.textSecondary}
                 />
                 <Text style={[styles.segmentText, { color: isActive ? '#FFF' : theme.colors.textSecondary }]}>
-                  {tab === 'names' ? t('tasbih.names', 'Esmaül Hüsna') : t('tasbih.duas', 'Dualar')}
+                  {tab === 'names' ? t('names.tabNames', '99 İsim') : t('names.tabDuas', 'Dualar')}
                 </Text>
               </Pressable>
             );
@@ -273,36 +315,48 @@ export function NamesAndDuasScreen() {
         </View>
       </Animated.View>
 
+      {/* Live Search Bar */}
+      <View style={styles.searchWrap}>
+        <View style={[styles.searchBar, { backgroundColor: isDark ? '#1A1A24' : '#FFFFFF', borderColor: theme.colors.border }]}>
+          <Feather name="search" size={16} color={theme.colors.textSecondary} style={{ marginRight: 8 }} />
+          <TextInput
+            style={[styles.searchInput, { color: theme.colors.text }]}
+            placeholder={
+              activeTab === 'names'
+                ? t('names.searchPlaceholder', 'İsim veya anlam ara...')
+                : t('duas.searchPlaceholder', 'Dua, şifa, rızık, nazar ara...')
+            }
+            placeholderTextColor={theme.colors.textSecondary}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+          />
+          {searchQuery.length > 0 && (
+            <Pressable onPress={() => setSearchQuery('')} hitSlop={8}>
+              <Feather name="x-circle" size={16} color={theme.colors.textSecondary} />
+            </Pressable>
+          )}
+        </View>
+      </View>
+
       {/* Count badge */}
       <View style={styles.countBadgeRow}>
         <View style={[styles.countBadge, { backgroundColor: theme.colors.primary + '18' }]}>
           <Text style={[styles.countBadgeText, { color: theme.colors.primary }]}>
             {activeTab === 'names'
-              ? (isLangTR ? `${ESMAUL_HUSNA.length} isim` : `${ESMAUL_HUSNA.length} names`)
-              : (isLangTR ? `${DUAS.length} dua` : `${DUAS.length} duas`)}
+              ? t('names.namesCount', { count: filteredNames.length, defaultValue: `${filteredNames.length} İsim` })
+              : t('names.duasCount', { count: filteredDuas.length, defaultValue: `${filteredDuas.length} Dua` })}
           </Text>
         </View>
         <Text style={[styles.countHint, { color: theme.colors.textSecondary }]}>
-          {isLangTR ? 'Detay için dokun' : 'Tap for details'}
+          {t('names.tapHint', { defaultValue: 'Detay için dokunun' })}
         </Text>
       </View>
 
       {/* List */}
       <FlatList
         data={(activeTab === 'names' ? processedNames : processedDuas) as any[]}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item, index }) => {
-          if ('isAd' in item) {
-            return (
-              <View style={{ paddingHorizontal: 20, marginVertical: 12 }}>
-                <AdBanner />
-              </View>
-            );
-          }
-          return activeTab === 'names'
-            ? renderNameItem({ item, index } as any)
-            : renderDuaItem({ item, index } as any);
-        }}
+        keyExtractor={keyExtractor}
+        renderItem={renderListItem}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
         initialNumToRender={8}
@@ -322,205 +376,229 @@ const styles = StyleSheet.create({
   },
   pageHeader: {
     paddingHorizontal: 20,
-    marginTop: Platform.OS === 'ios' ? 56 : 40,
-    marginBottom: 16,
+    paddingTop: 12,
+    paddingBottom: 8,
   },
   pageTitle: {
-    fontFamily: typography.fontFamily.bold,
-    fontSize: 30,
-    letterSpacing: -0.5,
+    fontFamily: 'Outfit_700Bold',
+    fontSize: 22,
   },
   pageSubtitle: {
-    fontFamily: typography.fontFamily.regular,
-    fontSize: 14,
-    marginTop: 4,
+    fontFamily: 'Outfit_400Regular',
+    fontSize: 13,
+    marginTop: 2,
   },
-
-  // Segmented control
   segmentedControl: {
     flexDirection: 'row',
     marginHorizontal: 20,
-    marginBottom: 12,
-    borderRadius: 16,
+    marginTop: 6,
+    marginBottom: 8,
+    borderRadius: 14,
+    padding: 3,
     borderWidth: 1,
-    padding: 4,
   },
   segmentBtn: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 9,
     gap: 6,
-    paddingVertical: 11,
   },
   segmentText: {
-    fontFamily: typography.fontFamily.semiBold,
+    fontFamily: 'Outfit_600SemiBold',
     fontSize: 13,
   },
-
-  // Count
+  searchWrap: {
+    paddingHorizontal: 20,
+    marginBottom: 8,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 14,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderWidth: 1,
+  },
+  searchInput: {
+    flex: 1,
+    fontFamily: 'Outfit_400Regular',
+    fontSize: 13,
+    paddingVertical: 2,
+  },
   countBadgeRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
-    marginBottom: 12,
+    marginBottom: 8,
   },
   countBadge: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 99,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: 10,
   },
   countBadgeText: {
-    fontFamily: typography.fontFamily.semiBold,
+    fontFamily: 'Outfit_600SemiBold',
     fontSize: 12,
   },
   countHint: {
-    fontFamily: typography.fontFamily.regular,
-    fontSize: 12,
-    opacity: 0.7,
+    fontFamily: 'Outfit_400Regular',
+    fontSize: 11,
   },
-
-  // List
   listContent: {
     paddingHorizontal: 16,
     paddingBottom: 110,
     gap: 8,
   },
-
-  // ── Names ──────────────────────────────────────────────────────────────
   card: {
+    borderRadius: 16,
     padding: 14,
-    borderRadius: 18,
     borderWidth: 1,
   },
-  nameRow: {
+  cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
   },
-  numBadge: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+  numberBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    flexShrink: 0,
+    marginRight: 12,
   },
-  numText: {
-    fontFamily: typography.fontFamily.bold,
+  numberText: {
+    fontFamily: 'Outfit_700Bold',
     fontSize: 13,
   },
-  nameMeta: {
+  titleCol: {
     flex: 1,
+    marginRight: 8,
   },
-  latinName: {
-    fontFamily: typography.fontFamily.semiBold,
+  translitText: {
+    fontFamily: 'Outfit_600SemiBold',
     fontSize: 15,
   },
+  shortMeaningText: {
+    fontFamily: 'Outfit_400Regular',
+    fontSize: 12,
+    marginTop: 2,
+  },
   arabicText: {
-    fontFamily: typography.fontFamily.regular,
     fontSize: 20,
+    fontFamily: Platform.OS === 'ios' ? 'Geeza Pro' : 'serif',
   },
-  nameExpanded: {
-    marginTop: 12,
-    paddingTop: 12,
-    borderTopWidth: 1,
+  expandedBody: {
+    marginTop: 10,
   },
-  meaningText: {
-    fontFamily: typography.fontFamily.regular,
-    fontSize: 14,
-    lineHeight: 20,
+  divider: {
+    height: 1,
+    marginBottom: 8,
   },
-
-  // ── Duas ───────────────────────────────────────────────────────────────
+  fullMeaningText: {
+    fontFamily: 'Outfit_400Regular',
+    fontSize: 13,
+    lineHeight: 19,
+  },
   duaCard: {
-    borderRadius: 20,
+    borderRadius: 16,
+    padding: 14,
     borderWidth: 1,
-    overflow: 'hidden',
   },
   duaHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
-    padding: 14,
   },
   duaIconBox: {
-    width: 38,
-    height: 38,
-    borderRadius: 12,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    flexShrink: 0,
+    marginRight: 10,
   },
   duaTitle: {
-    fontFamily: typography.fontFamily.semiBold,
-    fontSize: 15,
-    flex: 1,
-    lineHeight: 20,
+    fontFamily: 'Outfit_600SemiBold',
+    fontSize: 14,
+  },
+  duaOccasionPreview: {
+    fontFamily: 'Outfit_400Regular',
+    fontSize: 11,
+    marginTop: 2,
   },
   chevronBox: {
-    width: 30,
-    height: 30,
-    borderRadius: 10,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
     alignItems: 'center',
     justifyContent: 'center',
-    flexShrink: 0,
+    marginLeft: 6,
   },
   duaBody: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    gap: 14,
+    marginTop: 10,
   },
-  divider: {
-    height: 1,
+  occasionBadge: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    padding: 10,
+    borderRadius: 12,
+    borderWidth: 1,
+    marginBottom: 10,
+  },
+  occasionLabel: {
+    fontFamily: 'Outfit_700Bold',
+    fontSize: 11,
     marginBottom: 2,
   },
+  occasionText: {
+    fontFamily: 'Outfit_500Medium',
+    fontSize: 12,
+    lineHeight: 16,
+  },
   arabicBlock: {
-    padding: 16,
-    borderRadius: 14,
-    alignItems: 'flex-end',
+    padding: 12,
+    borderRadius: 12,
+    marginBottom: 10,
   },
   duaArabic: {
-    fontFamily: typography.fontFamily.regular,
-    fontSize: 22,
+    fontSize: 19,
+    lineHeight: 32,
     textAlign: 'right',
-    lineHeight: 38,
+    fontFamily: Platform.OS === 'ios' ? 'Geeza Pro' : 'serif',
   },
   translitRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    gap: 10,
+    marginBottom: 10,
   },
   translitBar: {
     width: 3,
     borderRadius: 2,
-    marginTop: 3,
-    height: '100%',
-    minHeight: 20,
+    alignSelf: 'stretch',
+    marginRight: 8,
   },
   duaTranslit: {
-    fontFamily: typography.fontFamily.medium,
-    fontSize: 14,
-    lineHeight: 22,
-    fontStyle: 'italic',
     flex: 1,
+    fontFamily: 'Outfit_400Regular',
+    fontSize: 13,
+    lineHeight: 18,
+    fontStyle: 'italic',
   },
   meaningBlock: {
-    padding: 14,
-    borderRadius: 14,
+    padding: 10,
+    borderRadius: 12,
     borderWidth: 1,
-    gap: 6,
   },
   meaningLabel: {
-    fontFamily: typography.fontFamily.semiBold,
+    fontFamily: 'Outfit_600SemiBold',
     fontSize: 11,
-    letterSpacing: 0.5,
-    textTransform: 'uppercase',
+    marginBottom: 4,
   },
   duaMeaning: {
-    fontFamily: typography.fontFamily.regular,
-    fontSize: 14,
-    lineHeight: 22,
+    fontFamily: 'Outfit_400Regular',
+    fontSize: 13,
+    lineHeight: 18,
   },
 });

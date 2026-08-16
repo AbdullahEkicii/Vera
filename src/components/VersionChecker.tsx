@@ -3,27 +3,32 @@ import { BlurView } from 'expo-blur';
 import Constants from 'expo-constants';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, DeviceEventEmitter, Linking, Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '../context/ThemeContext';
 import { spacing, typography } from '../utils/theme';
 
 const VERSION_URL = 'https://raw.githubusercontent.com/AbdullahEkicii/Vera/main/Vera_version_control.json';
+const DISMISSED_KEY = 'VERA_DISMISSED_UPDATE_VERSION';
 
-interface VersionData {
+export interface VersionData {
   latestVersion: string;
   minVersion: string;
   androidUrl: string;
   iosUrl: string;
-  releaseNotes?: {
-    tr: string;
-    en: string;
-  };
+  releaseNotes?: Record<string, string> | string;
 }
 
-const compareVersions = (v1: string, v2: string) => {
-  const p1 = v1.split('.').map(Number);
-  const p2 = v2.split('.').map(Number);
-  for (let i = 0; i < Math.max(p1.length, p2.length); i++) {
+const cleanVersion = (v?: string): string => {
+  if (!v) return '0.0.0';
+  return v.replace(/[^0-9.]/g, '');
+};
+
+export const compareVersions = (v1: string, v2: string): number => {
+  const p1 = cleanVersion(v1).split('.').map(n => parseInt(n, 10) || 0);
+  const p2 = cleanVersion(v2).split('.').map(n => parseInt(n, 10) || 0);
+  const maxLength = Math.max(p1.length, p2.length);
+  for (let i = 0; i < maxLength; i++) {
     const n1 = p1[i] || 0;
     const n2 = p2[i] || 0;
     if (n1 > n2) return 1;
@@ -40,36 +45,64 @@ export function VersionChecker() {
   const [isForceUpdate, setIsForceUpdate] = useState(false);
   const [updateData, setUpdateData] = useState<VersionData | null>(null);
 
-  useEffect(() => {
-    const checkVersion = async () => {
-      try {
-        const response = await fetch(VERSION_URL, { cache: 'no-cache' });
-        if (!response.ok) return;
+  const checkVersion = async (isManual = false) => {
+    try {
+      const url = `${VERSION_URL}?t=${Date.now()}`;
+      const response = await fetch(url, { cache: 'no-cache' });
+      if (!response.ok) {
+        if (isManual) {
+          Alert.alert(
+            t('common.error', 'Hata'),
+            t('update.checkFailed', 'Güncelleme bilgisi alınamadı.')
+          );
+        }
+        return;
+      }
 
-        const data: VersionData = await response.json();
-        const currentVersion = Constants.expoConfig?.version || '1.0.0';
+      const data: VersionData = await response.json();
+      const currentVersion = Constants.expoConfig?.version || Constants.nativeAppVersion || '1.0.0';
 
-        const isLatestNewer = compareVersions(data.latestVersion, currentVersion) > 0;
-        const isMinNewer = compareVersions(data.minVersion, currentVersion) > 0;
+      const isLatestNewer = compareVersions(data.latestVersion, currentVersion) > 0;
+      const isMinNewer = compareVersions(data.minVersion, currentVersion) > 0;
 
-        if (isMinNewer) {
-          setIsForceUpdate(true);
-          setUpdateData(data);
-          setIsVisible(true);
-        } else if (isLatestNewer) {
+      if (isMinNewer) {
+        setIsForceUpdate(true);
+        setUpdateData(data);
+        setIsVisible(true);
+      } else if (isLatestNewer) {
+        const dismissed = await AsyncStorage.getItem(DISMISSED_KEY);
+        if (isManual || dismissed !== data.latestVersion) {
           setIsForceUpdate(false);
           setUpdateData(data);
           setIsVisible(true);
         }
-      } catch (error) {
-        console.log('Version check failed:', error);
+      } else if (isManual) {
+        Alert.alert(
+          t('update.upToDateTitle', 'Uygulamanız Güncel'),
+          t('update.upToDateMessage', `En son sürümü (v${currentVersion}) kullanıyorsunuz.`, { version: currentVersion })
+        );
       }
-    };
+    } catch (error) {
+      console.log('Version check failed:', error);
+      if (isManual) {
+        Alert.alert(
+          t('common.error', 'Hata'),
+          t('update.checkFailed', 'Güncelleme kontrolü yapılırken bir hata oluştu.')
+        );
+      }
+    }
+  };
 
-    // checkVersion(); 
-    // Geliştirme aşamasında sürekli hata atmaması için URL geçerli olana kadar kapalı tutulabilir, 
-    // ancak gerçekte açık olmalıdır. Şimdilik çağrıyı aktif bırakıyorum:
-    checkVersion();
+  useEffect(() => {
+    checkVersion(false);
+
+    const subscription = DeviceEventEmitter.addListener('CHECK_FOR_UPDATE', (evt) => {
+      checkVersion(evt?.manual ?? true);
+    });
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   if (!isVisible || !updateData) return null;
@@ -81,15 +114,32 @@ export function VersionChecker() {
     }
   };
 
-  const handleLater = () => {
-    if (!isForceUpdate) {
+  const handleLater = async () => {
+    if (!isForceUpdate && updateData) {
+      await AsyncStorage.setItem(DISMISSED_KEY, updateData.latestVersion);
       setIsVisible(false);
     }
   };
 
   const modalBg = isDark ? 'rgba(30, 30, 30, 0.85)' : 'rgba(255, 255, 255, 0.85)';
-  const currentLang = i18n.language.startsWith('tr') ? 'tr' : 'en';
-  const notes = updateData.releaseNotes ? updateData.releaseNotes[currentLang] : null;
+
+  const getReleaseNotesText = (): string | null => {
+    if (!updateData?.releaseNotes) return null;
+    if (typeof updateData.releaseNotes === 'string') return updateData.releaseNotes;
+    if (typeof updateData.releaseNotes === 'object') {
+      const currentLang = (i18n.language || 'tr').split('-')[0];
+      return (
+        updateData.releaseNotes[currentLang] ||
+        updateData.releaseNotes['tr'] ||
+        updateData.releaseNotes['en'] ||
+        Object.values(updateData.releaseNotes)[0] ||
+        null
+      );
+    }
+    return null;
+  };
+
+  const notes = getReleaseNotesText();
 
   return (
     <Modal visible={isVisible} transparent animationType="fade">

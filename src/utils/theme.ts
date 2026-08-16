@@ -74,3 +74,76 @@ export const typography = {
 };
 
 export type ThemeType = typeof lightTheme;
+
+export const palettes: Record<string, { primary: string; primaryLight: string; glow: string; borderStrong: string; name: string }> = {
+  emerald: {
+    name: 'Emerald',
+    primary: '#10B981',
+    primaryLight: 'rgba(16, 185, 129, 0.15)',
+    glow: 'rgba(16, 185, 129, 0.35)',
+    borderStrong: 'rgba(16, 185, 129, 0.45)',
+  },
+  ocean: {
+    name: 'Ocean',
+    primary: '#0EA5E9',
+    primaryLight: 'rgba(14, 165, 233, 0.15)',
+    glow: 'rgba(14, 165, 233, 0.35)',
+    borderStrong: 'rgba(14, 165, 233, 0.45)',
+  },
+  rose: {
+    name: 'Rose',
+    primary: '#F43F5E',
+    primaryLight: 'rgba(244, 63, 94, 0.15)',
+    glow: 'rgba(244, 63, 94, 0.35)',
+    borderStrong: 'rgba(244, 63, 94, 0.45)',
+  },
+  gold: {
+    name: 'Gold',
+    primary: '#F59E0B',
+    primaryLight: 'rgba(245, 158, 11, 0.15)',
+    glow: 'rgba(245, 158, 11, 0.35)',
+    borderStrong: 'rgba(245, 158, 11, 0.45)',
+  },
+  amethyst: {
+    name: 'Amethyst',
+    primary: '#8B5CF6',
+    primaryLight: 'rgba(139, 92, 246, 0.15)',
+    glow: 'rgba(139, 92, 246, 0.35)',
+    borderStrong: 'rgba(139, 92, 246, 0.45)',
+  },
+  crimson: {
+    name: 'Crimson',
+    primary: '#DC2626',
+    primaryLight: 'rgba(220, 38, 38, 0.15)',
+    glow: 'rgba(220, 38, 38, 0.35)',
+    borderStrong: 'rgba(220, 38, 38, 0.45)',
+  },
+  indigo: {
+    name: 'Indigo',
+    primary: '#4F46E5',
+    primaryLight: 'rgba(79, 70, 229, 0.15)',
+    glow: 'rgba(79, 70, 229, 0.35)',
+    borderStrong: 'rgba(79, 70, 229, 0.45)',
+  },
+  teal: {
+    name: 'Teal',
+    primary: '#0D9488',
+    primaryLight: 'rgba(13, 148, 136, 0.15)',
+    glow: 'rgba(13, 148, 136, 0.35)',
+    borderStrong: 'rgba(13, 148, 136, 0.45)',
+  },
+  mint: {
+    name: 'Mint',
+    primary: '#059669',
+    primaryLight: 'rgba(5, 150, 105, 0.15)',
+    glow: 'rgba(5, 150, 105, 0.35)',
+    borderStrong: 'rgba(5, 150, 105, 0.45)',
+  },
+  slate: {
+    name: 'Slate',
+    primary: '#475569',
+    primaryLight: 'rgba(71, 85, 105, 0.15)',
+    glow: 'rgba(71, 85, 105, 0.35)',
+    borderStrong: 'rgba(71, 85, 105, 0.45)',
+  },
+};

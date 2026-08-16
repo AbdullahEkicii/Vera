@@ -3,7 +3,9 @@
     "common": {
       "loading": "Загрузка...",
       "error": "Произошла ошибка",
-      "retry": "Повторить"
+      "retry": "Повторить",
+      "success": "Success",
+      "fillAllFields": "Please fill in all fields."
     },
     "home": {
       "title": "Время намаза",
@@ -12,7 +14,8 @@
       "timeLeftUnits": {
         "h": "ч",
         "m": "м",
-        "s": "с"
+        "s": "с",
+        "left": "ostalos"
       },
       "prayers": {
         "fajr": "Фаджр",
@@ -21,7 +24,17 @@
         "asr": "Аср",
         "maghrib": "Магриб",
         "isha": "Иша"
-      }
+      },
+      "currentLocation": "Текущее местоположение",
+      "active": "Сейчас",
+      "next": "Следующий",
+      "remaining": "Осталось",
+      "format12": "12 ч.",
+      "format24": "24 ч.",
+      "errorLoadingTitle": "Could Not Load Prayer Times",
+      "errorLoadingSubtitle": "Please check your internet connection or select your city.",
+      "retryBtn": "Retry",
+      "loadingTimes": "Loading Prayer Times..."
     },
     "settings": {
       "title": "Настройки",
@@ -29,13 +42,96 @@
       "theme": "Тема",
       "dark": "Темная",
       "light": "Светлая",
-      "system": "Системная"
+      "system": "Системная",
+      "calcMethod": "Метод расчета",
+      "methods": {
+        "diyanet": "Диянет (Турция)",
+        "isna": "ИСНА (Северная Америка)",
+        "mwl": "Всемирная мусульманская лига (MWL)",
+        "ummAlQura": "Умм Аль-Кура (Мекка)",
+        "egypt": "Генеральная власть Египта",
+        "karachi": "Карачи (Пакистан)",
+        "france": "Франция (УОИФ)",
+        "russia": "Россия (Духовное управление)"
+      },
+      "palettes": {
+        "default": "Default",
+        "emerald": "Emerald",
+        "ocean": "Ocean",
+        "rose": "Rose",
+        "gold": "Gold",
+        "amethyst": "Amethyst",
+        "crimson": "Crimson",
+        "indigo": "Indigo",
+        "teal": "Teal",
+        "mint": "Mint",
+        "slate": "Slate"
+      },
+      "themePalette": "Theme Palette",
+      "mainTheme": "Main Theme Color",
+      "circlePalette": "Countdown Circle Color",
+      "soundSettings": "Звуки азана и громкость",
+      "exactSoundTitle": "Звук времени намаза",
+      "warningSoundTitle": "Звук за 25 минут",
+      "volumeLevelTitle": "Громкость азана",
+      "previewSound": "Прослушать",
+      "stopPreview": "Стоп",
+      "soundNames": {
+        "azizallah": "Азизаллах (Время намаза)",
+        "adhan_25minutes": "Азан (За 25 минут)",
+        "allahu_akbar": "Аллаху Акбар"
+      },
+      "persistentNotifTitle": "Экран блокировки и строка состояния",
+      "persistentNotif": "Постоянный отсчет времени намаза",
+      "persistentNotifDesc": "Отслеживайте время до следующего намаза прямо на экране блокировки и в панели уведомлений.",
+      "widgetTitle": "Виджет главного экрана",
+      "addWidget": "📌 Добавить виджет на главный экран!",
+      "addWidgetDesc": "Смотрите время намазов и обратный отсчет прямо на главном экране без открытия приложения.",
+      "general": "Общие настройки",
+      "fullscreen": "Полноэкранный режим",
+      "warnNotifBtn": "-25мин",
+      "exactNotifBtn": "Азан",
+      "testNotifTitle": "Тестовое уведомление",
+      "testNotifBody": "Тестовое уведомление прозвучит через 10 секунд. Проверьте громкость вашего устройства.",
+      "testWarnNotif": "Тест за 25 мин (10с)",
+      "testExactNotif": "Тест полного азана (10с)",
+      "themeDesc": "Customize app colors, dark mode, and home screen layout",
+      "themeMode": "Interface Mode",
+      "modeDark": "Dark Mode",
+      "modeLight": "Light Mode",
+      "modeSystem": "System",
+      "homeAppearance": "Home Screen Layout",
+      "homeStyle": {
+        "default": "Rich / Modern",
+        "defaultDesc": "Countdown circle, all prayers, and rich widgets",
+        "simple": "Simple / Minimalist",
+        "simpleDesc": "Clean distraction-free list and quick tracker"
+      }
     },
     "qibla": {
-      "title": "Кибла",
+      "title": "Компас Киблы",
       "holdFlat": "Держите телефон ровно",
       "calibrating": "Калибровка компаса...",
-      "found": "Вы смотрите в сторону Киблы"
+      "found": "Вы смотрите в сторону Киблы",
+      "permissionRequired": "Требуется разрешение на определение местоположения",
+      "permissionDenied": "Разрешение на определение местоположения требуется, чтобы показать направление Киблы. Пожалуйста, включите его в настройках.",
+      "openSettings": "Открыть настройки",
+      "description": "Медленно вращайте устройство, чтобы найти направление Киблы.",
+      "hint": "Компас станет зеленым, и вы почувствуете вибрацию при выравнивании по Кибле.",
+      "errorCompass": "Не удалось прочитать компас или данные о местоположении.",
+      "angle": "Угол",
+      "distance": "Расстояние",
+      "status": "Статус",
+      "aligned": "Выровнено",
+      "aligning": "Поворот",
+      "alignedSuccess": "🕌Вы стоите перед Киблой!",
+      "subtitle": "Следуйте шагам, чтобы точно определить направление Киблы",
+      "guideTitle": "How to Use?",
+      "step1": "1. Держите телефон РОВНО на ладони",
+      "step2": "2. МЕДЛЕННО поворачивайтесь вокруг своей оси",
+      "step3": "3. Когда стрелка указывает на 🕋 Каабу и станет ЗЕЛЕНОЙ, вы смотрите на Киблу!",
+      "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
+      "heading": "Heading"
     },
     "daily": {
       "title": "Вдохновение на день",
@@ -71,6 +167,34 @@
       "isha": {
         "title": "🕌 Время Иша",
         "body": "Настало время ночного намаза."
+      },
+      "exactAlert": "Точное молитвенное оповещение",
+      "warnAlert": "25-минутное предупреждение",
+      "warningTitle": "Время приближается",
+      "warningBody": "До {{молитвы}} осталось 25 минут.",
+      "quranReminderTitle": "📖 Время Священного Корана",
+      "quranReminderBody": "Ты читал Коран сегодня? Нажмите, чтобы прочитать сейчас.",
+      "namesReminderTitle": "✨ Имена Аллаха и Дуа",
+      "namesReminderBody": "Откройте для себя прекрасные Имена Аллаха и Дуа. Нажмите, чтобы изучить.",
+      "bannerTitle": "Включить уведомления",
+      "bannerDesc": "Включите разрешения на уведомления, чтобы получать уведомления о времени молитвы.",
+      "bannerBtn": "Предоставить разрешение",
+      "persistent": {
+        "countdown": "осталось",
+        "prayerEntered": "Время намаза",
+        "hoursUnit": "ч",
+        "minutesUnit": "мин"
+      },
+      "silenceAction": "Заглушить",
+      "channels": {
+        "exactName": "Adhan Time",
+        "exactDesc": "Plays when prayer time arrives.",
+        "warningName": "Prayer Approaching (25 min)",
+        "warningDesc": "Gives a warning 25 minutes before prayer time.",
+        "dailyName": "Daily Inspiration",
+        "dailyDesc": "Daily verse, hadith, or quote arrives between Dhuhr and Asr.",
+        "persistentName": "Lock Screen & Status Bar",
+        "persistentDesc": "Displays next prayer name and live countdown in notification panel and lock screen."
       }
     },
     "tasbih": {
@@ -103,7 +227,17 @@
       "resetConfirmTitle": "Сбросить счетчик",
       "resetConfirmMsg": "Вы уверены, что хотите сбросить счетчик?",
       "yes": "Да",
-      "no": "Нет"
+      "no": "Нет",
+      "recTitle": "Ежедневная рекомендация",
+      "recBtnText": "Начни читать",
+      "soundOn": "Звук включен",
+      "soundOff": "Звук выключен",
+      "bgAudioTitle": "Фоновый звук зикра",
+      "bgAudioOff": "Выкл./Без звука",
+      "bgAudioSelect": "Выберите фоновый звук зикра",
+      "dikhr1": "Зикр Звук 1",
+      "dikhr2": "Зикр Звук 2",
+      "dikhr3": "Зикр Звук 3"
     },
     "update": {
       "title": "Доступно обновление!",
@@ -112,7 +246,13 @@
       "forceMessage": "Пожалуйста, обновитесь до последней версии.",
       "updateBtn": "Обновить сейчас",
       "laterBtn": "Позже",
-      "releaseNotes": "Примечания к выпуску:"
+      "releaseNotes": "Примечания к выпуску:",
+      "sectionTitle": "Версия приложения",
+      "versionLabel": "Версия",
+      "checkUpdate": "Проверьте наличие обновлений",
+      "upToDateTitle": "Приложение обновлено",
+      "upToDateMessage": "Вы используете последнюю версию (v{{version}}).",
+      "checkFailed": "Не удалось проверить наличие обновлений."
     },
     "quran": {
       "title": "Священный Коран",
@@ -151,7 +291,237 @@
       "cancel": "Отмена",
       "yesChange": "Да, изменить",
       "error": "Ошибка",
-      "downloadError": "Ошибка при загрузке шрифта."
+      "downloadError": "Ошибка при загрузке шрифта.",
+      "husrevTitle": "Сценарий Ахмета Хусрева (Тавафук)",
+      "husrevDesc": "Хайрат Несрият Тавафук в стиле каллиграфии Корана.",
+      "readingTheme": "Чтение темы",
+      "themeSepia": "Кремовый/Сепия",
+      "themeDark": "Темная ночь",
+      "themeWhite": "Классический Белый",
+      "themeGreen": "Изумрудный шалфей",
+      "themeNavy": "Полуночный синий",
+      "surahEnd": "Конец суры",
+      "totalVersesRead": "Прочитано все {{count}} стихов",
+      "nextSurah": "Следующая сура"
+    },
+    "review": {
+      "title": "Поддержите нас",
+      "message": "Если вам нравится наше приложение, поставьте нам 5 звезд в Play Store и расскажите, какие функции вы хотели бы видеть!",
+      "notNow": "Не сейчас",
+      "review": "Оценить",
+      "subtitle": "Rate your experience with stars",
+      "fiveStarTitle": "We're thrilled to hear that! 🌟",
+      "fiveStarSubtitle": "Would you like to support Vera with a 5-star rating?",
+      "rateOnStore": "🌟 Give 5 Stars & Support",
+      "ratingLabels": {
+        "1": "Needs Improvement",
+        "2": "Fair",
+        "3": "Good",
+        "4": "Very Good",
+        "5": "Excellent!"
+      },
+      "feedbackTitle": "Help Us Improve 💬",
+      "feedbackSubtitle": "Share your thoughts and suggestions so we can make Vera even better.",
+      "feedbackPlaceholder": "Write your suggestions, ideas or any issues you faced...",
+      "sendFeedback": "Send Feedback",
+      "thankYouTitle": "Feedback Received! 🤲",
+      "thankYouSubtitle": "Your feedback is very valuable to us. We will work hard to make Vera even better.",
+      "close": "Close"
+    },
+    "share": {
+      "storyTitle": "История и обмен карточками",
+      "actionBtn": "Поделиться карточкой-историей",
+      "watermark": "В Е Р А • Время молитв и Афан",
+      "themeGold": "Золото и ночь",
+      "themeEmerald": "Изумрудный шалфей",
+      "themeNavy": "Полуночный синий",
+      "themeSepia": "Теплая сепия",
+      "appTagline": "Prayer Times, Quran & Qibla",
+      "storeSearchHint": "Search on Google Play: Vera",
+      "scanToDownload": "Scan to Download"
+    },
+    "checklist": {
+      "title": "Ежедневный молитвенный трекер",
+      "completed": "Завершенный",
+      "dayStreak": "Дневная полоса",
+      "viewHistory": "Посмотреть полную историю",
+      "historyTitle": "Молитвенная история",
+      "historySubtitle": "Ваши молитвенные журналы за последние 30 дней.",
+      "totalLogged": "Всего молитв",
+      "activeStreak": "Активная полоса",
+      "weeklyRate": "Еженедельный тариф",
+      "daysAgo": "дней назад",
+      "today": "Сегодня",
+      "yesterday": "Вчера",
+      "fajr": "Фаджр",
+      "dhuhr": "Зухр",
+      "asr": "Аср",
+      "maghrib": "Магриб",
+      "isha": "Иша",
+      "celebrationTitle": "Поздравляем! 🎉",
+      "celebrationSubtitle": "МашаАллах!",
+      "celebrationMessage": "Сегодня вы совершили все 5 ежедневных молитв. Пусть Аллах примет ваши молитвы!",
+      "celebrationBtn": "Альхамдулиллах",
+      "trustNotice": "{{city}} • Проверено время молитв для вашего региона с помощью {{method}}."
+    },
+    "search": {
+      "title": "Выберите местоположение",
+      "subtitle": "Поиск городов по всему миру",
+      "placeholder": "например Лондон, Нью-Йорк...",
+      "recent": "Недавние поиски",
+      "useGPS": "Использовать текущее местоположение",
+      "gpsDenied": "Разрешение на определение местоположения отклонено.",
+      "gpsError": "Не удалось определить местоположение."
+    },
+    "calendar": {
+      "title": "Единый календарь",
+      "todayNotice": "Сегодня: {{gregorian}} • Хиджра: {{hijri}}"
+    },
+    "imsakiye": {
+      "title": "Еженедельник Имсакие",
+      "subtitle": "Следующие 7 дней",
+      "date": "Дата"
+    },
+    "religious": {
+      "title": "Религиозные дни",
+      "subtitle": "Календарь и обратный отсчет благословенных ночей и дней",
+      "today": "Сегодня",
+      "daysLeft": "дни",
+      "passed": "Прошедший"
+    },
+    "widgetPromo": {
+      "title": "Добавить виджет молитвы",
+      "desc": "Добавьте виджет «Вера» на главный экран, чтобы мгновенно видеть время молитв и обратный отсчет, не открывая приложение.",
+      "addBtn": "Добавить на главный экран",
+      "dismissBtn": "Не сейчас"
+    },
+    "names": {
+      "title": "Имена Аллаха и Дуа",
+      "namesSubtitle": "99 прекрасных имен Аллаха",
+      "duasSubtitle": "Ежедневные мольбы",
+      "meaningLabel": "Значение",
+      "tabNames": "99 Имен",
+      "tabDuas": "Дуа",
+      "namesCount": "{{count}} Имен",
+      "duasCount": "{{count}} Молитв",
+      "tapHint": "Нажмите для подробностей",
+      "searchPlaceholder": "Search names or meaning..."
+    },
+    "batteryOptimization": {
+      "title": "Бесперебойные уведомления о намазе",
+      "message": "Чтобы своевременно получать полные уведомления и звуковые сигналы во время намаза, рекомендуется отключить оптимизацию батареи для приложения.",
+      "openSettings": "Открыть настройки",
+      "later": "Позже"
+    },
+    "directions": {
+      "n": "С",
+      "ne": "СВ",
+      "e": "В",
+      "se": "ЮВ",
+      "s": "Ю",
+      "sw": "ЮЗ",
+      "w": "З",
+      "nw": "СЗ"
+    },
+    "onboarding": {
+      "title": "Welcome to Vera",
+      "subtitle": "Let's set your location for accurate prayer times and adhan notifications.",
+      "detectedCity": "Current City",
+      "detecting": "Detecting Location...",
+      "autoLocationBtn": "Find Location Automatically",
+      "manualCityBtn": "Select City from List",
+      "continueWithCity": "Continue with {{city}}",
+      "step2Title": "Prayer & Adhan Notifications",
+      "step2Subtitle": "Set your notification preferences to never miss a prayer.",
+      "verifiedMethodTitle": "Verified Calculation Method",
+      "verifiedMethodDesc": "The most accurate Islamic method for your region is selected automatically.",
+      "notificationsTitle": "Adhan & Prayer Alerts",
+      "notificationsDesc": "Receive gentle or audible reminders at prayer times.",
+      "startBtn": "Start Using Vera 🌟",
+      "featureQuran": "Quran & Audio",
+      "featureQibla": "Qibla",
+      "featureDhikr": "Dhikr Counter",
+      "backBtn": "← Go Back"
+    },
+    "weather": {
+      "title": "Weather Forecast",
+      "error": "Failed to load weather forecast.",
+      "high": "High",
+      "low": "Low",
+      "feelsLike": "Feels Like",
+      "today": "Today",
+      "hourlyTitle": "24-Hour Forecast",
+      "forecast7Day": "7-Day Forecast",
+      "humidity": "Humidity",
+      "wind": "Wind Speed",
+      "pressure": "Pressure",
+      "uvIndex": "UV Index",
+      "sunrise": "Sunrise",
+      "sunset": "Sunset",
+      "precipitation": "Precipitation",
+      "kmh": "km/h",
+      "hpa": "hPa"
+    },
+    "duas": {
+      "occasionTitle": "When & Why to Recite?",
+      "searchPlaceholder": "Search dua, healing, wealth, protection..."
+    },
+    "kaza": {
+      "title": "Missed Prayers & Fasting Tracker",
+      "subtitle": "Track and complete your missed prayers and fasts regularly",
+      "shortTitle": "Missed",
+      "fajr": "Fajr",
+      "dhuhr": "Dhuhr",
+      "asr": "Asr",
+      "maghrib": "Maghrib",
+      "isha": "Isha",
+      "witr": "Witr",
+      "fasting": "Fasting (Days)",
+      "remainingPrayers": "Remaining",
+      "completedPrayers": "Completed",
+      "progress": "Progress",
+      "addDailyBtn": "+1 Full Day",
+      "calcBtn": "Calculate Debt",
+      "debtOf": "Debt",
+      "left": "left",
+      "dailyAddedTitle": "1 Day of Missed Prayers Added!",
+      "dailyAddedDesc": "Fajr, Dhuhr, Asr, Maghrib, Isha, and Witr missed counts increased by 1. May Allah accept.",
+      "calculatorTitle": "Missed Debt Calculator",
+      "calculatorDesc": "Enter the estimated time since reaching maturity without regular prayers:",
+      "years": "Years",
+      "months": "Months",
+      "invalidTime": "Please enter a valid year or month.",
+      "invalidNumber": "Please enter a valid number.",
+      "applyCalc": "Update Debt",
+      "editDebtTitle": "Set Total Debt"
+    },
+    "greeting": {
+      "modalTitle": "Greeting Card Creator",
+      "modalSubtitle": "Share elegant Jummah, Kandil, and Eid greeting cards",
+      "shortTitle": "Greetings",
+      "chooseTemplate": "Preset Templates",
+      "customMessage": "Write Custom Message",
+      "titlePlaceholder": "Title (e.g. Jummah Mubarak)",
+      "messagePlaceholder": "Write your prayer or greeting message...",
+      "chooseTheme": "Card Theme",
+      "shareBtn": "Share to WhatsApp / Story 🌟",
+      "shareImageBtn": "Share Image Card 🌟",
+      "shareLinkBtn": "Share Direct Store Link 🔗"
+    },
+    "mosques": {
+      "title": "Nearby Mosques",
+      "subtitle": "Places of worship closest to your location",
+      "shortTitle": "Mosques",
+      "loading": "Scanning nearby mosques...",
+      "emptyTitle": "No Mosques Found Nearby",
+      "emptyDesc": "You can view all mosques directly on maps navigation.",
+      "openInMaps": "Search on Maps",
+      "directionsBtn": "Directions"
+    },
+    "dailyContent": {
+      "preparing": "Loading daily inspiration...",
+      "queueSuccess": "Content added to the approval queue.",
+      "queueError": "An error occurred while adding content."
     }
   }
 }

@@ -24,9 +24,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
 import { spacing, typography, borderRadius } from '../utils/theme';
-import { getDailyContent } from '../utils/daily';
+import { getDailyContent, getInstantDailyContent, DailyItem } from '../utils/daily';
 import { AdBanner } from './AdBanner';
 import { addContentToQueue } from '../services/contentQueue';
+import { StoryCardShareModal } from './StoryCardShareModal';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -51,9 +52,10 @@ interface ContentCardProps {
   delay: number;
   isEditor?: boolean;
   onAddClick?: (type: 'verse' | 'hadith' | 'quote') => void;
+  onStoryShare?: () => void;
 }
 
-function ContentCard({ type, title, text, source, delay, isEditor, onAddClick }: ContentCardProps) {
+function ContentCard({ type, title, text, source, delay, isEditor, onAddClick, onStoryShare }: ContentCardProps) {
   const scale = useSharedValue(1);
   const { theme } = useTheme();
 
@@ -64,17 +66,9 @@ function ContentCard({ type, title, text, source, delay, isEditor, onAddClick }:
   const onPressIn  = () => { scale.value = withSpring(0.97, { damping: 15 }); };
   const onPressOut = () => { scale.value = withSpring(1,    { damping: 15 }); };
 
-  const onShare = async () => {
-    try {
-      await Share.share({ 
-        message: `${title}\n\n"${text}"\n\n— ${source}\n\n📱 Vera namaz vakitleri & ezan\nhttps://play.google.com/store/apps/details?id=com.abdllhekc.vera` 
-      });
-    } catch { /* ignore */ }
-  };
-
   return (
     <Animated.View entering={FadeInDown.delay(delay).duration(600)}>
-      <Pressable onPressIn={onPressIn} onPressOut={onPressOut} onLongPress={onShare}>
+      <Pressable onPressIn={onPressIn} onPressOut={onPressOut} onPress={onStoryShare}>
         <Animated.View style={animStyle}>
           <LinearGradient
             colors={CARD_GRADIENTS[type]}
@@ -91,15 +85,17 @@ function ContentCard({ type, title, text, source, delay, isEditor, onAddClick }:
                 <Feather name={CARD_ICONS[type]} size={13} color="rgba(255,255,255,0.9)" />
                 <Text style={styles.typeLabel}>{title}</Text>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                 {isEditor && onAddClick && (
                   <Pressable onPress={() => onAddClick(type)} hitSlop={10} style={styles.shareBtn}>
                     <Feather name="plus-circle" size={20} color="#FFF" />
                   </Pressable>
                 )}
-                <Pressable onPress={onShare} hitSlop={10} style={styles.shareBtn}>
-                  <Feather name="share-2" size={16} color="rgba(255,255,255,0.7)" />
-                </Pressable>
+                {onStoryShare && (
+                  <Pressable onPress={onStoryShare} hitSlop={10} style={styles.shareBtn}>
+                    <Feather name="share-2" size={18} color="rgba(255,255,255,0.9)" />
+                  </Pressable>
+                )}
               </View>
             </View>
 
@@ -125,8 +121,8 @@ export function DailyContentScreen() {
   const { t, i18n } = useTranslation();
   const { theme, isDark } = useTheme();
 
-  const [dailyContent, setDailyContent] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  // Instant synchronous base content - Zero ms delay, no white screen, no spinner flash!
+  const [dailyContent, setDailyContent] = useState<DailyItem>(() => getInstantDailyContent(i18n.language));
   const [isEditor, setIsEditor] = useState(false);
 
   // Add Content State
@@ -135,6 +131,25 @@ export function DailyContentScreen() {
   const [addText, setAddText] = useState('');
   const [addSource, setAddSource] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+
+  // Story Share Modal State
+  const [shareModalVisible, setShareModalVisible] = useState(false);
+  const [shareData, setShareData] = useState<{
+    type: 'verse' | 'hadith' | 'quote';
+    title: string;
+    text: string;
+    source: string;
+  }>({
+    type: 'verse',
+    title: '',
+    text: '',
+    source: '',
+  });
+
+  const openShareModal = (type: 'verse' | 'hadith' | 'quote', title: string, text: string, source: string) => {
+    setShareData({ type, title, text, source });
+    setShareModalVisible(true);
+  };
 
   useEffect(() => {
     const subscriber = onAuthStateChanged(getAuth(), (user) => {
@@ -145,11 +160,13 @@ export function DailyContentScreen() {
 
   useEffect(() => {
     let active = true;
-    setLoading(true);
+    // 1. Immediately switch to instant base when language changes
+    setDailyContent(getInstantDailyContent(i18n.language));
+
+    // 2. Seamlessly revalidate in background from cache / queue / translator
     getDailyContent(i18n.language).then((content) => {
-      if (active) {
+      if (active && content) {
         setDailyContent(content);
-        setLoading(false);
       }
     });
     return () => { active = false; };
@@ -158,10 +175,10 @@ export function DailyContentScreen() {
   // Today's date for header
   const today = useMemo(() => {
     const d = new Date();
-    return d.toLocaleDateString(i18n.language.startsWith('tr') ? 'tr-TR' : 'en-GB', {
+    return d.toLocaleDateString(i18n.language === 'tr' ? 'tr-TR' : 'en-US', {
       weekday: 'long',
-      day: 'numeric',
       month: 'long',
+      day: 'numeric',
     });
   }, [i18n.language]);
 
@@ -172,42 +189,21 @@ export function DailyContentScreen() {
     setAddModalVisible(true);
   };
 
-  const handleSaveContent = () => {
+  const handleSaveContent = async () => {
     if (!addText.trim() || !addSource.trim()) {
-      Alert.alert(t('common.error', 'Hata'), 'Lütfen içerik ve kaynak alanlarını doldurun.');
+      Alert.alert(t('common.error', 'Hata'), t('common.fillAllFields', 'Lütfen tüm alanları doldurun.'));
       return;
     }
-
-    Alert.alert(
-      'İçeriği Ekle',
-      'Bu içeriği sıradaki boş güne eklemek istediğinize emin misiniz?',
-      [
-        { text: 'İptal', style: 'cancel' },
-        { 
-          text: 'Evet, Ekle', 
-          onPress: async () => {
-            setIsSaving(true);
-            const success = await addContentToQueue(addType, addText, addSource);
-            setIsSaving(false);
-            if (success) {
-              Alert.alert('Başarılı', 'İçerik kuyruğa eklendi!');
-              setAddModalVisible(false);
-            } else {
-              Alert.alert('Hata', 'İçerik eklenirken bir sorun oluştu.');
-            }
-          }
-        }
-      ]
-    );
+    setIsSaving(true);
+    const success = await addContentToQueue(addType, addText.trim(), addSource.trim());
+    setIsSaving(false);
+    if (success) {
+      Alert.alert(t('common.success', 'Başarılı'), t('dailyContent.queueSuccess', 'İçerik onay bekleyen kuyruğa eklendi.'));
+      setAddModalVisible(false);
+    } else {
+      Alert.alert(t('common.error', 'Hata'), t('dailyContent.queueError', 'İçerik eklenirken bir hata oluştu.'));
+    }
   };
-
-  if (loading || !dailyContent) {
-    return (
-      <View style={[styles.centerLoading, { backgroundColor: isDark ? '#000' : '#FFF' }]}>
-        <ActivityIndicator size="large" color={theme.colors.primary} />
-      </View>
-    );
-  }
 
   return (
     <ScrollView
@@ -242,6 +238,9 @@ export function DailyContentScreen() {
           delay={120}
           isEditor={isEditor}
           onAddClick={handleAddClick}
+          onStoryShare={() =>
+            openShareModal('verse', t('daily.verse', 'Günün Ayeti'), dailyContent.verse, dailyContent.verseSource)
+          }
         />
 
         {/* Live AdMob Native Ad */}
@@ -255,6 +254,9 @@ export function DailyContentScreen() {
           delay={240}
           isEditor={isEditor}
           onAddClick={handleAddClick}
+          onStoryShare={() =>
+            openShareModal('hadith', t('daily.hadith', 'Günün Hadisi'), dailyContent.hadith, dailyContent.hadithSource)
+          }
         />
         <ContentCard
           type="quote"
@@ -264,16 +266,29 @@ export function DailyContentScreen() {
           delay={360}
           isEditor={isEditor}
           onAddClick={handleAddClick}
+          onStoryShare={() =>
+            openShareModal('quote', t('daily.quote', 'Günün Sözü'), dailyContent.quote, dailyContent.quoteSource)
+          }
         />
       </View>
 
+      {/* Story Share Modal */}
+      <StoryCardShareModal
+        visible={shareModalVisible}
+        onClose={() => setShareModalVisible(false)}
+        title={shareData.title}
+        text={shareData.text}
+        source={shareData.source}
+        type={shareData.type}
+      />
+
       {/* Hint */}
       <Animated.View entering={FadeInDown.delay(520).duration(500)} style={styles.hint}>
-        <Feather name="share-2" size={12} color={theme.colors.textSecondary} />
+        <Feather name="image" size={13} color={theme.colors.textSecondary} />
         <Text style={[styles.hintText, { color: theme.colors.textSecondary }]}>
           {i18n.language.startsWith('tr')
-            ? 'Paylaşmak için kartı uzun basın'
-            : 'Long press a card to share'}
+            ? 'Görsel kart olarak paylaşmak için karta tıklayın'
+            : 'Tap a card to share as a story image'}
         </Text>
       </Animated.View>
 

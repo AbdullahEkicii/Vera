@@ -17,7 +17,8 @@ import Animated, {
 import Svg, { Circle, Defs, Stop, LinearGradient as SvgLinearGradient } from 'react-native-svg';
 
 import { useTheme } from '../context/ThemeContext';
-import { borderRadius, prayerGradients, spacing, typography } from '../utils/theme';
+import { borderRadius, prayerGradients, spacing, typography, palettes } from '../utils/theme';
+import { formatTime } from '../utils/format';
 import { ScalePressable } from './ScalePressable';
 
 interface PrayerTimeCardProps {
@@ -66,7 +67,7 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
   id, name, time, isHero = false, isActive = false, targetDate, onTimeReached,
 }) => {
-  const { theme, isDark } = useTheme();
+  const { theme, isDark, timeFormat, circlePalette } = useTheme();
   const { t } = useTranslation();
   const scale = useSharedValue(1);
   const [remaining, setRemaining] = useState(0);
@@ -114,26 +115,19 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
 
       if (diff <= 0) {
         setRemaining(0);
-        animatedProgress.value = 1;
+        animatedProgress.value = withTiming(1, { duration: 300 });
         onTimeReached?.();
         return;
       }
       setRemaining(diff);
+
+      const total = 6 * 60 * 60 * 1000;
+      const currentProgress = Math.max(0, Math.min(1, 1 - diff / total));
+      animatedProgress.value = withTiming(currentProgress, { duration: 950, easing: Easing.linear });
     };
 
     update();
     const interval = setInterval(update, 1000);
-
-    // Smooth continuous progress bar (6h window limit)
-    const now = Date.now();
-    const target = targetDate.getTime();
-    const diff = target - now;
-    if (diff > 0) {
-      const total = 6 * 60 * 60 * 1000;
-      const currentProgress = Math.max(0, 1 - diff / total);
-      animatedProgress.value = currentProgress;
-      animatedProgress.value = withTiming(1, { duration: diff, easing: Easing.linear });
-    }
 
     // Inner Glow slow breath animation
     pulseValue.value = withRepeat(
@@ -196,13 +190,22 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
 
   // ── HERO CARD RENDER ───────────────────────────────────────────────────
   if (isHero) {
-    const gradient = prayerGradients[id] ?? theme.colors.heroGradient;
+    let circleColors = (prayerGradients[id] ?? theme.colors.heroGradient) as [string, string];
+
+    if (circlePalette !== 'default') {
+      const selected = palettes[circlePalette];
+      if (selected) {
+        circleColors = isDark
+          ? [selected.primary, selected.primaryLight] as [string, string]
+          : [selected.primary, selected.borderStrong || selected.primary] as [string, string];
+      }
+    }
 
     return (
       <Pressable onPressIn={onPressIn} onPressOut={onPressOut}>
         <Animated.View style={[scaleStyle, styles.heroContainer, { width: HERO_SIZE, height: HERO_SIZE }]}>
           <LinearGradient
-            colors={gradient as [string, string]}
+            colors={circleColors}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={[styles.heroGlassCard, { borderRadius: HERO_SIZE / 2 }]}
@@ -286,7 +289,7 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
                 <Text style={[styles.heroName, { fontSize: 18 * SCALE }]}>{name}</Text>
               </View>
 
-              <Text style={[styles.heroTime, { fontSize: 28 * SCALE, marginBottom: 4 * SCALE }]}>{time}</Text>
+              <Text style={[styles.heroTime, { fontSize: 28 * SCALE, marginBottom: 4 * SCALE }]}>{formatTime(time, timeFormat)}</Text>
               <View style={[styles.heroDivider, { width: 32 * SCALE, height: 1.5 * SCALE, marginBottom: 4 * SCALE }]} />
               
               <Text style={[styles.heroCountdown, { fontSize: 22 * SCALE }]}>{formatCountdown(remaining, t)}</Text>
@@ -330,11 +333,11 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
             </View>
             <View style={styles.activePill} />
           </View>
-          <Text style={[styles.gridName, { color: '#FFF' }]} numberOfLines={1}>
+          <Text style={[styles.gridName, { color: '#FFF' }]} numberOfLines={1} adjustsFontSizeToFit>
             {name}
           </Text>
-          <Text style={[styles.gridTime, { color: '#FFF' }]}>
-            {time}
+          <Text style={[styles.gridTime, { color: '#FFF' }]} numberOfLines={1} adjustsFontSizeToFit>
+            {formatTime(time, timeFormat)}
           </Text>
         </View>
       </ScalePressable>
@@ -358,11 +361,11 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
             {getIcon(id, 15, theme.colors.primary)}
           </View>
         </View>
-        <Text style={[styles.gridName, { color: theme.colors.textSecondary }]} numberOfLines={1}>
+        <Text style={[styles.gridName, { color: theme.colors.textSecondary }]} numberOfLines={1} adjustsFontSizeToFit>
           {name}
         </Text>
-        <Text style={[styles.gridTime, { color: theme.colors.text }]}>
-          {time}
+        <Text style={[styles.gridTime, { color: theme.colors.text }]} numberOfLines={1} adjustsFontSizeToFit>
+          {formatTime(time, timeFormat)}
         </Text>
       </LinearGradient>
     </ScalePressable>

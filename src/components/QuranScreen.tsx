@@ -22,7 +22,7 @@ import { useTheme } from '../context/ThemeContext';
 import { typography } from '../utils/theme';
 import { useQuranData } from '../hooks/useQuranData';
 import { useQuranDownloader } from '../hooks/useQuranDownloader';
-import { SURAHS, FEATURED_SURAHS, getSurahsInJuz, SurahMeta, getJuzStartPageStatic } from '../data/quranMeta';
+import { SURAHS, FEATURED_SURAHS, getSurahsInJuz, SurahMeta, getJuzStartPageStatic, getJuzsForSurah } from '../data/quranMeta';
 import { getFirstPageOfSurah, checkJuzStatus, downloadJuz } from '../services/quranRepository';
 import { useQuranSettings } from '../context/QuranSettingsContext';
 import { QuranStyleSelector } from './QuranStyleSelector';
@@ -42,15 +42,19 @@ const FeaturedSurahCard = React.memo(({ surah }: { surah: SurahMeta }) => {
   const handlePress = useCallback(async () => {
     setNavigating(true);
     
-    // Check if juz is downloaded
-    const statusResult = await checkJuzStatus(surah.juz);
-    if (statusResult.status !== 'Downloaded') {
-      setProgress(0);
-      const success = await downloadJuz(surah.juz, 'ar', scriptType, (p) => setProgress(p));
-      if (!success) {
-        Alert.alert(t('common.error'), t('quran.downloadError', 'Cüz indirilirken hata oluştu.'));
-        setNavigating(false);
-        return;
+    // Surenin kapsadığı tüm cüzleri kontrol et ve indir
+    const requiredJuzs = getJuzsForSurah(surah.number);
+    for (let i = 0; i < requiredJuzs.length; i++) {
+      const jNo = requiredJuzs[i];
+      const statusResult = await checkJuzStatus(jNo, scriptType);
+      if (statusResult.status !== 'Downloaded') {
+        setProgress(0);
+        const success = await downloadJuz(jNo, 'ar', scriptType, (p) => setProgress(p));
+        if (!success) {
+          Alert.alert(t('common.error'), t('quran.downloadError', 'Cüz indirilirken hata oluştu.'));
+          setNavigating(false);
+          return;
+        }
       }
     }
 
@@ -226,17 +230,21 @@ const SurahSearchModal = ({
 
   const handleSelect = useCallback(async (surah: SurahMeta) => {
     setNavigating(true);
-    setDownloadingJuz(surah.juz);
 
-    const statusResult = await checkJuzStatus(surah.juz);
-    if (statusResult.status !== 'Downloaded') {
-      setProgress(0);
-      const success = await downloadJuz(surah.juz, 'ar', scriptType, (p) => setProgress(p));
-      if (!success) {
-        Alert.alert(t('common.error'), t('quran.downloadError', 'Cüz indirilirken hata oluştu.'));
-        setNavigating(false);
-        setDownloadingJuz(null);
-        return;
+    const requiredJuzs = getJuzsForSurah(surah.number);
+    for (let i = 0; i < requiredJuzs.length; i++) {
+      const jNo = requiredJuzs[i];
+      setDownloadingJuz(jNo);
+      const statusResult = await checkJuzStatus(jNo, scriptType);
+      if (statusResult.status !== 'Downloaded') {
+        setProgress(0);
+        const success = await downloadJuz(jNo, 'ar', scriptType, (p) => setProgress(p));
+        if (!success) {
+          Alert.alert(t('common.error'), t('quran.downloadError', 'Cüz indirilirken hata oluştu.'));
+          setNavigating(false);
+          setDownloadingJuz(null);
+          return;
+        }
       }
     }
 

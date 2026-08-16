@@ -3,16 +3,20 @@
     "common": {
       "loading": "লোড হচ্ছে...",
       "error": "একটি ত্রুটি ঘটেছে",
-      "retry": "পুনরায় চেষ্টা করুন"
+      "retry": "পুনরায় চেষ্টা করুন",
+      "success": "Success",
+      "fillAllFields": "Please fill in all fields."
     },
     "home": {
       "title": "নামাজের সময়",
+      "currentLocation": "বর্তমান অবস্থান",
       "nextPrayer": "পরবর্তী নামাজ",
       "timeLeft": "বাকি সময়",
       "timeLeftUnits": {
         "h": "ঘ",
         "m": "মি",
-        "s": "সে"
+        "s": "সে",
+        "left": "baki"
       },
       "prayers": {
         "fajr": "ফজর",
@@ -21,7 +25,16 @@
         "asr": "আসর",
         "maghrib": "মাগরিব",
         "isha": "ইশা"
-      }
+      },
+      "active": "Now",
+      "next": "Next",
+      "remaining": "Time Left",
+      "format12": "12-Hour",
+      "format24": "24-Hour",
+      "errorLoadingTitle": "Could Not Load Prayer Times",
+      "errorLoadingSubtitle": "Please check your internet connection or select your city.",
+      "retryBtn": "Retry",
+      "loadingTimes": "Loading Prayer Times..."
     },
     "settings": {
       "title": "সেটিংস",
@@ -29,13 +42,96 @@
       "theme": "থিম",
       "dark": "অন্ধকার",
       "light": "আলো",
-      "system": "সিস্টেম"
+      "system": "সিস্টেম",
+      "calcMethod": "গণনা পদ্ধতি",
+      "methods": {
+        "diyanet": "দিয়ানেট (তুরস্ক)",
+        "isna": "ISNA (উত্তর আমেরিকা)",
+        "mwl": "মুসলিম বিশ্ব লীগ (MWL)",
+        "ummAlQura": "উম্মুল কুরা (মক্কা)",
+        "egypt": "মিশরীয় জেনারেল অথরিটি",
+        "karachi": "করাচি (পাকিস্তান)",
+        "france": "ফ্রান্স (UOIF)",
+        "russia": "রাশিয়া (আধ্যাত্মিক প্রশাসন।)"
+      },
+      "palettes": {
+        "default": "Default",
+        "emerald": "Emerald",
+        "ocean": "Ocean",
+        "rose": "Rose",
+        "gold": "Gold",
+        "amethyst": "Amethyst",
+        "crimson": "Crimson",
+        "indigo": "Indigo",
+        "teal": "Teal",
+        "mint": "Mint",
+        "slate": "Slate"
+      },
+      "themePalette": "Theme Palette",
+      "mainTheme": "Main Theme Color",
+      "circlePalette": "Countdown Circle Color",
+      "soundSettings": "Adhan Sounds & Volume",
+      "exactSoundTitle": "Prayer Time Sound",
+      "warningSoundTitle": "25 Min Warning Sound",
+      "volumeLevelTitle": "Adhan Volume Level",
+      "previewSound": "Listen",
+      "stopPreview": "Stop",
+      "soundNames": {
+        "azizallah": "Azizallah (Prayer Time)",
+        "adhan_25minutes": "Adhan (25 Min Warning)",
+        "allahu_akbar": "Allahu Akbar"
+      },
+      "persistentNotifTitle": "Lock Screen & Status Bar",
+      "persistentNotif": "Persistent Prayer Countdown",
+      "persistentNotifDesc": "Track the time left for the next prayer live on your lock screen and notification panel.",
+      "widgetTitle": "Home Screen Widget",
+      "addWidget": "📌 Add Widget to Home Screen!",
+      "addWidgetDesc": "See prayer times and live countdown directly on your phone's home screen.",
+      "general": "General Settings",
+      "fullscreen": "Fullscreen Mode",
+      "warnNotifBtn": "-25m",
+      "exactNotifBtn": "Adhan",
+      "testNotifTitle": "Test Notification",
+      "testNotifBody": "Test notification will play in 10 seconds. Please check your device notification volume.",
+      "testWarnNotif": "Test 25m Warning (10s)",
+      "testExactNotif": "Test Full Adhan (10s)",
+      "themeDesc": "Customize app colors, dark mode, and home screen layout",
+      "themeMode": "Interface Mode",
+      "modeDark": "Dark Mode",
+      "modeLight": "Light Mode",
+      "modeSystem": "System",
+      "homeAppearance": "Home Screen Layout",
+      "homeStyle": {
+        "default": "Rich / Modern",
+        "defaultDesc": "Countdown circle, all prayers, and rich widgets",
+        "simple": "Simple / Minimalist",
+        "simpleDesc": "Clean distraction-free list and quick tracker"
+      }
     },
     "qibla": {
       "title": "কিবলা",
       "holdFlat": "আপনার ফোন সোজা রাখুন",
       "calibrating": "কম্পাস ক্যালিব্রেট হচ্ছে...",
-      "found": "আপনি কিবলার দিকে মুখ করে আছেন"
+      "found": "আপনি কিবলার দিকে মুখ করে আছেন",
+      "permissionRequired": "অবস্থান অনুমতি প্রয়োজন",
+      "permissionDenied": "কেবলা দিক দেখানোর জন্য অবস্থানের অনুমতি প্রয়োজন। সেটিংসে এটি সক্রিয় করুন.",
+      "openSettings": "সেটিংস খুলুন",
+      "description": "কিবলার দিক খুঁজতে ডিভাইসটিকে ধীরে ধীরে ঘোরান",
+      "hint": "কম্পাস সবুজ হয়ে যায় এবং কিবলার সাথে সারিবদ্ধ হলে আপনি একটি কম্পন অনুভব করবেন।",
+      "errorCompass": "কম্পাস বা অবস্থান ডেটা পড়তে পারেনি৷",
+      "angle": "কোণ",
+      "distance": "দূরত্ব",
+      "status": "স্ট্যাটাস",
+      "aligned": "সারিবদ্ধ",
+      "aligning": "ঘোরান",
+      "alignedSuccess": "🕌 আপনি কিবলামুখী!",
+      "subtitle": "Follow the steps to accurately find the Qibla direction",
+      "guideTitle": "How to Use?",
+      "step1": "1. Hold your phone FLAT in your hand",
+      "step2": "2. Turn your body SLOWLY around",
+      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
+      "heading": "Heading"
     },
     "daily": {
       "title": "দৈনিক অনুপ্রেরণা",
@@ -71,6 +167,34 @@
       "isha": {
         "title": "🕌 ইশার সময়",
         "body": "ইশার নামাজের সময় হয়েছে।"
+      },
+      "exactAlert": "সঠিক প্রার্থনা সতর্কতা",
+      "warnAlert": "25-মিনিটের সতর্কতা সতর্কতা",
+      "warningTitle": "সময় কাছাকাছি",
+      "warningBody": "{{prayer}} হতে 25 মিনিট বাকি।",
+      "quranReminderTitle": "📖 পবিত্র কুরআনের সময়",
+      "quranReminderBody": "আপনি কি আজ কুরআন পড়েছেন? এখন পড়তে আলতো চাপুন।",
+      "namesReminderTitle": "✨ আল্লাহর নাম ও দোয়া",
+      "namesReminderBody": "আল্লাহর সুন্দর নাম এবং দোয়া আবিষ্কার করুন। অন্বেষণ করতে আলতো চাপুন।",
+      "bannerTitle": "বিজ্ঞপ্তি সক্রিয় করুন",
+      "bannerDesc": "প্রার্থনার সময় সম্পর্কে অবহিত থাকতে বিজ্ঞপ্তি অনুমতি সক্ষম করুন।",
+      "bannerBtn": "অনুমতি দিন",
+      "persistent": {
+        "countdown": "left",
+        "prayerEntered": "Prayer Time",
+        "hoursUnit": "h",
+        "minutesUnit": "m"
+      },
+      "silenceAction": "Mute",
+      "channels": {
+        "exactName": "Adhan Time",
+        "exactDesc": "Plays when prayer time arrives.",
+        "warningName": "Prayer Approaching (25 min)",
+        "warningDesc": "Gives a warning 25 minutes before prayer time.",
+        "dailyName": "Daily Inspiration",
+        "dailyDesc": "Daily verse, hadith, or quote arrives between Dhuhr and Asr.",
+        "persistentName": "Lock Screen & Status Bar",
+        "persistentDesc": "Displays next prayer name and live countdown in notification panel and lock screen."
       }
     },
     "tasbih": {
@@ -103,7 +227,17 @@
       "resetConfirmTitle": "কাউন্টার রিসেট করুন",
       "resetConfirmMsg": "আপনি কি নিশ্চিত যে আপনি কাউন্টারটি রিসেট করতে চান?",
       "yes": "হ্যাঁ",
-      "no": "না"
+      "no": "না",
+      "recTitle": "দৈনিক সুপারিশ",
+      "recBtnText": "আবৃত্তি শুরু করুন",
+      "soundOn": "সাউন্ড অন",
+      "soundOff": "সাউন্ড অফ",
+      "bgAudioTitle": "ব্যাকগ্রাউন্ড ঝিকর সাউন্ড",
+      "bgAudioOff": "বন্ধ / নীরব",
+      "bgAudioSelect": "ব্যাকগ্রাউন্ড ঝিকর সাউন্ড সিলেক্ট করুন",
+      "dikhr1": "ঝিকর ধ্বনি ঘ",
+      "dikhr2": "ঝিকর ধ্বনি 2",
+      "dikhr3": "ঝিকর ধ্বনি ৩"
     },
     "update": {
       "title": "নতুন আপডেট উপলব্ধ!",
@@ -112,7 +246,13 @@
       "forceMessage": "অ্যাপটি ব্যবহার চালিয়ে যেতে অনুগ্রহ করে সর্বশেষ সংস্করণে আপডেট করুন।",
       "updateBtn": "এখনই আপডেট করুন",
       "laterBtn": "পরে",
-      "releaseNotes": "রিলিজ নোট:"
+      "releaseNotes": "রিলিজ নোট:",
+      "sectionTitle": "অ্যাপ সংস্করণ",
+      "versionLabel": "সংস্করণ",
+      "checkUpdate": "আপডেটের জন্য চেক করুন",
+      "upToDateTitle": "অ্যাপ আপ টু ডেট",
+      "upToDateMessage": "আপনি সর্বশেষ সংস্করণ (v{{version}}) ব্যবহার করছেন৷",
+      "checkFailed": "আপডেটের জন্য চেক করতে ব্যর্থ."
     },
     "quran": {
       "title": "পবিত্র কুরআন",
@@ -151,7 +291,237 @@
       "cancel": "বাতিল",
       "yesChange": "হ্যাঁ, পরিবর্তন করুন",
       "error": "ত্রুটি",
-      "downloadError": "ফন্ট ডাউনলোড করার সময় একটি ত্রুটি ঘটেছে।"
+      "downloadError": "ফন্ট ডাউনলোড করার সময় একটি ত্রুটি ঘটেছে।",
+      "husrevTitle": "আহমেত হুসরেভ লিপি (তাওয়াফুক)",
+      "husrevDesc": "হায়রাত নেছরিয়াত তাওয়াফুক কুরআন ক্যালিগ্রাফি শৈলী।",
+      "readingTheme": "থিম পড়া",
+      "themeSepia": "ক্রিম/সেপিয়া",
+      "themeDark": "অন্ধকার রাত",
+      "themeWhite": "ক্লাসিক সাদা",
+      "themeGreen": "পান্না ঋষি",
+      "themeNavy": "মিডনাইট ব্লু",
+      "surahEnd": "সূরা শেষ",
+      "totalVersesRead": "সমস্ত {{count}} আয়াত পঠিত",
+      "nextSurah": "পরবর্তী সূরা"
+    },
+    "review": {
+      "title": "আমাদের সমর্থন করুন",
+      "message": "আপনি যদি আমাদের অ্যাপটি পছন্দ করেন, অনুগ্রহ করে প্লে স্টোরে ৫ স্টার দিন এবং আপনি কী কী বৈশিষ্ট্য চান তা আমাদের জানান!",
+      "notNow": "এখন না",
+      "review": "রেটিং দিন",
+      "subtitle": "Rate your experience with stars",
+      "fiveStarTitle": "We're thrilled to hear that! 🌟",
+      "fiveStarSubtitle": "Would you like to support Vera with a 5-star rating?",
+      "rateOnStore": "🌟 Give 5 Stars & Support",
+      "ratingLabels": {
+        "1": "Needs Improvement",
+        "2": "Fair",
+        "3": "Good",
+        "4": "Very Good",
+        "5": "Excellent!"
+      },
+      "feedbackTitle": "Help Us Improve 💬",
+      "feedbackSubtitle": "Share your thoughts and suggestions so we can make Vera even better.",
+      "feedbackPlaceholder": "Write your suggestions, ideas or any issues you faced...",
+      "sendFeedback": "Send Feedback",
+      "thankYouTitle": "Feedback Received! 🤲",
+      "thankYouSubtitle": "Your feedback is very valuable to us. We will work hard to make Vera even better.",
+      "close": "Close"
+    },
+    "share": {
+      "storyTitle": "গল্প এবং কার্ড শেয়ার",
+      "actionBtn": "স্টোরি কার্ড শেয়ার করুন",
+      "watermark": "V E R A • নামাজের সময় এবং আথান",
+      "themeGold": "সোনা ও রাত",
+      "themeEmerald": "পান্না ঋষি",
+      "themeNavy": "মিডনাইট ব্লু",
+      "themeSepia": "উষ্ণ সেপিয়া",
+      "appTagline": "Prayer Times, Quran & Qibla",
+      "storeSearchHint": "Search on Google Play: Vera",
+      "scanToDownload": "Scan to Download"
+    },
+    "checklist": {
+      "title": "দৈনিক প্রার্থনা ট্র্যাকার",
+      "completed": "সম্পন্ন",
+      "dayStreak": "ডে স্ট্রিক",
+      "viewHistory": "সম্পূর্ণ ইতিহাস দেখুন",
+      "historyTitle": "প্রার্থনার ইতিহাস",
+      "historySubtitle": "আপনার প্রার্থনা গত 30 দিনের জন্য লগ",
+      "totalLogged": "মোট নামাজ",
+      "activeStreak": "সক্রিয় স্ট্রীক",
+      "weeklyRate": "সাপ্তাহিক হার",
+      "daysAgo": "দিন আগে",
+      "today": "আজ",
+      "yesterday": "গতকাল",
+      "fajr": "ফজর",
+      "dhuhr": "ধুহর",
+      "asr": "আসর",
+      "maghrib": "মাগরিব",
+      "isha": "ইশা",
+      "celebrationTitle": "অভিনন্দন! 🎉",
+      "celebrationSubtitle": "মাশাআল্লাহ!",
+      "celebrationMessage": "আপনি আজ 5টি দৈনিক নামাজ শেষ করেছেন। আল্লাহ আপনার দোয়া কবুল করুন!",
+      "celebrationBtn": "আলহামদুলিল্লাহ",
+      "trustNotice": "{{city}} • {{method}} ব্যবহার করে আপনার অঞ্চলের জন্য নামাজের সময় যাচাই করা হয়েছে"
+    },
+    "search": {
+      "title": "অবস্থান নির্বাচন করুন",
+      "subtitle": "বিশ্বব্যাপী শহর অনুসন্ধান করুন",
+      "placeholder": "যেমন লন্ডন, নিউইয়র্ক...",
+      "recent": "সাম্প্রতিক অনুসন্ধান",
+      "useGPS": "বর্তমান অবস্থান ব্যবহার করুন",
+      "gpsDenied": "অবস্থানের অনুমতি অস্বীকার করা হয়েছে৷",
+      "gpsError": "অবস্থান পেতে ব্যর্থ হয়েছে."
+    },
+    "calendar": {
+      "title": "ইউনিফাইড ক্যালেন্ডার",
+      "todayNotice": "আজ: {{gragorian}} • হিজরি: {{hijri}}"
+    },
+    "imsakiye": {
+      "title": "সাপ্তাহিক ইমসাকিয়ে",
+      "subtitle": "পরবর্তী 7 দিনের সময়",
+      "date": "তারিখ"
+    },
+    "religious": {
+      "title": "ধর্মীয় দিবস",
+      "subtitle": "আশীর্বাদকৃত রাত এবং দিনের জন্য ক্যালেন্ডার এবং গণনা",
+      "today": "আজ",
+      "daysLeft": "দিন",
+      "passed": "পাস করেছে"
+    },
+    "widgetPromo": {
+      "title": "প্রার্থনা উইজেট যোগ করুন",
+      "desc": "অ্যাপটি না খুলেই তাৎক্ষণিকভাবে প্রার্থনার সময় এবং কাউন্টডাউন দেখতে আপনার হোম স্ক্রিনে ভেরা উইজেট যোগ করুন।",
+      "addBtn": "হোম স্ক্রিনে যোগ করুন",
+      "dismissBtn": "এখন না"
+    },
+    "names": {
+      "title": "আল্লাহর নাম ও দোয়া",
+      "namesSubtitle": "আল্লাহর 99টি সুন্দর নাম",
+      "duasSubtitle": "প্রতিদিনের প্রার্থনা",
+      "meaningLabel": "অর্থ",
+      "tabNames": "99টি নাম",
+      "tabDuas": "দুআস",
+      "namesCount": "{{count}} Names",
+      "duasCount": "{{count}} Duas",
+      "tapHint": "Tap for details",
+      "searchPlaceholder": "Search names or meaning..."
+    },
+    "batteryOptimization": {
+      "title": "নিরবচ্ছিন্ন নামাজের নোটিফিকেশন",
+      "message": "নামাজের সময় সঠিক এবং সময়মতো নোটিফিকেশন পেতে অ্যাপের ব্যাটারি অপটিমাইজেশন বন্ধ রাখার পরামর্শ দেওয়া হচ্ছে।",
+      "openSettings": "সেটিংস খুলুন",
+      "later": "পরে"
+    },
+    "directions": {
+      "n": "N",
+      "ne": "NE",
+      "e": "E",
+      "se": "SE",
+      "s": "S",
+      "sw": "SW",
+      "w": "W",
+      "nw": "NW"
+    },
+    "onboarding": {
+      "title": "Welcome to Vera",
+      "subtitle": "Let's set your location for accurate prayer times and adhan notifications.",
+      "detectedCity": "Current City",
+      "detecting": "Detecting Location...",
+      "autoLocationBtn": "Find Location Automatically",
+      "manualCityBtn": "Select City from List",
+      "continueWithCity": "Continue with {{city}}",
+      "step2Title": "Prayer & Adhan Notifications",
+      "step2Subtitle": "Set your notification preferences to never miss a prayer.",
+      "verifiedMethodTitle": "Verified Calculation Method",
+      "verifiedMethodDesc": "The most accurate Islamic method for your region is selected automatically.",
+      "notificationsTitle": "Adhan & Prayer Alerts",
+      "notificationsDesc": "Receive gentle or audible reminders at prayer times.",
+      "startBtn": "Start Using Vera 🌟",
+      "featureQuran": "Quran & Audio",
+      "featureQibla": "Qibla",
+      "featureDhikr": "Dhikr Counter",
+      "backBtn": "← Go Back"
+    },
+    "weather": {
+      "title": "Weather Forecast",
+      "error": "Failed to load weather forecast.",
+      "high": "High",
+      "low": "Low",
+      "feelsLike": "Feels Like",
+      "today": "Today",
+      "hourlyTitle": "24-Hour Forecast",
+      "forecast7Day": "7-Day Forecast",
+      "humidity": "Humidity",
+      "wind": "Wind Speed",
+      "pressure": "Pressure",
+      "uvIndex": "UV Index",
+      "sunrise": "Sunrise",
+      "sunset": "Sunset",
+      "precipitation": "Precipitation",
+      "kmh": "km/h",
+      "hpa": "hPa"
+    },
+    "duas": {
+      "occasionTitle": "When & Why to Recite?",
+      "searchPlaceholder": "Search dua, healing, wealth, protection..."
+    },
+    "kaza": {
+      "title": "Missed Prayers & Fasting Tracker",
+      "subtitle": "Track and complete your missed prayers and fasts regularly",
+      "shortTitle": "Missed",
+      "fajr": "Fajr",
+      "dhuhr": "Dhuhr",
+      "asr": "Asr",
+      "maghrib": "Maghrib",
+      "isha": "Isha",
+      "witr": "Witr",
+      "fasting": "Fasting (Days)",
+      "remainingPrayers": "Remaining",
+      "completedPrayers": "Completed",
+      "progress": "Progress",
+      "addDailyBtn": "+1 Full Day",
+      "calcBtn": "Calculate Debt",
+      "debtOf": "Debt",
+      "left": "left",
+      "dailyAddedTitle": "1 Day of Missed Prayers Added!",
+      "dailyAddedDesc": "Fajr, Dhuhr, Asr, Maghrib, Isha, and Witr missed counts increased by 1. May Allah accept.",
+      "calculatorTitle": "Missed Debt Calculator",
+      "calculatorDesc": "Enter the estimated time since reaching maturity without regular prayers:",
+      "years": "Years",
+      "months": "Months",
+      "invalidTime": "Please enter a valid year or month.",
+      "invalidNumber": "Please enter a valid number.",
+      "applyCalc": "Update Debt",
+      "editDebtTitle": "Set Total Debt"
+    },
+    "greeting": {
+      "modalTitle": "Greeting Card Creator",
+      "modalSubtitle": "Share elegant Jummah, Kandil, and Eid greeting cards",
+      "shortTitle": "Greetings",
+      "chooseTemplate": "Preset Templates",
+      "customMessage": "Write Custom Message",
+      "titlePlaceholder": "Title (e.g. Jummah Mubarak)",
+      "messagePlaceholder": "Write your prayer or greeting message...",
+      "chooseTheme": "Card Theme",
+      "shareBtn": "Share to WhatsApp / Story 🌟",
+      "shareImageBtn": "Share Image Card 🌟",
+      "shareLinkBtn": "Share Direct Store Link 🔗"
+    },
+    "mosques": {
+      "title": "Nearby Mosques",
+      "subtitle": "Places of worship closest to your location",
+      "shortTitle": "Mosques",
+      "loading": "Scanning nearby mosques...",
+      "emptyTitle": "No Mosques Found Nearby",
+      "emptyDesc": "You can view all mosques directly on maps navigation.",
+      "openInMaps": "Search on Maps",
+      "directionsBtn": "Directions"
+    },
+    "dailyContent": {
+      "preparing": "Loading daily inspiration...",
+      "queueSuccess": "Content added to the approval queue.",
+      "queueError": "An error occurred while adding content."
     }
   }
 }
