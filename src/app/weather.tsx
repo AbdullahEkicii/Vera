@@ -28,6 +28,7 @@ import {
   getWeatherDescription,
   getWeatherEmoji,
 } from '../services/api';
+import { logScreenView } from '../services/analyticsService';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -47,6 +48,7 @@ export default function WeatherScreen() {
   const [unit, setUnit] = useState<'C' | 'F'>('C');
 
   useEffect(() => {
+    logScreenView('WeatherScreen');
     AsyncStorage.getItem('TEMP_UNIT').then((saved) => {
       if (saved === 'F' || saved === 'C') {
         setUnit(saved as 'C' | 'F');

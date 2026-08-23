@@ -16,6 +16,9 @@ import * as Haptics from 'expo-haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '../context/ThemeContext';
 import { AppBackground } from '../components/ProgressRing';
+import { logScreenView } from '../services/analyticsService';
+import { PrayerTreeVisual } from '../components/PrayerTreeVisual';
+import { AdBanner } from '../components/AdBanner';
 
 const PRAYER_LOGS_KEY = 'USER_PRAYER_LOGS_V1';
 
@@ -46,6 +49,7 @@ export default function PrayerHistoryScreen() {
   const [weeklyRate, setWeeklyRate] = useState<number>(0);
 
   useEffect(() => {
+    logScreenView('PrayerHistoryScreen');
     loadLogs();
   }, []);
 
@@ -215,6 +219,12 @@ export default function PrayerHistoryScreen() {
               </Text>
             </LinearGradient>
           </View>
+
+          {/* Weekly Prayer Tree */}
+          <PrayerTreeVisual allLogs={allLogs} streakCount={streakCount} />
+
+          {/* Native Ad Banner */}
+          <AdBanner />
 
           {/* 30 Days List */}
           <View style={styles.daysContainer}>

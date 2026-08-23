@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { AppState } from 'react-native';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from '../localization/i18n';
@@ -140,6 +141,9 @@ async function reverseGeocodeWithRetry(latitude: number, longitude: number, retr
   return i18n.t('home.currentLocation', 'Current Location');
 }
 
+// 12 hours interval for auto location refresh (günde ~2 kere)
+const LOCATION_REFRESH_INTERVAL_MS = 12 * 60 * 60 * 1000;
+
 export const useLocation = () => {
   const fallbackLocation = getSystemFallbackLocation();
   const [location, setLocation] = useState<LocationData>(fallbackLocation);
@@ -148,7 +152,7 @@ export const useLocation = () => {
   const [needsManualLocation, setNeedsManualLocation] = useState(false);
   const [permissionDenied, setPermissionDenied] = useState(false);
 
-  const initLocation = useCallback(async () => {
+  const initLocation = useCallback(async (forceRefresh = false) => {
     try {
       // 1. Check if user has manually set a location
       const savedLocationStr = await AsyncStorage.getItem('MANUAL_LOCATION');
@@ -162,6 +166,7 @@ export const useLocation = () => {
       }
 
       // 1.5 Check if we have a cached GPS location from a previous launch
+      let hasCachedLocation = false;
       const cachedGpsStr = await AsyncStorage.getItem('LAST_GPS_LOCATION');
       if (cachedGpsStr) {
         const cachedGps: LocationData = JSON.parse(cachedGpsStr);
@@ -169,18 +174,36 @@ export const useLocation = () => {
         setNeedsManualLocation(false);
         setPermissionDenied(false);
         setLoading(false);
+        hasCachedLocation = true;
+      }
+
+      // Check if location was recently updated (within last 12 hours) to avoid battery drain
+      const lastUpdateTimeStr = await AsyncStorage.getItem('LAST_GPS_UPDATE_TIME');
+      const lastUpdateTime = lastUpdateTimeStr ? parseInt(lastUpdateTimeStr, 10) : 0;
+      const isStale = Date.now() - lastUpdateTime >= LOCATION_REFRESH_INTERVAL_MS;
+
+      // Skip background GPS scan if we have a recent location and forceRefresh is false
+      if (hasCachedLocation && !isStale && !forceRefresh) {
+        return;
       }
 
       // 2. Check if foreground permission is already granted without blocking
       const { status } = await Location.getForegroundPermissionsAsync();
       if (status !== 'granted') {
-        // We will let the onboarding or UI ask for permission smoothly
+        const onboardingCompleted = await AsyncStorage.getItem('ONBOARDING_COMPLETED');
+        if (onboardingCompleted !== 'true') {
+          // Defer permission prompt to WelcomeOnboardingModal so user gets clear context
+          if (!hasCachedLocation) setLocation(fallbackLocation);
+          setLoading(false);
+          return;
+        }
+
         const req = await Location.requestForegroundPermissionsAsync();
         if (req.status !== 'granted') {
           setErrorMsg('Permission to access location was denied');
           setPermissionDenied(true);
           setNeedsManualLocation(true);
-          setLocation(fallbackLocation);
+          if (!hasCachedLocation) setLocation(fallbackLocation);
           setLoading(false);
           return;
         }
@@ -215,7 +238,9 @@ export const useLocation = () => {
       setLocation(finalLocation);
       setNeedsManualLocation(false);
       
+      const nowStr = Date.now().toString();
       AsyncStorage.setItem('LAST_GPS_LOCATION', JSON.stringify(finalLocation));
+      AsyncStorage.setItem('LAST_GPS_UPDATE_TIME', nowStr);
 
     } catch (e) {
       setErrorMsg('Error fetching location');
@@ -227,6 +252,17 @@ export const useLocation = () => {
 
   useEffect(() => {
     initLocation();
+
+    // Listen for AppState changes to trigger auto location scan if 12+ hours passed
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (nextAppState === 'active') {
+        initLocation(false);
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
   }, [initLocation]);
 
   const saveManualLocation = async (lat: number, lng: number, city: string) => {
@@ -238,7 +274,7 @@ export const useLocation = () => {
   };
 
   const refreshLocation = async () => {
-    await initLocation();
+    await initLocation(true);
   };
 
   return {

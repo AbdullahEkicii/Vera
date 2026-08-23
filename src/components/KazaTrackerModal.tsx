@@ -25,6 +25,7 @@ import {
   saveKazaState,
   calculateKazaDebtByTime,
 } from '../services/kazaService';
+import { logModalOpened, logKazaUpdated } from '../services/analyticsService';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -63,6 +64,7 @@ export function KazaTrackerModal({ visible, onClose }: Props) {
 
   useEffect(() => {
     if (visible) {
+      logModalOpened('KazaTrackerModal');
       loadKazaState().then(setState);
     }
   }, [visible]);
@@ -84,6 +86,7 @@ export function KazaTrackerModal({ visible, onClose }: Props) {
           },
         };
         saveKazaState(newState);
+        logKazaUpdated(key, newCompleted);
 
         // Check if finished debt
         if (delta > 0 && item.debt > 0 && newCompleted >= item.debt) {

@@ -20,10 +20,12 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  View
+  View,
+  DeviceEventEmitter,
 } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import * as Haptics from 'expo-haptics';
+import { logScreenView, logTabChange, logCitySelected } from '../../services/analyticsService';
 import Animated, {
   Easing,
   FadeInDown,
@@ -146,12 +148,13 @@ const LazyScreen = React.memo(({ active, children }: { active: boolean; children
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
-  const TAB_BAR_BOTTOM = Math.max(insets.bottom + 12, 12);
-  const TAB_BAR_HEIGHT = 60;
-
   const { t, i18n } = useTranslation();
   const { theme, isDark, isFullscreen, timeFormat, setTimeFormat } = useTheme();
-  const { location, loading: locationLoading, needsManualLocation, permissionDenied, saveManualLocation } = useLocation();
+  const TAB_BAR_BOTTOM = Platform.OS === 'android'
+    ? Math.max(insets.bottom + 8, isFullscreen ? 16 : 22)
+    : Math.max(insets.bottom + 6, 16);
+  const TAB_BAR_HEIGHT = 60;
+  const { location, loading: locationLoading, needsManualLocation, permissionDenied, saveManualLocation, refreshLocation } = useLocation();
   const isLangTR = i18n.language === 'tr' || i18n.language.startsWith('tr');
 
   const [prayerTimes, setPrayerTimes] = useState<Record<string, string> | null>(_cache.prayerTimes);
@@ -332,37 +335,6 @@ export default function HomeScreen() {
               await AsyncStorage.setItem('WIDGET_PROMO_SHOWN', 'true');
             }
           }
-
-          // Battery Optimization Check on 3rd launch
-          const batteryPromptShown = await AsyncStorage.getItem('BATTERY_OPT_PROMPT_SHOWN');
-          if (batteryPromptShown !== 'true' && newCount >= 3) {
-            try {
-              const isOptimizationEnabled = await notifee.isBatteryOptimizationEnabled();
-              if (isOptimizationEnabled) {
-                setTimeout(() => {
-                  Alert.alert(
-                    t('batteryOptimization.title', 'Kesintisiz Ezan Bildirimleri'),
-                    t('batteryOptimization.message', 'Ezan vakitlerinde tam ve düzgün bildirim ile ses alabilmek için uygulamanın pil tasarrufu kısıtlamasını kapatmanız önerilir.'),
-                    [
-                      {
-                        text: t('batteryOptimization.later', 'Daha Sonra'),
-                        style: 'cancel',
-                      },
-                      {
-                        text: t('batteryOptimization.openSettings', 'Ayarları Aç'),
-                        onPress: async () => {
-                          await notifee.openBatteryOptimizationSettings();
-                        },
-                      },
-                    ]
-                  );
-                }, 1500);
-                await AsyncStorage.setItem('BATTERY_OPT_PROMPT_SHOWN', 'true');
-              }
-            } catch (err) {
-              console.log('Error checking battery optimization', err);
-            }
-          }
         }
       } catch (e) {
         console.log('Error checking launch metrics', e);
@@ -417,6 +389,16 @@ export default function HomeScreen() {
       unsubscribe();
     };
   }, [navigation, calcMethod, location]);
+
+  useEffect(() => {
+    const sub = DeviceEventEmitter.addListener('PRAYER_OFFSETS_CHANGED', () => {
+      if (location?.latitude && location?.longitude) {
+        _cache.prayerTimes = null;
+        loadPrayerTimes(location.latitude, location.longitude);
+      }
+    });
+    return () => sub.remove();
+  }, [location]);
 
   useEffect(() => {
     circle1X.value = withRepeat(
@@ -518,10 +500,10 @@ export default function HomeScreen() {
         nextTime: nextTimeStr,
         countdown: `⏳ ${countdownTextClean}`,
         summary: summaryStr,
-        hoursUnit: t('notifications.persistent.hoursUnit', { defaultValue: 'sa' }),
-        minutesUnit: t('notifications.persistent.minutesUnit', { defaultValue: 'dk' }),
-        countdownSuffix: t('notifications.persistent.countdown', { defaultValue: 'sonra' }),
-        staleMessage: t('notifications.persistent.prayerEntered', { defaultValue: 'Vakit Girdi' }),
+        hoursUnit: t('notifications.persistent.hoursUnit'),
+        minutesUnit: t('notifications.persistent.minutesUnit'),
+        countdownSuffix: t('notifications.persistent.countdown'),
+        staleMessage: t('notifications.persistent.prayerEntered'),
       });
 
       AsyncStorage.getItem('PERSISTENT_NOTIF_ENABLED').then((saved) => {
@@ -551,7 +533,7 @@ export default function HomeScreen() {
       clearInterval(interval);
       appStateSub.remove();
     };
-  }, [prayerTimes, location?.city, nextPrayerKey, targetDate, t, timeFormat]);
+  }, [prayerTimes, location?.city, nextPrayerKey, targetDate, t, timeFormat, i18n.language]);
 
   const loadPrayerTimes = async (lat: number, lng: number) => {
     try {
@@ -628,6 +610,7 @@ export default function HomeScreen() {
   };
 
   const handleCitySelected = async (lat: number, lng: number, city: string) => {
+    logCitySelected(city, false);
     await saveManualLocation(lat, lng, city);
     loadPrayerTimes(lat, lng);
   };
@@ -667,6 +650,8 @@ export default function HomeScreen() {
     const pos = e.nativeEvent.position;
     setActiveTab(pos);
     _cache.activeTab = pos;
+    const tabName = TABS[pos]?.id || `Tab_${pos}`;
+    logTabChange(tabName, pos);
   };
 
   const navigateToPagerTab = (logicalIndex: number) => {
@@ -676,6 +661,8 @@ export default function HomeScreen() {
     pagerRef.current?.setPage(logicalIndex);
     setActiveTab(logicalIndex);
     _cache.activeTab = logicalIndex;
+    const tabName = TABS[logicalIndex]?.id || `Tab_${logicalIndex}`;
+    logTabChange(tabName, logicalIndex);
   };
 
   const otherPrayers = prayerTimes
@@ -1041,14 +1028,14 @@ export default function HomeScreen() {
         </Animated.View>
       )}
 
-      {/* Daily Prayer Checklist & Streak Card */}
+      {/* Ad Banner #1 (Right under İmsakiye & Dini Günler) */}
       <Animated.View entering={FadeInDown.delay(200).duration(400).springify().damping(12)}>
-        <PrayerChecklistCard />
+        <AdBanner />
       </Animated.View>
 
-      {/* Ad Banner (Visible directly in fold without scrolling) */}
-      <Animated.View entering={FadeInDown.delay(220).duration(400).springify().damping(12)}>
-        <AdBanner />
+      {/* Daily Prayer Checklist & Streak Card */}
+      <Animated.View entering={FadeInDown.delay(210).duration(400).springify().damping(12)}>
+        <PrayerChecklistCard />
       </Animated.View>
 
 
@@ -1233,9 +1220,21 @@ export default function HomeScreen() {
         onComplete={async (lat, lng, city) => {
           setOnboardingVisible(false);
           if (lat && lng && city) {
+            await saveManualLocation(lat, lng, city);
             handleCitySelected(lat, lng, city);
-          } else if (location?.latitude && location?.longitude) {
-            loadPrayerTimes(location.latitude, location.longitude);
+          } else {
+            try {
+              const savedStr = await AsyncStorage.getItem('MANUAL_LOCATION');
+              if (savedStr) {
+                const saved = JSON.parse(savedStr);
+                if (saved?.latitude && saved?.longitude && saved?.city) {
+                  await saveManualLocation(saved.latitude, saved.longitude, saved.city);
+                  handleCitySelected(saved.latitude, saved.longitude, saved.city);
+                  return;
+                }
+              }
+            } catch (_) {}
+            await refreshLocation();
           }
         }}
       />
@@ -1277,6 +1276,7 @@ const styles = StyleSheet.create({
   homeContent: {
     paddingHorizontal: 16,
     paddingTop: Platform.OS === 'ios' ? 48 : (StatusBar.currentHeight ?? 24) + 8,
+    paddingBottom: 115,
     gap: 8,
   },
 
@@ -1419,11 +1419,12 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     height: 64,
+    zIndex: 9999,
+    elevation: 20,
     shadowColor: '#C8860A',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.18,
     shadowRadius: 16,
-    elevation: 10,
   },
   tabBarBlur: {
     flex: 1,

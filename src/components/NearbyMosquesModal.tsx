@@ -18,6 +18,7 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import { useTheme } from '../context/ThemeContext';
 import { MosqueItem, fetchNearbyMosques, openMapDirections } from '../services/mosqueService';
+import { logModalOpened } from '../services/analyticsService';
 
 interface Props {
   visible: boolean;
@@ -33,6 +34,12 @@ export function NearbyMosquesModal({ visible, onClose, latitude, longitude, curr
 
   const [loading, setLoading] = useState(true);
   const [mosques, setMosques] = useState<MosqueItem[]>([]);
+
+  useEffect(() => {
+    if (visible) {
+      logModalOpened('NearbyMosquesModal');
+    }
+  }, [visible]);
 
   const loadMosques = useCallback(async () => {
     if (!latitude || !longitude) return;

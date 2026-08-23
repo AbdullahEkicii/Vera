@@ -1,8 +1,9 @@
-import notifee, { AndroidCategory, AndroidImportance, AndroidVisibility, TimestampTrigger, TriggerType } from '@notifee/react-native';
+import notifee, { AlarmType, AndroidCategory, AndroidImportance, AndroidVisibility, TimestampTrigger, TriggerType } from '@notifee/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeModules, Platform } from 'react-native';
 import i18n from '../localization/i18n';
 import { DayData } from './api';
+import { updateAndroidWidget } from './widgetService';
 
 const PREFS_KEY = 'NOTIFICATION_PREFS';
 
@@ -21,6 +22,7 @@ export interface NotificationPrefs {
   isha_warn: boolean;
   exactSound?: string;
   warningSound?: string;
+  respectSilentMode?: boolean;
 }
 
 const defaultPrefs: NotificationPrefs = {
@@ -38,6 +40,7 @@ const defaultPrefs: NotificationPrefs = {
   isha_warn: true,
   exactSound: 'azizallah',
   warningSound: 'adhan_25minutes',
+  respectSilentMode: false,
 };
 
 export const getExactChannelId = (soundName?: string) => {
@@ -95,7 +98,9 @@ export const initNotifications = async (customExactSound?: string, customWarning
     const { AlarmChannelModule } = NativeModules;
     console.log('📢 Native AlarmChannelModule present in NativeModules?', !!AlarmChannelModule);
 
-    if (AlarmChannelModule) {
+    const shouldUseAlarmStream = prefs.respectSilentMode === false;
+
+    if (shouldUseAlarmStream && AlarmChannelModule) {
       try {
         await AlarmChannelModule.createAlarmChannel(
           exactChannelId,
@@ -114,7 +119,7 @@ export const initNotifications = async (customExactSound?: string, customWarning
         console.error('Failed to create native alarm channels:', e);
       }
     } else {
-      // Fallback for environments without the native module
+      // Standard notification channels (Respects Silent / Vibrate / DND modes)
       await notifee.createChannel({
         id: exactChannelId,
         name: i18n.t('notifications.channels.exactName', { defaultValue: 'Ezan Vakti' }),
@@ -124,7 +129,7 @@ export const initNotifications = async (customExactSound?: string, customWarning
         vibration: true,
         vibrationPattern: [300, 500, 300, 500],
         visibility: AndroidVisibility.PUBLIC,
-        bypassDnd: true,
+        bypassDnd: false,
       });
 
       await notifee.createChannel({
@@ -136,7 +141,7 @@ export const initNotifications = async (customExactSound?: string, customWarning
         vibration: true,
         vibrationPattern: [300, 500, 300, 500],
         visibility: AndroidVisibility.PUBLIC,
-        bypassDnd: true,
+        bypassDnd: false,
       });
     }
 
@@ -192,24 +197,8 @@ export const updatePersistentPrayerNotification = async (
       visibility: AndroidVisibility.PUBLIC,
     });
 
-    // Calculate human-readable countdown using localized units
-    const now = Date.now();
-    const diffMs = targetTimestampMs - now;
-    let countdownText = '';
-    if (diffMs > 0) {
-      const totalMinutes = Math.floor(diffMs / 60000);
-      const h = Math.floor(totalMinutes / 60);
-      const m = totalMinutes % 60;
-      const hUnit = i18n.t('notifications.persistent.hoursUnit', { defaultValue: 'sa' });
-      const mUnit = i18n.t('notifications.persistent.minutesUnit', { defaultValue: 'dk' });
-      const suffix = i18n.t('notifications.persistent.countdown', { defaultValue: 'sonra' });
-      countdownText = h > 0 ? `${h}${hUnit} ${m}${mUnit} ${suffix}` : `${m}${mUnit} ${suffix}`;
-    } else {
-      countdownText = i18n.t('notifications.persistent.prayerEntered', { defaultValue: 'Vakit Girdi' });
-    }
-
-    // Large Bold Title for clear visibility on lock screen & status bar
-    const title = `⏳ ${countdownText}  ·  🕌 ${nextPrayerName}`;
+    // Title formatted cleanly for native chronometer counting down live
+    const title = `🕌 ${nextPrayerName} Vaktine`;
     const body = `⏰ ${nextPrayerName}: ${nextPrayerTime}  ·  📍 ${city}`;
 
     await notifee.displayNotification({
@@ -235,6 +224,98 @@ export const updatePersistentPrayerNotification = async (
     });
   } catch (error) {
     console.error('Error updating persistent notification:', error);
+  }
+};
+
+export const syncNextPrayerFromCache = async () => {
+  try {
+    const cachedString = await AsyncStorage.getItem('PRAYER_TIMES_CACHE');
+    if (!cachedString) return;
+    const cached = JSON.parse(cachedString);
+    if (!cached?.data || !Array.isArray(cached.data)) return;
+
+    const now = new Date();
+    const dayStr = String(now.getDate()).padStart(2, '0');
+    const monthStr = String(now.getMonth() + 1).padStart(2, '0');
+    const yearStr = now.getFullYear();
+    const todayStr = `${dayStr}-${monthStr}-${yearStr}`;
+
+    let dayData = cached.data.find((d: any) => d.date?.gregorian?.date === todayStr);
+    if (!dayData && cached.data.length > 0) {
+      dayData = cached.data[0];
+    }
+    if (!dayData || !dayData.timings) return;
+
+    const prayers = [
+      { id: 'fajr', name: i18n.t('home.prayers.fajr', { defaultValue: 'İmsak' }), time: dayData.timings.Fajr },
+      { id: 'sunrise', name: i18n.t('home.prayers.sunrise', { defaultValue: 'Güneş' }), time: dayData.timings.Sunrise },
+      { id: 'dhuhr', name: i18n.t('home.prayers.dhuhr', { defaultValue: 'Öğle' }), time: dayData.timings.Dhuhr },
+      { id: 'asr', name: i18n.t('home.prayers.asr', { defaultValue: 'İkindi' }), time: dayData.timings.Asr },
+      { id: 'maghrib', name: i18n.t('home.prayers.maghrib', { defaultValue: 'Akşam' }), time: dayData.timings.Maghrib },
+      { id: 'isha', name: i18n.t('home.prayers.isha', { defaultValue: 'Yatsı' }), time: dayData.timings.Isha },
+    ];
+
+    let nextPrayer = null;
+    let targetTimestampMs = 0;
+
+    for (const p of prayers) {
+      const cleanTime = p.time.split(' ')[0];
+      const [h, m] = cleanTime.split(':');
+      const pDate = new Date(now);
+      pDate.setHours(parseInt(h, 10), parseInt(m, 10), 0, 0);
+
+      if (pDate.getTime() > now.getTime()) {
+        nextPrayer = p;
+        targetTimestampMs = pDate.getTime();
+        break;
+      }
+    }
+
+    if (!nextPrayer) {
+      const fajrTimeClean = dayData.timings.Fajr.split(' ')[0];
+      const [fh, fm] = fajrTimeClean.split(':');
+      const tomorrowFajr = new Date(now);
+      tomorrowFajr.setDate(tomorrowFajr.getDate() + 1);
+      tomorrowFajr.setHours(parseInt(fh, 10), parseInt(fm, 10), 0, 0);
+      nextPrayer = prayers[0];
+      targetTimestampMs = tomorrowFajr.getTime();
+    }
+
+    const savedLocStr = (await AsyncStorage.getItem('MANUAL_LOCATION')) || (await AsyncStorage.getItem('LAST_GPS_LOCATION'));
+    let city = 'Vera';
+    if (savedLocStr) {
+      try {
+        const parsed = JSON.parse(savedLocStr);
+        if (parsed.city) city = parsed.city;
+      } catch (e) {}
+    }
+
+    const isNotifEnabledStr = await AsyncStorage.getItem('PERSISTENT_NOTIF_ENABLED');
+    const isNotifEnabled = isNotifEnabledStr !== null ? isNotifEnabledStr === 'true' : true;
+
+    await updatePersistentPrayerNotification(
+      city,
+      nextPrayer.name,
+      nextPrayer.time.split(' ')[0],
+      targetTimestampMs,
+      isNotifEnabled
+    );
+
+    const summaryStr = prayers.map(p => `${p.name}|${p.time.split(' ')[0]}`).join('|');
+    updateAndroidWidget({
+      city: `📍 ${city}`,
+      nextName: nextPrayer.name,
+      nextTime: nextPrayer.time.split(' ')[0],
+      countdown: '',
+      summary: summaryStr,
+      hoursUnit: i18n.t('notifications.persistent.hoursUnit', { defaultValue: 'sa' }),
+      minutesUnit: i18n.t('notifications.persistent.minutesUnit', { defaultValue: 'dk' }),
+      countdownSuffix: i18n.t('notifications.persistent.countdown', { defaultValue: 'sonra' }),
+      staleMessage: i18n.t('notifications.persistent.prayerEntered', { defaultValue: 'Vakit Girdi' }),
+    });
+
+  } catch (e) {
+    console.error('Error in syncNextPrayerFromCache:', e);
   }
 };
 
@@ -336,14 +417,19 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
             body = t('daily.quoteBody', 'Günün sözünü okumak için tıklayın!') || 'Günün sözünü okumak için tıklayın!';
           }
 
+          const dayKey = `${yearStr}_${monthStr}_${dayStr}`;
+
           const trigger: TimestampTrigger = {
             type: TriggerType.TIMESTAMP,
             timestamp: triggerDate.getTime(),
-            alarmManager: { allowWhileIdle: true },
+            alarmManager: {
+              allowWhileIdle: true,
+              type: AlarmType.SET_ALARM_CLOCK,
+            },
           };
 
           await notifee.createTriggerNotification({
-            id: `daily-content-${triggerDate.getTime()}`,
+            id: `daily_content_${dayKey}`,
             title,
             body,
             android: {
@@ -369,13 +455,17 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
       quranDate.setHours(20, 0, 0, 0);
       if (quranDate > now) {
         try {
+          const dayKey = `${yearStr}_${monthStr}_${dayStr}`;
           const trigger: TimestampTrigger = {
             type: TriggerType.TIMESTAMP,
             timestamp: quranDate.getTime(),
-            alarmManager: { allowWhileIdle: true },
+            alarmManager: {
+              allowWhileIdle: true,
+              type: AlarmType.SET_ALARM_CLOCK,
+            },
           };
           await notifee.createTriggerNotification({
-            id: `quran-reminder-${quranDate.getTime()}`,
+            id: `quran_reminder_${dayKey}`,
             title: t('notifications.quranReminderTitle', '📖 Kur\'an-ı Kerim Vakti'),
             body: t('notifications.quranReminderBody', 'Bugün Kur\'an okudun mu? Tıkla ve hemen okumaya başla.'),
             android: {
@@ -395,6 +485,7 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
     }
 
     if (scheduledCount < limit) {
+      const dayKey = `${yearStr}_${monthStr}_${dayStr}`;
       const prayers = [
         { id: 'fajr', time: day.timings.Fajr },
         { id: 'sunrise', time: day.timings.Sunrise },
@@ -422,11 +513,12 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
                 timestamp: triggerDate.getTime(),
                 alarmManager: {
                   allowWhileIdle: true,
+                  type: AlarmType.SET_ALARM_CLOCK,
                 },
               };
 
               await notifee.createTriggerNotification({
-                id: `exact-${prayer.id}-${triggerDate.getTime()}`,
+                id: `exact_${prayer.id}_${dayKey}`,
                 title: t(`notifications.${prayer.id}.title`),
                 body: t(`notifications.${prayer.id}.body`),
                 android: {
@@ -469,11 +561,12 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
                   timestamp: warningDate.getTime(),
                   alarmManager: {
                     allowWhileIdle: true,
+                    type: AlarmType.SET_ALARM_CLOCK,
                   },
                 };
 
                 await notifee.createTriggerNotification({
-                  id: `warn-${prayer.id}-${warningDate.getTime()}`,
+                  id: `warn_${prayer.id}_${dayKey}`,
                   title: t('notifications.warningTitle'),
                   body: t('notifications.warningBody', { prayer: t(`home.prayers.${prayer.id}`) }),
                   android: {
@@ -557,6 +650,7 @@ export const scheduleTestNotification = async (type: 'exact' | 'warning', t: any
     timestamp: triggerDate.getTime(),
     alarmManager: {
       allowWhileIdle: true,
+      type: AlarmType.SET_ALARM_CLOCK,
     },
   };
 
@@ -567,7 +661,7 @@ export const scheduleTestNotification = async (type: 'exact' | 'warning', t: any
 
     if (type === 'exact') {
       await notifee.createTriggerNotification({
-        id: `test-exact-${triggerDate.getTime()}`,
+        id: `test_exact`,
         title: t('notifications.fajr.title') || 'Tam Ezan (Test)',
         body: t('notifications.fajr.body') || 'Ezan vakti girdi.',
         android: {
@@ -591,7 +685,7 @@ export const scheduleTestNotification = async (type: 'exact' | 'warning', t: any
       console.log('Test EXACT notification scheduled for 10s later');
     } else {
       await notifee.createTriggerNotification({
-        id: `test-warn-${triggerDate.getTime()}`,
+        id: `test_warn`,
         title: t('notifications.warningTitle') || 'Ezan Yaklaşıyor (Test)',
         body: t('notifications.warningBody', { prayer: 'Test' }) || 'Ezan vaktine 25 dakika kaldı.',
         android: {

@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
 import { router } from 'expo-router';
 import { audioManager } from '../services/audioManager';
+import { logPrayerLogged } from '../services/analyticsService';
 
 const PRAYER_LOGS_KEY = 'USER_PRAYER_LOGS_V1';
 const CELEBRATED_DATE_KEY = 'PRAYER_CELEBRATED_DATE_V1';
@@ -131,6 +132,7 @@ export function PrayerChecklistCard() {
 
       await AsyncStorage.setItem(PRAYER_LOGS_KEY, JSON.stringify(allLogs));
       loadLogsAndStreak();
+      logPrayerLogged(prayerId, updatedLog[prayerId], streakCount);
 
       // Check if all 5 daily prayers are checked off
       const allFiveCompleted = Object.values(updatedLog).every(Boolean);
@@ -157,11 +159,16 @@ export function PrayerChecklistCard() {
       {/* Header Pressable to open History page */}
       <Pressable style={styles.headerRow} onPress={() => router.push('/prayer-history')}>
         <View style={styles.headerTitleGroup}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-            <Text style={[styles.cardTitle, { color: isDark ? '#FDF8ED' : '#2C1A0A' }]}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+            <Text
+              style={[styles.cardTitle, { color: isDark ? '#FDF8ED' : '#2C1A0A' }]}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.85}
+            >
               {t('checklist.title', 'Günlük Namaz Takibi')}
             </Text>
-            <Feather name="chevron-right" size={16} color={isDark ? '#D4AF37' : '#8C7055'} />
+            <Feather name="chevron-right" size={16} color={isDark ? '#D4AF37' : '#8C7055'} style={{ flexShrink: 0 }} />
           </View>
           <Text style={[styles.cardSubtitle, { color: isDark ? 'rgba(253, 248, 237, 0.6)' : '#8C7055' }]}>
             {completedCount} / 5 {t('checklist.completed', 'Kılındı')}
@@ -323,6 +330,7 @@ const styles = StyleSheet.create({
   },
   headerTitleGroup: {
     flex: 1,
+    marginRight: 12,
   },
   cardTitle: {
     fontFamily: 'Outfit_700Bold',
@@ -340,6 +348,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 14,
     gap: 4,
+    flexShrink: 0,
   },
   streakText: {
     fontFamily: 'Outfit_700Bold',

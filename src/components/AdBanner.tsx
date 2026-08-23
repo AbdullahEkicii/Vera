@@ -13,9 +13,7 @@ const TEST_AD_UNIT_ID = Platform.select({
 }) || TestIds.NATIVE;
 
 export const AdBanner = () => {
-  // Şimdilik reklamları tüm ekranlardan gizliyoruz. 
-  // Gerçek ID eklendiğinde veya aktif etmek istediğinizde buradaki "const isAdEnabled = false;" satırını true yapabilirsiniz.
-  const isAdEnabled = false;
+  const isAdEnabled = true;
   if (!isAdEnabled) return null;
 
   const [error, setError] = useState(false);
@@ -103,7 +101,7 @@ export const AdBanner = () => {
               </View>
 
               <NativeAsset assetType={NativeAssetType.BODY}>
-                <Text style={[styles.tagline, { color: theme.colors.textSecondary }]} numberOfLines={2}>
+                <Text style={[styles.tagline, { color: theme.colors.textSecondary }]} numberOfLines={1}>
                   {ad.body}
                 </Text>
               </NativeAsset>
@@ -132,11 +130,11 @@ export const AdBanner = () => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginVertical: 4,
+    marginVertical: 2,
   },
   adContainer: {
     width: '100%',
-    padding: spacing.sm,
+    padding: 8,
     borderRadius: borderRadius.md,
     borderWidth: 1,
     overflow: 'hidden',
@@ -144,13 +142,13 @@ const styles = StyleSheet.create({
   adRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   adIcon: {
-    width: 48,
-    height: 48,
+    width: 40,
+    height: 40,
     borderRadius: 8,
-    marginRight: 10,
+    marginRight: 8,
   },
   adTextContainer: {
     flex: 1,
@@ -161,49 +159,49 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   adBadge: {
-    width: 22,
-    height: 14,
+    width: 20,
+    height: 13,
     borderWidth: 1,
     borderColor: '#F9A825',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 6,
+    marginRight: 5,
     borderRadius: 3,
   },
   adBadgeText: {
-    fontSize: 9,
+    fontSize: 8.5,
     color: '#F9A825',
     fontWeight: 'bold',
   },
   headline: {
     fontFamily: typography.fontFamily.bold,
-    fontSize: 14,
+    fontSize: 13,
     flex: 1,
   },
   tagline: {
     fontFamily: typography.fontFamily.regular,
-    fontSize: 12,
-    marginBottom: 2,
+    fontSize: 11,
+    marginBottom: 1,
   },
   advertiser: {
     fontFamily: typography.fontFamily.medium,
-    fontSize: 10,
+    fontSize: 9.5,
     opacity: 0.8,
   },
   ctaButton: {
-    height: 38,
+    height: 32,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: borderRadius.md,
+    borderRadius: borderRadius.sm || 8,
   },
   ctaText: {
     fontFamily: typography.fontFamily.bold,
-    fontSize: 14,
+    fontSize: 13,
     color: '#FFF',
   },
   fallbackContainer: {
-    height: 48,
+    height: 38,
     borderRadius: borderRadius.md,
     borderWidth: 1,
     borderStyle: 'dashed',
@@ -211,8 +209,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     gap: 6,
-    marginTop: 2,
-    marginVertical: 4,
+    marginVertical: 2,
   },
   fallbackText: {
     fontSize: 11,

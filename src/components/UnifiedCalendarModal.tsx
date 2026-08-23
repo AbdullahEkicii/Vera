@@ -5,6 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
 import { typography, spacing } from '../utils/theme';
+import { logModalOpened } from '../services/analyticsService';
 
 interface UnifiedCalendarModalProps {
   visible: boolean;
@@ -22,6 +23,13 @@ export const UnifiedCalendarModal: React.FC<UnifiedCalendarModalProps> = ({
   const { t, i18n } = useTranslation();
   const { theme, isDark } = useTheme();
   const { width } = useWindowDimensions();
+
+  React.useEffect(() => {
+    if (visible) {
+      logModalOpened('UnifiedCalendarModal');
+    }
+  }, [visible]);
+
   const weekDays = React.useMemo(() => {
     const days = [];
     for (let i = 1; i <= 7; i++) {

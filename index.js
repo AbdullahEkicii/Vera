@@ -2,6 +2,7 @@ import { registerRootComponent } from 'expo';
 import { ExpoRoot } from 'expo-router';
 import notifee, { EventType } from '@notifee/react-native';
 import { audioManager } from './src/services/audioManager';
+import { syncNextPrayerFromCache } from './src/services/notificationService';
 
 function isNotificationFresh(detail) {
   let notifTime = detail?.notification?.data?.timestamp
@@ -27,6 +28,11 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
       await notifee.cancelNotification(detail.notification.id);
     }
   }
+
+  // Refresh persistent notification and widget when background notification fires
+  try {
+    await syncNextPrayerFromCache();
+  } catch (e) {}
 });
 
 export function App() {

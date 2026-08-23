@@ -2,7 +2,7 @@
   "expo": {
     "name": "Vera",
     "slug": "ezan-app",
-    "version": "1.0.24",
+    "version": "1.0.25",
     "orientation": "default",
     "icon": "./assets/images/Vera_app_icon.png",
     "scheme": "ezanapp",
@@ -22,7 +22,7 @@
     "android": {
       "package": "com.abdllhekc.vera",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 26,
+      "versionCode": 27,
       "permissions": [
         "SCHEDULE_EXACT_ALARM",
         "USE_EXACT_ALARM",

@@ -30,6 +30,22 @@ const TIME_FORMAT_KEY = 'app_time_format';
 const COLOR_PALETTE_KEY = 'app_color_palette';
 const CIRCLE_PALETTE_KEY = 'app_circle_palette';
 
+import { AppState, Platform } from 'react-native';
+import * as NavigationBar from 'expo-navigation-bar';
+
+const applySystemUI = (fullscreen: boolean) => {
+  StatusBar.setHidden(fullscreen, 'none');
+  if (Platform.OS === 'android') {
+    try {
+      if (fullscreen) {
+        NavigationBar.setVisibilityAsync('hidden').catch(() => {});
+      } else {
+        NavigationBar.setVisibilityAsync('visible').catch(() => {});
+      }
+    } catch (e) {}
+  }
+};
+
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const systemColorScheme = useColorScheme();
   const [mode, setMode] = useState<ThemeMode>('light');
@@ -41,7 +57,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   useEffect(() => {
     // Hide immediately on mount to prevent statusbar layout flash on first launch
-    StatusBar.setHidden(true, 'none');
+    applySystemUI(true);
 
     const loadSettings = async () => {
       try {
@@ -55,14 +71,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           }
         }
         const storedFullscreen = await SecureStore.getItemAsync(FULLSCREEN_STORAGE_KEY);
-        if (storedFullscreen) {
-          const isFull = storedFullscreen === 'true';
-          setIsFullscreenState(isFull);
-          StatusBar.setHidden(isFull, 'slide');
-        } else {
-          // If no setting stored yet, ensure it is hidden by default
-          StatusBar.setHidden(true, 'slide');
-        }
+        const isFull = storedFullscreen !== null ? storedFullscreen === 'true' : true;
+        setIsFullscreenState(isFull);
+        applySystemUI(isFull);
 
         const storedTimeFormat = await SecureStore.getItemAsync(TIME_FORMAT_KEY);
         if (storedTimeFormat === '12h' || storedTimeFormat === '24h') {
@@ -85,6 +96,20 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
     };
     loadSettings();
+
+    // Re-apply system UI on AppState active to fix self-breaking fullscreen on Android
+    const appStateSub = AppState.addEventListener('change', (nextState) => {
+      if (nextState === 'active') {
+        SecureStore.getItemAsync(FULLSCREEN_STORAGE_KEY).then((saved) => {
+          const isFull = saved !== null ? saved === 'true' : true;
+          applySystemUI(isFull);
+        }).catch(() => {});
+      }
+    });
+
+    return () => {
+      appStateSub.remove();
+    };
   }, []);
 
   const setThemeMode = async (newMode: ThemeMode) => {
@@ -98,7 +123,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const setIsFullscreen = async (val: boolean) => {
     setIsFullscreenState(val);
-    StatusBar.setHidden(val, 'slide');
+    applySystemUI(val);
     try {
       await SecureStore.setItemAsync(FULLSCREEN_STORAGE_KEY, String(val));
     } catch (error) {

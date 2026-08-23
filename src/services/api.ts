@@ -91,16 +91,91 @@ export const getCachedPrayerTimes = async (): Promise<CachedData | null> => {
   return null;
 };
 
+import { calculateOfflinePrayerTimes } from './offlinePrayerService';
+
+export interface PrayerOffsets {
+  fajr: number;
+  sunrise: number;
+  dhuhr: number;
+  asr: number;
+  maghrib: number;
+  isha: number;
+}
+
+export const DEFAULT_OFFSETS: PrayerOffsets = {
+  fajr: 0,
+  sunrise: 0,
+  dhuhr: 0,
+  asr: 0,
+  maghrib: 0,
+  isha: 0,
+};
+
+export const getPrayerOffsets = async (): Promise<PrayerOffsets> => {
+  try {
+    const saved = await AsyncStorage.getItem('PRAYER_TIME_OFFSETS');
+    if (saved) return JSON.parse(saved);
+  } catch {}
+  return DEFAULT_OFFSETS;
+};
+
+export const savePrayerOffsets = async (offsets: PrayerOffsets): Promise<void> => {
+  await AsyncStorage.setItem('PRAYER_TIME_OFFSETS', JSON.stringify(offsets));
+};
+
+export function applyOffsetsToTimings(timings: PrayerTimes, offsets: Partial<PrayerOffsets>): PrayerTimes {
+  const addMinutes = (timeStr: string, minutes: number) => {
+    if (!timeStr || !minutes) return timeStr;
+    const clean = timeStr.split(' ')[0];
+    const [h, m] = clean.split(':');
+    let total = parseInt(h, 10) * 60 + parseInt(m, 10) + minutes;
+    if (total < 0) total += 24 * 60;
+    total = total % (24 * 60);
+    const newH = Math.floor(total / 60);
+    const newM = total % 60;
+    const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+    return `${pad(newH)}:${pad(newM)}`;
+  };
+
+  return {
+    ...timings,
+    Fajr: addMinutes(timings.Fajr, offsets.fajr || 0),
+    Sunrise: addMinutes(timings.Sunrise, offsets.sunrise || 0),
+    Dhuhr: addMinutes(timings.Dhuhr, offsets.dhuhr || 0),
+    Asr: addMinutes(timings.Asr, offsets.asr || 0),
+    Maghrib: addMinutes(timings.Maghrib, offsets.maghrib || 0),
+    Sunset: addMinutes(timings.Sunset, offsets.maghrib || 0),
+    Isha: addMinutes(timings.Isha, offsets.isha || 0),
+  };
+}
+
+export function applyOffsetsToData(data: DayData[], offsets: PrayerOffsets): DayData[] {
+  if (
+    !offsets.fajr &&
+    !offsets.sunrise &&
+    !offsets.dhuhr &&
+    !offsets.asr &&
+    !offsets.maghrib &&
+    !offsets.isha
+  ) {
+    return data;
+  }
+  return data.map((d) => ({
+    ...d,
+    timings: applyOffsetsToTimings(d.timings, offsets),
+  }));
+}
+
 export const fetchPrayerTimes = async (latitude: number, longitude: number): Promise<DayData[]> => {
   const date = new Date();
   const year = date.getFullYear();
   const month = date.getMonth() + 1; // 1-12
 
-  try {
-    // Get current calculation method or auto-detect based on location
-    const savedMethod = await AsyncStorage.getItem('PRAYER_CALCULATION_METHOD');
-    const method = savedMethod ? parseInt(savedMethod, 10) : autoDetectCalculationMethod(latitude, longitude);
+  const savedMethod = await AsyncStorage.getItem('PRAYER_CALCULATION_METHOD');
+  const method = savedMethod ? parseInt(savedMethod, 10) : autoDetectCalculationMethod(latitude, longitude);
+  const offsets = await getPrayerOffsets();
 
+  try {
     // Check Cache
     const cachedString = await AsyncStorage.getItem(CACHE_KEY);
     if (cachedString) {
@@ -113,7 +188,7 @@ export const fetchPrayerTimes = async (latitude: number, longitude: number): Pro
 
       if (cached.year === year && cached.month === month && isSameLocation && isSameMethod) {
         console.log('Returning cached prayer times');
-        return cached.data;
+        return applyOffsetsToData(cached.data, offsets);
       }
     }
 
@@ -148,7 +223,7 @@ export const fetchPrayerTimes = async (latitude: number, longitude: number): Pro
       console.warn('Failed to fetch next month prayer times:', e);
     }
 
-    // Save to Cache
+    // Save RAW (un-offsetted) data to Cache
     const cacheToSave: CachedData = {
       month,
       year,
@@ -159,23 +234,27 @@ export const fetchPrayerTimes = async (latitude: number, longitude: number): Pro
     };
     await AsyncStorage.setItem(CACHE_KEY, JSON.stringify(cacheToSave));
 
-    return data;
+    return applyOffsetsToData(data, offsets);
   } catch (error) {
-    console.error('Error fetching prayer times, attempting offline fallback:', error);
-    // Offline resilience: if network fails, attempt to return any cached data
+    console.warn('Network fetch failed, attempting offline calculation fallback:', error);
+    // Offline resilience: if network fails, attempt to return cached data or calculate on-device
     try {
       const fallbackCache = await AsyncStorage.getItem(CACHE_KEY);
       if (fallbackCache) {
         const cached: CachedData = JSON.parse(fallbackCache);
         if (cached.data && cached.data.length > 0) {
           console.log('Returning fallback offline cached prayer times');
-          return cached.data;
+          return applyOffsetsToData(cached.data, offsets);
         }
       }
     } catch (fallbackErr) {
       console.error('Fallback cache read error:', fallbackErr);
     }
-    throw error;
+
+    // Fallback: On-device mathematical calculation with adhan library
+    console.log('Calculating instant on-device offline prayer times');
+    const offlineData = calculateOfflinePrayerTimes(latitude, longitude, method, 35);
+    return applyOffsetsToData(offlineData, offsets);
   }
 };
 

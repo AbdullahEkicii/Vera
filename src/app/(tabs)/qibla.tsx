@@ -8,19 +8,23 @@ import {
   Pressable,
   Platform,
   ScrollView,
+  Modal,
 } from 'react-native';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
-import Animated, { FadeInDown } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
 import { useIsFocused } from '@react-navigation/native';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 
 import { useTheme } from '../../context/ThemeContext';
 import { typography } from '../../utils/theme';
 import { QiblaCompass } from '../../components/QiblaCompass';
 import { getQiblaAngle, getDistanceToKaaba } from '../../utils/qibla';
 import { AppBackground } from '../../components/ProgressRing';
+import { logScreenView } from '../../services/analyticsService';
+import { AdBanner } from '../../components/AdBanner';
 
 const DEFAULT_COORDS = { latitude: 41.0082, longitude: 28.9784 };
 
@@ -40,9 +44,11 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
   const [heading, setHeading] = useState<number>(0);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [usedFallbackLocation, setUsedFallbackLocation] = useState<boolean>(false);
+  const [isCalibrateModalVisible, setIsCalibrateModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (!isFocused || !isActiveTab) return;
+    logScreenView('QiblaScreen');
 
     let headingSubscription: Location.LocationSubscription | null = null;
     let isMounted = true;
@@ -165,9 +171,21 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
             <Text style={[styles.title, { color: textPrimary }]}>
               🧭 {t('qibla.title', 'Kıble Pusulası')}
             </Text>
+            
+            {/* Calibration Button */}
+            <Pressable
+              onPress={() => {
+                try { Haptics.selectionAsync(); } catch (_) {}
+                setIsCalibrateModalVisible(true);
+              }}
+              style={[styles.calibrateHeaderBtn, { borderColor: cardBorder }]}
+              hitSlop={8}
+            >
+              <MaterialCommunityIcons name="rotate-3d-variant" size={18} color="#D4AF37" />
+            </Pressable>
           </View>
           <Text style={[styles.subtitle, { color: textSecondary }]}>
-            {t('qibla.description', 'Telefonunuzu yere paralel tutarak altın ibreyi Kabe hizasına getirin.')}
+            {t('qibla.description', 'Telefonunuzu yere paralel tutarak ibreyi Kabe hizasına getirin.')}
           </Text>
           {usedFallbackLocation && (
             <Text style={styles.fallbackNotice}>
@@ -176,13 +194,37 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
           )}
         </Animated.View>
 
-        {/* Compass Component */}
+        {/* Compass Component with Fixed Kaaba angle */}
         <Animated.View entering={FadeInDown.delay(60).duration(450)} style={styles.compassSection}>
           <QiblaCompass heading={heading} qiblaAngle={qiblaAngle} distance={distance} error={errorMsg} />
         </Animated.View>
 
+        {/* Sensors & Safety Shield Indicators */}
+        <Animated.View entering={FadeInDown.delay(100).duration(400)} style={styles.safetyRow}>
+          {/* Level Bubble Indicator */}
+          <View style={[styles.safetyBadge, { backgroundColor: cardBg, borderColor: cardBorder }]}>
+            <Ionicons name="scan-outline" size={15} color="#10B981" style={{ marginRight: 6 }} />
+            <Text style={[styles.safetyBadgeText, { color: textSecondary }]}>
+              {t('qibla.levelFlat', 'Düz ve Paralel ✓')}
+            </Text>
+          </View>
+
+          {/* Magnetic Shield Badge */}
+          <View style={[styles.safetyBadge, { backgroundColor: cardBg, borderColor: cardBorder }]}>
+            <Ionicons name="shield-checkmark-outline" size={15} color="#D4AF37" style={{ marginRight: 6 }} />
+            <Text style={[styles.safetyBadgeText, { color: textSecondary }]}>
+              {t('qibla.magneticShield', 'Manyetik Koruma')}
+            </Text>
+          </View>
+        </Animated.View>
+
+        {/* Native Ad Banner */}
+        <Animated.View entering={FadeInDown.delay(120).duration(400)} style={{ width: '100%' }}>
+          <AdBanner />
+        </Animated.View>
+
         {/* Calibration & How to Use Guide */}
-        <Animated.View entering={FadeInDown.delay(120).duration(400)} style={[styles.guideCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
+        <Animated.View entering={FadeInDown.delay(140).duration(400)} style={[styles.guideCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
           <View style={styles.guideHeader}>
             <Ionicons name="information-circle-outline" size={16} color="#D4AF37" style={{ marginRight: 6 }} />
             <Text style={[styles.guideTitle, { color: textPrimary }]}>
@@ -195,11 +237,44 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
           <Text style={[styles.guideStepText, { color: textSecondary }]}>
             2. {t('qibla.step2', 'Metal ve manyetik eşyalardan uzak durun.')}
           </Text>
-          <Text style={[styles.guideStepText, { color: '#D4AF37', fontFamily: 'Outfit_600SemiBold' }]}>
+          <Text style={[styles.guideStepText, { color: '#10B981', fontFamily: typography.fontFamily.semiBold }]}>
             3. {t('qibla.step3', 'İbre yeşil olduğunda ve titreştiğinde Kıble yönündesiniz.')}
           </Text>
         </Animated.View>
       </ScrollView>
+
+      {/* Calibration Helper Modal */}
+      <Modal visible={isCalibrateModalVisible} transparent animationType="fade" onRequestClose={() => setIsCalibrateModalVisible(false)}>
+        <View style={styles.modalOverlay}>
+          <Animated.View entering={FadeIn.duration(200)} style={[styles.modalCard, { backgroundColor: isDark ? '#1C150E' : '#FFFFFF', borderColor: cardBorder }]}>
+            <View style={styles.modalIconWrap}>
+              <MaterialCommunityIcons name="rotate-3d-variant" size={36} color="#D4AF37" />
+            </View>
+
+            <Text style={[styles.modalTitle, { color: textPrimary }]}>
+              {t('qibla.calibrationTitle', 'Pusula Kalibrasyonu')}
+            </Text>
+
+            <Text style={[styles.modalDesc, { color: textSecondary }]}>
+              {t('qibla.calibrationDesc', 'Manyetik sapmaları önlemek ve hassasiyeti artırmak için telefonunuzu havada yatay bir 8 (sonsuzluk işareti ∞) çizecek şekilde 2-3 kez yavaşça döndürün.')}
+            </Text>
+
+            <View style={styles.infinityContainer}>
+              <Text style={styles.infinitySymbol}>∞</Text>
+            </View>
+
+            <Pressable
+              onPress={() => {
+                try { Haptics.selectionAsync(); } catch (_) {}
+                setIsCalibrateModalVisible(false);
+              }}
+              style={styles.modalBtn}
+            >
+              <Text style={styles.modalBtnText}>{t('qibla.gotIt', 'Anladım')}</Text>
+            </Pressable>
+          </Animated.View>
+        </View>
+      </Modal>
     </AppBackground>
   );
 }
@@ -210,10 +285,10 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     alignItems: 'center',
-    paddingTop: Platform.OS === 'ios' ? 56 : (StatusBar.currentHeight ?? 24) + 14,
-    paddingHorizontal: 20,
-    paddingBottom: 120, // Extra space for bottom floating tab bar
-    gap: 14,
+    paddingTop: Platform.OS === 'ios' ? 44 : (StatusBar.currentHeight ?? 24) + 8,
+    paddingHorizontal: 16,
+    paddingBottom: 90,
+    gap: 8,
   },
   center: {
     flex: 1,
@@ -221,7 +296,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   loadingText: {
-    fontFamily: 'Outfit_500Medium',
+    fontFamily: typography.fontFamily.medium,
     fontSize: 14,
     marginTop: 12,
   },
@@ -232,26 +307,37 @@ const styles = StyleSheet.create({
   headerTop: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    position: 'relative',
     marginBottom: 4,
   },
   backButton: {
+    position: 'absolute',
+    left: 0,
     padding: 6,
-    marginRight: 8,
+  },
+  calibrateHeaderBtn: {
+    position: 'absolute',
+    right: 0,
+    padding: 6,
+    borderRadius: 10,
+    borderWidth: 1,
   },
   title: {
-    fontFamily: 'Outfit_700Bold',
+    fontFamily: typography.fontFamily.bold,
     fontSize: 22,
     letterSpacing: -0.5,
   },
   subtitle: {
-    fontFamily: 'Outfit_400Regular',
+    fontFamily: typography.fontFamily.regular,
     fontSize: 12.5,
     textAlign: 'center',
     lineHeight: 18,
     paddingHorizontal: 12,
   },
   fallbackNotice: {
-    fontFamily: 'Outfit_500Medium',
+    fontFamily: typography.fontFamily.medium,
     fontSize: 11,
     color: '#D4AF37',
     marginTop: 4,
@@ -260,6 +346,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+  },
+  safetyRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    width: '100%',
+  },
+  safetyBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 7,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    borderWidth: 1,
+  },
+  safetyBadgeText: {
+    fontFamily: typography.fontFamily.medium,
+    fontSize: 11.5,
   },
   guideCard: {
     width: '100%',
@@ -274,12 +379,73 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   guideTitle: {
-    fontFamily: 'Outfit_600SemiBold',
+    fontFamily: typography.fontFamily.semiBold,
     fontSize: 13,
   },
   guideStepText: {
-    fontFamily: 'Outfit_400Regular',
+    fontFamily: typography.fontFamily.regular,
     fontSize: 12,
     lineHeight: 17,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.65)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 24,
+  },
+  modalCard: {
+    width: '100%',
+    maxWidth: 340,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalIconWrap: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: 'rgba(212, 175, 55, 0.15)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  modalTitle: {
+    fontFamily: typography.fontFamily.bold,
+    fontSize: 18,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  modalDesc: {
+    fontFamily: typography.fontFamily.regular,
+    fontSize: 13,
+    lineHeight: 19,
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  infinityContainer: {
+    paddingVertical: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  infinitySymbol: {
+    fontSize: 48,
+    color: '#D4AF37',
+    fontWeight: '300',
+  },
+  modalBtn: {
+    backgroundColor: '#D4AF37',
+    paddingVertical: 11,
+    paddingHorizontal: 32,
+    borderRadius: 12,
+    width: '100%',
+    alignItems: 'center',
+  },
+  modalBtnText: {
+    fontFamily: typography.fontFamily.bold,
+    fontSize: 14,
+    color: '#1A1207',
   },
 });

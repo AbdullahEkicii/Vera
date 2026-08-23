@@ -1,21 +1,31 @@
-import React, { useState } from 'react';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import notifee from '@notifee/react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Haptics from 'expo-haptics';
+import { LinearGradient } from 'expo-linear-gradient';
+import * as Location from 'expo-location';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Modal,
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
   Platform,
+  Pressable,
   ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import { Feather, Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useTranslation } from 'react-i18next';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Location from 'expo-location';
-import * as Haptics from 'expo-haptics';
-import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
+import Animated, { FadeIn } from 'react-native-reanimated';
+import {
+  logBatterySettingOpened,
+  logOnboardingCompleted,
+  logScreenView,
+  logSoundTested,
+  logWidgetPinned,
+} from '../services/analyticsService';
+import { audioManager } from '../services/audioManager';
 import { requestNotificationPermissions } from '../services/notificationService';
+import { requestPinWidget } from '../services/widgetService';
 import { getRecommendedCalculationMethod } from '../utils/calcMethod';
 
 interface Props {
@@ -29,19 +39,31 @@ export function WelcomeOnboardingModal({
   visible,
   onComplete,
   onOpenCitySearch,
-  currentCity = 'İstanbul',
+  currentCity = '',
 }: Props) {
   const { t } = useTranslation();
-  const [step, setStep] = useState<1 | 2>(1);
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const [isDetectingLocation, setIsDetectingLocation] = useState(false);
+  const [detectedLoc, setDetectedLoc] = useState<{ latitude: number; longitude: number; city: string } | null>(null);
   const [notifEnabled, setNotifEnabled] = useState(true);
+  const [isPlayingTestSound, setIsPlayingTestSound] = useState(false);
+  const [widgetPinned, setWidgetPinned] = useState(false);
+
+  useEffect(() => {
+    if (visible) {
+      logScreenView(`Onboarding_Step_${step}`);
+    }
+    return () => {
+      audioManager.stopAdhan();
+    };
+  }, [visible, step]);
 
   if (!visible) return null;
 
   const handleAutoLocation = async () => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch (_) {}
+    } catch (_) { }
     setIsDetectingLocation(true);
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -66,19 +88,22 @@ export function WelcomeOnboardingModal({
 
             const countryCode = item.isoCountryCode || '';
             const recommendedMethod = getRecommendedCalculationMethod(countryCode);
-            await AsyncStorage.setItem('PRAYER_CALCULATION_METHOD', recommendedMethod.toString()).catch(() => {});
+            await AsyncStorage.setItem('PRAYER_CALCULATION_METHOD', recommendedMethod.toString()).catch(() => { });
           }
-          await AsyncStorage.setItem(
-            'MANUAL_LOCATION',
-            JSON.stringify({
-              latitude: loc.coords.latitude,
-              longitude: loc.coords.longitude,
-              city: cityName,
-            })
-          );
+
+          const newLoc = {
+            latitude: loc.coords.latitude,
+            longitude: loc.coords.longitude,
+            city: cityName,
+          };
+          setDetectedLoc(newLoc);
+
+          await AsyncStorage.setItem('MANUAL_LOCATION', JSON.stringify(newLoc));
+          await AsyncStorage.setItem('LAST_GPS_LOCATION', JSON.stringify(newLoc));
+
           try {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-          } catch (_) {}
+          } catch (_) { }
           setStep(2);
           return;
         }
@@ -91,25 +116,65 @@ export function WelcomeOnboardingModal({
     setStep(2);
   };
 
-  const handleStepChange = (newStep: 1 | 2) => {
+  const handleStepChange = (newStep: 1 | 2 | 3) => {
     try {
       Haptics.selectionAsync();
-    } catch (_) {}
+    } catch (_) { }
+    audioManager.stopAdhan();
+    setIsPlayingTestSound(false);
     setStep(newStep);
   };
 
   const handleToggleNotif = () => {
     try {
       Haptics.selectionAsync();
-    } catch (_) {}
+    } catch (_) { }
     setNotifEnabled(!notifEnabled);
   };
 
-  const handleFinish = async () => {
+  const handleToggleTestSound = async () => {
+    if (isPlayingTestSound) {
+      audioManager.stopAdhan();
+      setIsPlayingTestSound(false);
+    } else {
+      setIsPlayingTestSound(true);
+      logSoundTested('azizallah');
+      await audioManager.playAdhan('azizallah', () => {
+        setIsPlayingTestSound(false);
+      });
+    }
+  };
+
+  const handlePinWidget = async () => {
     try {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    } catch (_) {}
+    } catch (_) { }
+    if (Platform.OS === 'android') {
+      const success = await requestPinWidget();
+      if (success) {
+        setWidgetPinned(true);
+        logWidgetPinned();
+      }
+    }
+  };
+
+  const handleOpenBatterySettings = async () => {
     try {
+      logBatterySettingOpened();
+      await notifee.openBatteryOptimizationSettings();
+    } catch (e) {
+      console.error('Error opening battery optimization settings:', e);
+    }
+  };
+
+  const handleFinish = async () => {
+    audioManager.stopAdhan();
+    try {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } catch (_) { }
+    try {
+      const cityToLog = detectedLoc?.city || currentCity;
+      logOnboardingCompleted(step, cityToLog);
       if (notifEnabled) {
         await requestNotificationPermissions();
       }
@@ -117,7 +182,11 @@ export function WelcomeOnboardingModal({
     } catch (e) {
       console.error('Error saving onboarding state', e);
     }
-    onComplete();
+    if (detectedLoc) {
+      onComplete(detectedLoc.latitude, detectedLoc.longitude, detectedLoc.city);
+    } else {
+      onComplete();
+    }
   };
 
   return (
@@ -132,40 +201,44 @@ export function WelcomeOnboardingModal({
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
             >
-              <Ionicons name="sparkles" size={28} color="#FFFFFF" />
+              <Ionicons name="sparkles" size={26} color="#FFFFFF" />
             </LinearGradient>
 
             {/* Step Progress Indicators */}
             <View style={styles.stepIndicatorContainer}>
               <View style={[styles.stepIndicatorBar, step >= 1 && styles.stepIndicatorActive]} />
               <View style={[styles.stepIndicatorBar, step >= 2 && styles.stepIndicatorActive]} />
+              <View style={[styles.stepIndicatorBar, step >= 3 && styles.stepIndicatorActive]} />
             </View>
 
             {/* STEP 1: WELCOME & LOCATION SELECTION */}
-            {step === 1 && (
-              <Animated.View entering={FadeIn.duration(220)} style={styles.stepContainer}>
-                <Text style={styles.title}>
-                  {t('onboarding.title', "Vera'ya Hoş Geldiniz")}
-                </Text>
-                <Text style={styles.subtitle}>
-                  {t(
-                    'onboarding.subtitle',
-                    'Doğru namaz vakitleri ve ezan bildirimleri için konumunuzu belirleyelim.'
-                  )}
-                </Text>
+            {step === 1 && (() => {
+              const isValidCity = currentCity && currentCity !== 'İstanbul';
+              const displayCity = detectedLoc?.city || (isValidCity ? currentCity : t('onboarding.locationNotSet', 'Konum Alınamadı (İzin Verilmedi)'));
+              return (
+                <Animated.View entering={FadeIn.duration(220)} style={styles.stepContainer}>
+                  <Text style={styles.title}>
+                    {t('onboarding.title', "Vera'ya Hoş Geldiniz")}
+                  </Text>
+                  <Text style={styles.subtitle}>
+                    {t(
+                      'onboarding.subtitle',
+                      'Doğru namaz vakitleri ve ezan bildirimleri için konumunuzu belirleyelim.'
+                    )}
+                  </Text>
 
-                {/* Detected Location Card */}
-                <View style={styles.locationPreviewBox}>
-                  <View style={styles.locationIconWrap}>
-                    <Feather name="map-pin" size={20} color="#D4AF37" />
+                  {/* Detected Location Card */}
+                  <View style={styles.locationPreviewBox}>
+                    <View style={styles.locationIconWrap}>
+                      <Feather name="map-pin" size={20} color="#D4AF37" />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.locationPreviewLabel}>
+                        {t('onboarding.detectedCity', 'Mevcut Şehir')}
+                      </Text>
+                      <Text style={styles.locationPreviewCity}>{displayCity}</Text>
+                    </View>
                   </View>
-                  <View style={{ flex: 1 }}>
-                    <Text style={styles.locationPreviewLabel}>
-                      {t('onboarding.detectedCity', 'Mevcut Şehir')}
-                    </Text>
-                    <Text style={styles.locationPreviewCity}>{currentCity}</Text>
-                  </View>
-                </View>
 
                 {/* Auto GPS Button */}
                 <Pressable
@@ -193,7 +266,7 @@ export function WelcomeOnboardingModal({
                   onPress={() => {
                     try {
                       Haptics.selectionAsync();
-                    } catch (_) {}
+                    } catch (_) { }
                     onOpenCitySearch();
                     setStep(2);
                   }}
@@ -208,13 +281,13 @@ export function WelcomeOnboardingModal({
                 {/* Skip / Continue Button */}
                 <Pressable onPress={() => handleStepChange(2)} style={styles.skipBtn}>
                   <Text style={styles.skipBtnText}>
-                    {t('onboarding.continueWithCity', '{{city}} İle Devam Et', { city: currentCity })}
+                    {t('onboarding.continueWithCity', '{{city}} İle Devam Et', { city: displayCity })}
                   </Text>
                 </Pressable>
               </Animated.View>
-            )}
+            );})()}
 
-            {/* STEP 2: NOTIFICATION & FEATURES SHOWCASE */}
+            {/* STEP 2: NOTIFICATION & AUDIO REASSURANCE */}
             {step === 2 && (
               <Animated.View entering={FadeIn.duration(220)} style={styles.stepContainer}>
                 <Text style={styles.title}>
@@ -278,24 +351,118 @@ export function WelcomeOnboardingModal({
                   />
                 </Pressable>
 
-                {/* Feature Mini Highlights */}
+                {/* Sound Test / Preview Button */}
+                <Pressable onPress={handleToggleTestSound} style={styles.secondaryActionBtn}>
+                  <Feather name={isPlayingTestSound ? 'square' : 'volume-2'} size={16} color="#D4AF37" style={{ marginRight: 6 }} />
+                  <Text style={styles.secondaryActionText}>
+                    {isPlayingTestSound
+                      ? t('onboarding.stopTestSound', 'Sesi Durdur ⏹️')
+                      : t('onboarding.playTestSound', 'Ezan Sesini Dinle 🔊')}
+                  </Text>
+                </Pressable>
+
+                {/* Next Button */}
+                <Pressable onPress={() => handleStepChange(3)} style={styles.primaryBtnWrapper}>
+                  <LinearGradient
+                    colors={['#D4AF37', '#B8860B']}
+                    style={styles.primaryBtn}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                  >
+                    <Text style={styles.primaryBtnText}>
+                      {t('onboarding.nextStepBtn', 'Devam Et →')}
+                    </Text>
+                  </LinearGradient>
+                </Pressable>
+
+                {/* Back Button */}
+                <Pressable onPress={() => handleStepChange(1)} style={styles.skipBtn}>
+                  <Text style={styles.skipBtnText}>
+                    {t('onboarding.backBtn', '← Geri Dön')}
+                  </Text>
+                </Pressable>
+              </Animated.View>
+            )}
+
+            {/* STEP 3: DAY-1 RETENTION (WIDGET & BATTERY OPTIMIZATION) */}
+            {step === 3 && (
+              <Animated.View entering={FadeIn.duration(220)} style={styles.stepContainer}>
+                <Text style={styles.title}>
+                  {t('onboarding.step3Title', 'Kesintisiz Deneyim')}
+                </Text>
+                <Text style={styles.subtitle}>
+                  {t(
+                    'onboarding.step3Subtitle',
+                    'Vakitleri ana ekranınızdan canlı takip edin ve ezan seslerini garantiye alın.'
+                  )}
+                </Text>
+
+                {/* Pin Widget Promo Item */}
+                {Platform.OS === 'android' && (
+                  <Pressable
+                    style={[styles.featureItem, widgetPinned && styles.featureItemActive]}
+                    onPress={handlePinWidget}
+                  >
+                    <View style={[styles.featureIconWrap, { backgroundColor: 'rgba(212, 175, 55, 0.15)' }]}>
+                      <Feather name="grid" size={18} color="#D4AF37" />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.featureTitle}>
+                        {t('onboarding.widgetTitle', '📌 Ana Ekrana Widget Ekle')}
+                      </Text>
+                      <Text style={styles.featureDesc}>
+                        {widgetPinned
+                          ? t('onboarding.widgetAdded', 'Widget başarıyla eklendi!')
+                          : t('onboarding.widgetDesc', 'Uygulamayı açmadan canlı geri sayımı görün.')}
+                      </Text>
+                    </View>
+                    <Ionicons
+                      name={widgetPinned ? 'checkmark-circle' : 'add-circle-outline'}
+                      size={22}
+                      color="#D4AF37"
+                    />
+                  </Pressable>
+                )}
+
+                {/* Battery Optimization Card (Android) */}
+                {Platform.OS === 'android' && (
+                  <Pressable
+                    style={styles.featureItem}
+                    onPress={handleOpenBatterySettings}
+                  >
+                    <View style={[styles.featureIconWrap, { backgroundColor: 'rgba(59, 130, 246, 0.15)' }]}>
+                      <Feather name="battery-charging" size={18} color="#3B82F6" />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.featureTitle}>
+                        {t('onboarding.batteryTitle', '🔋 Pil Tasarrufu Kısıtlaması')}
+                      </Text>
+                      <Text style={styles.featureDesc}>
+                        {t('onboarding.batteryDesc', 'Xiaomi & Samsung cihazlarda ezanın tam vaktinde çalması için kapatmanız önerilir.')}
+                      </Text>
+                    </View>
+                    <Feather name="chevron-right" size={18} color="rgba(253, 248, 237, 0.4)" />
+                  </Pressable>
+                )}
+
+                {/* Feature Highlights Mini */}
                 <View style={styles.highlightsContainer}>
                   <View style={styles.highlightBadge}>
-                    <Feather name="book" size={14} color="#D4AF37" style={{ marginRight: 6 }} />
+                    <Feather name="book" size={13} color="#D4AF37" style={{ marginRight: 4 }} />
                     <Text style={styles.highlightText}>
-                      {t('onboarding.featureQuran', 'Kuran & Ses')}
+                      {t('onboarding.featureQuran', 'Kuran')}
                     </Text>
                   </View>
                   <View style={styles.highlightBadge}>
-                    <Feather name="compass" size={14} color="#D4AF37" style={{ marginRight: 6 }} />
+                    <Feather name="compass" size={13} color="#D4AF37" style={{ marginRight: 4 }} />
                     <Text style={styles.highlightText}>
                       {t('onboarding.featureQibla', 'Kıble')}
                     </Text>
                   </View>
                   <View style={styles.highlightBadge}>
-                    <Feather name="heart" size={14} color="#D4AF37" style={{ marginRight: 6 }} />
+                    <Feather name="heart" size={13} color="#D4AF37" style={{ marginRight: 4 }} />
                     <Text style={styles.highlightText}>
-                      {t('onboarding.featureDhikr', 'Zikirmatik')}
+                      {t('onboarding.featureDhikr', 'Zikir')}
                     </Text>
                   </View>
                 </View>
@@ -314,8 +481,8 @@ export function WelcomeOnboardingModal({
                   </LinearGradient>
                 </Pressable>
 
-                {/* Back to Step 1 */}
-                <Pressable onPress={() => handleStepChange(1)} style={styles.skipBtn}>
+                {/* Back Button */}
+                <Pressable onPress={() => handleStepChange(2)} style={styles.skipBtn}>
                   <Text style={styles.skipBtnText}>
                     {t('onboarding.backBtn', '← Geri Dön')}
                   </Text>
@@ -332,7 +499,7 @@ export function WelcomeOnboardingModal({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(10, 7, 4, 0.82)',
+    backgroundColor: 'rgba(10, 7, 4, 0.85)',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
@@ -340,7 +507,7 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     maxWidth: 380,
-    maxHeight: '88%',
+    maxHeight: '90%',
     backgroundColor: '#1E160C',
     borderRadius: 24,
     borderWidth: 1,
@@ -353,16 +520,16 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   scrollContent: {
-    padding: 24,
+    padding: 22,
     alignItems: 'center',
   },
   iconBadge: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 14,
+    marginBottom: 12,
     borderWidth: 3,
     borderColor: '#1E160C',
     shadowColor: '#D4AF37',
@@ -375,10 +542,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginBottom: 16,
+    marginBottom: 14,
   },
   stepIndicatorBar: {
-    width: 36,
+    width: 28,
     height: 4,
     borderRadius: 2,
     backgroundColor: 'rgba(253, 248, 237, 0.18)',
@@ -392,19 +559,19 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'Outfit_700Bold',
-    fontSize: 22,
+    fontSize: 21,
     color: '#FDF8ED',
     textAlign: 'center',
-    marginBottom: 8,
-    lineHeight: 28,
+    marginBottom: 6,
+    lineHeight: 26,
   },
   subtitle: {
     fontFamily: 'Outfit_400Regular',
-    fontSize: 14,
+    fontSize: 13,
     color: 'rgba(253, 248, 237, 0.75)',
     textAlign: 'center',
-    lineHeight: 20,
-    marginBottom: 18,
+    lineHeight: 18,
+    marginBottom: 16,
   },
   locationPreviewBox: {
     width: '100%',
@@ -414,13 +581,13 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: 'rgba(212, 175, 55, 0.25)',
-    padding: 14,
-    marginBottom: 16,
+    padding: 12,
+    marginBottom: 14,
   },
   locationIconWrap: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     backgroundColor: 'rgba(212, 175, 55, 0.15)',
     alignItems: 'center',
     justifyContent: 'center',
@@ -428,24 +595,24 @@ const styles = StyleSheet.create({
   },
   locationPreviewLabel: {
     fontFamily: 'Outfit_400Regular',
-    fontSize: 12,
+    fontSize: 11,
     color: 'rgba(253, 248, 237, 0.55)',
     marginBottom: 2,
   },
   locationPreviewCity: {
     fontFamily: 'Outfit_600SemiBold',
-    fontSize: 16,
+    fontSize: 15,
     color: '#FDF8ED',
   },
   primaryBtnWrapper: {
     width: '100%',
     borderRadius: 14,
     overflow: 'hidden',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   primaryBtn: {
     flexDirection: 'row',
-    paddingVertical: 14,
+    paddingVertical: 13,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -459,7 +626,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    paddingVertical: 12,
+    paddingVertical: 11,
     borderRadius: 14,
     backgroundColor: 'rgba(212, 175, 55, 0.1)',
     borderWidth: 1,
@@ -468,16 +635,16 @@ const styles = StyleSheet.create({
   },
   secondaryActionText: {
     fontFamily: 'Outfit_600SemiBold',
-    fontSize: 14,
+    fontSize: 13,
     color: '#D4AF37',
   },
   skipBtn: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
   },
   skipBtnText: {
     fontFamily: 'Outfit_500Medium',
-    fontSize: 13,
+    fontSize: 12,
     color: 'rgba(253, 248, 237, 0.55)',
   },
   featureItem: {
@@ -488,38 +655,38 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: 'rgba(212, 175, 55, 0.2)',
-    padding: 14,
-    marginBottom: 12,
+    padding: 12,
+    marginBottom: 10,
   },
   featureItemActive: {
     borderColor: 'rgba(212, 175, 55, 0.5)',
     backgroundColor: '#332617',
   },
   featureIconWrap: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginRight: 10,
   },
   featureTitle: {
     fontFamily: 'Outfit_600SemiBold',
-    fontSize: 15,
+    fontSize: 14,
     color: '#FDF8ED',
     marginBottom: 2,
   },
   featureDesc: {
     fontFamily: 'Outfit_400Regular',
-    fontSize: 12,
+    fontSize: 11,
     color: 'rgba(253, 248, 237, 0.65)',
-    lineHeight: 16,
+    lineHeight: 15,
   },
   highlightsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    marginBottom: 16,
+    marginBottom: 14,
     gap: 6,
   },
   highlightBadge: {
@@ -529,7 +696,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(212, 175, 55, 0.08)',
     borderRadius: 10,
-    paddingVertical: 8,
+    paddingVertical: 7,
     paddingHorizontal: 4,
     borderWidth: 1,
     borderColor: 'rgba(212, 175, 55, 0.18)',
@@ -540,4 +707,3 @@ const styles = StyleSheet.create({
     color: '#FDF8ED',
   },
 });
-
