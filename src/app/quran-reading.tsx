@@ -20,6 +20,7 @@ import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-g
 
 import { useTheme } from '../context/ThemeContext';
 import { useQuranSettings } from '../context/QuranSettingsContext';
+import { typography } from '../utils/theme';
 import { saveLastRead } from '../services/quranStorage';
 import { SURAHS, getJuzForPage } from '../data/quranMeta';
 import {
@@ -30,6 +31,10 @@ import {
 } from '../services/quranRepository';
 import { Verse } from '../services/quranDatabase';
 import { QuranStyleSelector } from '../components/QuranStyleSelector';
+import { PageMealModal } from '../components/PageMealModal';
+import { QuranPrayersModal } from '../components/QuranPrayersModal';
+import { updateHatimPage } from '../services/hatimService';
+import { logScreenView, logQuranSurahRead } from '../services/analyticsService';
 
 // ── Tema Sabitleri ve Tipleri ──────────────────────────────────────────────────
 const QURAN_THEME_STORAGE_KEY = 'QURAN_READING_THEME_KEY';
@@ -379,8 +384,14 @@ export default function QuranReadingScreen() {
   const [themeKey, setThemeKey] = useState<QuranThemeKey>(appIsDark ? 'dark' : 'sepia');
   const [themeModalVisible, setThemeModalVisible] = useState(false);
   const [styleSelectorVisible, setStyleSelectorVisible] = useState(false);
+  const [pageMealVisible, setPageMealVisible] = useState(false);
+  const [prayersModalVisible, setPrayersModalVisible] = useState(false);
 
   useEffect(() => {
+    logScreenView('QuranReadingScreen');
+    if (params.surah) {
+      logQuranSurahRead(Number(params.surah), surahNameParam);
+    }
     AsyncStorage.getItem(QURAN_THEME_STORAGE_KEY)
       .then((saved: string | null) => {
         if (saved && saved in QURAN_THEMES) {
@@ -511,6 +522,7 @@ export default function QuranReadingScreen() {
     scale.value = 1;
     savedScale.value = 1;
     loadVerses(page);
+    updateHatimPage(page).catch(() => {});
   }, [page, loadVerses]);
 
   useEffect(() => {
@@ -620,6 +632,18 @@ export default function QuranReadingScreen() {
           </View>
 
           <View style={styles.headerRightControls}>
+            {/* Sayfa Meali Butonu */}
+            <Pressable
+              style={[styles.mealBtn, { backgroundColor: colors.surahDivider }]}
+              onPress={() => setPageMealVisible(true)}
+              hitSlop={6}
+            >
+              <Feather name="book-open" size={13} color={colors.text} />
+              <Text style={[styles.mealBtnText, { color: colors.text }]} numberOfLines={1}>
+                {t('quran.mealBtn', 'Meal')}
+              </Text>
+            </Pressable>
+
             {/* Yazı Boyutu Küçült (A-) */}
             <Pressable
               style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]}
@@ -794,6 +818,23 @@ export default function QuranReadingScreen() {
             isInitialSetup={!isStyleSelected} 
           />
         )}
+
+        {/* Sayfa Meali Modal */}
+        {pageMealVisible && (
+          <PageMealModal
+            visible={pageMealVisible}
+            pageNo={page}
+            onClose={() => setPageMealVisible(false)}
+          />
+        )}
+
+        {/* Kuran Duaları Modal */}
+        {prayersModalVisible && (
+          <QuranPrayersModal
+            visible={prayersModalVisible}
+            onClose={() => setPrayersModalVisible(false)}
+          />
+        )}
       </View>
     </GestureHandlerRootView>
   );
@@ -814,6 +855,21 @@ const styles = StyleSheet.create({
     borderRadius: 19,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  mealBtn: {
+    paddingHorizontal: 9,
+    paddingVertical: 3,
+    height: 38,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 4,
+  },
+  mealBtnText: {
+    fontSize: 11.5,
+    fontWeight: '700',
+    fontFamily: 'Outfit_700Bold',
   },
   fontSizeBtnText: {
     fontSize: 13,

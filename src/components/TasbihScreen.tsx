@@ -1,48 +1,49 @@
-import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { Feather } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createAudioPlayer, useAudioPlayer } from 'expo-audio';
+import { BlurView } from 'expo-blur';
+import * as Haptics from 'expo-haptics';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
-  View,
-  Text,
-  StyleSheet,
+  Dimensions,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
   Pressable,
   ScrollView,
-  Dimensions,
-  Modal,
+  StyleSheet,
+  Text,
   TextInput,
-  KeyboardAvoidingView,
-  Platform,
+  View,
 } from 'react-native';
-import { BlurView } from 'expo-blur';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Haptics from 'expo-haptics';
-import { useTranslation } from 'react-i18next';
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  useAnimatedProps,
-  withSpring,
-  withSequence,
-  withTiming,
+  Easing,
+  Extrapolation,
   FadeInDown,
   interpolate,
-  Extrapolation,
-  Easing,
+  useAnimatedProps,
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
-import { Feather } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import Svg, { Circle, Defs, LinearGradient as SvgLinearGradient, Stop } from 'react-native-svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAudioPlayer, createAudioPlayer } from 'expo-audio';
+import Svg, { Circle, Defs, Stop, LinearGradient as SvgLinearGradient } from 'react-native-svg';
 
 import { useTheme } from '../context/ThemeContext';
-import { spacing, typography, borderRadius } from '../utils/theme';
+import { borderRadius, spacing, typography } from '../utils/theme';
 
-import { DhikrProgressModal, DhikrHistory } from './DhikrProgressModal';
+import { logScreenView } from '../services/analyticsService';
 import { sendImmediateNotification } from '../services/notificationService';
 import { AdBanner } from './AdBanner';
+import { DhikrHistory, DhikrProgressModal } from './DhikrProgressModal';
 import { ScalePressable } from './ScalePressable';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const CIRCLE_SIZE = Math.min(SCREEN_WIDTH * 0.63, 236);
+const CIRCLE_SIZE = Math.min(SCREEN_WIDTH * 0.52, 192);
 const STROKE_WIDTH = 5;
 const RADIUS = (CIRCLE_SIZE - STROKE_WIDTH) / 2;
 const CIRCUMFERENCE = RADIUS * 2 * Math.PI;
@@ -158,13 +159,16 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
 
   // Load saved background audio preference
   useEffect(() => {
+    if (isActiveTab) {
+      logScreenView('TasbihScreen');
+    }
     const loadAudioPref = async () => {
       try {
         const saved = await AsyncStorage.getItem(DHIKR_BG_AUDIO_KEY);
         if (saved && DHIKR_AUDIO_OPTIONS.some((o) => o.id === saved)) {
           setSelectedAudioId(saved);
         }
-      } catch (e) {}
+      } catch (e) { }
     };
     loadAudioPref();
   }, []);
@@ -219,7 +223,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
     setIsAudioModalVisible(false);
     try {
       await AsyncStorage.setItem(DHIKR_BG_AUDIO_KEY, audioId);
-    } catch (e) {}
+    } catch (e) { }
   };
 
   useEffect(() => {
@@ -239,7 +243,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
         if (soundPref !== null) {
           setSoundEnabled(soundPref === 'true');
         }
-      } catch (e) {}
+      } catch (e) { }
     };
     loadState();
   }, []);
@@ -251,7 +255,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
           TASBIH_STORAGE_KEY,
           JSON.stringify({ selectedId, count, customDhikrs, history })
         );
-      } catch (e) {}
+      } catch (e) { }
     }, 400);
 
     return () => clearTimeout(timer);
@@ -262,7 +266,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
     setSoundEnabled(nextVal);
     try {
       await AsyncStorage.setItem(TASBIH_SOUND_KEY, String(nextVal));
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const dailyDhikr = useMemo(() => {
@@ -492,10 +496,10 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
                   isSelected
                     ? { backgroundColor: theme.colors.primary, shadowColor: theme.colors.primary }
                     : {
-                        backgroundColor: theme.colors.surface,
-                        borderWidth: 1,
-                        borderColor: theme.colors.border,
-                      },
+                      backgroundColor: theme.colors.surface,
+                      borderWidth: 1,
+                      borderColor: theme.colors.border,
+                    },
                 ]}
               >
                 <Text
@@ -505,8 +509,8 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
                       color: isSelected
                         ? '#FFF'
                         : isDark
-                        ? 'rgba(255,255,255,0.85)'
-                        : theme.colors.textSecondary,
+                          ? 'rgba(255,255,255,0.85)'
+                          : theme.colors.textSecondary,
                     },
                   ]}
                 >
@@ -603,7 +607,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
             <Text style={[styles.countText, { color: theme.colors.text }]} adjustsFontSizeToFit numberOfLines={1}>
               {count}
             </Text>
-            
+
             {selectedDhikr.target !== Infinity ? (
               <Text style={[styles.targetText, { color: theme.colors.textSecondary }]}>
                 / {selectedDhikr.target}
@@ -839,12 +843,12 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
             <Text style={[styles.modalTitle, { color: theme.colors.text }]}>
               {t('tasbih.recTitle', 'Günün Zikir Önerisi')}
             </Text>
-            
+
             <ScrollView style={{ maxHeight: 220, marginVertical: spacing.md }} showsVerticalScrollIndicator={true}>
               <Text style={[styles.recModalText, { color: theme.colors.text }]}>
                 {dailyDhikr.text}
               </Text>
-              
+
               <Text style={[styles.recModalBenefit, { color: theme.colors.textSecondary }]}>
                 {dailyDhikr.benefit}
               </Text>
@@ -963,44 +967,44 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: typography.fontFamily.bold,
-    fontSize: 28,
+    fontSize: 24,
     letterSpacing: -0.5,
   },
   subtitle: {
     fontFamily: typography.fontFamily.regular,
-    fontSize: 14,
-    marginTop: 2,
+    fontSize: 13,
+    marginTop: 1,
   },
   headerCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     borderRadius: borderRadius.md,
     borderWidth: 1,
-    gap: 6,
+    gap: 5,
   },
   headerCardText: {
     fontFamily: typography.fontFamily.medium,
-    fontSize: 12,
+    fontSize: 11.5,
   },
   headerCardTotal: {
     fontFamily: typography.fontFamily.bold,
   },
   chipsContainer: {
-    marginBottom: spacing.xs,
+    marginBottom: 4,
   },
   selectorContainer: {
     paddingHorizontal: spacing.lg,
     gap: 8,
-    paddingBottom: spacing.xs,
+    paddingBottom: 2,
   },
   chip: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
     borderRadius: 99,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
@@ -1008,13 +1012,13 @@ const styles = StyleSheet.create({
   },
   chipText: {
     fontFamily: typography.fontFamily.medium,
-    fontSize: 12.5,
+    fontSize: 12,
   },
   mainArea: {
-    flex: 1,
+    flex: 0.7,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: spacing.md,
+    marginVertical: 4,
   },
   tapArea: {
     alignItems: 'center',
@@ -1087,7 +1091,7 @@ const styles = StyleSheet.create({
     fontSize: 10.5,
   },
   tapHint: {
-    marginTop: 22,
+    marginTop: 6,
     fontFamily: typography.fontFamily.medium,
     fontSize: 9.5,
     letterSpacing: 2,
@@ -1097,7 +1101,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     paddingHorizontal: spacing.lg,
-    gap: 12,
+    gap: 4,
   },
   actionsRow: {
     flexDirection: 'row',
@@ -1110,9 +1114,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 4,
-    paddingVertical: 10,
+    paddingVertical: 7,
     paddingHorizontal: 4,
-    borderRadius: 14,
+    borderRadius: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.05,
@@ -1130,10 +1134,11 @@ const styles = StyleSheet.create({
     gap: 6,
     opacity: 0.5,
     width: '100%',
+    marginVertical: 1,
   },
   noticeText: {
     fontFamily: typography.fontFamily.regular,
-    fontSize: 11,
+    fontSize: 10.5,
     textAlign: 'center',
   },
   adBanner: {

@@ -5,7 +5,8 @@
       "success": "Başarılı",
       "error": "Bir hata oluştu",
       "retry": "Tekrar Dene",
-      "fillAllFields": "Lütfen tüm alanları doldurun."
+      "fillAllFields": "Lütfen tüm alanları doldurun.",
+      "min": "dk"
     },
     "home": {
       "title": "Ezan Vakitleri",
@@ -50,6 +51,16 @@
       "verifiedMethodDesc": "Bölgenize en uygun İslami hesaplama yöntemi otomatik seçildi.",
       "notificationsTitle": "Ezan Vakti Bildirimleri",
       "notificationsDesc": "Ezan girdiğinde sesli veya sessiz hatırlatma alırsınız.",
+      "playTestSound": "Ezan Sesini Dinle 🔊",
+      "stopTestSound": "Sesi Durdur ⏹️",
+      "nextStepBtn": "Devam Et →",
+      "step3Title": "Kesintisiz Deneyim",
+      "step3Subtitle": "Vakitleri ana ekranınızdan canlı takip edin ve ezan seslerini garantiye alın.",
+      "widgetTitle": "📌 Ana Ekrana Widget Ekle",
+      "widgetDesc": "Uygulamayı açmadan canlı geri sayımı görün.",
+      "widgetAdded": "Widget başarıyla eklendi!",
+      "batteryTitle": "🔋 Pil Tasarrufu Kısıtlaması",
+      "batteryDesc": "Xiaomi & Samsung cihazlarda ezanın tam vaktinde çalması için kapatmanız önerilir.",
       "featureQuran": "Kuran & Ses",
       "featureQibla": "Kıble",
       "featureDhikr": "Zikirmatik",
@@ -93,6 +104,8 @@
         "france": "Fransa (UOIF)",
         "russia": "Rusya (Dini İdare)"
       },
+      "offsetsTitle": "Vakit Düzeltme (Ofset / ± Dk)",
+      "offsetsDesc": "Yerel caminiz veya takviminizle dakikalık fark varsa vakitleri ±15 dakikaya kadar ayarlayabilirsiniz.",
       "general": "Genel Ayarlar",
       "fullscreen": "Tam Ekran Modu",
       "persistentNotifTitle": "Kilit Ekranı & Üst Panel",
@@ -133,6 +146,8 @@
       "exactSoundTitle": "Ezan Vakti Sesi",
       "warningSoundTitle": "25 Dk Kala Sesi",
       "volumeLevelTitle": "Ezan Ses Seviyesi",
+      "respectSilentModeTitle": "Cami / Sessiz Mod Uyumu",
+      "respectSilentModeDesc": "Telefonunuz sessizde veya titreşimdeyken ezan sesini kapatır, sessizce uyarır.",
       "previewSound": "Dinle",
       "stopPreview": "Durdur",
       "soundNames": {
@@ -149,7 +164,7 @@
     },
     "qibla": {
       "title": "Kıble Pusulası",
-      "subtitle": "Kıble yönünü doğru bulmak için adımları takip edin",
+      "subtitle": "Kıble Yönü Bulucu",
       "guideTitle": "Nasıl Kullanılır?",
       "step1": "1. Telefonunuzu elinizde DÜZ (paralel) tutun",
       "step2": "2. Kendi etrafınızda YAVAŞÇA dönün",
@@ -160,17 +175,25 @@
       "permissionRequired": "Konum İzni Gerekli",
       "permissionDenied": "Kıble yönünü göstermek için konum izni gereklidir. Lütfen ayarlardan izin verin.",
       "openSettings": "Ayarlara Git",
-      "description": "Telefonu düz tutarak ibre Kabe'ye (🕋) gelip yeşil olana kadar yavaşça dönün",
+      "description": "Telefonunuzu yere paralel tutarak ibreyi Kabe hizasına getirin.",
       "hint": "🕌 İbre Kabe (🕋) yönüyle hizalandığında pusula yeşile döner ve cihazınız titreşir.",
-      "errorCompass": "Pusula veya konum verisi alınamadı.",
+      "errorCompass": "Pusula sensörüne erişilemedi.",
       "angle": "Kıble Açısı",
       "heading": "Pusula",
-      "distance": "Kabe Mesafesi",
+      "distance": "Mesafe",
       "status": "Durum",
       "aligned": "Hizalandı",
-      "aligning": "Döndürün",
-      "alignedSuccess": "🕌 Kıble Yönündesiniz!",
-      "fallbackNotice": "GPS alınamadığı için kayıtlı şehir koordinatlarına göre hesaplanmaktadır."
+      "aligning": "Telefonu düz tutun ve döndürün",
+      "alignedSuccess": "Kıble yönündesiniz! ✓",
+      "fallbackNotice": "Şehir konum koordinatlarına göre hesaplanmaktadır.",
+      "calibrateBtn": "Pusulayı Kalibre Et",
+      "calibrationTitle": "Pusula Kalibrasyonu",
+      "calibrationDesc": "Manyetik sapmaları önlemek ve hassasiyeti artırmak için telefonunuzu havada yatay bir 8 (sonsuzluk işareti ∞) çizecek şekilde 2-3 kez yavaşça döndürün.",
+      "magneticShield": "Manyetik Alan Koruması",
+      "magneticShieldDesc": "Sensör doğruluğu optimize edildi. Metal kılıflardan uzak tutun.",
+      "levelStatus": "Yatay Düzlem (Su Terazisi)",
+      "levelFlat": "Düz ve Paralel ✓",
+      "gotIt": "Anladım"
     },
     "directions": {
       "n": "K",
@@ -213,6 +236,7 @@
       "title": "Günlük Namaz Takibi",
       "completed": "Kılındı",
       "dayStreak": "Gün Seri",
+      "streakDays": "Gün",
       "viewHistory": "Tüm Geçmişi Gör",
       "historyTitle": "Namaz Takip Geçmişi",
       "historySubtitle": "Son 30 günlük ibadet kayıtlarınız",
@@ -400,7 +424,19 @@
       "downloadError": "Font indirilirken bir hata oluştu. Lütfen internet bağlantınızı kontrol edin.",
       "surahEnd": "Suresi Sonu",
       "totalVersesRead": "{{count}} Ayetin Tamamı Okundu",
-      "nextSurah": "Sonraki Sure"
+      "nextSurah": "Sonraki Sure",
+      "prayersTitle": "Kuran Duaları",
+      "prayersBtn": "Kuran Duaları",
+      "prayerStart": "Başlama",
+      "prayerHatim": "Hatim Duası",
+      "prayerSajdah": "Secde Duası",
+      "transliteration": "Okunuşu",
+      "meaning": "Türkçe Meali / Anlamı",
+      "pageMealTitle": "Sayfa {{page}} Meali",
+      "mealSource": "Diyanet İşleri Başkanlığı Meali",
+      "loadingMeal": "Sayfa meali yükleniyor...",
+      "noMealFound": "Bu sayfa için meal verisi bulunamadı. İnternet bağlantınızı kontrol edin.",
+      "mealBtn": "Meal"
     },
     "review": {
       "title": "Vera'yı Beğendiniz mi?",
@@ -521,6 +557,30 @@
       "message": "Ezan vakitlerinde tam ve düzgün bildirim ile ses alabilmek için uygulamanın pil tasarrufu kısıtlamasını kapatmanız önerilir.",
       "openSettings": "Ayarları Aç",
       "later": "Daha Sonra"
+    },
+    "hatim": {
+      "title": "Kuran Hatim Takibi",
+      "hatimLabel": "Hatim",
+      "page": "Sayfa",
+      "pagesRemaining": "Hatmin tamamlanmasına {{count}} sayfa kaldı.",
+      "completed": "Tebrikler! Hatmi tamamladınız. 🎉",
+      "readPageBtn": "Sayfa {{page}}'yi Oku",
+      "jumpPageTitle": "Sayfaya Git / İlerleme Güncelle",
+      "jumpPageDesc": "Kaldığınız sayfa numarasını girin (1 - 604):",
+      "invalidPage": "Lütfen 1 ile 604 arasında bir sayfa numarası girin.",
+      "resetTitle": "Yeni Hatim Başlat",
+      "resetBody": "Mevcut hatim tamamlandı olarak kaydedilecek ve 1. sayfadan yeni bir hatim başlayacaktır. Onaylıyor musunuz?",
+      "startNew": "Yeni Hatim Başlat",
+      "resetHatimBtn": "Yeni Hatim Sıfırla & Başlat"
+    },
+    "prayerTree": {
+      "title": "Haftalık Namaz Ağacı",
+      "subtitle": "Bu hafta: {{count}}/35 Vakit",
+      "successRate": "Haftalık İbadet Başarısı",
+      "quote": "Namaz dinin direğidir; her kıldığınız vakit ibadet ağacınıza yeşil bir yaprak kazandırır.",
+      "quoteHigh": "“Namaz dinin direğidir.” — Harika bir hafta geçiriyorsunuz, maşallah!",
+      "quoteMid": "“Namaz kılın, zekat verin ve rüku edenlerle birlikte rüku edin.” (Bakara, 43)",
+      "quoteLow": "“Şüphesiz namaz, müminler üzerine vakitleri belirlenmiş bir farzdır.” (Nisa, 103)"
     }
   }
 }

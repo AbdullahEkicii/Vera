@@ -1,11 +1,41 @@
 import { getDb, Verse, DownloadStatus } from './quranDatabase';
 
-// API Edition eşleştirmeleri (Al Quran Cloud)
-const LANG_EDITIONS: Record<string, string> = {
-  tr: 'tr.diyanet',
-  en: 'en.asad',
-  de: 'de.aburida',
-  // İhtiyaca göre diğer diller eklenebilir
+// API Edition eşleştirmeleri (Al Quran Cloud - Multi-Language)
+export const LANG_EDITIONS: Record<string, { edition: string; sourceTR: string; sourceEN: string }> = {
+  tr: { edition: 'tr.diyanet', sourceTR: 'Diyanet İşleri Başkanlığı Meali', sourceEN: 'Diyanet Affairs Translation' },
+  en: { edition: 'en.asad', sourceTR: 'Muhammed Esed Meali (İngilizce)', sourceEN: 'Muhammad Asad Translation' },
+  ar: { edition: 'ar.muyassar', sourceTR: 'Tefsiru\'l-Müyesser (Arapça)', sourceEN: 'Tafsir Al-Muyassar' },
+  id: { edition: 'id.indonesian', sourceTR: 'Endonezya Din Bakanlığı', sourceEN: 'Indonesian Ministry of Religious Affairs' },
+  ur: { edition: 'ur.jalandhry', sourceTR: 'Fetih Muhammed Calenderi (Urduca)', sourceEN: 'Fateh Muhammad Jalandhry' },
+  fr: { edition: 'fr.hamidullah', sourceTR: 'Muhammed Hamidullah (Fransızca)', sourceEN: 'Muhammad Hamidullah' },
+  de: { edition: 'de.aburida', sourceTR: 'Ebu Rıda (Almanca)', sourceEN: 'Abu Rida Translation' },
+  ru: { edition: 'ru.kuliev', sourceTR: 'Elmir Kuliev (Rusça)', sourceEN: 'Elmir Kuliev Translation' },
+  es: { edition: 'es.cortes', sourceTR: 'Julio Cortes (İspanyolca)', sourceEN: 'Julio Cortes Translation' },
+  fa: { edition: 'fa.ansarian', sourceTR: 'Hüseyin Ensariyan (Farsça)', sourceEN: 'Hussain Ansarian Translation' },
+  bn: { edition: 'bn.bengali', sourceTR: 'Muhyiddin Han (Bengalce)', sourceEN: 'Muhiuddin Khan Translation' },
+  ms: { edition: 'ms.basmeih', sourceTR: 'Abdullah Basmeih (Malayca)', sourceEN: 'Abdullah Basmeih Translation' },
+  ha: { edition: 'ha.gumi', sourceTR: 'Ebubekir Gumi (Havsaca)', sourceEN: 'Abubakar Gumi Translation' },
+  sw: { edition: 'sw.barwani', sourceTR: 'Ali Muhsin El-Barwani (Svahili)', sourceEN: 'Ali Muhsin Al-Barwani' },
+  hi: { edition: 'hi.hindi', sourceTR: 'Faruk Han (Hintçe)', sourceEN: 'Farooq Khan Translation' },
+  it: { edition: 'it.piccardo', sourceTR: 'Hamza Piccardo (İtalyanca)', sourceEN: 'Hamza Piccardo Translation' },
+  nl: { edition: 'nl.keyzer', sourceTR: 'Salomo Keyzer (Felemenkçe)', sourceEN: 'Salomo Keyzer Translation' },
+  uz: { edition: 'uz.sodik', sourceTR: 'Muhammed Sadık (Özbekçe)', sourceEN: 'Muhammad Sodik Translation' },
+  pt: { edition: 'pt.elhayek', sourceTR: 'Semir El-Hayek (Portekizce)', sourceEN: 'Samir El-Hayek Translation' },
+  zh: { edition: 'zh.jian', sourceTR: 'Ma Jian (Çince)', sourceEN: 'Ma Jian Translation' },
+  sq: { edition: 'sq.ahmeti', sourceTR: 'Şerif Ahmedi (Arnavutça)', sourceEN: 'Sherif Ahmeti Translation' },
+  th: { edition: 'th.thai', sourceTR: 'Kral Fehd Kompleksi (Tayca)', sourceEN: 'King Fahd Complex Thai' },
+  ja: { edition: 'ja.japanese', sourceTR: 'Ryoichi Mita (Japonca)', sourceEN: 'Ryoichi Mita Translation' },
+  ko: { edition: 'ko.korean', sourceTR: 'Korece Meal', sourceEN: 'Korean Translation' },
+  sv: { edition: 'sv.bernstrom', sourceTR: 'Knut Bernström (İsveççe)', sourceEN: 'Knut Bernstrom Translation' },
+  no: { edition: 'no.berg', sourceTR: 'Einar Berg (Norveççe)', sourceEN: 'Einar Berg Translation' },
+  pl: { edition: 'pl.bielawskiego', sourceTR: 'Jozef Bielawski (Lehçe)', sourceEN: 'Jozef Bielawski Translation' },
+  ro: { edition: 'ro.grigore', sourceTR: 'George Grigore (Rumence)', sourceEN: 'George Grigore Translation' },
+  cs: { edition: 'cs.hrbek', sourceTR: 'Ivan Hrbek (Çekçe)', sourceEN: 'Ivan Hrbek Translation' },
+};
+
+export const getQuranEditionForLanguage = (langCode: string): string => {
+  const code = (langCode || 'en').toLowerCase().split(/[-_]/)[0];
+  return LANG_EDITIONS[code]?.edition || 'en.asad';
 };
 
 export const checkJuzStatus = async (juzNo: number, scriptType: string = 'quran-imlaei'): Promise<{ status: DownloadStatus; langCode?: string }> => {
@@ -223,3 +253,46 @@ export const clearAllJuzData = async (): Promise<boolean> => {
     return false;
   }
 };
+
+export interface PageVerseMeal {
+  surahNo: number;
+  ayahNo: number;
+  arabicText: string;
+  translationText: string;
+}
+
+export const getPageMeal = async (pageNo: number, langCode: string = 'tr'): Promise<PageVerseMeal[]> => {
+  const edition = getQuranEditionForLanguage(langCode);
+  try {
+    const [arRes, trRes] = await Promise.all([
+      fetch(`https://api.alquran.cloud/v1/page/${pageNo}/quran-simple-enhanced`),
+      fetch(`https://api.alquran.cloud/v1/page/${pageNo}/${edition}`),
+    ]);
+
+    if (arRes.ok && trRes.ok) {
+      const arJson = await arRes.json();
+      const trJson = await trRes.json();
+      const arAyahs = arJson.data?.ayahs || [];
+      const trAyahs = trJson.data?.ayahs || [];
+
+      return arAyahs.map((ayah: any, idx: number) => ({
+        surahNo: ayah.surah.number,
+        ayahNo: ayah.numberInSurah,
+        arabicText: ayah.text,
+        translationText: trAyahs[idx]?.text || '',
+      }));
+    }
+  } catch (err) {
+    console.warn(`Failed to fetch online meal for page ${pageNo}:`, err);
+  }
+
+  // Local fallback from SQLite
+  const localVerses = await getVersesByPage(pageNo);
+  return localVerses.map((v) => ({
+    surahNo: v.surahNo,
+    ayahNo: v.ayahNo,
+    arabicText: v.arabicText,
+    translationText: v.translationText,
+  }));
+};
+

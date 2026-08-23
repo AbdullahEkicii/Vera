@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Switch, ScrollView, Alert, Pressable, Modal, DeviceEventEmitter } from 'react-native';
+import { View, Text, StyleSheet, Switch, ScrollView, Alert, Pressable, Modal, DeviceEventEmitter, Platform, TextInput } from 'react-native';
+import notifee from '@notifee/react-native';
 import Constants from 'expo-constants';
 import { useTranslation } from 'react-i18next';
 import { Feather, Ionicons } from '@expo/vector-icons';
@@ -8,6 +9,7 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppBackground } from '../../components/ProgressRing';
 import { WidgetPromptModal } from '../../components/WidgetPromptModal';
+import { AdBanner } from '../../components/AdBanner';
 import { useTheme } from '../../context/ThemeContext';
 import { borderRadius, spacing, typography } from '../../utils/theme';
 import {
@@ -20,10 +22,22 @@ import {
   scheduleTestNotification,
   initNotifications,
 } from '../../services/notificationService';
+import {
+  PrayerOffsets,
+  getPrayerOffsets,
+  savePrayerOffsets,
+  DEFAULT_OFFSETS,
+} from '../../services/api';
 import { audioManager } from '../../services/audioManager';
+import {
+  logScreenView,
+  logNotificationToggled,
+  logOffsetChanged,
+  logBatterySettingOpened,
+  logSoundTested,
+} from '../../services/analyticsService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from '@react-native-firebase/auth';
-import { TextInput } from 'react-native';
 
 const SOUND_OPTIONS = [
   { id: 'azizallah', defaultName: 'Azizallah (Ezan Vakti)' },
@@ -84,7 +98,10 @@ export default function SettingsScreen() {
   const [volumeLevel, setVolumeLevel] = useState<number>(0.75);
   const [playingSound, setPlayingSound] = useState<string | null>(null);
 
+  const [offsets, setOffsets] = useState<PrayerOffsets>(DEFAULT_OFFSETS);
+
   useEffect(() => {
+    logScreenView('SettingsScreen');
     getNotificationPrefs().then((p) => {
       setPrefs(p);
       if (p.exactSound) setExactSound(p.exactSound);
@@ -93,6 +110,10 @@ export default function SettingsScreen() {
     
     audioManager.getVolume().then((v) => {
       setVolumeLevel(v);
+    });
+
+    getPrayerOffsets().then((off) => {
+      setOffsets(off);
     });
 
     AsyncStorage.getItem('PERSISTENT_NOTIF_ENABLED').then((saved) => {
@@ -112,6 +133,19 @@ export default function SettingsScreen() {
     });
     return subscriber; // unsubscribe on unmount
   }, []);
+
+  const handleOffsetChange = async (key: keyof PrayerOffsets, delta: number) => {
+    const currentVal = offsets[key] || 0;
+    const newVal = Math.max(-15, Math.min(15, currentVal + delta));
+    const updated = { ...offsets, [key]: newVal };
+    setOffsets(updated);
+    await savePrayerOffsets(updated);
+    logOffsetChanged(key, newVal);
+    DeviceEventEmitter.emit('PRAYER_OFFSETS_CHANGED');
+    if (prefs) {
+      await rescheduleFromCache(prefs);
+    }
+  };
 
   const togglePersistentNotif = async (value: boolean) => {
     setPersistentNotifEnabled(value);
@@ -156,6 +190,16 @@ export default function SettingsScreen() {
   const handleVolumeChange = async (vol: number) => {
     setVolumeLevel(vol);
     await audioManager.setVolume(vol);
+  };
+
+  const toggleRespectSilentMode = async (val: boolean) => {
+    if (prefs) {
+      const updated = { ...prefs, respectSilentMode: val };
+      setPrefs(updated);
+      await saveNotificationPrefs(updated);
+      await initNotifications(exactSound, warningSound);
+      await rescheduleFromCache(updated);
+    }
   };
 
   useEffect(() => {
@@ -244,6 +288,7 @@ export default function SettingsScreen() {
       setPrefs(newPrefs);
       await saveNotificationPrefs(newPrefs);
       await rescheduleFromCache(newPrefs);
+      logNotificationToggled(key, val);
     }
   };
 
@@ -487,6 +532,30 @@ export default function SettingsScreen() {
             </View>
           </View>
 
+          {/* Mosque / Silent Mode Respect Toggle */}
+          <View style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 14, paddingHorizontal: 16, marginBottom: 12 }]}>
+            <View style={{ flex: 1, marginRight: 12 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+                <Feather name="bell-off" size={16} color={prefs?.respectSilentMode !== false ? theme.colors.primary : theme.colors.textSecondary} />
+                <Text style={{ fontFamily: typography.fontFamily.semiBold, fontSize: 14, color: theme.colors.text }}>
+                  {t('settings.respectSilentModeTitle', 'Cami / Sessiz Mod Uyumu')}
+                </Text>
+              </View>
+              <Text style={{ fontFamily: typography.fontFamily.regular, fontSize: 11, color: theme.colors.textSecondary, marginTop: 2, lineHeight: 15 }}>
+                {t('settings.respectSilentModeDesc', 'Telefonunuz sessizde veya titreşimdeyken ezan sesini kapatır, sessizce uyarır.')}
+              </Text>
+            </View>
+            <Switch
+              value={prefs?.respectSilentMode === true}
+              onValueChange={toggleRespectSilentMode}
+              trackColor={{ false: theme.colors.border, true: theme.colors.primary }}
+              thumbColor="#fff"
+            />
+          </View>
+
+          {/* Native Ad Banner right under Cami / Sessiz Mod Uyumu */}
+          <AdBanner />
+
           {/* Exact Prayer Sound Selection */}
           <View style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, marginBottom: 12, padding: 14 }]}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 }}>
@@ -590,6 +659,86 @@ export default function SettingsScreen() {
           </View>
         </Animated.View>
 
+        {/* ── Prayer Time Offsets (Vakit Düzeltme / ± Dakika) ── */}
+        <Animated.View entering={FadeInDown.delay(340).duration(500)}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.textSecondary }]}>
+            {t('settings.offsetsTitle', 'Vakit Düzeltme (Ofset / ± Dk)')}
+          </Text>
+          <View style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, padding: 14 }]}>
+            <Text style={{ fontFamily: typography.fontFamily.regular, fontSize: 12, color: theme.colors.textSecondary, marginBottom: 12, lineHeight: 17 }}>
+              {t('settings.offsetsDesc', 'Yerel caminiz veya takviminizle dakikalık fark varsa vakitleri ±15 dakikaya kadar ayarlayabilirsiniz.')}
+            </Text>
+            {PRAYER_KEYS.map((key, idx) => {
+              const isLast = idx === PRAYER_KEYS.length - 1;
+              const val = offsets[key as keyof PrayerOffsets] || 0;
+              const formattedVal = val > 0 ? `+${val} ${t('common.min', 'dk')}` : val < 0 ? `${val} ${t('common.min', 'dk')}` : `0 ${t('common.min', 'dk')}`;
+              return (
+                <View
+                  key={key}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingVertical: 9,
+                    borderBottomWidth: isLast ? 0 : StyleSheet.hairlineWidth,
+                    borderBottomColor: theme.colors.border,
+                  }}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    {getPrayerIcon(key, theme.colors.primary)}
+                    <Text style={{ fontFamily: typography.fontFamily.medium, fontSize: 14, color: theme.colors.text }}>
+                      {t(`home.prayers.${key}`)}
+                    </Text>
+                  </View>
+
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                    <Pressable
+                      onPress={() => handleOffsetChange(key as keyof PrayerOffsets, -1)}
+                      style={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: 16,
+                        backgroundColor: theme.colors.surface,
+                        borderWidth: 1,
+                        borderColor: theme.colors.border,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Feather name="minus" size={16} color={theme.colors.text} />
+                    </Pressable>
+
+                    <Text style={{ fontFamily: typography.fontFamily.semiBold, fontSize: 13, minWidth: 48, textAlign: 'center', color: val !== 0 ? theme.colors.primary : theme.colors.textSecondary }}>
+                      {formattedVal}
+                    </Text>
+
+                    <Pressable
+                      onPress={() => handleOffsetChange(key as keyof PrayerOffsets, 1)}
+                      style={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: 16,
+                        backgroundColor: theme.colors.surface,
+                        borderWidth: 1,
+                        borderColor: theme.colors.border,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Feather name="plus" size={16} color={theme.colors.text} />
+                    </Pressable>
+                  </View>
+                </View>
+              );
+            })}
+          </View>
+        </Animated.View>
+
+        {/* ── Native Ad Banner (Between Vakit Düzeltme & Bildirimler) ── */}
+        <Animated.View entering={FadeInDown.delay(310).duration(500)}>
+          <AdBanner />
+        </Animated.View>
+
         {/* ── Notifications ─────────────────────────────────────────────── */}
         {prefs && (
           <Animated.View entering={FadeInDown.delay(320).duration(500)} style={styles.notifSection}>
@@ -637,14 +786,58 @@ export default function SettingsScreen() {
 
             <View style={styles.testButtonsContainer}>
               <Pressable style={[styles.testBtn, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border }]} onPress={() => handleTestNotification('warning')}>
-                <Feather name="clock" size={16} color={theme.colors.primary} />
-                <Text style={[styles.testBtnText, { color: theme.colors.text }]}>{t('settings.testWarnNotif')}</Text>
+                <Feather name="clock" size={15} color={theme.colors.primary} />
+                <Text style={[styles.testBtnText, { color: theme.colors.text }]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75}>
+                  {t('settings.testWarnNotif')}
+                </Text>
               </Pressable>
               <Pressable style={[styles.testBtn, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border }]} onPress={() => handleTestNotification('exact')}>
-                <Feather name="bell" size={16} color={theme.colors.primary} />
-                <Text style={[styles.testBtnText, { color: theme.colors.text }]}>{t('settings.testExactNotif')}</Text>
+                <Feather name="bell" size={15} color={theme.colors.primary} />
+                <Text style={[styles.testBtnText, { color: theme.colors.text }]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75}>
+                  {t('settings.testExactNotif')}
+                </Text>
               </Pressable>
             </View>
+
+            {/* ── Battery Optimization / Troubleshooting (Android) ── */}
+            {Platform.OS === 'android' && (
+              <View style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, marginTop: 12, padding: 14 }]}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                  <Feather name="battery-charging" size={16} color={theme.colors.primary} />
+                  <Text style={{ fontFamily: typography.fontFamily.semiBold, fontSize: 14, color: theme.colors.text }}>
+                    {t('batteryOptimization.title', 'Kesintisiz Ezan Bildirimleri')}
+                  </Text>
+                </View>
+                <Text style={{ fontFamily: typography.fontFamily.regular, fontSize: 12, color: theme.colors.textSecondary, lineHeight: 18, marginBottom: 12 }}>
+                  {t('batteryOptimization.message', 'Ezan vakitlerinde tam ve düzgün bildirim ile ses alabilmek için uygulamanın pil tasarrufu kısıtlamasını kapatmanız önerilir.')}
+                </Text>
+                <Pressable
+                  onPress={async () => {
+                    try {
+                      logBatterySettingOpened();
+                      await notifee.openBatteryOptimizationSettings();
+                    } catch (e) {
+                      console.error('Error opening battery optimization settings:', e);
+                    }
+                  }}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 8,
+                    backgroundColor: theme.colors.primary,
+                    paddingVertical: 10,
+                    paddingHorizontal: 14,
+                    borderRadius: borderRadius.sm,
+                  }}
+                >
+                  <Feather name="shield" size={15} color="#FFF" />
+                  <Text style={{ fontFamily: typography.fontFamily.semiBold, fontSize: 13, color: '#FFF' }}>
+                    {t('batteryOptimization.openSettings', 'Pil Ayarlarını Aç')}
+                  </Text>
+                </Pressable>
+              </View>
+            )}
           </Animated.View>
         )}
 
@@ -943,14 +1136,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 8,
-    paddingVertical: 12,
+    gap: 6,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
     borderRadius: borderRadius.md,
     borderWidth: 1,
   },
   testBtnText: {
     fontFamily: typography.fontFamily.semiBold,
-    fontSize: 13,
+    fontSize: 12,
+    flex: 1,
+    textAlign: 'center',
   },
   /* About */
   aboutCard: {

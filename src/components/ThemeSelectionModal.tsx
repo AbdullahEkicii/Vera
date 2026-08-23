@@ -17,6 +17,7 @@ import { BlurView } from 'expo-blur';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
+import { logModalOpened } from '../services/analyticsService';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -46,17 +47,20 @@ export const ThemeSelectionModal: React.FC<ThemeSelectionModalProps> = ({
   const [homeStyle, setHomeStyle] = useState<'default' | 'simple'>('default');
 
   useEffect(() => {
-    (async () => {
-      try {
-        const saved = await AsyncStorage.getItem('HOME_SCREEN_STYLE');
-        if (saved === 'simple' || saved === 'default') {
-          setHomeStyle(saved);
+    if (visible) {
+      logModalOpened('ThemeSelectionModal');
+      (async () => {
+        try {
+          const saved = await AsyncStorage.getItem('HOME_SCREEN_STYLE');
+          if (saved === 'simple' || saved === 'default') {
+            setHomeStyle(saved);
+          }
+        } catch (e) {
+          console.log('Failed to load home screen style', e);
         }
-      } catch (e) {
-        console.log('Failed to load home screen style', e);
-      }
-    })();
-  }, []);
+      })();
+    }
+  }, [visible]);
 
   const saveHomeStyle = async (value: 'default' | 'simple') => {
     try {

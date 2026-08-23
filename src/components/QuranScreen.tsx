@@ -28,6 +28,8 @@ import { useQuranSettings } from '../context/QuranSettingsContext';
 import { QuranStyleSelector } from './QuranStyleSelector';
 import { AdBanner } from './AdBanner';
 import { ScalePressable } from './ScalePressable';
+import { HatimTrackerCard } from './HatimTrackerCard';
+import { QuranPrayersModal } from './QuranPrayersModal';
 
 const JUZ_LIST = Array.from({ length: 30 }, (_, i) => i + 1);
 
@@ -336,6 +338,7 @@ export const QuranScreen = () => {
   const [activeTab, setActiveTab] = useState<'browse' | 'history'>('browse');
   const [surahModalVisible, setSurahModalVisible] = useState(false);
   const [styleSelectorVisible, setStyleSelectorVisible] = useState(false);
+  const [prayersModalVisible, setPrayersModalVisible] = useState(false);
   const { lastRead, history, loading } = useQuranData();
   const { isStyleSelected, isFontLoaded } = useQuranSettings();
 
@@ -343,6 +346,9 @@ export const QuranScreen = () => {
 
   const renderBrowseTab = () => (
     <Animated.View entering={FadeInDown.duration(400)}>
+      {/* Hatim Tracker Card */}
+      <HatimTrackerCard onOpenPrayers={() => setPrayersModalVisible(true)} />
+
       {/* Öne Çıkan Sureler */}
       <View style={styles.sectionHeader}>
         <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t('quran.featuredSurahs')}</Text>
@@ -375,7 +381,14 @@ export const QuranScreen = () => {
 
       <View style={styles.juzList}>
         {JUZ_LIST.map((juz) => (
-          <JuzListItem key={juz} juz={juz} />
+          <React.Fragment key={juz}>
+            <JuzListItem juz={juz} />
+            {(juz === 9 || juz === 18 || juz === 27) && (
+              <View style={{ marginVertical: 8 }}>
+                <AdBanner />
+              </View>
+            )}
+          </React.Fragment>
         ))}
       </View>
     </Animated.View>
@@ -505,6 +518,13 @@ export const QuranScreen = () => {
           visible={styleSelectorVisible} 
           onClose={() => setStyleSelectorVisible(false)} 
           isInitialSetup={!isStyleSelected} 
+        />
+      )}
+
+      {prayersModalVisible && (
+        <QuranPrayersModal
+          visible={prayersModalVisible}
+          onClose={() => setPrayersModalVisible(false)}
         />
       )}
     </View>

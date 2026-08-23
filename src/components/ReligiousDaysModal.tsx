@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
 import { RELIGIOUS_DAYS, getDaysRemaining } from '../data/religiousDays';
 import { typography, spacing } from '../utils/theme';
+import { logModalOpened } from '../services/analyticsService';
 
 interface ReligiousDaysModalProps {
   visible: boolean;
@@ -16,6 +17,12 @@ export const ReligiousDaysModal: React.FC<ReligiousDaysModalProps> = ({ visible,
   const { t, i18n } = useTranslation();
   const { theme, isDark } = useTheme();
   const isLangTR = i18n.language === 'tr' || i18n.language.startsWith('tr');
+
+  React.useEffect(() => {
+    if (visible) {
+      logModalOpened('ReligiousDaysModal');
+    }
+  }, [visible]);
 
   if (!visible) return null;
 

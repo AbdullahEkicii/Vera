@@ -5,7 +5,8 @@
       "success": "Success",
       "error": "An error occurred",
       "retry": "Try Again",
-      "fillAllFields": "Please fill in all fields."
+      "fillAllFields": "Please fill in all fields.",
+      "min": "m"
     },
     "home": {
       "title": "Prayer Times",
@@ -50,6 +51,16 @@
       "verifiedMethodDesc": "The most accurate Islamic method for your region is selected automatically.",
       "notificationsTitle": "Adhan & Prayer Alerts",
       "notificationsDesc": "Receive gentle or audible reminders at prayer times.",
+      "playTestSound": "Preview Adhan Sound 🔊",
+      "stopTestSound": "Stop Sound ⏹️",
+      "nextStepBtn": "Continue →",
+      "step3Title": "Uninterrupted Experience",
+      "step3Subtitle": "Track prayer times live from your home screen and ensure reliable adhan notifications.",
+      "widgetTitle": "📌 Add Widget to Home Screen",
+      "widgetDesc": "See live countdowns without opening the app.",
+      "widgetAdded": "Widget added successfully!",
+      "batteryTitle": "🔋 Battery Saver Exemption",
+      "batteryDesc": "Recommended to turn off battery optimizations on Xiaomi & Samsung for timely adhans.",
       "featureQuran": "Quran & Audio",
       "featureQibla": "Qibla",
       "featureDhikr": "Dhikr Counter",
@@ -93,6 +104,8 @@
         "france": "France (UOIF)",
         "russia": "Russia (Spiritual Admin.)"
       },
+      "offsetsTitle": "Prayer Time Adjustments (Offsets / ± Min)",
+      "offsetsDesc": "If your local mosque or calendar differs by minutes, you can adjust timings up to ±15 minutes.",
       "general": "General Settings",
       "fullscreen": "Fullscreen Mode",
       "persistentNotifTitle": "Lock Screen & Status Bar",
@@ -133,6 +146,8 @@
       "exactSoundTitle": "Prayer Time Sound",
       "warningSoundTitle": "25 Min Warning Sound",
       "volumeLevelTitle": "Adhan Volume Level",
+      "respectSilentModeTitle": "Mosque / Silent Mode Respect",
+      "respectSilentModeDesc": "Mutes adhan audio and notifies silently when your phone is in silent or vibrate mode.",
       "previewSound": "Listen",
       "stopPreview": "Stop",
       "soundNames": {
@@ -149,7 +164,7 @@
     },
     "qibla": {
       "title": "Qibla Compass",
-      "subtitle": "Follow the steps to find the exact Qibla direction",
+      "subtitle": "Accurate Qibla Direction Finder",
       "guideTitle": "How to Use?",
       "step1": "1. Hold your phone flat and parallel to the ground",
       "step2": "2. Slowly rotate around yourself",
@@ -160,17 +175,25 @@
       "permissionRequired": "Location Permission Required",
       "permissionDenied": "Location permission is required to determine the Qibla direction.",
       "openSettings": "Open Settings",
-      "description": "Hold phone flat and slowly turn until the golden needle points to Kaaba (🕋) and turns green",
+      "description": "Hold your phone flat and parallel to the ground to align with the Kaaba.",
       "hint": "🕌 The compass turns green and vibrates when properly aligned with the Kaaba (🕋).",
-      "errorCompass": "Could not access compass sensor.",
+      "errorCompass": "Compass sensor not available.",
       "angle": "Qibla Angle",
-      "heading": "Heading",
+      "heading": "Compass",
       "distance": "Distance",
       "status": "Status",
       "aligned": "Aligned",
-      "aligning": "Rotate",
-      "alignedSuccess": "🕌 You are facing the Qibla!",
-      "fallbackNotice": "Calculated using saved city coordinates as GPS is unavailable."
+      "aligning": "Hold phone flat and rotate",
+      "alignedSuccess": "Facing the Qibla! ✓",
+      "fallbackNotice": "Calculated based on city coordinates.",
+      "calibrateBtn": "Calibrate Compass",
+      "calibrationTitle": "Compass Calibration",
+      "calibrationDesc": "To prevent magnetic interference and improve accuracy, wave your phone slowly in a figure-8 (∞) pattern 2-3 times.",
+      "magneticShield": "Magnetic Field Shield",
+      "magneticShieldDesc": "Sensor accuracy optimized. Keep away from magnetic cases.",
+      "levelStatus": "Horizontal Level (Bubble)",
+      "levelFlat": "Flat & Parallel ✓",
+      "gotIt": "Got It"
     },
     "directions": {
       "n": "N",
@@ -213,6 +236,7 @@
       "title": "Daily Prayer Tracker",
       "completed": "Completed",
       "dayStreak": "Day Streak",
+      "streakDays": "Days",
       "viewHistory": "View Full History",
       "historyTitle": "Prayer History",
       "historySubtitle": "Your prayer logs for the last 30 days",
@@ -400,7 +424,19 @@
       "downloadError": "An error occurred while downloading the font. Please check your internet connection.",
       "surahEnd": "End of Surah",
       "totalVersesRead": "All {{count}} Verses Read",
-      "nextSurah": "Next Surah"
+      "nextSurah": "Next Surah",
+      "prayersTitle": "Quran Prayers & Duas",
+      "prayersBtn": "Quran Prayers",
+      "prayerStart": "Starting Dua",
+      "prayerHatim": "Khatm Prayer",
+      "prayerSajdah": "Sajdah Dua",
+      "transliteration": "Transliteration",
+      "meaning": "Translation / Meaning",
+      "pageMealTitle": "Page {{page}} Translation",
+      "mealSource": "Authentic English Translation",
+      "loadingMeal": "Loading page translation...",
+      "noMealFound": "No translation found for this page. Please check your internet connection.",
+      "mealBtn": "Translation"
     },
     "review": {
       "title": "Enjoying Vera?",
@@ -521,6 +557,30 @@
       "message": "To receive full and timely notifications and sounds during prayer times, it is recommended to turn off battery optimization for the app.",
       "openSettings": "Open Settings",
       "later": "Later"
+    },
+    "hatim": {
+      "title": "Quran Khatm Tracker",
+      "hatimLabel": "Khatm",
+      "page": "Page",
+      "pagesRemaining": "{{count}} pages remaining to complete Khatm.",
+      "completed": "Congratulations! You have completed the Khatm. 🎉",
+      "readPageBtn": "Read Page {{page}}",
+      "jumpPageTitle": "Jump to Page / Update Progress",
+      "jumpPageDesc": "Enter current page number (1 - 604):",
+      "invalidPage": "Please enter a page number between 1 and 604.",
+      "resetTitle": "Start New Khatm",
+      "resetBody": "Current khatm will be recorded as completed and a new khatm will begin from page 1. Do you want to proceed?",
+      "startNew": "Start New Khatm",
+      "resetHatimBtn": "Reset & Start New Khatm"
+    },
+    "prayerTree": {
+      "title": "Weekly Prayer Tree",
+      "subtitle": "This week: {{count}}/35 Prayers",
+      "successRate": "Weekly Worship Score",
+      "quote": "Prayer is the pillar of faith; every completed prayer earns a flourishing green leaf for your tree.",
+      "quoteHigh": "“Prayer is the pillar of faith.” — You are having an exceptional week, MashaAllah!",
+      "quoteMid": "“Establish prayer, give zakah, and bow with those who bow.” (Al-Baqarah, 43)",
+      "quoteLow": "“Indeed, prayer has been decreed upon the believers a decree of specified times.” (An-Nisa, 103)"
     }
   }
 }

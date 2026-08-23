@@ -79,7 +79,7 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
   const activeBorderPulse = useSharedValue(0.3);
 
   // Magic Numbers minimized by defining constants
-  const HERO_SIZE = 340;
+  const HERO_SIZE = 270;
   const SCALE = HERO_SIZE / 230; // Scale text based on the base size of 230
   const STROKE_WIDTH = 4;
   const RADIUS = (HERO_SIZE - 28) / 2; // Exact radius for Apple Watch thin ring

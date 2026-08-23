@@ -327,6 +327,9 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
           </View>
         )}
 
+        {/* ── AD BANNER (Under prayer times, above kaza/tebrik buttons) ── */}
+        <AdBanner />
+
         {/* ── 6-GRID FEATURE QUICK SHORTCUTS ── */}
         <View style={styles.quickGrid}>
           {/* 1. Kaza Takipçisi */}
@@ -425,9 +428,6 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
             </Text>
           </ScalePressable>
         </View>
-
-        {/* ── AD BANNER ── */}
-        <AdBanner />
       </ScrollView>
 
       {/* ── ALL MODALS ── */}

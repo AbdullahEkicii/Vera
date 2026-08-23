@@ -1,11 +1,13 @@
-import React from 'react';
-import { Modal, View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
-import { BlurView } from 'expo-blur';
 import { Feather } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
+import { logModalOpened } from '../services/analyticsService';
 import { DayData } from '../services/api';
-import { typography, spacing } from '../utils/theme';
+import { spacing, typography } from '../utils/theme';
+import { AdBanner } from './AdBanner';
 
 interface WeeklyImsakiyeModalProps {
   visible: boolean;
@@ -22,6 +24,12 @@ export const WeeklyImsakiyeModal: React.FC<WeeklyImsakiyeModalProps> = ({
 }) => {
   const { t } = useTranslation();
   const { theme, isDark } = useTheme();
+
+  React.useEffect(() => {
+    if (visible) {
+      logModalOpened('WeeklyImsakiyeModal');
+    }
+  }, [visible]);
 
   if (!visible) return null;
 
@@ -107,6 +115,11 @@ export const WeeklyImsakiyeModal: React.FC<WeeklyImsakiyeModalProps> = ({
               );
             })}
           </ScrollView>
+
+          {/* Native Ad Banner */}
+          <View style={{ marginTop: 8 }}>
+            <AdBanner />
+          </View>
         </View>
       </BlurView>
     </Modal>

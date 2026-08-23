@@ -76,13 +76,35 @@ const resources = {
   vi,
 };
 
-// Auto-detect the system language
-// Expo 50+ uses Localization.getLocales() instead of Localization.locale
-const locales = Localization.getLocales();
-const systemLanguage = locales.length > 0 ? locales[0].languageCode : 'en';
+// Robust Auto-detection of system language
+// Normalizes regional codes (e.g., 'tr-TR' -> 'tr', 'zh-Hans' -> 'zh')
+const getInitialLanguage = (): string => {
+  try {
+    const locales = Localization.getLocales();
+    if (locales && locales.length > 0) {
+      const rawCode = (locales[0].languageCode || '').toLowerCase();
+      // 1. Direct match
+      if (rawCode && resources[rawCode as keyof typeof resources]) {
+        return rawCode;
+      }
+      // 2. Base code (e.g. 'tr-TR' -> 'tr')
+      const baseCode = rawCode.split(/[-_]/)[0];
+      if (baseCode && resources[baseCode as keyof typeof resources]) {
+        return baseCode;
+      }
+      // 3. Fallback from languageTag
+      const tag = (locales[0].languageTag || '').toLowerCase().split(/[-_]/)[0];
+      if (tag && resources[tag as keyof typeof resources]) {
+        return tag;
+      }
+    }
+  } catch (e) {
+    console.warn('[i18n] Error detecting system language:', e);
+  }
+  return 'en';
+};
 
-// Fallback to 'en' if the system language is not supported
-const defaultLanguage = systemLanguage && resources[systemLanguage as keyof typeof resources] ? systemLanguage : 'en';
+const defaultLanguage = getInitialLanguage();
 
 i18n
   .use(initReactI18next)

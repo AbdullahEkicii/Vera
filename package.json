@@ -10,6 +10,7 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "sync-i18n": "node ./scripts/sync_translations.js",
+    "translate-all": "node ./scripts/translate_all.js",
     "postinstall": "patch-package"
   },
   "dependencies": {
@@ -24,6 +25,7 @@
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",
     "@react-navigation/native": "^7.1.8",
+    "adhan": "^4.4.4",
     "expo": "~54.0.36",
     "expo-asset": "~12.0.13",
     "expo-audio": "~1.1.1",

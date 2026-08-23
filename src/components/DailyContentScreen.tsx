@@ -28,6 +28,7 @@ import { getDailyContent, getInstantDailyContent, DailyItem } from '../utils/dai
 import { AdBanner } from './AdBanner';
 import { addContentToQueue } from '../services/contentQueue';
 import { StoryCardShareModal } from './StoryCardShareModal';
+import { logScreenView } from '../services/analyticsService';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -159,6 +160,7 @@ export function DailyContentScreen() {
   }, []);
 
   useEffect(() => {
+    logScreenView('DailyContentScreen');
     let active = true;
     // 1. Immediately switch to instant base when language changes
     setDailyContent(getInstantDailyContent(i18n.language));

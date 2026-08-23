@@ -21,6 +21,7 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 import QRCode from 'react-native-qrcode-svg';
 
 import { useTheme } from '../context/ThemeContext';
+import { logModalOpened } from '../services/analyticsService';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
