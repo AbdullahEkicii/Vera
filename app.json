@@ -14,9 +14,24 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.abdllhekc.vera",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
         "UIStatusBarHidden": true,
-        "UIViewControllerBasedStatusBarAppearance": false
+        "UIViewControllerBasedStatusBarAppearance": false,
+        "NSLocationWhenInUseUsageDescription": "Ezan vakitlerini ve kıble yönünü doğru hesaplayabilmek için konum izninize ihtiyaç duyulmaktadır.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Ezan vakitlerini ve kıble yönünü doğru hesaplayabilmek için konum izninize ihtiyaç duyulmaktadır.",
+        "NSUserTrackingUsageDescription": "Size kişiselleştirilmiş reklamlar gösterebilmek ve uygulama deneyimini iyileştirebilmek için izninizi istiyoruz.",
+        "NSPhotoLibraryUsageDescription": "Ayet, hadis ve duaları resim olarak kaydedebilmeniz için galeriye erişim izni gereklidir.",
+        "NSPhotoLibraryAddUsageDescription": "Ayet ve dua görsellerini galerinize kaydetmek için izin gereklidir.",
+        "UIBackgroundModes": [
+          "audio",
+          "fetch",
+          "remote-notification"
+        ],
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "entitlements": {
+        "aps-environment": "production"
       }
     },
     "android": {
@@ -75,10 +90,19 @@
       "expo-sqlite",
       "expo-audio",
       [
-        "./plugins/withGoogleMobileAds.js",
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Ezan vakitlerini ve kıble yönünü doğru hesaplayabilmek için konum izninize ihtiyaç duyulmaktadır.",
+          "locationAlwaysPermission": "Ezan vakitlerini ve kıble yönünü doğru hesaplayabilmek için konum izninize ihtiyaç duyulmaktadır.",
+          "locationWhenInUsePermission": "Ezan vakitlerini ve kıble yönünü doğru hesaplayabilmek için konum izninize ihtiyaç duyulmaktadır."
+        }
+      ],
+      [
+        "react-native-google-mobile-ads",
         {
           "androidAppId": "ca-app-pub-3940256099942544~3347511713",
-          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+          "iosAppId": "ca-app-pub-3940256099942544~1458002511",
+          "userTrackingUsageDescription": "Size kişiselleştirilmiş reklamlar gösterebilmek ve uygulama deneyimini iyileştirebilmek için izninizi istiyoruz."
         }
       ],
       "expo-asset",
@@ -89,11 +113,16 @@
             "kotlinVersion": "2.1.0",
             "enableMinifyInReleaseBuilds": true,
             "enableShrinkResourcesInReleaseBuilds": true
+          },
+          "ios": {
+            "deploymentTarget": "15.1",
+            "useFrameworks": "static"
           }
         }
       ],
       "./plugins/withRemoveExpoAudioServices.js",
       "@react-native-firebase/auth/app.plugin.js",
+      "@react-native-firebase/analytics/app.plugin.js",
       "./plugins/withAndroidSigning.js"
     ],
     "experiments": {
