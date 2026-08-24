@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyB3S_MEyrz6KUPENUGPd99BcMDSWy3rPeU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>167234076330</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.abdllhekc.vera</string>
+	<key>PROJECT_ID</key>
+	<string>vera-azan</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vera-azan.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:167234076330:ios:92386d3cab8a3fe5e89ad3</string>
+	<key>DATABASE_URL</key>
+	<string>https://vera-azan-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>
