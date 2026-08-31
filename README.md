@@ -1,50 +1,27 @@
-# Welcome to your Expo app 👋
+# 🌙 Vera
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Vera**, kullanıcılara konuma dayalı namaz/vakit bildirimleri ve internetsiz (çevrimdışı) metin/içerik okuma deneyimi sunan, React Native & Expo ile geliştirilmiş modern bir mobil uygulamadır.
 
-## Get started
+---
 
-1. Install dependencies
+## ✨ Özellikler
 
-   ```bash
-   npm install
-   ```
+- 📍 **Konum Tabanlı Vakitler:** Bulunulan konuma göre anlık ve doğru vakit hesaplamaları.
+- 🔔 **Akıllı Bildirimler:** Vakit yaklaştığında veya vakit girdiğinde tetiklenen yerel bildirimler.
+- 📖 **Çevrimdışı Okuma Modu:** İnternet bağlantısı olmadan da erişilebilen zengin metin ve okuma arşivi.
+- 🎨 **Modern & Sade Arayüz:** Göz yormayan, akıcı ve kullanıcı dostu arayüz tasarımı.
+- ⚡ **Hafif & Optimize:** Düşük kaynak tüketimi ve hızlı başlangıç performansı.
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 🛠️ Teknolojiler & Kütüphaneler
 
-In the output, you'll find options to open the app in a
+- **Framework:** [React Native](https://reactnative.dev/) / [Expo](https://expo.dev/)
+- **Dil:** TypeScript / JavaScript
+- **Navigasyon:** React Navigation
+- **Depolama & State:** Async Storage / SQLite
+- **Bildirimler:** Expo Notifications
+- **Konum:** Expo Location
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+Google Play : https://play.google.com/store/apps/details?id=com.abdllhekc.vera
