@@ -1,7 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useColorScheme, StatusBar } from 'react-native';
+import { StatusBar, AppState, Platform } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import { lightTheme, darkTheme, ThemeType } from '../utils/theme';
+import { lightTheme, darkTheme, ThemeType, palettes } from '../utils/theme';
+
+
+import * as NavigationBar from 'expo-navigation-bar';
 
 type ThemeMode = 'light' | 'dark';
 export type TimeFormat = '12h' | '24h';
@@ -30,9 +33,6 @@ const TIME_FORMAT_KEY = 'app_time_format';
 const COLOR_PALETTE_KEY = 'app_color_palette';
 const CIRCLE_PALETTE_KEY = 'app_circle_palette';
 
-import { AppState, Platform } from 'react-native';
-import * as NavigationBar from 'expo-navigation-bar';
-
 const applySystemUI = (fullscreen: boolean) => {
   StatusBar.setHidden(fullscreen, 'none');
   if (Platform.OS === 'android') {
@@ -42,12 +42,11 @@ const applySystemUI = (fullscreen: boolean) => {
       } else {
         NavigationBar.setVisibilityAsync('visible').catch(() => {});
       }
-    } catch (e) {}
+    } catch {}
   }
 };
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const systemColorScheme = useColorScheme();
   const [mode, setMode] = useState<ThemeMode>('light');
   const [isFullscreen, setIsFullscreenState] = useState(true);
   const [timeFormat, setTimeFormatState] = useState<TimeFormat>('24h');
@@ -61,7 +60,16 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const loadSettings = async () => {
       try {
-        const storedTheme = await SecureStore.getItemAsync(THEME_STORAGE_KEY);
+        // Each SecureStore read is a Keystore decrypt (20–50 ms on low-end phones) and the
+        // whole app waits on this provider, so read all five at once.
+        const [storedTheme, storedFullscreen, storedTimeFormat, storedColorPalette, storedCirclePalette] =
+          await Promise.all([
+            SecureStore.getItemAsync(THEME_STORAGE_KEY),
+            SecureStore.getItemAsync(FULLSCREEN_STORAGE_KEY),
+            SecureStore.getItemAsync(TIME_FORMAT_KEY),
+            SecureStore.getItemAsync(COLOR_PALETTE_KEY),
+            SecureStore.getItemAsync(CIRCLE_PALETTE_KEY),
+          ]);
         if (storedTheme) {
           if (storedTheme === 'system') {
             setMode('light');
@@ -70,22 +78,18 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             setMode(storedTheme as ThemeMode);
           }
         }
-        const storedFullscreen = await SecureStore.getItemAsync(FULLSCREEN_STORAGE_KEY);
         const isFull = storedFullscreen !== null ? storedFullscreen === 'true' : true;
         setIsFullscreenState(isFull);
         applySystemUI(isFull);
 
-        const storedTimeFormat = await SecureStore.getItemAsync(TIME_FORMAT_KEY);
         if (storedTimeFormat === '12h' || storedTimeFormat === '24h') {
           setTimeFormatState(storedTimeFormat);
         }
 
-        const storedColorPalette = await SecureStore.getItemAsync(COLOR_PALETTE_KEY);
         if (storedColorPalette) {
           setColorPaletteState(storedColorPalette as ColorPalette);
         }
 
-        const storedCirclePalette = await SecureStore.getItemAsync(CIRCLE_PALETTE_KEY);
         if (storedCirclePalette) {
           setCirclePaletteState(storedCirclePalette as ColorPalette);
         }
@@ -166,7 +170,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const theme = { ...baseTheme }; // Deep copy could be needed if we mutate nested properties, but we'll manage in theme.ts
 
   if (colorPalette !== 'default') {
-    const { palettes } = require('../utils/theme');
     const selectedPalette = palettes[colorPalette];
     if (selectedPalette) {
       theme.colors = {

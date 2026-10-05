@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, StyleSheet, Dimensions, Pressable } from 'react-native';
+import { StyleSheet, Dimensions, Pressable } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   withDelay,
   withSpring,
-  runOnJS,
   Easing,
 } from 'react-native-reanimated';
 import { Image } from 'expo-image';

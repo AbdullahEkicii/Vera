@@ -6,7 +6,11 @@
       "retry": "Jaribu tena",
       "success": "Mafanikio",
       "fillAllFields": "Tafadhali jaza sehemu zote.",
-      "min": "m"
+      "min": "m",
+      "cancel": "Ghairi",
+      "save": "Hifadhi",
+      "ok": "Sawa",
+      "close": "Funga"
     },
     "home": {
       "title": "Nyakati za Swala",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "Haikuweza Kupakia Nyakati za Maombi",
       "errorLoadingSubtitle": "Tafadhali angalia muunganisho wako wa intaneti au chagua jiji lako.",
       "retryBtn": "Jaribu tena",
-      "loadingTimes": "Inapakia Nyakati za Maombi..."
+      "loadingTimes": "Inapakia Nyakati za Maombi...",
+      "locationPermissionTitle": "Ruhusa ya Mahali Haipatikani",
+      "locationPermissionDesc": "Inaonyesha mji chaguo-msingi. Unaweza kuchagua mji au kutoa ruhusa ya mahali.",
+      "estimatedTimesNotice": "Kwa kuwa hakuna muunganisho wa intaneti, nyakati za sala zimehesabiwa kwenye kifaa chako (makadirio)."
     },
     "settings": {
       "title": "Mipangilio",
@@ -111,7 +118,19 @@
       "offsetsTitle": "Marekebisho ya Wakati wa Maombi (Vipunguzo / ± Dakika)",
       "offsetsDesc": "Ikiwa msikiti wa eneo lako au kalenda inatofautiana kwa dakika, unaweza kurekebisha saa hadi ± dakika 15.",
       "respectSilentModeTitle": "Msikiti / Hali ya Kimya Heshima",
-      "respectSilentModeDesc": "Inazima sauti ya adhana na kuarifu kimya kimya wakati simu yako iko katika hali ya kimya au mtetemo."
+      "respectSilentModeDesc": "Inazima sauti ya adhana na kuarifu kimya kimya wakati simu yako iko katika hali ya kimya au mtetemo.",
+      "inviteFriend": "Alika Rafiki",
+      "privacyOptions": "Chaguo za Faragha",
+      "timeFormat24h": "Muundo wa Saa 24",
+      "loginLocked": "Majaribio mengi yameshindwa. Tafadhali jaribu tena baadaye.",
+      "loginFailed": "Kuingia kumeshindwa. Angalia taarifa zako.",
+      "notifications": "Arifa",
+      "editorLogout": "Toka kwa Mhariri",
+      "editorLogin": "Ingia kama Mhariri",
+      "username": "Jina la mtumiaji",
+      "password": "Nenosiri",
+      "loggingIn": "Inaingia...",
+      "login": "Ingia"
     },
     "qibla": {
       "title": "Qibla",
@@ -154,7 +173,9 @@
       "share": "Shiriki",
       "verseBody": "Bofya ili kusoma aya ya siku!",
       "hadithBody": "Bonyeza kusoma hadith ya siku!",
-      "quoteBody": "Bofya ili kusoma nukuu ya siku hiyo!"
+      "quoteBody": "Bofya ili kusoma nukuu ya siku hiyo!",
+      "subtitle": "Aya, hadithi na maneno yaliyoteuliwa kwa ajili ya leo",
+      "shareHint": "Gusa kadi kushiriki kama picha ya hadithi"
     },
     "notifications": {
       "fajr": {
@@ -208,7 +229,8 @@
         "dailyDesc": "Aya ya kila siku, hadith, au nukuu inafika kati ya Dhuhr na Asr.",
         "persistentName": "Funga Skrini na Upau wa Hali",
         "persistentDesc": "Huonyesha jina linalofuata la maombi na kuhesabu siku moja kwa moja kwenye paneli ya arifa na skrini iliyofungwa."
-      }
+      },
+      "persistentTitle": "🕌 Hadi {{prayer}}"
     },
     "tasbih": {
       "title": "Tasbih",
@@ -250,7 +272,49 @@
       "bgAudioSelect": "Chagua Sauti ya Asili ya Dhikr",
       "dikhr1": "Sauti ya Dhikr 1",
       "dikhr2": "Sauti ya Dhikr 2",
-      "dikhr3": "Sauti ya Dhikr 3"
+      "dikhr3": "Sauti ya Dhikr 3",
+      "shareMilestone": "Shiriki",
+      "milestoneShareText": "Nimefikia dhikri {{total}} mwezi huu, mashaallah!",
+      "streakDays": "siku mfululizo",
+      "monthStat": "Mwezi huu",
+      "streakStat": "Mfululizo",
+      "streakValue": "Siku {{count}}",
+      "remaining": "{{count}} zimebaki",
+      "noTarget": "Hakuna lengo",
+      "completed": "Imekamilika",
+      "addShort": "Ongeza",
+      "progressShort": "Maendeleo",
+      "recShort": "Inayopendekezwa",
+      "tapToCount": "Gusa kuhesabu",
+      "ok": "Sawa",
+      "dailyDhikrs": [
+        {
+          "text": "Subhanallahi wa bihamdihi",
+          "target": 100,
+          "benefit": "Ikisomwa mara 100 kila siku, dhambi husamehewa hata kama ni nyingi kama povu la bahari."
+        },
+        {
+          "text": "La ilaha illallahu wahdahu la sharika lah...",
+          "target": 100,
+          "benefit": "Kuisoma mara 100 ni sawa na kumwacha huru mtumwa 10 na hulinda dhidi ya Shetani."
+        },
+        {
+          "text": "Astaghfirullah al-Adheem",
+          "target": 100,
+          "benefit": "Huondoa dhiki, hufungua milango ya riziki, na huleta nafuu."
+        },
+        {
+          "text": "La hawla wa la quwwata illa billah",
+          "target": 100,
+          "benefit": "Ni hazina miongoni mwa hazina za Peponi, inayoondoa mawazo yote."
+        },
+        {
+          "text": "Subhanallahi walhamdulillahi...",
+          "target": 100,
+          "benefit": "Maneno yanayopendwa zaidi na Mwenyezi Mungu, mazito zaidi kwenye mizani kuliko kila kitu."
+        }
+      ],
+      "recTarget": "Lengo:"
     },
     "update": {
       "title": "Sasisho Jipya Lipo!",
@@ -328,7 +392,15 @@
       "mealSource": "Tafsiri Halisi ya Kiingereza",
       "loadingMeal": "Inapakia tafsiri ya ukurasa...",
       "noMealFound": "Hakuna tafsiri iliyopatikana kwa ukurasa huu. Tafadhali angalia muunganisho wako wa intaneti.",
-      "mealBtn": "Tafsiri"
+      "mealBtn": "Tafsiri",
+      "selectReciter": "Chagua Msomaji",
+      "bookmarkAdded": "Aya imeongezwa kwenye vipendwa",
+      "bookmarkRemoved": "Aya imeondolewa kwenye vipendwa",
+      "bookmarksTitle": "Aya Zilizohifadhiwa",
+      "noBookmarks": "Bado huna aya pendwa. Bonyeza na kushikilia aya ili kuiongeza.",
+      "playFromHere": "Sikiliza Kuanzia Hapa",
+      "juz": "Juzuu",
+      "downloadingShort": "Inapakua..."
     },
     "review": {
       "title": "Tuunge Mkono",
@@ -364,7 +436,10 @@
       "themeSepia": "Sepia ya joto",
       "appTagline": "Nyakati za Maombi, Quran & Qibla",
       "storeSearchHint": "Tafuta kwenye Google Play: Vera",
-      "scanToDownload": "Changanua ili Upakue"
+      "scanToDownload": "Changanua ili Upakue",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 Ninatumia Vera kufuatilia nyakati za sala, adhana na usomaji wangu wa Qur'an. Twende tukafuatilie Hitma pamoja!\n\n📲 Pakua programu: {{link}}"
     },
     "checklist": {
       "title": "Mfuatiliaji wa Maombi ya Kila Siku",
@@ -389,7 +464,9 @@
       "celebrationMessage": "Umemaliza maombi yote 5 ya kila siku leo. Mwenyezi Mungu azikubali maombi yako!",
       "celebrationBtn": "Alhamdulillah",
       "trustNotice": "{{city}} • Muda wa maombi uliothibitishwa kwa eneo lako kwa kutumia {{njia}}",
-      "streakDays": "Siku"
+      "streakDays": "Siku",
+      "shareStreak": "Shiriki Mfululizo Wangu",
+      "shareText": "Nimeendelea kusali kwa siku {{count}} mfululizo, alhamdulillahi!"
     },
     "search": {
       "title": "Chagua Mahali",
@@ -414,7 +491,8 @@
       "subtitle": "Kalenda na siku zijazo kwa usiku na siku zilizobarikiwa",
       "today": "Leo",
       "daysLeft": "siku",
-      "passed": "Imepitishwa"
+      "passed": "Imepitishwa",
+      "loadError": "Imeshindwa kupakia siku za kidini. Tafadhali angalia muunganisho wako wa intaneti."
     },
     "widgetPromo": {
       "title": "Ongeza Wijeti ya Maombi",
@@ -478,7 +556,17 @@
       "widgetDesc": "Angalia hesabu za moja kwa moja bila kufungua programu.",
       "widgetAdded": "Wijeti imeongezwa kwa mafanikio!",
       "batteryTitle": "🔋 Kutoruhusiwa Kuokoa Betri",
-      "batteryDesc": "Inapendekezwa kuzima uboreshaji wa betri kwenye Xiaomi na Samsung kwa adhana zinazofaa."
+      "batteryDesc": "Inapendekezwa kuzima uboreshaji wa betri kwenye Xiaomi na Samsung kwa adhana zinazofaa.",
+      "locationReassurance": "Unaweza kubadilisha hili wakati wowote baadaye katika Mipangilio.",
+      "notifDenied": "Ruhusa ya arifa haikutolewa. Arifa za adhana huenda zisifanye kazi — unaweza kuziwasha baadaye katika Mipangilio.",
+      "retryBtn": "Jaribu Tena",
+      "continueWithoutNotif": "Endelea Bila Arifa",
+      "skipTitle": "Ruka Usanidi",
+      "skipBody": "Unaweza kuruka usanidi kwa sasa. Mipangilio ya mahali na arifa inaweza kusanidiwa baadaye katika Mipangilio.",
+      "skipConfirm": "Ruka",
+      "locationDenied": "Ruhusa ya mahali haikutolewa. Unaweza kuchagua mji wako kutoka kwenye orodha, au kubadilisha hili baadaye katika Mipangilio.",
+      "locationFailed": "Imeshindwa kupata mahali ulipo. Unaweza kuchagua mji wako kutoka kwenye orodha, au kubadilisha hili baadaye katika Mipangilio.",
+      "locationNotSet": "Mahali Hapapatikani (Ruhusa Imekataliwa)"
     },
     "weather": {
       "title": "Utabiri wa hali ya hewa",
@@ -497,7 +585,8 @@
       "sunset": "machweo",
       "precipitation": "Mvua",
       "kmh": "km/h",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Jaribu Tena"
     },
     "duas": {
       "occasionTitle": "Wakati na Kwa Nini Kukariri?",
@@ -543,7 +632,15 @@
       "chooseTheme": "Mandhari ya Kadi",
       "shareBtn": "Shiriki kwa WhatsApp / Hadithi 🌟",
       "shareImageBtn": "Shiriki Kadi ya Picha 🌟",
-      "shareLinkBtn": "Shiriki Kiungo cha Duka la Moja kwa Moja 🔗"
+      "shareLinkBtn": "Shiriki Kiungo cha Duka la Moja kwa Moja 🔗",
+      "theme": {
+        "gold": "Mstari wa Dhahabu",
+        "emerald": "Kuba la Zumaridi",
+        "navy": "Bluu ya Usiku",
+        "crimson": "Waridi na Yakuti"
+      },
+      "customDefaultTitle": "Ijumaa Njema",
+      "customDefaultMessage": "Dua na ibada zako zikubaliwe."
     },
     "mosques": {
       "title": "Misikiti iliyo karibu",
@@ -558,7 +655,12 @@
     "dailyContent": {
       "preparing": "Inapakia msukumo wa kila siku...",
       "queueSuccess": "Maudhui yameongezwa kwenye foleni ya uidhinishaji.",
-      "queueError": "Hitilafu imetokea wakati wa kuongeza maudhui."
+      "queueError": "Hitilafu imetokea wakati wa kuongeza maudhui.",
+      "addModalTitle": "Ongeza Maudhui Mapya",
+      "textPlaceholder": "Maandishi ya Maudhui (Kiarabu/Tafsiri)",
+      "sourcePlaceholder": "Chanzo (mf. Bukhari, Iman 1)",
+      "saving": "Inahifadhi...",
+      "saveAndQueue": "Hifadhi na Weka Foleni"
     },
     "hatim": {
       "title": "Mfuatiliaji wa Quran Khatm",
@@ -573,7 +675,9 @@
       "resetTitle": "Anzisha Khatm Mpya",
       "resetBody": "Khatm ya sasa itarekodiwa kama imekamilika na khatm mpya itaanza kutoka ukurasa wa 1. Je, ungependa kuendelea?",
       "startNew": "Anzisha Khatm Mpya",
-      "resetHatimBtn": "Weka upya na Uanze Khatm Mpya"
+      "resetHatimBtn": "Weka upya na Uanze Khatm Mpya",
+      "share": "Shiriki Hitma Yangu",
+      "shareText": "Nimekamilisha Hitma yangu ya {{count}}, alhamdulillahi!"
     },
     "prayerTree": {
       "title": "Mti wa Maombi ya Kila Wiki",
@@ -583,6 +687,512 @@
       "quoteHigh": "\"Maombi ni nguzo ya imani.\" - Una wiki ya kipekee, MashaAllah!",
       "quoteMid": "“Simamisheni Sala, toeni zaka, na inameni pamoja na wanao rukuu.” (Al-Baqarah, 43)",
       "quoteLow": "“Hakika Swalah imeandikiwa juu ya Waumini amri ya nyakati maalumu.” (An-Nisa, 103)"
+    },
+    "hajjUmrah": {
+      "title": "Mwongozo wa Hija na Umra",
+      "umrah": "Umra",
+      "hajj": "Hija",
+      "stepsTitle": "Hatua kwa Hatua za Ibada",
+      "checklistTitle": "Orodha ya Maandalizi",
+      "settingsEntry": "Mwongozo wa Hija na Umra"
+    },
+    "zakat": {
+      "title": "Kikokotoo cha Zaka",
+      "info": "Zaka ni asilimia 2.5 (1/40) ya mali iliyomilikiwa kwa mwaka mzima wa mwezi na kufikia kiwango cha nisabu. Tafuta thamani ya sasa ya nisabu (kulingana na bei ya dhahabu/fedha) na uiweke hapa chini.",
+      "cash": "Fedha Taslimu na Akiba ya Benki",
+      "gold": "Thamani ya Dhahabu / Fedha",
+      "tradeGoods": "Thamani ya Bidhaa za Biashara",
+      "investments": "Hisa / Uwekezaji",
+      "debts": "Madeni (Yanayopunguzwa)",
+      "nisab": "Kiwango cha Nisabu (Thamani ya Sasa ya Dhahabu/Fedha)",
+      "netWealth": "Mali Halisi",
+      "zakatDue": "Zaka Unayodaiwa Kulipa",
+      "notEligible": "Mali yako haijafikia kiwango cha nisabu, hivyo zaka haihitajiki.",
+      "enterNisab": "Tafadhali weka kiwango cha nisabu ili kukokotoa.",
+      "settingsEntry": "Kikokotoo cha Zaka"
+    },
+    "ramadan": {
+      "calendarTitle": "Kalenda ya Ramadhani",
+      "days": "siku",
+      "day": "Siku",
+      "date": "Tarehe",
+      "sahur": "Daku",
+      "iftar": "Futari",
+      "noData": "Data ya kalenda ya Ramadhani haikupatikana."
+    },
+    "achievements": {
+      "title": "Mafanikio Yangu",
+      "pointsLabel": "Alama za Ibada",
+      "unlockedCount": "{{unlocked}} / {{total}} beji zimefunguliwa",
+      "settingsEntry": "Mafanikio Yangu",
+      "share": "Shiriki Alama Zangu",
+      "shareText": "Nimefikia Alama za Ibada {{points}} na kufungua beji {{unlocked}}!",
+      "inviteTitle": "Alika Rafiki",
+      "inviteDesc": "Fuatilieni Hitma pamoja na kuhamasishana.",
+      "progress": {
+        "days": "{{current}} / {{total}} siku",
+        "prayers": "{{current}} / {{total}} sala",
+        "dhikr": "{{current}} / {{total}} dhikri",
+        "khatm": "{{current}} / {{total}} hitma",
+        "kaza": "{{current}} / {{total}} malipizi"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "Kuingia Katika Ihram",
+          "desc": "Katika mpaka wa miqati, oga (ghusl), vaa mavazi ya ihram, nia na useme talbiya. Baadhi ya makatazo huanza mara tu ukiwa katika ihram (hakuna nguo zilizoshonwa, manukato, n.k.)."
+        },
+        "tawaf": {
+          "title": "Tawafu (Kuzunguka Kaaba)",
+          "desc": "Kuanzia Jiwe Jeusi, zunguka Kaaba mara saba kinyume cha saa, ukilisalimia Jiwe Jeusi mwanzoni mwa kila mzunguko ikiwezekana."
+        },
+        "sayi": {
+          "title": "Sai (Kati ya Safa na Marwa)",
+          "desc": "Tembea kwa haraka mara saba kati ya vilima vya Safa na Marwa, ukikumbuka utafutaji wa maji wa Bi Hajar."
+        },
+        "halq": {
+          "title": "Kunyoa au Kukata Nywele (Halqi/Taqsiri)",
+          "desc": "Wanaume hunyoa vichwa vyao kabisa au kupunguza nywele; wanawake hukata kiasi cha kidole. Hili hukamilisha Umra na kumaliza makatazo ya ihram."
+        },
+        "arafat": {
+          "title": "Kusimama Arafa (Tarehe 9 Dhul-Hijja)",
+          "desc": "Nguzo muhimu zaidi ya Hija. Mahujaji husimama Arafa kuanzia mchana hadi jua kutua tarehe 9 Dhul-Hijja, wakijishughulisha na dua, dhikri na toba."
+        },
+        "muzdalifah": {
+          "title": "Kulala Muzdalifa",
+          "desc": "Baada ya Arafa, mahujaji huhamia Muzdalifa, kuunganisha sala za Magharibi na Isha, kulala huko, na kukusanya kokoto kwa ajili ya kupiga mawe."
+        },
+        "jamarat": {
+          "title": "Kupiga Mawe Jamarat",
+          "desc": "Kokoto hupigwa kwenye nguzo za Jamarat huko Mina siku zilizowekwa, kwa kumbukumbu ya kukataa kwa Nabii Ibrahim (a.s.) dhidi ya Shetani."
+        },
+        "qurban": {
+          "title": "Kuchinja Qurbani",
+          "desc": "Qurbani hutolewa kama sehemu ya ibada za Hija, ikiashiria mwanzo wa Idd el-Hija."
+        },
+        "farewell_tawaf": {
+          "title": "Tawafu ya Kuaga",
+          "desc": "Tawafu ya mwisho inayofanywa kabla ya kuondoka Makka, ikiashiria kukamilika kwa ibada za Hija."
+        },
+        "ihram_clothes": {
+          "label": "Mavazi ya ihram (vipande viwili vya kitambaa cheupe kisichoshonwa kwa wanaume)"
+        },
+        "passport": {
+          "label": "Pasipoti, viza na hati za safari"
+        },
+        "health": {
+          "label": "Bima ya afya na chanjo zinazohitajika"
+        },
+        "comfortable_sandals": {
+          "label": "Viatu vya kustarehe, rahisi kuvua"
+        },
+        "unscented_soap": {
+          "label": "Sabuni isiyo na harufu na bidhaa za usafi binafsi"
+        },
+        "dua_book": {
+          "label": "Kitabu cha dua na mwongozo wa ibada (au programu hii)"
+        },
+        "money_belt": {
+          "label": "Mkoba salama wa fedha/hati"
+        },
+        "medication": {
+          "label": "Dawa binafsi na maagizo ya daktari"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Usiku wa Ragaibi",
+          "description": "Mwanzo wa miezi mitatu mitukufu na usiku wa rehema."
+        },
+        "mirac": {
+          "name": "Isra na Miraji",
+          "description": "Safari ya usiku na kupaa kwa Mtume (rehema na amani ziwe juu yake) kwenda kwa Mwenyezi Mungu."
+        },
+        "berat": {
+          "name": "Usiku wa Barat",
+          "description": "Usiku wa msamaha wa dhambi na nafuu kutoka kwenye huzuni."
+        },
+        "ramadan": {
+          "name": "Mwanzo wa Ramadhani",
+          "description": "Siku ya kwanza ya kufunga katika mwezi mtukufu wa Ramadhani."
+        },
+        "kadir": {
+          "name": "Laylatul Qadr",
+          "description": "Usiku wa Cheo, bora kuliko miezi elfu."
+        },
+        "eid-fitr": {
+          "name": "Idd el-Fitri (Siku ya 1)",
+          "description": "Siku ya kwanza ya Idd el-Fitri."
+        },
+        "eid-adha": {
+          "name": "Idd el-Hija (Siku ya 1)",
+          "description": "Siku ya kwanza ya Idd el-Hija."
+        },
+        "hijri-new-year": {
+          "name": "Mwaka Mpya wa Kiislamu",
+          "description": "Siku ya kwanza ya mwaka mpya wa Hijria."
+        },
+        "ashura": {
+          "name": "Siku ya Ashura",
+          "description": "Siku ya 10 ya mwezi wa Muharram."
+        },
+        "mevlid": {
+          "name": "Maulidi ya Mtume",
+          "description": "Usiku wa kuzaliwa kwa Mtume (rehema na amani ziwe juu yake)."
+        }
+      },
+      "esma": {
+        "1": "Mwingi wa Rehema",
+        "2": "Mwenye Kurehemu",
+        "3": "Mfalme",
+        "4": "Mtakatifu",
+        "5": "Mwenye Amani",
+        "6": "Mwenye Kutoa Amani",
+        "7": "Mlinzi",
+        "8": "Mshindi Mkuu",
+        "9": "Mwenye Nguvu ya Kulazimisha",
+        "10": "Mkuu",
+        "11": "Muumbaji",
+        "12": "Mtengenezaji",
+        "13": "Mpaji wa Sura",
+        "14": "Mwenye Kusamehe Sana",
+        "15": "Mshindaji",
+        "16": "Mpaji Bila Malipo",
+        "17": "Mruzuku",
+        "18": "Mfunguzi",
+        "19": "Mjuzi wa Yote",
+        "20": "Mpunguzaji wa Riziki",
+        "21": "Mkunjuzi wa Riziki",
+        "22": "Mdhalilishaji",
+        "23": "Mtukuzaji",
+        "24": "Mwenye Kutukuza",
+        "25": "Mwenye Kudhalilisha",
+        "26": "Mwenye Kusikia Yote",
+        "27": "Mwenye Kuona Yote",
+        "28": "Mwamuzi",
+        "29": "Mwenye Uadilifu",
+        "30": "Mpole Anayejua Siri",
+        "31": "Mjuzi wa Undani",
+        "32": "Mstahamilivu",
+        "33": "Mtukufu",
+        "34": "Mwenye Kusamehe Sana",
+        "35": "Mwenye Kushukuru",
+        "36": "Aliye Juu",
+        "37": "Mkubwa",
+        "38": "Mlinzi",
+        "39": "Mtoshelezaji",
+        "40": "Mhesabu",
+        "41": "Mtukufu Mwenye Enzi",
+        "42": "Karimu",
+        "43": "Mwangalizi",
+        "44": "Mwenye Kuitikia Dua",
+        "45": "Mwenye Kuenea Kila Kitu",
+        "46": "Mwenye Hekima",
+        "47": "Mpenzi",
+        "48": "Mtukufu",
+        "49": "Mfufuaji",
+        "50": "Shahidi",
+        "51": "Haki",
+        "52": "Mtegemewa",
+        "53": "Mwenye Nguvu",
+        "54": "Imara",
+        "55": "Rafiki Mlinzi",
+        "56": "Mwenye Kusifiwa",
+        "57": "Mhesabu wa Vitu Vyote",
+        "58": "Mwanzilishi",
+        "59": "Mrudishaji",
+        "60": "Mpaji wa Uhai",
+        "61": "Mletaji wa Mauti",
+        "62": "Aliye Hai",
+        "63": "Msimamizi wa Nafsi Yake",
+        "64": "Mpataji",
+        "65": "Mtukufu",
+        "66": "Wa Pekee",
+        "67": "Mmoja",
+        "68": "Anayehitajika na Wote",
+        "69": "Mwenye Uwezo",
+        "70": "Mwenye Nguvu Zote",
+        "71": "Mtangulizaji",
+        "72": "Mchelewesha",
+        "73": "Wa Kwanza",
+        "74": "Wa Mwisho",
+        "75": "Dhahiri",
+        "76": "Aliyefichika",
+        "77": "Mtawala",
+        "78": "Aliye Juu Zaidi",
+        "79": "Mwema",
+        "80": "Mpokeaji wa Toba",
+        "81": "Mlipiza Kisasi",
+        "82": "Msamehevu",
+        "83": "Mpole wa Huruma",
+        "84": "Mmiliki wa Ufalme",
+        "85": "Mwenye Enzi na Ukarimu",
+        "86": "Mwenye Uadilifu",
+        "87": "Mkusanyaji",
+        "88": "Asiyehitaji",
+        "89": "Mtajirishaji",
+        "90": "Mzuiaji",
+        "91": "Mletaji wa Madhara",
+        "92": "Mletaji wa Manufaa",
+        "93": "Nuru",
+        "94": "Muongozaji",
+        "95": "Mvumbuzi Asiye na Mfano",
+        "96": "Mwenye Kudumu",
+        "97": "Mrithi",
+        "98": "Muongozaji kwenye Njia Iliyonyooka",
+        "99": "Mstahamilivu"
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Dua ya Uponyaji na Kupona",
+          "occasion": "Husomwa kwa ajili ya uponyaji wa kimwili na kiroho wakati wa ugonjwa."
+        },
+        "nazar_korunma": {
+          "title": "Kinga Dhidi ya Jicho Baya na Madhara (Ayatul-Kursiy)",
+          "occasion": "Husomwa asubuhi na jioni kwa ulinzi wa Mungu dhidi ya jicho baya na madhara."
+        },
+        "rizik_bereket": {
+          "title": "Dua ya Riziki, Baraka na Kuondokewa na Deni",
+          "occasion": "Husomwa kwa ajili ya wingi wa riziki, baraka katika riziki, na kuondokewa na deni."
+        },
+        "ferahlik_sikinti": {
+          "title": "Dua ya Nyakati za Dhiki (Dua ya Nabii Yunus)",
+          "occasion": "Husomwa wakati wa dhiki kubwa, wasiwasi, kukata tamaa, na huzuni."
+        },
+        "sinav_zihin": {
+          "title": "Dua ya Elimu, Mitihani na Utulivu wa Akili",
+          "occasion": "Husomwa kabla ya mitihani, kusoma, au kuanza kazi ngumu ya kiakili."
+        },
+        "seyyidul_istigfar": {
+          "title": "Sayyidul Istighfar (Bwana wa Dua za Kuomba Msamaha)",
+          "occasion": "Husomwa asubuhi na jioni kwa toba ya kweli na msamaha wa dhambi."
+        },
+        "anne_baba": {
+          "title": "Dua kwa Wazazi na Familia",
+          "occasion": "Husomwa kwa ajili ya msamaha, afya na rehema kwa wazazi na familia."
+        },
+        "ezan_sonrasi": {
+          "title": "Dua ya Baada ya Kusikia Adhana",
+          "occasion": "Husomwa mara tu baada ya adhana kumalizika ili kupata uombezi wa Mtume."
+        },
+        "iftar_oruc": {
+          "title": "Dua ya Kufungua Funga (Futari)",
+          "occasion": "Husomwa wakati wa kufungua funga jua linapotua."
+        },
+        "morning_1": {
+          "title": "Dua ya Kinga ya Asubuhi na Jioni",
+          "occasion": "Husomwa mara 3 asubuhi na jioni kwa kinga kamili dhidi ya madhara yote."
+        },
+        "leaving_home": {
+          "title": "Dua ya Kutoka Nyumbani",
+          "occasion": "Husomwa wakati wa kutoka nje ya nyumba kwa usalama na uongozi wa Mungu."
+        },
+        "entering_home": {
+          "title": "Dua ya Kuingia Nyumbani",
+          "occasion": "Husomwa wakati wa kuingia nyumbani kwa ajili ya amani, baraka na ulinzi."
+        },
+        "waking_up": {
+          "title": "Dua ya Kuamka Asubuhi",
+          "occasion": "Husomwa unapoamka kama shukrani kwa uhai na nguvu mpya."
+        },
+        "sleeping": {
+          "title": "Dua Kabla ya Kulala",
+          "occasion": "Husomwa unapoenda kulala kwa ajili ya utulivu na ulinzi wa Mungu."
+        },
+        "sukr_hamd": {
+          "title": "Dua ya Shukrani kwa Neema",
+          "occasion": "Husomwa kama shukrani unapopokea neema na habari njema."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "Siku 7 za Mfululizo",
+          "desc": "Umerekodi sala kwa siku 7 mfululizo"
+        },
+        "prayer_streak_30": {
+          "title": "Siku 30 za Mfululizo",
+          "desc": "Umerekodi sala kwa siku 30 mfululizo"
+        },
+        "prayer_total_100": {
+          "title": "Sala 100",
+          "desc": "Umerekodi jumla ya sala 100"
+        },
+        "prayer_total_500": {
+          "title": "Sala 500",
+          "desc": "Umerekodi jumla ya sala 500"
+        },
+        "dhikr_streak_7": {
+          "title": "Dhikri kwa Siku 7 Mfululizo",
+          "desc": "Umefanya dhikri kwa siku 7 mfululizo"
+        },
+        "dhikr_streak_30": {
+          "title": "Dhikri kwa Siku 30 Mfululizo",
+          "desc": "Umefanya dhikri kwa siku 30 mfululizo"
+        },
+        "dhikr_total_1000": {
+          "title": "Dhikri 1,000",
+          "desc": "Umesoma jumla ya dhikri 1,000"
+        },
+        "dhikr_total_10000": {
+          "title": "Dhikri 10,000",
+          "desc": "Umesoma jumla ya dhikri 10,000"
+        },
+        "hatim_first": {
+          "title": "Hitma ya Kwanza",
+          "desc": "Umekamilisha kusoma Qur'an Tukufu yote"
+        },
+        "hatim_3": {
+          "title": "Hitma 3",
+          "desc": "Umekamilisha Qur'an mara 3"
+        },
+        "kaza_10": {
+          "title": "Malipizi 10 Yamekamilika",
+          "desc": "Umekamilisha sala/funga za malipizi 10"
+        },
+        "kaza_50": {
+          "title": "Malipizi 50 Yamekamilika",
+          "desc": "Umekamilisha sala/funga za malipizi 50"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mishary Alafasy"
+        },
+        "abdulbasit": {
+          "name": "Abdul Basit"
+        },
+        "husary": {
+          "name": "Al-Husary"
+        },
+        "minshawy": {
+          "name": "Al-Minshawy"
+        },
+        "shuraym": {
+          "name": "Saud Al-Shuraym"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Ijumaa Iliyobarikiwa 🌹",
+          "message": "Mwenyezi Mungu na akubali dua zetu za dhati na aujaze Ijumaa hii iliyobarikiwa kwa amani, rehema, na wingi wa baraka."
+        },
+        "cuma_2": {
+          "title": "Ijumaa Njema ✨",
+          "message": "Mwenyezi Mungu awabariki nyinyi na wapendwa wenu kwa furaha, afya, na imani katika maisha haya na akhera."
+        },
+        "kandil_1": {
+          "title": "Usiku Mtukufu Uliobarikiwa 🌙",
+          "message": "Baraka, msamaha, na amani ya usiku huu mtukufu ziwe juu yako na familia yako."
+        },
+        "ramazan_1": {
+          "title": "Ramadhani Njema 🕌",
+          "message": "Nakutakia Ramadhani iliyobarikiwa iliyojaa tafakuri ya kiroho, amani, na baraka za Mwenyezi Mungu."
+        },
+        "bayram_1": {
+          "title": "Idd Njema 🌟",
+          "message": "Idd hii iliyobarikiwa iwaletee furaha, afya, umoja, na ustawi wewe na wapendwa wako."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Dua Kabla ya Kusoma Qur'an"
+        },
+        "hatim": {
+          "title": "Dua ya Kumaliza Kusoma Qur'an (Hitma)"
+        },
+        "sajdah": {
+          "title": "Sijida ya Kusoma (Tilawa)"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Qur'an"
+        },
+        "daily": {
+          "label": "Maudhui"
+        },
+        "home": {
+          "label": "Nyakati"
+        },
+        "dhikr": {
+          "label": "Dhikri"
+        },
+        "library": {
+          "label": "Dua"
+        },
+        "qibla": {
+          "label": "Kibla"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Sala",
+        "dhikr": "Dhikri",
+        "quran": "Qur'an",
+        "kaza": "Malipizi"
+      },
+      "hijriMonths": {
+        "1": "Muharram",
+        "2": "Safar",
+        "3": "Rabiul Awwal",
+        "4": "Rabiul Akhir",
+        "5": "Jamadal Awwal",
+        "6": "Jamadal Akhir",
+        "7": "Rajab",
+        "8": "Shaaban",
+        "9": "Ramadhani",
+        "10": "Shawwal",
+        "11": "Dhul-Qaada",
+        "12": "Dhul-Hijja"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Ikiwa kuna tofauti ya muda, bonyeza na kushikilia kadi ili kuirekebisha.",
+      "title": "Rekebisha muda wa {{prayer}}",
+      "desc": "Ikiwa msikiti wako au kalenda yako inaonyesha muda tofauti, ongeza au punguza dakika. Arifa ya adhana pia itafuata hii.",
+      "minus": "Dakika 1 nyuma",
+      "minutes": "Dakika {{value}}",
+      "plus": "Dakika 1 mbele",
+      "reset": "Weka Upya",
+      "save": "Hifadhi"
+    },
+    "feedback": {
+      "settingsRow": "Tuma Maoni",
+      "title": "Hebu Tuboreshane Pamoja",
+      "subtitle": "Andika mapendekezo, maombi, au tatizo lolote ulilokutana nalo ili tuweze kuifanya Vera kuwa bora zaidi.",
+      "placeholder": "Andika wazo, pendekezo, au tatizo ulilokutana nalo...",
+      "error": "Imeshindwa kutuma. Tafadhali jaribu tena baada ya muda.",
+      "send": "Tuma",
+      "thankYouTitle": "Maoni Yako Yamepokelewa",
+      "thankYouSubtitle": "Mawazo yako yana thamani kubwa kwetu. Tunafanya kazi kwa bidii kuifanya Vera kuwa bora zaidi."
+    },
+    "battery": {
+      "stepsXiaomi": "Mipangilio → Programu → Vera: washa \"Autostart\" na weka Kihifadhi Betri kuwa \"Hakuna vizuizi\".",
+      "stepsSamsung": "Mipangilio → Betri → Vikwazo vya matumizi ya nyuma: ongeza Vera kwenye \"Programu zisizolala kamwe\".",
+      "stepsOppo": "Mipangilio → Betri → Vera: washa \"Ruhusu shughuli za nyuma\" na \"Autostart\".",
+      "stepsOther": "Zima uboreshaji wa betri kwa Vera ili adhana isikike kwa wakati.",
+      "cardTitle": "Sikia adhana kwa wakati",
+      "openSettings": "Fungua Mipangilio"
+    },
+    "widget": {
+      "guideTitle": "Ongeza kwenye Skrini ya Nyumbani",
+      "guideDesc": "Bonyeza na kushikilia skrini yako ya nyumbani ➔ gusa \"Wijeti\" ➔ tafuta wijeti ya \"VERA\" na uiburute kwenye skrini yako.",
+      "promptTitle": "Ongeza Wijeti kwenye Skrini ya Nyumbani",
+      "promptDesc": "Ona muda wa sala unaofuata na dakika zilizobaki moja kwa moja kutoka skrini ya nyumbani ya simu yako, bila kufungua programu.",
+      "addNow": "📌 Ongeza kwenye Skrini ya Nyumbani",
+      "notNow": "Baadaye"
+    },
+    "greetingNotif": {
+      "dayTitle": "{{name}} njema",
+      "nightTitle": "Leo usiku ni {{name}}",
+      "body": "Tuma kadi ya salamu kwa wapendwa wako.",
+      "fridayTitle": "Ijumaa Njema",
+      "fridayBody": "Tuma kadi ya salamu ya Ijumaa kwa wapendwa wako."
+    },
+    "errorBoundary": {
+      "title": "Kuna hitilafu",
+      "subtitle": "Programu imekumbana na hitilafu isiyotarajiwa. Gusa kitufe hapa chini ili ujaribu tena.",
+      "retry": "Jaribu Tena"
     }
   }
 }

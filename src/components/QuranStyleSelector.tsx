@@ -91,7 +91,7 @@ export const QuranStyleSelector: React.FC<Props> = ({ visible, onClose, isInitia
     if (success) {
       onClose();
     } else {
-      Alert.alert(t('quran.error'), t('quran.downloadError'));
+      Alert.alert(t('quran.error', 'Hata'), t('quran.downloadError'));
     }
   };
 

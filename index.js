@@ -1,8 +1,15 @@
 import { registerRootComponent } from 'expo';
 import { ExpoRoot } from 'expo-router';
 import notifee, { EventType } from '@notifee/react-native';
+import { getMessaging, setBackgroundMessageHandler } from '@react-native-firebase/messaging';
 import { audioManager } from './src/services/audioManager';
 import { syncNextPrayerFromCache } from './src/services/notificationService';
+
+// Handles FCM remote push messages received while the app is backgrounded/killed.
+// Must be registered here, at module scope, before the React tree renders.
+setBackgroundMessageHandler(getMessaging(), async (remoteMessage) => {
+  console.log('[Push] Background message received:', remoteMessage.data);
+});
 
 function isNotificationFresh(detail) {
   let notifTime = detail?.notification?.data?.timestamp

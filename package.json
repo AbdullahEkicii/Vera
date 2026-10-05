@@ -11,6 +11,10 @@
     "lint": "expo lint",
     "sync-i18n": "node ./scripts/sync_translations.js",
     "translate-all": "node ./scripts/translate_all.js",
+    "i18n:content": "node ./scripts/i18n-content.mjs",
+    "i18n:todo": "node ./scripts/i18n-sync.mjs todo",
+    "i18n:merge": "node ./scripts/i18n-sync.mjs merge",
+    "i18n:check": "node ./scripts/i18n-sync.mjs check",
     "postinstall": "patch-package"
   },
   "dependencies": {
@@ -20,16 +24,18 @@
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-firebase/analytics": "^25.1.0",
     "@react-native-firebase/app": "^25.1.0",
-    "@react-native-firebase/auth": "^25.1.0",
+    "@react-native-firebase/crashlytics": "25.1.0",
     "@react-native-firebase/firestore": "^25.1.0",
+    "@react-native-firebase/messaging": "25.1.0",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",
     "@react-navigation/native": "^7.1.8",
+    "@shopify/flash-list": "2.0.2",
     "adhan": "^4.4.4",
     "expo": "~54.0.36",
     "expo-asset": "~12.0.13",
     "expo-audio": "~1.1.1",
-    "expo-av": "~16.0.8",
+    "expo-background-task": "~1.0.10",
     "expo-blur": "~15.0.8",
     "expo-build-properties": "~1.0.10",
     "expo-constants": "~18.0.13",
@@ -52,6 +58,8 @@
     "expo-store-review": "~9.0.9",
     "expo-symbols": "~1.0.8",
     "expo-system-ui": "~6.0.9",
+    "expo-task-manager": "~14.0.9",
+    "expo-tracking-transparency": "~6.0.8",
     "expo-web-browser": "~15.0.11",
     "i18next": "^26.3.4",
     "react": "19.1.0",
@@ -61,6 +69,7 @@
     "react-native-blob-util": "^0.24.10",
     "react-native-gesture-handler": "~2.28.0",
     "react-native-google-mobile-ads": "^16.0.0",
+    "react-native-mmkv": "^4.3.2",
     "react-native-pager-view": "6.9.1",
     "react-native-pdf": "^7.0.4",
     "react-native-qrcode-svg": "^6.3.21",
@@ -70,7 +79,6 @@
     "react-native-svg": "15.12.1",
     "react-native-view-shot": "4.0.3",
     "react-native-web": "~0.21.0",
-    "react-native-webview": "13.15.0",
     "react-native-worklets": "0.5.1"
   },
   "devDependencies": {
@@ -84,7 +92,7 @@
   },
   "private": true,
   "react-native-google-mobile-ads": {
-    "android_app_id": "ca-app-pub-3940256099942544~3347511713",
-    "ios_app_id": "ca-app-pub-3940256099942544~1458002511"
+    "android_app_id": "ca-app-pub-2034009761866400~5203875113",
+    "ios_app_id": "ca-app-pub-2034009761866400~5203875113"
   }
 }

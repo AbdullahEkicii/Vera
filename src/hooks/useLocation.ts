@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { AppState } from 'react-native';
 import * as Location from 'expo-location';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage, SecureLocationStorage } from '../services/storageService';
 import i18n from '../localization/i18n';
 
 export interface LocationData {
@@ -107,7 +107,7 @@ export const getSystemFallbackLocation = (): LocationData => {
     if (tz.includes('Los_Angeles')) {
       return { latitude: 34.0522, longitude: -118.2437, city: 'Los Angeles' };
     }
-  } catch (e) {}
+  } catch {}
 
   return { latitude: 41.0082, longitude: 28.9784, city: 'İstanbul' };
 };
@@ -132,7 +132,7 @@ async function reverseGeocodeWithRetry(latitude: number, longitude: number, retr
         const fallback = item.name || item.street;
         if (fallback) return fallback;
       }
-    } catch (err) {
+    } catch {
       if (i < retries - 1) {
         await new Promise((resolve) => setTimeout(resolve, delayMs));
       }
@@ -151,29 +151,35 @@ export const useLocation = () => {
   const [loading, setLoading] = useState(false); // Non-blocking initial state!
   const [needsManualLocation, setNeedsManualLocation] = useState(false);
   const [permissionDenied, setPermissionDenied] = useState(false);
+  // False until the saved/cached location has been read (or ruled out). The initial
+  // `location` is only a timezone guess; consumers must not fetch prayer times for it
+  // before this flips, or a returning user briefly gets another city's times.
+  const [isResolved, setIsResolved] = useState(false);
 
   const initLocation = useCallback(async (forceRefresh = false) => {
     try {
       // 1. Check if user has manually set a location
-      const savedLocationStr = await AsyncStorage.getItem('MANUAL_LOCATION');
+      const savedLocationStr = await SecureLocationStorage.getItem('MANUAL_LOCATION');
       if (savedLocationStr) {
         const savedLocation: LocationData = JSON.parse(savedLocationStr);
         setLocation(savedLocation);
         setNeedsManualLocation(false);
         setPermissionDenied(false);
         setLoading(false);
+        setIsResolved(true);
         return;
       }
 
       // 1.5 Check if we have a cached GPS location from a previous launch
       let hasCachedLocation = false;
-      const cachedGpsStr = await AsyncStorage.getItem('LAST_GPS_LOCATION');
+      const cachedGpsStr = await SecureLocationStorage.getItem('LAST_GPS_LOCATION');
       if (cachedGpsStr) {
         const cachedGps: LocationData = JSON.parse(cachedGpsStr);
         setLocation(cachedGps);
         setNeedsManualLocation(false);
         setPermissionDenied(false);
         setLoading(false);
+        setIsResolved(true);
         hasCachedLocation = true;
       }
 
@@ -239,14 +245,15 @@ export const useLocation = () => {
       setNeedsManualLocation(false);
       
       const nowStr = Date.now().toString();
-      AsyncStorage.setItem('LAST_GPS_LOCATION', JSON.stringify(finalLocation));
+      SecureLocationStorage.setItem('LAST_GPS_LOCATION', JSON.stringify(finalLocation));
       AsyncStorage.setItem('LAST_GPS_UPDATE_TIME', nowStr);
 
-    } catch (e) {
+    } catch {
       setErrorMsg('Error fetching location');
       setNeedsManualLocation(true);
     } finally {
       setLoading(false);
+      setIsResolved(true);
     }
   }, []);
 
@@ -267,7 +274,7 @@ export const useLocation = () => {
 
   const saveManualLocation = async (lat: number, lng: number, city: string) => {
     const locData = { latitude: lat, longitude: lng, city };
-    await AsyncStorage.setItem('MANUAL_LOCATION', JSON.stringify(locData));
+    await SecureLocationStorage.setItem('MANUAL_LOCATION', JSON.stringify(locData));
     setLocation(locData);
     setNeedsManualLocation(false);
     setErrorMsg(null);
@@ -283,6 +290,7 @@ export const useLocation = () => {
     loading,
     needsManualLocation,
     permissionDenied,
+    isResolved,
     saveManualLocation,
     refreshLocation,
   };

@@ -17,6 +17,7 @@ import * as Haptics from 'expo-haptics';
 import { useTheme } from '../context/ThemeContext';
 import { typography } from '../utils/theme';
 import { logQuranPrayerOpened } from '../services/analyticsService';
+import { ct } from '../localization/content';
 
 interface Props {
   visible: boolean;
@@ -74,8 +75,8 @@ export function QuranPrayersModal({ visible, onClose, initialTab = 'start' }: Pr
   const handleShare = () => {
     try {
       Haptics.selectionAsync();
-    } catch (_) {}
-    const title = isLangTR ? currentPrayer.titleTR : currentPrayer.titleEN;
+    } catch {}
+    const title = ct(`content.quranPrayers.${activeTab}.title`, currentPrayer.titleTR, currentPrayer.titleEN);
     const meaning = isLangTR ? currentPrayer.meaningTR : currentPrayer.meaningEN;
     Share.share({
       message: `${title}\n\n${currentPrayer.arabic}\n\n${meaning}\n\n— Vera`,
@@ -147,7 +148,7 @@ export function QuranPrayersModal({ visible, onClose, initialTab = 'start' }: Pr
           {/* Content ScrollView */}
           <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
             <Text style={[styles.prayerHeading, { color: theme.colors.primary }]}>
-              {isLangTR ? currentPrayer.titleTR : currentPrayer.titleEN}
+              {ct(`content.quranPrayers.${activeTab}.title`, currentPrayer.titleTR, currentPrayer.titleEN)}
             </Text>
 
             {/* Arabic Box */}

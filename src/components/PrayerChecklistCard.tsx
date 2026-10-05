@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Platform, Modal } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { BlurView } from 'expo-blur';
 import * as Haptics from 'expo-haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +9,8 @@ import { useTheme } from '../context/ThemeContext';
 import { router } from 'expo-router';
 import { audioManager } from '../services/audioManager';
 import { logPrayerLogged } from '../services/analyticsService';
+import { StoryCardShareModal } from './StoryCardShareModal';
+import { maybeRequestReview } from '../services/reviewService';
 
 const PRAYER_LOGS_KEY = 'USER_PRAYER_LOGS_V1';
 const CELEBRATED_DATE_KEY = 'PRAYER_CELEBRATED_DATE_V1';
@@ -32,8 +33,9 @@ const PRAYER_ITEMS = [
 ] as const;
 
 export function PrayerChecklistCard() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { theme, isDark } = useTheme();
+  const c = theme.colors;
 
   const todayStr = new Date().toISOString().split('T')[0];
 
@@ -47,6 +49,7 @@ export function PrayerChecklistCard() {
 
   const [streakCount, setStreakCount] = useState<number>(0);
   const [showCelebrationModal, setShowCelebrationModal] = useState<boolean>(false);
+  const [shareModalVisible, setShareModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     loadLogsAndStreak();
@@ -152,46 +155,52 @@ export function PrayerChecklistCard() {
     }
   };
 
+  // A full day of prayers is a good moment to ask for a Play review, once the
+  // celebration is dismissed (not when it hands off to the share sheet).
+  const closeCelebration = () => {
+    setShowCelebrationModal(false);
+    setTimeout(() => maybeRequestReview('all_five_prayers'), 600);
+  };
+
   const completedCount = Object.values(todayLog).filter(Boolean).length;
 
   return (
-    <View style={[styles.card, { backgroundColor: isDark ? '#1C150B' : '#FDFBF7', borderColor: isDark ? 'rgba(212, 175, 55, 0.2)' : '#EAE3D2' }]}>
+    <View style={[styles.card, { backgroundColor: c.surface, borderColor: c.border }]}>
       {/* Header Pressable to open History page */}
-      <Pressable style={styles.headerRow} onPress={() => router.push('/prayer-history')}>
+      <Pressable
+        style={styles.headerRow}
+        onPress={() => router.push('/prayer-history')}
+        accessibilityRole="button"
+      >
         <View style={styles.headerTitleGroup}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
             <Text
-              style={[styles.cardTitle, { color: isDark ? '#FDF8ED' : '#2C1A0A' }]}
+              style={[styles.cardTitle, { color: c.text }]}
               numberOfLines={1}
               adjustsFontSizeToFit
               minimumFontScale={0.85}
             >
               {t('checklist.title', 'Günlük Namaz Takibi')}
             </Text>
-            <Feather name="chevron-right" size={16} color={isDark ? '#D4AF37' : '#8C7055'} style={{ flexShrink: 0 }} />
+            <Feather name="chevron-right" size={16} color={c.primary} style={{ flexShrink: 0 }} />
           </View>
-          <Text style={[styles.cardSubtitle, { color: isDark ? 'rgba(253, 248, 237, 0.6)' : '#8C7055' }]}>
+          <Text style={[styles.cardSubtitle, { color: c.textSecondary }]}>
             {completedCount} / 5 {t('checklist.completed', 'Kılındı')}
           </Text>
         </View>
 
         {/* Streak Badge */}
-        <LinearGradient
-          colors={['#D4AF37', '#B8860B']}
-          style={styles.streakBadge}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-        >
-          <Ionicons name="flame" size={16} color="#1A1207" />
-          <Text style={styles.streakText}>
+        <View style={[styles.streakBadge, { backgroundColor: c.primaryLight, borderColor: c.borderStrong }]}>
+          <Ionicons name="flame" size={15} color={c.primary} />
+          <Text style={[styles.streakText, { color: c.primary }]}>
             {streakCount} {t('checklist.dayStreak', 'Gün Seri')}
           </Text>
-        </LinearGradient>
+        </View>
       </Pressable>
 
       {/* Progress Bar */}
-      <View style={[styles.progressTrack, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)' }]}>
-        <View style={[styles.progressFill, { width: `${(completedCount / 5) * 100}%` }]} />
+      <View style={[styles.progressTrack, { backgroundColor: c.primaryLight }]}>
+        <View style={[styles.progressFill, { width: `${(completedCount / 5) * 100}%`, backgroundColor: c.primary }]} />
       </View>
 
       {/* 5 Prayers Grid */}
@@ -201,25 +210,30 @@ export function PrayerChecklistCard() {
           return (
             <Pressable
               key={item.id}
-              style={[
+              accessibilityRole="checkbox"
+              accessibilityState={{ checked: isDone }}
+              accessibilityLabel={t(item.labelKey, item.defaultLabel)}
+              style={({ pressed }) => [
                 styles.prayerItem,
                 {
-                  backgroundColor: isDone
-                    ? (isDark ? 'rgba(212, 175, 55, 0.15)' : '#F3EACF')
-                    : (isDark ? 'rgba(255, 255, 255, 0.03)' : '#F5EFE3'),
-                  borderColor: isDone
-                    ? '#D4AF37'
-                    : (isDark ? 'rgba(255, 255, 255, 0.08)' : '#E6DDD0'),
+                  backgroundColor: isDone ? c.primaryLight : c.surface,
+                  borderColor: isDone ? c.primary : c.border,
+                  opacity: pressed ? 0.75 : 1,
                 },
               ]}
               onPress={() => togglePrayer(item.id)}
             >
-              <View style={[styles.checkbox, { backgroundColor: isDone ? '#D4AF37' : 'transparent', borderColor: isDone ? '#D4AF37' : (isDark ? 'rgba(255,255,255,0.25)' : '#C4B7A5') }]}>
-                {isDone && <Feather name="check" size={12} color="#1A1207" />}
+              <View
+                style={[
+                  styles.checkbox,
+                  { backgroundColor: isDone ? c.primary : 'transparent', borderColor: isDone ? c.primary : c.textSecondary },
+                ]}
+              >
+                {isDone && <Feather name="check" size={12} color="#FFFFFF" />}
               </View>
 
               <Text
-                style={[styles.prayerLabel, { color: isDone ? '#D4AF37' : (isDark ? '#E2CFA0' : '#4A3B2C') }]}
+                style={[styles.prayerLabel, { color: isDone ? c.primary : c.text }]}
                 numberOfLines={1}
                 adjustsFontSizeToFit
                 minimumFontScale={0.75}
@@ -233,66 +247,57 @@ export function PrayerChecklistCard() {
 
       {/* Bottom View History Bar */}
       <Pressable
-        style={[styles.historyBar, { borderColor: isDark ? 'rgba(212, 175, 55, 0.15)' : 'rgba(140, 112, 85, 0.15)' }]}
+        style={[styles.historyBar, { borderColor: c.border }]}
         onPress={() => router.push('/prayer-history')}
+        accessibilityRole="button"
       >
-        <Text style={[styles.historyBarText, { color: isDark ? '#D4AF37' : '#7B4F1A' }]}>
+        <Text style={[styles.historyBarText, { color: c.primary }]}>
           {t('checklist.viewHistory', 'Tüm Geçmişi Gör')}
         </Text>
-        <Feather name="arrow-right" size={14} color={isDark ? '#D4AF37' : '#7B4F1A'} />
+        <Feather name="arrow-right" size={14} color={c.primary} />
       </Pressable>
 
-      {/* Glassmorphic 5 Daily Prayers Victory Modal */}
+      {/* 5 Daily Prayers Victory Modal */}
       <Modal
         visible={showCelebrationModal}
         transparent
         animationType="fade"
-        onRequestClose={() => setShowCelebrationModal(false)}
+        onRequestClose={closeCelebration}
       >
-        <BlurView
-          intensity={isDark ? 40 : 25}
-          tint={isDark ? 'dark' : 'light'}
-          style={styles.modalOverlay}
-        >
+        <View style={[styles.modalOverlay, { backgroundColor: isDark ? 'rgba(0, 0, 0, 0.6)' : 'rgba(15, 23, 42, 0.35)' }]}>
           <View
             style={[
               styles.modalCard,
-              {
-                backgroundColor: isDark ? 'rgba(28, 21, 11, 0.95)' : 'rgba(255, 251, 244, 0.96)',
-                borderColor: isDark ? 'rgba(212, 175, 55, 0.35)' : 'rgba(212, 175, 55, 0.4)',
-              },
+              { backgroundColor: isDark ? '#16161E' : '#FFFFFF', borderColor: c.border, shadowColor: c.glow },
             ]}
           >
             <LinearGradient
-              colors={['#D4AF37', '#B8860B']}
-              style={styles.modalBadgeWrap}
+              colors={c.heroGradient as [string, string]}
+              style={[styles.modalBadgeWrap, { shadowColor: c.glow }]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
             >
-              <Ionicons name="trophy" size={40} color="#1A1207" />
+              <Ionicons name="trophy" size={38} color="#FFFFFF" />
             </LinearGradient>
 
-            <Text style={[styles.modalTitle, { color: isDark ? '#FDF8ED' : '#2C1A0A' }]}>
-              {t('checklist.celebrationTitle', 'Tebrikler! 🎉')}
+            <Text style={[styles.modalTitle, { color: c.text }]}>
+              {t('checklist.celebrationTitle', 'Tebrikler!')}
             </Text>
 
-            <Text style={[styles.modalSubtitle, { color: '#D4AF37' }]}>
+            <Text style={[styles.modalSubtitle, { color: c.primary }]}>
               {t('checklist.celebrationSubtitle', 'Maşallah!')}
             </Text>
 
-            <Text style={[styles.modalMessage, { color: isDark ? 'rgba(253, 248, 237, 0.8)' : '#5A4633' }]}>
+            <Text style={[styles.modalMessage, { color: c.textSecondary }]}>
               {t('checklist.celebrationMessage', 'Bugünkü 5 vakit namazınızın tamamını eda ettiniz. Allah kabul etsin!')}
             </Text>
 
             <Pressable
-              style={({ pressed }) => [
-                styles.modalBtn,
-                { opacity: pressed ? 0.85 : 1 },
-              ]}
-              onPress={() => setShowCelebrationModal(false)}
+              style={({ pressed }) => [styles.modalBtn, { opacity: pressed ? 0.85 : 1 }]}
+              onPress={closeCelebration}
             >
               <LinearGradient
-                colors={['#D4AF37', '#A87A0C']}
+                colors={c.heroGradient as [string, string]}
                 style={styles.modalBtnGradient}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
@@ -302,25 +307,45 @@ export function PrayerChecklistCard() {
                 </Text>
               </LinearGradient>
             </Pressable>
+
+            {streakCount > 1 && (
+              <Pressable
+                style={styles.shareRow}
+                onPress={() => {
+                  setShowCelebrationModal(false);
+                  setShareModalVisible(true);
+                }}
+              >
+                <Feather name="share-2" size={14} color={c.primary} />
+                <Text style={[styles.shareRowText, { color: c.primary }]}>
+                  {t('checklist.shareStreak', 'Serimi Paylaş')}
+                </Text>
+              </Pressable>
+            )}
           </View>
-        </BlurView>
+        </View>
       </Modal>
+
+      <StoryCardShareModal
+        visible={shareModalVisible}
+        onClose={() => setShareModalVisible(false)}
+        title={t('checklist.title', 'Günlük Namaz Takibi')}
+        text={t('checklist.shareText', 'Kesintisiz {{count}} gündür namazlarımı takip ediyorum, elhamdülillah!', { count: streakCount })}
+        source="Vera"
+        type="achievement"
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  // No horizontal margin: the home screen already insets content by 16dp, so the
+  // card lines up with the prayer grid and quick-feature tiles above it.
   card: {
-    marginHorizontal: 16,
-    marginVertical: 12,
-    borderRadius: 20,
+    marginVertical: 4,
+    borderRadius: 16,
     borderWidth: 1,
     padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 4,
   },
   headerRow: {
     flexDirection: 'row',
@@ -347,13 +372,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 14,
+    borderWidth: 1,
     gap: 4,
     flexShrink: 0,
   },
   streakText: {
     fontFamily: 'Outfit_700Bold',
     fontSize: 12,
-    color: '#1A1207',
   },
   progressTrack: {
     height: 6,
@@ -363,7 +388,6 @@ const styles = StyleSheet.create({
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#D4AF37',
     borderRadius: 3,
   },
   prayersGrid: {
@@ -424,7 +448,6 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     padding: 24,
     alignItems: 'center',
-    shadowColor: '#D4AF37',
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.25,
     shadowRadius: 20,
@@ -437,7 +460,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 16,
-    shadowColor: '#D4AF37',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.4,
     shadowRadius: 10,
@@ -476,6 +498,17 @@ const styles = StyleSheet.create({
   modalBtnText: {
     fontFamily: 'Outfit_700Bold',
     fontSize: 16,
-    color: '#1A1207',
+    color: '#FFFFFF',
+  },
+  shareRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    marginTop: 14,
+  },
+  shareRowText: {
+    fontFamily: 'Outfit_600SemiBold',
+    fontSize: 13,
   },
 });

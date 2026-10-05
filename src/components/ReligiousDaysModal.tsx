@@ -1,10 +1,12 @@
-import React from 'react';
-import { Modal, View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Modal, View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
-import { RELIGIOUS_DAYS, getDaysRemaining } from '../data/religiousDays';
+import { ReligiousDay, getDaysRemaining } from '../data/religiousDays';
+import { hijriMonthName, religiousDayText } from '../localization/content';
+import { fetchReligiousDays } from '../services/api';
 import { typography, spacing } from '../utils/theme';
 import { logModalOpened } from '../services/analyticsService';
 
@@ -14,14 +16,29 @@ interface ReligiousDaysModalProps {
 }
 
 export const ReligiousDaysModal: React.FC<ReligiousDaysModalProps> = ({ visible, onClose }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { theme, isDark } = useTheme();
-  const isLangTR = i18n.language === 'tr' || i18n.language.startsWith('tr');
 
-  React.useEffect(() => {
-    if (visible) {
-      logModalOpened('ReligiousDaysModal');
-    }
+  const [days, setDays] = useState<ReligiousDay[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    if (!visible) return;
+    logModalOpened('ReligiousDaysModal');
+    let active = true;
+    setLoading(true);
+    setFailed(false);
+    fetchReligiousDays()
+      .then((list) => active && setDays(list))
+      .catch((e) => {
+        if (__DEV__) console.warn('[ReligiousDays] load failed:', e?.message ?? e);
+        if (active) setFailed(true);
+      })
+      .finally(() => active && setLoading(false));
+    return () => {
+      active = false;
+    };
   }, [visible]);
 
   if (!visible) return null;
@@ -57,15 +74,27 @@ export const ReligiousDaysModal: React.FC<ReligiousDaysModalProps> = ({ visible,
           </View>
 
           {/* List of Religious Days */}
+          {loading ? (
+            <View style={styles.stateBox}>
+              <ActivityIndicator size="large" color={theme.colors.primary} />
+            </View>
+          ) : failed || days.length === 0 ? (
+            <View style={styles.stateBox}>
+              <Text style={[styles.dayDesc, { color: theme.colors.textSecondary, textAlign: 'center' }]}>
+                {t('religious.loadError', 'Dini günler yüklenemedi. İnternet bağlantınızı kontrol edin.')}
+              </Text>
+            </View>
+          ) : (
           <ScrollView style={{ maxHeight: 420 }} showsVerticalScrollIndicator={false}>
-            {RELIGIOUS_DAYS.map((item) => {
+            {days.map((item) => {
               const daysLeft = getDaysRemaining(item.gregorianDate);
               const isUpcoming = daysLeft >= 0;
-              const title = isLangTR ? item.nameTR : item.nameEN;
-              const desc = isLangTR ? item.descriptionTR : item.descriptionEN;
+              const title = religiousDayText(item, 'name');
+              const desc = religiousDayText(item, 'description');
 
               const dateParts = item.gregorianDate.split('-');
               const formattedGregorian = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+              const formattedHijri = `${item.hijriDay} ${hijriMonthName(item.hijriMonth)} ${item.hijriYear}`;
 
               return (
                 <View
@@ -84,9 +113,12 @@ export const ReligiousDaysModal: React.FC<ReligiousDaysModalProps> = ({ visible,
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 2 }}>
                       <Text style={[styles.dayTitle, { color: theme.colors.text }]}>{title}</Text>
                     </View>
-                    <Text style={[styles.dayMeta, { color: theme.colors.textSecondary }]}>
-                      📅 {formattedGregorian}  •  🌙 {item.hijriDate}
-                    </Text>
+                    <View style={styles.metaRow}>
+                      <Feather name="calendar" size={11} color={theme.colors.textSecondary} />
+                      <Text style={[styles.dayMeta, { color: theme.colors.textSecondary }]}>{formattedGregorian}</Text>
+                      <Feather name="moon" size={11} color={theme.colors.textSecondary} style={{ marginLeft: 8 }} />
+                      <Text style={[styles.dayMeta, { color: theme.colors.textSecondary }]}>{formattedHijri}</Text>
+                    </View>
                     {desc && <Text style={[styles.dayDesc, { color: theme.colors.textSecondary }]}>{desc}</Text>}
                   </View>
 
@@ -112,6 +144,7 @@ export const ReligiousDaysModal: React.FC<ReligiousDaysModalProps> = ({ visible,
               );
             })}
           </ScrollView>
+          )}
         </View>
       </BlurView>
     </Modal>
@@ -175,7 +208,17 @@ const styles = StyleSheet.create({
   dayMeta: {
     fontFamily: typography.fontFamily.regular,
     fontSize: 11,
+  },
+  metaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
     marginTop: 2,
+  },
+  stateBox: {
+    paddingVertical: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   dayDesc: {
     fontFamily: typography.fontFamily.medium,

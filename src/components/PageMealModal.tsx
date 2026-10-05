@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { BlurView } from 'expo-blur';
 import { useTranslation } from 'react-i18next';
 import * as Haptics from 'expo-haptics';
 
@@ -58,7 +57,7 @@ export function PageMealModal({ visible, pageNo, onClose }: Props) {
   const handleShareVerse = (verse: PageVerseMeal) => {
     try {
       Haptics.selectionAsync();
-    } catch (_) {}
+    } catch {}
     Share.share({
       message: `[${verse.surahNo}:${verse.ayahNo}]\n\n${verse.arabicText}\n\n"${verse.translationText}"\n\n— Vera Kuran-ı Kerim`,
     });

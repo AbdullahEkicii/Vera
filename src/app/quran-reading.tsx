@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -17,10 +17,10 @@ import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { FadeIn, Easing, useSharedValue, withTiming, useAnimatedStyle } from 'react-native-reanimated';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import * as Haptics from 'expo-haptics';
 
 import { useTheme } from '../context/ThemeContext';
 import { useQuranSettings } from '../context/QuranSettingsContext';
-import { typography } from '../utils/theme';
 import { saveLastRead } from '../services/quranStorage';
 import { SURAHS, getJuzForPage } from '../data/quranMeta';
 import {
@@ -35,6 +35,15 @@ import { PageMealModal } from '../components/PageMealModal';
 import { QuranPrayersModal } from '../components/QuranPrayersModal';
 import { updateHatimPage } from '../services/hatimService';
 import { logScreenView, logQuranSurahRead } from '../services/analyticsService';
+import {
+  QURAN_RECITERS,
+  QuranReciter,
+  getSelectedReciter,
+  setSelectedReciter,
+  quranAudioPlayer,
+} from '../services/quranAudioService';
+import { getVerseBookmarks, toggleVerseBookmark } from '../services/quranBookmarks';
+import { ct } from '../localization/content';
 
 // ── Tema Sabitleri ve Tipleri ──────────────────────────────────────────────────
 const QURAN_THEME_STORAGE_KEY = 'QURAN_READING_THEME_KEY';
@@ -309,12 +318,20 @@ const PageContent = React.memo(({
   fontFamily,
   baseFontSize,
   isLandscape = false,
+  playingAyahKey,
+  bookmarkedKeys,
+  onAyahPress,
+  onAyahLongPress,
 }: {
   verses: Verse[];
   colors: QuranTheme;
   fontFamily: string;
   baseFontSize: number;
   isLandscape?: boolean;
+  playingAyahKey?: string | null;
+  bookmarkedKeys?: Set<string>;
+  onAyahPress?: (verse: Verse) => void;
+  onAyahLongPress?: (verse: Verse) => void;
 }) => {
   const surahGroups: { surahNo: number; verses: Verse[] }[] = [];
   for (const verse of verses) {
@@ -341,15 +358,25 @@ const PageContent = React.memo(({
               <SurahHeader surahNo={group.surahNo} colors={colors} fontFamily={fontFamily} />
             )}
             <Text style={[styles.arabicText, { color: colors.text, fontFamily, fontSize: baseFontSize, lineHeight: lineHeightCalc }]}>
-              {group.verses.map((verse) => (
-                <Text key={verse.id}>
-                  {verse.arabicText}
-                  <Text style={[styles.verseNumber, { color: colors.primary, fontFamily }]}>
-                    {' '}
-                    ﴿{verse.ayahNo}﴾{' '}
+              {group.verses.map((verse) => {
+                const key = `${verse.surahNo}:${verse.ayahNo}`;
+                const isPlaying = playingAyahKey === key;
+                const isBookmarked = bookmarkedKeys?.has(key);
+                return (
+                  <Text
+                    key={verse.id}
+                    onPress={onAyahPress ? () => onAyahPress(verse) : undefined}
+                    onLongPress={onAyahLongPress ? () => onAyahLongPress(verse) : undefined}
+                    style={isPlaying ? { backgroundColor: colors.primary + '30' } : undefined}
+                  >
+                    {verse.arabicText}
+                    <Text style={[styles.verseNumber, { color: isBookmarked ? colors.primary : colors.primary, fontFamily, textDecorationLine: isBookmarked ? 'underline' : 'none' }]}>
+                      {' '}
+                      ﴿{verse.ayahNo}﴾{' '}
+                    </Text>
                   </Text>
-                </Text>
-              ))}
+                );
+              })}
             </Text>
 
             {isSurahCompletedOnPage && (
@@ -361,6 +388,7 @@ const PageContent = React.memo(({
     </>
   );
 });
+PageContent.displayName = 'PageContent';
 
 // ── Ana Ekran ─────────────────────────────────────────────────────────────────
 export default function QuranReadingScreen() {
@@ -386,6 +414,27 @@ export default function QuranReadingScreen() {
   const [styleSelectorVisible, setStyleSelectorVisible] = useState(false);
   const [pageMealVisible, setPageMealVisible] = useState(false);
   const [prayersModalVisible, setPrayersModalVisible] = useState(false);
+
+  // ── Sesli Okuma (Kıraat) ──
+  const [reciter, setReciter] = useState<QuranReciter>(QURAN_RECITERS[0]);
+  const [reciterModalVisible, setReciterModalVisible] = useState(false);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [playingAyahKey, setPlayingAyahKey] = useState<string | null>(null);
+  const autoAdvancePendingRef = useRef(false);
+
+  // ── Ayet Bookmark ──
+  const [bookmarkedKeys, setBookmarkedKeys] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    getSelectedReciter().then(setReciter);
+    getVerseBookmarks().then((list) => setBookmarkedKeys(new Set(list.map((b) => b.id))));
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      quranAudioPlayer.stop();
+    };
+  }, []);
 
   useEffect(() => {
     logScreenView('QuranReadingScreen');
@@ -531,13 +580,91 @@ export default function QuranReadingScreen() {
     };
   }, [juz, verses, surahName, page]);
 
+  const stopAudioPlayback = useCallback(() => {
+    quranAudioPlayer.stop();
+    setIsPlayingAudio(false);
+    setPlayingAyahKey(null);
+  }, []);
+
   const handleNextPage = useCallback(() => {
+    if (isPlayingAudio) stopAudioPlayback();
     if (page < 604) setPage((p) => p + 1);
-  }, [page]);
+  }, [page, isPlayingAudio, stopAudioPlayback]);
 
   const handlePrevPage = useCallback(() => {
+    if (isPlayingAudio) stopAudioPlayback();
     if (page > 1) setPage((p) => p - 1);
-  }, [page]);
+  }, [page, isPlayingAudio, stopAudioPlayback]);
+
+  const startAudioPlayback = useCallback((fromAyahNo?: number) => {
+    if (verses.length === 0) return;
+    const ayahsToPlay = fromAyahNo
+      ? verses.filter((v) => v.ayahNo >= fromAyahNo)
+      : verses;
+    if (ayahsToPlay.length === 0) return;
+
+    setIsPlayingAudio(true);
+    quranAudioPlayer.play(
+      ayahsToPlay.map((v) => ({ surahNo: v.surahNo, ayahNo: v.ayahNo })),
+      reciter.folder,
+      {
+        onAyahStart: (ayah) => setPlayingAyahKey(`${ayah.surahNo}:${ayah.ayahNo}`),
+        onStopped: () => {
+          setPlayingAyahKey(null);
+          if (page < 604) {
+            autoAdvancePendingRef.current = true;
+            setPage((p) => p + 1);
+          } else {
+            setIsPlayingAudio(false);
+          }
+        },
+      }
+    );
+  }, [verses, reciter, page]);
+
+  const togglePlayPause = useCallback(() => {
+    if (isPlayingAudio) {
+      stopAudioPlayback();
+    } else {
+      startAudioPlayback();
+    }
+  }, [isPlayingAudio, stopAudioPlayback, startAudioPlayback]);
+
+  const handleAyahPress = useCallback((verse: Verse) => {
+    if (isPlayingAudio) stopAudioPlayback();
+    startAudioPlayback(verse.ayahNo);
+  }, [isPlayingAudio, stopAudioPlayback, startAudioPlayback]);
+
+  const handleAyahLongPress = useCallback(async (verse: Verse) => {
+    try {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    } catch {}
+    const surahInfo = SURAHS.find((s) => s.number === verse.surahNo);
+    const updated = await toggleVerseBookmark({
+      surahNo: verse.surahNo,
+      ayahNo: verse.ayahNo,
+      surahName: surahInfo?.nameTurkish || surahName,
+      pageNo: page,
+      arabicText: verse.arabicText,
+    });
+    setBookmarkedKeys(new Set(updated.map((b) => b.id)));
+  }, [page, surahName]);
+
+  // Sayfa değişimi otomatik (kesintisiz dinleme) ise, yeni sayfa yüklenince kaldığı yerden devam et.
+  useEffect(() => {
+    if (autoAdvancePendingRef.current && !loading && verses.length > 0) {
+      autoAdvancePendingRef.current = false;
+      startAudioPlayback();
+    }
+  }, [verses, loading, startAudioPlayback]);
+
+  const changeReciter = (r: QuranReciter) => {
+    setReciter(r);
+    setSelectedReciter(r.id).catch(() => {});
+    if (isPlayingAudio) {
+      stopAudioPlayback();
+    }
+  };
 
   const pinchGesture = Gesture.Pinch()
     .onUpdate((e) => {
@@ -626,12 +753,23 @@ export default function QuranReadingScreen() {
 
           <View style={styles.headerCenter}>
             <Text style={[styles.headerSurah, { color: colors.text, fontSize: isLandscape ? 15 : 17 }]}>{displaySurahName}</Text>
-            <Text style={[styles.headerMeta, { color: colors.textSecondary }]}>
-              {t('quran.juzNum', { num: juz })}  •  {t('quran.pageNum', { num: page })}
-            </Text>
+            <Pressable onPress={() => setReciterModalVisible(true)} hitSlop={4}>
+              <Text style={[styles.headerMeta, { color: colors.textSecondary }]}>
+                {t('quran.juzNum', { num: juz })}  •  {t('quran.pageNum', { num: page })}  •  🎙 {ct(`content.reciters.${reciter.id}.name`, reciter.nameTR, reciter.nameEN)}
+              </Text>
+            </Pressable>
           </View>
 
           <View style={styles.headerRightControls}>
+            {/* Sesli Okuma Oynat/Durdur */}
+            <Pressable
+              style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]}
+              onPress={togglePlayPause}
+              hitSlop={6}
+            >
+              <Feather name={isPlayingAudio ? 'pause-circle' : 'headphones'} size={18} color={isPlayingAudio ? colors.primary : colors.text} />
+            </Pressable>
+
             {/* Sayfa Meali Butonu */}
             <Pressable
               style={[styles.mealBtn, { backgroundColor: colors.surahDivider }]}
@@ -703,12 +841,16 @@ export default function QuranReadingScreen() {
               >
                 {/* Sayfa çerçevesi ve Pinch Zoom */}
                 <Animated.View style={[styles.pageFrame, { backgroundColor: colors.pageBg, borderColor: colors.border, padding: isLandscape ? 14 : 20 }, animatedPageStyle]}>
-                  <PageContent 
-                    verses={verses} 
-                    colors={colors} 
-                    fontFamily={customFontFamily} 
-                    baseFontSize={currentFontSize} 
+                  <PageContent
+                    verses={verses}
+                    colors={colors}
+                    fontFamily={customFontFamily}
+                    baseFontSize={currentFontSize}
                     isLandscape={isLandscape}
+                    playingAyahKey={playingAyahKey}
+                    bookmarkedKeys={bookmarkedKeys}
+                    onAyahPress={handleAyahPress}
+                    onAyahLongPress={handleAyahLongPress}
                   />
                 </Animated.View>
               </Animated.ScrollView>
@@ -810,6 +952,60 @@ export default function QuranReadingScreen() {
           </Pressable>
         </Modal>
 
+        {/* Kari (Reciter) Seçici Modal */}
+        <Modal
+          visible={reciterModalVisible}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setReciterModalVisible(false)}
+        >
+          <Pressable style={styles.modalBackdrop} onPress={() => setReciterModalVisible(false)}>
+            <View style={[styles.themeModalCard, { backgroundColor: colors.pageBg, borderColor: colors.border }]}>
+              <View style={styles.themeModalHeader}>
+                <Text style={[styles.themeModalTitle, { color: colors.text }]}>
+                  {t('quran.selectReciter', 'Kari Seç')}
+                </Text>
+                <Pressable onPress={() => setReciterModalVisible(false)} hitSlop={12}>
+                  <Feather name="x" size={20} color={colors.textSecondary} />
+                </Pressable>
+              </View>
+
+              <View style={styles.themeOptionsGrid}>
+                {QURAN_RECITERS.map((r) => {
+                  const isSelected = r.id === reciter.id;
+                  return (
+                    <Pressable
+                      key={r.id}
+                      style={[
+                        styles.themeOptionRow,
+                        { backgroundColor: colors.bg, borderColor: isSelected ? colors.primary : colors.border },
+                      ]}
+                      onPress={() => {
+                        changeReciter(r);
+                        setReciterModalVisible(false);
+                      }}
+                    >
+                      <View style={[styles.themeColorBadge, { backgroundColor: colors.pageBg, borderColor: colors.border }]}>
+                        <Feather name="mic" size={16} color={colors.primary} />
+                      </View>
+
+                      <View style={styles.themeNameContainer}>
+                        <Text style={[styles.themeNameText, { color: colors.text }]}>
+                          {ct(`content.reciters.${r.id}.name`, r.nameTR, r.nameEN)}
+                        </Text>
+                      </View>
+
+                      {isSelected && (
+                        <Feather name="check-circle" size={20} color={colors.primary} />
+                      )}
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </View>
+          </Pressable>
+        </Modal>
+
         {/* Hat / Stil Seçici Modal */}
         {styleSelectorVisible && (
           <QuranStyleSelector 
@@ -868,12 +1064,10 @@ const styles = StyleSheet.create({
   },
   mealBtnText: {
     fontSize: 11.5,
-    fontWeight: '700',
     fontFamily: 'Outfit_700Bold',
   },
   fontSizeBtnText: {
     fontSize: 13,
-    fontWeight: '700',
     fontFamily: 'Outfit_700Bold',
   },
   headerRightControls: {

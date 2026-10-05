@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
+  AppState,
   StatusBar,
   Pressable,
   Platform,
@@ -11,7 +12,7 @@ import {
   Modal,
 } from 'react-native';
 import * as Location from 'expo-location';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SecureLocationStorage } from '../../services/storageService';
 import { useTranslation } from 'react-i18next';
 import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
 import { useIsFocused } from '@react-navigation/native';
@@ -24,7 +25,7 @@ import { QiblaCompass } from '../../components/QiblaCompass';
 import { getQiblaAngle, getDistanceToKaaba } from '../../utils/qibla';
 import { AppBackground } from '../../components/ProgressRing';
 import { logScreenView } from '../../services/analyticsService';
-import { AdBanner } from '../../components/AdBanner';
+import { BannerAdSlot } from '../../components/BannerAdSlot';
 
 const DEFAULT_COORDS = { latitude: 41.0082, longitude: 28.9784 };
 
@@ -38,7 +39,7 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
   const { theme, isDark, isFullscreen } = useTheme();
   const isFocused = useIsFocused();
 
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [, setHasPermission] = useState<boolean | null>(null);
   const [qiblaAngle, setQiblaAngle] = useState<number | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
   const [heading, setHeading] = useState<number>(0);
@@ -46,8 +47,15 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
   const [usedFallbackLocation, setUsedFallbackLocation] = useState<boolean>(false);
   const [isCalibrateModalVisible, setIsCalibrateModalVisible] = useState<boolean>(false);
 
+  // The compass sensor only runs while this tab is visible and the app is in the foreground.
+  const [appActive, setAppActive] = useState(AppState.currentState === 'active');
   useEffect(() => {
-    if (!isFocused || !isActiveTab) return;
+    const sub = AppState.addEventListener('change', (state) => setAppActive(state === 'active'));
+    return () => sub.remove();
+  }, []);
+
+  useEffect(() => {
+    if (!isFocused || !isActiveTab || !appActive) return;
     logScreenView('QiblaScreen');
 
     let headingSubscription: Location.LocationSubscription | null = null;
@@ -56,46 +64,56 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
     (async () => {
       let coords: { latitude: number; longitude: number } | null = null;
 
-      // 1. Try to request GPS permission and get position
+      // 1. Fast Path: Check cached GPS location or manual location first to avoid spinning up GPS antenna
       try {
-        const { status } = await Location.requestForegroundPermissionsAsync();
-        if (status === 'granted') {
-          if (isMounted) setHasPermission(true);
-          let loc = await Location.getLastKnownPositionAsync({});
-          if (!loc) {
-            const timeoutPromise = new Promise<any>((_, reject) =>
-              setTimeout(() => reject(new Error('Location timed out')), 4000)
-            );
-            const positionPromise = Location.getCurrentPositionAsync({
-              accuracy: Location.Accuracy.Balanced,
-            });
-            loc = await Promise.race([positionPromise, timeoutPromise]);
+        const manualStr = await SecureLocationStorage.getItem('MANUAL_LOCATION');
+        if (manualStr) {
+          const manual = JSON.parse(manualStr);
+          if (manual?.latitude && manual?.longitude) {
+            coords = { latitude: manual.latitude, longitude: manual.longitude };
+            if (isMounted) setUsedFallbackLocation(true);
           }
-          if (loc) {
-            coords = { latitude: loc.coords.latitude, longitude: loc.coords.longitude };
-          }
-        } else {
-          if (isMounted) setHasPermission(false);
         }
-      } catch (e) {
-        console.warn('GPS location fetch error in QiblaScreen:', e);
-      }
 
-      // 2. Fallback to saved manual location
-      if (!coords) {
-        try {
-          const savedStr = await AsyncStorage.getItem('MANUAL_LOCATION');
-          if (savedStr) {
-            const saved = JSON.parse(savedStr);
-            if (saved?.latitude && saved?.longitude) {
-              coords = { latitude: saved.latitude, longitude: saved.longitude };
-              if (isMounted) setUsedFallbackLocation(true);
+        if (!coords) {
+          const lastGpsStr = await SecureLocationStorage.getItem('LAST_GPS_LOCATION');
+          if (lastGpsStr) {
+            const lastGps = JSON.parse(lastGpsStr);
+            if (lastGps?.latitude && lastGps?.longitude) {
+              coords = { latitude: lastGps.latitude, longitude: lastGps.longitude };
             }
           }
-        } catch {}
+        }
+      } catch {}
+
+      // 2. If no cached location is available, query device location
+      if (!coords) {
+        try {
+          const { status } = await Location.requestForegroundPermissionsAsync();
+          if (status === 'granted') {
+            if (isMounted) setHasPermission(true);
+            let loc = await Location.getLastKnownPositionAsync({});
+            if (!loc) {
+              const timeoutPromise = new Promise<any>((_, reject) =>
+                setTimeout(() => reject(new Error('Location timed out')), 3500)
+              );
+              const positionPromise = Location.getCurrentPositionAsync({
+                accuracy: Location.Accuracy.Balanced,
+              });
+              loc = await Promise.race([positionPromise, timeoutPromise]);
+            }
+            if (loc) {
+              coords = { latitude: loc.coords.latitude, longitude: loc.coords.longitude };
+            }
+          } else {
+            if (isMounted) setHasPermission(false);
+          }
+        } catch (e) {
+          console.warn('GPS location fetch error in QiblaScreen:', e);
+        }
       }
 
-      // 3. Fallback to default coordinates
+      // 3. Ultimate Fallback to default coordinates
       if (!coords) {
         coords = DEFAULT_COORDS;
         if (isMounted) setUsedFallbackLocation(true);
@@ -110,12 +128,24 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
       setDistance(dist);
 
       try {
-        headingSubscription = await Location.watchHeadingAsync((data) => {
-          if (isMounted) {
-            setHeading(data.trueHeading !== -1 ? data.trueHeading : data.magHeading);
-          }
+        let lastHeading = -1;
+        const sub = await Location.watchHeadingAsync((data) => {
+          if (!isMounted) return;
+          const next = data.trueHeading !== -1 ? data.trueHeading : data.magHeading;
+          // The sensor fires 20–50 times a second; re-render only on a visible change.
+          const delta = Math.abs(((next - lastHeading + 540) % 360) - 180);
+          if (lastHeading >= 0 && delta < 1) return;
+          lastHeading = next;
+          setHeading(next);
         });
-      } catch (e) {
+        // The cleanup may already have run while we were awaiting (tab swiped away,
+        // app backgrounded): release the sensor right away instead of leaking it.
+        if (!isMounted) {
+          sub.remove();
+          return;
+        }
+        headingSubscription = sub;
+      } catch {
         if (isMounted) {
           setErrorMsg(t('qibla.errorCompass', 'Pusula sensörüne erişilemedi.'));
         }
@@ -126,7 +156,7 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
       isMounted = false;
       headingSubscription?.remove();
     };
-  }, [isFocused, isActiveTab, t]);
+  }, [isFocused, isActiveTab, appActive, t]);
 
   // ── Loading state ─────────────────────────────────────────────────────────
   if (qiblaAngle === null) {
@@ -175,7 +205,7 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
             {/* Calibration Button */}
             <Pressable
               onPress={() => {
-                try { Haptics.selectionAsync(); } catch (_) {}
+                try { Haptics.selectionAsync(); } catch {}
                 setIsCalibrateModalVisible(true);
               }}
               style={[styles.calibrateHeaderBtn, { borderColor: cardBorder }]}
@@ -196,7 +226,13 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
 
         {/* Compass Component with Fixed Kaaba angle */}
         <Animated.View entering={FadeInDown.delay(60).duration(450)} style={styles.compassSection}>
-          <QiblaCompass heading={heading} qiblaAngle={qiblaAngle} distance={distance} error={errorMsg} />
+          <QiblaCompass
+            heading={heading}
+            qiblaAngle={qiblaAngle}
+            distance={distance}
+            error={errorMsg}
+            isActive={isFocused && isActiveTab && appActive}
+          />
         </Animated.View>
 
         {/* Sensors & Safety Shield Indicators */}
@@ -220,7 +256,7 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
 
         {/* Native Ad Banner */}
         <Animated.View entering={FadeInDown.delay(120).duration(400)} style={{ width: '100%' }}>
-          <AdBanner />
+          <BannerAdSlot placement="qibla" isVisible={isFocused && isActiveTab} lazy={true} />
         </Animated.View>
 
         {/* Calibration & How to Use Guide */}
@@ -265,7 +301,7 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
 
             <Pressable
               onPress={() => {
-                try { Haptics.selectionAsync(); } catch (_) {}
+                try { Haptics.selectionAsync(); } catch {}
                 setIsCalibrateModalVisible(false);
               }}
               style={styles.modalBtn}

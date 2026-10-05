@@ -7,10 +7,15 @@ import { ThemeProvider } from '../context/ThemeContext';
 import { QuranSettingsProvider } from '../context/QuranSettingsContext';
 import { VersionChecker } from '../components/VersionChecker';
 import { AnimatedSplashScreen } from '../components/AnimatedSplashScreen';
-import { AppReviewModal } from '../components/AppReviewModal';
+import { maybeRequestReview } from '../services/reviewService';
+import { ErrorBoundary } from '../components/ErrorBoundary';
+import { registerBackgroundPrayerRefreshTask } from '../services/backgroundTaskService';
+import { allowAdsConsentFlow, initializeAdsWithConsent } from '../services/adsConsentService';
+import { reportError } from '../services/crashReportingService';
+import { initializePushNotifications } from '../services/pushNotificationService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import i18n from '../localization/i18n';
-import { View, StyleSheet, Platform, Alert, Linking } from 'react-native';
+import { changeAppLanguage } from '../localization/i18n';
+import { View, StyleSheet, Platform, InteractionManager } from 'react-native';
 import * as NavigationBar from 'expo-navigation-bar';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -21,6 +26,7 @@ if (typeof ErrorUtils !== 'undefined') {
   const defaultHandler = ErrorUtils.getGlobalHandler();
   ErrorUtils.setGlobalHandler((error: any, isFatal?: boolean) => {
     console.error('🔴 [GLOBAL UNCAUGHT ERROR]', error, 'Fatal:', isFatal);
+    reportError(error instanceof Error ? error : new Error(String(error)), `Global uncaught error (fatal=${!!isFatal})`);
     if (defaultHandler) {
       defaultHandler(error, isFatal);
     }
@@ -54,8 +60,6 @@ export default function RootLayout() {
   const [langLoaded, setLangLoaded] = useState(false);
   const [isAppReady, setIsAppReady] = useState(false);
   const [isSplashAnimationComplete, setSplashAnimationComplete] = useState(false);
-  const [reviewModalVisible, setReviewModalVisible] = useState(false);
-  const [openCount, setOpenCount] = useState(0);
   const hasHandledInitialNotif = useRef(false);
 
   useEffect(() => {
@@ -71,7 +75,9 @@ export default function RootLayout() {
       } else if (type === EventType.PRESS) {
         // Stop any playing adhan audio when tapping the notification to enter the app
         audioManager.stopAdhan();
-        
+
+        if (!isNotificationFresh(detail)) return;
+
         const notifType = detail.notification?.data?.type;
         setTimeout(() => {
           try {
@@ -81,6 +87,9 @@ export default function RootLayout() {
               router.replace({ pathname: '/(tabs)', params: { tab: '0' } });
             } else if (notifType === 'names') {
               router.replace({ pathname: '/(tabs)', params: { tab: '4' } });
+            } else if (notifType === 'greeting') {
+              const occasion = String(detail.notification?.data?.occasion ?? 'cuma');
+              router.replace({ pathname: '/(tabs)', params: { tab: '2', open: 'greeting', occasion } });
             }
           } catch (e) {
             console.error('Error opening notification target:', e);
@@ -98,6 +107,7 @@ export default function RootLayout() {
       notifee.getInitialNotification().then((initialNotification) => {
         const notifType = initialNotification?.notification?.data?.type;
         if (!notifType) return;
+        if (!isNotificationFresh(initialNotification)) return;
         setTimeout(() => {
           try {
             if (notifType === 'daily_content') {
@@ -106,6 +116,9 @@ export default function RootLayout() {
               router.replace({ pathname: '/(tabs)', params: { tab: '0' } });
             } else if (notifType === 'names') {
               router.replace({ pathname: '/(tabs)', params: { tab: '4' } });
+            } else if (notifType === 'greeting') {
+              const occasion = String(initialNotification?.notification?.data?.occasion ?? 'cuma');
+              router.replace({ pathname: '/(tabs)', params: { tab: '2', open: 'greeting', occasion } });
             }
           } catch (err) {
             console.error('Error handling initial notification route:', err);
@@ -130,7 +143,7 @@ export default function RootLayout() {
     AsyncStorage.getItem('APP_LANG')
       .then((lang) => {
         if (lang) {
-          i18n.changeLanguage(lang);
+          changeAppLanguage(lang);
         }
       })
       .catch(() => {})
@@ -147,37 +160,32 @@ export default function RootLayout() {
       const trackAppOpen = async () => {
         try {
           const countStr = await AsyncStorage.getItem('APP_OPEN_COUNT');
-          let count = countStr ? parseInt(countStr, 10) : 0;
-          count += 1;
-          await AsyncStorage.setItem('APP_OPEN_COUNT', count.toString());
-          setOpenCount(count);
-
-          const hasReviewed = await AsyncStorage.getItem('HAS_REVIEWED_APP');
-          if (hasReviewed === 'true') {
-            return;
-          }
-
-          const lastDismissedStr = await AsyncStorage.getItem('LAST_REVIEW_DISMISSED_AT_OPEN_COUNT');
-          if (lastDismissedStr) {
-            const lastDismissed = parseInt(lastDismissedStr, 10);
-            if (count - lastDismissed >= 30) {
-              setTimeout(() => {
-                setReviewModalVisible(true);
-              }, 3500);
-            }
-          } else {
-            // First time prompting threshold (e.g. 15th open)
-            if (count >= 15) {
-              setTimeout(() => {
-                setReviewModalVisible(true);
-              }, 3500);
-            }
+          const count = (countStr ? parseInt(countStr, 10) : 0) + 1;
+          AsyncStorage.setItem('APP_OPEN_COUNT', count.toString()).catch(() => {});
+          // Ask Play for a review once the user has come back a few times; Play
+          // decides whether the card actually shows.
+          if (count >= 5) {
+            setTimeout(() => maybeRequestReview('open_5'), 4000);
           }
         } catch (e) {
           console.error("Error tracking app open count", e);
         }
       };
       trackAppOpen();
+      registerBackgroundPrayerRefreshTask();
+      // Defer non-critical network/consent init until after first interactions settle,
+      // so they don't compete with prayer-times/weather fetches for bandwidth right at cold start.
+      InteractionManager.runAfterInteractions(() => {
+        // Returning users: onboarding is done, so the consent flow may run now.
+        // First launch: WelcomeOnboardingModal releases it on finish instead.
+        AsyncStorage.getItem('ONBOARDING_COMPLETED')
+          .then((done) => {
+            if (done === 'true') allowAdsConsentFlow();
+          })
+          .catch(() => {});
+        initializeAdsWithConsent();
+        initializePushNotifications();
+      });
     }
   }, [fontsLoaded, fontError, langLoaded]);
 
@@ -188,17 +196,14 @@ export default function RootLayout() {
   return (
     <View style={styles.container}>
       {isSplashAnimationComplete ? (
-        <ThemeProvider>
-          <QuranSettingsProvider>
-            <Slot />
-            <VersionChecker />
-            <AppReviewModal
-              visible={reviewModalVisible}
-              onClose={() => setReviewModalVisible(false)}
-              currentOpenCount={openCount}
-            />
-          </QuranSettingsProvider>
-        </ThemeProvider>
+        <ErrorBoundary>
+          <ThemeProvider>
+            <QuranSettingsProvider>
+              <Slot />
+              <VersionChecker />
+            </QuranSettingsProvider>
+          </ThemeProvider>
+        </ErrorBoundary>
       ) : (
         <AnimatedSplashScreen 
           onAnimationComplete={() => setSplashAnimationComplete(true)} 

@@ -21,7 +21,8 @@ import * as Haptics from 'expo-haptics';
 
 import { AppBackground } from '../components/ProgressRing';
 import { useTheme } from '../context/ThemeContext';
-import { AdBanner } from '../components/AdBanner';
+import { BannerAdSlot } from '../components/BannerAdSlot';
+import { useIsFocused } from '@react-navigation/native';
 import {
   DetailedWeatherData,
   fetchDetailedWeather,
@@ -33,8 +34,9 @@ import { logScreenView } from '../services/analyticsService';
 const { width: SCREEN_W } = Dimensions.get('window');
 
 export default function WeatherScreen() {
+  const isFocused = useIsFocused();
   const { t, i18n } = useTranslation();
-  const { theme, isDark, isFullscreen } = useTheme();
+  const { isDark, isFullscreen } = useTheme();
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams();
 
@@ -59,7 +61,7 @@ export default function WeatherScreen() {
   const toggleUnit = (newUnit: 'C' | 'F') => {
     try {
       Haptics.selectionAsync();
-    } catch (_) {}
+    } catch {}
     setUnit(newUnit);
     AsyncStorage.setItem('TEMP_UNIT', newUnit);
   };
@@ -93,11 +95,10 @@ export default function WeatherScreen() {
     setRefreshing(true);
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch (_) {}
+    } catch {}
     await loadData();
   }, [loadData]);
 
-  const isLangTR = i18n.language === 'tr' || i18n.language.startsWith('tr');
 
   const formatDayName = (dateStr: string, index: number) => {
     try {
@@ -123,7 +124,6 @@ export default function WeatherScreen() {
     return Math.max(0.18, Math.min(1, ratio)) * 100;
   };
 
-  const current = weatherData;
   const cardBg = isDark ? 'rgba(30, 22, 12, 0.75)' : '#FFFFFF';
   const cardBorder = isDark ? 'rgba(212, 175, 55, 0.22)' : 'rgba(0,0,0,0.06)';
   const textPrimary = isDark ? '#FDF8ED' : '#1A1A24';
@@ -182,6 +182,16 @@ export default function WeatherScreen() {
             <Text style={[styles.errorText, { color: textSecondary }]}>
               {t('weather.error', 'Hava durumu verisi yüklenemedi.')}
             </Text>
+            <Pressable
+              style={styles.retryButton}
+              onPress={() => {
+                setLoading(true);
+                loadData();
+              }}
+            >
+              <Feather name="refresh-cw" size={16} color="#1A1207" />
+              <Text style={styles.retryButtonText}>{t('weather.retry', 'Yeniden Dene')}</Text>
+            </Pressable>
           </View>
         ) : (
           <ScrollView
@@ -280,6 +290,9 @@ export default function WeatherScreen() {
               </Animated.View>
             )}
 
+            {/* Banner right under the 24-hour forecast */}
+            <BannerAdSlot placement="weather_top" isVisible={isFocused} lazy={false} />
+
             {/* Detailed Weather Metrics Grid */}
             <Animated.View entering={FadeInDown.delay(180).duration(450)} style={styles.sectionWrap}>
               <View style={styles.metricsGrid}>
@@ -352,9 +365,6 @@ export default function WeatherScreen() {
               </View>
             </Animated.View>
 
-            {/* Native AdMob Banner */}
-            <AdBanner />
-
             {/* 7-Day Forecast Section */}
             <Animated.View entering={FadeInDown.delay(260).duration(450)} style={styles.sectionWrap}>
               <View style={styles.sectionHeader}>
@@ -370,10 +380,10 @@ export default function WeatherScreen() {
                   const barWidth = getTempBarWidth(item.minTemp, item.maxTemp);
 
                   return (
-                    <Animated.View
-                      key={item.date}
-                      entering={FadeInUp.delay(280 + idx * 40).duration(350)}
-                    >
+                    <React.Fragment key={item.date}>
+                    {/* Second banner between the days, after the third one */}
+                    {idx === 3 && <BannerAdSlot placement="weather_list" isVisible={isFocused} lazy={true} />}
+                    <Animated.View entering={FadeInUp.delay(280 + idx * 40).duration(350)}>
                       <Pressable
                         style={({ pressed }) => [
                           styles.forecastRow,
@@ -398,7 +408,7 @@ export default function WeatherScreen() {
                           </Text>
                           {isToday && (
                             <View style={styles.todayBadge}>
-                              <Text style={styles.todayBadgeText}>{isLangTR ? 'BUGÜN' : 'TODAY'}</Text>
+                              <Text style={styles.todayBadgeText}>{t('weather.today', 'Bugün').toLocaleUpperCase(i18n.language)}</Text>
                             </View>
                           )}
                         </View>
@@ -428,6 +438,7 @@ export default function WeatherScreen() {
                         </View>
                       </Pressable>
                     </Animated.View>
+                    </React.Fragment>
                   );
                 })}
               </View>
@@ -495,6 +506,21 @@ const styles = StyleSheet.create({
     fontFamily: 'Outfit_500Medium',
     fontSize: 15,
     textAlign: 'center',
+  },
+  retryButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 16,
+    backgroundColor: '#D4AF37',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 12,
+  },
+  retryButtonText: {
+    fontFamily: 'Outfit_600SemiBold',
+    fontSize: 14,
+    color: '#1A1207',
   },
   content: {
     paddingHorizontal: 16,

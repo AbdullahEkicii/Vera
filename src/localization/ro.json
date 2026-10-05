@@ -6,7 +6,11 @@
       "retry": "Reîncearcă",
       "success": "Succes",
       "fillAllFields": "Vă rugăm să completați toate câmpurile.",
-      "min": "m"
+      "min": "m",
+      "cancel": "Anulează",
+      "save": "Salvează",
+      "ok": "OK",
+      "close": "Închide"
     },
     "home": {
       "title": "Orele de Rugăciune",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "Nu s-au putut încărca orele de rugăciune",
       "errorLoadingSubtitle": "Vă rugăm să vă verificați conexiunea la internet sau să vă selectați orașul.",
       "retryBtn": "Reîncercați",
-      "loadingTimes": "Se încarcă orele de rugăciune..."
+      "loadingTimes": "Se încarcă orele de rugăciune...",
+      "locationPermissionTitle": "Permisiunea de Localizare Indisponibilă",
+      "locationPermissionDesc": "Se afișează orașul implicit. Poți alege un oraș sau poți acorda permisiunea de localizare.",
+      "estimatedTimesNotice": "Fără conexiune la internet, orele de rugăciune au fost calculate pe dispozitivul tău (estimative)."
     },
     "settings": {
       "title": "Setări",
@@ -111,7 +118,19 @@
       "offsetsTitle": "Ajustări ale timpului de rugăciune (decalaje / ± min)",
       "offsetsDesc": "Dacă moscheea locală sau calendarul dvs. diferă în minute, puteți ajusta ora până la ±15 minute.",
       "respectSilentModeTitle": "Moschee/Mod Silențios Respect",
-      "respectSilentModeDesc": "Dezactivează sunetul adhan și notifică în tăcere atunci când telefonul este în modul silențios sau vibrează."
+      "respectSilentModeDesc": "Dezactivează sunetul adhan și notifică în tăcere atunci când telefonul este în modul silențios sau vibrează.",
+      "inviteFriend": "Invită un Prieten",
+      "privacyOptions": "Opțiuni de Confidențialitate",
+      "timeFormat24h": "Format de 24 de Ore",
+      "loginLocked": "Prea multe încercări eșuate. Te rugăm să încerci din nou mai târziu.",
+      "loginFailed": "Autentificare eșuată. Verifică-ți datele de conectare.",
+      "notifications": "Notificări",
+      "editorLogout": "Deconectare Editor",
+      "editorLogin": "Autentificare Editor",
+      "username": "Nume de utilizator",
+      "password": "Parolă",
+      "loggingIn": "Se conectează...",
+      "login": "Conectare"
     },
     "qibla": {
       "title": "Qibla",
@@ -154,7 +173,9 @@
       "share": "Distribuie",
       "verseBody": "Faceți clic pentru a citi versetul zilei!",
       "hadithBody": "Faceți clic pentru a citi hadith-ul zilei!",
-      "quoteBody": "Faceți clic pentru a citi citatul zilei!"
+      "quoteBody": "Faceți clic pentru a citi citatul zilei!",
+      "subtitle": "Verset, hadith și citat selectate pentru astăzi",
+      "shareHint": "Atinge un card pentru a-l distribui ca imagine de poveste"
     },
     "search": {
       "title": "Selectați Locația",
@@ -217,7 +238,8 @@
         "dailyDesc": "Versul zilnic, hadith-ul sau citatul sosesc între Dhuhr și Asr.",
         "persistentName": "Ecran de blocare și bară de stare",
         "persistentDesc": "Afișează următorul nume de rugăciune și numărătoarea inversă live în panoul de notificare și ecranul de blocare."
-      }
+      },
+      "persistentTitle": "🕌 Până la {{prayer}}"
     },
     "tasbih": {
       "title": "Tasbih",
@@ -259,7 +281,49 @@
       "bgAudioSelect": "Selectați Sunet Dhikr de fundal",
       "dikhr1": "Sunetul Dhikr 1",
       "dikhr2": "Dhikr Sound 2",
-      "dikhr3": "Dhikr Sound 3"
+      "dikhr3": "Dhikr Sound 3",
+      "shareMilestone": "Distribuie",
+      "milestoneShareText": "Am atins {{total}} dhikr luna aceasta, mashallah!",
+      "streakDays": "zile la rând",
+      "monthStat": "Luna aceasta",
+      "streakStat": "Serie",
+      "streakValue": "{{count}} zile",
+      "remaining": "mai sunt {{count}}",
+      "noTarget": "Fără țintă",
+      "completed": "Finalizat",
+      "addShort": "Adaugă",
+      "progressShort": "Progres",
+      "recShort": "Recomandat",
+      "tapToCount": "Atinge pentru a număra",
+      "ok": "OK",
+      "dailyDhikrs": [
+        {
+          "text": "Subhanallahi wa bihamdihi",
+          "target": 100,
+          "benefit": "Recitat de 100 de ori zilnic, păcatele sunt iertate chiar dacă sunt cât spuma mării."
+        },
+        {
+          "text": "La ilaha illallahu wahdahu la sharika lah...",
+          "target": 100,
+          "benefit": "Recitarea acestuia de 100 de ori echivalează cu eliberarea a 10 sclavi și protejează împotriva lui Șeitan."
+        },
+        {
+          "text": "Astaghfirullah al-Adheem",
+          "target": 100,
+          "benefit": "Îndepărtează necazurile, deschide porțile sustenanței și aduce alinare."
+        },
+        {
+          "text": "La hawla wa la quwwata illa billah",
+          "target": 100,
+          "benefit": "O comoară din comorile Paradisului, care alungă grijile."
+        },
+        {
+          "text": "Subhanallahi walhamdulillahi...",
+          "target": 100,
+          "benefit": "Cel mai drag cuvânt pentru Allah, mai greu în balanță decât orice altceva."
+        }
+      ],
+      "recTarget": "Țintă:"
     },
     "update": {
       "title": "Actualizare Nouă Disponibilă!",
@@ -336,7 +400,15 @@
       "mealSource": "Traducere autentică în engleză",
       "loadingMeal": "Se încarcă traducerea paginii...",
       "noMealFound": "Nu a fost găsită nicio traducere pentru această pagină. Vă rugăm să vă verificați conexiunea la internet.",
-      "mealBtn": "Traducere"
+      "mealBtn": "Traducere",
+      "selectReciter": "Selectează Recitatorul",
+      "bookmarkAdded": "Verset adăugat la favorite",
+      "bookmarkRemoved": "Verset eliminat de la favorite",
+      "bookmarksTitle": "Versete Salvate",
+      "noBookmarks": "Încă nu ai versete favorite. Apasă lung pe un verset pentru a-l adăuga.",
+      "playFromHere": "Ascultă de Aici",
+      "juz": "Juz",
+      "downloadingShort": "Se descarcă..."
     },
     "review": {
       "title": "Susțineți-ne",
@@ -372,7 +444,10 @@
       "themeSepia": "Sepia caldă",
       "appTagline": "Orele de rugăciune, Coran și Qibla",
       "storeSearchHint": "Caută pe Google Play: Vera",
-      "scanToDownload": "Scanează pentru a descărca"
+      "scanToDownload": "Scanează pentru a descărca",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 Folosesc Vera pentru a ține evidența orelor de rugăciune, a adhanului și a lecturii mele din Coran. Hai să urmărim un khatm împreună!\n\n📲 Descarcă aplicația: {{link}}"
     },
     "checklist": {
       "title": "Tracker zilnic de rugăciune",
@@ -397,7 +472,9 @@
       "celebrationMessage": "Ai îndeplinit toate cele 5 rugăciuni zilnice astăzi. Allah să vă accepte rugăciunile!",
       "celebrationBtn": "Alhamdulillah",
       "trustNotice": "{{oraș}} • Orele de rugăciune verificate pentru regiunea dvs. folosind {{metoda}}",
-      "streakDays": "Zile"
+      "streakDays": "Zile",
+      "shareStreak": "Distribuie Seria Mea",
+      "shareText": "Mi-am ținut rugăciunile timp de {{count}} zile la rând, alhamdulillah!"
     },
     "calendar": {
       "title": "Calendar unificat",
@@ -413,7 +490,8 @@
       "subtitle": "Calendar și numărătoare inversă pentru nopți și zile binecuvântate",
       "today": "Astăzi",
       "daysLeft": "zile",
-      "passed": "A trecut"
+      "passed": "A trecut",
+      "loadError": "Zilele religioase nu au putut fi încărcate. Verifică-ți conexiunea la internet."
     },
     "widgetPromo": {
       "title": "Adăugați widgetul de rugăciune",
@@ -477,7 +555,17 @@
       "widgetDesc": "Vedeți numărătoarea inversă în direct fără a deschide aplicația.",
       "widgetAdded": "Widget adăugat cu succes!",
       "batteryTitle": "🔋 Scutire pentru economisirea bateriei",
-      "batteryDesc": "Recomandat să dezactivați optimizările bateriei pe Xiaomi și Samsung pentru adhans în timp util."
+      "batteryDesc": "Recomandat să dezactivați optimizările bateriei pe Xiaomi și Samsung pentru adhans în timp util.",
+      "locationReassurance": "Poți schimba oricând asta mai târziu din Setări.",
+      "notifDenied": "Permisiunea de notificare nu a fost acordată. Este posibil ca alertele pentru adhan să nu funcționeze — o poți activa mai târziu din Setări.",
+      "retryBtn": "Încearcă Din Nou",
+      "continueWithoutNotif": "Continuă Fără Notificări",
+      "skipTitle": "Omite Configurarea",
+      "skipBody": "Poți omite configurarea acum. Setările de localizare și notificare pot fi făcute mai târziu din Setări.",
+      "skipConfirm": "Omite",
+      "locationDenied": "Permisiunea de localizare nu a fost acordată. Poți alege orașul din listă sau poți schimba asta mai târziu din Setări.",
+      "locationFailed": "Nu am putut obține locația ta. Poți alege orașul din listă sau poți schimba asta mai târziu din Setări.",
+      "locationNotSet": "Localizare Indisponibilă (Permisiune Refuzată)"
     },
     "weather": {
       "title": "Prognoza meteo",
@@ -496,7 +584,8 @@
       "sunset": "Apus de soare",
       "precipitation": "Precipitare",
       "kmh": "km/h",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Încearcă Din Nou"
     },
     "duas": {
       "occasionTitle": "Când și de ce să recitem?",
@@ -542,7 +631,15 @@
       "chooseTheme": "Tema cardului",
       "shareBtn": "Distribuie pe WhatsApp / Povestea 🌟",
       "shareImageBtn": "Distribuiți cardul cu imagine 🌟",
-      "shareLinkBtn": "Distribuie linkul direct la magazin 🔗"
+      "shareLinkBtn": "Distribuie linkul direct la magazin 🔗",
+      "theme": {
+        "gold": "Linia de Aur",
+        "emerald": "Cupola de Smarald",
+        "navy": "Albastru de Miezul Nopții",
+        "crimson": "Trandafir & Rubin"
+      },
+      "customDefaultTitle": "Jummah Mubarak",
+      "customDefaultMessage": "Fie ca rugăciunile și cultul tău să fie acceptate."
     },
     "mosques": {
       "title": "Moscheile din apropiere",
@@ -557,7 +654,12 @@
     "dailyContent": {
       "preparing": "Se încarcă inspirația zilnică...",
       "queueSuccess": "Conținut adăugat la coada de aprobare.",
-      "queueError": "A apărut o eroare la adăugarea conținutului."
+      "queueError": "A apărut o eroare la adăugarea conținutului.",
+      "addModalTitle": "Adaugă Conținut Nou",
+      "textPlaceholder": "Text de Conținut (Arabă/Traducere)",
+      "sourcePlaceholder": "Sursă (ex.: Bukhari, Iman 1)",
+      "saving": "Se salvează...",
+      "saveAndQueue": "Salvează și Pune în Coadă"
     },
     "hatim": {
       "title": "Coran Khatm Tracker",
@@ -572,7 +674,9 @@
       "resetTitle": "Începeți New Khatm",
       "resetBody": "Khatm-ul curent va fi înregistrat ca finalizat și un nou khatm va începe de la pagina 1. Doriți să continuați?",
       "startNew": "Începeți New Khatm",
-      "resetHatimBtn": "Resetați și începeți un nou Khatm"
+      "resetHatimBtn": "Resetați și începeți un nou Khatm",
+      "share": "Distribuie Khatm-ul Meu",
+      "shareText": "Mi-am finalizat {{count}}-lea Khatm, alhamdulillah!"
     },
     "prayerTree": {
       "title": "Arborele săptămânal de rugăciune",
@@ -582,6 +686,512 @@
       "quoteHigh": "„Rugăciunea este stâlpul credinței.” — Ai o săptămână excepțională, MashaAllah!",
       "quoteMid": "„Stabiliți rugăciunea, dați zakah și închinați-vă cu cei care se închină.” (Al-Baqarah, 43)",
       "quoteLow": "„Într-adevăr, rugăciunea a fost decretată asupra credincioșilor un decret de timpuri specificate.” (An-Nisa, 103)"
+    },
+    "hajjUmrah": {
+      "title": "Ghid Hajj & Umrah",
+      "umrah": "Umrah",
+      "hajj": "Hajj",
+      "stepsTitle": "Ritualuri Pas cu Pas",
+      "checklistTitle": "Listă de Pregătire",
+      "settingsEntry": "Ghid Hajj & Umrah"
+    },
+    "zakat": {
+      "title": "Calculator de Zakat",
+      "info": "Zakatul reprezintă 2,5% (1/40) din averea deținută timp de un an lunar întreg care atinge pragul de nisab. Verifică valoarea actuală a nisabului (pe baza prețului aurului/argintului) și introdu-o mai jos.",
+      "cash": "Numerar & Economii Bancare",
+      "gold": "Valoare Aur / Argint",
+      "tradeGoods": "Valoarea Mărfurilor Comerciale",
+      "investments": "Acțiuni / Investiții",
+      "debts": "Datorii (Deduse)",
+      "nisab": "Pragul de Nisab (Valoarea Actuală a Aurului/Argintului)",
+      "netWealth": "Avere Netă",
+      "zakatDue": "Zakat Datorat",
+      "notEligible": "Averea ta nu a atins pragul de nisab, așa că zakatul nu este datorat.",
+      "enterNisab": "Introdu pragul de nisab pentru a calcula.",
+      "settingsEntry": "Calculator de Zakat"
+    },
+    "ramadan": {
+      "calendarTitle": "Calendar Ramadan",
+      "days": "zile",
+      "day": "Zi",
+      "date": "Dată",
+      "sahur": "Suhoor",
+      "iftar": "Iftar",
+      "noData": "Datele calendarului de Ramadan nu au fost găsite."
+    },
+    "achievements": {
+      "title": "Realizările Mele",
+      "pointsLabel": "Puncte de Cult",
+      "unlockedCount": "{{unlocked}} / {{total}} insigne deblocate",
+      "settingsEntry": "Realizările Mele",
+      "share": "Distribuie Punctele Mele",
+      "shareText": "Am atins {{points}} Puncte de Cult și am deblocat {{unlocked}} insigne!",
+      "inviteTitle": "Invită un Prieten",
+      "inviteDesc": "Urmăriți un Khatm împreună și motivați-vă reciproc.",
+      "progress": {
+        "days": "{{current}} / {{total}} zile",
+        "prayers": "{{current}} / {{total}} rugăciuni",
+        "dhikr": "{{current}} / {{total}} dhikr",
+        "khatm": "{{current}} / {{total}} khatm",
+        "kaza": "{{current}} / {{total}} rugăciuni de recuperare"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "Intrarea în Starea de Ihram",
+          "desc": "La limita miqatului, se face ghusl, se îmbracă veșmintele de ihram, se face intenția (niyyah) și se recită Talbiya. Anumite restricții încep odată intrat în ihram (fără haine cusute, parfum etc.)."
+        },
+        "tawaf": {
+          "title": "Tawaf (Înconjurarea Kaabei)",
+          "desc": "Începând de la Piatra Neagră, se înconjoară Kaaba de șapte ori în sens invers acelor de ceasornic, salutând Piatra Neagră la începutul fiecărui tur, dacă este posibil."
+        },
+        "sayi": {
+          "title": "Sa'i (Între Safa și Marwah)",
+          "desc": "Se merge rapid de șapte ori între dealurile Safa și Marwah, în amintirea căutării apei de către Hajar."
+        },
+        "halq": {
+          "title": "Bărbierirea sau Scurtarea Părului (Halq/Taqsir)",
+          "desc": "Bărbații își rad complet capul sau își scurtează părul; femeile taie o lungime cât un vârf de deget. Astfel se finalizează Umrah și se încheie restricțiile ihramului."
+        },
+        "arafat": {
+          "title": "Șederea la Arafat (9 Dhul-Hijjah)",
+          "desc": "Cel mai important stâlp al Hajjului. Pelerinii stau la Arafat de la amiază până la apus în a 9-a zi a lunii Dhul-Hijjah, dedicându-se rugăciunii, pomenirii și pocăinței."
+        },
+        "muzdalifah": {
+          "title": "Înnoptarea la Muzdalifah",
+          "desc": "După Arafat, pelerinii merg la Muzdalifah, combină rugăciunile de Maghrib și Isha, petrec noaptea acolo și adună pietricele pentru ritualul lapidării."
+        },
+        "jamarat": {
+          "title": "Lapidarea Jamaratului",
+          "desc": "Pietricele sunt aruncate spre stâlpii Jamarat din Mina în zilele stabilite, în amintirea respingerii lui Șeitan de către Profetul Ibrahim (pacea fie asupra sa)."
+        },
+        "qurban": {
+          "title": "Sacrificiul (Qurbani)",
+          "desc": "Se oferă un sacrificiu ca parte a ritualurilor Hajjului, marcând începutul Eid al-Adha."
+        },
+        "farewell_tawaf": {
+          "title": "Tawaf-ul de Rămas Bun",
+          "desc": "Ultimul tawaf efectuat înainte de a părăsi Mecca, marcând finalizarea ritualurilor Hajjului."
+        },
+        "ihram_clothes": {
+          "label": "Veșminte de ihram (2 bucăți de pânză albă necusută pentru bărbați)"
+        },
+        "passport": {
+          "label": "Pașaport, viză și documente de călătorie"
+        },
+        "health": {
+          "label": "Asigurare medicală și vaccinurile necesare"
+        },
+        "comfortable_sandals": {
+          "label": "Sandale comode, ușor de scos"
+        },
+        "unscented_soap": {
+          "label": "Săpun fără parfum și produse de îngrijire personală"
+        },
+        "dua_book": {
+          "label": "Carte de rugăciuni și ritualuri (sau această aplicație)"
+        },
+        "money_belt": {
+          "label": "Portofel sigur pentru bani/documente"
+        },
+        "medication": {
+          "label": "Medicamente personale și rețete"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Noaptea Raghaib",
+          "description": "Începutul celor trei luni sfinte și o noapte a milei."
+        },
+        "mirac": {
+          "name": "Isra și Mi'raj",
+          "description": "Călătoria de noapte și înălțarea Profetului (pacea fie asupra sa)."
+        },
+        "berat": {
+          "name": "Noaptea Bara'at",
+          "description": "O noapte a iertării și a alinării de durere."
+        },
+        "ramadan": {
+          "name": "Prima Zi de Ramadan",
+          "description": "Prima zi de post din luna binecuvântată a Ramadanului."
+        },
+        "kadir": {
+          "name": "Laylat al-Qadr",
+          "description": "Noaptea Puterii, mai bună decât o mie de luni."
+        },
+        "eid-fitr": {
+          "name": "Eid al-Fitr (Ziua 1)",
+          "description": "Prima zi de Eid al-Fitr."
+        },
+        "eid-adha": {
+          "name": "Eid al-Adha (Ziua 1)",
+          "description": "Prima zi de Eid al-Adha."
+        },
+        "hijri-new-year": {
+          "name": "Anul Nou Islamic",
+          "description": "Prima zi a noului an Hijri."
+        },
+        "ashura": {
+          "name": "Ziua Ashura",
+          "description": "A 10-a zi a lunii Muharram."
+        },
+        "mevlid": {
+          "name": "Mawlid an-Nabi",
+          "description": "Noaptea nașterii Profetului (pacea fie asupra sa)."
+        }
+      },
+      "esma": {
+        "1": "Cel Milostiv.",
+        "2": "Cel Îndurător.",
+        "3": "Regele.",
+        "4": "Cel Preasfânt.",
+        "5": "Sursa Păcii.",
+        "6": "Cel Ce Dă Siguranță.",
+        "7": "Ocrotitorul.",
+        "8": "Cel Atotputernic.",
+        "9": "Constrângătorul.",
+        "10": "Cel Suprem.",
+        "11": "Creatorul.",
+        "12": "Plăsmuitorul.",
+        "13": "Cel Ce Dă Formă.",
+        "14": "Marele Iertător.",
+        "15": "Cel Ce Supune Totul.",
+        "16": "Dăruitorul.",
+        "17": "Chivernisitorul.",
+        "18": "Deschizătorul.",
+        "19": "Cel Atotștiutor.",
+        "20": "Cel Ce Restrânge.",
+        "21": "Cel Ce Extinde.",
+        "22": "Cel Ce Coboară.",
+        "23": "Cel Ce Înalță.",
+        "24": "Cel Ce Dă Cinste.",
+        "25": "Cel Ce Dezonorează.",
+        "26": "Cel Atotauzitor.",
+        "27": "Cel Atotvăzător.",
+        "28": "Judecătorul.",
+        "29": "Cel Drept.",
+        "30": "Cel Blând.",
+        "31": "Cel Bine Informat.",
+        "32": "Cel Îngăduitor.",
+        "33": "Cel Măreț.",
+        "34": "Cel Iertător.",
+        "35": "Cel Recunoscător.",
+        "36": "Cel Preaînalt.",
+        "37": "Cel Preamare.",
+        "38": "Ocrotitorul Atotpăzitor.",
+        "39": "Susținătorul.",
+        "40": "Socotitorul.",
+        "41": "Măreția Însăși.",
+        "42": "Generosul.",
+        "43": "Cel Veghetor.",
+        "44": "Cel Ce Răspunde.",
+        "45": "Cel Atotcuprinzător.",
+        "46": "Cel Înțelept.",
+        "47": "Cel Iubitor.",
+        "48": "Cel Glorios.",
+        "49": "Cel Ce Înviază.",
+        "50": "Martorul.",
+        "51": "Adevărul.",
+        "52": "Administratorul.",
+        "53": "Cel Puternic.",
+        "54": "Cel Ferm.",
+        "55": "Prietenul Protector.",
+        "56": "Cel Lăudat.",
+        "57": "Cel Ce Numără Totul.",
+        "58": "Începătorul.",
+        "59": "Cel Ce Restaurează.",
+        "60": "Dătătorul de Viață.",
+        "61": "Cel Ce Aduce Moartea.",
+        "62": "Cel Viu.",
+        "63": "Cel de Sine Stătător.",
+        "64": "Descoperitorul.",
+        "65": "Nobilul.",
+        "66": "Unicul.",
+        "67": "Singurul.",
+        "68": "Absolutul.",
+        "69": "Cel Capabil.",
+        "70": "Preaputernicul.",
+        "71": "Cel Ce Aduce Înainte.",
+        "72": "Cel Ce Amână.",
+        "73": "Cel Dintâi.",
+        "74": "Cel De Pe Urmă.",
+        "75": "Cel Manifest.",
+        "76": "Cel Ascuns.",
+        "77": "Guvernatorul.",
+        "78": "Cel Preaînălțat.",
+        "79": "Sursa Bunătății.",
+        "80": "Cel Ce Acceptă Pocăința.",
+        "81": "Răzbunătorul.",
+        "82": "Cel Ce Șterge Păcatele.",
+        "83": "Cel Blând și Milos.",
+        "84": "Stăpânul Împărăției.",
+        "85": "Stăpânul Măreției și al Generozității.",
+        "86": "Cel Echitabil.",
+        "87": "Adunătorul.",
+        "88": "Cel de Sine Suficient.",
+        "89": "Cel Ce Îmbogățește.",
+        "90": "Cel Ce Împiedică.",
+        "91": "Cel Ce Aduce Încercarea.",
+        "92": "Cel Binefăcător.",
+        "93": "Lumina.",
+        "94": "Călăuzitorul.",
+        "95": "Incomparabilul.",
+        "96": "Cel Veșnic.",
+        "97": "Moștenitorul.",
+        "98": "Călăuzitorul spre Calea Cea Dreaptă.",
+        "99": "Cel Răbdător."
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Rugăciune pentru Vindecare și Recuperare",
+          "occasion": "Se recită pentru vindecare fizică și spirituală în timpul bolii."
+        },
+        "nazar_korunma": {
+          "title": "Protecție împotriva Deochiului și a Răului (Ayat al-Kursi)",
+          "occasion": "Se recită dimineața și seara pentru protecție divină împotriva deochiului și a răului."
+        },
+        "rizik_bereket": {
+          "title": "Rugăciune pentru Hrană, Belșug și Scăpare de Datorii",
+          "occasion": "Se recită pentru abundență financiară, belșug (barakah) în hrană și scăpare de datorii."
+        },
+        "ferahlik_sikinti": {
+          "title": "Rugăciune în Vremuri de Necaz (Profetul Yunus)",
+          "occasion": "Se recită în momente de mare greutate, anxietate, neputință și durere."
+        },
+        "sinav_zihin": {
+          "title": "Rugăciune pentru Cunoaștere, Examene și Claritate Mentală",
+          "occasion": "Se recită înainte de examene, învățare sau începerea unor sarcini intelectuale dificile."
+        },
+        "seyyidul_istigfar": {
+          "title": "Sayyid al-Istighfar (Cea Mai Importantă Rugăciune de Iertare)",
+          "occasion": "Se recită dimineața și seara pentru pocăință sinceră și iertarea păcatelor."
+        },
+        "anne_baba": {
+          "title": "Rugăciune pentru Părinți și Familie",
+          "occasion": "Se recită pentru iertarea, sănătatea și mila față de părinți și familie."
+        },
+        "ezan_sonrasi": {
+          "title": "Rugăciune După Auzirea Adhanului",
+          "occasion": "Se recită imediat după adhan pentru a obține mijlocirea Profetului."
+        },
+        "iftar_oruc": {
+          "title": "Rugăciune la Ruperea Postului (Iftar)",
+          "occasion": "Se recită în momentul ruperii postului la apus."
+        },
+        "morning_1": {
+          "title": "Rugăciune de Protecție Divină de Dimineață și Seară",
+          "occasion": "Se recită de 3 ori dimineața și seara pentru protecție completă împotriva oricărui rău."
+        },
+        "leaving_home": {
+          "title": "Rugăciune la Ieșirea din Casă",
+          "occasion": "Se recită la ieșirea din casă pentru siguranță și călăuzire divină."
+        },
+        "entering_home": {
+          "title": "Rugăciune la Intrarea în Casă",
+          "occasion": "Se recită la intrarea în casă pentru pace, binecuvântare și protecție."
+        },
+        "waking_up": {
+          "title": "Rugăciune de Mulțumire la Trezire",
+          "occasion": "Se recită la trezire, în semn de recunoștință pentru reînnoirea vieții și a puterii."
+        },
+        "sleeping": {
+          "title": "Rugăciune Înainte de Culcare",
+          "occasion": "Se recită înainte de culcare pentru liniște și ocrotire divină."
+        },
+        "sukr_hamd": {
+          "title": "Rugăciune de Recunoștință și Binecuvântări",
+          "occasion": "Se recită în semn de recunoștință la primirea binecuvântărilor și a veștilor bune."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "Constanță de 7 Zile",
+          "desc": "Ai înregistrat rugăciuni timp de 7 zile la rând"
+        },
+        "prayer_streak_30": {
+          "title": "Constanță de 30 de Zile",
+          "desc": "Ai înregistrat rugăciuni timp de 30 de zile la rând"
+        },
+        "prayer_total_100": {
+          "title": "100 de Rugăciuni",
+          "desc": "Ai înregistrat în total 100 de rugăciuni"
+        },
+        "prayer_total_500": {
+          "title": "500 de Rugăciuni",
+          "desc": "Ai înregistrat în total 500 de rugăciuni"
+        },
+        "dhikr_streak_7": {
+          "title": "Serie de 7 Zile de Dhikr",
+          "desc": "Ai practicat dhikr timp de 7 zile la rând"
+        },
+        "dhikr_streak_30": {
+          "title": "Serie de 30 de Zile de Dhikr",
+          "desc": "Ai practicat dhikr timp de 30 de zile la rând"
+        },
+        "dhikr_total_1000": {
+          "title": "1.000 de Dhikr",
+          "desc": "Ai recitat în total 1.000 de dhikr"
+        },
+        "dhikr_total_10000": {
+          "title": "10.000 de Dhikr",
+          "desc": "Ai recitat în total 10.000 de dhikr"
+        },
+        "hatim_first": {
+          "title": "Primul Khatm",
+          "desc": "Ai finalizat citirea întregului Coran"
+        },
+        "hatim_3": {
+          "title": "3 Khatm-uri",
+          "desc": "Ai finalizat Coranul de 3 ori"
+        },
+        "kaza_10": {
+          "title": "10 Rugăciuni de Recuperare",
+          "desc": "Ai finalizat 10 rugăciuni/posturi de recuperare"
+        },
+        "kaza_50": {
+          "title": "50 de Rugăciuni de Recuperare",
+          "desc": "Ai finalizat 50 de rugăciuni/posturi de recuperare"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mishary Alafasy"
+        },
+        "abdulbasit": {
+          "name": "Abdul Basit"
+        },
+        "husary": {
+          "name": "Al-Husary"
+        },
+        "minshawy": {
+          "name": "Al-Minshawy"
+        },
+        "shuraym": {
+          "name": "Saud Al-Shuraym"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Vineri Binecuvântată (Jummah Mubarak)",
+          "message": "Fie ca Allah să ne accepte rugăciunile sincere și să reverse asupra acestei vineri binecuvântate pace, milă și belșug."
+        },
+        "cuma_2": {
+          "title": "Jummah Mubarak",
+          "message": "Fie ca Allah să te binecuvânteze pe tine și pe cei dragi cu fericire, sănătate și credință în această viață și în cea de apoi."
+        },
+        "kandil_1": {
+          "title": "Noapte Sfântă Binecuvântată (Kandil)",
+          "message": "Fie ca binecuvântările, iertarea și pacea acestei nopți sfinte să fie asupra ta și a familiei tale."
+        },
+        "ramazan_1": {
+          "title": "Ramadan Mubarak",
+          "message": "Îți urăm un Ramadan binecuvântat, plin de reflecție spirituală, pace și binecuvântări divine."
+        },
+        "bayram_1": {
+          "title": "Eid Mubarak",
+          "message": "Fie ca acest Eid binecuvântat să aducă bucurie, sănătate, unitate și prosperitate ție și celor dragi."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Rugăciune Înainte de Recitarea Coranului"
+        },
+        "hatim": {
+          "title": "Rugăciune de Finalizare a Coranului (Khatm)"
+        },
+        "sajdah": {
+          "title": "Prosternarea de Recitare (Sajdah)"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Coran"
+        },
+        "daily": {
+          "label": "Conținut"
+        },
+        "home": {
+          "label": "Ore"
+        },
+        "dhikr": {
+          "label": "Dhikr"
+        },
+        "library": {
+          "label": "Rugăciuni"
+        },
+        "qibla": {
+          "label": "Qibla"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Rugăciune",
+        "dhikr": "Dhikr",
+        "quran": "Coran",
+        "kaza": "Recuperare"
+      },
+      "hijriMonths": {
+        "1": "Muharram",
+        "2": "Safar",
+        "3": "Rabi' al-Awwal",
+        "4": "Rabi' al-Thani",
+        "5": "Jumada al-Ula",
+        "6": "Jumada al-Akhirah",
+        "7": "Rajab",
+        "8": "Sha'ban",
+        "9": "Ramadan",
+        "10": "Shawwal",
+        "11": "Dhu al-Qi'dah",
+        "12": "Dhu al-Hijjah"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Dacă există o diferență la ore, apasă lung pe card pentru a o ajusta.",
+      "title": "Ajustează ora pentru {{prayer}}",
+      "desc": "Dacă moscheea sau calendarul tău arată o oră diferită, adaugă sau scade minute. Notificarea de adhan va urma și ea această ajustare.",
+      "minus": "Cu 1 minut mai devreme",
+      "minutes": "{{value}} min",
+      "plus": "Cu 1 minut mai târziu",
+      "reset": "Resetează",
+      "save": "Salvează"
+    },
+    "feedback": {
+      "settingsRow": "Trimite Feedback",
+      "title": "Hai Să Îmbunătățim Împreună",
+      "subtitle": "Scrie-ne sugestiile, cererile sau orice problemă întâmpinată, ca să putem face Vera mai bun.",
+      "placeholder": "Scrie o idee, o sugestie sau o problemă întâmpinată...",
+      "error": "Nu s-a putut trimite. Te rugăm să încerci din nou peste puțin timp.",
+      "send": "Trimite",
+      "thankYouTitle": "Feedback Primit",
+      "thankYouSubtitle": "Părerea ta contează foarte mult pentru noi. Lucrăm din greu pentru a face Vera mai bun."
+    },
+    "battery": {
+      "stepsXiaomi": "Setări → Aplicații → Vera: activează „Pornire automată” și setează economisirea bateriei la „Fără restricții”.",
+      "stepsSamsung": "Setări → Baterie → Limite de utilizare în fundal: adaugă Vera la „Aplicații care nu adorm niciodată”.",
+      "stepsOppo": "Setări → Baterie → Vera: activează „Permite activitatea în fundal” și „Pornire automată”.",
+      "stepsOther": "Dezactivează optimizarea bateriei pentru Vera, astfel încât adhanul să sune la timp.",
+      "cardTitle": "Auzi adhanul la timp",
+      "openSettings": "Deschide Setările"
+    },
+    "widget": {
+      "guideTitle": "Adaugă pe Ecranul Principal",
+      "guideDesc": "Apasă lung pe ecranul principal ➔ atinge „Widgeturi” ➔ găsește widgetul „VERA” și trage-l pe ecran.",
+      "promptTitle": "Adaugă un Widget pe Ecranul Principal",
+      "promptDesc": "Vezi în timp real următoarea oră de rugăciune și minutele rămase direct pe ecranul principal, fără să deschizi aplicația.",
+      "addNow": "📌 Adaugă pe Ecranul Principal",
+      "notNow": "Mai Târziu"
+    },
+    "greetingNotif": {
+      "dayTitle": "{{name}} binecuvântat(ă)",
+      "nightTitle": "În seara aceasta este {{name}}",
+      "body": "Trimite o felicitare celor dragi.",
+      "fridayTitle": "Jummah Mubarak",
+      "fridayBody": "Trimite o felicitare de vineri celor dragi."
+    },
+    "errorBoundary": {
+      "title": "Ceva nu a mers bine",
+      "subtitle": "Aplicația a întâmpinat o eroare neașteptată. Atinge butonul de mai jos pentru a încerca din nou.",
+      "retry": "Încearcă din nou"
     }
   }
 }

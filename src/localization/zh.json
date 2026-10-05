@@ -6,7 +6,11 @@
       "retry": "重试",
       "success": "成功",
       "fillAllFields": "请填写所有字段。",
-      "min": "米"
+      "min": "米",
+      "cancel": "取消",
+      "save": "保存",
+      "ok": "好",
+      "close": "关闭"
     },
     "home": {
       "title": "礼拜时间",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "无法加载祈祷时间",
       "errorLoadingSubtitle": "请检查您的互联网连接或选择您的城市。",
       "retryBtn": "重试",
-      "loadingTimes": "正在加载祈祷时间..."
+      "loadingTimes": "正在加载祈祷时间...",
+      "locationPermissionTitle": "无法获取定位权限",
+      "locationPermissionDesc": "正在显示默认城市。您可以选择城市或授予定位权限。",
+      "estimatedTimesNotice": "由于没有网络连接，礼拜时间已在设备上计算（为估算值）。"
     },
     "settings": {
       "title": "设置",
@@ -111,7 +118,19 @@
       "offsetsTitle": "祈祷时间调整（偏移量/±最小值）",
       "offsetsDesc": "如果您当地的清真寺或日历有分钟差异，您可以将时间调整最多 ±15 分钟。",
       "respectSilentModeTitle": "清真寺/静音模式尊重",
-      "respectSilentModeDesc": "当您的手机处于静音或振动模式时，将宣礼音频静音并以静默方式发出通知。"
+      "respectSilentModeDesc": "当您的手机处于静音或振动模式时，将宣礼音频静音并以静默方式发出通知。",
+      "inviteFriend": "邀请好友",
+      "privacyOptions": "隐私选项",
+      "timeFormat24h": "24小时制",
+      "loginLocked": "失败次数过多，请稍后再试。",
+      "loginFailed": "登录失败，请检查您的账号信息。",
+      "notifications": "通知",
+      "editorLogout": "编辑者登出",
+      "editorLogin": "编辑者登录",
+      "username": "用户名",
+      "password": "密码",
+      "loggingIn": "正在登录…",
+      "login": "登录"
     },
     "qibla": {
       "title": "朝向 (Qibla)",
@@ -154,7 +173,9 @@
       "share": "分享",
       "verseBody": "点击阅读今日经文！",
       "hadithBody": "点击阅读今日圣训！",
-      "quoteBody": "点击阅读今日名言！"
+      "quoteBody": "点击阅读今日名言！",
+      "subtitle": "为您精选的今日经文、圣训与格言",
+      "shareHint": "点击卡片以图片形式分享到故事"
     },
     "search": {
       "title": "选择位置",
@@ -217,7 +238,8 @@
         "dailyDesc": "每日诗歌、圣训或引述在杜尔和晡礼之间到达。",
         "persistentName": "锁屏和状态栏",
         "persistentDesc": "在通知面板和锁定屏幕中显示下一个祈祷名称和实时倒计时。"
-      }
+      },
+      "persistentTitle": "🕌 距离{{prayer}}"
     },
     "tasbih": {
       "title": "赞念珠 (Tasbih)",
@@ -259,7 +281,49 @@
       "bgAudioSelect": "选择背景 Dhikr 声音",
       "dikhr1": "迪克尔声音 1",
       "dikhr2": "迪克尔声音 2",
-      "dikhr3": "迪克尔声音 3"
+      "dikhr3": "迪克尔声音 3",
+      "shareMilestone": "分享",
+      "milestoneShareText": "这个月我总共完成了 {{total}} 次赞念，马沙安拉！",
+      "streakDays": "连续天数",
+      "monthStat": "本月",
+      "streakStat": "连续",
+      "streakValue": "{{count}} 天",
+      "remaining": "还剩 {{count}}",
+      "noTarget": "无目标",
+      "completed": "已完成",
+      "addShort": "添加",
+      "progressShort": "进度",
+      "recShort": "推荐",
+      "tapToCount": "点击计数",
+      "ok": "好",
+      "dailyDhikrs": [
+        {
+          "text": "Subhanallahi wa bihamdihi",
+          "benefit": "每天诵读100遍，即使罪过多如海洋泡沫也会被赦免。",
+          "target": 100
+        },
+        {
+          "text": "La ilaha illallahu wahdahu la sharika lah...",
+          "benefit": "每天诵读100遍，如同释放10个奴隶般获得回赐，并可免受恶魔侵扰。",
+          "target": 100
+        },
+        {
+          "text": "Astaghfirullah al-Adheem",
+          "benefit": "消除烦恼，广开给养之门，解除困境。",
+          "target": 100
+        },
+        {
+          "text": "La hawla wa la quwwata illa billah",
+          "benefit": "这是天园宝藏中的一件宝藏，能驱散一切忧愁烦恼。",
+          "target": 100
+        },
+        {
+          "text": "Subhanallahi walhamdulillahi...",
+          "benefit": "比阳光照耀下的万物更受真主喜爱，在秤盘中比其他一切都更重。",
+          "target": 100
+        }
+      ],
+      "recTarget": "目标："
     },
     "update": {
       "title": "发现新版本！",
@@ -336,7 +400,15 @@
       "mealSource": "地道英文翻译",
       "loadingMeal": "正在加载页面翻译...",
       "noMealFound": "没有找到该页面的翻译。请检查您的互联网连接。",
-      "mealBtn": "翻译"
+      "mealBtn": "翻译",
+      "selectReciter": "选择诵读者",
+      "bookmarkAdded": "经文已添加到收藏",
+      "bookmarkRemoved": "经文已从收藏中移除",
+      "bookmarksTitle": "收藏的经文",
+      "noBookmarks": "您还没有收藏的经文。长按一节经文即可添加。",
+      "playFromHere": "从此处播放",
+      "juz": "朱兹",
+      "downloadingShort": "正在下载…"
     },
     "review": {
       "title": "支持我们",
@@ -372,7 +444,10 @@
       "themeSepia": "温暖的棕褐色",
       "appTagline": "祈祷时间、古兰经和朝拜",
       "storeSearchHint": "在 Google Play 上搜索：维拉",
-      "scanToDownload": "扫描下载"
+      "scanToDownload": "扫描下载",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 我使用 Vera 来追踪礼拜时间、宣礼和古兰经诵读进度。让我们一起追踪完经吧！\n\n📲 下载应用：{{link}}"
     },
     "checklist": {
       "title": "每日祷告追踪",
@@ -397,7 +472,9 @@
       "celebrationMessage": "您今天完成了全部 5 个每日祈祷。愿真主接受您的祈祷！",
       "celebrationBtn": "真主阿拉",
       "trustNotice": "{{city}} • 使用{{method}}验证您所在地区的祈祷时间",
-      "streakDays": "天"
+      "streakDays": "天",
+      "shareStreak": "分享我的连续记录",
+      "shareText": "我已经连续 {{count}} 天坚持礼拜了，感赞真主！"
     },
     "calendar": {
       "title": "统一日历",
@@ -413,7 +490,8 @@
       "subtitle": "日历和幸福夜晚和白天的倒计时",
       "today": "今天",
       "daysLeft": "天",
-      "passed": "通过"
+      "passed": "通过",
+      "loadError": "无法加载宗教节日。请检查您的网络连接。"
     },
     "widgetPromo": {
       "title": "添加祈祷小部件",
@@ -477,7 +555,17 @@
       "widgetDesc": "无需打开应用程序即可查看实时倒计时。",
       "widgetAdded": "小部件添加成功！",
       "batteryTitle": "🔋 省电豁免",
-      "batteryDesc": "建议关闭小米和三星的电池优化，以便及时进行广告。"
+      "batteryDesc": "建议关闭小米和三星的电池优化，以便及时进行广告。",
+      "locationReassurance": "您以后随时可以在设置中更改此设置。",
+      "notifDenied": "未授予通知权限。宣礼提醒可能无法正常工作——您可以稍后在设置中开启。",
+      "retryBtn": "重试",
+      "continueWithoutNotif": "不开启通知继续",
+      "skipTitle": "跳过设置",
+      "skipBody": "您现在可以跳过设置。定位和通知设置可以稍后在设置中配置。",
+      "skipConfirm": "跳过",
+      "locationDenied": "未授予定位权限。您可以从列表中选择您的城市，或稍后在设置中更改此设置。",
+      "locationFailed": "无法获取您的位置。您可以从列表中选择您的城市，或稍后在设置中更改此设置。",
+      "locationNotSet": "无法获取位置（权限被拒绝）"
     },
     "weather": {
       "title": "天气预报",
@@ -496,7 +584,8 @@
       "sunset": "日落",
       "precipitation": "沉淀",
       "kmh": "公里/小时",
-      "hpa": "百帕"
+      "hpa": "百帕",
+      "retry": "重试"
     },
     "duas": {
       "occasionTitle": "何时及为何念诵？",
@@ -542,7 +631,15 @@
       "chooseTheme": "卡片主题",
       "shareBtn": "分享至 WhatsApp / 故事 🌟",
       "shareImageBtn": "分享图片卡🌟",
-      "shareLinkBtn": "分享直接商店链接🔗"
+      "shareLinkBtn": "分享直接商店链接🔗",
+      "theme": {
+        "gold": "金色线条",
+        "emerald": "翡翠穹顶",
+        "navy": "午夜蓝",
+        "crimson": "玫瑰与红宝石"
+      },
+      "customDefaultTitle": "主麻吉庆",
+      "customDefaultMessage": "愿您的祈祷与功修蒙真主接纳。"
     },
     "mosques": {
       "title": "附近的清真寺",
@@ -557,7 +654,12 @@
     "dailyContent": {
       "preparing": "正在加载每日灵感...",
       "queueSuccess": "内容已添加到审批队列。",
-      "queueError": "添加内容时出错。"
+      "queueError": "添加内容时出错。",
+      "addModalTitle": "添加新内容",
+      "textPlaceholder": "内容文本（阿拉伯语/翻译）",
+      "sourcePlaceholder": "来源（例如：布哈里，伊玛尼章 1）",
+      "saving": "正在保存…",
+      "saveAndQueue": "保存并加入队列"
     },
     "hatim": {
       "title": "古兰经哈特姆追踪器",
@@ -572,7 +674,9 @@
       "resetTitle": "开始新卡塔姆",
       "resetBody": "当前的 khatm 将记录为已完成，新的 khatm 将从第 1 页开始。是否要继续？",
       "startNew": "开始新卡塔姆",
-      "resetHatimBtn": "重置并启动新的 Khatm"
+      "resetHatimBtn": "重置并启动新的 Khatm",
+      "share": "分享我的完经进度",
+      "shareText": "我完成了第 {{count}} 次完经，感赞真主！"
     },
     "prayerTree": {
       "title": "每周祈祷树",
@@ -582,6 +686,512 @@
       "quoteHigh": "“祈祷是信仰的支柱。” — 你度过了非凡的一周，MashaAllah！",
       "quoteMid": "“建立祈祷，缴纳天课，并与那些鞠躬的人一起鞠躬。” （巴卡拉，43）",
       "quoteLow": "“确实，祈祷已被赋予信徒特定时间的法令。” （安尼萨，103）"
+    },
+    "hajjUmrah": {
+      "title": "朝觐与副朝指南",
+      "umrah": "副朝",
+      "hajj": "朝觐",
+      "stepsTitle": "朝觐仪式分步指南",
+      "checklistTitle": "准备清单",
+      "settingsEntry": "朝觐与副朝指南"
+    },
+    "zakat": {
+      "title": "天课计算器",
+      "info": "天课是持有满一个太阴年且达到尼萨卜（起征点）标准的财产的2.5%（即1/40）。请根据当前金/银价格计算尼萨卜金额并在下方输入。",
+      "cash": "现金与银行存款",
+      "gold": "金/银价值",
+      "tradeGoods": "商品货物价值",
+      "investments": "股票/投资",
+      "debts": "债务（将被扣除）",
+      "nisab": "尼萨卜金额（当前金/银价值）",
+      "netWealth": "净财产",
+      "zakatDue": "应缴天课",
+      "notEligible": "您的财产尚未达到尼萨卜标准，因此无需缴纳天课。",
+      "enterNisab": "请输入尼萨卜金额以进行计算。",
+      "settingsEntry": "天课计算器"
+    },
+    "ramadan": {
+      "calendarTitle": "斋月作息表",
+      "days": "天",
+      "day": "天",
+      "date": "日期",
+      "sahur": "封斋",
+      "iftar": "开斋",
+      "noData": "未找到斋月作息表数据。"
+    },
+    "achievements": {
+      "title": "我的成就",
+      "pointsLabel": "功修积分",
+      "unlockedCount": "已解锁 {{unlocked}} / {{total}} 枚徽章",
+      "settingsEntry": "我的成就",
+      "share": "分享我的积分",
+      "shareText": "我获得了 {{points}} 功修积分，解锁了 {{unlocked}} 枚徽章！",
+      "inviteTitle": "邀请好友",
+      "inviteDesc": "一起追踪古兰经诵读进度，互相鼓励。",
+      "progress": {
+        "days": "{{current}} / {{total}} 天",
+        "prayers": "{{current}} / {{total}} 番礼拜",
+        "dhikr": "{{current}} / {{total}} 次赞念",
+        "khatm": "{{current}} / {{total}} 次完经",
+        "kaza": "{{current}} / {{total}} 次补礼"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "进入受戒状态（伊哈拉姆）",
+          "desc": "在米卡特边界沐浴大净，穿戴伊哈拉姆服装，立意并诵念应答词（塔勒比亚）。进入受戒状态后，禁止穿戴缝制衣物、涂抹香料等。"
+        },
+        "tawaf": {
+          "title": "环游天房（塔瓦夫）",
+          "desc": "从黑石处开始，逆时针绕天房环游七圈，每圈开始时如条件允许应向黑石致意。"
+        },
+        "sayi": {
+          "title": "赛尔仪（萨法与麦尔卧之间）",
+          "desc": "从萨法山出发前往麦尔卧山，再返回萨法，共往返七次，以纪念哈哲尔夫人寻找水源的经历。"
+        },
+        "halq": {
+          "title": "剃发或剪发（哈勒格/塔格西尔）",
+          "desc": "男性将头发剃光或剪短；女性剪去指尖长度的头发。完成此仪式后副朝即告完成，受戒的禁忌随之解除。"
+        },
+        "arafat": {
+          "title": "在阿拉法特山驻留（伊斯兰历十二月九日）",
+          "desc": "这是朝觐中最重要的功修。在伊斯兰历十二月九日，从正午到日落停留在阿拉法特山，进行祈祷、赞念和忏悔。"
+        },
+        "muzdalifah": {
+          "title": "在穆兹达里法过夜",
+          "desc": "从阿拉法特返回后来到穆兹达里法，将昏礼与宵礼合并礼拜，在此过夜，并收集用于射石仪式的小石子。"
+        },
+        "jamarat": {
+          "title": "射石仪式（射石柱）",
+          "desc": "在指定的日子里，向米纳的石柱投掷小石子，以纪念先知易卜拉欣（愿主赐福之）拒绝恶魔的行为。"
+        },
+        "qurban": {
+          "title": "宰牲",
+          "desc": "作为朝觐仪式的一部分进行宰牲，这也标志着古尔邦节的开始。"
+        },
+        "farewell_tawaf": {
+          "title": "辞朝塔瓦夫",
+          "desc": "离开麦加前进行的最后一次环游天房，标志着朝觐功修的完成。"
+        },
+        "ihram_clothes": {
+          "label": "受戒服装（男性为两片未缝制的白布）"
+        },
+        "passport": {
+          "label": "护照、签证及旅行证件"
+        },
+        "health": {
+          "label": "健康保险及所需疫苗接种"
+        },
+        "comfortable_sandals": {
+          "label": "舒适、易穿脱的凉鞋"
+        },
+        "unscented_soap": {
+          "label": "无香型肥皂及个人护理用品"
+        },
+        "dua_book": {
+          "label": "祈祷与仪式指南（或本应用）"
+        },
+        "money_belt": {
+          "label": "安全的现金/证件包"
+        },
+        "medication": {
+          "label": "个人药品及处方"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "拉吉布夜",
+          "description": "三大月的开始，慈悯之夜。"
+        },
+        "mirac": {
+          "name": "登霄夜",
+          "description": "先知穆罕默德（愿主福安之）夜行并升上至高境域的夜晚。"
+        },
+        "berat": {
+          "name": "白拉台夜",
+          "description": "涤除罪过、解除忧愁的吉庆夜晚。"
+        },
+        "ramadan": {
+          "name": "斋月首日",
+          "description": "吉庆斋月的首个斋戒日。"
+        },
+        "kadir": {
+          "name": "盖德尔夜",
+          "description": "胜过一千个月的高贵夜晚。"
+        },
+        "eid-fitr": {
+          "name": "开斋节（第一天）",
+          "description": "开斋节的第一天。"
+        },
+        "eid-adha": {
+          "name": "古尔邦节（第一天）",
+          "description": "古尔邦节的第一天。"
+        },
+        "hijri-new-year": {
+          "name": "伊斯兰新年",
+          "description": "新的伊斯兰历年的第一天。"
+        },
+        "ashura": {
+          "name": "阿舒拉日",
+          "description": "穆哈兰姆月第十天，阿舒拉日。"
+        },
+        "mevlid": {
+          "name": "圣纪",
+          "description": "先知穆罕默德（愿主福安之）诞生的夜晚。"
+        }
+      },
+      "esma": {
+        "1": "慈爱的、宽恕的、怜悯的。",
+        "2": "在后世只怜悯信士的。",
+        "3": "主宰国度与宇宙的君王。",
+        "4": "远离一切缺陷的至圣者。",
+        "5": "赐予众仆平安的。",
+        "6": "赐予信任、施予保护的。",
+        "7": "监察并治理宇宙万事的。",
+        "8": "不可被战胜的全能者。",
+        "9": "能使万物依其意志臣服的。",
+        "10": "在伟大方面无与伦比的。",
+        "11": "从无中创造万物的。",
+        "12": "使万物完美协调地被创造的。",
+        "13": "赋予万物形态的。",
+        "14": "大量宽恕罪过的。",
+        "15": "制胜万物的。",
+        "16": "无偿广施恩泽的。",
+        "17": "供给一切受造物给养的。",
+        "18": "开启一切物质与精神之门的。",
+        "19": "全知万物真相的。",
+        "20": "使其所意欲者给养收紧的。",
+        "21": "使其所意欲者给养宽裕的。",
+        "22": "使不信者与不义者卑贱的。",
+        "23": "使信士升高尊贵的。",
+        "24": "使其所意欲者尊荣的。",
+        "25": "使其所意欲者卑贱的。",
+        "26": "听闻万物的。",
+        "27": "洞察万物的。",
+        "28": "裁决并伸张真理的。",
+        "29": "拥有绝对公正的。",
+        "30": "施恩且洞悉隐微细事的。",
+        "31": "彻知万事的。",
+        "32": "不急于惩罚的至容者。",
+        "33": "伟大至无法以理智测度的。",
+        "34": "宽恕与饶恕极为丰厚的。",
+        "35": "以微小善行赐予厚重回赐的。",
+        "36": "崇高无极限的。",
+        "37": "其本体与德性之伟大无法测知的。",
+        "38": "守护并保存万物的。",
+        "39": "供养一切受造物的。",
+        "40": "最善于清算众仆行为的。",
+        "41": "拥有威严与伟大的。",
+        "42": "恩赐与慷慨极为丰厚的。",
+        "43": "将万物置于监察之下的。",
+        "44": "应答祈求者祈祷的。",
+        "45": "慈悯与知识包罗万物的。",
+        "46": "万事皆含智慧的。",
+        "47": "深爱众仆、亦当受爱戴的。",
+        "48": "声誉与尊贵至高的。",
+        "49": "使死者复活的。",
+        "50": "见证万物的。",
+        "51": "其存在永恒不变的真理。",
+        "52": "最善为托靠者安排事务的。",
+        "53": "力量与权能无穷的。",
+        "54": "极其坚固不可动摇的。",
+        "55": "信士的挚友与援助者。",
+        "56": "当受一切赞美的。",
+        "57": "知晓所造万物数目的。",
+        "58": "无中生有、无先例地创始万物的。",
+        "59": "使受造物消亡而后再度复生的。",
+        "60": "赋予生命者。",
+        "61": "使生灵死亡者。",
+        "62": "永生的、全知全能的。",
+        "63": "维系天地万物、自立永存的。",
+        "64": "随时如愿寻获所欲的。",
+        "65": "尊贵显赫、慷慨宽容的。",
+        "66": "独一无二的。",
+        "67": "在本体、德性与作为上绝无相似者的。",
+        "68": "无求于万物、万物皆有求于祂的永恒者。",
+        "69": "全能于万事的。",
+        "70": "对一切能力者随意施为的全权者。",
+        "71": "使其所欲者提前的。",
+        "72": "使其所欲者延后的。",
+        "73": "无始的初始者。",
+        "74": "无终的最终者。",
+        "75": "其存在昭然于万物之上的。",
+        "76": "其至高本质超越理智所能领悟、隐而不显的。",
+        "77": "治理全宇宙的。",
+        "78": "超越理智所能理解一切的至尊者。",
+        "79": "对众仆恩惠与善行丰厚的。",
+        "80": "大量接纳忏悔的。",
+        "81": "向悖逆者与不义者施以报应的。",
+        "82": "宽恕并抹去罪过的。",
+        "83": "慈悯、恩泽与怜爱丰厚的。",
+        "84": "国度永恒无始无终的主宰。",
+        "85": "拥有尊严、恩泽与慷慨的主。",
+        "86": "使万事均衡协调的。",
+        "87": "在复生日聚集万物的。",
+        "88": "拥有一切富足、无求于任何人的。",
+        "89": "使其所意欲者富足的。",
+        "90": "阻止事物发生的。",
+        "91": "造化苦难与祸害之物的。",
+        "92": "造化有益之物的。",
+        "93": "使万世界光明的。",
+        "94": "赐予引导、指引正道的。",
+        "95": "无可比拟、无先例地创造的。",
+        "96": "存在永无终结的。",
+        "97": "万物真正的继承者。",
+        "98": "使万事精准无误、达成目标的。",
+        "99": "不急于惩罚的至忍者。"
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "疾病痊愈祈祷词",
+          "occasion": "在身心遭遇各种疾病与不适时诵读。"
+        },
+        "nazar_korunma": {
+          "title": "免遭邪视与灾祸的护佑（宝座经）",
+          "occasion": "早晚诵读，以求免受邪视、妒忌与各种灾祸的侵扰。"
+        },
+        "rizik_bereket": {
+          "title": "求给养、吉庆与免除债务的祈祷词",
+          "occasion": "在生计困顿、债务缠身及祈求事务吉庆时诵读。"
+        },
+        "ferahlik_sikinti": {
+          "title": "忧愁与困顿时的祈祷词（优努斯圣人祈祷词）",
+          "occasion": "在心中苦闷、无助、恐惧及艰难时刻诵读，以求得解脱。"
+        },
+        "sinav_zihin": {
+          "title": "考试、思维清晰与顺利的祈祷词",
+          "occasion": "在考试、学习或开始艰巨工作时诵读，以求思维清晰。"
+        },
+        "seyyidul_istigfar": {
+          "title": "求恕之主祷词（忏悔祈祷词）",
+          "occasion": "早晚诵读，以求罪过获得赦免与宽恕，是进入天园的途径。"
+        },
+        "anne_baba": {
+          "title": "为父母及家人祈祷",
+          "occasion": "每次礼拜后诵读，为父母的健康、宽恕及在后世蒙受慈悯而祈求。"
+        },
+        "ezan_sonrasi": {
+          "title": "宣礼后诵读的祈祷词",
+          "occasion": "宣礼结束后立即诵读，可获得先知的说情。"
+        },
+        "iftar_oruc": {
+          "title": "开斋祈祷词",
+          "occasion": "昏礼宣礼响起、开始开斋时诵读。"
+        },
+        "morning_1": {
+          "title": "早晚护佑祈祷词",
+          "occasion": "早晚各诵读三遍者，任何事物都无法伤害他。"
+        },
+        "leaving_home": {
+          "title": "出门时诵读的祈祷词",
+          "occasion": "出门时诵读，以求免遭意外、灾祸与邪恶的侵害。"
+        },
+        "entering_home": {
+          "title": "进门时诵读的祈祷词",
+          "occasion": "进门时诵读，以求家中充满吉庆与安宁。"
+        },
+        "waking_up": {
+          "title": "醒来时诵读的感恩祈祷词",
+          "occasion": "从睡眠中醒来时诵读，感谢获得健康迎接新的一天。"
+        },
+        "sleeping": {
+          "title": "睡前祈祷词",
+          "occasion": "躺下就寝时诵读，以求安睡与蒙受护佑。"
+        },
+        "sukr_hamd": {
+          "title": "感恩与蒙福祈祷词",
+          "occasion": "在收到好消息、感谢恩典并祈求增添吉庆时诵读。"
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "连续7天坚持",
+          "desc": "连续7天记录了礼拜"
+        },
+        "prayer_streak_30": {
+          "title": "连续30天坚持",
+          "desc": "连续30天记录了礼拜"
+        },
+        "prayer_total_100": {
+          "title": "100番礼拜",
+          "desc": "共记录了100番礼拜"
+        },
+        "prayer_total_500": {
+          "title": "500番礼拜",
+          "desc": "共记录了500番礼拜"
+        },
+        "dhikr_streak_7": {
+          "title": "连续7天赞念",
+          "desc": "连续7天进行了赞念"
+        },
+        "dhikr_streak_30": {
+          "title": "连续30天赞念",
+          "desc": "连续30天进行了赞念"
+        },
+        "dhikr_total_1000": {
+          "title": "1,000次赞念",
+          "desc": "累计完成1,000次赞念"
+        },
+        "dhikr_total_10000": {
+          "title": "10,000次赞念",
+          "desc": "累计完成10,000次赞念"
+        },
+        "hatim_first": {
+          "title": "首次完经",
+          "desc": "完整诵读了一遍古兰经"
+        },
+        "hatim_3": {
+          "title": "3次完经",
+          "desc": "完成了3次古兰经诵读"
+        },
+        "kaza_10": {
+          "title": "完成10次补礼",
+          "desc": "完成了10次补礼拜/补斋"
+        },
+        "kaza_50": {
+          "title": "完成50次补礼",
+          "desc": "完成了50次补礼拜/补斋"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mishary Alafasy"
+        },
+        "abdulbasit": {
+          "name": "Abdul Basit"
+        },
+        "husary": {
+          "name": "Al-Husary"
+        },
+        "minshawy": {
+          "name": "Al-Minshawy"
+        },
+        "shuraym": {
+          "name": "Saud Al-Shuraym"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "吉庆主麻 🌹",
+          "message": "主啊！求你接纳我们心中真诚的祈祷，使我们的主麻蒙福。愿您拥有健康、安宁与吉庆满满的一天。"
+        },
+        "cuma_2": {
+          "title": "主麻吉庆 ✨",
+          "message": "愿真主使我们与所爱之人在今世和后世都得享尊荣。祝您主麻吉庆、光明而充满福泽。"
+        },
+        "kandil_1": {
+          "title": "圣夜吉庆 🌙",
+          "message": "愿这吉庆之夜的恩泽、福佑与宽恕降临于您。愿我们在祈祷中相聚，圣夜吉庆。"
+        },
+        "ramazan_1": {
+          "title": "斋月吉庆 🕌",
+          "message": "愿开端是慈悯、中段是宽恕、末尾是脱离火狱的尊贵斋月对我们吉庆。"
+        },
+        "bayram_1": {
+          "title": "节日吉庆 🌟",
+          "message": "愿您与所爱之人共享充满喜悦、安宁、健康与情谊的美好节日。"
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "诵读古兰经前的祈祷词"
+        },
+        "hatim": {
+          "title": "古兰经完经祈祷词"
+        },
+        "sajdah": {
+          "title": "诵读叩头祈祷词"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "古兰经"
+        },
+        "daily": {
+          "label": "内容"
+        },
+        "home": {
+          "label": "时刻"
+        },
+        "dhikr": {
+          "label": "赞念"
+        },
+        "library": {
+          "label": "祈祷词"
+        },
+        "qibla": {
+          "label": "朝向"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "礼拜",
+        "dhikr": "赞念",
+        "quran": "古兰经",
+        "kaza": "补礼"
+      },
+      "hijriMonths": {
+        "1": "穆哈兰姆月",
+        "2": "赛法尔月",
+        "3": "赖比尔·敖外鲁月",
+        "4": "赖比尔·阿色尼月",
+        "5": "主马达·敖外鲁月",
+        "6": "主马达·阿色尼月",
+        "7": "拉哲卜月",
+        "8": "舍尔邦月",
+        "9": "莱麦丹月",
+        "10": "舍瓦鲁月",
+        "11": "都尔喀尔德月",
+        "12": "都尔黑哲月"
+      }
+    },
+    "offsetSheet": {
+      "hint": "如果时间有偏差，可以长按卡片进行调整。",
+      "title": "调整{{prayer}}时间",
+      "desc": "如果与您所在清真寺或历书的时间不同，可以增加或减少分钟数。宣礼通知也会随之调整。",
+      "minus": "提前1分钟",
+      "minutes": "{{value}} 分钟",
+      "plus": "延后1分钟",
+      "reset": "重置",
+      "save": "保存"
+    },
+    "feedback": {
+      "settingsRow": "发送反馈",
+      "title": "一起改进",
+      "subtitle": "请写下您的建议、需求或遇到的问题，帮助我们把Vera做得更好。",
+      "placeholder": "写下您的想法、建议或遇到的问题…",
+      "error": "发送失败，请稍后再试。",
+      "send": "发送",
+      "thankYouTitle": "已收到您的反馈",
+      "thankYouSubtitle": "您的意见对我们非常宝贵。我们正全力让Vera变得更好。"
+    },
+    "battery": {
+      "stepsXiaomi": "设置 → 应用 → Vera：打开\"自启动\"，并将省电策略设为\"无限制\"。",
+      "stepsSamsung": "设置 → 电池 → 后台使用限制：将 Vera 添加到\"从不休眠的应用\"中。",
+      "stepsOppo": "设置 → 电池 → Vera：打开\"允许后台运行\"和\"自启动\"。",
+      "stepsOther": "请为Vera关闭电池优化，以便宣礼能准时播放。",
+      "cardTitle": "让宣礼准时响起",
+      "openSettings": "打开设置"
+    },
+    "widget": {
+      "guideTitle": "添加到主屏幕",
+      "guideDesc": "长按主屏幕 ➔ 点击\"小组件\" ➔ 找到\"VERA\"小组件并拖到屏幕上。",
+      "promptTitle": "添加主屏幕小组件",
+      "promptDesc": "无需打开应用，即可在手机主屏幕上实时查看下一个礼拜时间及剩余分钟数。",
+      "addNow": "📌 添加到主屏幕",
+      "notNow": "稍后"
+    },
+    "greetingNotif": {
+      "dayTitle": "{{name}}吉庆",
+      "nightTitle": "今晚是{{name}}",
+      "body": "给您所爱的人送上一张祝福卡片。",
+      "fridayTitle": "主麻吉庆",
+      "fridayBody": "给您所爱的人送上一张主麻祝福卡片。"
+    },
+    "errorBoundary": {
+      "title": "出了点问题",
+      "subtitle": "应用遇到了意外错误。请点击下方按钮重试。",
+      "retry": "重试"
     }
   }
 }

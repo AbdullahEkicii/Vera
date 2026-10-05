@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Modal,
   View,
@@ -21,13 +21,16 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 import QRCode from 'react-native-qrcode-svg';
 
 import { useTheme } from '../context/ThemeContext';
-import { logModalOpened } from '../services/analyticsService';
+import { getStoreLink } from '../services/referralService';
+import { ct } from '../localization/content';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface Props {
   visible: boolean;
   onClose: () => void;
+  /** Preselects the first template of this category (cuma, kandil, ramadan, eid). */
+  initialCategory?: string;
 }
 
 const TEMPLATES = [
@@ -108,13 +111,18 @@ const CARD_THEMES = [
   },
 ];
 
-export function GreetingCardModal({ visible, onClose }: Props) {
-  const { t, i18n } = useTranslation();
+export function GreetingCardModal({ visible, onClose, initialCategory }: Props) {
+  const { t } = useTranslation();
   const { isDark } = useTheme();
 
-  const isLangTR = i18n.language === 'tr' || i18n.language.startsWith('tr');
 
   const [selectedTemplateIndex, setSelectedTemplateIndex] = useState(0);
+
+  useEffect(() => {
+    if (!visible || !initialCategory) return;
+    const index = TEMPLATES.findIndex((tpl) => tpl.category === initialCategory);
+    if (index >= 0) setSelectedTemplateIndex(index);
+  }, [visible, initialCategory]);
   const [selectedThemeIndex, setSelectedThemeIndex] = useState(0);
   const [customTitle, setCustomTitle] = useState('');
   const [customMessage, setCustomMessage] = useState('');
@@ -127,21 +135,17 @@ export function GreetingCardModal({ visible, onClose }: Props) {
   const activeTheme = CARD_THEMES[selectedThemeIndex];
 
   const titleToDisplay = isCustomMode
-    ? customTitle || (isLangTR ? 'Hayırlı Cumalar' : 'Blessed Day')
-    : isLangTR
-    ? activeTemplate.titleTR
-    : activeTemplate.titleEN;
+    ? customTitle || t('greeting.customDefaultTitle', 'Hayırlı Cumalar')
+    : ct(`content.greetingTemplates.${activeTemplate.id}.title`, activeTemplate.titleTR, activeTemplate.titleEN);
 
   const messageToDisplay = isCustomMode
-    ? customMessage || (isLangTR ? 'Dualarınız ve ibadetleriniz kabul olsun.' : 'May your prayers be answered.')
-    : isLangTR
-    ? activeTemplate.messageTR
-    : activeTemplate.messageEN;
+    ? customMessage || t('greeting.customDefaultMessage', 'Dualarınız ve ibadetleriniz kabul olsun.')
+    : ct(`content.greetingTemplates.${activeTemplate.id}.message`, activeTemplate.messageTR, activeTemplate.messageEN);
 
   const handleShare = async () => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    } catch (_) {}
+    } catch {}
 
     setIsSharing(true);
     try {
@@ -155,7 +159,7 @@ export function GreetingCardModal({ visible, onClose }: Props) {
             UTI: 'public.png',
           });
         } else {
-          const shareText = `✨ ${titleToDisplay}\n\n"${messageToDisplay}"\n\n📲 Vera (${t('share.appTagline')})\n🔗 Google Play: https://play.google.com/store/apps/details?id=com.abdllhekc.vera`;
+          const shareText = t('share.cardMessage', '✨ {{title}}\n\n"{{text}}"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}', { title: titleToDisplay, text: messageToDisplay, tagline: t('share.appTagline', 'Namaz Vakitleri, Kuran & Kıble'), link: getStoreLink('greeting') });
           await Share.share({ title: titleToDisplay, message: shareText });
         }
       }
@@ -169,8 +173,8 @@ export function GreetingCardModal({ visible, onClose }: Props) {
   const handleShareTextAndLink = async () => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch (_) {}
-    const shareText = `✨ ${titleToDisplay}\n\n"${messageToDisplay}"\n\n📲 Vera - ${t('share.appTagline', 'Namaz Vakitleri & Kuran-ı Kerim')}\n🔗 Google Play'den İndir:\nhttps://play.google.com/store/apps/details?id=com.abdllhekc.vera`;
+    } catch {}
+    const shareText = t('share.cardMessage', '✨ {{title}}\n\n"{{text}}"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}', { title: titleToDisplay, text: messageToDisplay, tagline: t('share.appTagline', 'Namaz Vakitleri, Kuran & Kıble'), link: getStoreLink('greeting') });
     await Share.share({ title: titleToDisplay, message: shareText });
   };
 
@@ -219,7 +223,7 @@ export function GreetingCardModal({ visible, onClose }: Props) {
                     <View style={[styles.decorLine, { backgroundColor: activeTheme.goldAccent + '50' }]} />
 
                     <Text style={[styles.cardMessageText, { color: activeTheme.primaryText }]}>
-                      "{messageToDisplay}"
+                      &ldquo;{messageToDisplay}&rdquo;
                     </Text>
 
                     {/* App Store Watermark with store URL & Mini QR Badge */}
@@ -243,7 +247,7 @@ export function GreetingCardModal({ visible, onClose }: Props) {
                         {/* Real Scannable QR Code Frame */}
                         <View style={[styles.qrCodeBox, { borderColor: activeTheme.goldAccent + '60', backgroundColor: '#FFFFFF' }]}>
                           <QRCode
-                            value="https://play.google.com/store/apps/details?id=com.abdllhekc.vera"
+                            value={getStoreLink('greeting')}
                             size={34}
                             color="#000000"
                             backgroundColor="#FFFFFF"
@@ -278,7 +282,7 @@ export function GreetingCardModal({ visible, onClose }: Props) {
                   }}
                 >
                   <Text style={[styles.templateChipText, { color: isDark ? '#FDF8ED' : '#1A1A24' }]}>
-                    {isLangTR ? tmpl.titleTR : tmpl.titleEN}
+                    {ct(`content.greetingTemplates.${tmpl.id}.title`, tmpl.titleTR, tmpl.titleEN)}
                   </Text>
                 </Pressable>
               ))}
@@ -335,7 +339,7 @@ export function GreetingCardModal({ visible, onClose }: Props) {
                   onPress={() => setSelectedThemeIndex(idx)}
                 >
                   <Text style={[styles.themeBtnText, { color: thm.primaryText }]}>
-                    {thm.name}
+                    {t(`greeting.theme.${thm.id}`, thm.name)}
                   </Text>
                 </Pressable>
               ))}

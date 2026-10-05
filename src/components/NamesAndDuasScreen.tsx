@@ -18,9 +18,10 @@ import { useTheme } from '../context/ThemeContext';
 import { typography } from '../utils/theme';
 import { ESMAUL_HUSNA, EsmaulHusna } from '../data/esmaulhusna';
 import { DUAS, DuaItem } from '../data/duas';
-import { AdBanner } from './AdBanner';
+import { BannerAdSlot } from './BannerAdSlot';
 import { ScalePressable } from './ScalePressable';
 import { logScreenView } from '../services/analyticsService';
+import { ct } from '../localization/content';
 
 type TabType = 'names' | 'duas';
 
@@ -31,11 +32,12 @@ interface EsmaItemCardProps {
   onToggle: (id: number) => void;
   isDark: boolean;
   isLangTR: boolean;
+  language: string;
   theme: any;
 }
 
 const EsmaItemCard = React.memo(({ item, isExpanded, onToggle, isDark, isLangTR, theme }: EsmaItemCardProps) => {
-  const meaning = isLangTR ? item.tr : item.en;
+  const meaning = ct(`content.esma.${item.id}`, item.tr, item.en);
   const cardBg = isDark ? '#1A1A24' : '#FFFFFF';
   const cardBgExpanded = isDark ? '#22213A' : '#FFFBF0';
 
@@ -81,6 +83,7 @@ const EsmaItemCard = React.memo(({ item, isExpanded, onToggle, isDark, isLangTR,
     </ScalePressable>
   );
 });
+EsmaItemCard.displayName = 'EsmaItemCard';
 
 // ── Memoized Item Component: Dua Item Card ───────────────────────────────────
 interface DuaItemCardProps {
@@ -89,14 +92,15 @@ interface DuaItemCardProps {
   onToggle: (id: string) => void;
   isDark: boolean;
   isLangTR: boolean;
+  language: string;
   theme: any;
   t: any;
 }
 
 const DuaItemCard = React.memo(({ item, isExpanded, onToggle, isDark, isLangTR, theme, t }: DuaItemCardProps) => {
-  const title = isLangTR ? item.title_tr : item.title_en;
+  const title = ct(`content.duas.${item.id}.title`, item.title_tr, item.title_en);
   const meaning = isLangTR ? item.tr : item.en;
-  const occasion = isLangTR ? item.occasion_tr : item.occasion_en;
+  const occasion = ct(`content.duas.${item.id}.occasion`, item.occasion_tr, item.occasion_en);
 
   return (
     <ScalePressable
@@ -224,8 +228,9 @@ const DuaItemCard = React.memo(({ item, isExpanded, onToggle, isDark, isLangTR, 
     </ScalePressable>
   );
 });
+DuaItemCard.displayName = 'DuaItemCard';
 
-export function NamesAndDuasScreen() {
+export function NamesAndDuasScreen({ isActive = true }: { isActive?: boolean }) {
   const { t, i18n } = useTranslation();
   const { theme, isDark } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>('names');
@@ -245,21 +250,23 @@ export function NamesAndDuasScreen() {
     if (!cleanQuery) return ESMAUL_HUSNA;
     return ESMAUL_HUSNA.filter((item) => {
       const matchName = item.transliteration.toLowerCase().includes(cleanQuery);
-      const matchMeaning = (isLangTR ? item.tr : item.en).toLowerCase().includes(cleanQuery);
+      const matchMeaning = ct(`content.esma.${item.id}`, item.tr, item.en).toLowerCase().includes(cleanQuery);
       return matchName || matchMeaning;
     });
-  }, [cleanQuery, isLangTR]);
+    // ct() reads the active language, so re-filter when it changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cleanQuery, i18n.language]);
 
   const filteredDuas = useMemo(() => {
     if (!cleanQuery) return DUAS;
     return DUAS.filter((item) => {
-      const title = (isLangTR ? item.title_tr : item.title_en).toLowerCase();
+      const title = ct(`content.duas.${item.id}.title`, item.title_tr, item.title_en).toLowerCase();
       const meaning = (isLangTR ? item.tr : item.en).toLowerCase();
-      const occasion = (isLangTR ? item.occasion_tr : item.occasion_en).toLowerCase();
+      const occasion = ct(`content.duas.${item.id}.occasion`, item.occasion_tr, item.occasion_en).toLowerCase();
       const translit = (item.transliteration || '').toLowerCase();
       return title.includes(cleanQuery) || meaning.includes(cleanQuery) || occasion.includes(cleanQuery) || translit.includes(cleanQuery);
     });
-  }, [cleanQuery, isLangTR]);
+  }, [cleanQuery, isLangTR, i18n.language]);
 
   const processedNames = useMemo(() => {
     if (cleanQuery) return filteredNames;
@@ -289,17 +296,17 @@ export function NamesAndDuasScreen() {
     return result;
   }, [filteredDuas, cleanQuery]);
 
-  const toggleExpand = useCallback((id: number | string) => {
+  const toggleExpand = useCallback((id: number) => {
     try {
       Haptics.selectionAsync();
-    } catch (_) {}
+    } catch {}
     setExpandedId((prev) => (prev === id ? null : id));
   }, []);
 
   const switchTab = useCallback((tab: TabType) => {
     try {
       Haptics.selectionAsync();
-    } catch (_) {}
+    } catch {}
     setActiveTab(tab);
     setExpandedId(null);
   }, []);
@@ -311,7 +318,7 @@ export function NamesAndDuasScreen() {
       if ('isAd' in item) {
         return (
           <View style={styles.adListItemCard}>
-            <AdBanner />
+            <BannerAdSlot placement="names_duas" isVisible={isActive} lazy={true} />
           </View>
         );
       }
@@ -322,6 +329,7 @@ export function NamesAndDuasScreen() {
           onToggle={toggleExpand as any}
           isDark={isDark}
           isLangTR={isLangTR}
+          language={i18n.language}
           theme={theme}
         />
       ) : (
@@ -331,12 +339,13 @@ export function NamesAndDuasScreen() {
           onToggle={toggleExpand as any}
           isDark={isDark}
           isLangTR={isLangTR}
+          language={i18n.language}
           theme={theme}
           t={t}
         />
       );
     },
-    [activeTab, expandedId, isDark, isLangTR, theme, t, toggleExpand]
+    [activeTab, expandedId, isDark, isLangTR, i18n.language, theme, t, toggleExpand]
   );
 
   return (

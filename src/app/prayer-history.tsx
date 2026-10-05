@@ -18,7 +18,8 @@ import { useTheme } from '../context/ThemeContext';
 import { AppBackground } from '../components/ProgressRing';
 import { logScreenView } from '../services/analyticsService';
 import { PrayerTreeVisual } from '../components/PrayerTreeVisual';
-import { AdBanner } from '../components/AdBanner';
+import { BannerAdSlot } from '../components/BannerAdSlot';
+import { useIsFocused } from '@react-navigation/native';
 
 const PRAYER_LOGS_KEY = 'USER_PRAYER_LOGS_V1';
 
@@ -40,8 +41,9 @@ const PRAYERS = [
 ] as const;
 
 export default function PrayerHistoryScreen() {
+  const isFocused = useIsFocused();
   const { t, i18n } = useTranslation();
-  const { theme, isDark } = useTheme();
+  const { isDark } = useTheme();
 
   const [allLogs, setAllLogs] = useState<Record<string, PrayerLog>>({});
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -148,7 +150,7 @@ export default function PrayerHistoryScreen() {
       if (i === 0) dayLabel = t('checklist.today', 'Bugün');
       else if (i === 1) dayLabel = t('checklist.yesterday', 'Dün');
       else {
-        dayLabel = d.toLocaleDateString(i18n.language === 'tr' ? 'tr-TR' : 'en-US', {
+        dayLabel = d.toLocaleDateString(i18n.language, {
           day: 'numeric',
           month: 'short',
           weekday: 'short',
@@ -224,7 +226,7 @@ export default function PrayerHistoryScreen() {
           <PrayerTreeVisual allLogs={allLogs} streakCount={streakCount} />
 
           {/* Native Ad Banner */}
-          <AdBanner />
+          <BannerAdSlot placement="prayer_history" isVisible={isFocused} lazy={true} />
 
           {/* 30 Days List */}
           <View style={styles.daysContainer}>

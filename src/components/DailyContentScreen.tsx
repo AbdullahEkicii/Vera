@@ -1,18 +1,11 @@
-import React, { useMemo, useRef, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   Pressable,
-  Share,
-  Dimensions,
-  ActivityIndicator,
-  Modal,
-  TextInput,
-  Alert,
 } from 'react-native';
-import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
 import { useTranslation } from 'react-i18next';
 import Animated, {
   FadeInDown,
@@ -23,14 +16,11 @@ import Animated, {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
-import { spacing, typography, borderRadius } from '../utils/theme';
+import { spacing, typography } from '../utils/theme';
 import { getDailyContent, getInstantDailyContent, DailyItem } from '../utils/daily';
-import { AdBanner } from './AdBanner';
-import { addContentToQueue } from '../services/contentQueue';
+import { BannerAdSlot } from './BannerAdSlot';
 import { StoryCardShareModal } from './StoryCardShareModal';
 import { logScreenView } from '../services/analyticsService';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 // Gradient palettes for each card type
 const CARD_GRADIENTS = {
@@ -51,14 +41,11 @@ interface ContentCardProps {
   text: string;
   source: string;
   delay: number;
-  isEditor?: boolean;
-  onAddClick?: (type: 'verse' | 'hadith' | 'quote') => void;
   onStoryShare?: () => void;
 }
 
-function ContentCard({ type, title, text, source, delay, isEditor, onAddClick, onStoryShare }: ContentCardProps) {
+function ContentCard({ type, title, text, source, delay, onStoryShare }: ContentCardProps) {
   const scale = useSharedValue(1);
-  const { theme } = useTheme();
 
   const animStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -87,11 +74,6 @@ function ContentCard({ type, title, text, source, delay, isEditor, onAddClick, o
                 <Text style={styles.typeLabel}>{title}</Text>
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                {isEditor && onAddClick && (
-                  <Pressable onPress={() => onAddClick(type)} hitSlop={10} style={styles.shareBtn}>
-                    <Feather name="plus-circle" size={20} color="#FFF" />
-                  </Pressable>
-                )}
                 {onStoryShare && (
                   <Pressable onPress={onStoryShare} hitSlop={10} style={styles.shareBtn}>
                     <Feather name="share-2" size={18} color="rgba(255,255,255,0.9)" />
@@ -118,20 +100,12 @@ function ContentCard({ type, title, text, source, delay, isEditor, onAddClick, o
   );
 }
 
-export function DailyContentScreen() {
+export function DailyContentScreen({ isActive = true }: { isActive?: boolean }) {
   const { t, i18n } = useTranslation();
   const { theme, isDark } = useTheme();
 
   // Instant synchronous base content - Zero ms delay, no white screen, no spinner flash!
   const [dailyContent, setDailyContent] = useState<DailyItem>(() => getInstantDailyContent(i18n.language));
-  const [isEditor, setIsEditor] = useState(false);
-
-  // Add Content State
-  const [addModalVisible, setAddModalVisible] = useState(false);
-  const [addType, setAddType] = useState<'verse' | 'hadith' | 'quote'>('verse');
-  const [addText, setAddText] = useState('');
-  const [addSource, setAddSource] = useState('');
-  const [isSaving, setIsSaving] = useState(false);
 
   // Story Share Modal State
   const [shareModalVisible, setShareModalVisible] = useState(false);
@@ -153,19 +127,12 @@ export function DailyContentScreen() {
   };
 
   useEffect(() => {
-    const subscriber = onAuthStateChanged(getAuth(), (user) => {
-      setIsEditor(!!user);
-    });
-    return subscriber;
-  }, []);
-
-  useEffect(() => {
     logScreenView('DailyContentScreen');
     let active = true;
     // 1. Immediately switch to instant base when language changes
     setDailyContent(getInstantDailyContent(i18n.language));
 
-    // 2. Seamlessly revalidate in background from cache / queue / translator
+    // 2. Seamlessly revalidate in background from cache / translator
     getDailyContent(i18n.language).then((content) => {
       if (active && content) {
         setDailyContent(content);
@@ -177,35 +144,12 @@ export function DailyContentScreen() {
   // Today's date for header
   const today = useMemo(() => {
     const d = new Date();
-    return d.toLocaleDateString(i18n.language === 'tr' ? 'tr-TR' : 'en-US', {
+    return d.toLocaleDateString(i18n.language, {
       weekday: 'long',
       month: 'long',
       day: 'numeric',
     });
   }, [i18n.language]);
-
-  const handleAddClick = (type: 'verse' | 'hadith' | 'quote') => {
-    setAddType(type);
-    setAddText('');
-    setAddSource('');
-    setAddModalVisible(true);
-  };
-
-  const handleSaveContent = async () => {
-    if (!addText.trim() || !addSource.trim()) {
-      Alert.alert(t('common.error', 'Hata'), t('common.fillAllFields', 'Lütfen tüm alanları doldurun.'));
-      return;
-    }
-    setIsSaving(true);
-    const success = await addContentToQueue(addType, addText.trim(), addSource.trim());
-    setIsSaving(false);
-    if (success) {
-      Alert.alert(t('common.success', 'Başarılı'), t('dailyContent.queueSuccess', 'İçerik onay bekleyen kuyruğa eklendi.'));
-      setAddModalVisible(false);
-    } else {
-      Alert.alert(t('common.error', 'Hata'), t('dailyContent.queueError', 'İçerik eklenirken bir hata oluştu.'));
-    }
-  };
 
   return (
     <ScrollView
@@ -223,9 +167,7 @@ export function DailyContentScreen() {
             {t('daily.title', 'Günün İçerikleri')}
           </Text>
           <Text style={[styles.heroSub, { color: theme.colors.textSecondary }]}>
-            {i18n.language.startsWith('tr')
-              ? 'Bugün için seçilmiş ayet, hadis ve söz'
-              : 'Curated verse, hadith and quote for today'}
+            {t('daily.subtitle', 'Bugün için seçilmiş ayet, hadis ve söz')}
           </Text>
         </LinearGradient>
       </Animated.View>
@@ -238,15 +180,13 @@ export function DailyContentScreen() {
           text={dailyContent.verse}
           source={dailyContent.verseSource}
           delay={120}
-          isEditor={isEditor}
-          onAddClick={handleAddClick}
           onStoryShare={() =>
             openShareModal('verse', t('daily.verse', 'Günün Ayeti'), dailyContent.verse, dailyContent.verseSource)
           }
         />
 
         {/* Live AdMob Native Ad */}
-        <AdBanner />
+        <BannerAdSlot placement="daily_content" isVisible={isActive} lazy={true} />
 
         <ContentCard
           type="hadith"
@@ -254,8 +194,6 @@ export function DailyContentScreen() {
           text={dailyContent.hadith}
           source={dailyContent.hadithSource}
           delay={240}
-          isEditor={isEditor}
-          onAddClick={handleAddClick}
           onStoryShare={() =>
             openShareModal('hadith', t('daily.hadith', 'Günün Hadisi'), dailyContent.hadith, dailyContent.hadithSource)
           }
@@ -266,8 +204,6 @@ export function DailyContentScreen() {
           text={dailyContent.quote}
           source={dailyContent.quoteSource}
           delay={360}
-          isEditor={isEditor}
-          onAddClick={handleAddClick}
           onStoryShare={() =>
             openShareModal('quote', t('daily.quote', 'Günün Sözü'), dailyContent.quote, dailyContent.quoteSource)
           }
@@ -288,52 +224,11 @@ export function DailyContentScreen() {
       <Animated.View entering={FadeInDown.delay(520).duration(500)} style={styles.hint}>
         <Feather name="image" size={13} color={theme.colors.textSecondary} />
         <Text style={[styles.hintText, { color: theme.colors.textSecondary }]}>
-          {i18n.language.startsWith('tr')
-            ? 'Görsel kart olarak paylaşmak için karta tıklayın'
-            : 'Tap a card to share as a story image'}
+          {t('daily.shareHint', 'Görsel kart olarak paylaşmak için karta tıklayın')}
         </Text>
       </Animated.View>
 
       <View style={{ height: spacing.xxl }} />
-
-      {/* Add Content Modal */}
-      <Modal visible={addModalVisible} transparent animationType="slide" onRequestClose={() => setAddModalVisible(false)}>
-        <View style={styles.modalOverlay}>
-          <View style={[styles.modalContent, { backgroundColor: isDark ? '#1C1C1E' : '#FFF' }]}>
-            <View style={styles.modalHeader}>
-              <Text style={[styles.modalTitle, { color: theme.colors.text }]}>Yeni İçerik Ekle ({addType})</Text>
-              <Pressable onPress={() => setAddModalVisible(false)} style={styles.modalClose}>
-                <Feather name="x" size={20} color={theme.colors.text} />
-              </Pressable>
-            </View>
-            <View style={styles.modalBody}>
-              <TextInput
-                style={[styles.input, { color: theme.colors.text, borderColor: theme.colors.border, minHeight: 100 }]}
-                placeholder="İçerik Metni (Arapça/Türkçe)"
-                placeholderTextColor={theme.colors.textSecondary}
-                value={addText}
-                onChangeText={setAddText}
-                multiline
-                textAlignVertical="top"
-              />
-              <TextInput
-                style={[styles.input, { color: theme.colors.text, borderColor: theme.colors.border }]}
-                placeholder="Kaynak (Örn: Buhari, İman 1)"
-                placeholderTextColor={theme.colors.textSecondary}
-                value={addSource}
-                onChangeText={setAddSource}
-              />
-              <Pressable
-                style={[styles.saveBtn, { backgroundColor: theme.colors.primary }]}
-                onPress={handleSaveContent}
-                disabled={isSaving}
-              >
-                <Text style={styles.saveBtnText}>{isSaving ? 'Kaydediliyor...' : 'Kaydet ve Sıraya Al'}</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
 
     </ScrollView>
   );
@@ -470,62 +365,5 @@ const styles = StyleSheet.create({
   hintText: {
     fontFamily: typography.fontFamily.regular,
     fontSize: 12,
-  },
-  /* Modal Styles */
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'flex-end',
-  },
-  modalContent: {
-    width: '100%',
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    paddingBottom: 40,
-    elevation: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: spacing.lg,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(150,150,150,0.2)',
-  },
-  modalTitle: {
-    fontFamily: typography.fontFamily.bold,
-    fontSize: 18,
-    textTransform: 'capitalize',
-  },
-  modalClose: {
-    padding: 8,
-    backgroundColor: 'rgba(150,150,150,0.1)',
-    borderRadius: 20,
-  },
-  modalBody: {
-    padding: spacing.lg,
-    gap: spacing.md,
-  },
-  input: {
-    borderWidth: 1,
-    borderRadius: borderRadius.md,
-    padding: spacing.md,
-    fontSize: 16,
-    fontFamily: typography.fontFamily.medium,
-  },
-  saveBtn: {
-    padding: spacing.lg,
-    borderRadius: borderRadius.md,
-    alignItems: 'center',
-    marginTop: spacing.sm,
-  },
-  saveBtnText: {
-    color: '#FFF',
-    fontFamily: typography.fontFamily.semiBold,
-    fontSize: 16,
   },
 });

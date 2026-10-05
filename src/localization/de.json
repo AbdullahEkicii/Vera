@@ -6,7 +6,11 @@
       "retry": "Erneut versuchen",
       "success": "Erfolg",
       "fillAllFields": "Bitte füllen Sie alle Felder aus.",
-      "min": "M"
+      "min": "M",
+      "cancel": "Abbrechen",
+      "save": "Speichern",
+      "ok": "OK",
+      "close": "Schließen"
     },
     "home": {
       "title": "Gebetszeiten",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "Die Gebetszeiten konnten nicht geladen werden",
       "errorLoadingSubtitle": "Bitte überprüfen Sie Ihre Internetverbindung oder wählen Sie Ihre Stadt aus.",
       "retryBtn": "Wiederholen",
-      "loadingTimes": "Gebetszeiten werden geladen..."
+      "loadingTimes": "Gebetszeiten werden geladen...",
+      "locationPermissionTitle": "Standortberechtigung nicht verfügbar",
+      "locationPermissionDesc": "Die Standardstadt wird angezeigt. Du kannst eine Stadt auswählen oder die Standortberechtigung erteilen.",
+      "estimatedTimesNotice": "Keine Internetverbindung, daher wurden die Gebetszeiten auf deinem Gerät berechnet (geschätzt)."
     },
     "settings": {
       "title": "Einstellungen",
@@ -111,7 +118,19 @@
       "offsetsTitle": "Anpassungen der Gebetszeit (Offsets / ± Min.)",
       "offsetsDesc": "Wenn Ihre Moschee oder Ihr Kalender in Ihrer Nähe um Minuten abweicht, können Sie die Zeitangaben um bis zu ±15 Minuten anpassen.",
       "respectSilentModeTitle": "Moschee / Silent Mode Respekt",
-      "respectSilentModeDesc": "Schaltet Adhan-Audio stumm und benachrichtigt Sie lautlos, wenn sich Ihr Telefon im Lautlos- oder Vibrationsmodus befindet."
+      "respectSilentModeDesc": "Schaltet Adhan-Audio stumm und benachrichtigt Sie lautlos, wenn sich Ihr Telefon im Lautlos- oder Vibrationsmodus befindet.",
+      "inviteFriend": "Freund einladen",
+      "privacyOptions": "Datenschutzeinstellungen",
+      "timeFormat24h": "24-Stunden-Format",
+      "loginLocked": "Zu viele fehlgeschlagene Versuche. Bitte versuche es später erneut.",
+      "loginFailed": "Anmeldung fehlgeschlagen. Überprüfe deine Angaben.",
+      "notifications": "Benachrichtigungen",
+      "editorLogout": "Editor-Abmeldung",
+      "editorLogin": "Editor-Anmeldung",
+      "username": "Benutzername",
+      "password": "Passwort",
+      "loggingIn": "Anmeldung läuft...",
+      "login": "Anmelden"
     },
     "qibla": {
       "title": "Qibla-Kompass",
@@ -154,7 +173,9 @@
       "share": "Teilen",
       "verseBody": "Klicken Sie hier, um den Vers des Tages zu lesen!",
       "hadithBody": "Klicken Sie hier, um den Hadith des Tages zu lesen!",
-      "quoteBody": "Klicken Sie hier, um das Zitat des Tages zu lesen!"
+      "quoteBody": "Klicken Sie hier, um das Zitat des Tages zu lesen!",
+      "subtitle": "Ausgewählter Vers, Hadith und Spruch für heute",
+      "shareHint": "Tippe auf eine Karte, um sie als Story-Bild zu teilen"
     },
     "notifications": {
       "fajr": {
@@ -208,7 +229,8 @@
         "dailyDesc": "Tägliche Verse, Hadithe oder Zitate kommen zwischen Dhuhr und Asr.",
         "persistentName": "Sperrbildschirm und Statusleiste",
         "persistentDesc": "Zeigt den Namen des nächsten Gebets und den Live-Countdown im Benachrichtigungsfeld und im Sperrbildschirm an."
-      }
+      },
+      "persistentTitle": "🕌 Bis {{prayer}}"
     },
     "tasbih": {
       "title": "Tasbih",
@@ -250,7 +272,49 @@
       "bgAudioSelect": "Wählen Sie Hintergrund-Dhikr-Sound",
       "dikhr1": "Dhikr-Sound 1",
       "dikhr2": "Dhikr-Sound 2",
-      "dikhr3": "Dhikr-Sound 3"
+      "dikhr3": "Dhikr-Sound 3",
+      "shareMilestone": "Teilen",
+      "milestoneShareText": "Ich habe diesen Monat insgesamt {{total}} Dhikr erreicht, maschallah!",
+      "streakDays": "Tage in Folge",
+      "monthStat": "Diesen Monat",
+      "streakStat": "Serie",
+      "streakValue": "{{count}} Tage",
+      "remaining": "noch {{count}}",
+      "noTarget": "Kein Ziel",
+      "completed": "Abgeschlossen",
+      "addShort": "Hinzufügen",
+      "progressShort": "Fortschritt",
+      "recShort": "Empfohlen",
+      "tapToCount": "Zum Zählen tippen",
+      "ok": "OK",
+      "dailyDhikrs": [
+        {
+          "text": "Subhanallahi wa bihamdihi",
+          "target": 100,
+          "benefit": "Wer dies täglich 100-mal rezitiert, dem werden die Sünden vergeben, selbst wenn sie wie der Schaum des Meeres wären."
+        },
+        {
+          "text": "La ilaha illallahu wahdahu la sharika lah...",
+          "target": 100,
+          "benefit": "Wer es 100-mal rezitiert, erhält den Lohn für die Freilassung von 10 Sklaven und wird vor Satan geschützt."
+        },
+        {
+          "text": "Astaghfirullah al-Adheem",
+          "target": 100,
+          "benefit": "Beseitigt Kummer, öffnet die Türen der Versorgung und bringt Erleichterung."
+        },
+        {
+          "text": "La hawla wa la quwwata illa billah",
+          "target": 100,
+          "benefit": "Ein Schatz aus den Schätzen des Paradieses, der alle Sorgen vertreibt."
+        },
+        {
+          "text": "Subhanallahi walhamdulillahi...",
+          "target": 100,
+          "benefit": "Das bei Allah beliebteste Wort, schwerer auf der Waage als alles andere."
+        }
+      ],
+      "recTarget": "Ziel:"
     },
     "update": {
       "title": "Neues Update verfügbar!",
@@ -327,7 +391,15 @@
       "mealSource": "Authentische englische Übersetzung",
       "loadingMeal": "Seitenübersetzung wird geladen...",
       "noMealFound": "Für diese Seite wurde keine Übersetzung gefunden. Bitte überprüfen Sie Ihre Internetverbindung.",
-      "mealBtn": "Übersetzung"
+      "mealBtn": "Übersetzung",
+      "selectReciter": "Rezitator auswählen",
+      "bookmarkAdded": "Vers zu den Favoriten hinzugefügt",
+      "bookmarkRemoved": "Vers aus den Favoriten entfernt",
+      "bookmarksTitle": "Gespeicherte Verse",
+      "noBookmarks": "Noch keine gespeicherten Verse. Halte einen Vers gedrückt, um ihn hinzuzufügen.",
+      "playFromHere": "Von hier abspielen",
+      "juz": "Juz",
+      "downloadingShort": "Wird heruntergeladen..."
     },
     "review": {
       "title": "Unterstützen Sie uns",
@@ -363,7 +435,10 @@
       "themeSepia": "Warmes Sepia",
       "appTagline": "Gebetszeiten, Koran und Qibla",
       "storeSearchHint": "Suche bei Google Play: Vera",
-      "scanToDownload": "Zum Herunterladen scannen"
+      "scanToDownload": "Zum Herunterladen scannen",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 Ich nutze Vera, um Gebetszeiten, den Adhan und mein Koranlesen im Blick zu behalten. Lass uns gemeinsam einen Khatm verfolgen!\n\n📲 Lade die App herunter: {{link}}"
     },
     "checklist": {
       "title": "Täglicher Gebets-Tracker",
@@ -388,7 +463,9 @@
       "celebrationMessage": "Du hast heute alle 5 täglichen Gebete verrichtet. Möge Allah Ihre Gebete annehmen!",
       "celebrationBtn": "Alhamdulillah",
       "trustNotice": "{{city}} • Verifizierte Gebetszeiten für Ihre Region mit {{method}}",
-      "streakDays": "Tage"
+      "streakDays": "Tage",
+      "shareStreak": "Meine Serie teilen",
+      "shareText": "Ich halte meine Gebete seit {{count}} Tagen in Folge ein, alhamdulillah!"
     },
     "search": {
       "title": "Wählen Sie Standort aus",
@@ -413,7 +490,8 @@
       "subtitle": "Kalender und Countdown für gesegnete Nächte und Tage",
       "today": "Heute",
       "daysLeft": "Tage",
-      "passed": "Bestanden"
+      "passed": "Bestanden",
+      "loadError": "Religiöse Tage konnten nicht geladen werden. Überprüfe deine Internetverbindung."
     },
     "widgetPromo": {
       "title": "Gebets-Widget hinzufügen",
@@ -477,7 +555,17 @@
       "widgetDesc": "Sehen Sie Live-Countdowns, ohne die App zu öffnen.",
       "widgetAdded": "Widget erfolgreich hinzugefügt!",
       "batteryTitle": "🔋 Ausnahme vom Batteriesparmodus",
-      "batteryDesc": "Für rechtzeitige Adhans wird empfohlen, die Akkuoptimierungen auf Xiaomi und Samsung zu deaktivieren."
+      "batteryDesc": "Für rechtzeitige Adhans wird empfohlen, die Akkuoptimierungen auf Xiaomi und Samsung zu deaktivieren.",
+      "locationReassurance": "Du kannst das später jederzeit in den Einstellungen ändern.",
+      "notifDenied": "Die Benachrichtigungsberechtigung wurde nicht erteilt. Ezan-Erinnerungen funktionieren möglicherweise nicht – du kannst dies später in den Einstellungen aktivieren.",
+      "retryBtn": "Erneut versuchen",
+      "continueWithoutNotif": "Ohne Benachrichtigungen fortfahren",
+      "skipTitle": "Einrichtung überspringen",
+      "skipBody": "Du kannst die Einrichtung jetzt überspringen. Standort- und Benachrichtigungseinstellungen kannst du später in den Einstellungen vornehmen.",
+      "skipConfirm": "Überspringen",
+      "locationDenied": "Die Standortberechtigung wurde nicht erteilt. Du kannst deine Stadt aus der Liste auswählen oder dies später in den Einstellungen ändern.",
+      "locationFailed": "Standort konnte nicht ermittelt werden. Du kannst deine Stadt aus der Liste auswählen oder dies später in den Einstellungen ändern.",
+      "locationNotSet": "Standort nicht verfügbar (Berechtigung verweigert)"
     },
     "weather": {
       "title": "Wettervorhersage",
@@ -496,7 +584,8 @@
       "sunset": "Sonnenuntergang",
       "precipitation": "Fällung",
       "kmh": "km/h",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Erneut versuchen"
     },
     "duas": {
       "occasionTitle": "Wann und warum rezitieren?",
@@ -542,7 +631,15 @@
       "chooseTheme": "Kartenthema",
       "shareBtn": "Auf WhatsApp/Story teilen 🌟",
       "shareImageBtn": "Bildkarte teilen 🌟",
-      "shareLinkBtn": "Direkten Store-Link teilen 🔗"
+      "shareLinkBtn": "Direkten Store-Link teilen 🔗",
+      "theme": {
+        "gold": "Goldene Linie",
+        "emerald": "Smaragdkuppel",
+        "navy": "Mitternachtsblau",
+        "crimson": "Rose & Rubin"
+      },
+      "customDefaultTitle": "Dschuma Mubarak",
+      "customDefaultMessage": "Mögen deine Gebete und Anbetungen angenommen werden."
     },
     "mosques": {
       "title": "Moscheen in der Nähe",
@@ -557,7 +654,12 @@
     "dailyContent": {
       "preparing": "Tägliche Inspiration wird geladen...",
       "queueSuccess": "Der Genehmigungswarteschlange hinzugefügter Inhalt.",
-      "queueError": "Beim Hinzufügen von Inhalten ist ein Fehler aufgetreten."
+      "queueError": "Beim Hinzufügen von Inhalten ist ein Fehler aufgetreten.",
+      "addModalTitle": "Neuen Inhalt hinzufügen",
+      "textPlaceholder": "Inhaltstext (Arabisch/Übersetzung)",
+      "sourcePlaceholder": "Quelle (z. B. Buchari, Iman 1)",
+      "saving": "Wird gespeichert...",
+      "saveAndQueue": "Speichern & einreihen"
     },
     "hatim": {
       "title": "Koran-Khatm-Tracker",
@@ -572,7 +674,9 @@
       "resetTitle": "Starten Sie New Khatm",
       "resetBody": "Der aktuelle Khatm wird als abgeschlossen erfasst und ein neuer Khatm beginnt auf Seite 1. Möchten Sie fortfahren?",
       "startNew": "Starten Sie New Khatm",
-      "resetHatimBtn": "Zurücksetzen und neues Khatm starten"
+      "resetHatimBtn": "Zurücksetzen und neues Khatm starten",
+      "share": "Meinen Khatm teilen",
+      "shareText": "Ich habe meinen {{count}}. Khatm abgeschlossen, alhamdulillah!"
     },
     "prayerTree": {
       "title": "Wöchentlicher Gebetsbaum",
@@ -582,6 +686,512 @@
       "quoteHigh": "„Das Gebet ist die Säule des Glaubens.“ — Du hast eine außergewöhnliche Woche, MashaAllah!",
       "quoteMid": "„Beten Sie, leisten Sie Zakah und verneigen Sie sich mit denen, die sich verbeugen.“ (Al-Baqarah, 43)",
       "quoteLow": "„In der Tat ist den Gläubigen das Gebet zu bestimmten Zeiten vorgeschrieben.“ (An-Nisa, 103)"
+    },
+    "hajjUmrah": {
+      "title": "Hadsch & Umra Leitfaden",
+      "umrah": "Umra",
+      "hajj": "Hadsch",
+      "stepsTitle": "Schritt-für-Schritt-Riten",
+      "checklistTitle": "Vorbereitungs-Checkliste",
+      "settingsEntry": "Hadsch & Umra Leitfaden"
+    },
+    "zakat": {
+      "title": "Zakat-Rechner",
+      "info": "Zakat beträgt 2,5 % (1/40) des Vermögens, das ein volles Mondjahr gehalten wird und die Nisab-Schwelle erreicht. Ermittle den aktuellen Nisab-Wert (basierend auf dem Gold-/Silberpreis) und gib ihn unten ein.",
+      "cash": "Bargeld & Bankguthaben",
+      "gold": "Gold-/Silberwert",
+      "tradeGoods": "Wert der Handelsware",
+      "investments": "Aktien / Investitionen",
+      "debts": "Schulden (werden abgezogen)",
+      "nisab": "Nisab-Schwelle (aktueller Gold-/Silberwert)",
+      "netWealth": "Nettovermögen",
+      "zakatDue": "Fällige Zakat",
+      "notEligible": "Dein Vermögen erreicht nicht die Nisab-Schwelle, daher ist keine Zakat fällig.",
+      "enterNisab": "Bitte gib die Nisab-Schwelle ein, um die Berechnung durchzuführen.",
+      "settingsEntry": "Zakat-Rechner"
+    },
+    "ramadan": {
+      "calendarTitle": "Ramadan-Kalender",
+      "days": "Tage",
+      "day": "Tag",
+      "date": "Datum",
+      "sahur": "Suhoor",
+      "iftar": "Iftar",
+      "noData": "Ramadan-Kalenderdaten wurden nicht gefunden."
+    },
+    "achievements": {
+      "title": "Meine Erfolge",
+      "pointsLabel": "Anbetungspunkte",
+      "unlockedCount": "{{unlocked}} / {{total}} Abzeichen freigeschaltet",
+      "settingsEntry": "Meine Erfolge",
+      "share": "Meine Punkte teilen",
+      "shareText": "Ich habe {{points}} Anbetungspunkte erreicht und {{unlocked}} Abzeichen freigeschaltet!",
+      "inviteTitle": "Freund einladen",
+      "inviteDesc": "Verfolgt gemeinsam einen Khatm und motiviert euch gegenseitig.",
+      "progress": {
+        "days": "{{current}} / {{total}} Tage",
+        "prayers": "{{current}} / {{total}} Gebete",
+        "dhikr": "{{current}} / {{total}} Dhikr",
+        "khatm": "{{current}} / {{total}} Khatm",
+        "kaza": "{{current}} / {{total}} Nachholgebete"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "In den Ihram-Zustand eintreten",
+          "desc": "An der Miqat-Grenze wird die Ghusl-Waschung vollzogen, die Ihram-Kleidung angelegt, die Absicht (Niyyah) gefasst und die Talbiya rezitiert. Sobald man sich im Ihram befindet, gelten bestimmte Einschränkungen (keine genähte Kleidung, kein Parfüm usw.)."
+        },
+        "tawaf": {
+          "title": "Tawaf (Umrundung der Kaaba)",
+          "desc": "Beginnend beim Schwarzen Stein wird die Kaaba siebenmal gegen den Uhrzeigersinn umrundet, wobei nach Möglichkeit zu Beginn jeder Runde der Schwarze Stein gegrüßt wird."
+        },
+        "sayi": {
+          "title": "Sa'i (zwischen Safa und Marwa)",
+          "desc": "Man geht zügig siebenmal zwischen den Hügeln Safa und Marwa hin und her, in Erinnerung an Hadschars Suche nach Wasser."
+        },
+        "halq": {
+          "title": "Rasieren oder Kürzen der Haare (Halq/Taqsir)",
+          "desc": "Männer rasieren ihren Kopf vollständig oder kürzen ihre Haare; Frauen schneiden eine fingerbreite Länge ab. Damit ist die Umra abgeschlossen und die Ihram-Einschränkungen enden."
+        },
+        "arafat": {
+          "title": "Das Stehen in Arafat (9. Dhul-Hidscha)",
+          "desc": "Die wichtigste Säule der Hadsch. Die Pilger stehen am 9. Tag des Dhul-Hidscha von Mittag bis Sonnenuntergang in Arafat und verbringen die Zeit mit Bittgebet, Dhikr und Reue."
+        },
+        "muzdalifah": {
+          "title": "Übernachtung in Muzdalifa",
+          "desc": "Nach Arafat ziehen die Pilger nach Muzdalifa, verbinden Maghrib- und Ischa-Gebet, verbringen dort die Nacht und sammeln Steinchen für die Steinigung."
+        },
+        "jamarat": {
+          "title": "Steinigung der Dschamarat",
+          "desc": "An den festgelegten Tagen werden Steinchen auf die Dschamarat-Säulen in Mina geworfen – in Erinnerung an die Ablehnung Satans durch den Propheten Ibrahim (a.s.)."
+        },
+        "qurban": {
+          "title": "Opferung (Qurbani)",
+          "desc": "Als Teil der Hadsch-Riten wird ein Opfer dargebracht; damit beginnt zugleich das Opferfest (Eid al-Adha)."
+        },
+        "farewell_tawaf": {
+          "title": "Abschieds-Tawaf",
+          "desc": "Der letzte Tawaf vor der Abreise aus Mekka; er markiert den Abschluss der Hadsch-Riten."
+        },
+        "ihram_clothes": {
+          "label": "Ihram-Kleidung (2 Stück ungenähter weißer Stoff für Männer)"
+        },
+        "passport": {
+          "label": "Reisepass, Visum und Reisedokumente"
+        },
+        "health": {
+          "label": "Krankenversicherung und erforderliche Impfungen"
+        },
+        "comfortable_sandals": {
+          "label": "Bequeme, leicht auszuziehende Sandalen"
+        },
+        "unscented_soap": {
+          "label": "Unparfümierte Seife und Pflegeprodukte"
+        },
+        "dua_book": {
+          "label": "Dua- und Ritenbuch (oder diese App)"
+        },
+        "money_belt": {
+          "label": "Sichere Geld-/Dokumententasche"
+        },
+        "medication": {
+          "label": "Persönliche Medikamente und Rezepte"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Ragaib-Nacht",
+          "description": "Der Beginn der drei heiligen Monate und eine Nacht der Barmherzigkeit."
+        },
+        "mirac": {
+          "name": "Isra und Mi'radsch",
+          "description": "Die Nachtreise und Himmelfahrt des Propheten (s.a.s.)."
+        },
+        "berat": {
+          "name": "Bara'at-Nacht",
+          "description": "Eine Nacht der Vergebung und Erleichterung von Kummer."
+        },
+        "ramadan": {
+          "name": "Erster Tag des Ramadan",
+          "description": "Der erste Fastentag im gesegneten Monat Ramadan."
+        },
+        "kadir": {
+          "name": "Laylat al-Qadr",
+          "description": "Die Nacht der Bestimmung, besser als tausend Monate."
+        },
+        "eid-fitr": {
+          "name": "Zuckerfest (1. Tag)",
+          "description": "Der erste Tag des Zuckerfests (Eid al-Fitr)."
+        },
+        "eid-adha": {
+          "name": "Opferfest (1. Tag)",
+          "description": "Der erste Tag des Opferfests (Eid al-Adha)."
+        },
+        "hijri-new-year": {
+          "name": "Islamisches Neujahr",
+          "description": "Der erste Tag des neuen Hidschri-Jahres."
+        },
+        "ashura": {
+          "name": "Aschura-Tag",
+          "description": "Der 10. Tag des Monats Muharram."
+        },
+        "mevlid": {
+          "name": "Mawlid an-Nabi",
+          "description": "Die Nacht der Geburt des Propheten (s.a.s.)."
+        }
+      },
+      "esma": {
+        "1": "Der Allerbarmer.",
+        "2": "Der Barmherzige.",
+        "3": "Der König.",
+        "4": "Der Reine, Heilige.",
+        "5": "Der Quell des Friedens.",
+        "6": "Der Gewährer der Sicherheit.",
+        "7": "Der Wächter.",
+        "8": "Der Allmächtige.",
+        "9": "Der Bezwinger.",
+        "10": "Der Erhabene.",
+        "11": "Der Schöpfer.",
+        "12": "Der Hervorbringer.",
+        "13": "Der Gestalter.",
+        "14": "Der Allvergebende.",
+        "15": "Der Bezwingende.",
+        "16": "Der Freigebige.",
+        "17": "Der Versorger.",
+        "18": "Der Erschließer.",
+        "19": "Der Allwissende.",
+        "20": "Der Einschränkende.",
+        "21": "Der Ausdehnende.",
+        "22": "Der Erniedrigende.",
+        "23": "Der Erhöhende.",
+        "24": "Der Ehrende.",
+        "25": "Der Entehrende.",
+        "26": "Der Allhörende.",
+        "27": "Der Allsehende.",
+        "28": "Der Richter.",
+        "29": "Der Gerechte.",
+        "30": "Der Feinfühlige.",
+        "31": "Der Allkundige.",
+        "32": "Der Nachsichtige.",
+        "33": "Der Großartige.",
+        "34": "Der Allverzeihende.",
+        "35": "Der Dankbare, Anerkennende.",
+        "36": "Der Allerhöchste.",
+        "37": "Der Größte.",
+        "38": "Der Bewahrer.",
+        "39": "Der Ernährer.",
+        "40": "Der Abrechnende.",
+        "41": "Der Majestätische.",
+        "42": "Der Großzügige.",
+        "43": "Der Wachsame.",
+        "44": "Der Erhörende.",
+        "45": "Der Allumfassende.",
+        "46": "Der Allweise.",
+        "47": "Der Liebevolle.",
+        "48": "Der Ruhmreiche.",
+        "49": "Der Auferwecker.",
+        "50": "Der Zeuge.",
+        "51": "Die Wahrheit.",
+        "52": "Der Sachwalter.",
+        "53": "Der Starke.",
+        "54": "Der Feste, Unerschütterliche.",
+        "55": "Der beschützende Freund.",
+        "56": "Der Lobenswerte.",
+        "57": "Der Erfasser.",
+        "58": "Der Urheber.",
+        "59": "Der Wiederhersteller.",
+        "60": "Der Lebenspender.",
+        "61": "Der Herbeiführer des Todes.",
+        "62": "Der Lebendige.",
+        "63": "Der Beständige, Selbsterhaltende.",
+        "64": "Der Finder.",
+        "65": "Der Edle.",
+        "66": "Der Einzigartige.",
+        "67": "Der Eine.",
+        "68": "Der Ewige, von niemandem Abhängige.",
+        "69": "Der Fähige, Mächtige.",
+        "70": "Der Kraftvolle.",
+        "71": "Der Vorverlegende.",
+        "72": "Der Verzögernde.",
+        "73": "Der Erste.",
+        "74": "Der Letzte.",
+        "75": "Der Offenkundige.",
+        "76": "Der Verborgene.",
+        "77": "Der Regierende.",
+        "78": "Der Allerhabenste.",
+        "79": "Der Quell alles Guten.",
+        "80": "Der Annehmer der Reue.",
+        "81": "Der Vergelter.",
+        "82": "Der Verzeihende.",
+        "83": "Der Barmherzige, Mitfühlende.",
+        "84": "Der Herr des Königreichs.",
+        "85": "Der Herr der Majestät und Großzügigkeit.",
+        "86": "Der Gerechte, Ausgleichende.",
+        "87": "Der Versammler.",
+        "88": "Der Selbstgenügsame.",
+        "89": "Der Bereichernde.",
+        "90": "Der Verhinderer.",
+        "91": "Der Zufügende von Schaden.",
+        "92": "Der Wohltuende.",
+        "93": "Das Licht.",
+        "94": "Der Rechtleitende.",
+        "95": "Der Unvergleichliche.",
+        "96": "Der ewig Fortbestehende.",
+        "97": "Der Erbe.",
+        "98": "Der Leiter zum rechten Weg.",
+        "99": "Der Geduldige."
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Bittgebet für Heilung & Genesung",
+          "occasion": "Wird für körperliche und seelische Heilung während Krankheit rezitiert."
+        },
+        "nazar_korunma": {
+          "title": "Schutz vor bösem Blick & Schaden (Ayat al-Kursi)",
+          "occasion": "Wird morgens und abends zum göttlichen Schutz vor dem bösen Blick und Schaden rezitiert."
+        },
+        "rizik_bereket": {
+          "title": "Bittgebet für Versorgung, Segen & Schuldenerleichterung",
+          "occasion": "Wird für finanziellen Wohlstand, Baraka in der Versorgung und Erleichterung von Schulden rezitiert."
+        },
+        "ferahlik_sikinti": {
+          "title": "Bittgebet in Zeiten der Not (Prophet Yunus)",
+          "occasion": "Wird in Zeiten schwerer Not, Angst, Hilflosigkeit und Kummer rezitiert."
+        },
+        "sinav_zihin": {
+          "title": "Bittgebet für Wissen, Prüfungen & geistige Klarheit",
+          "occasion": "Wird vor Prüfungen, beim Lernen oder bei schwierigen geistigen Aufgaben rezitiert."
+        },
+        "seyyidul_istigfar": {
+          "title": "Sayyid al-Istighfar (Herr der Vergebungsbitten)",
+          "occasion": "Wird morgens und abends für aufrichtige Reue und Vergebung der Sünden rezitiert."
+        },
+        "anne_baba": {
+          "title": "Bittgebet für Eltern & Familie",
+          "occasion": "Wird für die Vergebung, Gesundheit und Barmherzigkeit der Eltern und Familie rezitiert."
+        },
+        "ezan_sonrasi": {
+          "title": "Bittgebet nach dem Adhan",
+          "occasion": "Wird direkt nach dem Adhan rezitiert, um die Fürsprache des Propheten zu erlangen."
+        },
+        "iftar_oruc": {
+          "title": "Bittgebet beim Fastenbrechen (Iftar)",
+          "occasion": "Wird im Moment des Fastenbrechens bei Sonnenuntergang rezitiert."
+        },
+        "morning_1": {
+          "title": "Bittgebet für göttlichen Schutz am Morgen & Abend",
+          "occasion": "Wird morgens und abends je 3-mal rezitiert für vollständigen Schutz vor allem Übel."
+        },
+        "leaving_home": {
+          "title": "Bittgebet beim Verlassen des Hauses",
+          "occasion": "Wird beim Verlassen des Hauses für göttliche Sicherheit und Rechtleitung rezitiert."
+        },
+        "entering_home": {
+          "title": "Bittgebet beim Betreten des Hauses",
+          "occasion": "Wird beim Betreten des Hauses für Frieden, Segen und Schutz rezitiert."
+        },
+        "waking_up": {
+          "title": "Bittgebet beim Aufwachen",
+          "occasion": "Wird beim Aufwachen aus Dankbarkeit für die Erneuerung von Leben und Kraft rezitiert."
+        },
+        "sleeping": {
+          "title": "Bittgebet vor dem Schlafen",
+          "occasion": "Wird beim Zubettgehen für Ruhe und göttliche Bewahrung rezitiert."
+        },
+        "sukr_hamd": {
+          "title": "Bittgebet der Dankbarkeit & des Segens",
+          "occasion": "Wird beim Erhalt guter Nachrichten aus Dankbarkeit für Segnungen rezitiert."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "7-Tage-Beständigkeit",
+          "desc": "7 Tage in Folge Gebete protokolliert"
+        },
+        "prayer_streak_30": {
+          "title": "30-Tage-Beständigkeit",
+          "desc": "30 Tage in Folge Gebete protokolliert"
+        },
+        "prayer_total_100": {
+          "title": "100 Gebete",
+          "desc": "Insgesamt 100 Gebete protokolliert"
+        },
+        "prayer_total_500": {
+          "title": "500 Gebete",
+          "desc": "Insgesamt 500 Gebete protokolliert"
+        },
+        "dhikr_streak_7": {
+          "title": "7-Tage-Dhikr-Serie",
+          "desc": "7 Tage in Folge Dhikr praktiziert"
+        },
+        "dhikr_streak_30": {
+          "title": "30-Tage-Dhikr-Serie",
+          "desc": "30 Tage in Folge Dhikr praktiziert"
+        },
+        "dhikr_total_1000": {
+          "title": "1.000 Dhikr",
+          "desc": "Insgesamt 1.000 Dhikr rezitiert"
+        },
+        "dhikr_total_10000": {
+          "title": "10.000 Dhikr",
+          "desc": "Insgesamt 10.000 Dhikr rezitiert"
+        },
+        "hatim_first": {
+          "title": "Erster Khatm",
+          "desc": "Den gesamten Koran durchgelesen"
+        },
+        "hatim_3": {
+          "title": "3 Khatms",
+          "desc": "Den Koran 3-mal abgeschlossen"
+        },
+        "kaza_10": {
+          "title": "10 Nachholgebete",
+          "desc": "10 Nachholgebete/-fasten abgeschlossen"
+        },
+        "kaza_50": {
+          "title": "50 Nachholgebete",
+          "desc": "50 Nachholgebete/-fasten abgeschlossen"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mishary Alafasy"
+        },
+        "abdulbasit": {
+          "name": "Abdul Basit"
+        },
+        "husary": {
+          "name": "Al-Husary"
+        },
+        "minshawy": {
+          "name": "Al-Minshawy"
+        },
+        "shuraym": {
+          "name": "Saud Al-Shuraym"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Gesegneter Freitag (Dschuma Mubarak)",
+          "message": "Möge Allah unsere aufrichtigen Gebete annehmen und diesen gesegneten Freitag mit Frieden, Barmherzigkeit und Fülle überschütten."
+        },
+        "cuma_2": {
+          "title": "Dschuma Mubarak",
+          "message": "Möge Allah dich und deine Liebsten mit Glück, Gesundheit und Glauben in diesem Leben und im Jenseits segnen."
+        },
+        "kandil_1": {
+          "title": "Gesegnete heilige Nacht (Kadir/Kandil)",
+          "message": "Möge der Segen, die Vergebung und der Frieden dieser gesegneten Nacht auf dir und deiner Familie ruhen."
+        },
+        "ramazan_1": {
+          "title": "Ramadan Mubarak",
+          "message": "Wir wünschen dir einen gesegneten Ramadan voller spiritueller Einkehr, Frieden und göttlichem Segen."
+        },
+        "bayram_1": {
+          "title": "Eid Mubarak",
+          "message": "Möge dieses gesegnete Fest dir und deinen Liebsten Freude, Gesundheit, Einigkeit und Wohlstand bringen."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Gebet vor dem Koranrezitieren"
+        },
+        "hatim": {
+          "title": "Koran-Vollendungsgebet (Khatm)"
+        },
+        "sajdah": {
+          "title": "Niederwerfung der Rezitation (Sadschda)"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Koran"
+        },
+        "daily": {
+          "label": "Inhalt"
+        },
+        "home": {
+          "label": "Zeiten"
+        },
+        "dhikr": {
+          "label": "Dhikr"
+        },
+        "library": {
+          "label": "Bittgebete"
+        },
+        "qibla": {
+          "label": "Qibla"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Gebet",
+        "dhikr": "Dhikr",
+        "quran": "Koran",
+        "kaza": "Nachholgebete"
+      },
+      "hijriMonths": {
+        "1": "Muharram",
+        "2": "Safar",
+        "3": "Rabi' al-Awwal",
+        "4": "Rabi' al-Thani",
+        "5": "Jumada al-Ula",
+        "6": "Jumada al-Achira",
+        "7": "Radschab",
+        "8": "Schaban",
+        "9": "Ramadan",
+        "10": "Schawwal",
+        "11": "Dhu al-Qada",
+        "12": "Dhu al-Hiddscha"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Wenn die Zeit von deiner Moschee abweicht, halte die Karte gedrückt, um sie anzupassen.",
+      "title": "{{prayer}}-Zeit anpassen",
+      "desc": "Wenn deine Moschee oder dein Kalender eine abweichende Zeit anzeigt, füge Minuten hinzu oder ziehe sie ab. Die Adhan-Benachrichtigung richtet sich ebenfalls danach.",
+      "minus": "1 Minute früher",
+      "minutes": "{{value}} Min.",
+      "plus": "1 Minute später",
+      "reset": "Zurücksetzen",
+      "save": "Speichern"
+    },
+    "feedback": {
+      "settingsRow": "Feedback senden",
+      "title": "Gemeinsam besser werden",
+      "subtitle": "Schreib uns deine Vorschläge, Wünsche oder ein Problem, damit wir Vera besser machen können.",
+      "placeholder": "Schreib eine Idee, einen Vorschlag oder ein Problem...",
+      "error": "Konnte nicht gesendet werden. Bitte versuche es gleich noch einmal.",
+      "send": "Senden",
+      "thankYouTitle": "Feedback erhalten",
+      "thankYouSubtitle": "Deine Meinung bedeutet uns viel. Wir arbeiten mit voller Kraft daran, Vera zu verbessern."
+    },
+    "battery": {
+      "stepsXiaomi": "Einstellungen → Apps → Vera: Aktiviere \"Autostart\" und stelle den Akkusparmodus auf \"Keine Einschränkungen\".",
+      "stepsSamsung": "Einstellungen → Akku → Hintergrundnutzungslimits: Füge Vera zu \"Apps, die nie inaktiv werden\" hinzu.",
+      "stepsOppo": "Einstellungen → Akku → Vera: Aktiviere \"Hintergrundaktivität zulassen\" und \"Autostart\".",
+      "stepsOther": "Deaktiviere die Akkuoptimierung für Vera, damit der Adhan pünktlich erklingt.",
+      "cardTitle": "Den Adhan pünktlich hören",
+      "openSettings": "Einstellungen öffnen"
+    },
+    "widget": {
+      "guideTitle": "Zum Startbildschirm hinzufügen",
+      "guideDesc": "Halte deinen Startbildschirm gedrückt ➔ tippe auf \"Widgets\" ➔ finde das \"VERA\"-Widget und ziehe es auf deinen Bildschirm.",
+      "promptTitle": "Widget zum Startbildschirm hinzufügen",
+      "promptDesc": "Sieh die nächste Gebetszeit und die verbleibenden Minuten live auf deinem Startbildschirm, ohne die App zu öffnen.",
+      "addNow": "📌 Zum Startbildschirm hinzufügen",
+      "notNow": "Später"
+    },
+    "greetingNotif": {
+      "dayTitle": "Gesegnetes {{name}}",
+      "nightTitle": "Heute Nacht ist {{name}}",
+      "body": "Sende eine Grußkarte an deine Liebsten.",
+      "fridayTitle": "Dschuma Mubarak",
+      "fridayBody": "Sende eine Freitagsgrußkarte an deine Liebsten."
+    },
+    "errorBoundary": {
+      "title": "Etwas ist schiefgelaufen",
+      "subtitle": "In der App ist ein unerwarteter Fehler aufgetreten. Tippe unten, um es erneut zu versuchen.",
+      "retry": "Erneut versuchen"
     }
   }
 }

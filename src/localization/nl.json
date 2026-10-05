@@ -6,7 +6,11 @@
       "retry": "Opnieuw proberen",
       "success": "Succes",
       "fillAllFields": "Vul alle velden in.",
-      "min": "M"
+      "min": "M",
+      "cancel": "Annuleren",
+      "save": "Opslaan",
+      "ok": "OK",
+      "close": "Sluiten"
     },
     "home": {
       "title": "Gebedstijden",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "Kan gebedstijden niet laden",
       "errorLoadingSubtitle": "Controleer uw internetverbinding of selecteer uw stad.",
       "retryBtn": "Opnieuw proberen",
-      "loadingTimes": "Gebedstijden laden..."
+      "loadingTimes": "Gebedstijden laden...",
+      "locationPermissionTitle": "Locatietoestemming niet beschikbaar",
+      "locationPermissionDesc": "De standaardstad wordt getoond. Je kunt een stad kiezen of locatietoestemming geven.",
+      "estimatedTimesNotice": "Geen internetverbinding, dus de gebedstijden zijn op je toestel berekend (geschat)."
     },
     "settings": {
       "title": "Instellingen",
@@ -111,7 +118,19 @@
       "offsetsTitle": "Aanpassingen van de gebedstijd (compensaties / ± min)",
       "offsetsDesc": "Als uw lokale moskee of kalender minuten verschilt, kunt u de tijden aanpassen tot ±15 minuten.",
       "respectSilentModeTitle": "Moskee / Stille modus Respect",
-      "respectSilentModeDesc": "Dempt adhan-audio en waarschuwt stil wanneer uw telefoon in de stille of trilmodus staat."
+      "respectSilentModeDesc": "Dempt adhan-audio en waarschuwt stil wanneer uw telefoon in de stille of trilmodus staat.",
+      "inviteFriend": "Nodig een vriend uit",
+      "privacyOptions": "Privacyvoorkeuren",
+      "timeFormat24h": "24-uursnotatie",
+      "loginLocked": "Te veel mislukte pogingen. Probeer het later opnieuw.",
+      "loginFailed": "Inloggen mislukt. Controleer je gegevens.",
+      "notifications": "Meldingen",
+      "editorLogout": "Uitloggen als redacteur",
+      "editorLogin": "Inloggen als redacteur",
+      "username": "Gebruikersnaam",
+      "password": "Wachtwoord",
+      "loggingIn": "Bezig met inloggen...",
+      "login": "Inloggen"
     },
     "qibla": {
       "title": "Qibla",
@@ -154,7 +173,9 @@
       "share": "Delen",
       "verseBody": "Klik om het vers van de dag te lezen!",
       "hadithBody": "Klik om de hadith van de dag te lezen!",
-      "quoteBody": "Klik om het citaat van de dag te lezen!"
+      "quoteBody": "Klik om het citaat van de dag te lezen!",
+      "subtitle": "Uitgekozen vers, hadith en uitspraak voor vandaag",
+      "shareHint": "Tik op een kaart om als storyafbeelding te delen"
     },
     "search": {
       "title": "Locatie Selecteren",
@@ -217,7 +238,8 @@
         "dailyDesc": "Dagelijks vers, hadith of citaat arriveert tussen Dhuhr en Asr.",
         "persistentName": "Vergrendelscherm en statusbalk",
         "persistentDesc": "Toont de volgende gebedsnaam en live aftelling in het meldingenpaneel en vergrendelscherm."
-      }
+      },
+      "persistentTitle": "🕌 Tot {{prayer}}"
     },
     "tasbih": {
       "title": "Tasbih",
@@ -259,7 +281,49 @@
       "bgAudioSelect": "Selecteer Achtergrond Dhikr-geluid",
       "dikhr1": "Dhikr-geluid 1",
       "dikhr2": "Dhikr-geluid 2",
-      "dikhr3": "Dhikr-geluid 3"
+      "dikhr3": "Dhikr-geluid 3",
+      "shareMilestone": "Delen",
+      "milestoneShareText": "Ik heb deze maand in totaal {{total}} dhikr bereikt, mashallah!",
+      "streakDays": "dagen op rij",
+      "monthStat": "Deze maand",
+      "streakStat": "Reeks",
+      "streakValue": "{{count}} dagen",
+      "remaining": "nog {{count}}",
+      "noTarget": "Geen doel",
+      "completed": "Voltooid",
+      "addShort": "Toevoegen",
+      "progressShort": "Voortgang",
+      "recShort": "Aanbevolen",
+      "tapToCount": "Tik om te tellen",
+      "ok": "OK",
+      "dailyDhikrs": [
+        {
+          "text": "Subhanallahi wa bihamdihi",
+          "target": 100,
+          "benefit": "Wie dit dagelijks 100 keer reciteert, diens zonden worden vergeven, al waren ze zo talrijk als het schuim van de zee."
+        },
+        {
+          "text": "La ilaha illallahu wahdahu la sharika lah...",
+          "target": 100,
+          "benefit": "Dit 100 keer reciteren staat gelijk aan het vrijlaten van 10 slaven en beschermt tegen de Satan."
+        },
+        {
+          "text": "Astaghfirullah al-Adheem",
+          "target": 100,
+          "benefit": "Verdrijft zorgen, opent deuren van levensonderhoud en brengt verlichting."
+        },
+        {
+          "text": "La hawla wa la quwwata illa billah",
+          "target": 100,
+          "benefit": "Een schat uit de schatten van het Paradijs, die alle zorgen verdrijft."
+        },
+        {
+          "text": "Subhanallahi walhamdulillahi...",
+          "target": 100,
+          "benefit": "Het meest geliefde woord bij Allah, zwaarder in de weegschaal dan al het andere."
+        }
+      ],
+      "recTarget": "Doel:"
     },
     "update": {
       "title": "Nieuwe Update Beschikbaar!",
@@ -336,7 +400,15 @@
       "mealSource": "Authentieke Engelse vertaling",
       "loadingMeal": "Paginavertaling laden...",
       "noMealFound": "Geen vertaling gevonden voor deze pagina. Controleer uw internetverbinding.",
-      "mealBtn": "Vertaling"
+      "mealBtn": "Vertaling",
+      "selectReciter": "Kies een reciteur",
+      "bookmarkAdded": "Vers toegevoegd aan favorieten",
+      "bookmarkRemoved": "Vers verwijderd uit favorieten",
+      "bookmarksTitle": "Opgeslagen verzen",
+      "noBookmarks": "Nog geen opgeslagen verzen. Houd een vers ingedrukt om er een toe te voegen.",
+      "playFromHere": "Vanaf hier beluisteren",
+      "juz": "Juz",
+      "downloadingShort": "Bezig met downloaden..."
     },
     "review": {
       "title": "Steun Ons",
@@ -372,7 +444,10 @@
       "themeSepia": "Warm sepia",
       "appTagline": "Gebedstijden, Koran en Qibla",
       "storeSearchHint": "Zoek op Google Play: Vera",
-      "scanToDownload": "Scannen om te downloaden"
+      "scanToDownload": "Scannen om te downloaden",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 Ik gebruik Vera om gebedstijden, de adhan en mijn Koranlezen bij te houden. Laten we samen een khatm volgen!\n\n📲 Download de app: {{link}}"
     },
     "checklist": {
       "title": "Dagelijkse gebedstracker",
@@ -397,7 +472,9 @@
       "celebrationMessage": "Je hebt vandaag alle vijf de dagelijkse gebeden voltooid. Moge Allah jouw gebeden accepteren!",
       "celebrationBtn": "Alhamdulillah",
       "trustNotice": "{{city}} • Geverifieerde gebedstijden voor jouw regio met behulp van {{method}}",
-      "streakDays": "Dagen"
+      "streakDays": "Dagen",
+      "shareStreak": "Deel mijn reeks",
+      "shareText": "Ik houd mijn gebeden {{count}} dagen op rij vol, alhamdulillah!"
     },
     "calendar": {
       "title": "Uniforme kalender",
@@ -413,7 +490,8 @@
       "subtitle": "Kalender en aftellen voor gezegende nachten en dagen",
       "today": "Vandaag",
       "daysLeft": "dagen",
-      "passed": "Geslaagd"
+      "passed": "Geslaagd",
+      "loadError": "Religieuze dagen konden niet worden geladen. Controleer je internetverbinding."
     },
     "widgetPromo": {
       "title": "Voeg gebedwidget toe",
@@ -477,7 +555,17 @@
       "widgetDesc": "Bekijk live aftellingen zonder de app te openen.",
       "widgetAdded": "Widget succesvol toegevoegd!",
       "batteryTitle": "🔋 Vrijstelling voor batterijbesparing",
-      "batteryDesc": "Aanbevolen om batterij-optimalisaties op Xiaomi en Samsung uit te schakelen voor tijdige adhans."
+      "batteryDesc": "Aanbevolen om batterij-optimalisaties op Xiaomi en Samsung uit te schakelen voor tijdige adhans.",
+      "locationReassurance": "Je kunt dit later altijd wijzigen in Instellingen.",
+      "notifDenied": "Meldingstoestemming is niet gegeven. Adhan-meldingen werken mogelijk niet — je kunt dit later inschakelen in Instellingen.",
+      "retryBtn": "Opnieuw proberen",
+      "continueWithoutNotif": "Doorgaan zonder meldingen",
+      "skipTitle": "Instellen overslaan",
+      "skipBody": "Je kunt het instellen nu overslaan. Locatie- en meldingsinstellingen kun je later regelen in Instellingen.",
+      "skipConfirm": "Overslaan",
+      "locationDenied": "Locatietoestemming is niet gegeven. Je kunt je stad uit de lijst kiezen of dit later wijzigen in Instellingen.",
+      "locationFailed": "Locatie kon niet worden bepaald. Je kunt je stad uit de lijst kiezen of dit later wijzigen in Instellingen.",
+      "locationNotSet": "Locatie niet beschikbaar (toestemming geweigerd)"
     },
     "weather": {
       "title": "Weersverwachting",
@@ -496,7 +584,8 @@
       "sunset": "Zonsondergang",
       "precipitation": "Neerslag",
       "kmh": "km/u",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Opnieuw proberen"
     },
     "duas": {
       "occasionTitle": "Wanneer en waarom reciteren?",
@@ -542,7 +631,15 @@
       "chooseTheme": "Kaart Thema",
       "shareBtn": "Deel via WhatsApp/Verhaal 🌟",
       "shareImageBtn": "Deel afbeeldingskaart 🌟",
-      "shareLinkBtn": "Deel directe winkellink 🔗"
+      "shareLinkBtn": "Deel directe winkellink 🔗",
+      "theme": {
+        "gold": "Gouden lijn",
+        "emerald": "Smaragden koepel",
+        "navy": "Middernachtblauw",
+        "crimson": "Roos & robijn"
+      },
+      "customDefaultTitle": "Jumu'ah Mubarak",
+      "customDefaultMessage": "Moge je gebeden en aanbidding aanvaard worden."
     },
     "mosques": {
       "title": "Nabijgelegen moskeeën",
@@ -557,7 +654,12 @@
     "dailyContent": {
       "preparing": "Dagelijkse inspiratie laden...",
       "queueSuccess": "Inhoud toegevoegd aan de goedkeuringswachtrij.",
-      "queueError": "Er is een fout opgetreden tijdens het toevoegen van inhoud."
+      "queueError": "Er is een fout opgetreden tijdens het toevoegen van inhoud.",
+      "addModalTitle": "Nieuwe inhoud toevoegen",
+      "textPlaceholder": "Inhoudstekst (Arabisch/vertaling)",
+      "sourcePlaceholder": "Bron (bijv. Bukhari, Iman 1)",
+      "saving": "Bezig met opslaan...",
+      "saveAndQueue": "Opslaan & in wachtrij zetten"
     },
     "hatim": {
       "title": "Koran Khatm-tracker",
@@ -572,7 +674,9 @@
       "resetTitle": "Begin nieuwe Khatm",
       "resetBody": "De huidige khatm wordt als voltooid geregistreerd en een nieuwe khatm begint op pagina 1. Wilt u doorgaan?",
       "startNew": "Begin nieuwe Khatm",
-      "resetHatimBtn": "Reset en start nieuwe Khatm"
+      "resetHatimBtn": "Reset en start nieuwe Khatm",
+      "share": "Deel mijn khatm",
+      "shareText": "Ik heb mijn {{count}}e khatm voltooid, alhamdulillah!"
     },
     "prayerTree": {
       "title": "Wekelijkse gebedsboom",
@@ -582,6 +686,512 @@
       "quoteHigh": "“Gebed is de pijler van het geloof.” — Je hebt een uitzonderlijke week, MashaAllah!",
       "quoteMid": "“Verricht het gebed, geef zakaat en buig met degenen die buigen.” (Al-Baqarah, 43)",
       "quoteLow": "“Inderdaad, het gebed is voor de gelovigen vastgelegd op een decreet van bepaalde tijden.” (An-Nisa, 103)"
+    },
+    "hajjUmrah": {
+      "title": "Hadj & Umrah-gids",
+      "umrah": "Umrah",
+      "hajj": "Hadj",
+      "stepsTitle": "Stap-voor-stap rituelen",
+      "checklistTitle": "Voorbereidingschecklist",
+      "settingsEntry": "Hadj & Umrah-gids"
+    },
+    "zakat": {
+      "title": "Zakat-calculator",
+      "info": "Zakat is 2,5% (1/40) van het vermogen dat een volledig maanjaar wordt aangehouden en de nisab-drempel bereikt. Zoek de actuele nisab-waarde op (gebaseerd op de goud-/zilverprijs) en voer deze hieronder in.",
+      "cash": "Contant geld & spaargeld",
+      "gold": "Goud-/zilverwaarde",
+      "tradeGoods": "Waarde van handelswaar",
+      "investments": "Aandelen / beleggingen",
+      "debts": "Schulden (worden afgetrokken)",
+      "nisab": "Nisab-drempel (huidige goud-/zilverwaarde)",
+      "netWealth": "Netto vermogen",
+      "zakatDue": "Verschuldigde zakat",
+      "notEligible": "Je vermogen bereikt de nisab-drempel niet, dus je bent geen zakat verschuldigd.",
+      "enterNisab": "Voer de nisab-drempel in om de berekening te maken.",
+      "settingsEntry": "Zakat-calculator"
+    },
+    "ramadan": {
+      "calendarTitle": "Ramadankalender",
+      "days": "dagen",
+      "day": "Dag",
+      "date": "Datum",
+      "sahur": "Suhoor",
+      "iftar": "Iftar",
+      "noData": "Geen gegevens gevonden voor de Ramadankalender."
+    },
+    "achievements": {
+      "title": "Mijn prestaties",
+      "pointsLabel": "Aanbiddingspunten",
+      "unlockedCount": "{{unlocked}} / {{total}} badges ontgrendeld",
+      "settingsEntry": "Mijn prestaties",
+      "share": "Deel mijn punten",
+      "shareText": "Ik heb {{points}} aanbiddingspunten behaald en {{unlocked}} badges ontgrendeld!",
+      "inviteTitle": "Nodig een vriend uit",
+      "inviteDesc": "Volg samen een Khatm en motiveer elkaar.",
+      "progress": {
+        "days": "{{current}} / {{total}} dagen",
+        "prayers": "{{current}} / {{total}} gebeden",
+        "dhikr": "{{current}} / {{total}} dhikr",
+        "khatm": "{{current}} / {{total}} khatm",
+        "kaza": "{{current}} / {{total}} inhaalgebeden"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "De staat van ihram ingaan",
+          "desc": "Bij de miqat-grens verricht je de ghusl, doe je de ihram-kleding aan, spreek je de intentie (niyyah) uit en reciteer je de talbiyah. Zodra je in ihram bent, gelden bepaalde beperkingen (geen genaaide kleding, parfum, enz.)."
+        },
+        "tawaf": {
+          "title": "Tawaf (rond de Kaaba lopen)",
+          "desc": "Beginnend bij de Zwarte Steen loop je zeven keer tegen de klok in rond de Kaaba, waarbij je bij elke ronde indien mogelijk de Zwarte Steen groet."
+        },
+        "sayi": {
+          "title": "Sa'i (tussen Safa en Marwah)",
+          "desc": "Je loopt zeven keer heen en weer tussen de heuvels Safa en Marwah, ter herinnering aan Hadjars zoektocht naar water."
+        },
+        "halq": {
+          "title": "Het scheren of knippen van het haar (Halq/Taqsir)",
+          "desc": "Mannen scheren hun hoofd volledig kaal of knippen hun haar; vrouwen knippen een vingertopje lengte af. Hiermee wordt de umrah voltooid en eindigen de ihram-beperkingen."
+        },
+        "arafat": {
+          "title": "Het staan op Arafat (9e Dhoel-Hidjdjah)",
+          "desc": "De belangrijkste zuil van de hadj. Pelgrims staan op de 9e dag van Dhoel-Hidjdjah van de middag tot zonsondergang op Arafat, in smeekbede, dhikr en berouw."
+        },
+        "muzdalifah": {
+          "title": "Overnachten in Muzdalifah",
+          "desc": "Na Arafat trekken de pelgrims naar Muzdalifah, voegen ze het maghrib- en isha-gebed samen, brengen ze daar de nacht door en verzamelen ze steentjes voor het stenigingsritueel."
+        },
+        "jamarat": {
+          "title": "Het stenigen van de Jamarat",
+          "desc": "Op de vastgestelde dagen worden steentjes naar de Jamarat-pilaren in Mina gegooid, ter herinnering aan de afwijzing van Satan door profeet Ibrahim (vzmh)."
+        },
+        "qurban": {
+          "title": "Offer (Qurbani)",
+          "desc": "Als onderdeel van de hadj-rituelen wordt een offer gebracht; dit markeert ook het begin van het Offerfeest (Eid al-Adha)."
+        },
+        "farewell_tawaf": {
+          "title": "Afscheidstawaf",
+          "desc": "De laatste tawaf voordat je Mekka verlaat; dit markeert de voltooiing van de hadj-rituelen."
+        },
+        "ihram_clothes": {
+          "label": "Ihram-kleding (2 stukken ongenaaide witte stof voor mannen)"
+        },
+        "passport": {
+          "label": "Paspoort, visum en reisdocumenten"
+        },
+        "health": {
+          "label": "Ziektekostenverzekering en verplichte vaccinaties"
+        },
+        "comfortable_sandals": {
+          "label": "Comfortabele, makkelijk uit te trekken sandalen"
+        },
+        "unscented_soap": {
+          "label": "Ongeparfumeerde zeep en verzorgingsproducten"
+        },
+        "dua_book": {
+          "label": "Dua- en ritueelboekje (of deze app)"
+        },
+        "money_belt": {
+          "label": "Veilige geld-/documententas"
+        },
+        "medication": {
+          "label": "Persoonlijke medicatie en recepten"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Ragaib-nacht",
+          "description": "Het begin van de drie heilige maanden en een nacht van genade."
+        },
+        "mirac": {
+          "name": "Isra en Mi'raj",
+          "description": "De nachtreis en hemelvaart van de Profeet (vzmh)."
+        },
+        "berat": {
+          "name": "Bara'at-nacht",
+          "description": "Een nacht van vergeving en verlichting van verdriet."
+        },
+        "ramadan": {
+          "name": "Eerste dag van de Ramadan",
+          "description": "De eerste vastendag van de gezegende maand Ramadan."
+        },
+        "kadir": {
+          "name": "Laylat al-Qadr",
+          "description": "De Nacht van de Macht, beter dan duizend maanden."
+        },
+        "eid-fitr": {
+          "name": "Suikerfeest (dag 1)",
+          "description": "De eerste dag van het Suikerfeest (Eid al-Fitr)."
+        },
+        "eid-adha": {
+          "name": "Offerfeest (dag 1)",
+          "description": "De eerste dag van het Offerfeest (Eid al-Adha)."
+        },
+        "hijri-new-year": {
+          "name": "Islamitisch nieuwjaar",
+          "description": "De eerste dag van het nieuwe Hijri-jaar."
+        },
+        "ashura": {
+          "name": "Ashura-dag",
+          "description": "De 10e dag van de maand Muharram."
+        },
+        "mevlid": {
+          "name": "Mawlid an-Nabi",
+          "description": "De nacht van de geboorte van de Profeet (vzmh)."
+        }
+      },
+      "esma": {
+        "1": "De Barmhartige.",
+        "2": "De Genadevolle.",
+        "3": "De Koning.",
+        "4": "De Allerheiligste.",
+        "5": "De Bron van Vrede.",
+        "6": "De Schenker van Veiligheid.",
+        "7": "De Bewaker.",
+        "8": "De Almachtige.",
+        "9": "De Dwingende.",
+        "10": "De Verhevene.",
+        "11": "De Schepper.",
+        "12": "De Ontwikkelaar.",
+        "13": "De Vormgever.",
+        "14": "De Grote Vergever.",
+        "15": "De Overweldiger.",
+        "16": "De Schenker.",
+        "17": "De Voorziener.",
+        "18": "De Opener.",
+        "19": "De Alwetende.",
+        "20": "De Beperker.",
+        "21": "De Verruimer.",
+        "22": "De Vernederaar.",
+        "23": "De Verheffer.",
+        "24": "De Eervolle.",
+        "25": "De Onteerder.",
+        "26": "De Alhorende.",
+        "27": "De Alziende.",
+        "28": "De Rechter.",
+        "29": "De Rechtvaardige.",
+        "30": "De Fijngevoelige.",
+        "31": "De Welingelichte.",
+        "32": "De Zachtmoedige.",
+        "33": "De Grootse.",
+        "34": "De Alvergevende.",
+        "35": "De Waarderende.",
+        "36": "De Allerhoogste.",
+        "37": "De Grootste.",
+        "38": "De Behoeder.",
+        "39": "De Onderhouder.",
+        "40": "De Rekenaar.",
+        "41": "De Majestueuze.",
+        "42": "De Vrijgevige.",
+        "43": "De Waakzame.",
+        "44": "De Verhoorder.",
+        "45": "De Allesomvattende.",
+        "46": "De Alwijze.",
+        "47": "De Liefdevolle.",
+        "48": "De Glorierijke.",
+        "49": "De Opwekker.",
+        "50": "De Getuige.",
+        "51": "De Waarheid.",
+        "52": "De Voogd.",
+        "53": "De Sterke.",
+        "54": "De Onwrikbare.",
+        "55": "De Beschermende Vriend.",
+        "56": "De Geprezene.",
+        "57": "De Teller.",
+        "58": "De Voortbrenger (uit het niets).",
+        "59": "De Herstelbrenger.",
+        "60": "De Levengever.",
+        "61": "Degene Die Doet Sterven.",
+        "62": "De Levende.",
+        "63": "De Zelfbestaande.",
+        "64": "De Vinder.",
+        "65": "De Edele.",
+        "66": "De Unieke.",
+        "67": "De Ene.",
+        "68": "De Eeuwige (Onafhankelijke).",
+        "69": "De Machtige.",
+        "70": "De Krachtige.",
+        "71": "De Vervroeger.",
+        "72": "De Vertrager.",
+        "73": "De Eerste.",
+        "74": "De Laatste.",
+        "75": "De Manifeste.",
+        "76": "De Verborgene.",
+        "77": "De Bestuurder.",
+        "78": "De Meest Verhevene.",
+        "79": "De Bron van het Goede.",
+        "80": "De Aanvaarder van Berouw.",
+        "81": "De Wreker.",
+        "82": "De Vergevensgezinde.",
+        "83": "De Meedogende.",
+        "84": "De Heerser van het Koninkrijk.",
+        "85": "De Heer van Majesteit en Overvloed.",
+        "86": "De Billijke.",
+        "87": "De Verzamelaar.",
+        "88": "De Zelfgenoegzame.",
+        "89": "De Verrijker.",
+        "90": "De Verhinderaar.",
+        "91": "De Veroorzaker van Nadeel.",
+        "92": "De Weldoener.",
+        "93": "Het Licht.",
+        "94": "De Gids.",
+        "95": "De Onvergelijkbare.",
+        "96": "De Eeuwig Voortbestaande.",
+        "97": "De Erfgenaam.",
+        "98": "De Leider naar het Rechte Pad.",
+        "99": "De Geduldige."
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Smeekbede voor genezing & herstel",
+          "occasion": "Wordt gereciteerd voor lichamelijke en geestelijke genezing tijdens ziekte."
+        },
+        "nazar_korunma": {
+          "title": "Bescherming tegen het boze oog & kwaad (Ayat al-Kursi)",
+          "occasion": "Wordt 's ochtends en 's avonds gereciteerd voor goddelijke bescherming tegen het boze oog en kwaad."
+        },
+        "rizik_bereket": {
+          "title": "Smeekbede voor levensonderhoud, zegen & schuldverlichting",
+          "occasion": "Wordt gereciteerd voor financiële overvloed, barakah in levensonderhoud en verlichting van schulden."
+        },
+        "ferahlik_sikinti": {
+          "title": "Smeekbede in tijden van nood (Profeet Yunus)",
+          "occasion": "Wordt gereciteerd in tijden van zware nood, angst, hulpeloosheid en verdriet."
+        },
+        "sinav_zihin": {
+          "title": "Smeekbede voor kennis, examens & mentale helderheid",
+          "occasion": "Wordt gereciteerd voor examens, tijdens het studeren of bij moeilijke intellectuele taken."
+        },
+        "seyyidul_istigfar": {
+          "title": "Sayyid al-Istighfar (heer van vergevingsgebeden)",
+          "occasion": "Wordt 's ochtends en 's avonds gereciteerd voor oprecht berouw en vergeving van zonden."
+        },
+        "anne_baba": {
+          "title": "Smeekbede voor ouders & familie",
+          "occasion": "Wordt gereciteerd voor de vergeving, gezondheid en genade van ouders en familie."
+        },
+        "ezan_sonrasi": {
+          "title": "Smeekbede na het horen van de adhan",
+          "occasion": "Wordt direct na de adhan gereciteerd om de voorspraak van de Profeet te verkrijgen."
+        },
+        "iftar_oruc": {
+          "title": "Smeekbede bij het verbreken van het vasten (iftar)",
+          "occasion": "Wordt gereciteerd op het moment dat het vasten bij zonsondergang wordt verbroken."
+        },
+        "morning_1": {
+          "title": "Smeekbede voor goddelijke bescherming 's ochtends & 's avonds",
+          "occasion": "Wordt 's ochtends en 's avonds 3 keer gereciteerd voor volledige bescherming tegen alle kwaad."
+        },
+        "leaving_home": {
+          "title": "Smeekbede bij het verlaten van huis",
+          "occasion": "Wordt gereciteerd bij het verlaten van huis voor goddelijke veiligheid en leiding."
+        },
+        "entering_home": {
+          "title": "Smeekbede bij het betreden van huis",
+          "occasion": "Wordt gereciteerd bij het betreden van huis voor vrede, zegen en bescherming."
+        },
+        "waking_up": {
+          "title": "Smeekbede bij het ontwaken",
+          "occasion": "Wordt gereciteerd bij het ontwaken uit dankbaarheid voor de vernieuwing van leven en kracht."
+        },
+        "sleeping": {
+          "title": "Smeekbede voor het slapengaan",
+          "occasion": "Wordt gereciteerd bij het naar bed gaan voor rust en goddelijke bewaring."
+        },
+        "sukr_hamd": {
+          "title": "Smeekbede van dankbaarheid & zegeningen",
+          "occasion": "Wordt gereciteerd uit dankbaarheid bij het ontvangen van zegeningen en goed nieuws."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "7 dagen consistentie",
+          "desc": "7 dagen op rij gebeden bijgehouden"
+        },
+        "prayer_streak_30": {
+          "title": "30 dagen consistentie",
+          "desc": "30 dagen op rij gebeden bijgehouden"
+        },
+        "prayer_total_100": {
+          "title": "100 gebeden",
+          "desc": "In totaal 100 gebeden bijgehouden"
+        },
+        "prayer_total_500": {
+          "title": "500 gebeden",
+          "desc": "In totaal 500 gebeden bijgehouden"
+        },
+        "dhikr_streak_7": {
+          "title": "7 dagen dhikr-reeks",
+          "desc": "7 dagen op rij dhikr beoefend"
+        },
+        "dhikr_streak_30": {
+          "title": "30 dagen dhikr-reeks",
+          "desc": "30 dagen op rij dhikr beoefend"
+        },
+        "dhikr_total_1000": {
+          "title": "1.000 dhikr",
+          "desc": "In totaal 1.000 dhikr gereciteerd"
+        },
+        "dhikr_total_10000": {
+          "title": "10.000 dhikr",
+          "desc": "In totaal 10.000 dhikr gereciteerd"
+        },
+        "hatim_first": {
+          "title": "Eerste khatm",
+          "desc": "De volledige Koran uitgelezen"
+        },
+        "hatim_3": {
+          "title": "3 khatms",
+          "desc": "De Koran 3 keer voltooid"
+        },
+        "kaza_10": {
+          "title": "10 inhaalgebeden",
+          "desc": "10 inhaalgebeden/-vasten voltooid"
+        },
+        "kaza_50": {
+          "title": "50 inhaalgebeden",
+          "desc": "50 inhaalgebeden/-vasten voltooid"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mishary Alafasy"
+        },
+        "abdulbasit": {
+          "name": "Abdul Basit"
+        },
+        "husary": {
+          "name": "Al-Husary"
+        },
+        "minshawy": {
+          "name": "Al-Minshawy"
+        },
+        "shuraym": {
+          "name": "Saud Al-Shuraym"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Gezegende vrijdag (Jumu'ah Mubarak)",
+          "message": "Moge Allah onze oprechte gebeden aanvaarden en deze gezegende vrijdag overladen met vrede, genade en overvloed."
+        },
+        "cuma_2": {
+          "title": "Jumu'ah Mubarak",
+          "message": "Moge Allah jou en je dierbaren zegenen met geluk, gezondheid en geloof in dit leven en het hiernamaals."
+        },
+        "kandil_1": {
+          "title": "Gezegende heilige nacht (Kadir/Kandil)",
+          "message": "Mogen de zegen, vergeving en vrede van deze heilige nacht op jou en je familie rusten."
+        },
+        "ramazan_1": {
+          "title": "Ramadan Mubarak",
+          "message": "We wensen je een gezegende Ramadan vol spirituele bezinning, vrede en goddelijke zegen."
+        },
+        "bayram_1": {
+          "title": "Eid Mubarak",
+          "message": "Moge dit gezegende Eid vreugde, gezondheid, eenheid en voorspoed brengen aan jou en je dierbaren."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Gebed voor het reciteren van de Koran"
+        },
+        "hatim": {
+          "title": "Koranvoltooiingsgebed (khatm)"
+        },
+        "sajdah": {
+          "title": "Prosternatie bij recitatie (sajdah)"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Koran"
+        },
+        "daily": {
+          "label": "Inhoud"
+        },
+        "home": {
+          "label": "Tijden"
+        },
+        "dhikr": {
+          "label": "Dhikr"
+        },
+        "library": {
+          "label": "Smeekbeden"
+        },
+        "qibla": {
+          "label": "Qibla"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Gebed",
+        "dhikr": "Dhikr",
+        "quran": "Koran",
+        "kaza": "Inhaalgebeden"
+      },
+      "hijriMonths": {
+        "1": "Muharram",
+        "2": "Safar",
+        "3": "Rabi al-Awwal",
+        "4": "Rabi al-Thani",
+        "5": "Jumada al-Oela",
+        "6": "Jumada al-Achira",
+        "7": "Radjab",
+        "8": "Sha'ban",
+        "9": "Ramadan",
+        "10": "Shawwal",
+        "11": "Dhoel-Qa'da",
+        "12": "Dhoel-Hidjdjah"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Als er verschil is met je moskee, houd de kaart dan ingedrukt om aan te passen.",
+      "title": "{{prayer}}-tijd aanpassen",
+      "desc": "Als je moskee of kalender een andere tijd toont, tel minuten op of trek ze af. De adhan-melding volgt dit ook.",
+      "minus": "1 minuut eerder",
+      "minutes": "{{value}} min",
+      "plus": "1 minuut later",
+      "reset": "Reset",
+      "save": "Opslaan"
+    },
+    "feedback": {
+      "settingsRow": "Feedback versturen",
+      "title": "Laten we samen verbeteren",
+      "subtitle": "Schrijf je suggesties, wensen of een probleem dat je bent tegengekomen, zodat we Vera beter kunnen maken.",
+      "placeholder": "Schrijf een idee, suggestie of een probleem dat je bent tegengekomen...",
+      "error": "Kon niet worden verzonden. Probeer het straks opnieuw.",
+      "send": "Versturen",
+      "thankYouTitle": "Feedback ontvangen",
+      "thankYouSubtitle": "Jouw mening betekent veel voor ons. We werken hard om Vera beter te maken."
+    },
+    "battery": {
+      "stepsXiaomi": "Instellingen → Apps → Vera: schakel \"Automatisch starten\" in en zet Batterijbesparing op \"Geen beperkingen\".",
+      "stepsSamsung": "Instellingen → Batterij → Achtergrondgebruikslimieten: voeg Vera toe aan \"Apps die nooit slapen\".",
+      "stepsOppo": "Instellingen → Batterij → Vera: schakel \"Achtergrondactiviteit toestaan\" en \"Automatisch starten\" in.",
+      "stepsOther": "Schakel batterijoptimalisatie voor Vera uit, zodat de adhan op tijd afspeelt.",
+      "cardTitle": "Hoor de adhan op tijd",
+      "openSettings": "Instellingen openen"
+    },
+    "widget": {
+      "guideTitle": "Toevoegen aan startscherm",
+      "guideDesc": "Houd je startscherm ingedrukt ➔ tik op \"Widgets\" ➔ zoek de \"VERA\"-widget en sleep deze naar je scherm.",
+      "promptTitle": "Widget toevoegen aan startscherm",
+      "promptDesc": "Bekijk de volgende gebedstijd en de resterende minuten live op je startscherm, zonder de app te openen.",
+      "addNow": "📌 Toevoegen aan startscherm",
+      "notNow": "Later"
+    },
+    "greetingNotif": {
+      "dayTitle": "Gezegend {{name}}",
+      "nightTitle": "Vannacht is het {{name}}",
+      "body": "Stuur een groetkaart naar je dierbaren.",
+      "fridayTitle": "Jumu'ah Mubarak",
+      "fridayBody": "Stuur een vrijdaggroetkaart naar je dierbaren."
+    },
+    "errorBoundary": {
+      "title": "Er is iets misgegaan",
+      "subtitle": "De app heeft een onverwachte fout. Tik op de knop hieronder om het opnieuw te proberen.",
+      "retry": "Opnieuw proberen"
     }
   }
 }

@@ -17,6 +17,7 @@ import ViewShot from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
 import * as Haptics from 'expo-haptics';
 import QRCode from 'react-native-qrcode-svg';
+import { getStoreLink } from '../services/referralService';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -26,7 +27,7 @@ interface Props {
   title: string;
   text: string;
   source: string;
-  type: 'verse' | 'hadith' | 'quote';
+  type: 'verse' | 'hadith' | 'quote' | 'achievement';
 }
 
 const THEME_PRESETS = [
@@ -95,7 +96,7 @@ export function StoryCardShareModal({
   const handleShareImage = async () => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    } catch (_) {}
+    } catch {}
 
     try {
       setIsSharing(true);
@@ -109,7 +110,7 @@ export function StoryCardShareModal({
             UTI: 'public.png',
           });
         } else {
-          const shareMessage = `✨ ${title}\n\n"${text}"\n\n— ${source}\n\n📲 Vera (${t('share.appTagline', 'Namaz Vakitleri, Kuran & Kıble')})\n🔗 Google Play'den İndir:\nhttps://play.google.com/store/apps/details?id=com.abdllhekc.vera`;
+          const shareMessage = t('share.cardMessageWithSource', '✨ {{title}}\n\n"{{text}}"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}', { title: title, text: text, source, tagline: t('share.appTagline', 'Namaz Vakitleri, Kuran & Kıble'), link: getStoreLink('story') });
           await Share.share({ title, message: shareMessage });
         }
       }
@@ -123,8 +124,8 @@ export function StoryCardShareModal({
   const handleShareDirectLink = async () => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch (_) {}
-    const shareMessage = `✨ ${title}\n\n"${text}"\n\n— ${source}\n\n📲 Vera - ${t('share.appTagline', 'Namaz Vakitleri, Kuran & Kıble')}\n🔗 Google Play: https://play.google.com/store/apps/details?id=com.abdllhekc.vera`;
+    } catch {}
+    const shareMessage = t('share.cardMessageWithSource', '✨ {{title}}\n\n"{{text}}"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}', { title: title, text: text, source, tagline: t('share.appTagline', 'Namaz Vakitleri, Kuran & Kıble'), link: getStoreLink('story') });
     await Share.share({ title, message: shareMessage });
   };
 
@@ -161,7 +162,7 @@ export function StoryCardShareModal({
               >
                 <View style={styles.storyCardInner}>
                   <Feather
-                    name={type === 'verse' ? 'book-open' : type === 'hadith' ? 'message-circle' : 'feather'}
+                    name={type === 'verse' ? 'book-open' : type === 'hadith' ? 'message-circle' : type === 'achievement' ? 'award' : 'feather'}
                     size={26}
                     color={theme.border}
                     style={styles.cardIcon}
@@ -200,7 +201,7 @@ export function StoryCardShareModal({
                       {/* Real Scannable QR Code */}
                       <View style={styles.qrCodeBox}>
                         <QRCode
-                          value="https://play.google.com/store/apps/details?id=com.abdllhekc.vera"
+                          value={getStoreLink('story')}
                           size={34}
                           color="#000000"
                           backgroundColor="#FFFFFF"

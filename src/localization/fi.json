@@ -6,7 +6,11 @@
       "retry": "Yritä uudelleen",
       "success": "Menestys",
       "fillAllFields": "Täytä kaikki kentät.",
-      "min": "m"
+      "min": "m",
+      "cancel": "Peruuta",
+      "save": "Tallenna",
+      "ok": "OK",
+      "close": "Sulje"
     },
     "home": {
       "title": "Rukousajat",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "Rukousaikoja ei voitu ladata",
       "errorLoadingSubtitle": "Tarkista Internet-yhteytesi tai valitse kaupunkisi.",
       "retryBtn": "Yritä uudelleen",
-      "loadingTimes": "Ladataan rukousaikoja..."
+      "loadingTimes": "Ladataan rukousaikoja...",
+      "locationPermissionTitle": "Sijaintilupa ei käytettävissä",
+      "locationPermissionDesc": "Näytetään oletuskaupunki. Voit valita kaupungin tai myöntää sijaintiluvan.",
+      "estimatedTimesNotice": "Koska internetyhteyttä ei ole, rukousajat on laskettu laitteessa (arvio)."
     },
     "settings": {
       "title": "Asetukset",
@@ -111,7 +118,19 @@
       "offsetsTitle": "Rukousajan säädöt (poikkeamat / ± min)",
       "offsetsDesc": "Jos paikallinen moskeija tai kalenterisi eroaa minuuteista, voit säätää ajoituksia ±15 minuuttiin asti.",
       "respectSilentModeTitle": "Moskeija / Silent Mode Respect",
-      "respectSilentModeDesc": "Mykistää adhan-äänen ja ilmoittaa äänettömästi, kun puhelimesi on äänettömässä tai värinätilassa."
+      "respectSilentModeDesc": "Mykistää adhan-äänen ja ilmoittaa äänettömästi, kun puhelimesi on äänettömässä tai värinätilassa.",
+      "inviteFriend": "Kutsu ystävä",
+      "privacyOptions": "Yksityisyysasetukset",
+      "timeFormat24h": "24 tunnin kello",
+      "loginLocked": "Liian monta epäonnistunutta yritystä. Yritä myöhemmin uudelleen.",
+      "loginFailed": "Kirjautuminen epäonnistui. Tarkista tietosi.",
+      "notifications": "Ilmoitukset",
+      "editorLogout": "Kirjaudu ulos toimittajana",
+      "editorLogin": "Kirjaudu sisään toimittajana",
+      "username": "Käyttäjätunnus",
+      "password": "Salasana",
+      "loggingIn": "Kirjaudutaan sisään...",
+      "login": "Kirjaudu sisään"
     },
     "qibla": {
       "title": "Qibla",
@@ -154,7 +173,9 @@
       "share": "Jaa",
       "verseBody": "Napsauta lukeaksesi päivän säkeen!",
       "hadithBody": "Napsauta lukeaksesi päivän hadithin!",
-      "quoteBody": "Napsauta lukeaksesi päivän sitaatin!"
+      "quoteBody": "Napsauta lukeaksesi päivän sitaatin!",
+      "subtitle": "Tälle päivälle valittu jae, hadith ja sitaatti",
+      "shareHint": "Jaa kortti tarinakuvana napauttamalla sitä"
     },
     "search": {
       "title": "Valitse sijainti",
@@ -217,7 +238,8 @@
         "dailyDesc": "Päivittäinen säe, hadith tai lainaus saapuu Dhuhrin ja Asrin välille.",
         "persistentName": "Lukitusnäyttö ja tilapalkki",
         "persistentDesc": "Näyttää seuraavan rukouksen nimen ja reaaliaikaisen lähtölaskennan ilmoituspaneelissa ja lukitusnäytössä."
-      }
+      },
+      "persistentTitle": "🕌 {{prayer}} alkaa"
     },
     "tasbih": {
       "title": "Tasbih",
@@ -259,7 +281,49 @@
       "bgAudioSelect": "Valitse Dhikr-taustaääni",
       "dikhr1": "Dhikr Sound 1",
       "dikhr2": "Dhikr Sound 2",
-      "dikhr3": "Dhikr Sound 3"
+      "dikhr3": "Dhikr Sound 3",
+      "shareMilestone": "Jaa",
+      "milestoneShareText": "Saavutin tässä kuussa yhteensä {{total}} dhikriä, mashallah!",
+      "streakDays": "päivää putkeen",
+      "monthStat": "Tässä kuussa",
+      "streakStat": "Putki",
+      "streakValue": "{{count}} päivää",
+      "remaining": "{{count}} jäljellä",
+      "noTarget": "Ei tavoitetta",
+      "completed": "Valmis",
+      "addShort": "Lisää",
+      "progressShort": "Edistyminen",
+      "recShort": "Suositus",
+      "tapToCount": "Laske napauttamalla",
+      "ok": "OK",
+      "dailyDhikrs": [
+        {
+          "text": "Subhanallahi wa bihamdihi",
+          "target": 100,
+          "benefit": "Kun tätä toistetaan 100 kertaa päivässä, synnit annetaan anteeksi, vaikka ne olisivat kuin meren vaahtoa."
+        },
+        {
+          "text": "La ilaha illallahu wahdahu la sharika lah...",
+          "target": 100,
+          "benefit": "Sen toistaminen 100 kertaa vastaa 10 orjan vapauttamista ja suojaa saatanalta."
+        },
+        {
+          "text": "Astaghfirullah al-Adheem",
+          "target": 100,
+          "benefit": "Poistaa ahdistusta, avaa elannon ovia ja tuo helpotusta."
+        },
+        {
+          "text": "La hawla wa la quwwata illa billah",
+          "target": 100,
+          "benefit": "Aarre paratiisin aarteista, joka karkottaa huolet."
+        },
+        {
+          "text": "Subhanallahi walhamdulillahi...",
+          "target": 100,
+          "benefit": "Allahille rakkaimmat sanat, painavammat vaa'assa kuin mikään muu."
+        }
+      ],
+      "recTarget": "Tavoite:"
     },
     "update": {
       "title": "Uusi päivitys saatavilla!",
@@ -336,7 +400,15 @@
       "mealSource": "Aito englanninkielinen käännös",
       "loadingMeal": "Ladataan sivun käännöstä...",
       "noMealFound": "Tälle sivulle ei löytynyt käännöstä. Tarkista Internet-yhteytesi.",
-      "mealBtn": "Käännös"
+      "mealBtn": "Käännös",
+      "selectReciter": "Valitse resitoija",
+      "bookmarkAdded": "Jae lisätty kirjanmerkkeihin",
+      "bookmarkRemoved": "Jae poistettu kirjanmerkeistä",
+      "bookmarksTitle": "Tallennetut jakeet",
+      "noBookmarks": "Sinulla ei vielä ole tallennettuja jakeita. Lisää jae painamalla sitä pitkään.",
+      "playFromHere": "Toista tästä",
+      "juz": "Juz",
+      "downloadingShort": "Ladataan..."
     },
     "review": {
       "title": "Tue meitä",
@@ -372,7 +444,10 @@
       "themeSepia": "Lämmin seepia",
       "appTagline": "Rukousajat, Koraani ja Qibla",
       "storeSearchHint": "Hae Google Playsta: Vera",
-      "scanToDownload": "Skannaa ladattavaksi"
+      "scanToDownload": "Skannaa ladattavaksi",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 Käytän Veraa rukousaikojen, adhanin ja Koraanin lukemisen seuraamiseen. Seurataan khatmia yhdessä!\n\n📲 Lataa sovellus: {{link}}"
     },
     "checklist": {
       "title": "Päivittäinen rukousseuranta",
@@ -397,7 +472,9 @@
       "celebrationMessage": "Olet suorittanut kaikki 5 päivittäistä rukousta tänään. Allah vastaanottakoon rukouksesi!",
       "celebrationBtn": "Alhamdulillah",
       "trustNotice": "{{city}} • Vahvistetut rukousajat alueellasi käyttämällä {{method}}",
-      "streakDays": "päivää"
+      "streakDays": "päivää",
+      "shareStreak": "Jaa putkeni",
+      "shareText": "Olen seurannut rukouksiani {{count}} päivää putkeen, alhamdulillah!"
     },
     "calendar": {
       "title": "Yhtenäinen kalenteri",
@@ -413,7 +490,8 @@
       "subtitle": "Kalenteri ja lähtölaskenta siunatuille öille ja päiville",
       "today": "Tänään",
       "daysLeft": "päivää",
-      "passed": "Läpäisty"
+      "passed": "Läpäisty",
+      "loadError": "Uskonnollisia päiviä ei voitu ladata. Tarkista internetyhteytesi."
     },
     "widgetPromo": {
       "title": "Lisää rukouswidget",
@@ -477,7 +555,17 @@
       "widgetDesc": "Katso suoria lähtölaskentaa avaamatta sovellusta.",
       "widgetAdded": "Widget lisätty onnistuneesti!",
       "batteryTitle": "🔋 Virransäästövapautus",
-      "batteryDesc": "Suositellaan Xiaomin ja Samsungin akun optimoinnin kytkemistä pois päältä, jotta saat oikea-aikaiset ilmoitukset."
+      "batteryDesc": "Suositellaan Xiaomin ja Samsungin akun optimoinnin kytkemistä pois päältä, jotta saat oikea-aikaiset ilmoitukset.",
+      "locationReassurance": "Voit muuttaa tätä milloin tahansa myöhemmin Asetuksista.",
+      "notifDenied": "Ilmoituslupaa ei myönnetty. Adhan-hälytykset eivät ehkä toimi — voit ottaa ne käyttöön myöhemmin Asetuksista.",
+      "retryBtn": "Yritä uudelleen",
+      "continueWithoutNotif": "Jatka ilman ilmoituksia",
+      "skipTitle": "Ohita asetukset",
+      "skipBody": "Voit ohittaa asetukset nyt. Sijainti- ja ilmoitusasetukset voi määrittää myöhemmin Asetuksista.",
+      "skipConfirm": "Ohita",
+      "locationDenied": "Sijaintilupaa ei myönnetty. Voit valita kaupunkisi luettelosta tai muuttaa tätä myöhemmin Asetuksista.",
+      "locationFailed": "Sijaintia ei saatu selville. Voit valita kaupunkisi luettelosta tai muuttaa tätä myöhemmin Asetuksista.",
+      "locationNotSet": "Sijainti ei käytettävissä (lupa evätty)"
     },
     "weather": {
       "title": "Sääennuste",
@@ -496,7 +584,8 @@
       "sunset": "Auringonlasku",
       "precipitation": "Sademäärä",
       "kmh": "km/h",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Yritä uudelleen"
     },
     "duas": {
       "occasionTitle": "Milloin ja miksi lausua?",
@@ -542,7 +631,15 @@
       "chooseTheme": "Kortin teema",
       "shareBtn": "Jaa WhatsAppissa / Storyssa 🌟",
       "shareImageBtn": "Jaa kuvakortti 🌟",
-      "shareLinkBtn": "Jaa suora kauppalinkki 🔗"
+      "shareLinkBtn": "Jaa suora kauppalinkki 🔗",
+      "theme": {
+        "gold": "Kultainen linja",
+        "emerald": "Smaragdikupu",
+        "navy": "Yösininen",
+        "crimson": "Ruusu ja rubiini"
+      },
+      "customDefaultTitle": "Siunattua perjantaita",
+      "customDefaultMessage": "Kunpa rukouksesi ja hartautesi hyväksyttäisiin."
     },
     "mosques": {
       "title": "Läheiset moskeijat",
@@ -557,7 +654,12 @@
     "dailyContent": {
       "preparing": "Ladataan päivittäistä inspiraatiota...",
       "queueSuccess": "Sisältö lisättiin hyväksyntäjonoon.",
-      "queueError": "Sisällön lisäyksessä tapahtui virhe."
+      "queueError": "Sisällön lisäyksessä tapahtui virhe.",
+      "addModalTitle": "Lisää uutta sisältöä",
+      "textPlaceholder": "Sisällön teksti (arabia/käännös)",
+      "sourcePlaceholder": "Lähde (esim. Bukhari, Iman 1)",
+      "saving": "Tallennetaan...",
+      "saveAndQueue": "Tallenna ja lisää jonoon"
     },
     "hatim": {
       "title": "Koraani Khatm Tracker",
@@ -572,7 +674,9 @@
       "resetTitle": "Aloita uusi Khatm",
       "resetBody": "Nykyinen khatm kirjataan valmiiksi ja uusi khatm alkaa sivulta 1. Haluatko jatkaa?",
       "startNew": "Aloita uusi Khatm",
-      "resetHatimBtn": "Nollaa ja aloita uusi Khatm"
+      "resetHatimBtn": "Nollaa ja aloita uusi Khatm",
+      "share": "Jaa khatmini",
+      "shareText": "Sain valmiiksi {{count}}. khatmini, alhamdulillah!"
     },
     "prayerTree": {
       "title": "Viikoittainen rukouspuu",
@@ -582,6 +686,512 @@
       "quoteHigh": "\"Rukous on uskon pylväs.\" – Teillä on poikkeuksellinen viikko, MashaAllah!",
       "quoteMid": "\"Aloita rukous, anna zakah ja kumarra kumartavien kanssa.\" (Al-Baqarah, 43)",
       "quoteLow": "\"Rukous on todellakin määrätty uskoville määrättyjen aikojen määräyksenä.\" (An-Nisa, 103)"
+    },
+    "hajjUmrah": {
+      "title": "Hadždž- ja umra-opas",
+      "umrah": "Umra",
+      "hajj": "Hadždž",
+      "stepsTitle": "Rituaalit vaihe vaiheelta",
+      "checklistTitle": "Valmistautumisen tarkistuslista",
+      "settingsEntry": "Hadždž- ja umra-opas"
+    },
+    "zakat": {
+      "title": "Zakat-laskuri",
+      "info": "Zakat on 2,5 % (1/40) kokonaisen kuukalenterivuoden ajan hallussa olleesta omaisuudesta, joka ylittää nisab-rajan. Tarkista nisabin arvo (kullan/hopean hinnan perusteella) ja syötä se alle.",
+      "cash": "Käteinen ja pankkitalletukset",
+      "gold": "Kullan/hopean arvo",
+      "tradeGoods": "Kauppatavaran arvo",
+      "investments": "Osakkeet / sijoitukset",
+      "debts": "Velat (vähennetään)",
+      "nisab": "Nisab-raja (kullan/hopean nykyinen arvo)",
+      "netWealth": "Nettovarallisuus",
+      "zakatDue": "Maksettava zakat",
+      "notEligible": "Varallisuutesi ei ylitä nisab-rajaa, joten zakatia ei tarvitse maksaa.",
+      "enterNisab": "Syötä nisab-raja laskemista varten.",
+      "settingsEntry": "Zakat-laskuri"
+    },
+    "ramadan": {
+      "calendarTitle": "Ramadan-kalenteri",
+      "days": "päivää",
+      "day": "Päivä",
+      "date": "Päivämäärä",
+      "sahur": "Suhur",
+      "iftar": "Iftar",
+      "noData": "Ramadan-kalenterin tietoja ei löytynyt."
+    },
+    "achievements": {
+      "title": "Saavutukseni",
+      "pointsLabel": "Hartauspisteet",
+      "unlockedCount": "{{unlocked}} / {{total}} merkkiä avattu",
+      "settingsEntry": "Saavutukseni",
+      "share": "Jaa pisteeni",
+      "shareText": "Saavutin {{points}} hartauspistettä ja avasin {{unlocked}} merkkiä!",
+      "inviteTitle": "Kutsu ystävä",
+      "inviteDesc": "Seuratkaa khatmia yhdessä ja kannustakaa toisianne.",
+      "progress": {
+        "days": "{{current}} / {{total}} päivää",
+        "prayers": "{{current}} / {{total}} rukousta",
+        "dhikr": "{{current}} / {{total}} dhikriä",
+        "khatm": "{{current}} / {{total}} khatmia",
+        "kaza": "{{current}} / {{total}} korvausrukousta"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "Ihram-tilaan siirtyminen",
+          "desc": "Miqat-rajalla suoritetaan ghusl, puetaan ihram-vaatteet ja lausutaan aikomus (niyyah) sekä talbiyah. Ihramiin astumisen jälkeen tietyt rajoitukset astuvat voimaan (ei ommeltuja vaatteita, hajusteita jne.)."
+        },
+        "tawaf": {
+          "title": "Tawaf (Kaaban ympärikierto)",
+          "desc": "Mustasta kivestä alkaen kierretään Kaabaa seitsemän kertaa vastapäivään, tervehtien mahdollisuuksien mukaan Mustaa kiveä jokaisen kierroksen alussa."
+        },
+        "sayi": {
+          "title": "Sa'i (Safan ja Marwan välillä)",
+          "desc": "Kävellään reippaasti seitsemän kertaa Safan ja Marwan kukkuloiden välillä muistaen Hajarin veden etsintää."
+        },
+        "halq": {
+          "title": "Hiusten ajaminen tai lyhentäminen (Halq/Taqsir)",
+          "desc": "Miehet ajavat päänsä kokonaan tai lyhentävät hiuksiaan; naiset leikkaavat sormenpään mittaisen palan hiuksistaan. Tämä saattaa umran päätökseen ja lopettaa ihram-rajoitukset."
+        },
+        "arafat": {
+          "title": "Seisominen Arafatilla (Dhul-Hijjan 9. päivä)",
+          "desc": "Hadždžin tärkein rukn. Pyhiinvaeltajat seisovat Arafatilla keskipäivästä auringonlaskuun Dhul-Hijjan 9. päivänä rukoillen, muistellen ja katuen."
+        },
+        "muzdalifah": {
+          "title": "Yöpyminen Muzdalifassa",
+          "desc": "Arafatilta palattuaan pyhiinvaeltajat siirtyvät Muzdalifaan, yhdistävät maghrib- ja isha-rukoukset, viettävät siellä yön ja keräävät kiviä kivitysrituaalia varten."
+        },
+        "jamarat": {
+          "title": "Jamaratin kivittäminen",
+          "desc": "Kiviä heitetään Minan Jamarat-pylväisiin määrättyinä päivinä muistaen profeetta Ibrahimin (saw) saatanan hylkäämistä."
+        },
+        "qurban": {
+          "title": "Uhraus (qurbani)",
+          "desc": "Uhraus tehdään osana hadždž-rituaaleja, ja se merkitsee Eid al-Adhan alkua."
+        },
+        "farewell_tawaf": {
+          "title": "Jäähyväistawaf",
+          "desc": "Viimeinen tawaf, joka suoritetaan ennen Mekasta lähtöä ja joka merkitsee hadždž-rituaalien päättymistä."
+        },
+        "ihram_clothes": {
+          "label": "Ihram-vaatteet (2 kappaletta ompelematonta valkoista kangasta miehille)"
+        },
+        "passport": {
+          "label": "Passi, viisumi ja matkustusasiakirjat"
+        },
+        "health": {
+          "label": "Sairausvakuutus ja tarvittavat rokotukset"
+        },
+        "comfortable_sandals": {
+          "label": "Mukavat, helposti riisuttavat sandaalit"
+        },
+        "unscented_soap": {
+          "label": "Hajusteeton saippua ja henkilökohtaiset hygieniatuotteet"
+        },
+        "dua_book": {
+          "label": "Dua- ja rituaaliopas (tai tämä sovellus)"
+        },
+        "money_belt": {
+          "label": "Turvallinen raha-/asiakirjapussi"
+        },
+        "medication": {
+          "label": "Henkilökohtaiset lääkkeet ja reseptit"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Raghaib-yö",
+          "description": "Kolmen pyhän kuukauden alku ja armon yö."
+        },
+        "mirac": {
+          "name": "Isra ja Mi'raj",
+          "description": "Profeetan (saw) yömatka ja taivaaseenastuminen."
+        },
+        "berat": {
+          "name": "Bara'at-yö",
+          "description": "Anteeksiannon ja surusta vapautumisen yö."
+        },
+        "ramadan": {
+          "name": "Ramadanin ensimmäinen päivä",
+          "description": "Ensimmäinen paastopäivä siunatussa ramadan-kuussa."
+        },
+        "kadir": {
+          "name": "Laylat al-Qadr",
+          "description": "Vallan yö, parempi kuin tuhat kuukautta."
+        },
+        "eid-fitr": {
+          "name": "Eid al-Fitr (1. päivä)",
+          "description": "Eid al-Fitrin ensimmäinen päivä."
+        },
+        "eid-adha": {
+          "name": "Eid al-Adha (1. päivä)",
+          "description": "Eid al-Adhan ensimmäinen päivä."
+        },
+        "hijri-new-year": {
+          "name": "Islamilainen uusivuosi",
+          "description": "Uuden hidžra-vuoden ensimmäinen päivä."
+        },
+        "ashura": {
+          "name": "Ashuran päivä",
+          "description": "Muharram-kuun 10. päivä."
+        },
+        "mevlid": {
+          "name": "Mawlid an-Nabi",
+          "description": "Profeetan (saw) syntymän yö."
+        }
+      },
+      "esma": {
+        "1": "Armollinen",
+        "2": "Laupias",
+        "3": "Kuningas",
+        "4": "Pyhin",
+        "5": "Rauhan lähde",
+        "6": "Turvan antaja",
+        "7": "Vartija",
+        "8": "Kaikkivaltias",
+        "9": "Pakottaja",
+        "10": "Ylevin",
+        "11": "Luoja",
+        "12": "Kehittäjä",
+        "13": "Muotoilija",
+        "14": "Suuri anteeksiantaja",
+        "15": "Alistaja",
+        "16": "Lahjoittaja",
+        "17": "Elättäjä",
+        "18": "Avaaja",
+        "19": "Kaikkitietävä",
+        "20": "Supistaja",
+        "21": "Laajentaja",
+        "22": "Alentaja",
+        "23": "Ylentäjä",
+        "24": "Kunnioittaja",
+        "25": "Häpäisijä",
+        "26": "Kaikkikuuleva",
+        "27": "Kaikkinäkevä",
+        "28": "Tuomari",
+        "29": "Oikeudenmukainen",
+        "30": "Hienovarainen",
+        "31": "Tietoinen",
+        "32": "Pitkämielinen",
+        "33": "Suurenmoinen",
+        "34": "Kaikkeanteeksiantava",
+        "35": "Kiitollinen",
+        "36": "Korkein",
+        "37": "Suurin",
+        "38": "Suojelija",
+        "39": "Ylläpitäjä",
+        "40": "Tilintekijä",
+        "41": "Majesteettinen",
+        "42": "Antelias",
+        "43": "Valvova",
+        "44": "Vastaaja",
+        "45": "Kaikenkattava",
+        "46": "Kaikkiviisas",
+        "47": "Rakastava",
+        "48": "Kunniakas",
+        "49": "Herättäjä",
+        "50": "Todistaja",
+        "51": "Totuus",
+        "52": "Huoltaja",
+        "53": "Vahva",
+        "54": "Luja",
+        "55": "Suojeleva ystävä",
+        "56": "Ylistettävä",
+        "57": "Laskija",
+        "58": "Aloittaja",
+        "59": "Ennallistaja",
+        "60": "Elämän antaja",
+        "61": "Kuoleman tuoja",
+        "62": "Elävä",
+        "63": "Itsestään pysyvä",
+        "64": "Löytäjä",
+        "65": "Jalo",
+        "66": "Ainutlaatuinen",
+        "67": "Yksi",
+        "68": "Iäisyys",
+        "69": "Kykenevä",
+        "70": "Mahtava",
+        "71": "Jouduttaja",
+        "72": "Viivyttäjä",
+        "73": "Ensimmäinen",
+        "74": "Viimeinen",
+        "75": "Ilmeinen",
+        "76": "Piilotettu",
+        "77": "Hallitsija",
+        "78": "Ylevin",
+        "79": "Hyvyyden lähde",
+        "80": "Katumuksen hyväksyjä",
+        "81": "Kostaja",
+        "82": "Anteeksiantaja",
+        "83": "Myötätuntoinen",
+        "84": "Valtakunnan herra",
+        "85": "Majesteetin ja anteliaisuuden herra",
+        "86": "Tasapuolinen",
+        "87": "Kokoaja",
+        "88": "Riippumaton",
+        "89": "Rikastuttaja",
+        "90": "Estäjä",
+        "91": "Vahingoittaja",
+        "92": "Hyödyn tuoja",
+        "93": "Valo",
+        "94": "Opastaja",
+        "95": "Verraton",
+        "96": "Ikuisesti kestävä",
+        "97": "Perijä",
+        "98": "Oikealle tielle opastaja",
+        "99": "Kärsivällinen"
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Rukous parantumisesta ja toipumisesta",
+          "occasion": "Luetaan fyysisen ja henkisen parantumisen puolesta sairauden aikana."
+        },
+        "nazar_korunma": {
+          "title": "Suojaa pahalta silmältä ja vahingolta (Ayat al-Kursi)",
+          "occasion": "Luetaan aamuin illoin jumalallisen suojan saamiseksi pahaa silmää ja vahinkoa vastaan."
+        },
+        "rizik_bereket": {
+          "title": "Rukous elannosta, siunauksesta ja veloista vapautumisesta",
+          "occasion": "Luetaan taloudellisen runsauden, elannon siunauksen ja velasta vapautumisen puolesta."
+        },
+        "ferahlik_sikinti": {
+          "title": "Rukous vaikeina aikoina (profeetta Yunus)",
+          "occasion": "Luetaan vakavan ahdingon, ahdistuksen, avuttomuuden ja surun aikana."
+        },
+        "sinav_zihin": {
+          "title": "Rukous tiedosta, kokeista ja mielen selkeydestä",
+          "occasion": "Luetaan ennen kokeita, opiskelua tai vaativaa älyllistä tehtävää."
+        },
+        "seyyidul_istigfar": {
+          "title": "Sayyid al-Istighfar (anteeksipyynnön mestarirukous)",
+          "occasion": "Luetaan aamuin illoin vilpittömän katumuksen ja syntien anteeksiannon puolesta."
+        },
+        "anne_baba": {
+          "title": "Rukous vanhempien ja perheen puolesta",
+          "occasion": "Luetaan vanhempien ja perheen anteeksiannon, terveyden ja armon puolesta."
+        },
+        "ezan_sonrasi": {
+          "title": "Rukous adhanin jälkeen",
+          "occasion": "Luetaan heti adhanin jälkeen profeetan esirukouksen saavuttamiseksi."
+        },
+        "iftar_oruc": {
+          "title": "Rukous paaston purkamisen hetkellä (iftar)",
+          "occasion": "Luetaan paaston purkamisen hetkellä auringonlaskun aikaan."
+        },
+        "morning_1": {
+          "title": "Aamun ja illan jumalallisen suojan rukous",
+          "occasion": "Kolme kertaa aamuin illoin luettuna se suojaa täysin kaikelta vahingolta."
+        },
+        "leaving_home": {
+          "title": "Rukous kotoa lähtiessä",
+          "occasion": "Luetaan kotoa lähdettäessä jumalallisen turvallisuuden ja ohjauksen puolesta."
+        },
+        "entering_home": {
+          "title": "Rukous kotiin astuessa",
+          "occasion": "Luetaan kotiin astuttaessa rauhan, siunauksen ja suojan puolesta."
+        },
+        "waking_up": {
+          "title": "Rukous herätessä",
+          "occasion": "Luetaan herätessä kiitoksena elämän ja voiman uudistumisesta."
+        },
+        "sleeping": {
+          "title": "Rukous ennen nukkumaanmenoa",
+          "occasion": "Luetaan nukkumaan mentäessä rauhallisen unen ja jumalallisen suojan puolesta."
+        },
+        "sukr_hamd": {
+          "title": "Kiitollisuuden ja siunausten rukous",
+          "occasion": "Luetaan kiitollisuutena siunauksia ja hyviä uutisia vastaanotettaessa."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "7 päivän johdonmukaisuus",
+          "desc": "Kirjasit rukoukset 7 päivää putkeen"
+        },
+        "prayer_streak_30": {
+          "title": "30 päivän johdonmukaisuus",
+          "desc": "Kirjasit rukoukset 30 päivää putkeen"
+        },
+        "prayer_total_100": {
+          "title": "100 rukousta",
+          "desc": "Kirjasit yhteensä 100 rukousta"
+        },
+        "prayer_total_500": {
+          "title": "500 rukousta",
+          "desc": "Kirjasit yhteensä 500 rukousta"
+        },
+        "dhikr_streak_7": {
+          "title": "7 päivän dhikr-putki",
+          "desc": "Harjoitit dhikriä 7 päivää putkeen"
+        },
+        "dhikr_streak_30": {
+          "title": "30 päivän dhikr-putki",
+          "desc": "Harjoitit dhikriä 30 päivää putkeen"
+        },
+        "dhikr_total_1000": {
+          "title": "1 000 dhikriä",
+          "desc": "Luit yhteensä 1 000 dhikriä"
+        },
+        "dhikr_total_10000": {
+          "title": "10 000 dhikriä",
+          "desc": "Luit yhteensä 10 000 dhikriä"
+        },
+        "hatim_first": {
+          "title": "Ensimmäinen khatm",
+          "desc": "Sait koko Koraanin lukemisen valmiiksi"
+        },
+        "hatim_3": {
+          "title": "3 khatmia",
+          "desc": "Sait Koraanin valmiiksi 3 kertaa"
+        },
+        "kaza_10": {
+          "title": "10 korvausrukousta",
+          "desc": "Suoritit 10 korvausrukousta/-paastoa"
+        },
+        "kaza_50": {
+          "title": "50 korvausrukousta",
+          "desc": "Suoritit 50 korvausrukousta/-paastoa"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mishary Alafasy"
+        },
+        "abdulbasit": {
+          "name": "Abdul Basit"
+        },
+        "husary": {
+          "name": "Al-Husary"
+        },
+        "minshawy": {
+          "name": "Al-Minshawy"
+        },
+        "shuraym": {
+          "name": "Saud Al-Shuraym"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Siunattu perjantai (Jummah Mubarak) 🌹",
+          "message": "Kunpa Allah hyväksyisi vilpittömät rukouksemme ja siunaisi tämän perjantain rauhalla, armolla ja runsaudella."
+        },
+        "cuma_2": {
+          "title": "Jummah Mubarak ✨",
+          "message": "Kunpa Allah siunaisi sinua ja läheisiäsi onnella, terveydellä ja uskolla tässä elämässä ja tuonpuoleisessa."
+        },
+        "kandil_1": {
+          "title": "Siunattua pyhää yötä 🌙",
+          "message": "Kunpa tämän pyhän yön siunaus, anteeksianto ja rauha olisivat sinun ja perheesi yllä."
+        },
+        "ramazan_1": {
+          "title": "Siunattua ramadania 🕌",
+          "message": "Toivotamme siunattua ramadania täynnä hengellistä pohdintaa, rauhaa ja jumalallista siunausta."
+        },
+        "bayram_1": {
+          "title": "Siunattua juhlaa 🌟",
+          "message": "Kunpa tämä siunattu eid toisi iloa, terveyttä, yhtenäisyyttä ja menestystä sinulle ja läheisillesi."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Rukous ennen Koraanin lukemista"
+        },
+        "hatim": {
+          "title": "Koraanin loppuun saattamisen rukous (khatm)"
+        },
+        "sajdah": {
+          "title": "Resitaatiokumarrus (sajdah)"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Koraani"
+        },
+        "daily": {
+          "label": "Sisältö"
+        },
+        "home": {
+          "label": "Ajat"
+        },
+        "dhikr": {
+          "label": "Dhikr"
+        },
+        "library": {
+          "label": "Duat"
+        },
+        "qibla": {
+          "label": "Qibla"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Rukous",
+        "dhikr": "Dhikr",
+        "quran": "Koraani",
+        "kaza": "Korvaus"
+      },
+      "hijriMonths": {
+        "1": "Muharram",
+        "2": "Safar",
+        "3": "Rabi' al-awwal",
+        "4": "Rabi' al-thani",
+        "5": "Jumada al-ula",
+        "6": "Jumada al-akhirah",
+        "7": "Rajab",
+        "8": "Sha'ban",
+        "9": "Ramadan",
+        "10": "Shawwal",
+        "11": "Dhu al-qi'dah",
+        "12": "Dhu al-hijjah"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Jos ajoissa on eroa, voit korjata sitä painamalla korttia pitkään.",
+      "title": "Muuta {{prayer}}-ajankohtaa",
+      "desc": "Jos moskeijasi tai kalenterisi näyttää eri ajan, lisää tai vähennä minuutteja. Adhan-ilmoitus noudattaa tätä myös.",
+      "minus": "1 minuutti aikaisemmin",
+      "minutes": "{{value}} min",
+      "plus": "1 minuutti myöhemmin",
+      "reset": "Nollaa",
+      "save": "Tallenna"
+    },
+    "feedback": {
+      "settingsRow": "Lähetä palautetta",
+      "title": "Kehitetään yhdessä",
+      "subtitle": "Kirjoita ehdotuksesi, toiveesi tai kohtaamasi ongelma, jotta voimme parantaa Veraa.",
+      "placeholder": "Kirjoita idea, ehdotus tai kohtaamasi ongelma...",
+      "error": "Lähetys epäonnistui. Yritä hetken kuluttua uudelleen.",
+      "send": "Lähetä",
+      "thankYouTitle": "Palaute vastaanotettu",
+      "thankYouSubtitle": "Ajatuksesi ovat meille todella arvokkaita. Teemme kovasti töitä tehdäksemme Verasta paremman."
+    },
+    "battery": {
+      "stepsXiaomi": "Asetukset → Sovellukset → Vera: ota käyttöön \"Automaattinen käynnistys\" ja aseta Akun säästö tilaan \"Ei rajoituksia\".",
+      "stepsSamsung": "Asetukset → Akku → Taustakäytön rajat: lisää Vera kohtaan \"Sovellukset, joita ei koskaan laiteta lepotilaan\".",
+      "stepsOppo": "Asetukset → Akku → Vera: ota käyttöön \"Salli taustatoiminta\" ja \"Automaattinen käynnistys\".",
+      "stepsOther": "Poista akun optimointi Veralta käytöstä, jotta adhan soi ajallaan.",
+      "cardTitle": "Kuule adhan ajallaan",
+      "openSettings": "Avaa asetukset"
+    },
+    "widget": {
+      "guideTitle": "Lisää aloitusnäytölle",
+      "guideDesc": "Paina aloitusnäyttöä pitkään ➔ napauta \"Vimpaimet\" ➔ etsi \"VERA\"-vimpain ja vedä se näytölle.",
+      "promptTitle": "Lisää vimpain aloitusnäytölle",
+      "promptDesc": "Seuraa seuraavaa rukousaikaa ja jäljellä olevia minuutteja suoraan puhelimesi aloitusnäytöltä avaamatta sovellusta.",
+      "addNow": "📌 Lisää aloitusnäytölle",
+      "notNow": "Myöhemmin"
+    },
+    "greetingNotif": {
+      "dayTitle": "Siunattua {{name}}",
+      "nightTitle": "Tänä yönä on {{name}}",
+      "body": "Lähetä onnittelukortti läheisillesi.",
+      "fridayTitle": "Siunattua perjantaita",
+      "fridayBody": "Lähetä perjantain onnittelukortti läheisillesi."
+    },
+    "errorBoundary": {
+      "title": "Jokin meni pieleen",
+      "subtitle": "Sovelluksessa tapahtui odottamaton virhe. Yritä uudelleen napauttamalla alla olevaa painiketta.",
+      "retry": "Yritä uudelleen"
     }
   }
 }

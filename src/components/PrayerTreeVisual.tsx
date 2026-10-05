@@ -3,12 +3,10 @@ import {
   View,
   Text,
   StyleSheet,
-  Pressable,
 } from 'react-native';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
-import * as Haptics from 'expo-haptics';
 
 import { useTheme } from '../context/ThemeContext';
 import { typography } from '../utils/theme';

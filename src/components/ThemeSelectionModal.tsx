@@ -65,7 +65,7 @@ export const ThemeSelectionModal: React.FC<ThemeSelectionModalProps> = ({
   const saveHomeStyle = async (value: 'default' | 'simple') => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch (_) {}
+    } catch {}
     try {
       await AsyncStorage.setItem('HOME_SCREEN_STYLE', value);
       setHomeStyle(value);
@@ -78,21 +78,21 @@ export const ThemeSelectionModal: React.FC<ThemeSelectionModalProps> = ({
   const handlePaletteSelect = (key: string) => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    } catch (_) {}
+    } catch {}
     setColorPalette(key as any);
   };
 
   const handleCircleSelect = (key: string) => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch (_) {}
+    } catch {}
     setCirclePalette(key as any);
   };
 
   const handleModeSelect = (selectedMode: 'light' | 'dark') => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    } catch (_) {}
+    } catch {}
     setThemeMode(selectedMode);
   };
 

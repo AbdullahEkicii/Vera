@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import dailyContentTr from '../data/dailyContent_tr.json';
 import dailyContentEn from '../data/dailyContent_en.json';
-import { getQueuedContentForToday } from '../services/contentQueue';
 
 export interface DailyItem {
   verse: string;
@@ -55,7 +54,7 @@ export async function getDailyContent(language: string): Promise<DailyItem> {
     if (cachedString) {
       return JSON.parse(cachedString) as DailyItem;
     }
-  } catch (err) {}
+  } catch {}
 
   // 2. Pick base items for today
   const start = new Date(now.getFullYear(), 0, 0);
@@ -63,61 +62,15 @@ export async function getDailyContent(language: string): Promise<DailyItem> {
   const oneDay = 1000 * 60 * 60 * 24;
   const dayOfYear = Math.floor(diff / oneDay);
 
-  let baseItemEn = { ...(dailyContentEn[dayOfYear % dailyContentEn.length] as DailyItem) };
-  let baseItemTr = { ...(dailyContentTr[dayOfYear % dailyContentTr.length] as DailyItem) };
-
+  const baseItemEn = { ...(dailyContentEn[dayOfYear % dailyContentEn.length] as DailyItem) };
+  const baseItemTr = { ...(dailyContentTr[dayOfYear % dailyContentTr.length] as DailyItem) };
   const customSources = { verse: 'en', hadith: 'en', quote: 'en' };
-  let hasQueueOverrides = false;
 
-  // 3. Check for any Firestore overrides for today (with 2s timeout)
-  try {
-    const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 2000));
-    const queuePromise = Promise.all([
-      getQueuedContentForToday('verse'),
-      getQueuedContentForToday('hadith'),
-      getQueuedContentForToday('quote'),
-    ]);
-
-    const results = await Promise.race([queuePromise, timeoutPromise]);
-    if (results && Array.isArray(results)) {
-      const [queuedVerse, queuedHadith, queuedQuote] = results;
-
-      if (queuedVerse) {
-        baseItemEn.verse = queuedVerse.text;
-        baseItemEn.verseSource = queuedVerse.source;
-        baseItemTr.verse = queuedVerse.text;
-        baseItemTr.verseSource = queuedVerse.source;
-        customSources.verse = queuedVerse.language;
-        hasQueueOverrides = true;
-      }
-      if (queuedHadith) {
-        baseItemEn.hadith = queuedHadith.text;
-        baseItemEn.hadithSource = queuedHadith.source;
-        baseItemTr.hadith = queuedHadith.text;
-        baseItemTr.hadithSource = queuedHadith.source;
-        customSources.hadith = queuedHadith.language;
-        hasQueueOverrides = true;
-      }
-      if (queuedQuote) {
-        baseItemEn.quote = queuedQuote.text;
-        baseItemEn.quoteSource = queuedQuote.source;
-        baseItemTr.quote = queuedQuote.text;
-        baseItemTr.quoteSource = queuedQuote.source;
-        customSources.quote = queuedQuote.language;
-        hasQueueOverrides = true;
-      }
-    }
-  } catch (e) {
-    // Graceful fallback to default bundles
-  }
-
-  // 4. Return directly for Turkish
+  // 3. Turkish and English come straight from the bundled content
   if (targetLang === 'tr') {
     return baseItemTr;
   }
-
-  // 5. Return directly for English if no TR-only custom overrides
-  if (targetLang === 'en' && !hasQueueOverrides) {
+  if (targetLang === 'en') {
     return baseItemEn;
   }
 

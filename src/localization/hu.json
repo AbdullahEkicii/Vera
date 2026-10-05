@@ -6,7 +6,11 @@
       "retry": "Újra",
       "success": "Siker",
       "fillAllFields": "Kérjük, töltse ki az összes mezőt.",
-      "min": "m"
+      "min": "m",
+      "cancel": "Mégse",
+      "save": "Mentés",
+      "ok": "OK",
+      "close": "Bezárás"
     },
     "home": {
       "title": "Imaidők",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "Nem sikerült betölteni az imaidőket",
       "errorLoadingSubtitle": "Kérjük, ellenőrizze internetkapcsolatát, vagy válassza ki a várost.",
       "retryBtn": "Próbálja újra",
-      "loadingTimes": "Imaidők betöltése..."
+      "loadingTimes": "Imaidők betöltése...",
+      "locationPermissionTitle": "A helyadatokhoz nincs engedély",
+      "locationPermissionDesc": "Az alapértelmezett város jelenik meg. Választhat várost, vagy engedélyezheti a helymeghatározást.",
+      "estimatedTimesNotice": "Internetkapcsolat hiányában az imaidőket a készülék számította ki (becsült érték)."
     },
     "settings": {
       "title": "Beállítások",
@@ -111,7 +118,19 @@
       "offsetsTitle": "Imaidő-beállítások (eltolások / ± perc)",
       "offsetsDesc": "Ha a helyi mecset vagy naptár percenként eltér, az időzítést ±15 percre módosíthatja.",
       "respectSilentModeTitle": "Mecset / Csendes mód Tisztelet",
-      "respectSilentModeDesc": "Elnémítja az adhan hangot, és csendesen értesít, ha a telefon néma vagy rezgő módban van."
+      "respectSilentModeDesc": "Elnémítja az adhan hangot, és csendesen értesít, ha a telefon néma vagy rezgő módban van.",
+      "inviteFriend": "Barát meghívása",
+      "privacyOptions": "Adatvédelmi beállítások",
+      "timeFormat24h": "24 órás formátum",
+      "loginLocked": "Túl sok sikertelen próbálkozás. Kérjük, próbálja újra később.",
+      "loginFailed": "Sikertelen bejelentkezés. Ellenőrizze az adatait.",
+      "notifications": "Értesítések",
+      "editorLogout": "Szerkesztői kijelentkezés",
+      "editorLogin": "Szerkesztői bejelentkezés",
+      "username": "Felhasználónév",
+      "password": "Jelszó",
+      "loggingIn": "Bejelentkezés folyamatban...",
+      "login": "Bejelentkezés"
     },
     "qibla": {
       "title": "Kibla",
@@ -154,7 +173,9 @@
       "share": "Megosztás",
       "verseBody": "Kattintson a nap versének elolvasásához!",
       "hadithBody": "Kattintson a nap hadíszának elolvasásához!",
-      "quoteBody": "Kattintson a nap idézetének elolvasásához!"
+      "quoteBody": "Kattintson a nap idézetének elolvasásához!",
+      "subtitle": "Mai válogatott vers, hadísz és idézet",
+      "shareHint": "Koppintson a kártyára, hogy történetként megoszthassa"
     },
     "search": {
       "title": "Hely kiválasztása",
@@ -217,7 +238,8 @@
         "dailyDesc": "Napi vers, hadísz vagy idézet érkezik Dhuhr és Asr közé.",
         "persistentName": "Képernyőzár és állapotsor",
         "persistentDesc": "Megjeleníti a következő ima nevét és az élő visszaszámlálást az értesítési panelen és a lezárási képernyőn."
-      }
+      },
+      "persistentTitle": "🕌 {{prayer}} kezdetéig"
     },
     "tasbih": {
       "title": "Tasbih",
@@ -259,7 +281,49 @@
       "bgAudioSelect": "Válassza a Background Dhikr Sound lehetőséget",
       "dikhr1": "Dhikr hang 1",
       "dikhr2": "Dhikr Sound 2",
-      "dikhr3": "Dhikr hang 3"
+      "dikhr3": "Dhikr hang 3",
+      "shareMilestone": "Megosztás",
+      "milestoneShareText": "Ebben a hónapban {{total}} zikret értem el, mása'Allah!",
+      "streakDays": "egymást követő nap",
+      "monthStat": "Ebben a hónapban",
+      "streakStat": "Sorozat",
+      "streakValue": "{{count}} nap",
+      "remaining": "{{count}} van hátra",
+      "noTarget": "Nincs cél",
+      "completed": "Befejezve",
+      "addShort": "Hozzáadás",
+      "progressShort": "Folyamat",
+      "recShort": "Ajánlott",
+      "tapToCount": "Koppintson a számoláshoz",
+      "ok": "OK",
+      "dailyDhikrs": [
+        {
+          "text": "Szubhánallahi va bihamdihi",
+          "target": 100,
+          "benefit": "Naponta 100-szor elmondva a bűnök megbocsáttatnak, még ha olyan sokak is, mint a tenger habja."
+        },
+        {
+          "text": "Lá iláha illalláhu vahdahu lá sharíka lah...",
+          "target": 100,
+          "benefit": "100-szori elmondása egyenértékű 10 rabszolga felszabadításával, és védelmet nyújt a sátántól."
+        },
+        {
+          "text": "Asztagfirulláh al-Azím",
+          "target": 100,
+          "benefit": "Eltávolítja a nyomorúságot, megnyitja a megélhetés kapuit, és megkönnyebbülést hoz."
+        },
+        {
+          "text": "Lá havla va lá kuvvata illá billáh",
+          "target": 100,
+          "benefit": "A Paradicsom kincseinek egyike, amely elűzi az aggodalmakat."
+        },
+        {
+          "text": "Szubhánallahi valhamdulilláhi...",
+          "target": 100,
+          "benefit": "Allah legkedvesebb szavai, súlyosabbak a mérlegen mindennél."
+        }
+      ],
+      "recTarget": "Cél:"
     },
     "update": {
       "title": "Új frissítés érhető el!",
@@ -336,7 +400,15 @@
       "mealSource": "Hiteles angol fordítás",
       "loadingMeal": "Oldal fordításának betöltése...",
       "noMealFound": "Nem található fordítás ehhez az oldalhoz. Kérjük, ellenőrizze internetkapcsolatát.",
-      "mealBtn": "Fordítás"
+      "mealBtn": "Fordítás",
+      "selectReciter": "Recitátor kiválasztása",
+      "bookmarkAdded": "Vers hozzáadva a könyvjelzőkhöz",
+      "bookmarkRemoved": "Vers eltávolítva a könyvjelzők közül",
+      "bookmarksTitle": "Elmentett versek",
+      "noBookmarks": "Még nincs elmentett verse. Hosszan nyomva egy versre hozzáadhatja.",
+      "playFromHere": "Lejátszás innen",
+      "juz": "Dzsuz",
+      "downloadingShort": "Letöltés..."
     },
     "review": {
       "title": "Támogasson minket",
@@ -372,7 +444,10 @@
       "themeSepia": "Meleg szépia",
       "appTagline": "Imaidők, Korán és Kibla",
       "storeSearchHint": "Keresés a Google Playen: Vera",
-      "scanToDownload": "Szkennelés letöltéshez"
+      "scanToDownload": "Szkennelés letöltéshez",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 A Verával követem az imaidőket, az ezánt és a Korán-olvasást. Kövessük együtt a hatmot!\n\n📲 Töltsd le az appot: {{link}}"
     },
     "checklist": {
       "title": "Daily Prayer Tracker",
@@ -397,7 +472,9 @@
       "celebrationMessage": "Ma elvégezted mind az 5 napi imát. Allah fogadja el imáitokat!",
       "celebrationBtn": "Alhamdulillah",
       "trustNotice": "{{city}} • Ellenőrzött áhítatok az Ön régiójában a {{method}} használatával",
-      "streakDays": "Napok"
+      "streakDays": "Napok",
+      "shareStreak": "Sorozatom megosztása",
+      "shareText": "{{count}} napja folyamatosan követem az imáimat, alhamdulillah!"
     },
     "calendar": {
       "title": "Egységes naptár",
@@ -413,7 +490,8 @@
       "subtitle": "Naptár és visszaszámlálás áldott éjszakákhoz és napokhoz",
       "today": "Ma",
       "daysLeft": "napokon",
-      "passed": "Átment"
+      "passed": "Átment",
+      "loadError": "Nem sikerült betölteni a vallási napokat. Ellenőrizze az internetkapcsolatot."
     },
     "widgetPromo": {
       "title": "Ima Widget hozzáadása",
@@ -477,7 +555,17 @@
       "widgetDesc": "Élő visszaszámlálás megtekintése az alkalmazás megnyitása nélkül.",
       "widgetAdded": "A widget sikeresen hozzáadva!",
       "batteryTitle": "🔋 Akkumulátorkímélő mentesség",
-      "batteryDesc": "Javasoljuk, hogy kapcsolja ki az akkumulátor-optimalizálást a Xiaomi és a Samsung készülékeken az időszerű adhanok érdekében."
+      "batteryDesc": "Javasoljuk, hogy kapcsolja ki az akkumulátor-optimalizálást a Xiaomi és a Samsung készülékeken az időszerű adhanok érdekében.",
+      "locationReassurance": "Ezt később bármikor módosíthatja a Beállításokban.",
+      "notifDenied": "Az értesítési engedély nincs megadva. Előfordulhat, hogy az ezán-riasztások nem működnek — később bekapcsolhatja a Beállításokban.",
+      "retryBtn": "Újrapróbálkozás",
+      "continueWithoutNotif": "Folytatás értesítések nélkül",
+      "skipTitle": "Beállítás kihagyása",
+      "skipBody": "A beállítást most kihagyhatja. A helymeghatározást és az értesítéseket később is beállíthatja a Beállításokban.",
+      "skipConfirm": "Kihagyás",
+      "locationDenied": "A helymeghatározási engedély nincs megadva. Választhat várost a listából, vagy ezt később módosíthatja a Beállításokban.",
+      "locationFailed": "Nem sikerült meghatározni a helyet. Választhat várost a listából, vagy ezt később módosíthatja a Beállításokban.",
+      "locationNotSet": "A hely nem érhető el (az engedély megtagadva)"
     },
     "weather": {
       "title": "Időjárás-jelentés",
@@ -496,7 +584,8 @@
       "sunset": "Napnyugta",
       "precipitation": "Csapadék",
       "kmh": "km/h",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Újrapróbálkozás"
     },
     "duas": {
       "occasionTitle": "Mikor és miért kell szavalni?",
@@ -542,7 +631,15 @@
       "chooseTheme": "Kártya téma",
       "shareBtn": "Oszd meg a WhatsApp / Story szolgáltatásban 🌟",
       "shareImageBtn": "Képkártya megosztása 🌟",
-      "shareLinkBtn": "Oszd meg a közvetlen bolti linket 🔗"
+      "shareLinkBtn": "Oszd meg a közvetlen bolti linket 🔗",
+      "theme": {
+        "gold": "Arany vonal",
+        "emerald": "Smaragd kupola",
+        "navy": "Éjkék",
+        "crimson": "Rózsa és rubin"
+      },
+      "customDefaultTitle": "Áldott pénteket",
+      "customDefaultMessage": "Fogadtassanak el imáid és istentiszteleted."
     },
     "mosques": {
       "title": "Közeli mecsetek",
@@ -557,7 +654,12 @@
     "dailyContent": {
       "preparing": "Napi inspiráció betöltése...",
       "queueSuccess": "Tartalom hozzáadva a jóváhagyási sorhoz.",
-      "queueError": "Hiba történt a tartalom hozzáadása közben."
+      "queueError": "Hiba történt a tartalom hozzáadása közben.",
+      "addModalTitle": "Új tartalom hozzáadása",
+      "textPlaceholder": "Tartalom szövege (arab/fordítás)",
+      "sourcePlaceholder": "Forrás (pl. Buhárí, Ímán 1)",
+      "saving": "Mentés folyamatban...",
+      "saveAndQueue": "Mentés és sorba állítás"
     },
     "hatim": {
       "title": "Korán Khatm nyomkövető",
@@ -572,7 +674,9 @@
       "resetTitle": "Új Khatm indítása",
       "resetBody": "A jelenlegi khatm befejezettként kerül rögzítésre, és egy új khatm kezdődik az 1. oldaltól. Folytatja?",
       "startNew": "Új Khatm indítása",
-      "resetHatimBtn": "Reset & Start New Khatm"
+      "resetHatimBtn": "Reset & Start New Khatm",
+      "share": "Hatmom megosztása",
+      "shareText": "Befejeztem a(z) {{count}}. hatmomat, alhamdulillah!"
     },
     "prayerTree": {
       "title": "Heti imafa",
@@ -582,6 +686,512 @@
       "quoteHigh": "\"Az ima a hit oszlopa.\" – Kivételes hetet tudhat maga mögött, MashaAllah!",
       "quoteMid": "„Alakíts ki imát, adj zakát, és hajolj meg azokkal, akik meghajolnak.” (Al-Baqarah, 43)",
       "quoteLow": "„Valóban, az imát meghatározott időkben rendelték el a hívőkre.” (An-Nisa, 103)"
+    },
+    "hajjUmrah": {
+      "title": "Hadzs és umra útmutató",
+      "umrah": "Umra",
+      "hajj": "Hadzs",
+      "stepsTitle": "Szertartások lépésről lépésre",
+      "checklistTitle": "Felkészülési ellenőrzőlista",
+      "settingsEntry": "Hadzs és umra útmutató"
+    },
+    "zakat": {
+      "title": "Zakát-kalkulátor",
+      "info": "A zakát a teljes holdévig birtokolt és a niszáb küszöböt elérő vagyon 2,5%-a (1/40-e). Nézze meg az aktuális niszáb-értéket (arany/ezüst ára alapján), és adja meg alább.",
+      "cash": "Készpénz és banki megtakarítás",
+      "gold": "Arany/ezüst értéke",
+      "tradeGoods": "Kereskedelmi áru értéke",
+      "investments": "Részvények / befektetések",
+      "debts": "Adósságok (levonandó)",
+      "nisab": "Niszáb küszöb (aktuális arany/ezüst érték)",
+      "netWealth": "Nettó vagyon",
+      "zakatDue": "Fizetendő zakát",
+      "notEligible": "A vagyona nem éri el a niszáb küszöböt, így nem kell zakátot fizetnie.",
+      "enterNisab": "A számításhoz adja meg a niszáb küszöböt.",
+      "settingsEntry": "Zakát-kalkulátor"
+    },
+    "ramadan": {
+      "calendarTitle": "Ramadán naptár",
+      "days": "nap",
+      "day": "Nap",
+      "date": "Dátum",
+      "sahur": "Szuhúr",
+      "iftar": "Iftár",
+      "noData": "Nem található ramadán naptár adat."
+    },
+    "achievements": {
+      "title": "Eredményeim",
+      "pointsLabel": "Istentiszteleti pontok",
+      "unlockedCount": "{{unlocked}} / {{total}} jelvény feloldva",
+      "settingsEntry": "Eredményeim",
+      "share": "Pontjaim megosztása",
+      "shareText": "Elértem {{points}} istentiszteleti pontot, és {{unlocked}} jelvényt oldottam fel!",
+      "inviteTitle": "Barát meghívása",
+      "inviteDesc": "Kövessétek együtt a hatmot, és motiváljátok egymást.",
+      "progress": {
+        "days": "{{current}} / {{total}} nap",
+        "prayers": "{{current}} / {{total}} ima",
+        "dhikr": "{{current}} / {{total}} zikr",
+        "khatm": "{{current}} / {{total}} hatm",
+        "kaza": "{{current}} / {{total}} pótima"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "Az ihrám állapotába lépés",
+          "desc": "A míkát határánál gúszlt végeznek, felveszik az ihrám ruházatot, kimondják a szándékot (nijja), és elmondják a talbijját. Az ihrámba lépés után bizonyos tilalmak lépnek életbe (varrott ruha, parfüm stb. nélkül)."
+        },
+        "tawaf": {
+          "title": "Tavaf (a Kába körüljárása)",
+          "desc": "A Fekete Kőtől kezdve hétszer kell az óramutató járásával ellentétes irányban körbejárni a Kábát, lehetőség szerint minden körnél köszöntve a Fekete Követ."
+        },
+        "sayi": {
+          "title": "Száj (Szafa és Marva között)",
+          "desc": "Hétszer kell gyors léptekkel megtenni az utat Szafa és Marva dombjai között, Hágár víz utáni keresésének emlékére."
+        },
+        "halq": {
+          "title": "Fej leborotválása vagy hajvágás (halk/takszír)",
+          "desc": "A férfiak teljesen leborotválják vagy megrövidítik a hajukat; a nők egy ujjbegynyi hajat vágnak le. Ezzel az umra befejeződik, és megszűnnek az ihrám tilalmai."
+        },
+        "arafat": {
+          "title": "Állás Arafátnál (Zul-hiddzsa 9.)",
+          "desc": "A hadzs legfontosabb pillére. A zarándokok dél és naplemente között állnak Arafátnál a zul-hiddzsa hónap 9. napján, könyörgéssel, megemlékezéssel és bűnbánattal töltve az időt."
+        },
+        "muzdalifah": {
+          "title": "Éjszakázás Muzdalifában",
+          "desc": "Arafát után a zarándokok Muzdalifába mennek, összevonják a maghrib és isá imákat, ott töltik az éjszakát, és kavicsokat gyűjtenek a kőhajítási szertartáshoz."
+        },
+        "jamarat": {
+          "title": "A dzsamarát megkövezése",
+          "desc": "A kijelölt napokon kavicsokat dobálnak a Minában lévő dzsamarát oszlopokra, Ibráhím próféta (béke legyen vele) sátánt elutasító tettének emlékére."
+        },
+        "qurban": {
+          "title": "Áldozat (kurbán)",
+          "desc": "A hadzs szertartásainak részeként áldozatot mutatnak be, ami az Íd al-adhá kezdetét jelzi."
+        },
+        "farewell_tawaf": {
+          "title": "Búcsú-tavaf",
+          "desc": "Az utolsó tavaf, amelyet Mekka elhagyása előtt végeznek, jelezve a hadzs szertartásainak befejezését."
+        },
+        "ihram_clothes": {
+          "label": "Ihrám ruházat (2 db varratlan fehér vászon férfiaknak)"
+        },
+        "passport": {
+          "label": "Útlevél, vízum és úti okmányok"
+        },
+        "health": {
+          "label": "Egészségbiztosítás és szükséges oltások"
+        },
+        "comfortable_sandals": {
+          "label": "Kényelmes, könnyen levehető szandál"
+        },
+        "unscented_soap": {
+          "label": "Illatmentes szappan és testápolási termékek"
+        },
+        "dua_book": {
+          "label": "Dua és szertartáskönyv (vagy ez az alkalmazás)"
+        },
+        "money_belt": {
+          "label": "Biztonságos pénz-/okmánytartó táska"
+        },
+        "medication": {
+          "label": "Személyes gyógyszerek és receptek"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Ragáib éjszakája",
+          "description": "A három szent hónap kezdete és a kegyelem éjszakája."
+        },
+        "mirac": {
+          "name": "Mirádzs éjszakája (Iszra és Mirádzs)",
+          "description": "A Próféta (béke legyen vele) éjszakai utazása és mennybemenetele."
+        },
+        "berat": {
+          "name": "Barát éjszakája",
+          "description": "A bűnök megbocsátásának és a bánattól való megszabadulásnak az éjszakája."
+        },
+        "ramadan": {
+          "name": "Ramadán első napja",
+          "description": "Az áldott ramadán hónap első böjti napja."
+        },
+        "kadir": {
+          "name": "Kadr éjszakája (Lajlat al-Kadr)",
+          "description": "A hatalom éjszakája, amely ezer hónapnál is jobb."
+        },
+        "eid-fitr": {
+          "name": "Íd al-fitr (1. nap)",
+          "description": "Az Íd al-fitr ünnep első napja."
+        },
+        "eid-adha": {
+          "name": "Íd al-adhá (1. nap)",
+          "description": "Az Íd al-adhá ünnep első napja."
+        },
+        "hijri-new-year": {
+          "name": "Iszlám újév",
+          "description": "Az új hidzsra év első napja."
+        },
+        "ashura": {
+          "name": "Ásúra napja",
+          "description": "A muharram hónap 10. napja."
+        },
+        "mevlid": {
+          "name": "Mavlid an-Nabi",
+          "description": "A Próféta (béke legyen vele) születésének éjszakája."
+        }
+      },
+      "esma": {
+        "1": "A Könyörületes",
+        "2": "Az Irgalmas",
+        "3": "A Király",
+        "4": "A Legszentebb",
+        "5": "A Béke Forrása",
+        "6": "A Biztonságot Adó",
+        "7": "Az Őrző",
+        "8": "A Mindenható",
+        "9": "A Kényszerítő",
+        "10": "A Fenséges",
+        "11": "A Teremtő",
+        "12": "A Kibontakoztató",
+        "13": "A Formáló",
+        "14": "A Nagy Megbocsátó",
+        "15": "Az Alávető",
+        "16": "Az Adományozó",
+        "17": "Az Ellátó",
+        "18": "A Megnyitó",
+        "19": "A Mindentudó",
+        "20": "A Megszorító",
+        "21": "A Kiterjesztő",
+        "22": "A Megalázó",
+        "23": "A Felmagasztaló",
+        "24": "A Megtisztelő",
+        "25": "A Megszégyenítő",
+        "26": "A Mindent Halló",
+        "27": "A Mindent Látó",
+        "28": "A Bíró",
+        "29": "Az Igazságos",
+        "30": "A Finom",
+        "31": "A Mindenről Tudó",
+        "32": "A Türelmes",
+        "33": "A Nagyszerű",
+        "34": "A Mindent Megbocsátó",
+        "35": "A Hálás",
+        "36": "A Legmagasztosabb",
+        "37": "A Legnagyobb",
+        "38": "A Megőrző",
+        "39": "Az Éltető",
+        "40": "Az Elszámoltató",
+        "41": "A Fenséges",
+        "42": "A Nagylelkű",
+        "43": "Az Éber",
+        "44": "A Válaszoló",
+        "45": "A Mindent Átfogó",
+        "46": "A Mindenttudó Bölcs",
+        "47": "A Szerető",
+        "48": "A Dicső",
+        "49": "A Feltámasztó",
+        "50": "A Tanú",
+        "51": "Az Igazság",
+        "52": "A Gondviselő",
+        "53": "Az Erős",
+        "54": "A Szilárd",
+        "55": "Az Oltalmazó Barát",
+        "56": "A Dicséretre Méltó",
+        "57": "A Számbavevő",
+        "58": "A Kezdeményező",
+        "59": "A Helyreállító",
+        "60": "Az Életet Adó",
+        "61": "A Halált Hozó",
+        "62": "Az Élő",
+        "63": "Az Önfenntartó",
+        "64": "A Megtaláló",
+        "65": "A Nemes",
+        "66": "Az Egyedülálló",
+        "67": "Az Egy",
+        "68": "Az Örökkévaló",
+        "69": "A Képes",
+        "70": "A Hatalmas",
+        "71": "Az Előrehozó",
+        "72": "A Halasztó",
+        "73": "Az Első",
+        "74": "Az Utolsó",
+        "75": "A Nyilvánvaló",
+        "76": "A Rejtett",
+        "77": "A Kormányzó",
+        "78": "A Legfelségesebb",
+        "79": "A Jóság Forrása",
+        "80": "A Bűnbánatot Elfogadó",
+        "81": "A Bosszúálló",
+        "82": "A Megbocsátó",
+        "83": "Az Együttérző",
+        "84": "A Birodalom Ura",
+        "85": "A Fenség és Bőkezűség Ura",
+        "86": "Az Igazságos Rendező",
+        "87": "Az Egybegyűjtő",
+        "88": "Az Öntudatos, Akinek Semmire Sincs Szüksége",
+        "89": "A Gazdaggá Tevő",
+        "90": "A Megakadályozó",
+        "91": "A Megpróbáltatást Küldő",
+        "92": "A Jótevő",
+        "93": "A Fény",
+        "94": "A Vezető",
+        "95": "Az Utolérhetetlen",
+        "96": "Az Örökké Létező",
+        "97": "Az Örökös",
+        "98": "A Helyes Útra Vezető",
+        "99": "A Türelmes"
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Fohász gyógyulásért és felépülésért",
+          "occasion": "Testi és lelki gyógyulásért mondják el betegség idején."
+        },
+        "nazar_korunma": {
+          "title": "Védelem a gonosz szem és a rossz ellen (Ájat al-Kurszí)",
+          "occasion": "Reggel és este mondják el, hogy isteni védelmet kapjanak a gonosz szem és a rossz ellen."
+        },
+        "rizik_bereket": {
+          "title": "Fohász megélhetésért, áldásért és adósságtól való megszabadulásért",
+          "occasion": "Pénzügyi bőségért, a megélhetés áldásáért és az adósságtól való megkönnyebbülésért mondják el."
+        },
+        "ferahlik_sikinti": {
+          "title": "Fohász nehéz időkben (Junusz próféta)",
+          "occasion": "Súlyos megpróbáltatás, szorongás, tehetetlenség és gyász idején mondják el."
+        },
+        "sinav_zihin": {
+          "title": "Fohász tudásért, vizsgákért és elmebeli tisztaságért",
+          "occasion": "Vizsgák, tanulás vagy nehéz szellemi feladat előtt mondják el."
+        },
+        "seyyidul_istigfar": {
+          "title": "Szajjid al-isztigfár (a bűnbocsánatért mondott fohászok ura)",
+          "occasion": "Reggel és este mondják el az őszinte bűnbánatért és a bűnök megbocsátásáért."
+        },
+        "anne_baba": {
+          "title": "Fohász a szülőkért és a családért",
+          "occasion": "A szülők és a család megbocsátásáért, egészségéért és kegyelméért mondják el."
+        },
+        "ezan_sonrasi": {
+          "title": "Fohász az ezán után",
+          "occasion": "Közvetlenül az ezán után mondják el, hogy elnyerjék a Próféta közbenjárását."
+        },
+        "iftar_oruc": {
+          "title": "Fohász a böjt megtörésekor (iftár)",
+          "occasion": "A böjt naplementekori megtörésének pillanatában mondják el."
+        },
+        "morning_1": {
+          "title": "Reggeli és esti isteni oltalom fohásza",
+          "occasion": "Reggel és este 3-szor mondva teljes védelmet nyújt minden ártalom ellen."
+        },
+        "leaving_home": {
+          "title": "Fohász otthon elhagyásakor",
+          "occasion": "Az otthon elhagyásakor mondják el isteni biztonságért és útmutatásért."
+        },
+        "entering_home": {
+          "title": "Fohász otthonba belépéskor",
+          "occasion": "Az otthonba való belépéskor mondják el békéért, áldásért és védelemért."
+        },
+        "waking_up": {
+          "title": "Fohász ébredéskor",
+          "occasion": "Ébredéskor mondják el hálaadásként az élet és az erő megújulásáért."
+        },
+        "sleeping": {
+          "title": "Fohász elalvás előtt",
+          "occasion": "Lefekvéskor mondják el a nyugodt alvásért és az isteni oltalomért."
+        },
+        "sukr_hamd": {
+          "title": "Hálaadás és áldás fohásza",
+          "occasion": "Áldások és jó hírek fogadásakor mondják el hálaként."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "7 napos kitartás",
+          "desc": "7 egymást követő napon rögzítette imáit"
+        },
+        "prayer_streak_30": {
+          "title": "30 napos kitartás",
+          "desc": "30 egymást követő napon rögzítette imáit"
+        },
+        "prayer_total_100": {
+          "title": "100 ima",
+          "desc": "Összesen 100 imát rögzített"
+        },
+        "prayer_total_500": {
+          "title": "500 ima",
+          "desc": "Összesen 500 imát rögzített"
+        },
+        "dhikr_streak_7": {
+          "title": "7 napos zikr-sorozat",
+          "desc": "7 egymást követő napon gyakorolta a zikret"
+        },
+        "dhikr_streak_30": {
+          "title": "30 napos zikr-sorozat",
+          "desc": "30 egymást követő napon gyakorolta a zikret"
+        },
+        "dhikr_total_1000": {
+          "title": "1000 zikr",
+          "desc": "Összesen 1000 zikret mondott el"
+        },
+        "dhikr_total_10000": {
+          "title": "10 000 zikr",
+          "desc": "Összesen 10 000 zikret mondott el"
+        },
+        "hatim_first": {
+          "title": "Első hatm",
+          "desc": "Befejezte a teljes Korán elolvasását"
+        },
+        "hatim_3": {
+          "title": "3 hatm",
+          "desc": "3-szor fejezte be a Koránt"
+        },
+        "kaza_10": {
+          "title": "10 pótima",
+          "desc": "10 pótimát/pótböjtöt teljesített"
+        },
+        "kaza_50": {
+          "title": "50 pótima",
+          "desc": "50 pótimát/pótböjtöt teljesített"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Misári Rásid al-Afászí"
+        },
+        "abdulbasit": {
+          "name": "Abdulbászit Abdusszamad"
+        },
+        "husary": {
+          "name": "Mahmúd Halíl al-Huszárí"
+        },
+        "minshawy": {
+          "name": "Muhammad Sziddík al-Minsávi"
+        },
+        "shuraym": {
+          "name": "Szaúd as-Suraim"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Áldott péntek (Jummah Mubarak) 🌹",
+          "message": "Fogadja el Allah őszinte fohászainkat, és árassza el ezt az áldott pénteket békével, irgalommal és bőséggel."
+        },
+        "cuma_2": {
+          "title": "Jummah Mubarak ✨",
+          "message": "Áldjon meg Allah téged és szeretteidet boldogsággal, egészséggel és hittel ezen a világon és a túlvilágon."
+        },
+        "kandil_1": {
+          "title": "Áldott szent éjszakát 🌙",
+          "message": "Legyen rajtad és családodon ennek a szent éjszakának az áldása, megbocsátása és békéje."
+        },
+        "ramazan_1": {
+          "title": "Áldott ramadánt 🕌",
+          "message": "Áldott ramadánt kívánunk, tele lelki elmélyüléssel, békével és isteni áldással."
+        },
+        "bayram_1": {
+          "title": "Áldott ünnepet 🌟",
+          "message": "Hozzon ez az áldott Íd örömöt, egészséget, egységet és jólétet neked és szeretteidnek."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Fohász a Korán olvasása előtt"
+        },
+        "hatim": {
+          "title": "Korán befejezésének fohásza (hatm)"
+        },
+        "sajdah": {
+          "title": "Recitációs leborulás (szadzsda)"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Korán"
+        },
+        "daily": {
+          "label": "Tartalom"
+        },
+        "home": {
+          "label": "Imaidők"
+        },
+        "dhikr": {
+          "label": "Zikr"
+        },
+        "library": {
+          "label": "Fohászok"
+        },
+        "qibla": {
+          "label": "Kibla"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Ima",
+        "dhikr": "Zikr",
+        "quran": "Korán",
+        "kaza": "Pótlás"
+      },
+      "hijriMonths": {
+        "1": "Muharram",
+        "2": "Szafar",
+        "3": "Rabí al-avval",
+        "4": "Rabí ath-száni",
+        "5": "Dzsumáda al-úla",
+        "6": "Dzsumáda al-áhira",
+        "7": "Radzsab",
+        "8": "Sábán",
+        "9": "Ramadán",
+        "10": "Savvál",
+        "11": "Zú al-kada",
+        "12": "Zú al-hiddzsa"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Ha eltérést tapasztal, hosszan nyomva a kártyát módosíthatja.",
+      "title": "{{prayer}} idejének módosítása",
+      "desc": "Ha a mecsete vagy a naptára szerint eltérés van, adjon hozzá vagy vonjon le perceket. Az ezán-értesítés ehhez igazodik.",
+      "minus": "1 perccel korábban",
+      "minutes": "{{value}} perc",
+      "plus": "1 perccel később",
+      "reset": "Visszaállítás",
+      "save": "Mentés"
+    },
+    "feedback": {
+      "settingsRow": "Visszajelzés küldése",
+      "title": "Fejlesszük együtt",
+      "subtitle": "Írja meg javaslatait, kéréseit vagy a felmerült problémát, hogy jobbá tehessük a Verát.",
+      "placeholder": "Írjon egy ötletet, javaslatot vagy egy felmerült problémát...",
+      "error": "Nem sikerült elküldeni. Kérjük, próbálja újra egy kicsit később.",
+      "send": "Küldés",
+      "thankYouTitle": "Visszajelzés megérkezett",
+      "thankYouSubtitle": "Véleménye nagyon fontos számunkra. Keményen dolgozunk azon, hogy jobbá tegyük a Verát."
+    },
+    "battery": {
+      "stepsXiaomi": "Beállítások → Alkalmazások → Vera: kapcsolja be az \"Automatikus indítást\", és az Akkumulátor-kímélőt állítsa \"Nincs korlátozás\" értékre.",
+      "stepsSamsung": "Beállítások → Akkumulátor → Háttérhasználati korlátok: adja hozzá a Verát a \"Sosem alvó alkalmazások\" közé.",
+      "stepsOppo": "Beállítások → Akkumulátor → Vera: kapcsolja be az \"Engedélyezze a háttértevékenységet\" és az \"Automatikus indítás\" opciókat.",
+      "stepsOther": "Kapcsolja ki az akkumulátor-optimalizálást a Vera számára, hogy az ezán késedelem nélkül szóljon.",
+      "cardTitle": "Hallgassa az ezánt időben",
+      "openSettings": "Beállítások megnyitása"
+    },
+    "widget": {
+      "guideTitle": "Hozzáadás a kezdőképernyőhöz",
+      "guideDesc": "Tartsa lenyomva a kezdőképernyőt ➔ koppintson a \"Modulok\" lehetőségre ➔ keresse meg a \"VERA\" modult, és húzza a képernyőre.",
+      "promptTitle": "Modul hozzáadása a kezdőképernyőhöz",
+      "promptDesc": "Kövesse a következő imaidőt és a hátralévő perceket élőben, közvetlenül a telefon kezdőképernyőjén, az alkalmazás megnyitása nélkül.",
+      "addNow": "📌 Hozzáadás a kezdőképernyőhöz",
+      "notNow": "Később"
+    },
+    "greetingNotif": {
+      "dayTitle": "Áldott {{name}}",
+      "nightTitle": "Ma este van {{name}}",
+      "body": "Küldjön üdvözlőkártyát szeretteinek.",
+      "fridayTitle": "Áldott péntek",
+      "fridayBody": "Küldjön pénteki üdvözlőkártyát szeretteinek."
+    },
+    "errorBoundary": {
+      "title": "Valami hiba történt",
+      "subtitle": "Az alkalmazás váratlan hibába ütközött. Koppints az alábbi gombra az újrapróbáláshoz.",
+      "retry": "Újra"
     }
   }
 }

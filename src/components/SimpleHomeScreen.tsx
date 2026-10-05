@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Platform,
   Pressable,
@@ -8,6 +8,8 @@ import {
   Text,
   View,
   Dimensions,
+  AppState,
+  AppStateStatus,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -19,8 +21,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getWeatherEmoji, WeatherData, DayData } from '../services/api';
 import * as Haptics from 'expo-haptics';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-
 import { WeeklyImsakiyeModal } from './WeeklyImsakiyeModal';
 import { UnifiedCalendarModal } from './UnifiedCalendarModal';
 import { ReligiousDaysModal } from './ReligiousDaysModal';
@@ -29,9 +29,11 @@ import { ThemeSelectionModal } from './ThemeSelectionModal';
 import { KazaTrackerModal } from './KazaTrackerModal';
 import { GreetingCardModal } from './GreetingCardModal';
 import { NearbyMosquesModal } from './NearbyMosquesModal';
-import { AdBanner } from './AdBanner';
+import { BannerAdSlot } from './BannerAdSlot';
 import { ScalePressable } from './ScalePressable';
 import { requestPinWidget } from '../services/widgetService';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const PRAYER_KEYS = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
 type PrayerKey = typeof PRAYER_KEYS[number];
@@ -57,6 +59,7 @@ export interface SimpleHomeScreenProps {
   apiFullData: DayData[];
   onCityPress: () => void;
   onHomeStyleChange?: (style: 'default' | 'simple') => void;
+  isVisible?: boolean;
 }
 
 export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
@@ -71,9 +74,10 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
   apiFullData,
   onCityPress,
   onHomeStyleChange,
+  isVisible = true,
 }) => {
   const insets = useSafeAreaInsets();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { theme, isDark, timeFormat, setTimeFormat } = useTheme();
   const router = useRouter();
 
@@ -105,13 +109,18 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
     return `${celsius}°C`;
   }, [tempUnit]);
 
-  // Live countdown
+  // Live countdown (optimized with AppState to save battery)
   useEffect(() => {
-    if (!targetDate) return;
+    // This screen stays mounted on other PagerView tabs: tick only while it's visible.
+    if (!targetDate || !isVisible) return;
+
+    let id: ReturnType<typeof setInterval> | null = null;
+
     const tick = () => {
       const diff = targetDate.getTime() - Date.now();
       if (diff <= 0) {
         setTimeLeft({ h: 0, m: 0, s: 0 });
+        stopTimer(); // nothing left to count until the parent passes the next target
         return;
       }
       setTimeLeft({
@@ -120,13 +129,44 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
         s: Math.floor((diff % 60000) / 1000),
       });
     };
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, [targetDate]);
+
+    const startTimer = () => {
+      if (targetDate.getTime() <= Date.now()) {
+        tick();
+        return;
+      }
+      tick();
+      if (!id) {
+        id = setInterval(tick, 1000);
+      }
+    };
+
+    const stopTimer = () => {
+      if (id) {
+        clearInterval(id);
+        id = null;
+      }
+    };
+
+    if (AppState.currentState === 'active') {
+      startTimer();
+    }
+
+    const sub = AppState.addEventListener('change', (nextState: AppStateStatus) => {
+      if (nextState === 'active') {
+        startTimer();
+      } else {
+        stopTimer();
+      }
+    });
+
+    return () => {
+      stopTimer();
+      sub.remove();
+    };
+  }, [targetDate, isVisible]);
 
   const pad = (n: number) => n.toString().padStart(2, '0');
-  const isLangTR = i18n.language === 'tr' || i18n.language.startsWith('tr');
   const cardBg = isDark ? 'rgba(255,255,255,0.04)' : '#FFFFFF';
   const borderCol = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
 
@@ -151,7 +191,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
               <Feather name="map-pin" size={13} color={theme.colors.primary} />
             </View>
             <Text style={[styles.cityText, { color: theme.colors.text }]} numberOfLines={1}>
-              {location?.city ?? (isLangTR ? 'Şehir Seç' : 'Select City')}
+              {location?.city ?? t('search.title', 'Şehir Seç')}
             </Text>
             <Feather name="chevron-down" size={13} color={theme.colors.textSecondary} />
           </Pressable>
@@ -162,7 +202,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
             <Pressable
               style={[styles.iconBtn, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)', borderColor: borderCol }]}
               onPress={() => {
-                try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch (_) {}
+                try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
                 setGreetingModalVisible(true);
               }}
             >
@@ -173,7 +213,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
             <Pressable
               style={[styles.iconBtn, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)', borderColor: borderCol }]}
               onPress={() => {
-                try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch (_) {}
+                try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
                 setKazaModalVisible(true);
               }}
             >
@@ -184,7 +224,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
             <Pressable
               style={[styles.iconBtn, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)', borderColor: borderCol }]}
               onPress={() => {
-                try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch (_) {}
+                try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
                 setThemeModalVisible(true);
               }}
             >
@@ -328,14 +368,14 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
         )}
 
         {/* ── AD BANNER (Under prayer times, above kaza/tebrik buttons) ── */}
-        <AdBanner />
+        <BannerAdSlot placement="simple_home" isVisible={isVisible} lazy={true} />
 
         {/* ── 6-GRID FEATURE QUICK SHORTCUTS ── */}
         <View style={styles.quickGrid}>
           {/* 1. Kaza Takipçisi */}
           <ScalePressable
             onPress={() => {
-              try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch (_) {}
+              try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
               setKazaModalVisible(true);
             }}
             style={[styles.quickBtn, { backgroundColor: cardBg, borderColor: borderCol }]}
@@ -351,7 +391,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
           {/* 2. Tebrik Kartı */}
           <ScalePressable
             onPress={() => {
-              try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch (_) {}
+              try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
               setGreetingModalVisible(true);
             }}
             style={[styles.quickBtn, { backgroundColor: cardBg, borderColor: borderCol }]}
@@ -367,7 +407,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
           {/* 3. Yakındaki Camiler */}
           <ScalePressable
             onPress={() => {
-              try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch (_) {}
+              try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
               setMosquesModalVisible(true);
             }}
             style={[styles.quickBtn, { backgroundColor: cardBg, borderColor: borderCol }]}
@@ -383,7 +423,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
           {/* 4. Haftalık İmsakiye */}
           <ScalePressable
             onPress={() => {
-              try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch (_) {}
+              try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
               setImsakiyeVisible(true);
             }}
             style={[styles.quickBtn, { backgroundColor: cardBg, borderColor: borderCol }]}
@@ -399,7 +439,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
           {/* 5. Dini Günler */}
           <ScalePressable
             onPress={() => {
-              try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch (_) {}
+              try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
               setReligiousDaysVisible(true);
             }}
             style={[styles.quickBtn, { backgroundColor: cardBg, borderColor: borderCol }]}
@@ -415,7 +455,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
           {/* 6. Bütüncül Takvim */}
           <ScalePressable
             onPress={() => {
-              try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch (_) {}
+              try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
               setCalendarVisible(true);
             }}
             style={[styles.quickBtn, { backgroundColor: cardBg, borderColor: borderCol }]}

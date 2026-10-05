@@ -6,7 +6,11 @@
       "retry": "Qayta urinish",
       "success": "Muvaffaqiyat",
       "fillAllFields": "Iltimos, barcha maydonlarni toʻldiring.",
-      "min": "m"
+      "min": "m",
+      "cancel": "Bekor qilish",
+      "save": "Saqlash",
+      "ok": "OK",
+      "close": "Yopish"
     },
     "home": {
       "title": "Namaz Vaqtlari",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "Namoz vaqtlarini yuklab bo'lmadi",
       "errorLoadingSubtitle": "Internet ulanishingizni tekshiring yoki shaharingizni tanlang.",
       "retryBtn": "Qayta urinish",
-      "loadingTimes": "Namoz vaqtlari yuklanmoqda..."
+      "loadingTimes": "Namoz vaqtlari yuklanmoqda...",
+      "locationPermissionTitle": "Joylashuv ruxsati olinmadi",
+      "locationPermissionDesc": "Standart shahar ko'rsatilmoqda. Shahar tanlashingiz yoki joylashuvga ruxsat berishingiz mumkin.",
+      "estimatedTimesNotice": "Internet aloqasi bo'lmagani uchun vaqtlar qurilmada hisoblab chiqildi (taxminiy)."
     },
     "settings": {
       "title": "Sozlamalar",
@@ -111,7 +118,19 @@
       "offsetsTitle": "Namoz vaqtini sozlash (ofset / ± min)",
       "offsetsDesc": "Mahalliy masjidingiz yoki taqvimingiz daqiqalar bilan farq qilsa, vaqtni ±15 daqiqagacha sozlashingiz mumkin.",
       "respectSilentModeTitle": "Masjid / Jim rejim Hurmat",
-      "respectSilentModeDesc": "Telefoningiz jim yoki tebranish rejimida bo'lganda azon ovozini o'chiradi va jimgina xabar beradi."
+      "respectSilentModeDesc": "Telefoningiz jim yoki tebranish rejimida bo'lganda azon ovozini o'chiradi va jimgina xabar beradi.",
+      "inviteFriend": "Do'stingizni taklif qiling",
+      "privacyOptions": "Maxfiylik sozlamalari",
+      "timeFormat24h": "24 soatlik format",
+      "loginLocked": "Juda ko'p muvaffaqiyatsiz urinish. Iltimos, keyinroq qayta urining.",
+      "loginFailed": "Kirish amalga oshmadi. Ma'lumotlaringizni tekshiring.",
+      "notifications": "Bildirishnomalar",
+      "editorLogout": "Muharrir chiqishi",
+      "editorLogin": "Muharrir kirishi",
+      "username": "Foydalanuvchi nomi",
+      "password": "Parol",
+      "loggingIn": "Kirilmoqda...",
+      "login": "Kirish"
     },
     "qibla": {
       "title": "Qibla",
@@ -154,7 +173,9 @@
       "share": "Ulashish",
       "verseBody": "Kunning oyatini o'qish uchun bosing!",
       "hadithBody": "Kunning hadisini o'qish uchun bosing!",
-      "quoteBody": "Kunning hikmatini o'qish uchun bosing!"
+      "quoteBody": "Kunning hikmatini o'qish uchun bosing!",
+      "subtitle": "Bugungi kun uchun tanlangan oyat, hadis va so'z",
+      "shareHint": "Hikoya rasmi sifatida ulashish uchun kartochkaga bosing"
     },
     "search": {
       "title": "Joylashuvni Tanlang",
@@ -217,7 +238,8 @@
         "dailyDesc": "Kundalik oyat, hadis yoki iqtibos peshin va asr oralig'ida keladi.",
         "persistentName": "Ekranni qulflash va holat paneli",
         "persistentDesc": "Bildirishnomalar paneli va qulflangan ekranda keyingi namoz nomini va jonli ortga hisoblashni ko'rsatadi."
-      }
+      },
+      "persistentTitle": "🕌 {{prayer}} vaqtigacha"
     },
     "tasbih": {
       "title": "Tasbeh",
@@ -259,7 +281,49 @@
       "bgAudioSelect": "Fon zikri tovushini tanlang",
       "dikhr1": "Zikr ovozi 1",
       "dikhr2": "Zikr ovozi 2",
-      "dikhr3": "Zikr ovozi 3"
+      "dikhr3": "Zikr ovozi 3",
+      "shareMilestone": "Ulashish",
+      "milestoneShareText": "Bu oy jami {{total}} zikrga yetdim, mashaallah!",
+      "streakDays": "kun ketma-ket",
+      "monthStat": "Bu oy",
+      "streakStat": "Seriya",
+      "streakValue": "{{count}} kun",
+      "remaining": "{{count}} qoldi",
+      "noTarget": "Maqsadsiz",
+      "completed": "Yakunlandi",
+      "addShort": "Qo'shish",
+      "progressShort": "Jarayon",
+      "recShort": "Tavsiya",
+      "tapToCount": "Sanash uchun bosing",
+      "ok": "OK",
+      "dailyDhikrs": [
+        {
+          "text": "Subhanallohi va bihamdihi",
+          "benefit": "Kuniga 100 marta aytilganda, gunohlar dengiz ko'pigicha bo'lsa ham kechiriladi.",
+          "target": 100
+        },
+        {
+          "text": "La ilaha illallohu vahdahu la sharika lah...",
+          "benefit": "Kuniga 100 marta aytgan kishi 10 ta qul ozod qilgandek savob oladi va shaytondan himoyalanadi.",
+          "target": 100
+        },
+        {
+          "text": "Astag'firullohal-azim",
+          "benefit": "Qiyinchiliklarni bartaraf qiladi, rizqni kengaytiradi, g'amlardan qutulishga yordam beradi.",
+          "target": 100
+        },
+        {
+          "text": "La havla va la quvvata illa billah",
+          "benefit": "Jannat xazinalaridan bir xazinadir, har turli g'am va tashvishni daf etadi.",
+          "target": 100
+        },
+        {
+          "text": "Subhanallohi valhamdulillahi...",
+          "benefit": "Ustiga quyosh chiqqan har qanday narsadan ham sevimliroqdir.",
+          "target": 100
+        }
+      ],
+      "recTarget": "Maqsad:"
     },
     "update": {
       "title": "Yangi Yangilanish Mavjud!",
@@ -336,7 +400,15 @@
       "mealSource": "Ingliz tiliga haqiqiy tarjima",
       "loadingMeal": "Sahifa tarjimasi yuklanmoqda...",
       "noMealFound": "Ushbu sahifa uchun hech qanday tarjima topilmadi. Internet ulanishingizni tekshiring.",
-      "mealBtn": "Tarjima"
+      "mealBtn": "Tarjima",
+      "selectReciter": "Qori tanlash",
+      "bookmarkAdded": "Oyat sevimlilarga qo'shildi",
+      "bookmarkRemoved": "Oyat sevimlilardan olib tashlandi",
+      "bookmarksTitle": "Saqlangan oyatlar",
+      "noBookmarks": "Hozircha sevimli oyatingiz yo'q. Oyatga uzoq bosib qo'shishingiz mumkin.",
+      "playFromHere": "Shu yerdan tinglash",
+      "juz": "Juz",
+      "downloadingShort": "Yuklab olinmoqda..."
     },
     "review": {
       "title": "Bizni Qo'llab-quvvatlang",
@@ -372,7 +444,10 @@
       "themeSepia": "Issiq sepiya",
       "appTagline": "Namoz vaqtlari, Qur'on va Qibla",
       "storeSearchHint": "Google Play orqali qidiring: Vera",
-      "scanToDownload": "Yuklab olish uchun skanerlash"
+      "scanToDownload": "Yuklab olish uchun skanerlash",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 Vera bilan namoz vaqtlarini, azonni va Qur'on o'qishimni kuzatib boraman. Keling, birga xatm qilaylik!\n\n📲 Ilovani yuklab oling: {{link}}"
     },
     "checklist": {
       "title": "Kundalik ibodat kuzatuvchisi",
@@ -397,7 +472,9 @@
       "celebrationMessage": "Siz bugun 5 kunlik namozni to'liq o'qidingiz. Alloh duolaringizni qabul qilsin!",
       "celebrationBtn": "Alhamdulillah",
       "trustNotice": "{{city}} • {{metod}} yordamida mintaqangiz uchun tasdiqlangan namoz vaqtlari",
-      "streakDays": "kunlar"
+      "streakDays": "kunlar",
+      "shareStreak": "Seriyamni ulashish",
+      "shareText": "Uzluksiz {{count}} kundir namozlarimni kuzatib boryapman, alhamdulillah!"
     },
     "calendar": {
       "title": "Birlashtirilgan kalendar",
@@ -413,7 +490,8 @@
       "subtitle": "Muborak kechalar va kunlar uchun kalendar va ortga hisoblash",
       "today": "Bugun",
       "daysLeft": "kunlar",
-      "passed": "O'tdi"
+      "passed": "O'tdi",
+      "loadError": "Diniy kunlar yuklanmadi. Internet aloqangizni tekshiring."
     },
     "widgetPromo": {
       "title": "Namoz vidjetini qo'shing",
@@ -477,7 +555,17 @@
       "widgetDesc": "Ilovani ochmasdan jonli ortga hisoblashlarni ko'ring.",
       "widgetAdded": "Vidjet muvaffaqiyatli qo‘shildi!",
       "batteryTitle": "🔋 Batareya tejashdan ozod",
-      "batteryDesc": "O‘z vaqtida azon aytish uchun Xiaomi va Samsung’da batareya quvvatini optimallashtirishni o‘chirib qo‘yish tavsiya etiladi."
+      "batteryDesc": "O‘z vaqtida azon aytish uchun Xiaomi va Samsung’da batareya quvvatini optimallashtirishni o‘chirib qo‘yish tavsiya etiladi.",
+      "locationReassurance": "Buni keyinroq istalgan vaqtda Sozlamalar'dan o'zgartirishingiz mumkin.",
+      "notifDenied": "Bildirishnoma ruxsati berilmadi. Azon ogohlantirishlari ishlamasligi mumkin — keyinroq Sozlamalar'dan yoqishingiz mumkin.",
+      "retryBtn": "Qayta urinish",
+      "continueWithoutNotif": "Bildirishnomasiz davom etish",
+      "skipTitle": "Sozlashni o'tkazib yuborish",
+      "skipBody": "Sozlashni hozircha o'tkazib yuborishingiz mumkin. Joylashuv va bildirishnoma sozlamalarini keyinroq Sozlamalar'dan amalga oshirishingiz mumkin.",
+      "skipConfirm": "O'tkazib yuborish",
+      "locationDenied": "Joylashuvga ruxsat berilmadi. Shahringizni ro'yxatdan tanlashingiz yoki buni keyinroq Sozlamalar'dan o'zgartirishingiz mumkin.",
+      "locationFailed": "Joylashuv aniqlanmadi. Shahringizni ro'yxatdan tanlashingiz yoki buni keyinroq Sozlamalar'dan o'zgartirishingiz mumkin.",
+      "locationNotSet": "Joylashuv aniqlanmadi (Ruxsat berilmagan)"
     },
     "weather": {
       "title": "Ob-havo ma'lumoti",
@@ -496,7 +584,8 @@
       "sunset": "Quyosh botishi",
       "precipitation": "Yog'ingarchilik",
       "kmh": "km/soat",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Qayta urinish"
     },
     "duas": {
       "occasionTitle": "Qachon va nima uchun tilovat qilish kerak?",
@@ -542,7 +631,15 @@
       "chooseTheme": "Karta mavzusi",
       "shareBtn": "WhatsApp / Hikoya 🌟 ga ulashing",
       "shareImageBtn": "Rasm kartasini ulashing 🌟",
-      "shareLinkBtn": "To'g'ridan-to'g'ri do'kon havolasini ulashing 🔗"
+      "shareLinkBtn": "To'g'ridan-to'g'ri do'kon havolasini ulashing 🔗",
+      "theme": {
+        "gold": "Oltin chiziq",
+        "emerald": "Zumrad gumbaz",
+        "navy": "Tungi ko'k",
+        "crimson": "Atirgul va yoqut"
+      },
+      "customDefaultTitle": "Hayrli jumalar",
+      "customDefaultMessage": "Dualaringiz va ibodatlaringiz qabul bo'lsin."
     },
     "mosques": {
       "title": "Yaqin masjidlar",
@@ -557,7 +654,12 @@
     "dailyContent": {
       "preparing": "Kundalik ilhom yuklanmoqda...",
       "queueSuccess": "Kontent tasdiqlash navbatiga qo'shildi.",
-      "queueError": "Kontent qo‘shishda xatolik yuz berdi."
+      "queueError": "Kontent qo‘shishda xatolik yuz berdi.",
+      "addModalTitle": "Yangi kontent qo'shish",
+      "textPlaceholder": "Kontent matni (Arabcha/Tarjima)",
+      "sourcePlaceholder": "Manba (Masalan: Buxoriy, Imon 1)",
+      "saving": "Saqlanmoqda...",
+      "saveAndQueue": "Saqlash va navbatga qo'yish"
     },
     "hatim": {
       "title": "Qur'on xatm kuzatuvchisi",
@@ -572,7 +674,9 @@
       "resetTitle": "Yangi Hatmni ishga tushiring",
       "resetBody": "Joriy xatm tugallangan deb yoziladi va yangi xatm 1-sahifadan boshlanadi. Davom etishni xohlaysizmi?",
       "startNew": "Yangi Hatmni ishga tushiring",
-      "resetHatimBtn": "Qayta tiklash va yangi Hatmni ishga tushirish"
+      "resetHatimBtn": "Qayta tiklash va yangi Hatmni ishga tushirish",
+      "share": "Xatmimni ulashish",
+      "shareText": "{{count}}-xatmimni yakunladim, alhamdulillah!"
     },
     "prayerTree": {
       "title": "Haftalik ibodat daraxti",
@@ -582,6 +686,512 @@
       "quoteHigh": "“Namoz iymon ustunidir”. — Ajoyib hafta o'tkazyapsiz, MashaAlloh!",
       "quoteMid": "“Namozni to‘kis ado eting, zakot bering va ruku qiluvchilar bilan birga ruku qiling”. (Baqara, 43).",
       "quoteLow": "“Indeed, prayer has been decreed upon the believers a decree of specified times.” (An-Niso, 103)."
+    },
+    "hajjUmrah": {
+      "title": "Haj va Umra Qo'llanmasi",
+      "umrah": "Umra",
+      "hajj": "Haj",
+      "stepsTitle": "Bosqichma-bosqich menosik",
+      "checklistTitle": "Tayyorgarlik ro'yxati",
+      "settingsEntry": "Haj va Umra Qo'llanmasi"
+    },
+    "zakat": {
+      "title": "Zakot hisoblagichi",
+      "info": "Zakot to'liq bir yil saqlangan va nisob miqdoriga yetgan mol-mulkning 2,5 foizidir (1/40). Nisob miqdorini joriy oltin/kumush narxi asosida hisoblab pastga kiriting.",
+      "cash": "Naqd pul va bank omonati",
+      "gold": "Oltin / Kumush qiymati",
+      "tradeGoods": "Savdo moli qiymati",
+      "investments": "Aksiyalar / Investitsiyalar",
+      "debts": "Qarzlar (chegiriladi)",
+      "nisab": "Nisob miqdori (joriy oltin/kumush qiymati)",
+      "netWealth": "Sof mol-mulk",
+      "zakatDue": "To'lanishi kerak bo'lgan zakot",
+      "notEligible": "Mol-mulkingiz nisob miqdoriga yetmagani uchun zakot to'lash shart emas.",
+      "enterNisab": "Hisoblash uchun iltimos nisob miqdorini kiriting.",
+      "settingsEntry": "Zakot hisoblagichi"
+    },
+    "ramadan": {
+      "calendarTitle": "Ramazon imsokiyasi",
+      "days": "kun",
+      "day": "Kun",
+      "date": "Sana",
+      "sahur": "Saharlik",
+      "iftar": "Iftar",
+      "noData": "Ramazon taqvimi ma'lumotlari topilmadi."
+    },
+    "achievements": {
+      "title": "Yutuqlarim",
+      "pointsLabel": "Ibodat ballari",
+      "unlockedCount": "{{unlocked}} / {{total}} nishon ochildi",
+      "settingsEntry": "Yutuqlarim",
+      "share": "Ballarimni ulashish",
+      "shareText": "{{points}} Ibodat balliga yetdim, {{unlocked}} ta nishon ochdim!",
+      "inviteTitle": "Do'stingizni taklif qiling",
+      "inviteDesc": "Xatmni birga kuzatib boring, bir-biringizni rag'batlantiring.",
+      "progress": {
+        "days": "{{current}} / {{total}} kun",
+        "prayers": "{{current}} / {{total}} vaqt",
+        "dhikr": "{{current}} / {{total}} zikr",
+        "khatm": "{{current}} / {{total}} xatm",
+        "kaza": "{{current}} / {{total}} qazo"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "Ehromga kirish",
+          "desc": "Miqot chegarasida g'usl qilinadi, ehrom kiyimi kiyiladi va niyat qilib talbiya aytiladi. Ehromga kirgandan so'ng tikilgan kiyim kiyish, atir surtish kabi taqiqlar boshlanadi."
+        },
+        "tawaf": {
+          "title": "Tavof",
+          "desc": "Hajar al-Asvad tomonidan boshlab, Ka'ba atrofida soat miliga teskari yo'nalishda 7 marta aylanadi. Har bir aylanishda imkon bo'lsa Hajar al-Asvadga salom beriladi."
+        },
+        "sayi": {
+          "title": "Sa'y (Safo bilan Marva orasida)",
+          "desc": "Safo tepaligidan boshlab Marva tepaligiga, so'ng yana Safoga qaytib, jami 7 marta borib-kelinadi. Bu Hazrati Hojarning suv izlashi yodga olinadi."
+        },
+        "halq": {
+          "title": "Soch oldirish / Qisqartirish (Halq-Taqsir)",
+          "desc": "Erkaklar sochlarini butunlay oldiradi yoki qisqartiradi; ayollar sochlaridan bir barmoq uchi miqdorida kesadi. Shu bilan umra yakunlanadi va ehrom taqiqlari tugaydi."
+        },
+        "arafat": {
+          "title": "Arafotda vaqfa (9-Zulhijja)",
+          "desc": "Hajning eng muhim ruknidir. Zulhijjaning 9-kuni peshindan kun botguncha Arafotda bo'linadi; bu vaqt duo, zikr va tavba bilan o'tkaziladi."
+        },
+        "muzdalifah": {
+          "title": "Muzdalifada tunash",
+          "desc": "Arafotdan qaytishda Muzdalifaga kelinadi, shom va xufton namozlari birlashtirilib o'qiladi, tun shu yerda o'tkaziladi va shayton toshlash uchun toshlar yig'iladi."
+        },
+        "jamarat": {
+          "title": "Shaytonni toshbo'ron qilish (Jamarot)",
+          "desc": "Minodagi jamarotlarga belgilangan kunlarda tosh otiladi. Bu Ibrohim (a.s.) ning shaytonni toshbo'ron qilganining yodga olinishidir."
+        },
+        "qurban": {
+          "title": "Qurbonlik so'yish",
+          "desc": "Haj menosikining bir qismi sifatida qurbonlik so'yiladi; bu Qurbon hayitining ham boshlanishidir."
+        },
+        "farewell_tawaf": {
+          "title": "Xayrlashuv tavofi",
+          "desc": "Makkadan ketishdan oldin bajariladigan so'nggi tavofdir; haj ibodatining yakunlanganining belgisidir."
+        },
+        "ihram_clothes": {
+          "label": "Ehrom kiyimi (erkaklar uchun 2 bo'lak tikilmagan oq mato)"
+        },
+        "passport": {
+          "label": "Pasport, viza va sayohat hujjatlari"
+        },
+        "health": {
+          "label": "Tibbiy sug'urta va zarur emlashlar"
+        },
+        "comfortable_sandals": {
+          "label": "Qulay, oson yechiladigan sandal"
+        },
+        "unscented_soap": {
+          "label": "Hidsiz sovun va shaxsiy parvarish vositalari"
+        },
+        "dua_book": {
+          "label": "Duo va menosik kitobi (yoki shu ilova)"
+        },
+        "money_belt": {
+          "label": "Xavfsiz pul/hujjat sumkasi"
+        },
+        "medication": {
+          "label": "Shaxsiy dorilar va retseptlar"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Ragoib kechasi",
+          "description": "Uch oylikning boshlanishi va rahmat kechasi."
+        },
+        "mirac": {
+          "name": "Me'roj kechasi",
+          "description": "Payg'ambarimizning (s.a.v.) ilohiy huzurga ko'tarilishi."
+        },
+        "berat": {
+          "name": "Barot kechasi",
+          "description": "Gunohlardan poklanish va g'amlardan qutulish kechasi."
+        },
+        "ramadan": {
+          "name": "Ramazon boshlanishi",
+          "description": "Muborak Ramazon oyining birinchi ro'za kuni."
+        },
+        "kadir": {
+          "name": "Qadr kechasi",
+          "description": "Ming oydan ham hayrliroq muborak kecha."
+        },
+        "eid-fitr": {
+          "name": "Ramazon hayiti (1-kun)",
+          "description": "Ramazon hayitining birinchi kuni."
+        },
+        "eid-adha": {
+          "name": "Qurbon hayiti (1-kun)",
+          "description": "Qurbon hayitining birinchi kuni."
+        },
+        "hijri-new-year": {
+          "name": "Hijriy yangi yil",
+          "description": "Yangi Hijriy yilning birinchi kuni."
+        },
+        "ashura": {
+          "name": "Ashuro kuni",
+          "description": "Muharram oyining 10-kuni va Ashuro kuni."
+        },
+        "mevlid": {
+          "name": "Mavlud kechasi",
+          "description": "Payg'ambarimizning (s.a.v.) dunyoga kelgan kechasi."
+        }
+      },
+      "esma": {
+        "1": "Ayovchi, kechiruvchi, rahm qiluvchi.",
+        "2": "Oxiratda faqat mo'minlarga rahm qiluvchi.",
+        "3": "Mulkning, koinotning egasi.",
+        "4": "Har qanday nuqsondan xoli bo'lgan.",
+        "5": "Bandalariga tinchlik beruvchi.",
+        "6": "Ishonch beruvchi, himoya qiluvchi.",
+        "7": "Koinotning barcha ishlarini kuzatib boshqaruvchi.",
+        "8": "Yengilib bo'lmaydigan g'olib.",
+        "9": "Xohlaganini majburan amalga oshirishga qodir bo'lgan.",
+        "10": "Ulug'likda tengi va o'xshashi yo'q.",
+        "11": "Yo'qdan bor qiluvchi.",
+        "12": "Har narsani mukammal va uyg'un yaratuvchi.",
+        "13": "Mavjudotlarga shakl beruvchi.",
+        "14": "Gunohlarni ko'p kechiruvchi.",
+        "15": "Hamma narsaga, hamma narsaga g'olib keluvchi.",
+        "16": "Evazsiz ko'p beruvchi.",
+        "17": "Barcha mavjudotlarning rizqini beruvchi.",
+        "18": "Moddiy va ma'naviy barcha eshiklarni ochuvchi.",
+        "19": "Har narsani mukammal biluvchi.",
+        "20": "Xohlaganining rizqini toraytiruvchi.",
+        "21": "Xohlaganining rizqini kengaytiruvchi.",
+        "22": "Kofirlar va zolimlarni tuban qiluvchi.",
+        "23": "Iymon keltirganlarni yuksaltiruvchi.",
+        "24": "Xohlaganini aziz qiluvchi.",
+        "25": "Xohlaganini xor qiluvchi.",
+        "26": "Hamma narsani eshituvchi.",
+        "27": "Hamma narsani ko'ruvchi.",
+        "28": "Hukm qiluvchi, haqni bajaruvchi.",
+        "29": "Mutlaq adolat egasi.",
+        "30": "Lutf qiluvchi, yashirin va nozik ishlarni biluvchi.",
+        "31": "Hamma narsadan xabardor bo'lgan.",
+        "32": "Jazolashga shoshilmaydigan.",
+        "33": "Ulug'ligi aql bilan idrok etilmaydigan darajada oliy.",
+        "34": "Afvi va mag'firati mo'l bo'lgan.",
+        "35": "Oz amalga ko'p savob beruvchi.",
+        "36": "Yuksaklikda cheksiz bo'lgan.",
+        "37": "Zoti va sifatlarining ulug'ligi bilinmaydigan.",
+        "38": "Hamma narsani saqlovchi va muhofaza qiluvchi.",
+        "39": "Har bir yaratilganning rizqini beruvchi.",
+        "40": "Bandalarining hisobini eng yaxshi biluvchi.",
+        "41": "Buyuklik va ulug'lik sohibi.",
+        "42": "Ikromi va lutfi mo'l bo'lgan.",
+        "43": "Barcha mavjudotlarni nazorat ostida tutuvchi.",
+        "44": "Duo qiluvchilarning duosini qabul qiluvchi.",
+        "45": "Rahmati va ilmi hamma narsani qamrab olgan.",
+        "46": "Har bir ishi hikmatli bo'lgan.",
+        "47": "Bandalarini juda sevuvchi, sevilishga loyiq bo'lgan.",
+        "48": "Shon-shuhrati va qadri yuksak bo'lgan.",
+        "49": "O'liklarni tiriltiruvchi.",
+        "50": "Hamma narsaga shohid bo'lgan.",
+        "51": "Borlig'i hech qachon o'zgarmay turuvchi.",
+        "52": "O'ziga tavakkal qilganlarning ishlarini eng yaxshi yo'lga qo'yuvchi.",
+        "53": "Kuchi va qudrati cheksiz bo'lgan.",
+        "54": "Juda mustahkam va tebranmas bo'lgan.",
+        "55": "Mo'minlarning do'sti va yordamchisi.",
+        "56": "Har turli maqtovga loyiq bo'lgan.",
+        "57": "Yaratgan har bir narsaning sonini biluvchi.",
+        "58": "Mavjudotlarni moddasiz va namunasiz avvaldan yaratuvchi.",
+        "59": "Yaratganlarini yo'q qilib, so'ng qayta tiriltiradigan.",
+        "60": "Jon baxsh etuvchi, hayot beruvchi.",
+        "61": "Tirik mavjudotning o'limini yaratuvchi.",
+        "62": "Tirik, hamma narsani biluvchi va hamma narsaga qodir bo'lgan.",
+        "63": "Osmonlarni, yerni va hamma narsani tutib turuvchi.",
+        "64": "Xohlaganini, xohlagan vaqtda topuvchi.",
+        "65": "Qadri va shoni buyuk, karami va kengfe'lligi mo'l.",
+        "66": "Yagona bo'lgan.",
+        "67": "Zotida, sifatlarida va ishlarida tengi yo'q bo'lgan.",
+        "68": "Hech narsaga muhtoj bo'lmagan, hammaning O'ziga muhtoj bo'lgan.",
+        "69": "Hamma narsaga qodir bo'lgan.",
+        "70": "Kuch va qudrat egalari ustidan xohlaganicha tasarruf qiluvchi.",
+        "71": "Xohlaganini oldinga oluvchi, ilgari o'tkazuvchi.",
+        "72": "Xohlaganini keyinga qoldiruvchi.",
+        "73": "Boshlanishi bo'lmagan avval.",
+        "74": "Oxiri bo'lmagan so'nggi.",
+        "75": "Borlig'i hamma narsadan ayon bo'lgan.",
+        "76": "Aqllar idrok etolmaydigan ulug'ligi bilan yashirin bo'lgan.",
+        "77": "Butun koinotni boshqaruvchi.",
+        "78": "Aql yeta oladigan hamma narsadan ancha yuksak bo'lgan.",
+        "79": "Bandalariga yaxshilik va ehsoni mo'l bo'lgan.",
+        "80": "Tavbalarni ko'p qabul qiluvchi.",
+        "81": "Isyonkorlardan, zolimlardan qasos oluvchi.",
+        "82": "Gunohlarni kechiruvchi, o'chiruvchi.",
+        "83": "Rahmati, lutfi va shafqati mo'l bo'lgan.",
+        "84": "Mulkning abadiy va azaliy egasi.",
+        "85": "Ulug'lik, fazl va karam sohibi.",
+        "86": "Barcha ishlarini teng va bir-biriga mos qiluvchi.",
+        "87": "Qiyomat kunida mavjudotlarni yig'uvchi.",
+        "88": "Har turli boylik sohibi, hech kimga muhtoj bo'lmagan.",
+        "89": "Xohlaganini boy qiluvchi.",
+        "90": "Bir narsaning yuz berishiga yo'l qo'ymaydigan.",
+        "91": "Alam va zarar yetkazadigan narsalarni yaratuvchi.",
+        "92": "Foyda keltiradigan narsalarni yaratuvchi.",
+        "93": "Olamlarni nurlantiruvchi.",
+        "94": "Hidoyat beruvchi, to'g'ri yo'lga soluvchi.",
+        "95": "Tengsiz, namunasiz yaratuvchi.",
+        "96": "Borlig'ining oxiri bo'lmagan.",
+        "97": "Har narsaning asl egasi bo'lgan.",
+        "98": "Barcha ishlarini to'g'ri va maqsadiga yetkazuvchi.",
+        "99": "Jazolashda shoshilmaydigan."
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Shifo va kasallikdan qutulish duosi",
+          "occasion": "Moddiy va ma'naviy har turli kasallik va noxushlik vaqtida o'qiladi."
+        },
+        "nazar_korunma": {
+          "title": "Ko'z tegishi va yovuzlikdan himoya (Oyat al-Kursi)",
+          "occasion": "Ko'z tegishi, nazar, vasvasa va har turli yovuzlikdan himoyalanish uchun ertalab-kechqurun o'qiladi."
+        },
+        "rizik_bereket": {
+          "title": "Rizq, barakot va qarzdan qutulish duosi",
+          "occasion": "Turmush tang holati, qarz yuki va ishlarning barakot topishi uchun o'qiladi."
+        },
+        "ferahlik_sikinti": {
+          "title": "Qiyinchilik, g'am va tang holat duosi (Hazrati Yunus duosi)",
+          "occasion": "Ko'ngil tang holati, ilojsizlik, qo'rquv va qiyin damlarda yengillikka erishish uchun o'qiladi."
+        },
+        "sinav_zihin": {
+          "title": "Imtihon, aql-idrok ravshanligi va yengillik duosi",
+          "occasion": "Imtihonga kirayotganda, ilm o'rganayotganda va qiyin bir ishni boshlayotganda aql-idrok ravshanligi uchun o'qiladi."
+        },
+        "seyyidul_istigfar": {
+          "title": "Sayyid al-Istig'for (Tavba duosi)",
+          "occasion": "Gunohlarning afvi va kechirilishi uchun ertalab va kechqurun o'qiladi. Jannatga vosita hisoblanadi."
+        },
+        "anne_baba": {
+          "title": "Ota-ona va oilaga duo",
+          "occasion": "Ota-onaning sog'ligi, afvi va oxiratda rahmatga erishishi uchun har namozdan so'ng o'qiladi."
+        },
+        "ezan_sonrasi": {
+          "title": "Azondan keyin o'qiladigan duo",
+          "occasion": "Azon tugagandan darhol so'ng o'qiladi; Payg'ambarimizning shafoatiga vosita bo'ladi."
+        },
+        "iftar_oruc": {
+          "title": "Iftar va ro'za ochish duosi",
+          "occasion": "Shom azoni o'qilib ro'za ochilayotganda o'qiladi."
+        },
+        "morning_1": {
+          "title": "Ertalabki va kechqurungi himoya duosi",
+          "occasion": "Ertalab va kechqurun uch martadan o'qigan kishiga hech narsa zarar keltira olmaydi."
+        },
+        "leaving_home": {
+          "title": "Uydan chiqayotganda o'qiladigan duo",
+          "occasion": "Uydan tashqariga chiqayotganda baxtsiz hodisalardan, balolardan va yovuzliklardan himoyalanish uchun o'qiladi."
+        },
+        "entering_home": {
+          "title": "Uyga kirayotganda o'qiladigan duo",
+          "occasion": "Uyga kirayotganda xonadonga barakot va xotirjamlik kirishi uchun o'qiladi."
+        },
+        "waking_up": {
+          "title": "Uyg'onganda o'qiladigan shukr duosi",
+          "occasion": "Uyqudan uyg'onganda yangi bir kunga sog'lom yetib kelganlik shukronasi sifatida o'qiladi."
+        },
+        "sleeping": {
+          "title": "Uxlashdan oldin o'qiladigan duo",
+          "occasion": "Yotoqqa yotayotganda tinch uyqu va himoya niyati bilan o'qiladi."
+        },
+        "sukr_hamd": {
+          "title": "Shukr va ne'mat duosi",
+          "occasion": "Yaxshi xabar kelganda, ne'matlarga shukr qilish va barakotni ko'paytirish uchun o'qiladi."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "7 kunlik izchillik",
+          "desc": "7 kun ketma-ket namoz qaydini yuritdingiz"
+        },
+        "prayer_streak_30": {
+          "title": "30 kunlik izchillik",
+          "desc": "30 kun ketma-ket namoz qaydini yuritdingiz"
+        },
+        "prayer_total_100": {
+          "title": "100 vaqt",
+          "desc": "Jami 100 vaqt namozni qayd etdingiz"
+        },
+        "prayer_total_500": {
+          "title": "500 vaqt",
+          "desc": "Jami 500 vaqt namozni qayd etdingiz"
+        },
+        "dhikr_streak_7": {
+          "title": "7 kunlik zikr",
+          "desc": "7 kun ketma-ket zikr tortdingiz"
+        },
+        "dhikr_streak_30": {
+          "title": "30 kunlik zikr",
+          "desc": "30 kun ketma-ket zikr tortdingiz"
+        },
+        "dhikr_total_1000": {
+          "title": "1.000 zikr",
+          "desc": "Jami 1.000 zikr tortdingiz"
+        },
+        "dhikr_total_10000": {
+          "title": "10.000 zikr",
+          "desc": "Jami 10.000 zikr tortdingiz"
+        },
+        "hatim_first": {
+          "title": "Birinchi xatm",
+          "desc": "Qur'oni Karimni boshidan oxirigacha o'qidingiz"
+        },
+        "hatim_3": {
+          "title": "3 xatm",
+          "desc": "Qur'oni Karimni 3 marta yakunladingiz"
+        },
+        "kaza_10": {
+          "title": "10 qazo yakunlandi",
+          "desc": "10 qazo namozi/ro'zasini yakunladingiz"
+        },
+        "kaza_50": {
+          "title": "50 qazo yakunlandi",
+          "desc": "50 qazo namozi/ro'zasini yakunladingiz"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mishari Rashid al-Afosiy"
+        },
+        "abdulbasit": {
+          "name": "Abdulbosit Abdussamad"
+        },
+        "husary": {
+          "name": "Mahmud Xalil al-Husariy"
+        },
+        "minshawy": {
+          "name": "Muhammad Siddiq al-Minshaviy"
+        },
+        "shuraym": {
+          "name": "Su'ud ash-Shurayim"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Hayrli jumalar 🌹",
+          "message": "Allohim! Ko'nglimizdan o'tgan hayrli dualarimizni qabul qil, jumamizni muborak ayla. Sog'lik, xotirjamlik va barakotga to'la bir kun tilayman."
+        },
+        "cuma_2": {
+          "title": "Jumangiz muborak bo'lsin ✨",
+          "message": "Rabbim bizlarni sevganlarimiz bilan birga ikki dunyoda ham aziz qilsin. Hayrli, nurli va barakotli jumalar."
+        },
+        "kandil_1": {
+          "title": "Kandilingiz muborak bo'lsin 🌙",
+          "message": "Bu muborak kechaning fayzi, barakoti va afvi ustingizga bo'lsin. Dualarda uchrashish tilagi bilan kandilingiz muborak bo'lsin."
+        },
+        "ramazan_1": {
+          "title": "Hayrli Ramazonlar 🕌",
+          "message": "Boshi rahmat, o'rtasi mag'firat, oxiri do'zaxdan qutulish bo'lgan sharif Ramazonimiz muborak bo'lsin."
+        },
+        "bayram_1": {
+          "title": "Bayramingiz muborak bo'lsin 🌟",
+          "message": "Sevganlaringiz bilan birga quvonch, xotirjamlik, sog'lik va mehr-muhabbatga to'la ko'plab bayramlarga yetishishingiz tilagi bilan."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Qur'on o'qishni boshlash duosi"
+        },
+        "hatim": {
+          "title": "Qur'oni Karim xatm duosi"
+        },
+        "sajdah": {
+          "title": "Tilovat sajdasi duosi"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Qur'on"
+        },
+        "daily": {
+          "label": "Kontent"
+        },
+        "home": {
+          "label": "Vaqtlar"
+        },
+        "dhikr": {
+          "label": "Zikr"
+        },
+        "library": {
+          "label": "Dualar"
+        },
+        "qibla": {
+          "label": "Qibla"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Namoz",
+        "dhikr": "Zikr",
+        "quran": "Qur'on",
+        "kaza": "Qazo"
+      },
+      "hijriMonths": {
+        "1": "Muharram",
+        "2": "Safar",
+        "3": "Rabi' ul-avval",
+        "4": "Rabi' ul-oxir",
+        "5": "Jumad ul-avval",
+        "6": "Jumad ul-oxir",
+        "7": "Rajab",
+        "8": "Sha'bon",
+        "9": "Ramazon",
+        "10": "Shavvol",
+        "11": "Zulqa'da",
+        "12": "Zulhijja"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Vaqtlarda farq bo'lsa, kartochkaga uzoq bosib tuzatishingiz mumkin.",
+      "title": "{{prayer}} vaqtini tuzatish",
+      "desc": "Masjidingiz yoki taqvimingizga ko'ra farq bo'lsa, daqiqa qo'shing yoki ayiring. Azon bildirishnomasi ham shunga mos ravishda ishlaydi.",
+      "minus": "1 daqiqa orqaga",
+      "minutes": "{{value}} daq",
+      "plus": "1 daqiqa oldinga",
+      "reset": "Qayta tiklash",
+      "save": "Saqlash"
+    },
+    "feedback": {
+      "settingsRow": "Fikr-mulohaza yuborish",
+      "title": "Birgalikda rivojlantiraylik",
+      "subtitle": "Vera'ni yaxshiroq qilishimiz uchun taklif, so'rov yoki duch kelgan muammoingizni yozing.",
+      "placeholder": "Fikr, taklif yoki duch kelgan muammoingizni yozing...",
+      "error": "Yuborilmadi. Iltimos, birozdan so'ng qayta urining.",
+      "send": "Yuborish",
+      "thankYouTitle": "Fikr-mulohazangiz qabul qilindi",
+      "thankYouSubtitle": "Fikrlaringiz biz uchun juda qadrli. Vera'ni yaxshilash uchun bor kuchimiz bilan ishlayapmiz."
+    },
+    "battery": {
+      "stepsXiaomi": "Sozlamalar → Ilovalar → Vera: \"Avtomatik ishga tushirish\"ni yoqing va Batareya tejamkorligini \"Cheklovsiz\" qiling.",
+      "stepsSamsung": "Sozlamalar → Batareya → Fon rejimidagi cheklovlar: Vera'ni \"Hech qachon uyqusiraydigan ilovalar\"ga qo'shing.",
+      "stepsOppo": "Sozlamalar → Batareya → Vera: \"Fonda ishlashga ruxsat berish\" va \"Avtomatik ishga tushirish\"ni yoqing.",
+      "stepsOther": "Vera uchun batareya optimizatsiyasini o'chiring, shunda azon vaqtida kechikmasdan chaladi.",
+      "cardTitle": "Azon vaqtida chalinsin",
+      "openSettings": "Sozlamalarni ochish"
+    },
+    "widget": {
+      "guideTitle": "Bosh ekranga qo'shish",
+      "guideDesc": "Bosh ekraningizni bosib turing ➔ \"Vidjetlar\" bo'limini bosing ➔ \"VERA\" vidjetini tanlab ekraningizga suring.",
+      "promptTitle": "Bosh ekranga vidjet qo'shish",
+      "promptDesc": "Navbatdagi azon vaqtini va qolgan daqiqani ilovangizni ochmasdan to'g'ridan-to'g'ri telefoningiz bosh ekranidan jonli kuzatib boring.",
+      "addNow": "📌 Bosh ekranga qo'shish",
+      "notNow": "Keyinroq"
+    },
+    "greetingNotif": {
+      "dayTitle": "{{name}} muborak bo'lsin",
+      "nightTitle": "Bugun kecha {{name}}",
+      "body": "Sevganlaringizga tabrik kartochkasi yuboring.",
+      "fridayTitle": "Hayrli jumalar",
+      "fridayBody": "Sevganlaringizga juma tabrik kartochkasini yuboring."
+    },
+    "errorBoundary": {
+      "title": "Nimadir xato ketdi",
+      "subtitle": "Ilovada kutilmagan xatolik yuz berdi. Qayta urinish uchun quyidagi tugmani bosing.",
+      "retry": "Qayta urinish"
     }
   }
 }

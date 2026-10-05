@@ -6,7 +6,11 @@
       "retry": "Prøv igen",
       "success": "Succes",
       "fillAllFields": "Udfyld venligst alle felter.",
-      "min": "m"
+      "min": "m",
+      "cancel": "Annuller",
+      "save": "Gem",
+      "ok": "OK",
+      "close": "Luk"
     },
     "home": {
       "title": "Bønnetider",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "Kunne ikke indlæse bedetider",
       "errorLoadingSubtitle": "Tjek venligst din internetforbindelse eller vælg din by.",
       "retryBtn": "Prøv igen",
-      "loadingTimes": "Indlæser bedetider..."
+      "loadingTimes": "Indlæser bedetider...",
+      "locationPermissionTitle": "Placeringstilladelse ikke tilgængelig",
+      "locationPermissionDesc": "Standardbyen vises. Du kan vælge en by eller give placeringstilladelse.",
+      "estimatedTimesNotice": "Ingen internetforbindelse, så bønnetiderne er beregnet på din enhed (estimeret)."
     },
     "settings": {
       "title": "Indstillinger",
@@ -111,7 +118,19 @@
       "offsetsTitle": "Bønnetidsjusteringer (forskydninger / ± min)",
       "offsetsDesc": "Hvis din lokale moské eller kalender adskiller sig med minutter, kan du justere tiderne op til ±15 minutter.",
       "respectSilentModeTitle": "Moske / Silent Mode Respekt",
-      "respectSilentModeDesc": "Slår adhan-lyden fra og giver lydløst besked, når din telefon er i lydløs eller vibrerende tilstand."
+      "respectSilentModeDesc": "Slår adhan-lyden fra og giver lydløst besked, når din telefon er i lydløs eller vibrerende tilstand.",
+      "inviteFriend": "Inviter en ven",
+      "privacyOptions": "Privatlivsindstillinger",
+      "timeFormat24h": "24-timers format",
+      "loginLocked": "For mange mislykkede forsøg. Prøv igen senere.",
+      "loginFailed": "Login mislykkedes. Tjek dine oplysninger.",
+      "notifications": "Notifikationer",
+      "editorLogout": "Log ud som redaktør",
+      "editorLogin": "Log ind som redaktør",
+      "username": "Brugernavn",
+      "password": "Adgangskode",
+      "loggingIn": "Logger ind...",
+      "login": "Log ind"
     },
     "qibla": {
       "title": "Qibla",
@@ -154,7 +173,9 @@
       "share": "Del",
       "verseBody": "Klik for at læse dagens vers!",
       "hadithBody": "Klik for at læse dagens hadith!",
-      "quoteBody": "Klik for at læse dagens citat!"
+      "quoteBody": "Klik for at læse dagens citat!",
+      "subtitle": "Udvalgt vers, hadith og citat for i dag",
+      "shareHint": "Tryk på et kort for at dele det som et storybillede"
     },
     "search": {
       "title": "Vælg Placering",
@@ -217,7 +238,8 @@
         "dailyDesc": "Daglige vers, hadith eller citater ankommer mellem Dhuhr og Asr.",
         "persistentName": "Låseskærm og statuslinje",
         "persistentDesc": "Viser næste bøns navn og live nedtælling i meddelelsespanel og låseskærm."
-      }
+      },
+      "persistentTitle": "🕌 Indtil {{prayer}}"
     },
     "tasbih": {
       "title": "Tasbih",
@@ -259,7 +281,49 @@
       "bgAudioSelect": "Vælg Background Dhikr Sound",
       "dikhr1": "Dhikr lyd 1",
       "dikhr2": "Dhikr Sound 2",
-      "dikhr3": "Dhikr Sound 3"
+      "dikhr3": "Dhikr Sound 3",
+      "shareMilestone": "Del",
+      "milestoneShareText": "Jeg nåede i alt {{total}} dhikr denne måned, mashallah!",
+      "streakDays": "dage i træk",
+      "monthStat": "Denne måned",
+      "streakStat": "Stime",
+      "streakValue": "{{count}} dage",
+      "remaining": "{{count}} tilbage",
+      "noTarget": "Intet mål",
+      "completed": "Fuldført",
+      "addShort": "Tilføj",
+      "progressShort": "Fremgang",
+      "recShort": "Anbefalet",
+      "tapToCount": "Tryk for at tælle",
+      "ok": "OK",
+      "dailyDhikrs": [
+        {
+          "text": "Subhanallahi wa bihamdihi",
+          "target": 100,
+          "benefit": "Reciteres 100 gange dagligt, og synder bliver tilgivet, selv hvis de er som havets skum."
+        },
+        {
+          "text": "La ilaha illallahu wahdahu la sharika lah...",
+          "target": 100,
+          "benefit": "At recitere det 100 gange svarer til at frigive 10 slaver og beskytter mod Satan."
+        },
+        {
+          "text": "Astaghfirullah al-Adheem",
+          "target": 100,
+          "benefit": "Fjerner nød, åbner dørene til forsørgelse og giver lettelse."
+        },
+        {
+          "text": "La hawla wa la quwwata illa billah",
+          "target": 100,
+          "benefit": "En skat blandt Paradisets skatte, der fordriver bekymringer."
+        },
+        {
+          "text": "Subhanallahi walhamdulillahi...",
+          "target": 100,
+          "benefit": "Det mest elskede ord for Allah, tungere på vægtskålene end alt andet."
+        }
+      ],
+      "recTarget": "Mål:"
     },
     "update": {
       "title": "Ny Opdatering Tilgængelig!",
@@ -336,7 +400,15 @@
       "mealSource": "Autentisk engelsk oversættelse",
       "loadingMeal": "Indlæser sideoversættelse...",
       "noMealFound": "Ingen oversættelse fundet for denne side. Tjek venligst din internetforbindelse.",
-      "mealBtn": "Oversættelse"
+      "mealBtn": "Oversættelse",
+      "selectReciter": "Vælg reciter",
+      "bookmarkAdded": "Vers tilføjet til favoritter",
+      "bookmarkRemoved": "Vers fjernet fra favoritter",
+      "bookmarksTitle": "Gemte vers",
+      "noBookmarks": "Ingen gemte vers endnu. Hold fingeren nede på et vers for at tilføje det.",
+      "playFromHere": "Lyt herfra",
+      "juz": "Juz",
+      "downloadingShort": "Downloader..."
     },
     "review": {
       "title": "Støt Os",
@@ -372,7 +444,10 @@
       "themeSepia": "Varm sepia",
       "appTagline": "Bedetider, Koranen og Qibla",
       "storeSearchHint": "Søg på Google Play: Vera",
-      "scanToDownload": "Scan for at downloade"
+      "scanToDownload": "Scan for at downloade",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 Jeg bruger Vera til at holde styr på bønnetider, adhan og min Koranlæsning. Lad os følge en khatm sammen!\n\n📲 Hent appen: {{link}}"
     },
     "checklist": {
       "title": "Daglig bøn Tracker",
@@ -397,7 +472,9 @@
       "celebrationMessage": "Du fuldførte alle 5 daglige bønner i dag. Må Allah acceptere dine bønner!",
       "celebrationBtn": "Alhamdulillah",
       "trustNotice": "{{by}} • Bekræftede bedetider for din region ved hjælp af {{metode}}",
-      "streakDays": "dage"
+      "streakDays": "dage",
+      "shareStreak": "Del min stime",
+      "shareText": "Jeg har holdt mine bønner {{count}} dage i træk, alhamdulillah!"
     },
     "calendar": {
       "title": "Samlet kalender",
@@ -413,7 +490,8 @@
       "subtitle": "Kalender og nedtælling til velsignede nætter og dage",
       "today": "I dag",
       "daysLeft": "dage",
-      "passed": "Bestået"
+      "passed": "Bestået",
+      "loadError": "Kunne ikke indlæse religiøse dage. Tjek din internetforbindelse."
     },
     "widgetPromo": {
       "title": "Tilføj bøn-widget",
@@ -477,7 +555,17 @@
       "widgetDesc": "Se live nedtællinger uden at åbne appen.",
       "widgetAdded": "Widget tilføjet med succes!",
       "batteryTitle": "🔋 Undtagelse for batteribesparelse",
-      "batteryDesc": "Det anbefales at slå batterioptimeringer fra på Xiaomi og Samsung for rettidig adhans."
+      "batteryDesc": "Det anbefales at slå batterioptimeringer fra på Xiaomi og Samsung for rettidig adhans.",
+      "locationReassurance": "Du kan altid ændre dette senere under Indstillinger.",
+      "notifDenied": "Notifikationstilladelse blev ikke givet. Adhan-påmindelser fungerer muligvis ikke — du kan slå dette til senere under Indstillinger.",
+      "retryBtn": "Prøv igen",
+      "continueWithoutNotif": "Fortsæt uden notifikationer",
+      "skipTitle": "Spring opsætning over",
+      "skipBody": "Du kan springe opsætningen over nu. Placerings- og notifikationsindstillinger kan konfigureres senere under Indstillinger.",
+      "skipConfirm": "Spring over",
+      "locationDenied": "Placeringstilladelse blev ikke givet. Du kan vælge din by fra listen eller ændre dette senere under Indstillinger.",
+      "locationFailed": "Kunne ikke finde din placering. Du kan vælge din by fra listen eller ændre dette senere under Indstillinger.",
+      "locationNotSet": "Placering ikke tilgængelig (tilladelse nægtet)"
     },
     "weather": {
       "title": "Vejrudsigt",
@@ -496,7 +584,8 @@
       "sunset": "Solnedgang",
       "precipitation": "Nedbør",
       "kmh": "km/t",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Prøv igen"
     },
     "duas": {
       "occasionTitle": "Hvornår og hvorfor skal jeg recitere?",
@@ -542,7 +631,15 @@
       "chooseTheme": "Kort tema",
       "shareBtn": "Del til WhatsApp / Story 🌟",
       "shareImageBtn": "Del billedkort 🌟",
-      "shareLinkBtn": "Del direkte butikslink 🔗"
+      "shareLinkBtn": "Del direkte butikslink 🔗",
+      "theme": {
+        "gold": "Gylden linje",
+        "emerald": "Smaragdkuppel",
+        "navy": "Midnatsblå",
+        "crimson": "Rose & rubin"
+      },
+      "customDefaultTitle": "Jumu'ah Mubarak",
+      "customDefaultMessage": "Må dine bønner og din tilbedelse blive accepteret."
     },
     "mosques": {
       "title": "Nærliggende moskeer",
@@ -557,7 +654,12 @@
     "dailyContent": {
       "preparing": "Indlæser daglig inspiration...",
       "queueSuccess": "Indhold føjet til godkendelseskøen.",
-      "queueError": "Der opstod en fejl under tilføjelse af indhold."
+      "queueError": "Der opstod en fejl under tilføjelse af indhold.",
+      "addModalTitle": "Tilføj nyt indhold",
+      "textPlaceholder": "Indholdstekst (arabisk/oversættelse)",
+      "sourcePlaceholder": "Kilde (f.eks. Bukhari, Iman 1)",
+      "saving": "Gemmer...",
+      "saveAndQueue": "Gem & sæt i kø"
     },
     "hatim": {
       "title": "Koranen Khatm Tracker",
@@ -572,7 +674,9 @@
       "resetTitle": "Start New Khatm",
       "resetBody": "Nuværende khatm vil blive registreret som afsluttet, og en ny khatm vil begynde fra side 1. Vil du fortsætte?",
       "startNew": "Start New Khatm",
-      "resetHatimBtn": "Nulstil og start ny Khatm"
+      "resetHatimBtn": "Nulstil og start ny Khatm",
+      "share": "Del min khatm",
+      "shareText": "Jeg har fuldført min {{count}}. khatm, alhamdulillah!"
     },
     "prayerTree": {
       "title": "Ugentligt bedetræ",
@@ -582,6 +686,512 @@
       "quoteHigh": "\"Bøn er troens søjle.\" — Du har en enestående uge, MashaAllah!",
       "quoteMid": "\"Etabler bøn, giv zakah og bøj med dem, der bøjer.\" (Al-Baqarah, 43)",
       "quoteLow": "\"Ja, bøn er blevet pålagt de troende et dekret på bestemte tidspunkter.\" (An-Nisa, 103)"
+    },
+    "hajjUmrah": {
+      "title": "Hajj & Umrah-guide",
+      "umrah": "Umrah",
+      "hajj": "Hajj",
+      "stepsTitle": "Trin-for-trin-ritualer",
+      "checklistTitle": "Tjekliste til forberedelse",
+      "settingsEntry": "Hajj & Umrah-guide"
+    },
+    "zakat": {
+      "title": "Zakat-beregner",
+      "info": "Zakat er 2,5 % (1/40) af formue, der er ejet i et helt månår og når nisab-grænsen. Find den aktuelle nisab-værdi (baseret på guld-/sølvpris) og indtast den nedenfor.",
+      "cash": "Kontanter & bankopsparing",
+      "gold": "Guld-/sølvværdi",
+      "tradeGoods": "Værdi af handelsvarer",
+      "investments": "Aktier / investeringer",
+      "debts": "Gæld (fratrækkes)",
+      "nisab": "Nisab-grænse (aktuel guld-/sølvværdi)",
+      "netWealth": "Nettoformue",
+      "zakatDue": "Skyldig zakat",
+      "notEligible": "Din formue når ikke nisab-grænsen, så du skal ikke betale zakat.",
+      "enterNisab": "Indtast venligst nisab-grænsen for at beregne.",
+      "settingsEntry": "Zakat-beregner"
+    },
+    "ramadan": {
+      "calendarTitle": "Ramadankalender",
+      "days": "dage",
+      "day": "Dag",
+      "date": "Dato",
+      "sahur": "Suhoor",
+      "iftar": "Iftar",
+      "noData": "Ramadankalenderdata blev ikke fundet."
+    },
+    "achievements": {
+      "title": "Mine præstationer",
+      "pointsLabel": "Tilbedelsespoint",
+      "unlockedCount": "{{unlocked}} / {{total}} badges låst op",
+      "settingsEntry": "Mine præstationer",
+      "share": "Del mine point",
+      "shareText": "Jeg har opnået {{points}} tilbedelsespoint og låst {{unlocked}} badges op!",
+      "inviteTitle": "Inviter en ven",
+      "inviteDesc": "Følg en Khatm sammen, og motivér hinanden.",
+      "progress": {
+        "days": "{{current}} / {{total}} dage",
+        "prayers": "{{current}} / {{total}} bønner",
+        "dhikr": "{{current}} / {{total}} dhikr",
+        "khatm": "{{current}} / {{total}} khatm",
+        "kaza": "{{current}} / {{total}} indhentningsbønner"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "At gå ind i ihram-tilstanden",
+          "desc": "Ved miqat-grænsen udføres ghusl, ihram-tøjet tages på, hensigten (niyyah) fastsættes, og talbiyah reciteres. Visse restriktioner træder i kraft, når man er i ihram (ingen syet tøj, parfume osv.)."
+        },
+        "tawaf": {
+          "title": "Tawaf (gang rundt om Kabaen)",
+          "desc": "Startende fra Den Sorte Sten går man syv gange rundt om Kabaen mod uret og hilser om muligt på Den Sorte Sten ved starten af hver omgang."
+        },
+        "sayi": {
+          "title": "Sa'i (mellem Safa og Marwah)",
+          "desc": "Man går rask syv gange frem og tilbage mellem bakkerne Safa og Marwah til minde om Hajars søgen efter vand."
+        },
+        "halq": {
+          "title": "Barbering eller klipning af hår (Halq/Taqsir)",
+          "desc": "Mænd barberer hovedet helt eller klipper håret; kvinder klipper en fingerbreddes længde af. Dette fuldender umrah og afslutter ihram-restriktionerne."
+        },
+        "arafat": {
+          "title": "At stå på Arafat (9. Dhul-Hijjah)",
+          "desc": "Den vigtigste søjle i hajj. Pilgrimme står på Arafat fra middag til solnedgang den 9. Dhul-Hijjah og bruger tiden på påkaldelse, dhikr og anger."
+        },
+        "muzdalifah": {
+          "title": "Overnatning i Muzdalifah",
+          "desc": "Efter Arafat rejser pilgrimmene til Muzdalifah, slår maghrib- og isha-bønnen sammen, overnatter der og samler sten til stenkastningsritualet."
+        },
+        "jamarat": {
+          "title": "Stenkastning mod Jamarat",
+          "desc": "Sten kastes mod Jamarat-søjlerne i Mina på de fastsatte dage til minde om profeten Ibrahims (fred være med ham) afvisning af Satan."
+        },
+        "qurban": {
+          "title": "Offer (Qurbani)",
+          "desc": "Som en del af hajj-ritualerne bringes et offer; dette markerer også begyndelsen på Eid al-Adha."
+        },
+        "farewell_tawaf": {
+          "title": "Afskedstawaf",
+          "desc": "Den sidste tawaf, der udføres, før man forlader Mekka; det markerer fuldendelsen af hajj-ritualerne."
+        },
+        "ihram_clothes": {
+          "label": "Ihram-tøj (2 stykker usyet hvidt stof til mænd)"
+        },
+        "passport": {
+          "label": "Pas, visum og rejsedokumenter"
+        },
+        "health": {
+          "label": "Sygeforsikring og påkrævede vaccinationer"
+        },
+        "comfortable_sandals": {
+          "label": "Komfortable sandaler, der er nemme at tage af"
+        },
+        "unscented_soap": {
+          "label": "Uparfumeret sæbe og personlige plejeprodukter"
+        },
+        "dua_book": {
+          "label": "Dua- og ritualbog (eller denne app)"
+        },
+        "money_belt": {
+          "label": "Sikker penge-/dokumentpung"
+        },
+        "medication": {
+          "label": "Personlig medicin og recepter"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Ragaib-natten",
+          "description": "Begyndelsen på de tre hellige måneder og en nat med nåde."
+        },
+        "mirac": {
+          "name": "Isra og Mi'raj",
+          "description": "Profetens (fred være med ham) natrejse og himmelfart."
+        },
+        "berat": {
+          "name": "Bara'at-natten",
+          "description": "En nat med tilgivelse og lettelse fra sorg."
+        },
+        "ramadan": {
+          "name": "Ramadans første dag",
+          "description": "Den første fastedag i den velsignede måned Ramadan."
+        },
+        "kadir": {
+          "name": "Laylat al-Qadr",
+          "description": "Magtens Nat, bedre end tusind måneder."
+        },
+        "eid-fitr": {
+          "name": "Eid al-Fitr (dag 1)",
+          "description": "Den første dag af Eid al-Fitr."
+        },
+        "eid-adha": {
+          "name": "Eid al-Adha (dag 1)",
+          "description": "Den første dag af Eid al-Adha."
+        },
+        "hijri-new-year": {
+          "name": "Islamisk nytår",
+          "description": "Den første dag i det nye hijri-år."
+        },
+        "ashura": {
+          "name": "Ashura-dagen",
+          "description": "Den 10. dag i måneden Muharram."
+        },
+        "mevlid": {
+          "name": "Mawlid an-Nabi",
+          "description": "Natten for profetens (fred være med ham) fødsel."
+        }
+      },
+      "esma": {
+        "1": "Den Barmhjertige.",
+        "2": "Den Nådige.",
+        "3": "Kongen.",
+        "4": "Den Hellige.",
+        "5": "Fredens Kilde.",
+        "6": "Den Trygheds-Givende.",
+        "7": "Vogteren.",
+        "8": "Den Almægtige.",
+        "9": "Den Tvingende.",
+        "10": "Den Ophøjede.",
+        "11": "Skaberen.",
+        "12": "Udvikleren.",
+        "13": "Formgiveren.",
+        "14": "Den Store Tilgiver.",
+        "15": "Underkueren.",
+        "16": "Giveren.",
+        "17": "Forsørgeren.",
+        "18": "Åbneren.",
+        "19": "Den Alvidende.",
+        "20": "Den Begrænsende.",
+        "21": "Den Udvidende.",
+        "22": "Den Fornedrende.",
+        "23": "Den Ophøjende.",
+        "24": "Æresgiveren.",
+        "25": "Vanæreren.",
+        "26": "Den Althørende.",
+        "27": "Den Alseende.",
+        "28": "Dommeren.",
+        "29": "Den Retfærdige.",
+        "30": "Den Fintmærkende.",
+        "31": "Den Velunderrettede.",
+        "32": "Den Overbærende.",
+        "33": "Den Storslåede.",
+        "34": "Den Alforladende.",
+        "35": "Den Værdsættende.",
+        "36": "Den Højeste.",
+        "37": "Den Store.",
+        "38": "Bevareren.",
+        "39": "Opretholderen.",
+        "40": "Regnskabsføreren.",
+        "41": "Den Majestætiske.",
+        "42": "Den Gavmilde.",
+        "43": "Den Vagtsomme.",
+        "44": "Den Bønhørende.",
+        "45": "Den Alomfattende.",
+        "46": "Den Alvise.",
+        "47": "Den Kærlige.",
+        "48": "Den Herlige.",
+        "49": "Genopliveren.",
+        "50": "Vidnet.",
+        "51": "Sandheden.",
+        "52": "Værgen.",
+        "53": "Den Stærke.",
+        "54": "Den Faste.",
+        "55": "Den Beskyttende Ven.",
+        "56": "Den Prisværdige.",
+        "57": "Optælleren.",
+        "58": "Ophavsmanden.",
+        "59": "Genopretteren.",
+        "60": "Livgiveren.",
+        "61": "Den, der Bringer Død.",
+        "62": "Den Levende.",
+        "63": "Den Selvopretholdende.",
+        "64": "Finderen.",
+        "65": "Den Ædle.",
+        "66": "Den Enestående.",
+        "67": "Den Ene.",
+        "68": "Den Evige (Uafhængige).",
+        "69": "Den Mægtige.",
+        "70": "Den Kraftfulde.",
+        "71": "Fremskynderen.",
+        "72": "Udskyderen.",
+        "73": "Den Første.",
+        "74": "Den Sidste.",
+        "75": "Den Åbenlyse.",
+        "76": "Den Skjulte.",
+        "77": "Herskeren.",
+        "78": "Den Mest Ophøjede.",
+        "79": "Kilden til Godhed.",
+        "80": "Angerens Modtager.",
+        "81": "Hævneren.",
+        "82": "Den Tilgivende.",
+        "83": "Den Medfølende.",
+        "84": "Rigets Herre.",
+        "85": "Majestætens og Gavmildhedens Herre.",
+        "86": "Den Retfærdige (Ligevægtige).",
+        "87": "Samleren.",
+        "88": "Den Selvforsynende.",
+        "89": "Beriger.",
+        "90": "Forhindreren.",
+        "91": "Den, der Volder Skade.",
+        "92": "Den Gavnlige.",
+        "93": "Lyset.",
+        "94": "Vejlederen.",
+        "95": "Den Uforlignelige.",
+        "96": "Den Evigt Bestående.",
+        "97": "Arvingen.",
+        "98": "Vejlederen til den Rette Vej.",
+        "99": "Den Tålmodige."
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Bøn om helbredelse & bedring",
+          "occasion": "Reciteres for fysisk og åndelig helbredelse under sygdom."
+        },
+        "nazar_korunma": {
+          "title": "Beskyttelse mod det onde øje & skade (Ayat al-Kursi)",
+          "occasion": "Reciteres morgen og aften for guddommelig beskyttelse mod det onde øje og skade."
+        },
+        "rizik_bereket": {
+          "title": "Bøn om forsørgelse, velsignelse & gældslettelse",
+          "occasion": "Reciteres for økonomisk overflod, barakah i forsørgelsen og lettelse fra gæld."
+        },
+        "ferahlik_sikinti": {
+          "title": "Bøn i svære tider (Profeten Yunus)",
+          "occasion": "Reciteres i tider med stor nød, angst, hjælpeløshed og sorg."
+        },
+        "sinav_zihin": {
+          "title": "Bøn om viden, eksamener & mental klarhed",
+          "occasion": "Reciteres før eksamener, under studier eller ved svære intellektuelle opgaver."
+        },
+        "seyyidul_istigfar": {
+          "title": "Sayyid al-Istighfar (herre over tilgivelsesbønner)",
+          "occasion": "Reciteres morgen og aften for oprigtig anger og tilgivelse af synder."
+        },
+        "anne_baba": {
+          "title": "Bøn for forældre & familie",
+          "occasion": "Reciteres for tilgivelse, sundhed og nåde for forældre og familie."
+        },
+        "ezan_sonrasi": {
+          "title": "Bøn efter adhan",
+          "occasion": "Reciteres straks efter adhan for at opnå profetens forbøn."
+        },
+        "iftar_oruc": {
+          "title": "Bøn ved afbrydelse af fasten (iftar)",
+          "occasion": "Reciteres i det øjeblik, fasten brydes ved solnedgang."
+        },
+        "morning_1": {
+          "title": "Bøn om guddommelig beskyttelse morgen & aften",
+          "occasion": "Reciteres 3 gange morgen og aften for fuld beskyttelse mod al skade."
+        },
+        "leaving_home": {
+          "title": "Bøn ved at forlade hjemmet",
+          "occasion": "Reciteres, når man forlader hjemmet, for guddommelig sikkerhed og vejledning."
+        },
+        "entering_home": {
+          "title": "Bøn ved at komme hjem",
+          "occasion": "Reciteres, når man kommer hjem, for fred, velsignelse og beskyttelse."
+        },
+        "waking_up": {
+          "title": "Bøn ved at vågne",
+          "occasion": "Reciteres ved opvågning i taknemmelighed for fornyelsen af liv og styrke."
+        },
+        "sleeping": {
+          "title": "Bøn før man går i seng",
+          "occasion": "Reciteres, når man går i seng, for ro og guddommelig beskyttelse."
+        },
+        "sukr_hamd": {
+          "title": "Bøn om taknemmelighed & velsignelser",
+          "occasion": "Reciteres i taknemmelighed, når man modtager velsignelser og gode nyheder."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "7 dages konsistens",
+          "desc": "Registrerede bønner 7 dage i træk"
+        },
+        "prayer_streak_30": {
+          "title": "30 dages konsistens",
+          "desc": "Registrerede bønner 30 dage i træk"
+        },
+        "prayer_total_100": {
+          "title": "100 bønner",
+          "desc": "Registrerede i alt 100 bønner"
+        },
+        "prayer_total_500": {
+          "title": "500 bønner",
+          "desc": "Registrerede i alt 500 bønner"
+        },
+        "dhikr_streak_7": {
+          "title": "7 dages dhikr-stime",
+          "desc": "Praktiserede dhikr 7 dage i træk"
+        },
+        "dhikr_streak_30": {
+          "title": "30 dages dhikr-stime",
+          "desc": "Praktiserede dhikr 30 dage i træk"
+        },
+        "dhikr_total_1000": {
+          "title": "1.000 dhikr",
+          "desc": "Reciterede i alt 1.000 dhikr"
+        },
+        "dhikr_total_10000": {
+          "title": "10.000 dhikr",
+          "desc": "Reciterede i alt 10.000 dhikr"
+        },
+        "hatim_first": {
+          "title": "Første khatm",
+          "desc": "Gennemførte læsning af hele Koranen"
+        },
+        "hatim_3": {
+          "title": "3 khatm",
+          "desc": "Gennemførte Koranen 3 gange"
+        },
+        "kaza_10": {
+          "title": "10 indhentningsbønner",
+          "desc": "Gennemførte 10 indhentningsbønner/-faster"
+        },
+        "kaza_50": {
+          "title": "50 indhentningsbønner",
+          "desc": "Gennemførte 50 indhentningsbønner/-faster"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mishary Alafasy"
+        },
+        "abdulbasit": {
+          "name": "Abdul Basit"
+        },
+        "husary": {
+          "name": "Al-Husary"
+        },
+        "minshawy": {
+          "name": "Al-Minshawy"
+        },
+        "shuraym": {
+          "name": "Saud Al-Shuraym"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Velsignet fredag (Jumu'ah Mubarak)",
+          "message": "Må Allah acceptere vores oprigtige bønner og overøse denne velsignede fredag med fred, nåde og overflod."
+        },
+        "cuma_2": {
+          "title": "Jumu'ah Mubarak",
+          "message": "Må Allah velsigne dig og dine kære med lykke, sundhed og tro i dette liv og det næste."
+        },
+        "kandil_1": {
+          "title": "Velsignet hellig nat (Kadir/Kandil)",
+          "message": "Må velsignelserne, tilgivelsen og freden fra denne hellige nat være med dig og din familie."
+        },
+        "ramazan_1": {
+          "title": "Ramadan Mubarak",
+          "message": "Vi ønsker dig en velsignet Ramadan fuld af åndelig eftertanke, fred og guddommelige velsignelser."
+        },
+        "bayram_1": {
+          "title": "Eid Mubarak",
+          "message": "Må denne velsignede Eid bringe glæde, sundhed, samhørighed og fremgang til dig og dine kære."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Bøn før recitation af Koranen"
+        },
+        "hatim": {
+          "title": "Koranens fuldendelsesbøn (khatm)"
+        },
+        "sajdah": {
+          "title": "Nedbøjning ved recitation (sajdah)"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Koran"
+        },
+        "daily": {
+          "label": "Indhold"
+        },
+        "home": {
+          "label": "Tider"
+        },
+        "dhikr": {
+          "label": "Dhikr"
+        },
+        "library": {
+          "label": "Bønner"
+        },
+        "qibla": {
+          "label": "Qibla"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Bøn",
+        "dhikr": "Dhikr",
+        "quran": "Koran",
+        "kaza": "Indhentning"
+      },
+      "hijriMonths": {
+        "1": "Muharram",
+        "2": "Safar",
+        "3": "Rabi al-Awwal",
+        "4": "Rabi al-Thani",
+        "5": "Jumada al-Ula",
+        "6": "Jumada al-Akhira",
+        "7": "Rajab",
+        "8": "Sha'ban",
+        "9": "Ramadan",
+        "10": "Shawwal",
+        "11": "Dhul-Qadah",
+        "12": "Dhul-Hijjah"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Hvis der er forskel fra din moské, kan du holde kortet nede for at justere.",
+      "title": "Justér {{prayer}}-tid",
+      "desc": "Hvis din moské eller kalender viser en anden tid, kan du lægge minutter til eller trække fra. Adhan-notifikationen følger dette også.",
+      "minus": "1 minut tidligere",
+      "minutes": "{{value}} min",
+      "plus": "1 minut senere",
+      "reset": "Nulstil",
+      "save": "Gem"
+    },
+    "feedback": {
+      "settingsRow": "Send feedback",
+      "title": "Lad os blive bedre sammen",
+      "subtitle": "Skriv dine forslag, ønsker eller et problem, du er stødt på, så vi kan gøre Vera bedre.",
+      "placeholder": "Skriv en idé, et forslag eller et problem, du er stødt på...",
+      "error": "Kunne ikke sendes. Prøv igen om lidt.",
+      "send": "Send",
+      "thankYouTitle": "Feedback modtaget",
+      "thankYouSubtitle": "Din mening betyder meget for os. Vi arbejder hårdt på at gøre Vera bedre."
+    },
+    "battery": {
+      "stepsXiaomi": "Indstillinger → Apps → Vera: slå \"Autostart\" til, og sæt Batterisparer til \"Ingen begrænsninger\".",
+      "stepsSamsung": "Indstillinger → Batteri → Baggrundsgrænser: tilføj Vera til \"Apps, der aldrig går i dvale\".",
+      "stepsOppo": "Indstillinger → Batteri → Vera: slå \"Tillad baggrundsaktivitet\" og \"Autostart\" til.",
+      "stepsOther": "Slå batterioptimering fra for Vera, så adhan afspilles til tiden.",
+      "cardTitle": "Hør adhan til tiden",
+      "openSettings": "Åbn Indstillinger"
+    },
+    "widget": {
+      "guideTitle": "Tilføj til startskærm",
+      "guideDesc": "Hold din startskærm nede ➔ tryk på \"Widgets\" ➔ find \"VERA\"-widgetten, og træk den til din skærm.",
+      "promptTitle": "Tilføj en widget til startskærmen",
+      "promptDesc": "Se den næste bønnetid og de resterende minutter live på din startskærm uden at åbne appen.",
+      "addNow": "📌 Tilføj til startskærm",
+      "notNow": "Senere"
+    },
+    "greetingNotif": {
+      "dayTitle": "Velsignet {{name}}",
+      "nightTitle": "I aften er det {{name}}",
+      "body": "Send et hilsenkort til dine kære.",
+      "fridayTitle": "Jumu'ah Mubarak",
+      "fridayBody": "Send et fredagshilsenkort til dine kære."
+    },
+    "errorBoundary": {
+      "title": "Noget gik galt",
+      "subtitle": "Appen stødte på en uventet fejl. Tryk på knappen nedenfor for at prøve igen.",
+      "retry": "Prøv igen"
     }
   }
 }

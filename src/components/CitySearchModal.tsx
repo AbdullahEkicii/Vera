@@ -21,7 +21,6 @@ import * as Location from 'expo-location';
 
 import { useTheme } from '../context/ThemeContext';
 import { spacing, typography } from '../utils/theme';
-import { LinearGradient } from 'expo-linear-gradient';
 
 const RECENT_KEY = 'RECENT_SEARCHES';
 const MAX_RECENT = 5;
@@ -58,10 +57,11 @@ interface CitySearchModalProps {
 
 // Extract a clean short city name from Nominatim result
 function extractCityName(result: NominatimResult): string {
-  const a = result.address;
+  // Nominatim results are untrusted: a missing field must not crash the render.
+  const a = result.address ?? ({} as NominatimResult['address']);
   const city = a.city || a.town || a.village || a.county || a.state || '';
   const country = a.country || '';
-  return city ? `${city}, ${country}` : result.display_name.split(',').slice(0, 2).join(',').trim();
+  return city ? `${city}, ${country}` : (result.display_name ?? '').split(',').slice(0, 2).join(',').trim();
 }
 
 export const CitySearchModal: React.FC<CitySearchModalProps> = ({
@@ -74,6 +74,13 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
   const { t, i18n } = useTranslation();
   const inputRef = useRef<TextInput>(null);
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Don't let a pending search fire after the modal closes or unmounts.
+  useEffect(() => {
+    if (!visible && debounceTimer.current) clearTimeout(debounceTimer.current);
+  }, [visible]);
+  useEffect(() => () => {
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+  }, []);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState<NominatimResult[]>([]);
@@ -128,8 +135,14 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
       const res = await fetch(url, {
         headers: { 'User-Agent': 'VeraApp/1.0 contact@vera.app' },
       });
-      const data: NominatimResult[] = await res.json();
-      setSuggestions(data);
+      if (!res.ok) throw new Error(`Nominatim ${res.status}`);
+      const data = await res.json();
+      // Keep only results that have the fields the list renders.
+      setSuggestions(
+        Array.isArray(data)
+          ? data.filter((r: any) => r && typeof r.display_name === 'string' && r.lat && r.lon)
+          : []
+      );
     } catch {
       setSuggestions([]);
     } finally {
@@ -154,7 +167,7 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
     const cityName = extractCityName(result);
     const lat = parseFloat(result.lat);
     const lng = parseFloat(result.lon);
-    const country = result.address.country || '';
+    const country = result.address?.country || '';
 
     const entry: RecentCity = { city: cityName, country, lat, lng };
     await saveRecentSearch(entry);
@@ -224,7 +237,7 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
       setSearchQuery('');
       setSuggestions([]);
       onClose();
-    } catch (err) {
+    } catch {
       setError(t('search.gpsError', 'Konum alınamadı.'));
     } finally {
       setLoadingSuggestions(false);

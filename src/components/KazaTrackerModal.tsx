@@ -8,13 +8,11 @@ import {
   ScrollView,
   TextInput,
   Alert,
-  Dimensions,
 } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import * as Haptics from 'expo-haptics';
-import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -26,8 +24,6 @@ import {
   calculateKazaDebtByTime,
 } from '../services/kazaService';
 import { logModalOpened, logKazaUpdated } from '../services/analyticsService';
-
-const { width: SCREEN_W } = Dimensions.get('window');
 
 interface Props {
   visible: boolean;
@@ -52,7 +48,7 @@ const PRAYER_CONFIG: {
 
 export function KazaTrackerModal({ visible, onClose }: Props) {
   const { t } = useTranslation();
-  const { theme, isDark } = useTheme();
+  const { isDark } = useTheme();
 
   const [state, setState] = useState<KazaState>(DEFAULT_KAZA_STATE);
   const [calcModalVisible, setCalcModalVisible] = useState(false);
@@ -73,7 +69,7 @@ export function KazaTrackerModal({ visible, onClose }: Props) {
     (key: KazaPrayerKey, delta: number) => {
       try {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      } catch (_) {}
+      } catch {}
 
       setState((prev) => {
         const item = prev[key];
@@ -92,7 +88,7 @@ export function KazaTrackerModal({ visible, onClose }: Props) {
         if (delta > 0 && item.debt > 0 && newCompleted >= item.debt) {
           try {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-          } catch (_) {}
+          } catch {}
         }
         return newState;
       });
@@ -103,7 +99,7 @@ export function KazaTrackerModal({ visible, onClose }: Props) {
   const handleAddDailyPackage = () => {
     try {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    } catch (_) {}
+    } catch {}
 
     setState((prev) => {
       const newState: KazaState = {
@@ -157,7 +153,7 @@ export function KazaTrackerModal({ visible, onClose }: Props) {
 
     try {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    } catch (_) {}
+    } catch {}
   };
 
   const handleSaveDirectDebt = () => {

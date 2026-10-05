@@ -1,14 +1,10 @@
 import { Feather, Ionicons } from '@expo/vector-icons';
-import notifee from '@notifee/react-native';
-import { BlurView } from 'expo-blur';
-import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
-  Alert,
   AppState,
   AppStateStatus,
   BackHandler,
@@ -22,11 +18,12 @@ import {
   Text,
   View,
   DeviceEventEmitter,
-} from 'react-native';
+ InteractionManager } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import * as Haptics from 'expo-haptics';
-import { logScreenView, logTabChange, logCitySelected } from '../../services/analyticsService';
+import { logTabChange, logCitySelected } from '../../services/analyticsService';
 import Animated, {
+  cancelAnimation,
   Easing,
   FadeInDown,
   useAnimatedStyle,
@@ -37,9 +34,13 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { InteractionManager } from 'react-native';
-import { AdBanner } from '../../components/AdBanner';
+import { AppStorage as AsyncStorage, SecureLocationStorage } from '../../services/storageService';
+
+import { BannerAdSlot } from '../../components/BannerAdSlot';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
+import { BatteryOptimizationCard } from '../../components/BatteryOptimizationCard';
+import { PrayerOffsetSheet } from '../../components/PrayerOffsetSheet';
+import { AnimatedTabBar } from '../../components/AnimatedTabBar';
 import { CitySearchModal } from '../../components/CitySearchModal';
 import { DailyContentScreen } from '../../components/DailyContentScreen';
 import { NamesAndDuasScreen } from '../../components/NamesAndDuasScreen';
@@ -48,12 +49,12 @@ import { PrayerTimeCard } from '../../components/PrayerTimeCard';
 import { AppBackground } from '../../components/ProgressRing';
 import { QuranScreen } from '../../components/QuranScreen';
 import { ReligiousDaysModal } from '../../components/ReligiousDaysModal';
-import { ScalePressable } from '../../components/ScalePressable';
 import { SimpleHomeScreen } from '../../components/SimpleHomeScreen';
 import { TasbihScreen } from '../../components/TasbihScreen';
 import { ThemeSelectionModal } from '../../components/ThemeSelectionModal';
 import { UnifiedCalendarModal } from '../../components/UnifiedCalendarModal';
 import { WeeklyImsakiyeModal } from '../../components/WeeklyImsakiyeModal';
+import { RamadanCalendarModal } from '../../components/RamadanCalendarModal';
 import { WidgetPromoModal } from '../../components/WidgetPromoModal';
 import { WelcomeOnboardingModal } from '../../components/WelcomeOnboardingModal';
 import { KazaTrackerModal } from '../../components/KazaTrackerModal';
@@ -61,7 +62,7 @@ import { GreetingCardModal } from '../../components/GreetingCardModal';
 import { NearbyMosquesModal } from '../../components/NearbyMosquesModal';
 import { useTheme } from '../../context/ThemeContext';
 import { useLocation } from '../../hooks/useLocation';
-import { DayData, fetchPrayerTimes, fetchWeather, getCachedPrayerTimes, getTodayPrayerTimes, getWeatherEmoji, WeatherData } from '../../services/api';
+import { applyOffsetsToData, DayData, fetchPrayerTimes, fetchWeather, getCachedPrayerTimes, getPrayerOffsets, getTodayPrayerTimes, getWeatherIcon, WeatherData, wasLastPrayerTimesFetchEstimated } from '../../services/api';
 import {
   checkNotificationPermissions,
   getNotificationPrefs,
@@ -75,8 +76,10 @@ import { formatTime } from '../../utils/format';
 import { getRecommendedCalculationMethod } from '../../utils/calcMethod';
 import { borderRadius, typography } from '../../utils/theme';
 import QiblaScreen from './qibla';
+import { hijriMonthName } from '../../localization/content';
 
 const PRAYER_KEYS = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
+
 
 const TABS = [
   { id: 'quran', icon: 'book', labelTR: 'Kuran', labelEN: 'Quran' },
@@ -111,6 +114,9 @@ const _cache: {
   activePage: number;
   activeTab: number;
   weather: WeatherData | null;
+  // Full multi-day data (weekly imsakiye etc.). Must survive remounts together with
+  // prayerTimes, otherwise the early-return in the load effect leaves it empty.
+  fullData: DayData[] | null;
 } = {
   prayerTimes: null,
   hijriDate: null,
@@ -124,7 +130,16 @@ const _cache: {
   activePage: 0,
   activeTab: 2,
   weather: null,
+  fullData: null,
 };
+
+// Tab screens only take booleans/stable callbacks: memoize them so a HomeScreen state
+// change (weather, modal toggle, tab switch) doesn't re-render every opened tab.
+const MemoQuranScreen = React.memo(QuranScreen);
+const MemoDailyContentScreen = React.memo(DailyContentScreen);
+const MemoTasbihScreen = React.memo(TasbihScreen);
+const MemoNamesAndDuasScreen = React.memo(NamesAndDuasScreen);
+const MemoQiblaScreen = React.memo(QiblaScreen);
 
 const LazyScreen = React.memo(({ active, children }: { active: boolean; children: React.ReactNode }) => {
   const [loaded, setLoaded] = useState(active);
@@ -143,24 +158,35 @@ const LazyScreen = React.memo(({ active, children }: { active: boolean; children
     return <View style={{ flex: 1, backgroundColor: 'transparent' }} />;
   }
 
-  return <View style={{ flex: 1 }}>{children}</View>;
+  // Each tab gets its own error boundary: a render error in e.g. the Quran tab must not
+  // replace the whole app (and the prayer times) with the error screen.
+  return (
+    <View style={{ flex: 1 }}>
+      <ErrorBoundary>{children}</ErrorBoundary>
+    </View>
+  );
 });
+LazyScreen.displayName = 'LazyScreen';
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { t, i18n } = useTranslation();
-  const { theme, isDark, isFullscreen, timeFormat, setTimeFormat } = useTheme();
+  const isLangTR = i18n.language === 'tr' || i18n.language.startsWith('tr');
+  const { theme, isDark, isFullscreen, timeFormat } = useTheme();
   const TAB_BAR_BOTTOM = Platform.OS === 'android'
     ? Math.max(insets.bottom + 8, isFullscreen ? 16 : 22)
     : Math.max(insets.bottom + 6, 16);
-  const TAB_BAR_HEIGHT = 60;
-  const { location, loading: locationLoading, needsManualLocation, permissionDenied, saveManualLocation, refreshLocation } = useLocation();
-  const isLangTR = i18n.language === 'tr' || i18n.language.startsWith('tr');
+  const TAB_BAR_HEIGHT = 64;
+  const { location, loading: locationLoading, needsManualLocation, permissionDenied, isResolved: locationResolved, saveManualLocation, refreshLocation } = useLocation();
+  // Only the latest loadPrayerTimes call may update state or schedule notifications;
+  // an older, slower response must never overwrite a newer one.
+  const prayerLoadSeq = useRef(0);
 
   const [prayerTimes, setPrayerTimes] = useState<Record<string, string> | null>(_cache.prayerTimes);
   const [hijriDate, setHijriDate] = useState<any>(_cache.hijriDate);
   const [gregorianDate, setGregorianDate] = useState<any>(_cache.gregorianDate);
   const [loadingApi, setLoadingApi] = useState(_cache.prayerTimes === null);
+  const [isEstimatedTimes, setIsEstimatedTimes] = useState(false);
   const [targetDate, setTargetDate] = useState<Date | null>(_cache.targetDate);
   const [nextPrayerKey, setNextPrayerKey] = useState<string>(_cache.nextPrayerKey);
   const [activePrayerKey, setActivePrayerKey] = useState<string>(_cache.activePrayerKey);
@@ -188,25 +214,28 @@ export default function HomeScreen() {
 
   // Quick Feature Modals State
   const [imsakiyeVisible, setImsakiyeVisible] = useState(false);
+  const [ramadanCalendarVisible, setRamadanCalendarVisible] = useState(false);
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [religiousDaysVisible, setReligiousDaysVisible] = useState(false);
   const [widgetPromoVisible, setWidgetPromoVisible] = useState(false);
   const [themeModalVisible, setThemeModalVisible] = useState(false);
   const [onboardingVisible, setOnboardingVisible] = useState(false);
+  const [offsetPrayerKey, setOffsetPrayerKey] = useState<typeof PRAYER_KEYS[number] | null>(null);
   const [kazaVisible, setKazaVisible] = useState(false);
   const [greetingVisible, setGreetingVisible] = useState(false);
   const [mosquesVisible, setMosquesVisible] = useState(false);
-  const [apiFullData, setApiFullData] = useState<DayData[]>([]);
+  const [apiFullData, setApiFullData] = useState<DayData[]>(_cache.fullData ?? []);
 
   const pagerRef = useRef<PagerView>(null);
   const [activeTab, setActiveTab] = useState(_cache.activeTab);
+  const tabScrollX = useSharedValue(_cache.activeTab);
 
   const [hasNotifPermission, setHasNotifPermission] = useState<boolean>(true);
   const [calcMethod, setCalcMethod] = useState<number>(() => getRecommendedCalculationMethod());
   const [launchCount, setLaunchCount] = useState<number>(0);
 
   const navigation = useNavigation();
-  const params = useLocalSearchParams<{ tab?: string }>();
+  const params = useLocalSearchParams<{ tab?: string; open?: string; occasion?: string }>();
 
   // Background floating circles animated values
   const circle1X = useSharedValue(-30);
@@ -220,7 +249,15 @@ export default function HomeScreen() {
       if (!_cache.prayerTimes) {
         const cached = await getCachedPrayerTimes();
         if (cached && cached.data && cached.data.length > 0) {
-          const today = getTodayPrayerTimes(cached.data);
+          // The cache stores raw API times; apply the user's ± minute adjustments the
+          // same way fetchPrayerTimes does, or the first paint disagrees with the next.
+          const offsets = await getPrayerOffsets();
+          const adjusted = applyOffsetsToData(cached.data, offsets);
+          if (!_cache.fullData) {
+            _cache.fullData = adjusted;
+            setApiFullData(adjusted);
+          }
+          const today = getTodayPrayerTimes(adjusted);
           if (today) {
             setPrayerTimes(today as any);
             setHijriDate(today.hijri);
@@ -258,6 +295,10 @@ export default function HomeScreen() {
         setImsakiyeVisible(false);
         return true;
       }
+      if (ramadanCalendarVisible) {
+        setRamadanCalendarVisible(false);
+        return true;
+      }
       if (calendarVisible) {
         setCalendarVisible(false);
         return true;
@@ -290,6 +331,7 @@ export default function HomeScreen() {
     greetingVisible,
     mosquesVisible,
     imsakiyeVisible,
+    ramadanCalendarVisible,
     calendarVisible,
     religiousDaysVisible,
     themeModalVisible,
@@ -307,9 +349,19 @@ export default function HomeScreen() {
     }
   }, [params.tab]);
 
+  // Greeting reminders (Friday, kandil, eid) deep-link straight into the card creator.
+  useEffect(() => {
+    if (params.open === 'greeting') setGreetingVisible(true);
+  }, [params.open, params.occasion]);
+
   useEffect(() => {
     (async () => {
-      await initNotifications();
+      // A channel error must not stop the launch-count / onboarding logic below.
+      try {
+        await initNotifications();
+      } catch (e) {
+        console.warn('initNotifications failed:', e);
+      }
       const hasPermission = await checkNotificationPermissions();
       setHasNotifPermission(hasPermission);
 
@@ -370,15 +422,22 @@ export default function HomeScreen() {
         const cachedString = await AsyncStorage.getItem('PRAYER_TIMES_CACHE');
         let cachedMethod = defaultRecommended;
         if (cachedString) {
-          try {
-            cachedMethod = JSON.parse(cachedString).method || defaultRecommended;
-          } catch { }
+          // Runs on every focus: read the top-level numeric "method" without parsing the
+          // ~100 KB cache (nested Aladhan meta.method values are objects, not numbers).
+          const match = cachedString.match(/"method":(\d+)/);
+          if (match) {
+            cachedMethod = Number(match[1]) || defaultRecommended;
+          } else {
+            try {
+              cachedMethod = JSON.parse(cachedString).method || defaultRecommended;
+            } catch { }
+          }
         }
 
         if (cachedMethod !== methodNum || calcMethod !== methodNum) {
           setCalcMethod(methodNum);
           _cache.prayerTimes = null;
-          if (location?.latitude && location?.longitude) {
+          if (locationResolved && location?.latitude && location?.longitude) {
             loadPrayerTimes(location.latitude, location.longitude);
           }
         }
@@ -388,7 +447,7 @@ export default function HomeScreen() {
     return () => {
       unsubscribe();
     };
-  }, [navigation, calcMethod, location]);
+  }, [navigation, calcMethod, location, locationResolved]);
 
   useEffect(() => {
     const sub = DeviceEventEmitter.addListener('PRAYER_OFFSETS_CHANGED', () => {
@@ -400,7 +459,16 @@ export default function HomeScreen() {
     return () => sub.remove();
   }, [location]);
 
+  // Run ambient background circle animations only when home tab (activeTab === 2) is active
   useEffect(() => {
+    if (activeTab !== 2) {
+      cancelAnimation(circle1X);
+      cancelAnimation(circle1Y);
+      cancelAnimation(circle2X);
+      cancelAnimation(circle2Y);
+      return;
+    }
+
     circle1X.value = withRepeat(
       withSequence(
         withTiming(60, { duration: 16000, easing: Easing.inOut(Easing.ease) }),
@@ -433,7 +501,14 @@ export default function HomeScreen() {
       -1,
       true
     );
-  }, []);
+
+    return () => {
+      cancelAnimation(circle1X);
+      cancelAnimation(circle1Y);
+      cancelAnimation(circle2X);
+      cancelAnimation(circle2Y);
+    };
+  }, [activeTab]);
 
   const c1Style = useAnimatedStyle(() => ({
     transform: [{ translateX: circle1X.value }, { translateY: circle1Y.value }],
@@ -444,6 +519,9 @@ export default function HomeScreen() {
   }));
 
   useEffect(() => {
+    // The pre-resolution location is a timezone guess (e.g. Istanbul for any Turkey
+    // timezone); fetching for it shows another city's times until the real one loads.
+    if (!locationResolved) return;
     if (location?.latitude && location?.longitude) {
       const sameLocation =
         _cache.lastLat === location.latitude &&
@@ -452,7 +530,7 @@ export default function HomeScreen() {
       if (_cache.prayerTimes && sameLocation) return;
       loadPrayerTimes(location.latitude, location.longitude);
     }
-  }, [location, i18n.language]);
+  }, [location, locationResolved, i18n.language]);
 
   useEffect(() => {
     if (needsManualLocation && !locationLoading) setIsSearchVisible(true);
@@ -462,7 +540,16 @@ export default function HomeScreen() {
   useEffect(() => {
     if (!prayerTimes || !location?.city || !nextPrayerKey || !targetDate) return;
 
+    // Runs from a setInterval: an exception here would be fatal in release builds.
     const doSync = () => {
+      try {
+        syncWidgetAndNotification();
+      } catch (e) {
+        console.warn('Widget/notification sync failed:', e);
+      }
+    };
+
+    const syncWidgetAndNotification = () => {
       // If targetDate is already in the past, recompute prayer state
       if (targetDate.getTime() <= Date.now() && prayerTimes) {
         computePrayerState(prayerTimes);
@@ -519,7 +606,12 @@ export default function HomeScreen() {
     };
 
     doSync();
-    const interval = setInterval(doSync, 60000); // Update every 60 seconds
+    // Update every 60 seconds only while app is in foreground to save battery
+    const interval = setInterval(() => {
+      if (AppState.currentState === 'active') {
+        doSync();
+      }
+    }, 60000);
 
     // Also refresh immediately when app comes back to foreground
     const handleAppStateChange = (nextState: AppStateStatus) => {
@@ -536,6 +628,7 @@ export default function HomeScreen() {
   }, [prayerTimes, location?.city, nextPrayerKey, targetDate, t, timeFormat, i18n.language]);
 
   const loadPrayerTimes = async (lat: number, lng: number) => {
+    const seq = ++prayerLoadSeq.current;
     try {
       setLoadingApi(true);
 
@@ -548,7 +641,10 @@ export default function HomeScreen() {
       });
 
       const data = await fetchPrayerTimes(lat, lng);
+      if (seq !== prayerLoadSeq.current) return;
+      setIsEstimatedTimes(wasLastPrayerTimesFetchEstimated());
       setApiFullData(data);
+      _cache.fullData = data;
       const today = getTodayPrayerTimes(data);
       if (today) {
         setPrayerTimes(today as any);
@@ -578,13 +674,14 @@ export default function HomeScreen() {
     } catch (e) {
       console.error(e);
     } finally {
-      setLoadingApi(false);
+      if (seq === prayerLoadSeq.current) setLoadingApi(false);
     }
   };
 
   const computePrayerState = (times: Record<string, string>) => {
     const now = new Date();
     const toDate = (timeStr: string) => {
+      if (!timeStr) return new Date(NaN); // malformed day: compares false instead of throwing
       const [h, m] = timeStr.split(':');
       const d = new Date();
       d.setHours(+h, +m, 0, 0);
@@ -633,12 +730,18 @@ export default function HomeScreen() {
     setRefreshing(true);
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch (_) {}
+    } catch {}
     if (location?.latitude && location?.longitude) {
       await loadPrayerTimes(location.latitude, location.longitude);
     }
     setRefreshing(false);
   }, [location]);
+
+  // Stable so the memoized grid cards don't re-render on every home render.
+  const handlePrayerLongPress = useCallback((id: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
+    setOffsetPrayerKey(id as typeof PRAYER_KEYS[number]);
+  }, []);
 
   const handleTimeReached = useCallback(() => {
     if (location?.latitude && location?.longitude) {
@@ -654,24 +757,63 @@ export default function HomeScreen() {
     logTabChange(tabName, pos);
   };
 
-  const navigateToPagerTab = (logicalIndex: number) => {
+  // Only touches refs, setters and module-level helpers, so it can be stable.
+  const navigateToPagerTab = useCallback((logicalIndex: number) => {
     try {
       Haptics.selectionAsync();
-    } catch (_) {}
-    pagerRef.current?.setPage(logicalIndex);
+    } catch {}
+    pagerRef.current?.setPageWithoutAnimation(logicalIndex);
     setActiveTab(logicalIndex);
     _cache.activeTab = logicalIndex;
     const tabName = TABS[logicalIndex]?.id || `Tab_${logicalIndex}`;
     logTabChange(tabName, logicalIndex);
-  };
-
-  const otherPrayers = prayerTimes
-    ? (PRAYER_KEYS.filter((k) => k !== nextPrayerKey) as string[])
-    : [];
+  }, []);
+  const handleQiblaBack = useCallback(() => navigateToPagerTab(2), [navigateToPagerTab]);
 
   // Compact Next-gen Glassmorphic Header cards with Weather
+  // API dates are "DD-MM-YYYY"; render as e.g. "24 Eylül Perşembe".
+  const formatGregorianLong = (raw?: string) => {
+    if (!raw) return '···';
+    const [dd, mm, yyyy] = raw.split(',')[0].split('-').map(Number);
+    if (!dd || !mm || !yyyy) return raw;
+    const d = new Date(yyyy, mm - 1, dd);
+    try {
+      return d.toLocaleDateString(i18n.language, { day: 'numeric', month: 'long', weekday: 'long' });
+    } catch {
+      return raw;
+    }
+  };
+
+  // The offline fallback fills hijri with placeholder values (month "Hijri");
+  // show nothing rather than a wrong date.
+  const formatHijri = (h: any): string | null => {
+    if (!h?.day || !h?.month?.en || h.month.en === 'Hijri') return null;
+    const num = Number(h.month.number);
+    const name = num >= 1 && num <= 12 ? hijriMonthName(num) : h.month.en;
+    return `${Number(h.day)} ${name} ${h.year}`;
+  };
+
+  const renderFeatureTile = (item: { key: string; icon: string; label: string; onPress: () => void }) => (
+    <Pressable
+      key={item.key}
+      onPress={item.onPress}
+      accessibilityRole="button"
+      accessibilityLabel={item.label}
+      style={({ pressed }) => [
+        styles.quickFeatureTile,
+        { backgroundColor: theme.colors.surface, borderColor: theme.colors.border, opacity: pressed ? 0.7 : 1 },
+      ]}
+    >
+      <View style={[styles.quickFeatureIconWrap, { backgroundColor: theme.colors.primaryLight }]}>
+        <Feather name={item.icon as any} size={18} color={theme.colors.primary} />
+      </View>
+      <Text numberOfLines={2} style={[styles.quickFeatureText, { color: theme.colors.text }]}>
+        {item.label}
+      </Text>
+    </Pressable>
+  );
+
   const renderHeaderSection = () => {
-    const isLangTR = i18n.language === 'tr' || i18n.language.startsWith('tr');
     return (
       <Animated.View entering={FadeInDown.delay(50).duration(450).springify().damping(12)} style={styles.headerContainer}>
         {/* Row 1: City Selection & Settings Button */}
@@ -682,131 +824,102 @@ export default function HomeScreen() {
           >
             <Feather name="map-pin" size={14} color={theme.colors.primary} style={{ marginRight: 6 }} />
             <Text style={[styles.headerCityText, { color: theme.colors.text }]} numberOfLines={1}>
-              {location?.city ?? (isLangTR ? 'Şehir Seç' : 'Select City')}
+              {location?.city ?? t('search.title', 'Şehir Seç')}
             </Text>
             <Feather name="chevron-down" size={14} color={theme.colors.textSecondary} style={{ marginLeft: 4 }} />
           </Pressable>
 
-          <Pressable
-            style={[styles.headerCircleBtn, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
-            onPress={() => router.push('/settings')}
-          >
-            <Feather name="settings" size={16} color={theme.colors.text} />
-          </Pressable>
+          <View style={styles.headerIconGroup}>
+            <Pressable
+              style={[styles.headerCircleBtn, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
+              onPress={() => setThemeModalVisible(true)}
+              accessibilityRole="button"
+              accessibilityLabel={t('settings.theme', 'Tema')}
+              hitSlop={6}
+            >
+              <Feather name="aperture" size={16} color={theme.colors.text} />
+            </Pressable>
+            <Pressable
+              style={[styles.headerCircleBtn, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
+              onPress={() => router.push('/settings')}
+              accessibilityRole="button"
+              accessibilityLabel={t('settings.title', 'Ayarlar')}
+              hitSlop={6}
+            >
+              <Feather name="settings" size={16} color={theme.colors.text} />
+            </Pressable>
+          </View>
         </View>
 
-        {/* Row 2: Large Dates & Weather widget & Custom Buttons */}
-        <View style={styles.headerBottomRowWrapper}>
-          {/* Top Grid: Calendar, Theme, Weather */}
-          <View style={styles.headerGridRow}>
-            <Pressable
-              style={[
-                styles.headerActionBox,
-                { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }
-              ]}
-              onPress={() => setCalendarVisible(true)}
-              hitSlop={8}
-            >
-              <Feather name="calendar" size={16} color={theme.colors.primary} />
-              <View style={{ marginLeft: 6 }}>
-                <Text style={[styles.headerDateMain, { color: theme.colors.text }]} numberOfLines={1}>
-                  {gregorianDate?.date ? gregorianDate.date.split(',')[0] : '···'}
+        {/* Row 2: date (gregorian + hijri) and weather */}
+        <View style={styles.headerGridRow}>
+          <Pressable
+            style={[styles.headerDateCard, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
+            onPress={() => setCalendarVisible(true)}
+            accessibilityRole="button"
+          >
+            <View style={[styles.headerIconBadge, { backgroundColor: theme.colors.primaryLight }]}>
+              <Feather name="calendar" size={15} color={theme.colors.primary} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.headerDateMain, { color: theme.colors.text }]} numberOfLines={1}>
+                {formatGregorianLong(gregorianDate?.date)}
+              </Text>
+              {!!formatHijri(hijriDate) && (
+                <Text style={[styles.headerDateSub, { color: theme.colors.textSecondary }]} numberOfLines={1}>
+                  {formatHijri(hijriDate)}
                 </Text>
-              </View>
-            </Pressable>
+              )}
+            </View>
+          </Pressable>
 
+          {weather && (
             <Pressable
-              style={[
-                styles.headerActionBox,
-                { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }
-              ]}
-              onPress={() => setThemeModalVisible(true)}
+              style={[styles.headerWeatherCard, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
+              accessibilityRole="button"
+              onPress={() => {
+                if (location?.latitude && location?.longitude) {
+                  router.push({
+                    pathname: '/weather',
+                    params: {
+                      lat: location.latitude,
+                      lng: location.longitude,
+                      city: location.city ?? '',
+                    },
+                  } as any);
+                }
+              }}
             >
-              <Feather name="aperture" size={16} color={theme.colors.textSecondary} />
-              <Text style={[styles.headerActionText, { color: theme.colors.text }]} numberOfLines={1}>
-                {t('settings.theme', 'Tema')}
+              <Feather name={getWeatherIcon(weather.code) as any} size={17} color={theme.colors.primary} />
+              <Text style={[styles.weatherText, { color: theme.colors.text }]}>
+                {formatDisplayTemp(weather.temp)}
               </Text>
             </Pressable>
+          )}
+        </View>
 
-            {weather ? (
-              <Pressable
-                style={[styles.headerActionBox, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
-                onPress={() => {
-                  if (location?.latitude && location?.longitude) {
-                    router.push({
-                      pathname: '/weather',
-                      params: {
-                        lat: location.latitude,
-                        lng: location.longitude,
-                        city: location.city ?? '',
-                      },
-                    } as any);
-                  }
-                }}
-              >
-                <Text style={[styles.weatherText, { color: theme.colors.text }]}>
-                  {getWeatherEmoji(weather.code)} {formatDisplayTemp(weather.temp)}
-                </Text>
-              </Pressable>
-            ) : (
-              <View style={[styles.headerActionBox, { opacity: 0 }]} />
-            )}
-          </View>
-
-          {/* Bottom Grid: TimeFormat, Kaza, Greeting Card, Nearby Mosques */}
-          <View style={styles.headerGridRow}>
+        {/* Row 3: quick tools */}
+        <View style={styles.headerGridRow}>
+          {[
+            { key: 'kaza', icon: 'check-square', label: t('kaza.shortTitle', 'Kaza'), onPress: () => setKazaVisible(true) },
+            { key: 'greeting', icon: 'gift', label: t('greeting.shortTitle', 'Tebrik'), onPress: () => setGreetingVisible(true) },
+            { key: 'mosques', icon: 'map-pin', label: t('mosques.shortTitle', 'Camiler'), onPress: () => setMosquesVisible(true) },
+          ].map((item) => (
             <Pressable
-              style={[
+              key={item.key}
+              onPress={item.onPress}
+              accessibilityRole="button"
+              style={({ pressed }) => [
                 styles.headerActionBox,
-                { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }
+                { backgroundColor: theme.colors.surface, borderColor: theme.colors.border, opacity: pressed ? 0.7 : 1 },
               ]}
-              onPress={() => setTimeFormat(timeFormat === '12h' ? '24h' : '12h')}
             >
-              <Feather name="clock" size={15} color={theme.colors.textSecondary} />
+              <Feather name={item.icon as any} size={15} color={theme.colors.primary} />
               <Text style={[styles.headerActionText, { color: theme.colors.text }]} numberOfLines={1}>
-                {timeFormat}
+                {item.label}
               </Text>
             </Pressable>
-
-            <Pressable
-              style={[
-                styles.headerActionBox,
-                { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }
-              ]}
-              onPress={() => setKazaVisible(true)}
-            >
-              <Feather name="check-square" size={15} color="#D4AF37" />
-              <Text style={[styles.headerActionText, { color: theme.colors.text }]} numberOfLines={1}>
-                {t('kaza.shortTitle', 'Kaza')}
-              </Text>
-            </Pressable>
-
-            <Pressable
-              style={[
-                styles.headerActionBox,
-                { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }
-              ]}
-              onPress={() => setGreetingVisible(true)}
-            >
-              <Feather name="gift" size={15} color="#D4AF37" />
-              <Text style={[styles.headerActionText, { color: theme.colors.text }]} numberOfLines={1}>
-                {t('greeting.shortTitle', 'Tebrik')}
-              </Text>
-            </Pressable>
-
-            <Pressable
-              style={[
-                styles.headerActionBox,
-                { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }
-              ]}
-              onPress={() => setMosquesVisible(true)}
-            >
-              <Feather name="map-pin" size={15} color="#10B981" />
-              <Text style={[styles.headerActionText, { color: theme.colors.text }]} numberOfLines={1}>
-                {t('mosques.shortTitle', 'Camiler')}
-              </Text>
-            </Pressable>
-          </View>
+          ))}
         </View>
       </Animated.View>
     );
@@ -887,6 +1000,9 @@ export default function HomeScreen() {
         </Animated.View>
       )}
 
+      {/* First-days battery optimization reminder (Android) */}
+      <BatteryOptimizationCard />
+
       {/* Loading Skeleton if API is fetching and prayerTimes is not yet cached */}
       {loadingApi && !prayerTimes && (
         <Animated.View entering={FadeInDown.duration(300)} style={[styles.heroSection, { minHeight: 220, justifyContent: 'center', alignItems: 'center', backgroundColor: theme.colors.surface, borderRadius: 24, borderWidth: 1, borderColor: theme.colors.border }]}>
@@ -928,6 +1044,30 @@ export default function HomeScreen() {
         </Animated.View>
       )}
 
+      {/* Estimated (offline-calculated) prayer times disclosure */}
+      {isEstimatedTimes && prayerTimes && (
+        <Animated.View
+          entering={FadeInDown.duration(300)}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 8,
+            paddingVertical: 8,
+            paddingHorizontal: 14,
+            borderRadius: 12,
+            marginBottom: 10,
+            backgroundColor: isDark ? 'rgba(212, 175, 55, 0.15)' : '#FFF7E0',
+            borderWidth: 1,
+            borderColor: isDark ? 'rgba(212, 175, 55, 0.4)' : '#F5D98A',
+          }}
+        >
+          <Feather name="alert-circle" size={14} color={theme.colors.primary} />
+          <Text style={{ flex: 1, fontFamily: typography.fontFamily.medium, fontSize: 12, color: theme.colors.textSecondary }}>
+            {t('home.estimatedTimesNotice', 'İnternet bağlantısı olmadığı için vakitler cihaz üzerinde hesaplanmıştır (tahmini).')}
+          </Text>
+        </Animated.View>
+      )}
+
       {/* Hero Prayer Card (Now compact 230px, glassmorphic) */}
       {nextPrayerKey && prayerTimes && (
         <Animated.View entering={FadeInDown.delay(100).duration(450).springify().damping(12)} style={styles.heroSection}>
@@ -938,24 +1078,34 @@ export default function HomeScreen() {
             isHero
             targetDate={targetDate}
             onTimeReached={handleTimeReached}
+            isVisible={activeTab === 2}
           />
         </Animated.View>
       )}
 
-      {/* Prayer Grid (Single Row) */}
+      {/* Prayer Grid: all six in order; the highlighted one is the same prayer the hero counts down to */}
       {prayerTimes && (
         <Animated.View entering={FadeInDown.delay(160).duration(400).springify().damping(12)} style={styles.gridSectionSingle}>
-          {otherPrayers.map((k) => (
+          {PRAYER_KEYS.map((k) => (
             <View key={k} style={styles.compactCardWrapper}>
               <PrayerTimeCard
                 id={k}
                 name={t(`home.prayers.${k}`)}
                 time={prayerTimes[k]}
-                isActive={k === activePrayerKey}
+                isActive={k === nextPrayerKey}
+                isVisible={activeTab === 2}
+                onLongPress={handlePrayerLongPress}
               />
             </View>
           ))}
         </Animated.View>
+      )}
+
+      {/* Long-press isn't discoverable on its own; hint at it during the first launches */}
+      {prayerTimes && launchCount <= 10 && (
+        <Text style={{ fontFamily: typography.fontFamily.regular, fontSize: 11.5, color: theme.colors.textSecondary, textAlign: 'center', marginTop: -2, marginBottom: 10 }}>
+          {t('offsetSheet.hint', 'Vakitlerde fark varsa karta uzun basıp düzeltebilirsiniz.')}
+        </Text>
       )}
 
       {/* Reassurance & Transparency Trust Badge (Shown only for the first 5 launches) */}
@@ -984,53 +1134,36 @@ export default function HomeScreen() {
         </Animated.View>
       )}
 
-      {/* Quick Features Row: Haftalık İmsakiye & Dini Günler */}
+      {/* Banner ad: under the prayer times, right above the quick feature buttons.
+          Loaded eagerly (lazy={false}) since most traffic stays on this screen. */}
+      <Animated.View entering={FadeInDown.delay(185).duration(400).springify().damping(12)}>
+        <BannerAdSlot placement="home" isVisible={activeTab === 2} lazy={false} />
+      </Animated.View>
+
+      {/* Quick Features: calendars (need prayer data) */}
       {prayerTimes && (
         <Animated.View
           entering={FadeInDown.delay(190).duration(400).springify().damping(12)}
           style={styles.quickFeaturesRow}
         >
-          <Pressable
-            style={[
-              styles.quickFeatureChip,
-              {
-                backgroundColor: theme.colors.surface,
-                borderColor: theme.colors.border,
-              },
-            ]}
-            onPress={() => setImsakiyeVisible(true)}
-          >
-            <View style={styles.quickFeatureIconWrap}>
-              <Feather name="calendar" size={16} color={theme.colors.primary} />
-            </View>
-            <Text style={[styles.quickFeatureText, { color: theme.colors.text }]}>
-              {t('imsakiye.title', 'Weekly Imsakiye')}
-            </Text>
-          </Pressable>
-
-          <Pressable
-            style={[
-              styles.quickFeatureChip,
-              {
-                backgroundColor: theme.colors.surface,
-                borderColor: theme.colors.border,
-              },
-            ]}
-            onPress={() => setReligiousDaysVisible(true)}
-          >
-            <View style={styles.quickFeatureIconWrap}>
-              <Feather name="moon" size={16} color="#D4AF37" />
-            </View>
-            <Text style={[styles.quickFeatureText, { color: theme.colors.text }]}>
-              {t('religious.title', 'Religious Days')}
-            </Text>
-          </Pressable>
+          {[
+            { key: 'imsakiye', icon: 'calendar', label: t('imsakiye.title', 'Haftalık İmsakiye'), onPress: () => setImsakiyeVisible(true) },
+            { key: 'religious', icon: 'star', label: t('religious.title', 'Dini Günler'), onPress: () => setReligiousDaysVisible(true) },
+            { key: 'ramadan', icon: 'moon', label: t('ramadan.calendarTitle', 'Ramazan İmsakiyesi'), onPress: () => setRamadanCalendarVisible(true) },
+          ].map(renderFeatureTile)}
         </Animated.View>
       )}
 
-      {/* Ad Banner #1 (Right under İmsakiye & Dini Günler) */}
-      <Animated.View entering={FadeInDown.delay(200).duration(400).springify().damping(12)}>
-        <AdBanner />
+      {/* Quick Features: guides and tools */}
+      <Animated.View
+        entering={FadeInDown.delay(200).duration(400).springify().damping(12)}
+        style={styles.quickFeaturesRow}
+      >
+        {[
+          { key: 'zakat', icon: 'percent', label: t('zakat.settingsEntry', 'Zekat Hesaplama'), onPress: () => router.push('/zakat-calculator') },
+          { key: 'hajj', icon: 'map', label: t('hajjUmrah.settingsEntry', 'Hac & Umre Rehberi'), onPress: () => router.push('/hajj-umrah') },
+          { key: 'achievements', icon: 'award', label: t('achievements.settingsEntry', 'Başarılarım'), onPress: () => router.push('/achievements') },
+        ].map(renderFeatureTile)}
       </Animated.View>
 
       {/* Daily Prayer Checklist & Streak Card */}
@@ -1046,6 +1179,16 @@ export default function HomeScreen() {
           visible={imsakiyeVisible}
           onClose={() => setImsakiyeVisible(false)}
           data={apiFullData}
+          cityName={location?.city || 'İstanbul'}
+        />
+      )}
+
+      {ramadanCalendarVisible && (
+        <RamadanCalendarModal
+          visible={ramadanCalendarVisible}
+          onClose={() => setRamadanCalendarVisible(false)}
+          latitude={location?.latitude ?? null}
+          longitude={location?.longitude ?? null}
           cityName={location?.city || 'İstanbul'}
         />
       )}
@@ -1088,53 +1231,20 @@ export default function HomeScreen() {
   );
 
   const renderTabBar = () => (
-    <View style={[styles.tabBarWrapper, { bottom: TAB_BAR_BOTTOM }]} pointerEvents="box-none">
-      <BlurView
-        intensity={isDark ? 65 : 85}
-        tint={isDark ? 'dark' : 'light'}
-        style={[
-          styles.tabBarBlur,
-          {
-            borderColor: isDark ? 'rgba(255, 255, 255, 0.16)' : 'rgba(255, 255, 255, 0.75)',
-            backgroundColor: isDark ? 'rgba(20, 20, 28, 0.65)' : 'rgba(255, 255, 255, 0.65)',
-          },
-        ]}
-      >
-        {TABS.map((tab, idx) => {
-          const isActive = activeTab === idx;
-          return (
-            <ScalePressable
-              key={tab.id}
-              style={styles.tabItem}
-              activeScale={0.88}
-              onPress={() => navigateToPagerTab(idx)}
-            >
-              {isActive ? (
-                <Animated.View
-                  entering={FadeInDown.duration(280).springify().damping(14)}
-                  style={styles.tabActiveWrap}
-                >
-                  <LinearGradient
-                    colors={theme.colors.heroGradient as [string, string]}
-                    style={styles.tabActiveBackground}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 1 }}
-                  >
-                    <Feather name={tab.icon as any} size={19} color="#FFF" />
-                  </LinearGradient>
-                  {/* Active indicator micro dot */}
-                  <View style={styles.activeGlowDot} />
-                </Animated.View>
-              ) : (
-                <View style={styles.tabIconWrap}>
-                  <Feather name={tab.icon as any} size={20} color={theme.colors.textSecondary} />
-                </View>
-              )}
-            </ScalePressable>
-          );
-        })}
-      </BlurView>
-    </View>
+    <AnimatedTabBar
+      tabs={TABS}
+      activeTab={activeTab}
+      onTabPress={navigateToPagerTab}
+      bottom={TAB_BAR_BOTTOM}
+      isLangTR={isLangTR}
+      isDark={isDark}
+      heroGradient={theme.colors.heroGradient as [string, string]}
+      activeIconColor="#FFFFFF"
+      inactiveColor={theme.colors.textSecondary}
+      glowColor={theme.colors.glow}
+      borderColor={isDark ? 'rgba(255, 255, 255, 0.14)' : 'rgba(0, 0, 0, 0.07)'}
+      backgroundColor={isDark ? 'rgba(18, 18, 24, 0.72)' : 'rgba(255, 255, 255, 0.78)'}
+    />
   );
 
   return (
@@ -1152,13 +1262,13 @@ export default function HomeScreen() {
       >
         <View key="0" style={{ flex: 1 }}>
           <LazyScreen active={activeTab === 0}>
-            <QuranScreen />
+            <MemoQuranScreen isActive={activeTab === 0} />
           </LazyScreen>
         </View>
 
         <View key="1" style={{ flex: 1 }}>
           <LazyScreen active={activeTab === 1}>
-            <DailyContentScreen />
+            <MemoDailyContentScreen isActive={activeTab === 1} />
           </LazyScreen>
         </View>
 
@@ -1176,6 +1286,7 @@ export default function HomeScreen() {
               apiFullData={apiFullData}
               onCityPress={() => setIsSearchVisible(true)}
               onHomeStyleChange={setHomeScreenStyle}
+              isVisible={activeTab === 2}
             />
           ) : (
             <LazyScreen active={activeTab === 2}>
@@ -1186,20 +1297,20 @@ export default function HomeScreen() {
 
         <View key="3" style={{ flex: 1 }}>
           <LazyScreen active={activeTab === 3}>
-            <TasbihScreen isActiveTab={activeTab === 3} />
+            <MemoTasbihScreen isActiveTab={activeTab === 3} />
           </LazyScreen>
         </View>
 
         <View key="4" style={{ flex: 1 }}>
           <LazyScreen active={activeTab === 4}>
-            <NamesAndDuasScreen />
+            <MemoNamesAndDuasScreen isActive={activeTab === 4} />
           </LazyScreen>
         </View>
 
         <View key="5" style={{ flex: 1 }}>
           <LazyScreen active={activeTab === 5}>
             {/* Added onBack so Qibla screen can return to Home (index 2) */}
-            <QiblaScreen isActiveTab={activeTab === 5} onBack={() => navigateToPagerTab(2)} />
+            <MemoQiblaScreen isActiveTab={activeTab === 5} onBack={handleQiblaBack} />
           </LazyScreen>
         </View>
       </PagerView>
@@ -1213,6 +1324,13 @@ export default function HomeScreen() {
         isDismissable={!needsManualLocation}
       />
 
+      <PrayerOffsetSheet
+        prayerKey={offsetPrayerKey}
+        prayerName={offsetPrayerKey ? t(`home.prayers.${offsetPrayerKey}`) : ''}
+        time={offsetPrayerKey && prayerTimes ? prayerTimes[offsetPrayerKey] : ''}
+        onClose={() => setOffsetPrayerKey(null)}
+      />
+
       <WelcomeOnboardingModal
         visible={onboardingVisible}
         currentCity={location?.city}
@@ -1224,7 +1342,7 @@ export default function HomeScreen() {
             handleCitySelected(lat, lng, city);
           } else {
             try {
-              const savedStr = await AsyncStorage.getItem('MANUAL_LOCATION');
+              const savedStr = await SecureLocationStorage.getItem('MANUAL_LOCATION');
               if (savedStr) {
                 const saved = JSON.parse(savedStr);
                 if (saved?.latitude && saved?.longitude && saved?.city) {
@@ -1233,7 +1351,7 @@ export default function HomeScreen() {
                   return;
                 }
               }
-            } catch (_) {}
+            } catch {}
             await refreshLocation();
           }
         }}
@@ -1246,6 +1364,7 @@ export default function HomeScreen() {
 
       <GreetingCardModal
         visible={greetingVisible}
+        initialCategory={params.open === 'greeting' ? params.occasion : undefined}
         onClose={() => setGreetingVisible(false)}
       />
 
@@ -1292,11 +1411,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   headerCityBtn: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 4,
+    marginRight: 12,
   },
   headerCityText: {
+    flexShrink: 1,
     fontFamily: typography.fontFamily.bold,
     fontSize: 22,
     letterSpacing: -0.5,
@@ -1314,42 +1436,74 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 2,
   },
-  headerBottomRowWrapper: {
-    gap: 6,
-    marginTop: 2,
+  headerIconGroup: {
+    flexShrink: 0,
+    flexDirection: 'row',
+    gap: 8,
   },
   headerGridRow: {
     flexDirection: 'row',
     alignItems: 'stretch',
-    gap: 8,
+    gap: 6,
   },
-  headerActionBox: {
+  headerDateCard: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 10,
+    minHeight: 52,
     paddingVertical: 8,
     paddingHorizontal: 12,
-    borderRadius: 14,
+    borderRadius: borderRadius.md,
     borderWidth: 1,
+  },
+  headerIconBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.03,
-    shadowRadius: 6,
+  },
+  headerDateMain: {
+    fontFamily: typography.fontFamily.semiBold,
+    fontSize: 14,
+    letterSpacing: -0.2,
+  },
+  headerDateSub: {
+    fontFamily: typography.fontFamily.medium,
+    fontSize: 12,
+    marginTop: 1,
+  },
+  headerWeatherCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    minWidth: 92,
+    paddingHorizontal: 14,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+  },
+  weatherText: {
+    fontFamily: typography.fontFamily.bold,
+    fontSize: 15,
+    fontVariant: ['tabular-nums'],
+  },
+  headerActionBox: {
+    flex: 1,
+    flexBasis: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    height: 40,
+    paddingHorizontal: 10,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
   },
   headerActionText: {
     fontFamily: typography.fontFamily.medium,
     fontSize: 13,
-    marginLeft: 6,
-  },
-  headerDateMain: {
-    fontFamily: typography.fontFamily.semiBold,
-    fontSize: 13,
-    letterSpacing: -0.2,
-  },
-  weatherText: {
-    fontFamily: typography.fontFamily.bold,
-    fontSize: 14,
   },
 
   heroSection: {
@@ -1359,7 +1513,7 @@ const styles = StyleSheet.create({
 
   gridSectionSingle: {
     flexDirection: 'row',
-    gap: 6,
+    gap: 5,
     marginVertical: 4,
   },
   compactCardWrapper: {
@@ -1413,64 +1567,6 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
 
-  // Floating Tab Bar
-  tabBarWrapper: {
-    position: 'absolute',
-    left: 20,
-    right: 20,
-    height: 64,
-    zIndex: 9999,
-    elevation: 20,
-    shadowColor: '#C8860A',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.18,
-    shadowRadius: 16,
-  },
-  tabBarBlur: {
-    flex: 1,
-    flexDirection: 'row',
-    borderRadius: 32,
-    borderWidth: 1.2,
-    overflow: 'hidden',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingHorizontal: 8,
-  },
-  tabItem: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 64,
-  },
-  tabActiveWrap: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 3,
-  },
-  tabActiveBackground: {
-    width: 44,
-    height: 38,
-    borderRadius: 19,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#C8860A',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.35,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  activeGlowDot: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: '#D4AF37',
-  },
-  tabIconWrap: {
-    width: 44,
-    height: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   // Permission banner
   notifBanner: {
     flexDirection: 'row',
@@ -1522,37 +1618,36 @@ const styles = StyleSheet.create({
   },
 
   // Quick Features Row
+  // Same width and gap as the prayer grid above it, so the edges line up.
   quickFeaturesRow: {
     flexDirection: 'row',
     alignItems: 'stretch',
-    justifyContent: 'space-between',
-    marginHorizontal: 16,
-    marginVertical: 6,
-    gap: 12,
+    marginVertical: 4,
+    gap: 6,
   },
-  quickFeatureChip: {
+  quickFeatureTile: {
     flex: 1,
-    flexDirection: 'row',
+    flexBasis: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderRadius: 14,
+    minHeight: 92,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    borderRadius: borderRadius.md,
     borderWidth: 1,
     gap: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.03,
-    shadowRadius: 6,
   },
   quickFeatureIconWrap: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
   },
   quickFeatureText: {
     fontFamily: typography.fontFamily.semiBold,
     fontSize: 12.5,
-    flexShrink: 1,
+    lineHeight: 16,
     textAlign: 'center',
   },
 

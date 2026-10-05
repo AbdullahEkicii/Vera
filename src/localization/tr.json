@@ -6,7 +6,11 @@
       "error": "Bir hata oluştu",
       "retry": "Tekrar Dene",
       "fillAllFields": "Lütfen tüm alanları doldurun.",
-      "min": "dk"
+      "min": "dk",
+      "cancel": "Vazgeç",
+      "save": "Kaydet",
+      "ok": "Tamam",
+      "close": "Kapat"
     },
     "home": {
       "title": "Ezan Vakitleri",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "Vakitler Yüklenemedi",
       "errorLoadingSubtitle": "İnternet bağlantınızı kontrol edin veya şehir seçin.",
       "retryBtn": "Yeniden Dene",
-      "loadingTimes": "Namaz Vakitleri Yükleniyor..."
+      "loadingTimes": "Namaz Vakitleri Yükleniyor...",
+      "locationPermissionTitle": "Konum İzni Alınamadı",
+      "locationPermissionDesc": "Varsayılan şehir gösteriliyor. Şehir seçebilir veya konum izni verebilirsiniz.",
+      "estimatedTimesNotice": "İnternet bağlantısı olmadığı için vakitler cihaz üzerinde hesaplanmıştır (tahmini)."
     },
     "onboarding": {
       "title": "Vera'ya Hoş Geldiniz",
@@ -45,6 +52,15 @@
       "autoLocationBtn": "Konumumu Otomatik Bul",
       "manualCityBtn": "Listeden Şehir Seç",
       "continueWithCity": "{{city}} İle Devam Et",
+      "locationReassurance": "Bunu daha sonra Ayarlar'dan istediğiniz zaman değiştirebilirsiniz.",
+      "notifDenied": "Bildirim izni verilmedi. Ezan uyarıları çalışmayabilir — daha sonra Ayarlar'dan açabilirsiniz.",
+      "retryBtn": "Tekrar Dene",
+      "continueWithoutNotif": "Bildirim Olmadan Devam Et",
+      "skipTitle": "Kurulumu Atla",
+      "skipBody": "Kurulumu şimdi atlayabilirsiniz. Konum ve bildirim ayarlarını daha sonra Ayarlar'dan yapabilirsiniz.",
+      "skipConfirm": "Atla",
+      "locationDenied": "Konum izni verilmedi. Şehrinizi listeden seçebilir veya bunu daha sonra Ayarlar'dan değiştirebilirsiniz.",
+      "locationFailed": "Konum alınamadı. Şehrinizi listeden seçebilir veya bunu daha sonra Ayarlar'dan değiştirebilirsiniz.",
       "step2Title": "Namaz & Ezan Bildirimleri",
       "step2Subtitle": "Vakitleri kaçırmamak için bildirim tercihlerinizi tamamlayın.",
       "verifiedMethodTitle": "Doğrulanmış Vakitler",
@@ -65,7 +81,8 @@
       "featureQibla": "Kıble",
       "featureDhikr": "Zikirmatik",
       "backBtn": "← Geri Dön",
-      "startBtn": "Vera'yı Kullanmaya Başla 🌟"
+      "startBtn": "Vera'yı Kullanmaya Başla 🌟",
+      "locationNotSet": "Konum Alınamadı (İzin Verilmedi)"
     },
     "weather": {
       "title": "Hava Durumu",
@@ -84,10 +101,13 @@
       "sunset": "Gün Batımı",
       "precipitation": "Yağış İhtimali",
       "kmh": "km/sa",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Yeniden Dene"
     },
     "settings": {
       "title": "Ayarlar",
+      "inviteFriend": "Arkadaşını Davet Et",
+      "privacyOptions": "Gizlilik Tercihleri",
       "language": "Dil",
       "theme": "Tema",
       "dark": "Koyu",
@@ -108,6 +128,7 @@
       "offsetsDesc": "Yerel caminiz veya takviminizle dakikalık fark varsa vakitleri ±15 dakikaya kadar ayarlayabilirsiniz.",
       "general": "Genel Ayarlar",
       "fullscreen": "Tam Ekran Modu",
+      "timeFormat24h": "24 Saat Biçimi",
       "persistentNotifTitle": "Kilit Ekranı & Üst Panel",
       "persistentNotif": "Sabit Kilit Ekranı Vakti",
       "persistentNotifDesc": "Sıradaki vakte ne kadar kaldığını kilit ekranında ve üst panelde canlı takip edin.",
@@ -160,7 +181,16 @@
       "testNotifTitle": "Test Bildirimi",
       "testNotifBody": "Test bildirimi 10 saniye içinde çalacak. Lütfen telefonunuzun ses tuşlarını kullanarak bildirim ses seviyesini kontrol edin veya ayarlayın.",
       "testWarnNotif": "-25dk Kala Test Et (10 sn)",
-      "testExactNotif": "Tam Ezan Test Et (10 sn)"
+      "testExactNotif": "Tam Ezan Test Et (10 sn)",
+      "loginLocked": "Çok fazla başarısız deneme. Lütfen daha sonra tekrar deneyin.",
+      "loginFailed": "Giriş başarısız. Bilgilerinizi kontrol edin.",
+      "notifications": "Bildirimler",
+      "editorLogout": "Editör Çıkışı",
+      "editorLogin": "Editör Girişi",
+      "username": "Kullanıcı adı",
+      "password": "Şifre",
+      "loggingIn": "Giriş yapılıyor...",
+      "login": "Giriş Yap"
     },
     "qibla": {
       "title": "Kıble Pusulası",
@@ -207,18 +237,74 @@
     },
     "daily": {
       "title": "Günün İçerikleri",
+      "subtitle": "Bugün için seçilmiş ayet, hadis ve söz",
       "verse": "Günün Ayeti",
       "hadith": "Günün Hadisi",
       "quote": "Günün Sözü",
       "share": "Paylaş",
+      "shareHint": "Görsel kart olarak paylaşmak için karta tıklayın",
       "verseBody": "Günün ayetini okumak için tıklayın!",
       "hadithBody": "Günün hadisini okumak için tıklayın!",
       "quoteBody": "Günün sözünü okumak için tıklayın!"
     },
+    "hajjUmrah": {
+      "title": "Hac & Umre Rehberi",
+      "umrah": "Umre",
+      "hajj": "Hac",
+      "stepsTitle": "Adım Adım Menasik",
+      "checklistTitle": "Hazırlık Kontrol Listesi",
+      "settingsEntry": "Hac & Umre Rehberi"
+    },
+    "zakat": {
+      "title": "Zekat Hesaplama",
+      "info": "Zekat, bir yıl elde tutulan ve nisap miktarına ulaşan mal varlığının %2,5'idir (1/40). Nisap tutarını güncel altın/gümüş fiyatından hesaplayıp aşağıya girin.",
+      "cash": "Nakit & Banka Mevduatı",
+      "gold": "Altın / Gümüş Değeri",
+      "tradeGoods": "Ticaret Malı Değeri",
+      "investments": "Hisse Senedi / Yatırım",
+      "debts": "Borçlar (Düşülecek)",
+      "nisab": "Nisap Tutarı (Güncel Altın/Gümüş Değeri)",
+      "netWealth": "Net Mal Varlığı",
+      "zakatDue": "Ödemeniz Gereken Zekat",
+      "notEligible": "Mal varlığınız nisap miktarına ulaşmadığı için zekat vermeniz gerekmiyor.",
+      "enterNisab": "Hesaplama için lütfen nisap tutarını girin.",
+      "settingsEntry": "Zekat Hesaplama"
+    },
+    "ramadan": {
+      "calendarTitle": "Ramazan İmsakiyesi",
+      "days": "gün",
+      "day": "Gün",
+      "date": "Tarih",
+      "sahur": "İmsak",
+      "iftar": "İftar",
+      "noData": "Ramazan takvimi verisi bulunamadı."
+    },
+    "achievements": {
+      "title": "Başarılarım",
+      "pointsLabel": "İbadet Puanı",
+      "unlockedCount": "{{unlocked}} / {{total}} rozet açıldı",
+      "settingsEntry": "Başarılarım",
+      "share": "Puanımı Paylaş",
+      "shareText": "{{points}} İbadet Puanına ulaştım, {{unlocked}} rozet açtım!",
+      "inviteTitle": "Arkadaşını Davet Et",
+      "inviteDesc": "Birlikte hatim takibi yapın, birbirinizi motive edin.",
+      "progress": {
+        "days": "{{current}} / {{total}} gün",
+        "prayers": "{{current}} / {{total}} vakit",
+        "dhikr": "{{current}} / {{total}} zikir",
+        "khatm": "{{current}} / {{total}} hatim",
+        "kaza": "{{current}} / {{total}} kaza"
+      }
+    },
     "dailyContent": {
       "preparing": "Günlük içerikler yükleniyor...",
       "queueSuccess": "İçerik onay bekleyen kuyruğa eklendi.",
-      "queueError": "İçerik eklenirken bir hata oluştu."
+      "queueError": "İçerik eklenirken bir hata oluştu.",
+      "addModalTitle": "Yeni İçerik Ekle",
+      "textPlaceholder": "İçerik Metni (Arapça/Türkçe)",
+      "sourcePlaceholder": "Kaynak (Örn: Buhari, İman 1)",
+      "saving": "Kaydediliyor...",
+      "saveAndQueue": "Kaydet ve Sıraya Al"
     },
     "share": {
       "storyTitle": "Hikaye & Kart Paylaşımı",
@@ -230,7 +316,10 @@
       "themeGold": "Altın & Gece",
       "themeEmerald": "Zümrüt Yeşil",
       "themeNavy": "Gece Mavisi",
-      "themeSepia": "Sıcak Krem"
+      "themeSepia": "Sıcak Krem",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 Vera ile namaz vakitlerini, ezanı ve Kur'an okumayı takip ediyorum. Birlikte hatim takibi yapalım!\n\n📲 Uygulamayı indir: {{link}}"
     },
     "checklist": {
       "title": "Günlük Namaz Takibi",
@@ -251,10 +340,12 @@
       "asr": "İkindi",
       "maghrib": "Akşam",
       "isha": "Yatsı",
-      "celebrationTitle": "Tebrikler! 🎉",
+      "celebrationTitle": "Tebrikler!",
       "celebrationSubtitle": "Maşallah!",
       "celebrationMessage": "Bugünkü 5 vakit namazınızın tamamını eda ettiniz. Allah kabul etsin!",
       "celebrationBtn": "Elhamdülillah",
+      "shareStreak": "Serimi Paylaş",
+      "shareText": "Kesintisiz {{count}} gündür namazlarımı takip ediyorum, elhamdülillah!",
       "trustNotice": "{{city}} • {{method}} yöntemiyle bölgeniz için doğrulanmış vakitler"
     },
     "search": {
@@ -318,7 +409,8 @@
         "dailyDesc": "Her gün öğle ile ikindi arasında günün ayeti/hadisi/sözü gelir.",
         "persistentName": "Sabit Vakit & Kilit Ekranı",
         "persistentDesc": "Üst bildirim panelinde ve kilit ekranında sıradaki vakit adı ve saatini gösterir."
-      }
+      },
+      "persistentTitle": "🕌 {{prayer}} vaktine"
     },
     "tasbih": {
       "title": "Zikirmatik",
@@ -345,11 +437,14 @@
       "default3": "Allahu Ekber",
       "default4": "Lâ ilâhe illallah",
       "default5": "Estağfirullah",
-      "milestoneTitle": "🎉 Tebrikler!",
+      "milestoneTitle": "Tebrikler!",
       "milestoneBody": "Maşallah, bu ay toplam {{total}} zikre ulaştınız!",
+      "shareMilestone": "Paylaş",
+      "milestoneShareText": "Bu ay toplam {{total}} zikre ulaştım, maşallah!",
       "progressBtn": "Zikir İlerlemem",
       "progressTitle": "Aylık Zikir İlerlemesi",
       "totalThisMonth": "Bu Ayki Toplam:",
+      "streakDays": "gün üst üste",
       "noData": "Bu ay için henüz kayıt yok.",
       "resetConfirmTitle": "Sayacı Sıfırla",
       "resetConfirmMsg": "Sayacı sıfırlamak istediğinize emin misiniz? (Bu işlem aylık istatistiklerinizi etkilemez)",
@@ -360,7 +455,46 @@
       "bgAudioSelect": "Fon Zikir Sesi Seç",
       "dikhr1": "Zikir Sesi 1",
       "dikhr2": "Zikir Sesi 2",
-      "dikhr3": "Zikir Sesi 3"
+      "dikhr3": "Zikir Sesi 3",
+      "monthStat": "Bu ay",
+      "streakStat": "Seri",
+      "streakValue": "{{count}} gün",
+      "remaining": "{{count}} kaldı",
+      "noTarget": "Hedefsiz",
+      "completed": "Tamamlandı",
+      "addShort": "Ekle",
+      "progressShort": "İlerleme",
+      "recShort": "Öneri",
+      "tapToCount": "Saymak için dokun",
+      "ok": "Tamam",
+      "dailyDhikrs": [
+        {
+          "text": "Sübhanallahi ve bihamdihi",
+          "target": 100,
+          "benefit": "Günde 100 kere okunduğunda günahlar deniz köpüğü kadar olsa bile bağışlanır."
+        },
+        {
+          "text": "Lâ ilâhe illallâhu vahdehû lâ şerîke leh...",
+          "target": 100,
+          "benefit": "Günde 100 kere okuyan, 10 köle azat etmiş gibi sevap alır ve şeytandan korunur."
+        },
+        {
+          "text": "Estağfirullâhe'l-Azîm",
+          "target": 100,
+          "benefit": "Sıkıntıları giderir, rızkı genişletir, dertlerden kurtuluş sağlar."
+        },
+        {
+          "text": "Lâ havle velâ kuvvete illâ billâh",
+          "target": 100,
+          "benefit": "Cennet hazinelerinden bir hazinedir, her türlü dert ve tasayı defeder."
+        },
+        {
+          "text": "Sübhanallâhi velhamdülillâhi...",
+          "target": 100,
+          "benefit": "Üzerine güneşin doğduğu her şeyden daha sevgilidir."
+        }
+      ],
+      "recTarget": "Hedef:"
     },
     "update": {
       "title": "Yeni Güncelleme Mevcut!",
@@ -411,6 +545,12 @@
       "husrevTitle": "Ahmet Hüsrev Hattı (Tevafuklu)",
       "husrevDesc": "Hayrat Neşriyat Tevafuklu Kur'an-ı Kerim hattı.",
       "readingTheme": "Okuma Teması",
+      "selectReciter": "Kari Seç",
+      "bookmarkAdded": "Ayet favorilere eklendi",
+      "bookmarkRemoved": "Ayet favorilerden çıkarıldı",
+      "bookmarksTitle": "Kayıtlı Ayetler",
+      "noBookmarks": "Henüz favori ayetiniz yok. Bir ayete uzun basarak ekleyebilirsiniz.",
+      "playFromHere": "Buradan Dinle",
       "themeSepia": "Krem / Sepia",
       "themeDark": "Gece / Siyah",
       "themeWhite": "Klasik Beyaz",
@@ -436,7 +576,10 @@
       "mealSource": "Diyanet İşleri Başkanlığı Meali",
       "loadingMeal": "Sayfa meali yükleniyor...",
       "noMealFound": "Bu sayfa için meal verisi bulunamadı. İnternet bağlantınızı kontrol edin.",
-      "mealBtn": "Meal"
+      "mealBtn": "Meal",
+      "juz": "Cüz",
+      "downloadingShort": "İndiriliyor...",
+      "error": "Hata"
     },
     "review": {
       "title": "Vera'yı Beğendiniz mi?",
@@ -476,7 +619,8 @@
       "subtitle": "Mübarek gece ve günlerin takvimi ve geri sayımı",
       "today": "Bugün",
       "daysLeft": "gün",
-      "passed": "Geçti"
+      "passed": "Geçti",
+      "loadError": "Dini günler yüklenemedi. İnternet bağlantınızı kontrol edin."
     },
     "widgetPromo": {
       "title": "Namaz Vakti Widget'ı",
@@ -540,7 +684,15 @@
       "chooseTheme": "Kart Teması",
       "shareBtn": "WhatsApp / Hikaye Olarak Paylaş 🌟",
       "shareImageBtn": "Görsel Olarak Paylaş 🌟",
-      "shareLinkBtn": "Doğrudan Tıklanabilir Link Paylaş 🔗"
+      "shareLinkBtn": "Doğrudan Tıklanabilir Link Paylaş 🔗",
+      "theme": {
+        "gold": "Altın Hat",
+        "emerald": "Zümrüt Kubbe",
+        "navy": "Gece Mavisi",
+        "crimson": "Gül & Yakut"
+      },
+      "customDefaultTitle": "Hayırlı Cumalar",
+      "customDefaultMessage": "Dualarınız ve ibadetleriniz kabul olsun."
     },
     "mosques": {
       "title": "Yakındaki Camiler",
@@ -564,6 +716,8 @@
       "page": "Sayfa",
       "pagesRemaining": "Hatmin tamamlanmasına {{count}} sayfa kaldı.",
       "completed": "Tebrikler! Hatmi tamamladınız. 🎉",
+      "share": "Hatmimi Paylaş",
+      "shareText": "{{count}}. hatmimi tamamladım, elhamdülillah!",
       "readPageBtn": "Sayfa {{page}}'yi Oku",
       "jumpPageTitle": "Sayfaya Git / İlerleme Güncelle",
       "jumpPageDesc": "Kaldığınız sayfa numarasını girin (1 - 604):",
@@ -581,6 +735,463 @@
       "quoteHigh": "“Namaz dinin direğidir.” — Harika bir hafta geçiriyorsunuz, maşallah!",
       "quoteMid": "“Namaz kılın, zekat verin ve rüku edenlerle birlikte rüku edin.” (Bakara, 43)",
       "quoteLow": "“Şüphesiz namaz, müminler üzerine vakitleri belirlenmiş bir farzdır.” (Nisa, 103)"
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "İhrama Girmek",
+          "desc": "Mikat sınırında gusül abdesti alınır, ihram kıyafeti giyilir ve niyet edilerek telbiye getirilir. İhrama girdikten sonra dikişli elbise giyme, koku sürünme gibi yasaklar başlar."
+        },
+        "tawaf": {
+          "title": "Tavaf",
+          "desc": "Hacer-i Esved hizasından başlayarak Kabe'nin etrafında saat yönünün tersine 7 kez dönülür. Her turda mümkünse Hacer-i Esved selamlanır."
+        },
+        "sayi": {
+          "title": "Sa'y (Safa ile Merve Arasında)",
+          "desc": "Safa tepesinden başlayarak Merve tepesine, oradan tekrar Safa'ya olmak üzere toplam 7 kez gidilip gelinir. Hz. Hacer'in su arayışı anılır."
+        },
+        "halq": {
+          "title": "Traş Olmak / Kısaltmak (Halk-Taksir)",
+          "desc": "Erkekler saçlarını tamamen tıraş eder veya kısaltır; kadınlar saçlarından bir parmak ucu kadar keser. Bu işlemle umre tamamlanmış, ihram yasakları sona ermiş olur."
+        },
+        "arafat": {
+          "title": "Arafat'ta Vakfe (9 Zilhicce)",
+          "desc": "Haccın en önemli rüknüdür. Zilhicce'nin 9. günü öğleden gün batımına kadar Arafat'ta bulunulur; dua, zikir ve tövbe ile geçirilir."
+        },
+        "muzdalifah": {
+          "title": "Müzdelife'de Gecelemek",
+          "desc": "Arafat dönüşü Müzdelife'ye gelinir, akşam ve yatsı namazları birleştirilerek kılınır, gece burada geçirilir ve şeytan taşlama için taşlar toplanır."
+        },
+        "jamarat": {
+          "title": "Şeytan Taşlama (Cemreler)",
+          "desc": "Mina'da bulunan cemrelere belirlenen günlerde taş atılır. Bu, İbrahim (a.s.)'ın şeytanı taşlamasının anılmasıdır."
+        },
+        "qurban": {
+          "title": "Kurban Kesmek",
+          "desc": "Hac menasikinin bir parçası olarak kurban kesilir; bu Kurban Bayramı'nın da başlangıcıdır."
+        },
+        "farewell_tawaf": {
+          "title": "Veda Tavafı",
+          "desc": "Mekke'den ayrılmadan önce yapılan son tavaftır; hac ibadetinin tamamlanmasının bir işaretidir."
+        },
+        "ihram_clothes": {
+          "label": "İhram kıyafeti (erkekler için 2 parça dikişsiz beyaz kumaş)"
+        },
+        "passport": {
+          "label": "Pasaport, vize ve seyahat belgeleri"
+        },
+        "health": {
+          "label": "Sağlık sigortası ve gerekli aşılar"
+        },
+        "comfortable_sandals": {
+          "label": "Rahat, kolay çıkarılabilir sandalet"
+        },
+        "unscented_soap": {
+          "label": "Kokusuz sabun ve kişisel bakım ürünleri"
+        },
+        "dua_book": {
+          "label": "Dua ve menasik kitabı (veya bu uygulama)"
+        },
+        "money_belt": {
+          "label": "Güvenli para/belge çantası"
+        },
+        "medication": {
+          "label": "Kişisel ilaçlar ve reçeteler"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Regaip Kandili",
+          "description": "Üç ayların başlangıcı ve rahmet gecesi."
+        },
+        "mirac": {
+          "name": "Miraç Kandili",
+          "description": "Peygamber Efendimizin (s.a.v.) ilahi huzura yükselişi."
+        },
+        "berat": {
+          "name": "Berat Kandili",
+          "description": "Günahlardan arınma ve kederlerden kurtuluş gecesi."
+        },
+        "ramadan": {
+          "name": "Ramazan Başlangıcı",
+          "description": "Mübarek Ramazan ayının ilk oruç günü."
+        },
+        "kadir": {
+          "name": "Kadir Gecesi",
+          "description": "Bin aydan daha hayırlı olan mübarek gece."
+        },
+        "eid-fitr": {
+          "name": "Ramazan Bayramı (1. Gün)",
+          "description": "Ramazan Bayramının ilk günü."
+        },
+        "eid-adha": {
+          "name": "Kurban Bayramı (1. Gün)",
+          "description": "Kurban Bayramının ilk günü."
+        },
+        "hijri-new-year": {
+          "name": "Hicri Yılbaşı",
+          "description": "Yeni Hicri yılın ilk günü."
+        },
+        "ashura": {
+          "name": "Aşure Günü",
+          "description": "Muharrem ayının 10. günü ve Aşure günü."
+        },
+        "mevlid": {
+          "name": "Mevlid Kandili",
+          "description": "Peygamber Efendimizin (s.a.v.) dünyaya teşrif ettiği gece."
+        }
+      },
+      "esma": {
+        "1": "Esirgeyen, bağışlayan, merhamet eden.",
+        "2": "Ahirette sadece müminlere merhamet eden.",
+        "3": "Mülkün, kâinatın sahibi.",
+        "4": "Her türlü eksiklikten uzak olan.",
+        "5": "Kullarına esenlik veren.",
+        "6": "Güven veren, koruyan.",
+        "7": "Kâinatın bütün işlerini gözetip yöneten.",
+        "8": "Yenilmesi mümkün olmayan galip.",
+        "9": "Dilediğini zorla yaptırmaya muktedir olan.",
+        "10": "Büyüklükte eşi ve benzeri olmayan.",
+        "11": "Yoktan var eden.",
+        "12": "Her şeyi kusursuz ve uyumlu yaratan.",
+        "13": "Varlıklara şekil veren.",
+        "14": "Günahları çokça bağışlayan.",
+        "15": "Her şeye, her şeye galip gelen.",
+        "16": "Karşılıksız bolca veren.",
+        "17": "Bütün mahlukatın rızkını veren.",
+        "18": "Maddi manevi bütün kapıları açan.",
+        "19": "Her şeyi hakkıyla bilen.",
+        "20": "Dilediğinin rızkını daraltan.",
+        "21": "Dilediğinin rızkını genişleten.",
+        "22": "Kafirleri ve zalimleri alçaltan.",
+        "23": "İnananları yücelten.",
+        "24": "Dilediğini aziz kılan.",
+        "25": "Dilediğini zelil kılan.",
+        "26": "Her şeyi işiten.",
+        "27": "Her şeyi gören.",
+        "28": "Hükmeden, hakkı yerine getiren.",
+        "29": "Mutlak adalet sahibi olan.",
+        "30": "Lütfeden, gizli ve ince işleri bilen.",
+        "31": "Her şeyden haberdar olan.",
+        "32": "Cezalandırmakta acele etmeyen.",
+        "33": "Büyüklüğü akılla kavranamayacak kadar yüce olan.",
+        "34": "Affı ve mağfireti bol olan.",
+        "35": "Az amele çok sevap veren.",
+        "36": "Yücelikte sonsuz olan.",
+        "37": "Zatının ve sıfatlarının büyüklüğü bilinemeyen.",
+        "38": "Her şeyi koruyan ve muhafaza eden.",
+        "39": "Her yaratılmışın rızkını veren.",
+        "40": "Kullarının hesabını en iyi gören.",
+        "41": "Celal ve büyüklük sahibi olan.",
+        "42": "İkramı ve lütfu bol olan.",
+        "43": "Bütün varlıkları gözetimi altında tutan.",
+        "44": "Dua edenlerin duasını kabul eden.",
+        "45": "Rahmeti ve ilmi her şeyi kuşatan.",
+        "46": "Her işi hikmetli olan.",
+        "47": "Kullarını çok seven, sevilmeye layık olan.",
+        "48": "Şanı ve kadr-u kıymeti yüce olan.",
+        "49": "Ölüleri dirilten.",
+        "50": "Her şeye şahit olan.",
+        "51": "Varlığı hiç değişmeden duran.",
+        "52": "Kendisine tevekkül edenlerin işlerini en iyi yoluna koyan.",
+        "53": "Kuvvet ve gücü sonsuz olan.",
+        "54": "Çok sağlam ve sarsılmaz olan.",
+        "55": "Müminlerin dostu ve yardımcısı olan.",
+        "56": "Her türlü övgüye layık olan.",
+        "57": "Yarattığı her şeyin sayısını bilen.",
+        "58": "Mahlukatı maddesiz ve örneksiz olarak baştan yaratan.",
+        "59": "Yarattıklarını yok edip sonra tekrar diriltecek olan.",
+        "60": "Can bağışlayan, hayat veren.",
+        "61": "Canlı bir mahlukatın ölümünü yaratan.",
+        "62": "Diri, her şeyi bilen ve her şeye gücü yeten.",
+        "63": "Gökleri, yeri ve her şeyi tutan.",
+        "64": "İstediğini, istediği vakit bulan.",
+        "65": "Kadri ve şanı büyük, kerem ve müsamahası bol.",
+        "66": "Tek olan.",
+        "67": "Zatında, sıfatlarında ve fiillerinde eşi benzeri olmayan.",
+        "68": "Hiçbir şeye muhtaç olmayan, herkesin kendisine muhtaç olduğu.",
+        "69": "Her şeye gücü yeten.",
+        "70": "Kuvvet ve kudret sahipleri üzerinde dilediği gibi tasarruf eden.",
+        "71": "İstediğini öne alan, ileri geçiren.",
+        "72": "İstediğini geriye bırakan.",
+        "73": "İlki olmayan ilk.",
+        "74": "Sonu olmayan son.",
+        "75": "Varlığı her şeyden aşikar olan.",
+        "76": "Akılların idrak edemeyeceği yüceliği gizli olan.",
+        "77": "Bütün kainatı idare eden.",
+        "78": "Aklın alabileceği her şeyden çok yüce olan.",
+        "79": "Kullarına iyilik ve ihsanı bol olan.",
+        "80": "Tövbeleri çokça kabul eden.",
+        "81": "Asilerden, zalimlerden intikam alan.",
+        "82": "Günahları bağışlayan, silen.",
+        "83": "Merhameti, lütfu ve şefkati çok olan.",
+        "84": "Mülkün ebedi ve ezelî sahibi.",
+        "85": "Büyüklük, fazl ve kerem sahibi.",
+        "86": "Bütün işleri denk ve birbirine uygun yapan.",
+        "87": "Kıyamet gününde mahlukatı toplayan.",
+        "88": "Her türlü zenginlik sahibi, kimseye muhtaç olmayan.",
+        "89": "Dilediğini zengin eden.",
+        "90": "Bir şeyin meydana gelmesine izin vermeyen.",
+        "91": "Elem ve zarar verecek şeyleri yaratan.",
+        "92": "Fayda veren şeyleri yaratan.",
+        "93": "Alemleri nurlandıran.",
+        "94": "Hidayet veren, doğru yola ileten.",
+        "95": "Emsalsiz, örneksiz yaratan.",
+        "96": "Varlığının sonu olmayan.",
+        "97": "Her şeyin asıl sahibi olan.",
+        "98": "Bütün işleri isabetli ve hedefine ulaşan.",
+        "99": "Cezalandırmada acele etmeyen."
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Şifa ve Hastalıktan Kurtulma Duası",
+          "occasion": "Maddi ve manevi her türlü hastalık ve rahatsızlık anında okunur."
+        },
+        "nazar_korunma": {
+          "title": "Nazar ve Kötülüklerden Korunma (Ayet-el Kürsi)",
+          "occasion": "Göz değmesi, nazar, vesvese ve her türlü kötülükten korunmak için sabah-akşam okunur."
+        },
+        "rizik_bereket": {
+          "title": "Rızık, Bereket ve Borçtan Kurtulma Duası",
+          "occasion": "Geçim darlığı, borç yükü ve işlerin bereketlenmesi için okunur."
+        },
+        "ferahlik_sikinti": {
+          "title": "Sıkıntı, Keder ve Darlık Duası (Hz. Yunus Duası)",
+          "occasion": "Gönül darlığı, çaresizlik, korku ve zor anlarda feraha kavuşmak için okunur."
+        },
+        "sinav_zihin": {
+          "title": "Sınav, Zihin Açıklığı ve Kolaylık Duası",
+          "occasion": "Sınava girerken, ilim öğrenirken ve zor bir işe başlarken zihin açıklığı için okunur."
+        },
+        "seyyidul_istigfar": {
+          "title": "Seyyidül İstiğfar (Tevbe Duası)",
+          "occasion": "Günahların affı ve bağışlanma için sabah ve akşam okunur. Cennet vesilesidir."
+        },
+        "anne_baba": {
+          "title": "Anne, Baba ve Aileye Dua",
+          "occasion": "Anne ve babanın sağlığı, affı ve ahirette rahmete ermesi için her namaz sonrası okunur."
+        },
+        "ezan_sonrasi": {
+          "title": "Ezan Sonrası Okunacak Dua",
+          "occasion": "Ezan bittikten hemen sonra okunur; Peygamberimizin şefaatine vesile olur."
+        },
+        "iftar_oruc": {
+          "title": "İftar ve Oruç Açma Duası",
+          "occasion": "Akşam ezanı okunup oruç açılırken okunur."
+        },
+        "morning_1": {
+          "title": "Sabah ve Akşam Korunma Duası",
+          "occasion": "Sabah ve akşam üçer defa okuyan kişiye hiçbir şey zarar veremez."
+        },
+        "leaving_home": {
+          "title": "Evden Çıkarken Okunacak Dua",
+          "occasion": "Evden dışarı çıkarken kazalardan, belalardan ve kötülüklerden korunmak için okunur."
+        },
+        "entering_home": {
+          "title": "Eve Girerken Okunacak Dua",
+          "occasion": "Eve girerken haneye bereket ve huzur girmesi için okunur."
+        },
+        "waking_up": {
+          "title": "Uyanınca Okunacak Şükür Duası",
+          "occasion": "Uykudan uyanıldığında yeni bir güne sağlıkla erişmenin şükrü olarak okunur."
+        },
+        "sleeping": {
+          "title": "Uyumadan Önce Okunacak Dua",
+          "occasion": "Yatağa yatarken huzurlu bir uyku ve korunma niyetiyle okunur."
+        },
+        "sukr_hamd": {
+          "title": "Şükür ve Nimet Duası",
+          "occasion": "Güzel bir haber alındığında, nimetlere şükretmek ve bereketi artırmak için okunur."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "7 Günlük İstikrar",
+          "desc": "7 gün üst üste namaz kaydı tuttunuz"
+        },
+        "prayer_streak_30": {
+          "title": "30 Günlük İstikrar",
+          "desc": "30 gün üst üste namaz kaydı tuttunuz"
+        },
+        "prayer_total_100": {
+          "title": "100 Vakit",
+          "desc": "Toplam 100 vakit namaz kaydettiniz"
+        },
+        "prayer_total_500": {
+          "title": "500 Vakit",
+          "desc": "Toplam 500 vakit namaz kaydettiniz"
+        },
+        "dhikr_streak_7": {
+          "title": "7 Günlük Zikir",
+          "desc": "7 gün üst üste zikir çektiniz"
+        },
+        "dhikr_streak_30": {
+          "title": "30 Günlük Zikir",
+          "desc": "30 gün üst üste zikir çektiniz"
+        },
+        "dhikr_total_1000": {
+          "title": "1.000 Zikir",
+          "desc": "Toplamda 1.000 zikir çektiniz"
+        },
+        "dhikr_total_10000": {
+          "title": "10.000 Zikir",
+          "desc": "Toplamda 10.000 zikir çektiniz"
+        },
+        "hatim_first": {
+          "title": "İlk Hatim",
+          "desc": "Kur'an-ı Kerim'i baştan sona okudunuz"
+        },
+        "hatim_3": {
+          "title": "3 Hatim",
+          "desc": "Kur'an-ı Kerim'i 3 kez tamamladınız"
+        },
+        "kaza_10": {
+          "title": "10 Kaza Tamamlandı",
+          "desc": "10 kaza namazı/orucu tamamladınız"
+        },
+        "kaza_50": {
+          "title": "50 Kaza Tamamlandı",
+          "desc": "50 kaza namazı/orucu tamamladınız"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mişari Raşid el-Afasi"
+        },
+        "abdulbasit": {
+          "name": "Abdulbasit Abdussamed"
+        },
+        "husary": {
+          "name": "Mahmud Halil el-Husarî"
+        },
+        "minshawy": {
+          "name": "Muhammed Sıddîk el-Minşâvî"
+        },
+        "shuraym": {
+          "name": "Suud eş-Şüreym"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Hayırlı Cumalar 🌹",
+          "message": "Allah'ım! Gönlümüzden geçen hayırlı dualarımızı kabul, Cumamızı mübarek eyle. Sağlık, huzur ve bereket dolu bir gün dilerim."
+        },
+        "cuma_2": {
+          "title": "Cumanız Mübarek Olsun ✨",
+          "message": "Rabbim bizleri sevdiklerimizle beraber iki cihanda da aziz eylesin. Hayırlı, nurlu ve bereketli Cumalar."
+        },
+        "kandil_1": {
+          "title": "Kandiliniz Mübarek Olsun 🌙",
+          "message": "Bu mübarek gecenin feyzi, bereketi ve affı üzerinize olsun. Dualarda buluşmak dileğiyle kandiliniz mübarek olsun."
+        },
+        "ramazan_1": {
+          "title": "Hayırlı Ramazanlar 🕌",
+          "message": "Başı rahmet, ortası mağfiret, sonu cehennemden kurtuluş olan Ramazan-ı Şerifimiz mübarek olsun."
+        },
+        "bayram_1": {
+          "title": "Bayramınız Mübarek Olsun 🌟",
+          "message": "Sevdiklerinizle birlikte neşe, huzur, sağlık ve muhabbet dolu nice bayramlara erişmeniz temennisiyle."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Kuran Okumaya Başlama Duası"
+        },
+        "hatim": {
+          "title": "Kuran-ı Kerim Hatim Duası"
+        },
+        "sajdah": {
+          "title": "Tilavet Secdesi Duası"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Kuran"
+        },
+        "daily": {
+          "label": "İçerik"
+        },
+        "home": {
+          "label": "Vakitler"
+        },
+        "dhikr": {
+          "label": "Zikir"
+        },
+        "library": {
+          "label": "Dualar"
+        },
+        "qibla": {
+          "label": "Kıble"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Namaz",
+        "dhikr": "Zikir",
+        "quran": "Kur'an",
+        "kaza": "Kaza"
+      },
+      "hijriMonths": {
+        "1": "Muharrem",
+        "2": "Safer",
+        "3": "Rebiülevvel",
+        "4": "Rebiülahir",
+        "5": "Cemaziyelevvel",
+        "6": "Cemaziyelahir",
+        "7": "Recep",
+        "8": "Şaban",
+        "9": "Ramazan",
+        "10": "Şevval",
+        "11": "Zilkade",
+        "12": "Zilhicce"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Vakitlerde fark varsa karta uzun basıp düzeltebilirsiniz.",
+      "title": "{{prayer}} vaktini düzelt",
+      "desc": "Camiye veya takviminize göre fark varsa dakika ekleyin ya da çıkarın. Ezan bildirimi de buna göre çalar.",
+      "minus": "1 dakika geri",
+      "minutes": "{{value}} dk",
+      "plus": "1 dakika ileri",
+      "reset": "Sıfırla",
+      "save": "Kaydet"
+    },
+    "feedback": {
+      "settingsRow": "Geri Bildirim Gönder",
+      "title": "Birlikte Geliştirelim",
+      "subtitle": "Vera'yı daha iyi yapabilmemiz için öneri, istek veya karşılaştığınız bir sorunu yazın.",
+      "placeholder": "Fikir, öneri veya karşılaştığınız bir sorunu yazın...",
+      "error": "Gönderilemedi. Lütfen biraz sonra tekrar deneyin.",
+      "send": "Gönder",
+      "thankYouTitle": "Geri Bildiriminiz Alındı",
+      "thankYouSubtitle": "Görüşleriniz bizim için çok değerli. Vera'yı güzelleştirmek için var gücümüzle çalışıyoruz."
+    },
+    "battery": {
+      "stepsXiaomi": "Ayarlar → Uygulamalar → Vera: \"Otomatik başlatma\"yı açın ve Pil tasarrufunu \"Kısıtlama yok\" yapın.",
+      "stepsSamsung": "Ayarlar → Pil → Arka plan kullanım sınırları: Vera'yı \"Asla uyutulmayan uygulamalar\"a ekleyin.",
+      "stepsOppo": "Ayarlar → Pil → Vera: \"Arka planda çalışmaya izin ver\" ve \"Otomatik başlatma\"yı açın.",
+      "stepsOther": "Pil optimizasyonunu Vera için kapatın, böylece ezan vaktinde gecikmeden çalar.",
+      "cardTitle": "Ezan vaktinde çalsın",
+      "openSettings": "Ayarları Aç"
+    },
+    "widget": {
+      "guideTitle": "Ana Ekrana Ekle",
+      "guideDesc": "Ana ekranınıza basılı tutun ➔ \"Widgetlar\" seçeneğini tıklayın ➔ \"VERA\" widget'ını seçip ekranınıza sürükleyin.",
+      "promptTitle": "Ana Ekrana Widget Ekle",
+      "promptDesc": "Sıradaki ezan vaktini ve kalan dakikayı uygulamanızı açmadan doğrudan telefonunuzun ana ekranından canlı takip edin.",
+      "addNow": "📌 Ana Ekrana Ekle",
+      "notNow": "Daha Sonra"
+    },
+    "greetingNotif": {
+      "dayTitle": "{{name}} mübarek olsun",
+      "nightTitle": "Bu gece {{name}}",
+      "body": "Sevdiklerinize bir tebrik kartı gönderin.",
+      "fridayTitle": "Hayırlı Cumalar",
+      "fridayBody": "Sevdiklerinize bir Cuma tebrik kartı gönderin."
+    },
+    "errorBoundary": {
+      "title": "Bir şeyler ters gitti",
+      "subtitle": "Uygulama beklenmedik bir hatayla karşılaştı. Tekrar denemek için aşağıdaki butona dokunun.",
+      "retry": "Tekrar Dene"
     }
   }
 }

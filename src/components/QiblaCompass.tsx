@@ -9,6 +9,7 @@ import Animated, {
   withRepeat,
   withSequence,
   Easing,
+  cancelAnimation,
 } from 'react-native-reanimated';
 import Svg, { Circle, G, Line, Path, Text as SvgText, Defs, RadialGradient, Stop } from 'react-native-svg';
 import * as Haptics from 'expo-haptics';
@@ -26,6 +27,8 @@ interface QiblaCompassProps {
   qiblaAngle: number;
   distance: number | null;
   error?: string | null;
+  /** False when the qibla tab is hidden or the app is backgrounded: stops the aligned glow loop. */
+  isActive?: boolean;
 }
 
 const DIRECTIONS = [
@@ -54,7 +57,7 @@ function getShortestAngle(from: number, to: number): number {
   return diff;
 }
 
-export function QiblaCompass({ heading, qiblaAngle, distance, error }: QiblaCompassProps) {
+export function QiblaCompass({ heading, qiblaAngle, distance, error, isActive = true }: QiblaCompassProps) {
   const { t } = useTranslation();
   const { theme, isDark } = useTheme();
 
@@ -62,6 +65,16 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error }: QiblaComp
   const animatedNeedle = useSharedValue(0);
   const isAligned = useSharedValue(0);
   const glowScale = useSharedValue(1);
+
+  // The aligned glow repeats forever; stop it when the tab is hidden and on unmount,
+  // and reset alignment so it restarts cleanly when the user comes back.
+  useEffect(() => {
+    if (isActive) return;
+    cancelAnimation(glowScale);
+    glowScale.value = 1;
+    isAligned.value = 0;
+  }, [isActive, glowScale, isAligned]);
+  useEffect(() => () => cancelAnimation(glowScale), [glowScale]);
 
   const qiblaDiff = Math.abs(getShortestAngle(heading, qiblaAngle));
   const aligned = qiblaDiff <= 5.5;
@@ -88,7 +101,7 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error }: QiblaComp
       if (isAligned.value === 0) {
         try {
           Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        } catch (_) {}
+        } catch {}
         glowScale.value = withRepeat(
           withSequence(
             withTiming(1.06, { duration: 550, easing: Easing.inOut(Easing.ease) }),

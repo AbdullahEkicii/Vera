@@ -2,7 +2,7 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { AppState, AppStateStatus, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   cancelAnimation,
   Easing,
@@ -29,6 +29,10 @@ interface PrayerTimeCardProps {
   isActive?: boolean;
   targetDate?: Date | null;
   onTimeReached?: () => void;
+  /** Grid cards only: long-press to adjust this prayer's ± minute offset. */
+  onLongPress?: (id: string) => void;
+  /** False while the screen is off-screen (another PagerView tab): pauses timers and loops. */
+  isVisible?: boolean;
 }
 
 const getIcon = (id: string, size: number, color: string) => {
@@ -65,7 +69,7 @@ function formatCountdown(ms: number, t: any): string {
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
-  id, name, time, isHero = false, isActive = false, targetDate, onTimeReached,
+  id, name, time, isHero = false, isActive = false, targetDate, onTimeReached, onLongPress, isVisible = true,
 }) => {
   const { theme, isDark, timeFormat, circlePalette } = useTheme();
   const { t } = useTranslation();
@@ -102,11 +106,43 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
     return { cx, cy };
   });
 
-  // Countdown timer & progress update
+  // Countdown timer & progress update (optimized with AppState to save battery)
   useEffect(() => {
-    if (!isHero || !targetDate) return;
+    // Hidden PagerView tabs stay mounted: don't tick or animate while off-screen.
+    if (!isHero || !targetDate || !isVisible) return;
 
     cancelAnimation(animatedProgress);
+
+    let interval: ReturnType<typeof setInterval> | null = null;
+
+    const startAnimations = () => {
+      // Inner Glow slow breath animation
+      pulseValue.value = withRepeat(
+        withSequence(
+          withTiming(0.8, { duration: 2500, easing: Easing.inOut(Easing.ease) }),
+          withTiming(1.15, { duration: 2500, easing: Easing.inOut(Easing.ease) })
+        ),
+        -1, true
+      );
+
+      // Outer Dial Dots opacity oscillation
+      dotsOpacity.value = withRepeat(
+        withSequence(
+          withTiming(0.25, { duration: 3000, easing: Easing.inOut(Easing.ease) }),
+          withTiming(0.7, { duration: 3000, easing: Easing.inOut(Easing.ease) })
+        ),
+        -1, true
+      );
+    };
+
+    const stopAnimations = () => {
+      cancelAnimation(pulseValue);
+      cancelAnimation(dotsOpacity);
+    };
+
+    // onTimeReached reloads prayer times; fire it once per target, not every second
+    // until the parent hands over the next target.
+    let reached = false;
 
     const update = () => {
       const now = Date.now();
@@ -116,7 +152,11 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
       if (diff <= 0) {
         setRemaining(0);
         animatedProgress.value = withTiming(1, { duration: 300 });
-        onTimeReached?.();
+        if (!reached) {
+          reached = true;
+          stopTimer();
+          onTimeReached?.();
+        }
         return;
       }
       setRemaining(diff);
@@ -126,38 +166,47 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
       animatedProgress.value = withTiming(currentProgress, { duration: 950, easing: Easing.linear });
     };
 
-    update();
-    const interval = setInterval(update, 1000);
+    const startTimer = () => {
+      if (reached) return;
+      update();
+      if (reached) return;
+      if (!interval) {
+        interval = setInterval(update, 1000);
+      }
+      startAnimations();
+    };
 
-    // Inner Glow slow breath animation
-    pulseValue.value = withRepeat(
-      withSequence(
-        withTiming(0.8, { duration: 2500, easing: Easing.inOut(Easing.ease) }),
-        withTiming(1.15, { duration: 2500, easing: Easing.inOut(Easing.ease) })
-      ),
-      -1, true
-    );
+    const stopTimer = () => {
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+      }
+      stopAnimations();
+    };
 
-    // Outer Dial Dots opacity oscillation
-    dotsOpacity.value = withRepeat(
-      withSequence(
-        withTiming(0.25, { duration: 3000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(0.7, { duration: 3000, easing: Easing.inOut(Easing.ease) })
-      ),
-      -1, true
-    );
+    // Start only if app is currently in foreground
+    if (AppState.currentState === 'active') {
+      startTimer();
+    }
+
+    const appStateSub = AppState.addEventListener('change', (nextState: AppStateStatus) => {
+      if (nextState === 'active') {
+        startTimer();
+      } else {
+        stopTimer();
+      }
+    });
 
     return () => {
-      clearInterval(interval);
+      stopTimer();
+      appStateSub.remove();
       cancelAnimation(animatedProgress);
-      cancelAnimation(pulseValue);
-      cancelAnimation(dotsOpacity);
     };
-  }, [isHero, targetDate, onTimeReached]);
+  }, [isHero, targetDate, onTimeReached, isVisible]);
 
   // Active state border glow pulse
   useEffect(() => {
-    if (isActive && !isHero) {
+    if (isActive && !isHero && isVisible) {
       activeBorderPulse.value = withRepeat(
         withSequence(
           withTiming(0.8, { duration: 1500, easing: Easing.inOut(Easing.ease) }),
@@ -168,7 +217,8 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
     } else {
       cancelAnimation(activeBorderPulse);
     }
-  }, [isActive, isHero]);
+    return () => cancelAnimation(activeBorderPulse);
+  }, [isActive, isHero, isVisible]);
 
   // Spring scale styles for interactions
   const scaleStyle = useAnimatedStyle(() => ({
@@ -177,7 +227,9 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
 
   const glowStyle = useAnimatedStyle(() => ({
     transform: [{ scale: pulseValue.value }],
-    opacity: withTiming(isDark ? 0.08 : 0.12),
+    // Plain value: a withTiming() here would start a new animation on every frame
+    // of the pulse loop.
+    opacity: isDark ? 0.08 : 0.12,
   }));
 
   const activeBorderStyle = useAnimatedStyle(() => ({
@@ -314,6 +366,8 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
     return (
       <ScalePressable
         activeScale={0.94}
+        onLongPress={onLongPress ? () => onLongPress(id) : undefined}
+        delayLongPress={350}
         style={[
           styles.gridCellContainer,
           styles.gridCellWrapper,
@@ -348,6 +402,8 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
   return (
     <ScalePressable
       activeScale={0.94}
+      onLongPress={onLongPress ? () => onLongPress(id) : undefined}
+      delayLongPress={350}
       style={[styles.gridCellContainer, styles.gridCellWrapper]}
     >
       <LinearGradient

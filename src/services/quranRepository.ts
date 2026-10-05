@@ -161,7 +161,7 @@ export const downloadJuz = async (
       try {
         const db = await getDb();
         await db.runAsync('DELETE FROM download_status WHERE juz_no = ?', [juzNo]);
-      } catch (e) {}
+      } catch {}
       return false;
     } finally {
       activeDownloadMap.delete(downloadKey);
@@ -235,7 +235,7 @@ export const getSurahInfoForPage = async (pageNo: number): Promise<{ surahNo: nu
     );
     if (!result) return null;
     return { surahNo: result.surah_no, ayahNo: result.ayah_no };
-  } catch (error) {
+  } catch {
     return null;
   }
 };

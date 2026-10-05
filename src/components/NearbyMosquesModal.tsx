@@ -63,7 +63,7 @@ export function NearbyMosquesModal({ visible, onClose, latitude, longitude, curr
   const handleOpenGeneralSearch = () => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch (_) {}
+    } catch {}
     const query = encodeURIComponent(`Cami ${currentCity || ''}`);
     const url = Platform.select({
       ios: `maps:0,0?q=${query}`,
@@ -78,7 +78,7 @@ export function NearbyMosquesModal({ visible, onClose, latitude, longitude, curr
   const handleGetDirections = (item: MosqueItem) => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    } catch (_) {}
+    } catch {}
     openMapDirections(item.lat, item.lng, item.name);
   };
 

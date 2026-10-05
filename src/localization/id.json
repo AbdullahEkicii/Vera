@@ -6,7 +6,11 @@
       "retry": "Coba lagi",
       "success": "Kesuksesan",
       "fillAllFields": "Silakan isi semua kolom.",
-      "min": "M"
+      "min": "M",
+      "cancel": "Batal",
+      "save": "Simpan",
+      "ok": "OK",
+      "close": "Tutup"
     },
     "home": {
       "title": "Waktu Shalat",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "Tidak Dapat Memuat Waktu Sholat",
       "errorLoadingSubtitle": "Silakan periksa koneksi internet Anda atau pilih kota Anda.",
       "retryBtn": "Mencoba kembali",
-      "loadingTimes": "Memuat Waktu Sholat..."
+      "loadingTimes": "Memuat Waktu Sholat...",
+      "locationPermissionTitle": "Izin Lokasi Tidak Tersedia",
+      "locationPermissionDesc": "Menampilkan kota default. Anda dapat memilih kota atau memberikan izin lokasi.",
+      "estimatedTimesNotice": "Karena tidak ada koneksi internet, waktu salat dihitung di perangkat Anda (perkiraan)."
     },
     "settings": {
       "title": "Pengaturan",
@@ -111,7 +118,19 @@
       "offsetsTitle": "Penyesuaian Waktu Sholat (Offset / ± Min)",
       "offsetsDesc": "Jika masjid atau kalender setempat Anda berbeda menitnya, Anda dapat menyesuaikan waktunya hingga ±15 menit.",
       "respectSilentModeTitle": "Masjid / Mode Diam Hormat",
-      "respectSilentModeDesc": "Menonaktifkan audio azan dan memberi tahu secara senyap saat ponsel Anda dalam mode senyap atau getar."
+      "respectSilentModeDesc": "Menonaktifkan audio azan dan memberi tahu secara senyap saat ponsel Anda dalam mode senyap atau getar.",
+      "inviteFriend": "Undang Teman",
+      "privacyOptions": "Opsi Privasi",
+      "timeFormat24h": "Format 24 Jam",
+      "loginLocked": "Terlalu banyak percobaan gagal. Silakan coba lagi nanti.",
+      "loginFailed": "Login gagal. Periksa kredensial Anda.",
+      "notifications": "Notifikasi",
+      "editorLogout": "Keluar Editor",
+      "editorLogin": "Masuk Editor",
+      "username": "Nama pengguna",
+      "password": "Kata sandi",
+      "loggingIn": "Sedang masuk...",
+      "login": "Masuk"
     },
     "qibla": {
       "title": "Kiblat",
@@ -154,7 +173,9 @@
       "share": "Bagikan",
       "verseBody": "Klik untuk membaca ayat hari ini!",
       "hadithBody": "Klik untuk membaca hadis hari ini!",
-      "quoteBody": "Klik untuk membaca kutipan hari ini!"
+      "quoteBody": "Klik untuk membaca kutipan hari ini!",
+      "subtitle": "Ayat, hadis, dan kutipan pilihan untuk hari ini",
+      "shareHint": "Ketuk kartu untuk membagikannya sebagai gambar cerita"
     },
     "notifications": {
       "fajr": {
@@ -208,7 +229,8 @@
         "dailyDesc": "Ayat harian, hadits, atau kutipan tiba antara Dhuhur dan Ashar.",
         "persistentName": "Layar Kunci & Bilah Status",
         "persistentDesc": "Menampilkan nama doa berikutnya dan hitungan mundur langsung di panel notifikasi dan layar kunci."
-      }
+      },
+      "persistentTitle": "🕌 Menuju {{prayer}}"
     },
     "tasbih": {
       "title": "Tasbih",
@@ -250,7 +272,49 @@
       "bgAudioSelect": "Pilih Latar Belakang Suara Dzikir",
       "dikhr1": "Suara Dzikir 1",
       "dikhr2": "Suara Dzikir 2",
-      "dikhr3": "Suara Dzikir 3"
+      "dikhr3": "Suara Dzikir 3",
+      "shareMilestone": "Bagikan",
+      "milestoneShareText": "Saya mencapai {{total}} zikir bulan ini, masyaallah!",
+      "streakDays": "hari berturut-turut",
+      "monthStat": "Bulan ini",
+      "streakStat": "Rentetan",
+      "streakValue": "{{count}} hari",
+      "remaining": "{{count}} lagi",
+      "noTarget": "Tanpa target",
+      "completed": "Selesai",
+      "addShort": "Tambah",
+      "progressShort": "Progres",
+      "recShort": "Disarankan",
+      "tapToCount": "Ketuk untuk menghitung",
+      "ok": "OK",
+      "dailyDhikrs": [
+        {
+          "text": "Subhanallahi wa bihamdihi",
+          "target": 100,
+          "benefit": "Jika dibaca 100 kali setiap hari, dosa-dosa diampuni meskipun sebanyak buih di lautan."
+        },
+        {
+          "text": "La ilaha illallahu wahdahu la sharika lah...",
+          "target": 100,
+          "benefit": "Membacanya 100 kali setara dengan membebaskan 10 budak dan melindungi dari setan."
+        },
+        {
+          "text": "Astaghfirullah al-Adheem",
+          "target": 100,
+          "benefit": "Menghilangkan kesusahan, membuka pintu rezeki, dan memberi kelapangan."
+        },
+        {
+          "text": "La hawla wa la quwwata illa billah",
+          "target": 100,
+          "benefit": "Harta karun dari harta karun surga, yang menghilangkan segala kekhawatiran."
+        },
+        {
+          "text": "Subhanallahi walhamdulillahi...",
+          "target": 100,
+          "benefit": "Kalimat yang paling dicintai Allah, lebih berat timbangannya daripada segalanya."
+        }
+      ],
+      "recTarget": "Target:"
     },
     "update": {
       "title": "Pembaruan Tersedia!",
@@ -327,7 +391,15 @@
       "mealSource": "Terjemahan Bahasa Inggris Asli",
       "loadingMeal": "Memuat terjemahan halaman...",
       "noMealFound": "Tidak ada terjemahan yang ditemukan untuk halaman ini. Silakan periksa koneksi internet Anda.",
-      "mealBtn": "Terjemahan"
+      "mealBtn": "Terjemahan",
+      "selectReciter": "Pilih Qari",
+      "bookmarkAdded": "Ayat ditambahkan ke favorit",
+      "bookmarkRemoved": "Ayat dihapus dari favorit",
+      "bookmarksTitle": "Ayat Tersimpan",
+      "noBookmarks": "Belum ada ayat favorit. Tekan lama pada ayat untuk menambahkannya.",
+      "playFromHere": "Dengarkan dari Sini",
+      "juz": "Juz",
+      "downloadingShort": "Mengunduh..."
     },
     "review": {
       "title": "Dukung Kami",
@@ -363,7 +435,10 @@
       "themeSepia": "Sepia yang hangat",
       "appTagline": "Waktu Sholat, Quran & Kiblat",
       "storeSearchHint": "Cari di Google Play: Vera",
-      "scanToDownload": "Pindai untuk Mengunduh"
+      "scanToDownload": "Pindai untuk Mengunduh",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 Saya menggunakan Vera untuk melacak waktu salat, azan, dan bacaan Al-Qur'an saya. Yuk lacak khatam bersama!\n\n📲 Unduh aplikasinya: {{link}}"
     },
     "checklist": {
       "title": "Pelacak Doa Harian",
@@ -388,7 +463,9 @@
       "celebrationMessage": "Anda menyelesaikan semua salat 5 waktu hari ini. Semoga Allah menerima doa Anda!",
       "celebrationBtn": "Alhamdulillah",
       "trustNotice": "{{city}} • Waktu sholat terverifikasi untuk wilayah Anda menggunakan {{method}}",
-      "streakDays": "hari"
+      "streakDays": "hari",
+      "shareStreak": "Bagikan Rentetan Saya",
+      "shareText": "Saya sudah menjaga salat saya selama {{count}} hari berturut-turut, alhamdulillah!"
     },
     "search": {
       "title": "Pilih Lokasi",
@@ -413,7 +490,8 @@
       "subtitle": "Kalender dan hitung mundur untuk malam dan siang yang diberkati",
       "today": "Hari ini",
       "daysLeft": "hari",
-      "passed": "Lulus"
+      "passed": "Lulus",
+      "loadError": "Tidak dapat memuat hari-hari keagamaan. Periksa koneksi internet Anda."
     },
     "widgetPromo": {
       "title": "Tambahkan Widget Doa",
@@ -477,7 +555,17 @@
       "widgetDesc": "Lihat hitungan mundur langsung tanpa membuka aplikasi.",
       "widgetAdded": "Widget berhasil ditambahkan!",
       "batteryTitle": "🔋 Pengecualian Penghemat Baterai",
-      "batteryDesc": "Disarankan untuk mematikan optimasi baterai pada Xiaomi & Samsung agar adzan tepat waktu."
+      "batteryDesc": "Disarankan untuk mematikan optimasi baterai pada Xiaomi & Samsung agar adzan tepat waktu.",
+      "locationReassurance": "Anda selalu dapat mengubah ini nanti di Pengaturan.",
+      "notifDenied": "Izin notifikasi tidak diberikan. Peringatan azan mungkin tidak berfungsi — Anda bisa mengaktifkannya nanti di Pengaturan.",
+      "retryBtn": "Coba Lagi",
+      "continueWithoutNotif": "Lanjutkan Tanpa Notifikasi",
+      "skipTitle": "Lewati Pengaturan",
+      "skipBody": "Anda bisa melewati pengaturan untuk saat ini. Pengaturan lokasi dan notifikasi dapat dikonfigurasi nanti di Pengaturan.",
+      "skipConfirm": "Lewati",
+      "locationDenied": "Izin lokasi tidak diberikan. Anda bisa memilih kota dari daftar, atau mengubah ini nanti di Pengaturan.",
+      "locationFailed": "Tidak dapat memperoleh lokasi Anda. Anda bisa memilih kota dari daftar, atau mengubah ini nanti di Pengaturan.",
+      "locationNotSet": "Lokasi Tidak Tersedia (Izin Ditolak)"
     },
     "weather": {
       "title": "Ramalan cuaca",
@@ -496,7 +584,8 @@
       "sunset": "Matahari terbenam",
       "precipitation": "Pengendapan",
       "kmh": "km/jam",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Coba Lagi"
     },
     "duas": {
       "occasionTitle": "Kapan & Mengapa Membaca?",
@@ -542,7 +631,15 @@
       "chooseTheme": "Tema Kartu",
       "shareBtn": "Bagikan ke WhatsApp / Cerita 🌟",
       "shareImageBtn": "Bagikan Kartu Gambar 🌟",
-      "shareLinkBtn": "Bagikan Tautan Toko Langsung 🔗"
+      "shareLinkBtn": "Bagikan Tautan Toko Langsung 🔗",
+      "theme": {
+        "gold": "Garis Emas",
+        "emerald": "Kubah Zamrud",
+        "navy": "Biru Malam",
+        "crimson": "Mawar & Delima"
+      },
+      "customDefaultTitle": "Jumat Mubarak",
+      "customDefaultMessage": "Semoga doa dan ibadah Anda diterima."
     },
     "mosques": {
       "title": "Masjid Terdekat",
@@ -557,7 +654,12 @@
     "dailyContent": {
       "preparing": "Memuat inspirasi harian...",
       "queueSuccess": "Konten ditambahkan ke antrean persetujuan.",
-      "queueError": "Terjadi kesalahan saat menambahkan konten."
+      "queueError": "Terjadi kesalahan saat menambahkan konten.",
+      "addModalTitle": "Tambah Konten Baru",
+      "textPlaceholder": "Teks Konten (Arab/Terjemahan)",
+      "sourcePlaceholder": "Sumber (mis. Bukhari, Iman 1)",
+      "saving": "Menyimpan...",
+      "saveAndQueue": "Simpan & Masukkan Antrean"
     },
     "hatim": {
       "title": "Pelacak Khatm Quran",
@@ -572,7 +674,9 @@
       "resetTitle": "Mulai Khatm Baru",
       "resetBody": "Khatm saat ini akan dicatat sebagai selesai dan khatm baru akan dimulai dari halaman 1. Apakah Anda ingin melanjutkan?",
       "startNew": "Mulai Khatm Baru",
-      "resetHatimBtn": "Atur Ulang & Mulai Khatm Baru"
+      "resetHatimBtn": "Atur Ulang & Mulai Khatm Baru",
+      "share": "Bagikan Khatam Saya",
+      "shareText": "Saya menyelesaikan khatam ke-{{count}}, alhamdulillah!"
     },
     "prayerTree": {
       "title": "Pohon Doa Mingguan",
@@ -582,6 +686,512 @@
       "quoteHigh": "“Doa adalah tiang iman.” — Anda mengalami minggu yang luar biasa, MasyaAllah!",
       "quoteMid": "“dirikanlah shalat, keluarkan zakat, dan ruku’lah bersama orang-orang yang ruku’.” (Al-Baqarah, 43)",
       "quoteLow": "“Sesungguhnya shalat telah diwajibkan atas orang-orang mukmin dengan ketetapan waktu-waktu tertentu.” (An-Nisa, 103)"
+    },
+    "hajjUmrah": {
+      "title": "Panduan Haji & Umrah",
+      "umrah": "Umrah",
+      "hajj": "Haji",
+      "stepsTitle": "Tata Cara Langkah demi Langkah",
+      "checklistTitle": "Daftar Periksa Persiapan",
+      "settingsEntry": "Panduan Haji & Umrah"
+    },
+    "zakat": {
+      "title": "Kalkulator Zakat",
+      "info": "Zakat adalah 2,5% (1/40) dari harta yang disimpan selama satu tahun penuh dan telah mencapai nisab. Cari nilai nisab saat ini (berdasarkan harga emas/perak) dan masukkan di bawah.",
+      "cash": "Uang Tunai & Tabungan Bank",
+      "gold": "Nilai Emas / Perak",
+      "tradeGoods": "Nilai Barang Dagangan",
+      "investments": "Saham / Investasi",
+      "debts": "Utang (Dikurangi)",
+      "nisab": "Ambang Nisab (Nilai Emas/Perak Saat Ini)",
+      "netWealth": "Kekayaan Bersih",
+      "zakatDue": "Zakat yang Wajib Dibayar",
+      "notEligible": "Kekayaan Anda belum mencapai ambang nisab, sehingga zakat tidak wajib.",
+      "enterNisab": "Silakan masukkan ambang nisab untuk menghitung.",
+      "settingsEntry": "Kalkulator Zakat"
+    },
+    "ramadan": {
+      "calendarTitle": "Kalender Ramadan",
+      "days": "hari",
+      "day": "Hari",
+      "date": "Tanggal",
+      "sahur": "Sahur",
+      "iftar": "Iftar",
+      "noData": "Data kalender Ramadan tidak ditemukan."
+    },
+    "achievements": {
+      "title": "Pencapaian Saya",
+      "pointsLabel": "Poin Ibadah",
+      "unlockedCount": "{{unlocked}} / {{total}} lencana terbuka",
+      "settingsEntry": "Pencapaian Saya",
+      "share": "Bagikan Poin Saya",
+      "shareText": "Saya mencapai {{points}} Poin Ibadah dan membuka {{unlocked}} lencana!",
+      "inviteTitle": "Undang Teman",
+      "inviteDesc": "Lacak khatam bersama dan saling memotivasi.",
+      "progress": {
+        "days": "{{current}} / {{total}} hari",
+        "prayers": "{{current}} / {{total}} salat",
+        "dhikr": "{{current}} / {{total}} zikir",
+        "khatm": "{{current}} / {{total}} khatam",
+        "kaza": "{{current}} / {{total}} qada"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "Memasuki Ihram",
+          "desc": "Di batas miqat, lakukan mandi wajib, kenakan pakaian ihram, niatkan lalu ucapkan talbiyah. Beberapa larangan berlaku setelah berihram (tidak boleh memakai pakaian berjahit, parfum, dll)."
+        },
+        "tawaf": {
+          "title": "Tawaf (Mengelilingi Ka'bah)",
+          "desc": "Mulai dari Hajar Aswad, kelilingi Ka'bah sebanyak tujuh kali berlawanan arah jarum jam, memberi salam kepada Hajar Aswad di awal setiap putaran jika memungkinkan."
+        },
+        "sayi": {
+          "title": "Sa'i (Antara Safa dan Marwah)",
+          "desc": "Berjalan cepat sebanyak tujuh kali antara bukit Safa dan Marwah, mengenang pencarian air oleh Siti Hajar."
+        },
+        "halq": {
+          "title": "Mencukur atau Memotong Rambut (Halq/Taqsir)",
+          "desc": "Pria mencukur habis atau memotong rambut mereka; wanita memotong rambut sepanjang ujung jari. Ini menandai selesainya umrah dan berakhirnya larangan ihram."
+        },
+        "arafat": {
+          "title": "Wukuf di Arafah (9 Zulhijah)",
+          "desc": "Rukun haji yang paling utama. Jamaah berdiam di Arafah dari siang hingga matahari terbenam pada tanggal 9 Zulhijah, memperbanyak doa, zikir, dan tobat."
+        },
+        "muzdalifah": {
+          "title": "Bermalam di Muzdalifah",
+          "desc": "Setelah dari Arafah, jamaah menuju Muzdalifah, menjamak salat Magrib dan Isya, bermalam di sana, dan mengumpulkan kerikil untuk melontar jumrah."
+        },
+        "jamarat": {
+          "title": "Melontar Jumrah",
+          "desc": "Kerikil dilemparkan ke tiang jumrah di Mina pada hari-hari yang ditentukan, mengenang penolakan Nabi Ibrahim (a.s.) terhadap setan."
+        },
+        "qurban": {
+          "title": "Penyembelihan Kurban",
+          "desc": "Kurban dipersembahkan sebagai bagian dari rangkaian ibadah haji, menandai dimulainya Iduladha."
+        },
+        "farewell_tawaf": {
+          "title": "Tawaf Perpisahan",
+          "desc": "Tawaf terakhir yang dilakukan sebelum meninggalkan Mekah, menandai selesainya rangkaian ibadah haji."
+        },
+        "ihram_clothes": {
+          "label": "Pakaian ihram (2 lembar kain putih tanpa jahitan untuk pria)"
+        },
+        "passport": {
+          "label": "Paspor, visa, dan dokumen perjalanan"
+        },
+        "health": {
+          "label": "Asuransi kesehatan dan vaksinasi yang diperlukan"
+        },
+        "comfortable_sandals": {
+          "label": "Sandal yang nyaman dan mudah dilepas"
+        },
+        "unscented_soap": {
+          "label": "Sabun tanpa pewangi dan produk perawatan pribadi"
+        },
+        "dua_book": {
+          "label": "Buku doa dan tata cara manasik (atau aplikasi ini)"
+        },
+        "money_belt": {
+          "label": "Kantong uang/dokumen yang aman"
+        },
+        "medication": {
+          "label": "Obat-obatan pribadi dan resep dokter"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Malam Raghaib",
+          "description": "Awal dari tiga bulan suci dan malam penuh rahmat."
+        },
+        "mirac": {
+          "name": "Isra Mikraj",
+          "description": "Perjalanan malam dan kenaikan Nabi (saw) menuju hadirat Ilahi."
+        },
+        "berat": {
+          "name": "Malam Nisfu Syaban",
+          "description": "Malam pengampunan dosa dan kelapangan dari kesedihan."
+        },
+        "ramadan": {
+          "name": "Awal Ramadan",
+          "description": "Hari puasa pertama di bulan Ramadan yang penuh berkah."
+        },
+        "kadir": {
+          "name": "Lailatul Qadar",
+          "description": "Malam kemuliaan yang lebih baik dari seribu bulan."
+        },
+        "eid-fitr": {
+          "name": "Idulfitri (Hari ke-1)",
+          "description": "Hari pertama Idulfitri."
+        },
+        "eid-adha": {
+          "name": "Iduladha (Hari ke-1)",
+          "description": "Hari pertama Iduladha."
+        },
+        "hijri-new-year": {
+          "name": "Tahun Baru Hijriah",
+          "description": "Hari pertama tahun Hijriah baru."
+        },
+        "ashura": {
+          "name": "Hari Asyura",
+          "description": "Hari ke-10 bulan Muharram."
+        },
+        "mevlid": {
+          "name": "Maulid Nabi",
+          "description": "Malam kelahiran Nabi (saw)."
+        }
+      },
+      "esma": {
+        "1": "Yang Maha Pengasih",
+        "2": "Yang Maha Penyayang",
+        "3": "Yang Maha Merajai",
+        "4": "Yang Maha Suci",
+        "5": "Yang Maha Memberi Kesejahteraan",
+        "6": "Yang Maha Memberi Keamanan",
+        "7": "Yang Maha Memelihara",
+        "8": "Yang Maha Perkasa",
+        "9": "Yang Maha Memaksa",
+        "10": "Yang Maha Megah",
+        "11": "Yang Maha Pencipta",
+        "12": "Yang Maha Mengadakan",
+        "13": "Yang Maha Membentuk Rupa",
+        "14": "Yang Maha Pengampun",
+        "15": "Yang Maha Menundukkan",
+        "16": "Yang Maha Pemberi Karunia",
+        "17": "Yang Maha Pemberi Rezeki",
+        "18": "Yang Maha Pembuka Rahmat",
+        "19": "Yang Maha Mengetahui",
+        "20": "Yang Maha Menyempitkan",
+        "21": "Yang Maha Melapangkan",
+        "22": "Yang Maha Merendahkan",
+        "23": "Yang Maha Meninggikan",
+        "24": "Yang Maha Memuliakan",
+        "25": "Yang Maha Menghinakan",
+        "26": "Yang Maha Mendengar",
+        "27": "Yang Maha Melihat",
+        "28": "Yang Maha Menetapkan Hukum",
+        "29": "Yang Maha Adil",
+        "30": "Yang Maha Lembut",
+        "31": "Yang Maha Mengenal",
+        "32": "Yang Maha Penyantun",
+        "33": "Yang Maha Agung",
+        "34": "Yang Maha Pengampun",
+        "35": "Yang Maha Mensyukuri",
+        "36": "Yang Maha Tinggi",
+        "37": "Yang Maha Besar",
+        "38": "Yang Maha Memelihara",
+        "39": "Yang Maha Pemberi Kecukupan",
+        "40": "Yang Maha Membuat Perhitungan",
+        "41": "Yang Maha Luhur",
+        "42": "Yang Maha Pemurah",
+        "43": "Yang Maha Mengawasi",
+        "44": "Yang Maha Mengabulkan",
+        "45": "Yang Maha Luas",
+        "46": "Yang Maha Bijaksana",
+        "47": "Yang Maha Mengasihi",
+        "48": "Yang Maha Mulia",
+        "49": "Yang Maha Membangkitkan",
+        "50": "Yang Maha Menyaksikan",
+        "51": "Yang Maha Benar",
+        "52": "Yang Maha Memelihara Penyerahan",
+        "53": "Yang Maha Kuat",
+        "54": "Yang Maha Kokoh",
+        "55": "Yang Maha Melindungi",
+        "56": "Yang Maha Terpuji",
+        "57": "Yang Maha Menghitung",
+        "58": "Yang Maha Memulai",
+        "59": "Yang Maha Mengembalikan",
+        "60": "Yang Maha Menghidupkan",
+        "61": "Yang Maha Mematikan",
+        "62": "Yang Maha Hidup",
+        "63": "Yang Maha Berdiri Sendiri",
+        "64": "Yang Maha Penemu",
+        "65": "Yang Maha Mulia",
+        "66": "Yang Maha Tunggal",
+        "67": "Yang Maha Esa",
+        "68": "Yang Maha Dibutuhkan (Tempat Bergantung)",
+        "69": "Yang Maha Kuasa",
+        "70": "Yang Maha Berkuasa",
+        "71": "Yang Maha Mendahulukan",
+        "72": "Yang Maha Mengakhirkan",
+        "73": "Yang Maha Awal",
+        "74": "Yang Maha Akhir",
+        "75": "Yang Maha Nyata",
+        "76": "Yang Maha Gaib",
+        "77": "Yang Maha Memerintah",
+        "78": "Yang Maha Tinggi Kedudukan-Nya",
+        "79": "Yang Maha Baik",
+        "80": "Yang Maha Penerima Tobat",
+        "81": "Yang Maha Pembalas",
+        "82": "Yang Maha Pemaaf",
+        "83": "Yang Maha Pengasih Penyantun",
+        "84": "Yang Maha Memiliki Kerajaan",
+        "85": "Yang Maha Memiliki Kebesaran dan Kemuliaan",
+        "86": "Yang Maha Adil",
+        "87": "Yang Maha Mengumpulkan",
+        "88": "Yang Maha Kaya",
+        "89": "Yang Maha Memberi Kekayaan",
+        "90": "Yang Maha Mencegah",
+        "91": "Yang Maha Pemberi Derita",
+        "92": "Yang Maha Pemberi Manfaat",
+        "93": "Yang Maha Bercahaya",
+        "94": "Yang Maha Pemberi Petunjuk",
+        "95": "Yang Maha Pencipta Tiada Bandingnya",
+        "96": "Yang Maha Kekal",
+        "97": "Yang Maha Mewarisi",
+        "98": "Yang Maha Pemberi Petunjuk yang Lurus",
+        "99": "Yang Maha Sabar"
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Doa Kesembuhan dan Pemulihan",
+          "occasion": "Dibaca untuk kesembuhan fisik dan spiritual saat sakit."
+        },
+        "nazar_korunma": {
+          "title": "Perlindungan dari Pandangan Jahat & Kejahatan (Ayat Kursi)",
+          "occasion": "Dibaca pagi dan sore untuk perlindungan ilahi dari pandangan jahat dan kejahatan."
+        },
+        "rizik_bereket": {
+          "title": "Doa Rezeki, Keberkahan & Pembebasan dari Utang",
+          "occasion": "Dibaca untuk kelimpahan rezeki, keberkahan rezeki, dan pembebasan dari utang."
+        },
+        "ferahlik_sikinti": {
+          "title": "Doa di Saat Kesulitan (Doa Nabi Yunus)",
+          "occasion": "Dibaca saat menghadapi kesulitan berat, kecemasan, keputusasaan, dan kesedihan."
+        },
+        "sinav_zihin": {
+          "title": "Doa untuk Ilmu, Ujian & Kejernihan Pikiran",
+          "occasion": "Dibaca sebelum ujian, belajar, atau memulai pekerjaan intelektual yang berat."
+        },
+        "seyyidul_istigfar": {
+          "title": "Sayyidul Istighfar (Induk Doa Permohonan Ampunan)",
+          "occasion": "Dibaca pagi dan sore untuk tobat yang tulus dan pengampunan dosa."
+        },
+        "anne_baba": {
+          "title": "Doa untuk Orang Tua & Keluarga",
+          "occasion": "Dibaca untuk ampunan, kesehatan, dan rahmat bagi orang tua serta keluarga."
+        },
+        "ezan_sonrasi": {
+          "title": "Doa Setelah Mendengar Azan",
+          "occasion": "Dibaca segera setelah azan selesai untuk mendapatkan syafaat Nabi."
+        },
+        "iftar_oruc": {
+          "title": "Doa Berbuka Puasa (Iftar)",
+          "occasion": "Dibaca pada saat berbuka puasa ketika matahari terbenam."
+        },
+        "morning_1": {
+          "title": "Doa Perlindungan Pagi & Petang",
+          "occasion": "Dibaca 3 kali pagi dan petang untuk perlindungan penuh dari segala kejahatan."
+        },
+        "leaving_home": {
+          "title": "Doa Ketika Keluar Rumah",
+          "occasion": "Dibaca saat melangkah keluar rumah untuk keselamatan dan petunjuk ilahi."
+        },
+        "entering_home": {
+          "title": "Doa Ketika Masuk Rumah",
+          "occasion": "Dibaca saat memasuki rumah untuk kedamaian, keberkahan, dan perlindungan."
+        },
+        "waking_up": {
+          "title": "Doa Bangun Tidur",
+          "occasion": "Dibaca saat bangun tidur sebagai rasa syukur atas dihidupkannya kembali dan diberikannya kekuatan."
+        },
+        "sleeping": {
+          "title": "Doa Sebelum Tidur",
+          "occasion": "Dibaca saat hendak tidur untuk ketenangan dan penjagaan ilahi."
+        },
+        "sukr_hamd": {
+          "title": "Doa Syukur atas Nikmat",
+          "occasion": "Dibaca sebagai rasa syukur ketika menerima nikmat dan kabar baik."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "Konsistensi 7 Hari",
+          "desc": "Mencatat salat 7 hari berturut-turut"
+        },
+        "prayer_streak_30": {
+          "title": "Konsistensi 30 Hari",
+          "desc": "Mencatat salat 30 hari berturut-turut"
+        },
+        "prayer_total_100": {
+          "title": "100 Salat",
+          "desc": "Mencatat total 100 salat"
+        },
+        "prayer_total_500": {
+          "title": "500 Salat",
+          "desc": "Mencatat total 500 salat"
+        },
+        "dhikr_streak_7": {
+          "title": "Zikir 7 Hari Berturut-turut",
+          "desc": "Berzikir 7 hari berturut-turut"
+        },
+        "dhikr_streak_30": {
+          "title": "Zikir 30 Hari Berturut-turut",
+          "desc": "Berzikir 30 hari berturut-turut"
+        },
+        "dhikr_total_1000": {
+          "title": "1.000 Zikir",
+          "desc": "Membaca total 1.000 zikir"
+        },
+        "dhikr_total_10000": {
+          "title": "10.000 Zikir",
+          "desc": "Membaca total 10.000 zikir"
+        },
+        "hatim_first": {
+          "title": "Khatam Pertama",
+          "desc": "Menyelesaikan membaca Al-Qur'an dari awal hingga akhir"
+        },
+        "hatim_3": {
+          "title": "3 Kali Khatam",
+          "desc": "Menyelesaikan Al-Qur'an 3 kali"
+        },
+        "kaza_10": {
+          "title": "10 Qada Selesai",
+          "desc": "Menyelesaikan 10 salat/puasa qada"
+        },
+        "kaza_50": {
+          "title": "50 Qada Selesai",
+          "desc": "Menyelesaikan 50 salat/puasa qada"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mishary Alafasy"
+        },
+        "abdulbasit": {
+          "name": "Abdul Basit"
+        },
+        "husary": {
+          "name": "Al-Husary"
+        },
+        "minshawy": {
+          "name": "Al-Minshawy"
+        },
+        "shuraym": {
+          "name": "Saud Al-Shuraym"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Jumat Penuh Berkah 🌹",
+          "message": "Semoga Allah menerima doa tulus kita dan melimpahkan Jumat yang penuh berkah ini dengan kedamaian, rahmat, dan keberlimpahan."
+        },
+        "cuma_2": {
+          "title": "Jumat Mubarak ✨",
+          "message": "Semoga Allah memberkati Anda dan orang-orang tercinta dengan kebahagiaan, kesehatan, dan iman di dunia dan akhirat."
+        },
+        "kandil_1": {
+          "title": "Selamat Malam Mulia 🌙",
+          "message": "Semoga keberkahan, ampunan, dan kedamaian malam suci ini menyertai Anda dan keluarga."
+        },
+        "ramazan_1": {
+          "title": "Ramadan Mubarak 🕌",
+          "message": "Semoga Ramadan yang penuh berkah ini membawa perenungan spiritual, kedamaian, dan rahmat ilahi bagi Anda."
+        },
+        "bayram_1": {
+          "title": "Selamat Hari Raya 🌟",
+          "message": "Semoga Hari Raya ini membawa kebahagiaan, kesehatan, kebersamaan, dan keberlimpahan bagi Anda dan orang-orang tercinta."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Doa Sebelum Membaca Al-Qur'an"
+        },
+        "hatim": {
+          "title": "Doa Khatam Al-Qur'an"
+        },
+        "sajdah": {
+          "title": "Sujud Tilawah"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Al-Qur'an"
+        },
+        "daily": {
+          "label": "Konten"
+        },
+        "home": {
+          "label": "Waktu"
+        },
+        "dhikr": {
+          "label": "Zikir"
+        },
+        "library": {
+          "label": "Doa"
+        },
+        "qibla": {
+          "label": "Kiblat"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Salat",
+        "dhikr": "Zikir",
+        "quran": "Al-Qur'an",
+        "kaza": "Qada"
+      },
+      "hijriMonths": {
+        "1": "Muharram",
+        "2": "Safar",
+        "3": "Rabiul Awal",
+        "4": "Rabiul Akhir",
+        "5": "Jumadil Awal",
+        "6": "Jumadil Akhir",
+        "7": "Rajab",
+        "8": "Syaban",
+        "9": "Ramadan",
+        "10": "Syawal",
+        "11": "Zulkaidah",
+        "12": "Zulhijah"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Jika ada selisih waktu, tekan lama kartunya untuk menyesuaikannya.",
+      "title": "Sesuaikan waktu {{prayer}}",
+      "desc": "Jika masjid atau kalender Anda menunjukkan waktu yang berbeda, tambah atau kurangi menit. Notifikasi azan juga akan mengikuti ini.",
+      "minus": "Mundur 1 menit",
+      "minutes": "{{value}} mnt",
+      "plus": "Maju 1 menit",
+      "reset": "Atur Ulang",
+      "save": "Simpan"
+    },
+    "feedback": {
+      "settingsRow": "Kirim Masukan",
+      "title": "Mari Kembangkan Bersama",
+      "subtitle": "Tuliskan saran, permintaan, atau masalah yang Anda temui agar kami bisa membuat Vera lebih baik.",
+      "placeholder": "Tuliskan ide, saran, atau masalah yang Anda temui...",
+      "error": "Gagal mengirim. Silakan coba lagi sesaat lagi.",
+      "send": "Kirim",
+      "thankYouTitle": "Masukan Anda Diterima",
+      "thankYouSubtitle": "Pendapat Anda sangat berarti bagi kami. Kami berupaya keras untuk membuat Vera lebih baik."
+    },
+    "battery": {
+      "stepsXiaomi": "Pengaturan → Aplikasi → Vera: aktifkan \"Autostart\" dan atur Penghemat Baterai ke \"Tanpa batasan\".",
+      "stepsSamsung": "Pengaturan → Baterai → Batas penggunaan latar belakang: tambahkan Vera ke \"Aplikasi yang tidak pernah tidur\".",
+      "stepsOppo": "Pengaturan → Baterai → Vera: aktifkan \"Izinkan aktivitas latar belakang\" dan \"Autostart\".",
+      "stepsOther": "Nonaktifkan pengoptimalan baterai untuk Vera agar azan berbunyi tepat waktu.",
+      "cardTitle": "Dengar azan tepat waktu",
+      "openSettings": "Buka Pengaturan"
+    },
+    "widget": {
+      "guideTitle": "Tambahkan ke Layar Utama",
+      "guideDesc": "Tekan lama layar utama Anda ➔ ketuk \"Widget\" ➔ cari widget \"VERA\" dan seret ke layar Anda.",
+      "promptTitle": "Tambahkan Widget ke Layar Utama",
+      "promptDesc": "Lihat waktu salat berikutnya dan menit yang tersisa langsung dari layar utama ponsel Anda, tanpa membuka aplikasi.",
+      "addNow": "📌 Tambahkan ke Layar Utama",
+      "notNow": "Nanti Saja"
+    },
+    "greetingNotif": {
+      "dayTitle": "Selamat {{name}}",
+      "nightTitle": "Malam ini {{name}}",
+      "body": "Kirim kartu ucapan kepada orang-orang tercinta Anda.",
+      "fridayTitle": "Jumat Mubarak",
+      "fridayBody": "Kirim kartu ucapan Jumat kepada orang-orang tercinta Anda."
+    },
+    "errorBoundary": {
+      "title": "Terjadi kesalahan",
+      "subtitle": "Aplikasi mengalami kesalahan tak terduga. Ketuk tombol di bawah untuk mencoba lagi.",
+      "retry": "Coba Lagi"
     }
   }
 }

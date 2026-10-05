@@ -6,7 +6,11 @@
       "retry": "Riprovo",
       "success": "Suksese",
       "fillAllFields": "Ju lutemi plotësoni të gjitha fushat.",
-      "min": "m"
+      "min": "m",
+      "cancel": "Anulo",
+      "save": "Ruaj",
+      "ok": "OK",
+      "close": "Mbyll"
     },
     "home": {
       "title": "Orari i Namazit",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "Kohët e lutjes nuk mund të ngarkoheshin",
       "errorLoadingSubtitle": "Ju lutemi kontrolloni lidhjen tuaj të internetit ose zgjidhni qytetin tuaj.",
       "retryBtn": "Provo sërish",
-      "loadingTimes": "Kohët e lutjes po ngarkohen..."
+      "loadingTimes": "Kohët e lutjes po ngarkohen...",
+      "locationPermissionTitle": "Leja e Vendndodhjes Nuk u Mor",
+      "locationPermissionDesc": "Po shfaqet qyteti i paracaktuar. Mund të zgjidhni një qytet ose të jepni leje vendndodhjeje.",
+      "estimatedTimesNotice": "Për shkak të mungesës së lidhjes në internet, kohët e namazit u llogaritën në pajisje (të përafërta)."
     },
     "settings": {
       "title": "Cilësimet",
@@ -111,7 +118,19 @@
       "offsetsTitle": "Rregullimet e kohës së namazit (Zhvendosjet / ± Min)",
       "offsetsDesc": "Nëse xhamia ose kalendari juaj lokal ndryshon për minuta, mund të rregulloni oraret deri në ±15 minuta.",
       "respectSilentModeTitle": "Xhamia / Modaliteti i heshtur Respekt",
-      "respectSilentModeDesc": "Hesht audion e ezanit dhe njofton në heshtje kur telefoni juaj është në modalitetin e heshtur ose vibrimit."
+      "respectSilentModeDesc": "Hesht audion e ezanit dhe njofton në heshtje kur telefoni juaj është në modalitetin e heshtur ose vibrimit.",
+      "inviteFriend": "Fto një Mik",
+      "privacyOptions": "Opsionet e Privatësisë",
+      "timeFormat24h": "Formati 24-Orësh",
+      "loginLocked": "Shumë përpjekje të dështuara. Ju lutemi provoni përsëri më vonë.",
+      "loginFailed": "Hyrja dështoi. Kontrolloni të dhënat tuaja.",
+      "notifications": "Njoftimet",
+      "editorLogout": "Dalje e Editorit",
+      "editorLogin": "Hyrje e Editorit",
+      "username": "Emri i përdoruesit",
+      "password": "Fjalëkalimi",
+      "loggingIn": "Po hyni...",
+      "login": "Hyr"
     },
     "qibla": {
       "title": "Kibla",
@@ -154,7 +173,9 @@
       "share": "Shpërndaj",
       "verseBody": "Kliko për të lexuar ajetin e ditës!",
       "hadithBody": "Kliko për të lexuar hadithin e ditës!",
-      "quoteBody": "Kliko për të lexuar thënien e ditës!"
+      "quoteBody": "Kliko për të lexuar thënien e ditës!",
+      "subtitle": "Ajet, hadith dhe thënie e zgjedhur për sot",
+      "shareHint": "Prekni kartën për ta ndarë si imazh historie"
     },
     "search": {
       "title": "Zgjidh Vendndodhjen",
@@ -217,7 +238,8 @@
         "dailyDesc": "Vargu, hadithi ose citat i përditshëm mbërrin ndërmjet Dhuhrit dhe Asr.",
         "persistentName": "Kyçja e ekranit dhe shiriti i statusit",
         "persistentDesc": "Shfaq emrin e lutjes tjetër dhe numërimin mbrapsht drejtpërdrejt në panelin e njoftimeve dhe në ekranin e kyçjes."
-      }
+      },
+      "persistentTitle": "🕌 Deri në {{prayer}}"
     },
     "tasbih": {
       "title": "Tesbihi",
@@ -259,7 +281,49 @@
       "bgAudioSelect": "Zgjidhni Tingull Dhikri në sfond",
       "dikhr1": "Tingulli Dhikr 1",
       "dikhr2": "Tingulli Dhikër 2",
-      "dikhr3": "Tingulli Dhikër 3"
+      "dikhr3": "Tingulli Dhikër 3",
+      "shareMilestone": "Ndaj",
+      "milestoneShareText": "Këtë muaj arrita gjithsej {{total}} zikër, mashallah!",
+      "streakDays": "ditë rresht",
+      "monthStat": "Këtë muaj",
+      "streakStat": "Seria",
+      "streakValue": "{{count}} ditë",
+      "remaining": "{{count}} mbetur",
+      "noTarget": "Pa cak",
+      "completed": "Përfunduar",
+      "addShort": "Shto",
+      "progressShort": "Përparimi",
+      "recShort": "Sugjerim",
+      "tapToCount": "Prek për të numëruar",
+      "ok": "OK",
+      "dailyDhikrs": [
+        {
+          "text": "Subhanallahi ve bihamdihi",
+          "benefit": "Kur lexohet 100 herë në ditë, mëkatet falen edhe nëse janë sa shkuma e detit.",
+          "target": 100
+        },
+        {
+          "text": "La ilahe il-lallahu vahdehu la sherike lehu...",
+          "benefit": "Kush e lexon 100 herë në ditë merr shpërblimin sikur të ketë liruar 10 skllevër dhe mbrohet nga shejtani.",
+          "target": 100
+        },
+        {
+          "text": "Estagfirullahel-Adhim",
+          "benefit": "Largon vështirësitë, zgjeron riskun dhe sjell shpëtim nga hallet.",
+          "target": 100
+        },
+        {
+          "text": "La havle vela kuvvete il-la bil-lah",
+          "benefit": "Është një thesar nga thesaret e Xhenetit, largon çdo lloj shqetësimi dhe brengë.",
+          "target": 100
+        },
+        {
+          "text": "Subhanallahi velhamdulilahi...",
+          "benefit": "Është më e dashura ndër fjalët, më e rëndë në peshore se çdo gjë tjetër mbi të cilën lind dielli.",
+          "target": 100
+        }
+      ],
+      "recTarget": "Cak:"
     },
     "update": {
       "title": "Përditësim i Ri i Disponueshëm!",
@@ -336,7 +400,15 @@
       "mealSource": "Përkthim autentik në anglisht",
       "loadingMeal": "Po ngarkon përkthimin e faqes...",
       "noMealFound": "Nuk u gjet asnjë përkthim për këtë faqe. Ju lutemi kontrolloni lidhjen tuaj të internetit.",
-      "mealBtn": "Përkthimi"
+      "mealBtn": "Përkthimi",
+      "selectReciter": "Zgjidh Recituesin",
+      "bookmarkAdded": "Ajeti u shtua te të preferuarat",
+      "bookmarkRemoved": "Ajeti u hoq nga të preferuarat",
+      "bookmarksTitle": "Ajetet e Ruajtura",
+      "noBookmarks": "Ende nuk keni asnjë ajet të preferuar. Mund ta shtoni duke mbajtur shtypur mbi një ajet.",
+      "playFromHere": "Dëgjo nga Këtu",
+      "juz": "Xhuz",
+      "downloadingShort": "Po shkarkohet..."
     },
     "review": {
       "title": "Na Mbështetni",
@@ -372,7 +444,10 @@
       "themeSepia": "Sepia e ngrohtë",
       "appTagline": "Kohët e namazit, Kurani dhe Kibla",
       "storeSearchHint": "Kërko në Google Play: Vera",
-      "scanToDownload": "Skanoni për të shkarkuar"
+      "scanToDownload": "Skanoni për të shkarkuar",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 Përdor Vera-n për të ndjekur kohët e namazit, ezanin dhe leximin tim të Kuranit. Të ndjekim një hatme së bashku!\n\n📲 Shkarko aplikacionin: {{link}}"
     },
     "checklist": {
       "title": "Gjurmuesi i lutjes ditore",
@@ -397,7 +472,9 @@
       "celebrationMessage": "Ju i keni kryer të 5 namazet ditore sot. Allahu ua pranoftë lutjet!",
       "celebrationBtn": "Elhamdulilah",
       "trustNotice": "{{qyteti}} • Kohët e verifikuara të lutjes për rajonin tuaj duke përdorur {{metodën}}",
-      "streakDays": "Ditët"
+      "streakDays": "Ditët",
+      "shareStreak": "Ndaj Serinë Time",
+      "shareText": "Kam ndjekur namazet e mia {{count}} ditë rresht, elhamdulilah!"
     },
     "calendar": {
       "title": "Kalendari i Unifikuar",
@@ -413,7 +490,8 @@
       "subtitle": "Kalendari dhe numërimi mbrapsht për netët dhe ditët e bekuara",
       "today": "Sot",
       "daysLeft": "ditë",
-      "passed": "Kaloi"
+      "passed": "Kaloi",
+      "loadError": "Ditët fetare nuk u ngarkuan dot. Kontrolloni lidhjen tuaj në internet."
     },
     "widgetPromo": {
       "title": "Shto miniaplikacionin e lutjes",
@@ -477,7 +555,17 @@
       "widgetDesc": "Shikoni numërimin mbrapsht drejtpërdrejt pa hapur aplikacionin.",
       "widgetAdded": "Miniaplikacioni u shtua me sukses!",
       "batteryTitle": "🔋 Përjashtim i kursimit të baterisë",
-      "batteryDesc": "Rekomandohet të çaktivizoni optimizimin e baterisë në Xiaomi dhe Samsung për adhan në kohë."
+      "batteryDesc": "Rekomandohet të çaktivizoni optimizimin e baterisë në Xiaomi dhe Samsung për adhan në kohë.",
+      "locationReassurance": "Këtë mund ta ndryshoni gjithmonë më vonë te Cilësimet.",
+      "notifDenied": "Leja e njoftimeve nuk u dha. Paralajmërimet e ezanit mund të mos funksionojnë — mund ta aktivizoni më vonë te Cilësimet.",
+      "retryBtn": "Provo Përsëri",
+      "continueWithoutNotif": "Vazhdo Pa Njoftime",
+      "skipTitle": "Anulo Konfigurimin",
+      "skipBody": "Mund ta anuloni konfigurimin tani. Cilësimet e vendndodhjes dhe njoftimeve mund t'i konfiguroni më vonë te Cilësimet.",
+      "skipConfirm": "Anulo",
+      "locationDenied": "Leja e vendndodhjes nuk u dha. Mund të zgjidhni qytetin tuaj nga lista, ose ta ndryshoni këtë më vonë te Cilësimet.",
+      "locationFailed": "Vendndodhja nuk u mor. Mund të zgjidhni qytetin tuaj nga lista, ose ta ndryshoni këtë më vonë te Cilësimet.",
+      "locationNotSet": "Vendndodhja Nuk u Mor (Leja Nuk u Dha)"
     },
     "weather": {
       "title": "Parashikimi i motit",
@@ -496,7 +584,8 @@
       "sunset": "Perëndimi i diellit",
       "precipitation": "Reshjet",
       "kmh": "km/h",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Provo Përsëri"
     },
     "duas": {
       "occasionTitle": "Kur dhe pse të recitojmë?",
@@ -542,7 +631,15 @@
       "chooseTheme": "Tema e kartës",
       "shareBtn": "Ndani në WhatsApp / Story 🌟",
       "shareImageBtn": "Ndani kartën e imazhit 🌟",
-      "shareLinkBtn": "Ndani lidhjen e drejtpërdrejtë të dyqanit 🔗"
+      "shareLinkBtn": "Ndani lidhjen e drejtpërdrejtë të dyqanit 🔗",
+      "theme": {
+        "gold": "Vija e Artë",
+        "emerald": "Kupola Smerald",
+        "navy": "Blu Nate",
+        "crimson": "Trëndafil & Rubin"
+      },
+      "customDefaultTitle": "Xhuma Mubarek",
+      "customDefaultMessage": "Lutjet dhe ibadetet tuaja qofshin të pranuara."
     },
     "mosques": {
       "title": "Xhamitë aty pranë",
@@ -557,7 +654,12 @@
     "dailyContent": {
       "preparing": "Duke ngarkuar frymëzimin e përditshëm...",
       "queueSuccess": "Përmbajtja u shtua në radhën e miratimit.",
-      "queueError": "Ndodhi një gabim gjatë shtimit të përmbajtjes."
+      "queueError": "Ndodhi një gabim gjatë shtimit të përmbajtjes.",
+      "addModalTitle": "Shto Përmbajtje të Re",
+      "textPlaceholder": "Teksti i Përmbajtjes (Arabisht/Përkthim)",
+      "sourcePlaceholder": "Burimi (P.sh. Buhari, Iman 1)",
+      "saving": "Po ruhet...",
+      "saveAndQueue": "Ruaj dhe Vendos në Radhë"
     },
     "hatim": {
       "title": "Gjurmuesi i Kuranit Khatm",
@@ -572,7 +674,9 @@
       "resetTitle": "Filloni Khatm-in e Ri",
       "resetBody": "Khatm aktual do të regjistrohet si i përfunduar dhe një khatm i ri do të fillojë nga faqja 1. Dëshiron të vazhdosh?",
       "startNew": "Filloni Khatm-in e Ri",
-      "resetHatimBtn": "Rivendos dhe fillo Khatm të ri"
+      "resetHatimBtn": "Rivendos dhe fillo Khatm të ri",
+      "share": "Ndaj Hatmen Time",
+      "shareText": "Përfundova hatmen time të {{count}}-të, elhamdulilah!"
     },
     "prayerTree": {
       "title": "Pema javore e lutjes",
@@ -582,6 +686,512 @@
       "quoteHigh": "“Namazi është shtylla e besimit.” — Po kaloni një javë të jashtëzakonshme, MashaAllah!",
       "quoteMid": "“Faleni namazin, jepni zekatin dhe përkuluni me ata që përkulen.” (El-Bekare, 43)",
       "quoteLow": "\"Vërtet, namazi u është caktuar besimtarëve një vendim i kohës së caktuar.\" (En-Nisa, 103)"
+    },
+    "hajjUmrah": {
+      "title": "Udhëzuesi i Haxhit & Umres",
+      "umrah": "Umre",
+      "hajj": "Haxh",
+      "stepsTitle": "Ritualet Hap pas Hapi",
+      "checklistTitle": "Lista e Kontrollit të Përgatitjes",
+      "settingsEntry": "Udhëzuesi i Haxhit & Umres"
+    },
+    "zakat": {
+      "title": "Llogaritësi i Zekatit",
+      "info": "Zekati është 2,5% (1/40) e pasurisë së mbajtur për një vit të plotë hënor që arrin nisabin. Kontrolloni vlerën aktuale të nisabit (bazuar në çmimin e arit/argjendit) dhe futeni më poshtë.",
+      "cash": "Para në Dorë & Kursime Bankare",
+      "gold": "Vlera e Arit / Argjendit",
+      "tradeGoods": "Vlera e Mallrave Tregtare",
+      "investments": "Aksione / Investime",
+      "debts": "Borxhet (Zbriten)",
+      "nisab": "Vlera e Nisabit (Vlera Aktuale e Arit/Argjendit)",
+      "netWealth": "Pasuria Neto",
+      "zakatDue": "Zekati për t'u Paguar",
+      "notEligible": "Pasuria juaj nuk ka arritur nisabin, prandaj nuk keni detyrim zekati.",
+      "enterNisab": "Ju lutemi futni vlerën e nisabit për të llogaritur.",
+      "settingsEntry": "Llogaritësi i Zekatit"
+    },
+    "ramadan": {
+      "calendarTitle": "Imsakia e Ramazanit",
+      "days": "ditë",
+      "day": "Dita",
+      "date": "Data",
+      "sahur": "Syfyri",
+      "iftar": "Iftari",
+      "noData": "Të dhënat e imsakisë së Ramazanit nuk u gjetën."
+    },
+    "achievements": {
+      "title": "Arritjet e Mia",
+      "pointsLabel": "Pikët e Ibadetit",
+      "unlockedCount": "{{unlocked}} / {{total}} distinktivë të zhbllokuar",
+      "settingsEntry": "Arritjet e Mia",
+      "share": "Ndaj Pikët e Mia",
+      "shareText": "Arrita {{points}} Pikë Ibadeti dhe zhbllokova {{unlocked}} distinktivë!",
+      "inviteTitle": "Fto një Mik",
+      "inviteDesc": "Ndiqni një hatme së bashku, motivoni njëri-tjetrin.",
+      "progress": {
+        "days": "{{current}} / {{total}} ditë",
+        "prayers": "{{current}} / {{total}} namaze",
+        "dhikr": "{{current}} / {{total}} zikër",
+        "khatm": "{{current}} / {{total}} hatme",
+        "kaza": "{{current}} / {{total}} kaza"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "Hyrja në Ihram",
+          "desc": "Në kufirin e mikatit merret gusli, vishen rrobat e ihramit dhe bëhet nijeti duke thënë telbijen. Pas hyrjes në ihram fillojnë ndalesa si veshja e rrobave të qepura apo përdorimi i parfumit."
+        },
+        "tawaf": {
+          "title": "Tavafi (Rrotullimi rreth Qabesë)",
+          "desc": "Duke filluar nga Guri i Zi, bëhen 7 xhira rreth Qabesë në kah të kundërt me akrepat e orës, duke e përshëndetur Gurin e Zi në fillim të çdo xhiri nëse është e mundur."
+        },
+        "sayi": {
+          "title": "Sa'ji (Mes Safasë dhe Merves)",
+          "desc": "Duke filluar nga kodra e Safasë, ecet me shpejtësi deri te Merve dhe mbrapsht, gjithsej 7 herë, në kujtim të kërkimit të ujit nga Haxheri."
+        },
+        "halq": {
+          "title": "Rruajtja ose Shkurtimi i Flokëve (Halk-Taksir)",
+          "desc": "Burrat rruajnë krejtësisht kokën ose i shkurtojnë flokët; gratë presin një gishtërinj flokësh. Me këtë veprim Umreja përfundon dhe ndalesat e ihramit marrin fund."
+        },
+        "arafat": {
+          "title": "Qëndrimi në Arafat (9 Dhul-Hixhxhe)",
+          "desc": "Është shtylla më e rëndësishme e Haxhit. Në ditën e 9-të të Dhul-Hixhxhes qëndrohet në Arafat nga dreka deri në perëndim të diellit, duke u marrë me lutje, zikër dhe pendim."
+        },
+        "muzdalifah": {
+          "title": "Kalimi i Natës në Muzdelife",
+          "desc": "Pas Arafatit vjen kthimi në Muzdelife, ku falen së bashku namazi i akshamit dhe i jacisë, kalohet nata atje dhe mblidhen gurë për gurëzimin e shejtanit."
+        },
+        "jamarat": {
+          "title": "Gurëzimi i Shejtanit (Xhemeret)",
+          "desc": "Në Mina hidhen gurë te shtyllat e xhemereve në ditët e caktuara. Kjo është kujtim i refuzimit të shejtanit nga Ibrahimi (a.s.)."
+        },
+        "qurban": {
+          "title": "Therja e Kurbanit",
+          "desc": "Si pjesë e riteve të Haxhit, theret kurban; kjo shënon edhe fillimin e Kurban Bajramit."
+        },
+        "farewell_tawaf": {
+          "title": "Tavafi i Lamtumirës",
+          "desc": "Është tavafi i fundit që bëhet para largimit nga Meka; shënon përfundimin e ritit të Haxhit."
+        },
+        "ihram_clothes": {
+          "label": "Rrobat e ihramit (2 copë pëlhurë të bardhë të paqepur për burrat)"
+        },
+        "passport": {
+          "label": "Pasaporta, viza dhe dokumentet e udhëtimit"
+        },
+        "health": {
+          "label": "Sigurimi shëndetësor dhe vaksinat e nevojshme"
+        },
+        "comfortable_sandals": {
+          "label": "Sandale të rehatshme, që hiqen lehtë"
+        },
+        "unscented_soap": {
+          "label": "Sapun pa aromë dhe produkte për higjienën personale"
+        },
+        "dua_book": {
+          "label": "Libër me dua dhe rite (ose ky aplikacion)"
+        },
+        "money_belt": {
+          "label": "Çantë e sigurt për para/dokumente"
+        },
+        "medication": {
+          "label": "Ilaçe personale dhe recetat"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Nata e Regaibit",
+          "description": "Fillimi i tre muajve të shenjtë dhe një natë mëshire."
+        },
+        "mirac": {
+          "name": "Miraxhi (Isra dhe Miraxh)",
+          "description": "Udhëtimi natën dhe ngjitja e Profetit (a.s.) drejt pranisë hyjnore."
+        },
+        "berat": {
+          "name": "Nata e Beratit",
+          "description": "Natë pastrimi nga mëkatet dhe shpëtimi nga hallet."
+        },
+        "ramadan": {
+          "name": "Fillimi i Ramazanit",
+          "description": "Dita e parë e agjërimit në muajin e bekuar të Ramazanit."
+        },
+        "kadir": {
+          "name": "Nata e Kadrit",
+          "description": "Nata e Fuqisë, më e mirë se një mijë muaj."
+        },
+        "eid-fitr": {
+          "name": "Bajrami i Ramazanit (Dita 1)",
+          "description": "Dita e parë e Bajramit të Ramazanit."
+        },
+        "eid-adha": {
+          "name": "Kurban Bajrami (Dita 1)",
+          "description": "Dita e parë e Kurban Bajramit."
+        },
+        "hijri-new-year": {
+          "name": "Viti i Ri Hixhri",
+          "description": "Dita e parë e vitit të ri Hixhri."
+        },
+        "ashura": {
+          "name": "Dita e Ashuras",
+          "description": "Dita e 10-të e muajit Muharrem."
+        },
+        "mevlid": {
+          "name": "Mevludi",
+          "description": "Nata e lindjes së Profetit (a.s.)."
+        }
+      },
+      "esma": {
+        "1": "I Mëshirshmi, falësi, dhembshuri.",
+        "2": "Mëshiruesi vetëm për besimtarët në Ahiret.",
+        "3": "Sunduesi, zotëruesi i gjithësisë.",
+        "4": "I Shenjti, i pastër nga çdo e metë.",
+        "5": "Burimi i Paqes për robërit e Tij.",
+        "6": "Dhënësi i sigurisë, Mbrojtësi.",
+        "7": "Mbikëqyrësi që drejton çdo punë të gjithësisë.",
+        "8": "I Plotfuqishmi, i pamposhtur.",
+        "9": "Ai që detyron kë të dojë të bëjë atë që dëshiron.",
+        "10": "Madhështori, pa shok në madhështi.",
+        "11": "Krijuesi nga asgjëja.",
+        "12": "Ai që krijon çdo gjë në harmoni të përsosur.",
+        "13": "Formësuesi i qenieve.",
+        "14": "Falësi i madh i mëkateve.",
+        "15": "Nënshtruesi, ngadhënjyes mbi çdo gjë.",
+        "16": "Dhuruesi pa kërkuar kthim.",
+        "17": "Furnizuesi i të gjitha krijesave.",
+        "18": "Hapësi i të gjitha dyerve, materiale dhe shpirtërore.",
+        "19": "Gjithëdijshmi mbi çdo gjë.",
+        "20": "Ai që ngushton furnizimin kujt të dojë.",
+        "21": "Ai që zgjeron furnizimin kujt të dojë.",
+        "22": "Poshtëruesi i mosbesimtarëve dhe zullumqarëve.",
+        "23": "Lartësuesi i besimtarëve.",
+        "24": "Nderuesi i kujt të dojë.",
+        "25": "Poshtëruesi i kujt të dojë.",
+        "26": "Gjithdëgjuesi.",
+        "27": "Gjithshikuesi.",
+        "28": "Gjykatësi, ai që zbaton drejtësinë.",
+        "29": "I Drejti absolut.",
+        "30": "I Buti, njohësi i të fshehtave më të holla.",
+        "31": "I Informuari për gjithçka.",
+        "32": "I Duruari, ai që nuk nxiton në ndëshkim.",
+        "33": "I Madhërishmi, madhështia e të cilit s'kuptohet nga mendja.",
+        "34": "Falësi i Madh.",
+        "35": "Vlerësuesi, që shpërblen shumë për pak vepër.",
+        "36": "Më i Larti, i pafund në lartësi.",
+        "37": "Më i Madhi, madhështia e qenies e cilësive të të cilit s'njihet.",
+        "38": "Ruajtësi i çdo gjëje.",
+        "39": "Furnizuesi i çdo krijese.",
+        "40": "Llogaritësi më i mirë i punëve të robërve.",
+        "41": "Zotëruesi i madhështisë dhe krenarisë.",
+        "42": "Bujari, dhuruesi i pafund.",
+        "43": "Vëzhguesi i çdo qenieje.",
+        "44": "Pranuesi i lutjeve të atyre që i luten.",
+        "45": "Përfshirësi, mëshira dhe dija e të cilit përfshin çdo gjë.",
+        "46": "I Urti absolut në çdo punë.",
+        "47": "I Dashuri, ai që i do robërit dhe meriton të duhet.",
+        "48": "Lavdiploti, i lartë në nder dhe vlerë.",
+        "49": "Ringjallësi i të vdekurve.",
+        "50": "Dëshmitari i çdo gjëje.",
+        "51": "E Vërteta, ekzistenca e pandryshueshme.",
+        "52": "Përkujdesësi i atyre që i mbështeten Atij.",
+        "53": "I Forti absolut, fuqia e të cilit s'ka fund.",
+        "54": "I Patundshmi, tejet i qëndrueshëm.",
+        "55": "Miku dhe Ndihmësi i besimtarëve.",
+        "56": "I Lavdëruari, i denjë për çdo lavdërim.",
+        "57": "Numëruesi i çdo krijese që ka bërë.",
+        "58": "Fillestari, krijuesi pa shembull të mëparshëm.",
+        "59": "Rikthyesi, ai që i shkatërron krijesat dhe i ringjall përsëri.",
+        "60": "Dhënësi i jetës.",
+        "61": "Sjellësi i vdekjes për çdo krijesë të gjallë.",
+        "62": "I Gjalli, gjithëdijshëm dhe gjithëfuqishëm.",
+        "63": "Vetëqëndrueshmi, mbajtësi i qiejve, tokës dhe gjithçkaje.",
+        "64": "Gjetësi, ai që gjen çfarë të dojë kur të dojë.",
+        "65": "Fisniku, i madh në vlerë dhe bujari.",
+        "66": "I Vetmi.",
+        "67": "Një i Vetëm, pa shok në qenie, cilësi e vepra.",
+        "68": "I Përjetshmi, i pavarur nga gjithçka, ndërsa gjithçka ka nevojë për Të.",
+        "69": "I Fuqishmi mbi gjithçka.",
+        "70": "Sunduesi mbi të gjithë zotëruesit e forcës dhe fuqisë.",
+        "71": "Ai që çon përpara kë të dojë.",
+        "72": "Ai që lë pas kë të dojë.",
+        "73": "I Pari, pa fillim para Tij.",
+        "74": "I Fundit, pa mbarim pas Tij.",
+        "75": "I Dukshmi, ekzistenca e të cilit është e qartë mbi çdo gjë.",
+        "76": "I Fshehuri, madhështia e të cilit s'kapet nga mendja.",
+        "77": "Sunduesi i gjithësisë.",
+        "78": "Më i Larti mbi çfarëdo që mendja mund të kuptojë.",
+        "79": "Burimi i mirësisë dhe bamirësisë ndaj robërve.",
+        "80": "Pranuesi i madh i pendimit.",
+        "81": "Hakmarrësi mbi rebelët dhe zullumqarët.",
+        "82": "Fshirësi i mëkateve.",
+        "83": "I Dhembshuri i madh, plot mëshirë e mirësi.",
+        "84": "Zotëruesi i përjetshëm i mbretërisë.",
+        "85": "Zoti i madhështisë dhe bujarisë.",
+        "86": "Ai që i bën gjërat në ekuilibër dhe përputhje të përsosur.",
+        "87": "Tubuesi i krijesave në Ditën e Kiametit.",
+        "88": "I Vetmjaftueshmi, i pavarur nga çdokush.",
+        "89": "Pasuruesi i kujt të dojë.",
+        "90": "Ndaluesi, ai që pengon çka të dojë të ndodhë.",
+        "91": "Krijuesi i dëmit dhe vështirësisë.",
+        "92": "Krijuesi i dobisë.",
+        "93": "Drita, ndriçuesi i botëve.",
+        "94": "Udhëzuesi, ai që çon në rrugën e drejtë.",
+        "95": "I Pashoqi, krijuesi pa shembull.",
+        "96": "I Përhershmi, ekzistenca e të cilit s'ka fund.",
+        "97": "Trashëgimtari i vërtetë i gjithçkaje.",
+        "98": "Ai që i çon të gjitha punët në cak të saktë.",
+        "99": "I Duruari, ai që nuk nxiton në ndëshkim."
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Lutja për Shërim dhe Shpëtim nga Sëmundja",
+          "occasion": "Lexohet gjatë çdo lloj sëmundjeje apo shqetësimi, trupor apo shpirtëror."
+        },
+        "nazar_korunma": {
+          "title": "Mbrojtje nga Syri i Keq dhe të Këqijat (Ajetul Kursija)",
+          "occasion": "Lexohet mëngjes e mbrëmje për mbrojtje nga syri i keq, dyshimet dhe çdo lloj të keqeje."
+        },
+        "rizik_bereket": {
+          "title": "Lutja për Risk, Bereqet dhe Shpëtim nga Borxhi",
+          "occasion": "Lexohet për vështirësi financiare, barrën e borxhit dhe bereqetimin e punëve."
+        },
+        "ferahlik_sikinti": {
+          "title": "Lutja për Vështirësi, Brengë dhe Ngushticë (Lutja e Junusit a.s.)",
+          "occasion": "Lexohet në kohë vështirësie të madhe, ankthi, pafuqie dhe brenge, për të gjetur çlirim."
+        },
+        "sinav_zihin": {
+          "title": "Lutja për Provime, Qartësi Mendore dhe Lehtësi",
+          "occasion": "Lexohet para provimeve, gjatë studimit, ose para një pune të vështirë, për qartësi mendore."
+        },
+        "seyyidul_istigfar": {
+          "title": "Sejjidul Istigfar (Lutja e Pendimit)",
+          "occasion": "Lexohet mëngjes e mbrëmje për pendim të sinqertë dhe falje të mëkateve. Është mjet për Xhenet."
+        },
+        "anne_baba": {
+          "title": "Lutje për Prindërit dhe Familjen",
+          "occasion": "Lexohet pas çdo namazi për shëndetin, faljen dhe mëshirën e prindërve në Ahiret."
+        },
+        "ezan_sonrasi": {
+          "title": "Lutja pas Ezanit",
+          "occasion": "Lexohet menjëherë pas përfundimit të ezanit; është mjet për ndërmjetësimin e Profetit."
+        },
+        "iftar_oruc": {
+          "title": "Lutja e Iftarit dhe Çeljes së Agjërimit",
+          "occasion": "Lexohet kur bie ezani i akshamit dhe çelet agjërimi."
+        },
+        "morning_1": {
+          "title": "Lutja e Mbrojtjes së Mëngjesit dhe Mbrëmjes",
+          "occasion": "Kush e lexon tri herë mëngjes e mbrëmje, asgjë nuk mund t'i bëjë dëm."
+        },
+        "leaving_home": {
+          "title": "Lutja kur Del nga Shtëpia",
+          "occasion": "Lexohet kur del nga shtëpia për mbrojtje nga aksidentet, fatkeqësitë dhe të këqijat."
+        },
+        "entering_home": {
+          "title": "Lutja kur Hyn në Shtëpi",
+          "occasion": "Lexohet kur hyn në shtëpi që të hyjë bereqet dhe qetësi në shtëpi."
+        },
+        "waking_up": {
+          "title": "Lutja e Falënderimit kur Zgjohesh",
+          "occasion": "Lexohet kur zgjohesh nga gjumi, si falënderim për ditën e re me shëndet."
+        },
+        "sleeping": {
+          "title": "Lutja para Gjumit",
+          "occasion": "Lexohet kur bie në shtrat, me nijet për gjumë të qetë dhe mbrojtje."
+        },
+        "sukr_hamd": {
+          "title": "Lutja e Falënderimit dhe Bekimit",
+          "occasion": "Lexohet kur merret një lajm i mirë, për të falënderuar për bekimet dhe për të shtuar bereqetin."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "Qëndrueshmëri 7-Ditore",
+          "desc": "Keni regjistruar namazet 7 ditë rresht"
+        },
+        "prayer_streak_30": {
+          "title": "Qëndrueshmëri 30-Ditore",
+          "desc": "Keni regjistruar namazet 30 ditë rresht"
+        },
+        "prayer_total_100": {
+          "title": "100 Namaze",
+          "desc": "Keni regjistruar gjithsej 100 namaze"
+        },
+        "prayer_total_500": {
+          "title": "500 Namaze",
+          "desc": "Keni regjistruar gjithsej 500 namaze"
+        },
+        "dhikr_streak_7": {
+          "title": "Zikër 7-Ditor",
+          "desc": "Keni bërë zikër 7 ditë rresht"
+        },
+        "dhikr_streak_30": {
+          "title": "Zikër 30-Ditor",
+          "desc": "Keni bërë zikër 30 ditë rresht"
+        },
+        "dhikr_total_1000": {
+          "title": "1.000 Zikër",
+          "desc": "Keni bërë gjithsej 1.000 zikër"
+        },
+        "dhikr_total_10000": {
+          "title": "10.000 Zikër",
+          "desc": "Keni bërë gjithsej 10.000 zikër"
+        },
+        "hatim_first": {
+          "title": "Hatmja e Parë",
+          "desc": "Përfunduat leximin e të gjithë Kuranit"
+        },
+        "hatim_3": {
+          "title": "3 Hatme",
+          "desc": "Përfunduat Kuranin 3 herë"
+        },
+        "kaza_10": {
+          "title": "10 Kaza të Përfunduara",
+          "desc": "Përfunduat 10 namaze/agjërime kaza"
+        },
+        "kaza_50": {
+          "title": "50 Kaza të Përfunduara",
+          "desc": "Përfunduat 50 namaze/agjërime kaza"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mishari Rashid el-Afasi"
+        },
+        "abdulbasit": {
+          "name": "Abdulbasit Abdusamed"
+        },
+        "husary": {
+          "name": "Mahmud Halil el-Husari"
+        },
+        "minshawy": {
+          "name": "Muhamed Sidik el-Minshavi"
+        },
+        "shuraym": {
+          "name": "Suud esh-Shurejm"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Xhuma Mubarek 🌹",
+          "message": "Zoti ynë! Na pranoftë lutjet e sinqerta që kemi në zemër dhe na e bekoftë xhumanë. Ju uroj një ditë plot shëndet, qetësi dhe bereqet."
+        },
+        "cuma_2": {
+          "title": "Xhuma Mubarek ✨",
+          "message": "Zoti na nderoftë bashkë me të dashurit tanë në të dy botët. Xhuma e bekuar, e ndritur dhe plot bereqet."
+        },
+        "kandil_1": {
+          "title": "Nata e Bekuar ju qoftë Mubarek 🌙",
+          "message": "Begatia, bereqeti dhe falja e kësaj nate të shenjtë qoftë mbi ju. Me shpresën për t'u takuar në lutje, nata e kandilit ju qoftë mubarek."
+        },
+        "ramazan_1": {
+          "title": "Ramazan Mubarek 🕌",
+          "message": "Ramazani ynë i bekuar, fillimi i të cilit është mëshirë, mesi falje dhe fundi shpëtim nga zjarri, ju qoftë mubarek."
+        },
+        "bayram_1": {
+          "title": "Bajrami ju qoftë Mubarek 🌟",
+          "message": "Me urimin që të arrini shumë bajrame plot gëzim, qetësi, shëndet dhe dashuri me të dashurit tuaj."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Lutja para Fillimit të Leximit të Kuranit"
+        },
+        "hatim": {
+          "title": "Lutja e Hatmes së Kuranit"
+        },
+        "sajdah": {
+          "title": "Lutja e Sexhdes së Leximit (Tilavet)"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Kurani"
+        },
+        "daily": {
+          "label": "Përmbajtja"
+        },
+        "home": {
+          "label": "Kohët"
+        },
+        "dhikr": {
+          "label": "Zikri"
+        },
+        "library": {
+          "label": "Duatë"
+        },
+        "qibla": {
+          "label": "Kibla"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Namazi",
+        "dhikr": "Zikri",
+        "quran": "Kurani",
+        "kaza": "Kaza"
+      },
+      "hijriMonths": {
+        "1": "Muharrem",
+        "2": "Safer",
+        "3": "Rebiul-evel",
+        "4": "Rebiul-ahir",
+        "5": "Xhemazil-evel",
+        "6": "Xhemazil-ahir",
+        "7": "Rexheb",
+        "8": "Shaban",
+        "9": "Ramazan",
+        "10": "Shevval",
+        "11": "Zil-kade",
+        "12": "Zil-hixhxhe"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Nëse ka ndryshim në kohët, mund ta korrigjoni duke mbajtur shtypur mbi kartë.",
+      "title": "Korrigjo kohën e {{prayer}}",
+      "desc": "Nëse xhamia ose kalendari juaj tregon një kohë të ndryshme, shtoni ose zbrisni minuta. Njoftimi i ezanit ndjek po këtë ndryshim.",
+      "minus": "1 minutë më herët",
+      "minutes": "{{value}} min",
+      "plus": "1 minutë më vonë",
+      "reset": "Rivendos",
+      "save": "Ruaj"
+    },
+    "feedback": {
+      "settingsRow": "Dërgo Komente",
+      "title": "Zhvillojmë Së Bashku",
+      "subtitle": "Shkruani sugjerime, kërkesa ose ndonjë problem që keni hasur, që ta bëjmë Vera-n më të mirë.",
+      "placeholder": "Shkruani një ide, sugjerim ose problem që keni hasur...",
+      "error": "Nuk u dërgua dot. Ju lutemi provoni përsëri pas pak.",
+      "send": "Dërgo",
+      "thankYouTitle": "Komenti Juaj u Mor",
+      "thankYouSubtitle": "Mendimet tuaja kanë shumë vlerë për ne. Po punojmë me gjithë forcën për ta bërë Vera-n edhe më të mirë."
+    },
+    "battery": {
+      "stepsXiaomi": "Cilësimet → Aplikacionet → Vera: aktivizoni \"Autostart\" dhe vendoseni Kursimin e Baterisë në \"Pa kufizime\".",
+      "stepsSamsung": "Cilësimet → Bateria → Kufijtë e përdorimit në sfond: shtoni Vera-n te \"Aplikacionet që s'flenë kurrë\".",
+      "stepsOppo": "Cilësimet → Bateria → Vera: aktivizoni \"Lejo aktivitetin në sfond\" dhe \"Autostart\".",
+      "stepsOther": "Çaktivizoni optimizimin e baterisë për Vera-n, që ezani të bjerë pa vonesë në kohën e duhur.",
+      "cardTitle": "Dëgjoni ezanin në kohë",
+      "openSettings": "Hap Cilësimet"
+    },
+    "widget": {
+      "guideTitle": "Shto në Ekranin Kryesor",
+      "guideDesc": "Mbani shtypur ekranin kryesor ➔ prekni \"Widgets\" ➔ zgjidhni widget-in \"VERA\" dhe tërhiqeni në ekranin tuaj.",
+      "promptTitle": "Shto një Widget në Ekranin Kryesor",
+      "promptDesc": "Ndiqni në kohë reale kohën e ardhshme të namazit dhe minutat e mbetura direkt nga ekrani kryesor i telefonit, pa hapur aplikacionin.",
+      "addNow": "📌 Shto në Ekranin Kryesor",
+      "notNow": "Më Vonë"
+    },
+    "greetingNotif": {
+      "dayTitle": "{{name}} mubarek qoftë",
+      "nightTitle": "Sonte është {{name}}",
+      "body": "Dërgojuni një kartolinë urimi të dashurve tuaj.",
+      "fridayTitle": "Xhuma Mubarek",
+      "fridayBody": "Dërgojuni një kartolinë urimi xhumaje të dashurve tuaj."
+    },
+    "errorBoundary": {
+      "title": "Diçka shkoi keq",
+      "subtitle": "Aplikacioni hasi një gabim të papritur. Prek butonin më poshtë për të provuar përsëri.",
+      "retry": "Provo përsëri"
     }
   }
 }

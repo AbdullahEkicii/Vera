@@ -6,7 +6,11 @@
       "retry": "Thử lại",
       "success": "Thành công",
       "fillAllFields": "Vui lòng điền vào tất cả các trường.",
-      "min": "tôi"
+      "min": "tôi",
+      "cancel": "Hủy",
+      "save": "Lưu",
+      "ok": "OK",
+      "close": "Đóng"
     },
     "home": {
       "title": "Giờ Cầu Nguyện",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "Không thể tải thời gian cầu nguyện",
       "errorLoadingSubtitle": "Vui lòng kiểm tra kết nối internet của bạn hoặc chọn thành phố của bạn.",
       "retryBtn": "Thử lại",
-      "loadingTimes": "Đang tải thời gian cầu nguyện..."
+      "loadingTimes": "Đang tải thời gian cầu nguyện...",
+      "locationPermissionTitle": "Không thể lấy quyền vị trí",
+      "locationPermissionDesc": "Đang hiển thị thành phố mặc định. Bạn có thể chọn thành phố hoặc cấp quyền vị trí.",
+      "estimatedTimesNotice": "Không có kết nối internet nên giờ giấc đã được tính trên thiết bị (ước tính)."
     },
     "settings": {
       "title": "Cài Đặt",
@@ -111,7 +118,19 @@
       "offsetsTitle": "Điều chỉnh thời gian cầu nguyện (Độ lệch / ± phút)",
       "offsetsDesc": "Nếu nhà thờ Hồi giáo hoặc lịch địa phương của bạn khác nhau từng phút, bạn có thể điều chỉnh thời gian lên tới ±15 phút.",
       "respectSilentModeTitle": "Nhà thờ Hồi giáo / Chế độ im lặng",
-      "respectSilentModeDesc": "Tắt âm thanh adhan và âm thầm thông báo khi điện thoại của bạn ở chế độ im lặng hoặc rung."
+      "respectSilentModeDesc": "Tắt âm thanh adhan và âm thầm thông báo khi điện thoại của bạn ở chế độ im lặng hoặc rung.",
+      "inviteFriend": "Mời Bạn Bè",
+      "privacyOptions": "Tùy Chọn Quyền Riêng Tư",
+      "timeFormat24h": "Định Dạng 24 Giờ",
+      "loginLocked": "Quá nhiều lần thử không thành công. Vui lòng thử lại sau.",
+      "loginFailed": "Đăng nhập thất bại. Vui lòng kiểm tra thông tin của bạn.",
+      "notifications": "Thông Báo",
+      "editorLogout": "Đăng Xuất Biên Tập Viên",
+      "editorLogin": "Đăng Nhập Biên Tập Viên",
+      "username": "Tên đăng nhập",
+      "password": "Mật khẩu",
+      "loggingIn": "Đang đăng nhập...",
+      "login": "Đăng Nhập"
     },
     "qibla": {
       "title": "Qibla",
@@ -154,7 +173,9 @@
       "share": "Chia Sẻ",
       "verseBody": "Nhấp để đọc kinh văn trong ngày!",
       "hadithBody": "Nhấp để đọc hadith trong ngày!",
-      "quoteBody": "Nhấp để đọc trích dẫn trong ngày!"
+      "quoteBody": "Nhấp để đọc trích dẫn trong ngày!",
+      "subtitle": "Câu Kinh, hadith và câu nói được chọn cho hôm nay",
+      "shareHint": "Chạm vào thẻ để chia sẻ dưới dạng ảnh story"
     },
     "search": {
       "title": "Chọn Vị Trí",
@@ -217,7 +238,8 @@
         "dailyDesc": "Câu thơ, hadith hoặc trích dẫn hàng ngày đến giữa Dhuhr và Asr.",
         "persistentName": "Màn hình khóa & thanh trạng thái",
         "persistentDesc": "Hiển thị tên cầu nguyện tiếp theo và đếm ngược trực tiếp trong bảng thông báo và màn hình khóa."
-      }
+      },
+      "persistentTitle": "🕌 Đến {{prayer}}"
     },
     "tasbih": {
       "title": "tasbih",
@@ -259,7 +281,49 @@
       "bgAudioSelect": "Chọn âm thanh Dhikr nền",
       "dikhr1": "Âm thanh Dhikr 1",
       "dikhr2": "Âm thanh Dhikr 2",
-      "dikhr3": "Âm thanh Dhikr 3"
+      "dikhr3": "Âm thanh Dhikr 3",
+      "shareMilestone": "Chia Sẻ",
+      "milestoneShareText": "Tháng này tôi đã đạt tổng cộng {{total}} lần dhikr, mashallah!",
+      "streakDays": "ngày liên tiếp",
+      "monthStat": "Tháng này",
+      "streakStat": "Chuỗi ngày",
+      "streakValue": "{{count}} ngày",
+      "remaining": "còn {{count}}",
+      "noTarget": "Không có mục tiêu",
+      "completed": "Đã hoàn thành",
+      "addShort": "Thêm",
+      "progressShort": "Tiến độ",
+      "recShort": "Đề xuất",
+      "tapToCount": "Chạm để đếm",
+      "ok": "OK",
+      "dailyDhikrs": [
+        {
+          "text": "Subhanallahi wa bihamdihi",
+          "target": 100,
+          "benefit": "Đọc 100 lần mỗi ngày, tội lỗi sẽ được tha thứ dù nhiều như bọt biển."
+        },
+        {
+          "text": "La ilaha illallahu wahdahu la sharika lah...",
+          "target": 100,
+          "benefit": "Đọc 100 lần mỗi ngày tương đương với việc giải phóng 10 nô lệ và được bảo vệ khỏi Satan."
+        },
+        {
+          "text": "Astaghfirullah al-Adheem",
+          "target": 100,
+          "benefit": "Xua tan phiền muộn, mở rộng nguồn sinh kế và mang lại sự nhẹ nhõm."
+        },
+        {
+          "text": "La hawla wa la quwwata illa billah",
+          "target": 100,
+          "benefit": "Một kho báu trong những kho báu của Thiên Đàng, xua tan mọi lo âu."
+        },
+        {
+          "text": "Subhanallahi walhamdulillahi...",
+          "target": 100,
+          "benefit": "Lời nói được Allah yêu quý nhất, nặng hơn tất cả trên bàn cân."
+        }
+      ],
+      "recTarget": "Mục tiêu:"
     },
     "update": {
       "title": "Có Cập Nhật Mới!",
@@ -336,7 +400,15 @@
       "mealSource": "Bản dịch tiếng Anh đích thực",
       "loadingMeal": "Đang tải bản dịch trang...",
       "noMealFound": "Không tìm thấy bản dịch cho trang này. Vui lòng kiểm tra kết nối internet của bạn.",
-      "mealBtn": "Dịch thuật"
+      "mealBtn": "Dịch thuật",
+      "selectReciter": "Chọn Người Đọc",
+      "bookmarkAdded": "Đã thêm câu Kinh vào mục yêu thích",
+      "bookmarkRemoved": "Đã xóa câu Kinh khỏi mục yêu thích",
+      "bookmarksTitle": "Câu Kinh Đã Lưu",
+      "noBookmarks": "Bạn chưa có câu Kinh yêu thích nào. Nhấn giữ một câu Kinh để thêm.",
+      "playFromHere": "Nghe từ đây",
+      "juz": "Juz",
+      "downloadingShort": "Đang tải xuống..."
     },
     "review": {
       "title": "Ủng Hộ Chúng Tôi",
@@ -372,7 +444,10 @@
       "themeSepia": "Màu nâu đỏ ấm áp",
       "appTagline": "Thời gian cầu nguyện, Kinh Qur'an & Qibla",
       "storeSearchHint": "Tìm kiếm trên Google Play: Vera",
-      "scanToDownload": "Quét để tải xuống"
+      "scanToDownload": "Quét để tải xuống",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 Tôi dùng Vera để theo dõi giờ lễ nguyện, adhan và việc đọc Kinh Qur'an. Hãy cùng nhau theo dõi khatm!\n\n📲 Tải ứng dụng: {{link}}"
     },
     "checklist": {
       "title": "Theo dõi cầu nguyện hàng ngày",
@@ -397,7 +472,9 @@
       "celebrationMessage": "Bạn đã hoàn thành tất cả 5 lời cầu nguyện hàng ngày ngày hôm nay. Có thể Allah chấp nhận lời cầu nguyện của bạn!",
       "celebrationBtn": "Alhamdulillah",
       "trustNotice": "{{city}} • Thời gian cầu nguyện đã được xác minh cho khu vực của bạn bằng cách sử dụng {{method}}",
-      "streakDays": "ngày"
+      "streakDays": "ngày",
+      "shareStreak": "Chia Sẻ Chuỗi Ngày Của Tôi",
+      "shareText": "Tôi đã duy trì lễ nguyện liên tục {{count}} ngày, alhamdulillah!"
     },
     "calendar": {
       "title": "Lịch thống nhất",
@@ -413,7 +490,8 @@
       "subtitle": "Lịch và đếm ngược cho ngày và đêm may mắn",
       "today": "Hôm nay",
       "daysLeft": "ngày",
-      "passed": "Đi qua"
+      "passed": "Đi qua",
+      "loadError": "Không thể tải các ngày lễ tôn giáo. Vui lòng kiểm tra kết nối internet của bạn."
     },
     "widgetPromo": {
       "title": "Thêm tiện ích cầu nguyện",
@@ -477,7 +555,17 @@
       "widgetDesc": "Xem đếm ngược trực tiếp mà không cần mở ứng dụng.",
       "widgetAdded": "Đã thêm tiện ích thành công!",
       "batteryTitle": "🔋 Miễn tiết kiệm pin",
-      "batteryDesc": "Khuyến nghị tắt tính năng tối ưu hóa pin trên Xiaomi & Samsung để có những quảng cáo kịp thời."
+      "batteryDesc": "Khuyến nghị tắt tính năng tối ưu hóa pin trên Xiaomi & Samsung để có những quảng cáo kịp thời.",
+      "locationReassurance": "Bạn luôn có thể thay đổi điều này sau trong Cài đặt.",
+      "notifDenied": "Quyền thông báo chưa được cấp. Thông báo adhan có thể không hoạt động — bạn có thể bật lại sau trong Cài đặt.",
+      "retryBtn": "Thử Lại",
+      "continueWithoutNotif": "Tiếp Tục Không Cần Thông Báo",
+      "skipTitle": "Bỏ Qua Thiết Lập",
+      "skipBody": "Bạn có thể bỏ qua thiết lập lúc này. Cài đặt vị trí và thông báo có thể được cấu hình sau trong Cài đặt.",
+      "skipConfirm": "Bỏ Qua",
+      "locationDenied": "Quyền vị trí chưa được cấp. Bạn có thể chọn thành phố từ danh sách, hoặc thay đổi điều này sau trong Cài đặt.",
+      "locationFailed": "Không thể lấy vị trí của bạn. Bạn có thể chọn thành phố từ danh sách, hoặc thay đổi điều này sau trong Cài đặt.",
+      "locationNotSet": "Không Có Vị Trí (Quyền Bị Từ Chối)"
     },
     "weather": {
       "title": "Dự báo thời tiết",
@@ -496,7 +584,8 @@
       "sunset": "Hoàng hôn",
       "precipitation": "Sự kết tủa",
       "kmh": "km/h",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Thử Lại"
     },
     "duas": {
       "occasionTitle": "Khi nào và tại sao nên niệm?",
@@ -542,7 +631,15 @@
       "chooseTheme": "Chủ đề thẻ",
       "shareBtn": "Chia sẻ lên WhatsApp / Câu chuyện 🌟",
       "shareImageBtn": "Chia sẻ thẻ hình ảnh 🌟",
-      "shareLinkBtn": "Chia sẻ liên kết cửa hàng trực tiếp 🔗"
+      "shareLinkBtn": "Chia sẻ liên kết cửa hàng trực tiếp 🔗",
+      "theme": {
+        "gold": "Đường Nét Vàng",
+        "emerald": "Mái Vòm Ngọc Lục Bảo",
+        "navy": "Xanh Nửa Đêm",
+        "crimson": "Hồng & Ruby"
+      },
+      "customDefaultTitle": "Jummah Mubarak",
+      "customDefaultMessage": "Cầu mong lời cầu nguyện và sự thờ phụng của bạn được chấp nhận."
     },
     "mosques": {
       "title": "Nhà thờ Hồi giáo lân cận",
@@ -557,7 +654,12 @@
     "dailyContent": {
       "preparing": "Đang tải nguồn cảm hứng hàng ngày...",
       "queueSuccess": "Nội dung được thêm vào hàng đợi phê duyệt.",
-      "queueError": "Đã xảy ra lỗi khi thêm nội dung."
+      "queueError": "Đã xảy ra lỗi khi thêm nội dung.",
+      "addModalTitle": "Thêm Nội Dung Mới",
+      "textPlaceholder": "Nội Dung Văn Bản (Ả Rập/Bản Dịch)",
+      "sourcePlaceholder": "Nguồn (VD: Bukhari, Iman 1)",
+      "saving": "Đang lưu...",
+      "saveAndQueue": "Lưu & Đưa Vào Hàng Đợi"
     },
     "hatim": {
       "title": "Kinh Qur'an Khatm Tracker",
@@ -572,7 +674,9 @@
       "resetTitle": "Bắt đầu Khatm mới",
       "resetBody": "Khatm hiện tại sẽ được ghi là đã hoàn thành và khatm mới sẽ bắt đầu từ trang 1. Bạn có muốn tiếp tục không?",
       "startNew": "Bắt đầu Khatm mới",
-      "resetHatimBtn": "Đặt lại và bắt đầu Khatm mới"
+      "resetHatimBtn": "Đặt lại và bắt đầu Khatm mới",
+      "share": "Chia Sẻ Khatm Của Tôi",
+      "shareText": "Tôi đã hoàn thành Khatm thứ {{count}}, alhamdulillah!"
     },
     "prayerTree": {
       "title": "Cây cầu nguyện hàng tuần",
@@ -582,6 +686,512 @@
       "quoteHigh": "“Cầu nguyện là trụ cột của đức tin.” — Bạn đang có một tuần đặc biệt, MashaAllah!",
       "quoteMid": "“Thiết lập lời cầu nguyện, đưa ra zakah và cúi đầu với những người cúi đầu.” (Al-Baqarah, 43)",
       "quoteLow": "“Thật vậy, lời cầu nguyện đã được ban cho các tín đồ một sắc lệnh vào những thời điểm cụ thể.” (An-Nisa, 103)"
+    },
+    "hajjUmrah": {
+      "title": "Hướng Dẫn Hajj & Umrah",
+      "umrah": "Umrah",
+      "hajj": "Hajj",
+      "stepsTitle": "Nghi Thức Từng Bước",
+      "checklistTitle": "Danh Sách Chuẩn Bị",
+      "settingsEntry": "Hướng Dẫn Hajj & Umrah"
+    },
+    "zakat": {
+      "title": "Tính Zakat",
+      "info": "Zakat là 2,5% (1/40) tài sản được nắm giữ trong một năm âm lịch và đạt đến ngưỡng nisab. Hãy tra cứu giá trị nisab hiện tại (dựa trên giá vàng/bạc) và nhập vào bên dưới.",
+      "cash": "Tiền Mặt & Tiền Gửi Ngân Hàng",
+      "gold": "Giá Trị Vàng / Bạc",
+      "tradeGoods": "Giá Trị Hàng Hóa Kinh Doanh",
+      "investments": "Cổ Phiếu / Đầu Tư",
+      "debts": "Nợ (Được Trừ)",
+      "nisab": "Ngưỡng Nisab (Giá Trị Vàng/Bạc Hiện Tại)",
+      "netWealth": "Tài Sản Ròng",
+      "zakatDue": "Zakat Phải Trả",
+      "notEligible": "Tài sản của bạn chưa đạt đến ngưỡng nisab nên bạn không cần trả zakat.",
+      "enterNisab": "Vui lòng nhập ngưỡng nisab để tính toán.",
+      "settingsEntry": "Tính Zakat"
+    },
+    "ramadan": {
+      "calendarTitle": "Lịch Ramadan",
+      "days": "ngày",
+      "day": "Ngày",
+      "date": "Ngày Tháng",
+      "sahur": "Suhoor",
+      "iftar": "Iftar",
+      "noData": "Không tìm thấy dữ liệu lịch Ramadan."
+    },
+    "achievements": {
+      "title": "Thành Tích Của Tôi",
+      "pointsLabel": "Điểm Thờ Phụng",
+      "unlockedCount": "Đã mở khóa {{unlocked}} / {{total}} huy hiệu",
+      "settingsEntry": "Thành Tích Của Tôi",
+      "share": "Chia Sẻ Điểm Của Tôi",
+      "shareText": "Tôi đã đạt {{points}} Điểm Thờ Phụng và mở khóa {{unlocked}} huy hiệu!",
+      "inviteTitle": "Mời Bạn Bè",
+      "inviteDesc": "Cùng nhau theo dõi Khatm, động viên lẫn nhau.",
+      "progress": {
+        "days": "{{current}} / {{total}} ngày",
+        "prayers": "{{current}} / {{total}} lễ nguyện",
+        "dhikr": "{{current}} / {{total}} dhikr",
+        "khatm": "{{current}} / {{total}} khatm",
+        "kaza": "{{current}} / {{total}} lễ nguyện bù"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "Nhập Trạng Thái Ihram",
+          "desc": "Tại ranh giới miqat, thực hiện ghusl (tắm rửa), mặc trang phục ihram, lập niyyah (ý định) và đọc Talbiyah. Một số điều cấm bắt đầu khi đã ở trong ihram (không mặc quần áo may sẵn, không dùng nước hoa, v.v.)."
+        },
+        "tawaf": {
+          "title": "Tawaf (Đi Vòng Quanh Kaaba)",
+          "desc": "Bắt đầu từ Hòn Đá Đen, đi vòng quanh Kaaba bảy lần theo chiều ngược kim đồng hồ, chào Hòn Đá Đen ở đầu mỗi vòng nếu có thể."
+        },
+        "sayi": {
+          "title": "Sa'i (Giữa Safa và Marwah)",
+          "desc": "Đi nhanh bảy lần giữa hai ngọn đồi Safa và Marwah, tưởng nhớ hành trình tìm nước của bà Hajar."
+        },
+        "halq": {
+          "title": "Cạo Hoặc Cắt Tóc (Halq/Taqsir)",
+          "desc": "Đàn ông cạo trọc hoặc cắt ngắn tóc; phụ nữ cắt một đoạn tóc bằng đầu ngón tay. Việc này hoàn tất Umrah và kết thúc các điều cấm của ihram."
+        },
+        "arafat": {
+          "title": "Đứng Tại Arafat (Ngày 9 Dhul-Hijjah)",
+          "desc": "Trụ cột quan trọng nhất của Hajj. Người hành hương đứng tại Arafat từ trưa đến hoàng hôn ngày 9 Dhul-Hijjah, dành thời gian cầu nguyện, tưởng niệm và sám hối."
+        },
+        "muzdalifah": {
+          "title": "Nghỉ Đêm Tại Muzdalifah",
+          "desc": "Sau Arafat, người hành hương di chuyển đến Muzdalifah, gộp lễ nguyện Maghrib và Isha, nghỉ đêm tại đó và nhặt đá cuội cho nghi lễ ném đá."
+        },
+        "jamarat": {
+          "title": "Ném Đá Vào Jamarat",
+          "desc": "Đá cuội được ném vào các trụ Jamarat ở Mina vào những ngày quy định, tưởng nhớ việc Nhà Tiên Tri Ibrahim (AS) từ chối Satan."
+        },
+        "qurban": {
+          "title": "Hiến Tế (Qurbani)",
+          "desc": "Một lễ hiến tế được thực hiện như một phần của nghi thức Hajj, đánh dấu sự bắt đầu của Eid al-Adha."
+        },
+        "farewell_tawaf": {
+          "title": "Tawaf Từ Biệt",
+          "desc": "Tawaf cuối cùng được thực hiện trước khi rời Mecca, đánh dấu sự hoàn tất của nghi thức Hajj."
+        },
+        "ihram_clothes": {
+          "label": "Trang phục ihram (2 tấm vải trắng không may cho nam giới)"
+        },
+        "passport": {
+          "label": "Hộ chiếu, visa và giấy tờ du lịch"
+        },
+        "health": {
+          "label": "Bảo hiểm y tế và các loại vắc-xin cần thiết"
+        },
+        "comfortable_sandals": {
+          "label": "Dép thoải mái, dễ tháo"
+        },
+        "unscented_soap": {
+          "label": "Xà phòng không mùi và các sản phẩm chăm sóc cá nhân"
+        },
+        "dua_book": {
+          "label": "Sách cầu nguyện và nghi thức (hoặc ứng dụng này)"
+        },
+        "money_belt": {
+          "label": "Túi đựng tiền/giấy tờ an toàn"
+        },
+        "medication": {
+          "label": "Thuốc cá nhân và đơn thuốc"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Đêm Raghaib",
+          "description": "Khởi đầu ba tháng linh thiêng và đêm của lòng thương xót."
+        },
+        "mirac": {
+          "name": "Isra và Mi'raj",
+          "description": "Hành trình đêm và sự thăng thiên của Nhà Tiên Tri (pbuh)."
+        },
+        "berat": {
+          "name": "Đêm Bara'at",
+          "description": "Đêm của sự tha thứ và giải thoát khỏi muộn phiền."
+        },
+        "ramadan": {
+          "name": "Ngày Đầu Tiên Của Ramadan",
+          "description": "Ngày nhịn chay đầu tiên của tháng Ramadan linh thiêng."
+        },
+        "kadir": {
+          "name": "Laylat al-Qadr",
+          "description": "Đêm Quyền Năng, tốt hơn cả ngàn tháng."
+        },
+        "eid-fitr": {
+          "name": "Eid al-Fitr (Ngày 1)",
+          "description": "Ngày đầu tiên của Eid al-Fitr."
+        },
+        "eid-adha": {
+          "name": "Eid al-Adha (Ngày 1)",
+          "description": "Ngày đầu tiên của Eid al-Adha."
+        },
+        "hijri-new-year": {
+          "name": "Năm Mới Hồi Giáo",
+          "description": "Ngày đầu tiên của năm Hijri mới."
+        },
+        "ashura": {
+          "name": "Ngày Ashura",
+          "description": "Ngày thứ 10 của tháng Muharram."
+        },
+        "mevlid": {
+          "name": "Mawlid an-Nabi",
+          "description": "Đêm sinh của Nhà Tiên Tri (pbuh)."
+        }
+      },
+      "esma": {
+        "1": "Đấng Nhân Từ",
+        "2": "Đấng Khoan Dung",
+        "3": "Đấng Vua",
+        "4": "Đấng Chí Thánh",
+        "5": "Nguồn Bình An",
+        "6": "Đấng Bảo Đảm",
+        "7": "Đấng Bảo Hộ",
+        "8": "Đấng Toàn Năng",
+        "9": "Đấng Cưỡng Chế",
+        "10": "Đấng Tối Cao",
+        "11": "Đấng Sáng Tạo",
+        "12": "Đấng Kiến Tạo",
+        "13": "Đấng Tạo Hình",
+        "14": "Đấng Đại Lượng Thứ",
+        "15": "Đấng Khuất Phục",
+        "16": "Đấng Ban Phát",
+        "17": "Đấng Ban Phát Sinh Kế",
+        "18": "Đấng Mở Đường",
+        "19": "Đấng Toàn Tri",
+        "20": "Đấng Thu Hẹp",
+        "21": "Đấng Mở Rộng",
+        "22": "Đấng Hạ Thấp",
+        "23": "Đấng Nâng Cao",
+        "24": "Đấng Ban Vinh Dự",
+        "25": "Đấng Hạ Nhục",
+        "26": "Đấng Toàn Thính",
+        "27": "Đấng Toàn Thị",
+        "28": "Đấng Phán Xét",
+        "29": "Đấng Công Bằng",
+        "30": "Đấng Tinh Tế",
+        "31": "Đấng Am Tường",
+        "32": "Đấng Khoan Dung Nhẫn Nại",
+        "33": "Đấng Tráng Lệ",
+        "34": "Đấng Đại Xá",
+        "35": "Đấng Tri Ân",
+        "36": "Đấng Tối Thượng",
+        "37": "Đấng Vĩ Đại Nhất",
+        "38": "Đấng Gìn Giữ",
+        "39": "Đấng Nuôi Dưỡng",
+        "40": "Đấng Tính Toán",
+        "41": "Đấng Uy Nghi",
+        "42": "Đấng Hào Phóng",
+        "43": "Đấng Canh Giữ",
+        "44": "Đấng Đáp Lời",
+        "45": "Đấng Bao Trùm Tất Cả",
+        "46": "Đấng Toàn Minh",
+        "47": "Đấng Yêu Thương",
+        "48": "Đấng Vinh Quang",
+        "49": "Đấng Hồi Sinh",
+        "50": "Đấng Chứng Giám",
+        "51": "Đấng Chân Lý",
+        "52": "Đấng Ủy Thác",
+        "53": "Đấng Cường Tráng",
+        "54": "Đấng Kiên Định",
+        "55": "Người Bạn Bảo Hộ",
+        "56": "Đấng Đáng Ca Tụng",
+        "57": "Đấng Đếm Được Tất Cả",
+        "58": "Đấng Khởi Nguyên",
+        "59": "Đấng Phục Hồi",
+        "60": "Đấng Ban Sự Sống",
+        "61": "Đấng Mang Đến Cái Chết",
+        "62": "Đấng Hằng Sống",
+        "63": "Đấng Tự Tồn Tại",
+        "64": "Đấng Tìm Thấy",
+        "65": "Đấng Cao Quý",
+        "66": "Đấng Độc Nhất",
+        "67": "Đấng Duy Nhất",
+        "68": "Đấng Vĩnh Hằng",
+        "69": "Đấng Có Khả Năng",
+        "70": "Đấng Quyền Năng",
+        "71": "Đấng Tiến Lên Trước",
+        "72": "Đấng Trì Hoãn",
+        "73": "Đấng Đầu Tiên",
+        "74": "Đấng Cuối Cùng",
+        "75": "Đấng Hiển Hiện",
+        "76": "Đấng Ẩn Giấu",
+        "77": "Đấng Cai Quản",
+        "78": "Đấng Tối Cao Nhất",
+        "79": "Nguồn Của Sự Tốt Lành",
+        "80": "Đấng Chấp Nhận Sám Hối",
+        "81": "Đấng Báo Thù",
+        "82": "Đấng Tha Thứ",
+        "83": "Đấng Từ Bi",
+        "84": "Đấng Chủ Của Vương Quốc",
+        "85": "Chúa Tể Của Uy Nghi Và Ân Sủng",
+        "86": "Đấng Công Bằng Tuyệt Đối",
+        "87": "Đấng Tập Hợp",
+        "88": "Đấng Tự Túc",
+        "89": "Đấng Làm Giàu",
+        "90": "Đấng Ngăn Chặn",
+        "91": "Đấng Gây Đau Khổ",
+        "92": "Đấng Ban Lợi Ích",
+        "93": "Đấng Ánh Sáng",
+        "94": "Đấng Dẫn Đường",
+        "95": "Đấng Vô Song",
+        "96": "Đấng Trường Tồn",
+        "97": "Đấng Thừa Kế",
+        "98": "Đấng Chỉ Đường Đúng Đắn",
+        "99": "Đấng Kiên Nhẫn"
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Lời Cầu Nguyện Chữa Lành & Hồi Phục",
+          "occasion": "Đọc khi cầu chữa lành thể chất và tinh thần trong lúc bệnh tật."
+        },
+        "nazar_korunma": {
+          "title": "Bảo Vệ Khỏi Con Mắt Ác Ý & Tổn Hại (Ayat al-Kursi)",
+          "occasion": "Đọc vào buổi sáng và tối để được bảo vệ khỏi con mắt ác ý và mọi tổn hại."
+        },
+        "rizik_bereket": {
+          "title": "Lời Cầu Nguyện Cho Sinh Kế, Ân Phúc & Thoát Nợ",
+          "occasion": "Đọc để cầu sự sung túc tài chính, ân phúc trong sinh kế và thoát khỏi nợ nần."
+        },
+        "ferahlik_sikinti": {
+          "title": "Lời Cầu Nguyện Trong Lúc Khó Khăn (Nhà Tiên Tri Yunus)",
+          "occasion": "Đọc trong những lúc khó khăn nghiêm trọng, lo âu, bất lực và đau buồn."
+        },
+        "sinav_zihin": {
+          "title": "Lời Cầu Nguyện Cho Tri Thức, Kỳ Thi & Sự Minh Mẫn",
+          "occasion": "Đọc trước kỳ thi, khi học tập hoặc bắt đầu một công việc trí óc khó khăn."
+        },
+        "seyyidul_istigfar": {
+          "title": "Sayyid al-Istighfar (Lời Cầu Xin Tha Thứ Chủ Chốt)",
+          "occasion": "Đọc vào buổi sáng và tối để chân thành sám hối và cầu xin tha thứ tội lỗi."
+        },
+        "anne_baba": {
+          "title": "Lời Cầu Nguyện Cho Cha Mẹ & Gia Đình",
+          "occasion": "Đọc để cầu sự tha thứ, sức khỏe và lòng thương xót cho cha mẹ và gia đình."
+        },
+        "ezan_sonrasi": {
+          "title": "Lời Cầu Nguyện Sau Khi Nghe Adhan",
+          "occasion": "Đọc ngay sau khi Adhan kết thúc để nhận được sự bảo trợ của Nhà Tiên Tri."
+        },
+        "iftar_oruc": {
+          "title": "Lời Cầu Nguyện Khi Xả Chay (Iftar)",
+          "occasion": "Đọc vào lúc xả chay khi mặt trời lặn."
+        },
+        "morning_1": {
+          "title": "Lời Cầu Nguyện Bảo Vệ Buổi Sáng & Buổi Tối",
+          "occasion": "Đọc 3 lần vào buổi sáng và tối để được bảo vệ hoàn toàn khỏi mọi tổn hại."
+        },
+        "leaving_home": {
+          "title": "Lời Cầu Nguyện Khi Ra Khỏi Nhà",
+          "occasion": "Đọc khi bước ra khỏi nhà để được an toàn và dẫn dắt bởi Thượng Đế."
+        },
+        "entering_home": {
+          "title": "Lời Cầu Nguyện Khi Vào Nhà",
+          "occasion": "Đọc khi vào nhà để cầu bình an, ân phúc và sự bảo vệ."
+        },
+        "waking_up": {
+          "title": "Lời Cầu Nguyện Tạ Ơn Khi Thức Dậy",
+          "occasion": "Đọc khi thức dậy để tạ ơn vì được ban cho sự sống và sức khỏe mới."
+        },
+        "sleeping": {
+          "title": "Lời Cầu Nguyện Trước Khi Ngủ",
+          "occasion": "Đọc khi lên giường để cầu giấc ngủ bình yên và được che chở."
+        },
+        "sukr_hamd": {
+          "title": "Lời Cầu Nguyện Tạ Ơn & Ân Phúc",
+          "occasion": "Đọc khi nhận được tin vui, để tạ ơn và tăng thêm ân phúc."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "Kiên Trì 7 Ngày",
+          "desc": "Đã ghi lại lễ nguyện 7 ngày liên tiếp"
+        },
+        "prayer_streak_30": {
+          "title": "Kiên Trì 30 Ngày",
+          "desc": "Đã ghi lại lễ nguyện 30 ngày liên tiếp"
+        },
+        "prayer_total_100": {
+          "title": "100 Lễ Nguyện",
+          "desc": "Đã ghi lại tổng cộng 100 lễ nguyện"
+        },
+        "prayer_total_500": {
+          "title": "500 Lễ Nguyện",
+          "desc": "Đã ghi lại tổng cộng 500 lễ nguyện"
+        },
+        "dhikr_streak_7": {
+          "title": "Chuỗi Dhikr 7 Ngày",
+          "desc": "Đã thực hành dhikr 7 ngày liên tiếp"
+        },
+        "dhikr_streak_30": {
+          "title": "Chuỗi Dhikr 30 Ngày",
+          "desc": "Đã thực hành dhikr 30 ngày liên tiếp"
+        },
+        "dhikr_total_1000": {
+          "title": "1.000 Dhikr",
+          "desc": "Đã đọc tổng cộng 1.000 dhikr"
+        },
+        "dhikr_total_10000": {
+          "title": "10.000 Dhikr",
+          "desc": "Đã đọc tổng cộng 10.000 dhikr"
+        },
+        "hatim_first": {
+          "title": "Khatm Đầu Tiên",
+          "desc": "Đã hoàn thành đọc toàn bộ Kinh Qur'an"
+        },
+        "hatim_3": {
+          "title": "3 Khatm",
+          "desc": "Đã hoàn thành Kinh Qur'an 3 lần"
+        },
+        "kaza_10": {
+          "title": "10 Lễ Nguyện Bù",
+          "desc": "Đã hoàn thành 10 lễ nguyện/chay bù"
+        },
+        "kaza_50": {
+          "title": "50 Lễ Nguyện Bù",
+          "desc": "Đã hoàn thành 50 lễ nguyện/chay bù"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mishary Alafasy"
+        },
+        "abdulbasit": {
+          "name": "Abdul Basit"
+        },
+        "husary": {
+          "name": "Al-Husary"
+        },
+        "minshawy": {
+          "name": "Al-Minshawy"
+        },
+        "shuraym": {
+          "name": "Saud Al-Shuraym"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Thứ Sáu An Lành (Jummah Mubarak)",
+          "message": "Cầu mong Allah chấp nhận những lời cầu nguyện chân thành của chúng ta và ban bình an, lòng thương xót và ân phúc dồi dào cho ngày thứ Sáu linh thiêng này."
+        },
+        "cuma_2": {
+          "title": "Jummah Mubarak",
+          "message": "Cầu mong Allah ban phước cho bạn và những người thân yêu niềm hạnh phúc, sức khỏe và đức tin trong cuộc sống này và ở kiếp sau."
+        },
+        "kandil_1": {
+          "title": "Đêm Thánh An Lành (Qadr/Kandil)",
+          "message": "Cầu mong ân phúc, sự tha thứ và bình an của đêm linh thiêng này ở cùng bạn và gia đình."
+        },
+        "ramazan_1": {
+          "title": "Ramadan Mubarak",
+          "message": "Chúc bạn một tháng Ramadan an lành, tràn đầy suy ngẫm tâm linh, bình an và ân phúc."
+        },
+        "bayram_1": {
+          "title": "Eid Mubarak",
+          "message": "Cầu mong Eid an lành này mang lại niềm vui, sức khỏe, sự đoàn kết và thịnh vượng cho bạn và những người thân yêu."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Lời Cầu Nguyện Trước Khi Đọc Kinh Qur'an"
+        },
+        "hatim": {
+          "title": "Lời Cầu Nguyện Hoàn Tất Kinh Qur'an (Khatm)"
+        },
+        "sajdah": {
+          "title": "Sujud Khi Tụng Đọc (Sajdah)"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Qur'an"
+        },
+        "daily": {
+          "label": "Nội dung"
+        },
+        "home": {
+          "label": "Giờ giấc"
+        },
+        "dhikr": {
+          "label": "Dhikr"
+        },
+        "library": {
+          "label": "Lời cầu nguyện"
+        },
+        "qibla": {
+          "label": "Qibla"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Lễ Nguyện",
+        "dhikr": "Dhikr",
+        "quran": "Qur'an",
+        "kaza": "Bù Lễ"
+      },
+      "hijriMonths": {
+        "1": "Muharram",
+        "2": "Safar",
+        "3": "Rabi' al-Awwal",
+        "4": "Rabi' al-Thani",
+        "5": "Jumada al-Ula",
+        "6": "Jumada al-Akhirah",
+        "7": "Rajab",
+        "8": "Sha'ban",
+        "9": "Ramadan",
+        "10": "Shawwal",
+        "11": "Dhu al-Qi'dah",
+        "12": "Dhu al-Hijjah"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Nếu giờ giấc khác với thánh đường của bạn, hãy nhấn giữ thẻ để điều chỉnh.",
+      "title": "Điều chỉnh giờ {{prayer}}",
+      "desc": "Nếu thánh đường hoặc lịch của bạn hiển thị giờ khác, hãy cộng hoặc trừ số phút. Thông báo adhan cũng sẽ theo giờ này.",
+      "minus": "Lùi 1 phút",
+      "minutes": "{{value}} phút",
+      "plus": "Tiến 1 phút",
+      "reset": "Đặt Lại",
+      "save": "Lưu"
+    },
+    "feedback": {
+      "settingsRow": "Gửi Phản Hồi",
+      "title": "Cùng Nhau Cải Thiện",
+      "subtitle": "Hãy viết đề xuất, yêu cầu hoặc vấn đề bạn gặp phải để chúng tôi có thể làm cho Vera tốt hơn.",
+      "placeholder": "Viết ý tưởng, đề xuất hoặc vấn đề bạn gặp phải...",
+      "error": "Không thể gửi. Vui lòng thử lại sau ít phút.",
+      "send": "Gửi",
+      "thankYouTitle": "Đã Nhận Phản Hồi Của Bạn",
+      "thankYouSubtitle": "Ý kiến của bạn rất có giá trị đối với chúng tôi. Chúng tôi đang nỗ lực hết mình để làm cho Vera tốt hơn."
+    },
+    "battery": {
+      "stepsXiaomi": "Cài đặt → Ứng dụng → Vera: bật \"Tự khởi động\" và đặt Tiết kiệm pin thành \"Không giới hạn\".",
+      "stepsSamsung": "Cài đặt → Pin → Giới hạn sử dụng nền: thêm Vera vào \"Ứng dụng không bao giờ nghỉ\".",
+      "stepsOppo": "Cài đặt → Pin → Vera: bật \"Cho phép hoạt động nền\" và \"Tự khởi động\".",
+      "stepsOther": "Tắt tối ưu hóa pin cho Vera để adhan phát đúng giờ, không bị trễ.",
+      "cardTitle": "Nghe adhan đúng giờ",
+      "openSettings": "Mở Cài Đặt"
+    },
+    "widget": {
+      "guideTitle": "Thêm Vào Màn Hình Chính",
+      "guideDesc": "Nhấn giữ màn hình chính của bạn ➔ chạm \"Widget\" ➔ tìm widget \"VERA\" và kéo vào màn hình của bạn.",
+      "promptTitle": "Thêm Widget Vào Màn Hình Chính",
+      "promptDesc": "Xem giờ lễ nguyện tiếp theo và số phút còn lại trực tiếp trên màn hình chính, mà không cần mở ứng dụng.",
+      "addNow": "📌 Thêm Vào Màn Hình Chính",
+      "notNow": "Để Sau"
+    },
+    "greetingNotif": {
+      "dayTitle": "{{name}} an lành",
+      "nightTitle": "Đêm nay là {{name}}",
+      "body": "Gửi một thiệp chúc mừng đến những người thân yêu của bạn.",
+      "fridayTitle": "Jummah Mubarak",
+      "fridayBody": "Gửi một thiệp chúc mừng thứ Sáu đến những người thân yêu của bạn."
+    },
+    "errorBoundary": {
+      "title": "Đã xảy ra lỗi",
+      "subtitle": "Ứng dụng gặp lỗi không mong muốn. Chạm vào nút bên dưới để thử lại.",
+      "retry": "Thử lại"
     }
   }
 }

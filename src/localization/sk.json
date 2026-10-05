@@ -6,7 +6,11 @@
       "retry": "Skúsiť znova",
       "success": "Úspech",
       "fillAllFields": "Vyplňte všetky polia.",
-      "min": "m"
+      "min": "m",
+      "cancel": "Zrušiť",
+      "save": "Uložiť",
+      "ok": "OK",
+      "close": "Zavrieť"
     },
     "home": {
       "title": "Modlitebné časy",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "Nepodarilo sa načítať časy modlitieb",
       "errorLoadingSubtitle": "Skontrolujte svoje internetové pripojenie alebo vyberte mesto.",
       "retryBtn": "Skúste to znova",
-      "loadingTimes": "Načítavajú sa časy modlitieb..."
+      "loadingTimes": "Načítavajú sa časy modlitieb...",
+      "locationPermissionTitle": "Povolenie polohy nedostupné",
+      "locationPermissionDesc": "Zobrazuje sa predvolené mesto. Môžete si vybrať mesto alebo udeliť povolenie polohy.",
+      "estimatedTimesNotice": "Bez internetového pripojenia boli časy modlitieb vypočítané priamo v zariadení (odhadované)."
     },
     "settings": {
       "title": "Nastavenia",
@@ -111,7 +118,19 @@
       "offsetsTitle": "Úpravy času modlitby (offsety / ± min)",
       "offsetsDesc": "Ak sa vaša miestna mešita alebo kalendár líši o minúty, môžete nastaviť načasovanie až do ±15 minút.",
       "respectSilentModeTitle": "Mešita / Tichý režim Rešpekt",
-      "respectSilentModeDesc": "Stlmí zvuk adhan a potichu upozorní, keď je telefón v tichom režime alebo v režime vibrovania."
+      "respectSilentModeDesc": "Stlmí zvuk adhan a potichu upozorní, keď je telefón v tichom režime alebo v režime vibrovania.",
+      "inviteFriend": "Pozvať priateľa",
+      "privacyOptions": "Možnosti súkromia",
+      "timeFormat24h": "24-hodinový formát",
+      "loginLocked": "Príliš veľa neúspešných pokusov. Skúste to znova neskôr.",
+      "loginFailed": "Prihlásenie zlyhalo. Skontrolujte svoje údaje.",
+      "notifications": "Notifikácie",
+      "editorLogout": "Odhlásenie editora",
+      "editorLogin": "Prihlásenie editora",
+      "username": "Používateľské meno",
+      "password": "Heslo",
+      "loggingIn": "Prihlasovanie...",
+      "login": "Prihlásiť sa"
     },
     "qibla": {
       "title": "Kibla",
@@ -154,7 +173,9 @@
       "share": "Zdieľať",
       "verseBody": "Kliknite pre prečítanie verša dňa!",
       "hadithBody": "Kliknite pre prečítanie hadísu dňa!",
-      "quoteBody": "Kliknite pre prečítanie citátu dňa!"
+      "quoteBody": "Kliknite pre prečítanie citátu dňa!",
+      "subtitle": "Vybraný verš, hadís a citát na dnešný deň",
+      "shareHint": "Ťuknutím na kartu ju zdieľajte ako obrázok príbehu"
     },
     "search": {
       "title": "Vybrať polohu",
@@ -217,7 +238,8 @@
         "dailyDesc": "Denný verš, hadís alebo citát prichádzajú medzi Dhuhr a Asr.",
         "persistentName": "Uzamknutá obrazovka a stavový riadok",
         "persistentDesc": "Zobrazuje názov ďalšej modlitby a živé odpočítavanie na paneli upozornení a na uzamknutej obrazovke."
-      }
+      },
+      "persistentTitle": "🕌 Do {{prayer}}"
     },
     "tasbih": {
       "title": "Tasbih",
@@ -259,7 +281,49 @@
       "bgAudioSelect": "Vyberte položku Background Dhikr Sound",
       "dikhr1": "Zvuk Dhikr 1",
       "dikhr2": "Zvuk Dhikr 2",
-      "dikhr3": "Zvuk Dhikr 3"
+      "dikhr3": "Zvuk Dhikr 3",
+      "shareMilestone": "Zdieľať",
+      "milestoneShareText": "Tento mesiac som dosiahol/-la {{total}} zikrov, mášalláh!",
+      "streakDays": "dní za sebou",
+      "monthStat": "Tento mesiac",
+      "streakStat": "Séria",
+      "streakValue": "{{count}} dní",
+      "remaining": "zostáva {{count}}",
+      "noTarget": "Bez cieľa",
+      "completed": "Dokončené",
+      "addShort": "Pridať",
+      "progressShort": "Postup",
+      "recShort": "Odporúčané",
+      "tapToCount": "Ťuknutím počítajte",
+      "ok": "OK",
+      "dailyDhikrs": [
+        {
+          "text": "Subhanallahi wa bihamdihi",
+          "target": 100,
+          "benefit": "Ak sa recituje 100-krát denne, hriechy sa odpúšťajú, aj keby boli ako morská pena."
+        },
+        {
+          "text": "La ilaha illallahu wahdahu la sharika lah...",
+          "target": 100,
+          "benefit": "100-násobné odriekanie sa vyrovná prepusteniu 10 otrokov a chráni pred Satanom."
+        },
+        {
+          "text": "Astaghfirullah al-Adheem",
+          "target": 100,
+          "benefit": "Odstraňuje trápenie, otvára dvere obživy a prináša úľavu."
+        },
+        {
+          "text": "La hawla wa la quwwata illa billah",
+          "target": 100,
+          "benefit": "Poklad z pokladov raja, ktorý odháňa starosti."
+        },
+        {
+          "text": "Subhanallahi walhamdulillahi...",
+          "target": 100,
+          "benefit": "Najmilšie slová Alahovi, ťažšie na váhach než čokoľvek iné."
+        }
+      ],
+      "recTarget": "Cieľ:"
     },
     "update": {
       "title": "K dispozícii je nová aktualizácia!",
@@ -336,7 +400,15 @@
       "mealSource": "Autentický anglický preklad",
       "loadingMeal": "Načítava sa preklad stránky...",
       "noMealFound": "Pre túto stránku sa nenašiel žiadny preklad. Skontrolujte svoje internetové pripojenie.",
-      "mealBtn": "Preklad"
+      "mealBtn": "Preklad",
+      "selectReciter": "Vybrať recitátora",
+      "bookmarkAdded": "Verš pridaný medzi obľúbené",
+      "bookmarkRemoved": "Verš odstránený z obľúbených",
+      "bookmarksTitle": "Uložené verše",
+      "noBookmarks": "Zatiaľ nemáte žiadne obľúbené verše. Dlhým podržaním verša ho môžete pridať.",
+      "playFromHere": "Prehrať odtiaľto",
+      "juz": "Džuz",
+      "downloadingShort": "Sťahuje sa..."
     },
     "review": {
       "title": "Podporte nás",
@@ -372,7 +444,10 @@
       "themeSepia": "Teplá sépia",
       "appTagline": "Modlitebné časy, Korán a Qibla",
       "storeSearchHint": "Hľadať v Google Play: Vera",
-      "scanToDownload": "Skenovanie na stiahnutie"
+      "scanToDownload": "Skenovanie na stiahnutie",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 Používam Veru na sledovanie časov modlitieb, azánu a čítania Koránu. Sledujme spolu chatm!\n\n📲 Získajte aplikáciu: {{link}}"
     },
     "checklist": {
       "title": "Denný sledovač modlitieb",
@@ -397,7 +472,9 @@
       "celebrationMessage": "Dnes ste dokončili všetkých 5 denných modlitieb. Nech Alah prijme vaše modlitby!",
       "celebrationBtn": "Alhamdulillah",
       "trustNotice": "{{city}} • Overené časy modlitieb pre váš región pomocou {{method}}",
-      "streakDays": "dní"
+      "streakDays": "dní",
+      "shareStreak": "Zdieľať moju sériu",
+      "shareText": "Už {{count}} dní za sebou sledujem svoje modlitby, alhamdulillah!"
     },
     "calendar": {
       "title": "Jednotný kalendár",
@@ -413,7 +490,8 @@
       "subtitle": "Kalendár a odpočítavanie požehnaných nocí a dní",
       "today": "Dnes",
       "daysLeft": "dní",
-      "passed": "Prešiel"
+      "passed": "Prešiel",
+      "loadError": "Náboženské dni sa nepodarilo načítať. Skontrolujte internetové pripojenie."
     },
     "widgetPromo": {
       "title": "Pridať modlitebný widget",
@@ -477,7 +555,17 @@
       "widgetDesc": "Pozrite si živé odpočítavanie bez otvorenia aplikácie.",
       "widgetAdded": "Widget bol úspešne pridaný!",
       "batteryTitle": "🔋 Výnimka pre šetrič batérie",
-      "batteryDesc": "Odporúča sa vypnúť optimalizáciu batérie v zariadeniach Xiaomi a Samsung pre včasné reklamy."
+      "batteryDesc": "Odporúča sa vypnúť optimalizáciu batérie v zariadeniach Xiaomi a Samsung pre včasné reklamy.",
+      "locationReassurance": "Toto môžete kedykoľvek zmeniť neskôr v Nastaveniach.",
+      "notifDenied": "Povolenie na notifikácie nebolo udelené. Upozornenia na azán nemusia fungovať — môžete ich zapnúť neskôr v Nastaveniach.",
+      "retryBtn": "Skúsiť znova",
+      "continueWithoutNotif": "Pokračovať bez notifikácií",
+      "skipTitle": "Preskočiť nastavenie",
+      "skipBody": "Nastavenie môžete teraz preskočiť. Polohu a notifikácie môžete nastaviť neskôr v Nastaveniach.",
+      "skipConfirm": "Preskočiť",
+      "locationDenied": "Povolenie polohy nebolo udelené. Mesto si môžete vybrať zo zoznamu alebo to zmeniť neskôr v Nastaveniach.",
+      "locationFailed": "Polohu sa nepodarilo zistiť. Mesto si môžete vybrať zo zoznamu alebo to zmeniť neskôr v Nastaveniach.",
+      "locationNotSet": "Poloha nedostupná (povolenie zamietnuté)"
     },
     "weather": {
       "title": "Predpoveď počasia",
@@ -496,7 +584,8 @@
       "sunset": "Západ slnka",
       "precipitation": "Zrážky",
       "kmh": "km/h",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Skúsiť znova"
     },
     "duas": {
       "occasionTitle": "Kedy a prečo recitovať?",
@@ -542,7 +631,15 @@
       "chooseTheme": "Téma karty",
       "shareBtn": "Zdieľať na WhatsApp / Príbeh 🌟",
       "shareImageBtn": "Zdieľajte obrázkovú kartu 🌟",
-      "shareLinkBtn": "Zdieľajte priamy odkaz na obchod 🔗"
+      "shareLinkBtn": "Zdieľajte priamy odkaz na obchod 🔗",
+      "theme": {
+        "gold": "Zlatá línia",
+        "emerald": "Smaragdová kupola",
+        "navy": "Polnočná modrá",
+        "crimson": "Ruža a rubín"
+      },
+      "customDefaultTitle": "Požehnaný piatok",
+      "customDefaultMessage": "Nech sú vaše modlitby a bohoslužby prijaté."
     },
     "mosques": {
       "title": "Neďaleké mešity",
@@ -557,7 +654,12 @@
     "dailyContent": {
       "preparing": "Načítavam každodennú inšpiráciu...",
       "queueSuccess": "Obsah bol pridaný do poradia na schválenie.",
-      "queueError": "Pri pridávaní obsahu sa vyskytla chyba."
+      "queueError": "Pri pridávaní obsahu sa vyskytla chyba.",
+      "addModalTitle": "Pridať nový obsah",
+      "textPlaceholder": "Text obsahu (arabčina/preklad)",
+      "sourcePlaceholder": "Zdroj (napr. Buchárí, Ímán 1)",
+      "saving": "Ukladá sa...",
+      "saveAndQueue": "Uložiť a zaradiť do fronty"
     },
     "hatim": {
       "title": "Sledovač Koránu Khatm",
@@ -572,7 +674,9 @@
       "resetTitle": "Začnite nový Khatm",
       "resetBody": "Aktuálny khatm bude zaznamenaný ako dokončený a nový khatm začne od strany 1. Chcete pokračovať?",
       "startNew": "Začnite nový Khatm",
-      "resetHatimBtn": "Obnoviť a spustiť nový Khatm"
+      "resetHatimBtn": "Obnoviť a spustiť nový Khatm",
+      "share": "Zdieľať môj chatm",
+      "shareText": "Dokončil/-a som svoj {{count}}. chatm, alhamdulillah!"
     },
     "prayerTree": {
       "title": "Týždenný modlitebný strom",
@@ -582,6 +686,512 @@
       "quoteHigh": "\"Modlitba je pilierom viery.\" — Máš výnimočný týždeň, MashaAllah!",
       "quoteMid": "\"Začni modlitbu, daj zakah a klaňaj sa tým, ktorí sa klaňajú.\" (Al-Baqarah, 43)",
       "quoteLow": "\"Skutočne, modlitba bola nariadená veriacim nariadením presne stanovených časov.\" (An-Nisa, 103)"
+    },
+    "hajjUmrah": {
+      "title": "Sprievodca hadždžom a umrou",
+      "umrah": "Umra",
+      "hajj": "Hadždž",
+      "stepsTitle": "Obrady krok za krokom",
+      "checklistTitle": "Kontrolný zoznam príprav",
+      "settingsEntry": "Sprievodca hadždžom a umrou"
+    },
+    "zakat": {
+      "title": "Kalkulačka zakátu",
+      "info": "Zakát predstavuje 2,5 % (1/40) z majetku, ktorý bol v držbe celý lunárny rok a dosahuje hranicu nisábu. Zistite aktuálnu hodnotu nisábu (podľa ceny zlata/striebra) a zadajte ju nižšie.",
+      "cash": "Hotovosť a bankové vklady",
+      "gold": "Hodnota zlata / striebra",
+      "tradeGoods": "Hodnota obchodného tovaru",
+      "investments": "Akcie / investície",
+      "debts": "Dlhy (odpočítať)",
+      "nisab": "Hranica nisábu (aktuálna hodnota zlata/striebra)",
+      "netWealth": "Čistý majetok",
+      "zakatDue": "Zakát, ktorý máte zaplatiť",
+      "notEligible": "Váš majetok nedosahuje hranicu nisábu, takže zakát nie je potrebné platiť.",
+      "enterNisab": "Pre výpočet zadajte hranicu nisábu.",
+      "settingsEntry": "Kalkulačka zakátu"
+    },
+    "ramadan": {
+      "calendarTitle": "Ramadánový kalendár",
+      "days": "dní",
+      "day": "Deň",
+      "date": "Dátum",
+      "sahur": "Suhúr",
+      "iftar": "Iftár",
+      "noData": "Údaje ramadánového kalendára sa nenašli."
+    },
+    "achievements": {
+      "title": "Moje úspechy",
+      "pointsLabel": "Body za bohoslužbu",
+      "unlockedCount": "{{unlocked}} / {{total}} odznakov odomknutých",
+      "settingsEntry": "Moje úspechy",
+      "share": "Zdieľať moje body",
+      "shareText": "Dosiahol/-la som {{points}} bodov za bohoslužbu a odomkol/-la {{unlocked}} odznakov!",
+      "inviteTitle": "Pozvať priateľa",
+      "inviteDesc": "Sledujte spolu chatm a navzájom sa motivujte.",
+      "progress": {
+        "days": "{{current}} / {{total}} dní",
+        "prayers": "{{current}} / {{total}} modlitieb",
+        "dhikr": "{{current}} / {{total}} zikrov",
+        "khatm": "{{current}} / {{total}} chatmov",
+        "kaza": "{{current}} / {{total}} náhradných modlitieb"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "Vstup do stavu ihrámu",
+          "desc": "Na hranici míkátu sa vykoná gusl, oblečie sa odev ihrám, vysloví sa úmysel (nijja) a odrieka sa talbija. Po vstupe do ihrámu platia určité obmedzenia (žiadny šitý odev, parfum a pod.)."
+        },
+        "tawaf": {
+          "title": "Tawáf (obchádzanie Kaaby)",
+          "desc": "Počnúc od Čierneho kameňa sa obíde Kaaba sedemkrát proti smeru hodinových ručičiek, pričom sa na začiatku každého okruhu podľa možnosti pozdraví Čierny kameň."
+        },
+        "sayi": {
+          "title": "Sa'j (medzi Safou a Marwou)",
+          "desc": "Rýchlou chôdzou sa sedemkrát prejde medzi vŕškami Safa a Marwa na pamiatku Hadžar, ktorá hľadala vodu."
+        },
+        "halq": {
+          "title": "Oholenie alebo skrátenie vlasov (halk/taksír)",
+          "desc": "Muži si celkom oholia hlavu alebo si vlasy skrátia; ženy si odstrihnú vlasy v dĺžke špičky prsta. Tým sa dokončí umra a končia obmedzenia ihrámu."
+        },
+        "arafat": {
+          "title": "Státie na Arafáte (9. zul-hidždža)",
+          "desc": "Najdôležitejší pilier hadždžu. Pútnici stoja na Arafáte od poludnia do západu slnka 9. dňa mesiaca zul-hidždža, pričom sa venujú prosbám, spomínaniu Boha a pokániu."
+        },
+        "muzdalifah": {
+          "title": "Nocľah v Muzdalife",
+          "desc": "Po Arafáte sa pútnici presunú do Muzdalify, spoja modlitby maghrib a išá, strávia tam noc a zbierajú kamienky na obrad kameňovania."
+        },
+        "jamarat": {
+          "title": "Kameňovanie džamarátu",
+          "desc": "V určené dni sa hádžu kamienky na piliere džamarátu v Miná na pamiatku odmietnutia satana prorokom Ibráhímom (mier s ním)."
+        },
+        "qurban": {
+          "title": "Obeta (kurbán)",
+          "desc": "V rámci obradov hadždžu sa vykoná obeta, ktorá znamená začiatok sviatku Íd al-adhá."
+        },
+        "farewell_tawaf": {
+          "title": "Rozlúčkový tawáf",
+          "desc": "Posledný tawáf vykonaný pred odchodom z Mekky, ktorý znamená dokončenie obradov hadždžu."
+        },
+        "ihram_clothes": {
+          "label": "Odev ihrám (2 kusy nezošitej bielej látky pre mužov)"
+        },
+        "passport": {
+          "label": "Pas, vízum a cestovné doklady"
+        },
+        "health": {
+          "label": "Zdravotné poistenie a potrebné očkovania"
+        },
+        "comfortable_sandals": {
+          "label": "Pohodlné sandále, ktoré sa ľahko vyzúvajú"
+        },
+        "unscented_soap": {
+          "label": "Mydlo bez vône a hygienické potreby"
+        },
+        "dua_book": {
+          "label": "Knižka dua a obradov (alebo táto aplikácia)"
+        },
+        "money_belt": {
+          "label": "Bezpečné puzdro na peniaze/doklady"
+        },
+        "medication": {
+          "label": "Osobné lieky a recepty"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Noc Ragáib",
+          "description": "Začiatok troch svätých mesiacov a noc milosrdenstva."
+        },
+        "mirac": {
+          "name": "Noc Mirádž (Isrá a Mirádž)",
+          "description": "Nočná cesta a nanebovstúpenie Proroka (mier s ním)."
+        },
+        "berat": {
+          "name": "Noc Barát",
+          "description": "Noc odpustenia hriechov a úľavy od zármutku."
+        },
+        "ramadan": {
+          "name": "Prvý deň ramadánu",
+          "description": "Prvý deň pôstu v požehnanom mesiaci ramadán."
+        },
+        "kadir": {
+          "name": "Noc Kadr (Laylat al-Kadr)",
+          "description": "Noc moci, lepšia než tisíc mesiacov."
+        },
+        "eid-fitr": {
+          "name": "Íd al-fitr (1. deň)",
+          "description": "Prvý deň sviatku Íd al-fitr."
+        },
+        "eid-adha": {
+          "name": "Íd al-adhá (1. deň)",
+          "description": "Prvý deň sviatku Íd al-adhá."
+        },
+        "hijri-new-year": {
+          "name": "Islamský nový rok",
+          "description": "Prvý deň nového hidžretského roka."
+        },
+        "ashura": {
+          "name": "Deň Ašúra",
+          "description": "10. deň mesiaca muharram."
+        },
+        "mevlid": {
+          "name": "Mawlid an-Nabí",
+          "description": "Noc narodenia Proroka (mier s ním)."
+        }
+      },
+      "esma": {
+        "1": "Milostivý",
+        "2": "Milosrdný",
+        "3": "Kráľ",
+        "4": "Presvätý",
+        "5": "Zdroj pokoja",
+        "6": "Ten, kto dáva istotu",
+        "7": "Strážca",
+        "8": "Všemohúci",
+        "9": "Prinucujúci",
+        "10": "Najvyšší",
+        "11": "Stvoriteľ",
+        "12": "Tvorca dokonalosti",
+        "13": "Formovateľ",
+        "14": "Veľký odpúšťajúci",
+        "15": "Podmaniteľ",
+        "16": "Darca",
+        "17": "Živiteľ",
+        "18": "Otvárateľ",
+        "19": "Vševediaci",
+        "20": "Ten, kto obmedzuje",
+        "21": "Ten, kto rozširuje",
+        "22": "Ten, kto ponižuje",
+        "23": "Ten, kto povyšuje",
+        "24": "Ten, kto ctí",
+        "25": "Ten, kto zneucťuje",
+        "26": "Vševidiaci sluchom",
+        "27": "Vševidiaci",
+        "28": "Sudca",
+        "29": "Spravodlivý",
+        "30": "Jemný",
+        "31": "Vševedomý",
+        "32": "Trpezlivý",
+        "33": "Vznešený",
+        "34": "Všeodpúšťajúci",
+        "35": "Vďačný",
+        "36": "Najvyšší",
+        "37": "Najväčší",
+        "38": "Ochranca",
+        "39": "Udržiavateľ",
+        "40": "Počtár",
+        "41": "Majestátny",
+        "42": "Veľkorysý",
+        "43": "Bdelý",
+        "44": "Ten, kto odpovedá",
+        "45": "Všeobsahujúci",
+        "46": "Vševedúci múdry",
+        "47": "Milujúci",
+        "48": "Slávny",
+        "49": "Vzkriesiteľ",
+        "50": "Svedok",
+        "51": "Pravda",
+        "52": "Poručník",
+        "53": "Silný",
+        "54": "Pevný",
+        "55": "Ochranný priateľ",
+        "56": "Chválitebný",
+        "57": "Počítajúci",
+        "58": "Zakladateľ",
+        "59": "Obnovovateľ",
+        "60": "Darca života",
+        "61": "Ten, kto privádza smrť",
+        "62": "Živý",
+        "63": "Samostatne existujúci",
+        "64": "Nálezca",
+        "65": "Vznešený",
+        "66": "Jedinečný",
+        "67": "Jediný",
+        "68": "Večný",
+        "69": "Schopný",
+        "70": "Mocný",
+        "71": "Uspišovateľ",
+        "72": "Ten, kto odkladá",
+        "73": "Prvý",
+        "74": "Posledný",
+        "75": "Zjavný",
+        "76": "Skrytý",
+        "77": "Vládca",
+        "78": "Najvznešenejší",
+        "79": "Zdroj dobra",
+        "80": "Prijímateľ pokánia",
+        "81": "Pomstiteľ",
+        "82": "Odpúšťajúci",
+        "83": "Súcitný",
+        "84": "Vládca kráľovstva",
+        "85": "Pán majestátu a štedrosti",
+        "86": "Spravodlivý usporiadateľ",
+        "87": "Zhromažďovateľ",
+        "88": "Sebestačný",
+        "89": "Obohacovateľ",
+        "90": "Ten, kto zabraňuje",
+        "91": "Ten, kto spôsobuje útrapu",
+        "92": "Priaznivý",
+        "93": "Svetlo",
+        "94": "Sprievodca",
+        "95": "Neporovnateľný",
+        "96": "Večne trvajúci",
+        "97": "Dedič",
+        "98": "Sprievodca na správnu cestu",
+        "99": "Trpezlivý"
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Dua za uzdravenie a zotavenie",
+          "occasion": "Recituje sa za telesné a duchovné uzdravenie počas choroby."
+        },
+        "nazar_korunma": {
+          "title": "Ochrana pred urieknutím a zlom (Ajat al-Kursí)",
+          "occasion": "Recituje sa ráno a večer pre božskú ochranu pred urieknutím a zlom."
+        },
+        "rizik_bereket": {
+          "title": "Dua za obživu, požehnanie a oslobodenie od dlhov",
+          "occasion": "Recituje sa pre finančnú hojnosť, požehnanie v obžive a úľavu od dlhov."
+        },
+        "ferahlik_sikinti": {
+          "title": "Dua v čase súženia (prorok Júnus)",
+          "occasion": "Recituje sa v časoch veľkého súženia, úzkosti, bezmocnosti a smútku."
+        },
+        "sinav_zihin": {
+          "title": "Dua za vedomosti, skúšky a jasnú myseľ",
+          "occasion": "Recituje sa pred skúškami, štúdiom alebo náročnou intelektuálnou úlohou."
+        },
+        "seyyidul_istigfar": {
+          "title": "Sajjid al-istighfár (najvyššia dua za odpustenie)",
+          "occasion": "Recituje sa ráno a večer pre úprimné pokánie a odpustenie hriechov."
+        },
+        "anne_baba": {
+          "title": "Dua za rodičov a rodinu",
+          "occasion": "Recituje sa za odpustenie, zdravie a milosť pre rodičov a rodinu."
+        },
+        "ezan_sonrasi": {
+          "title": "Dua po azáne",
+          "occasion": "Recituje sa hneď po azáne, aby sa získalo orodovanie Proroka."
+        },
+        "iftar_oruc": {
+          "title": "Dua pri iftáre (prerušení pôstu)",
+          "occasion": "Recituje sa v okamihu prerušenia pôstu pri západe slnka."
+        },
+        "morning_1": {
+          "title": "Dua božskej ochrany ráno a večer",
+          "occasion": "Recituje sa 3-krát ráno a večer pre úplnú ochranu pred akoukoľvek ujmou."
+        },
+        "leaving_home": {
+          "title": "Dua pri odchode z domu",
+          "occasion": "Recituje sa pri odchode z domu pre božskú bezpečnosť a vedenie."
+        },
+        "entering_home": {
+          "title": "Dua pri vstupe do domu",
+          "occasion": "Recituje sa pri vstupe do domu pre pokoj, požehnanie a ochranu."
+        },
+        "waking_up": {
+          "title": "Dua po prebudení",
+          "occasion": "Recituje sa po prebudení ako vďaka za obnovenie života a sily."
+        },
+        "sleeping": {
+          "title": "Dua pred spaním",
+          "occasion": "Recituje sa pri uľahnutí na spánok pre pokojný spánok a božskú ochranu."
+        },
+        "sukr_hamd": {
+          "title": "Dua vďačnosti a požehnania",
+          "occasion": "Recituje sa ako vďaka pri prijatí požehnania a dobrých správ."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "7-dňová stálosť",
+          "desc": "Zaznamenali ste modlitby 7 dní za sebou"
+        },
+        "prayer_streak_30": {
+          "title": "30-dňová stálosť",
+          "desc": "Zaznamenali ste modlitby 30 dní za sebou"
+        },
+        "prayer_total_100": {
+          "title": "100 modlitieb",
+          "desc": "Zaznamenali ste celkovo 100 modlitieb"
+        },
+        "prayer_total_500": {
+          "title": "500 modlitieb",
+          "desc": "Zaznamenali ste celkovo 500 modlitieb"
+        },
+        "dhikr_streak_7": {
+          "title": "7-dňová séria zikru",
+          "desc": "Praktizovali ste zikr 7 dní za sebou"
+        },
+        "dhikr_streak_30": {
+          "title": "30-dňová séria zikru",
+          "desc": "Praktizovali ste zikr 30 dní za sebou"
+        },
+        "dhikr_total_1000": {
+          "title": "1 000 zikrov",
+          "desc": "Odriekali ste celkovo 1 000 zikrov"
+        },
+        "dhikr_total_10000": {
+          "title": "10 000 zikrov",
+          "desc": "Odriekali ste celkovo 10 000 zikrov"
+        },
+        "hatim_first": {
+          "title": "Prvý chatm",
+          "desc": "Dokončili ste čítanie celého Koránu"
+        },
+        "hatim_3": {
+          "title": "3 chatmy",
+          "desc": "Dokončili ste Korán 3-krát"
+        },
+        "kaza_10": {
+          "title": "10 náhradných modlitieb",
+          "desc": "Dokončili ste 10 náhradných modlitieb/pôstov"
+        },
+        "kaza_50": {
+          "title": "50 náhradných modlitieb",
+          "desc": "Dokončili ste 50 náhradných modlitieb/pôstov"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mišári Rášid al-Afásí"
+        },
+        "abdulbasit": {
+          "name": "Abdulbásit Abdussamad"
+        },
+        "husary": {
+          "name": "Mahmúd Chalíl al-Husárí"
+        },
+        "minshawy": {
+          "name": "Muhammad Siddík al-Minšáwí"
+        },
+        "shuraym": {
+          "name": "Saúd aš-Šurajm"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Požehnaný piatok (Jummah Mubarak) 🌹",
+          "message": "Nech Alah prijme naše úprimné modlitby a naplní tento požehnaný piatok pokojom, milosrdenstvom a hojnosťou."
+        },
+        "cuma_2": {
+          "title": "Jummah Mubarak ✨",
+          "message": "Nech vás Alah spolu s vašimi blízkymi požehná šťastím, zdravím a vierou na tomto aj onom svete."
+        },
+        "kandil_1": {
+          "title": "Požehnanú svätú noc 🌙",
+          "message": "Nech je na vás a vašej rodine požehnanie, odpustenie a pokoj tejto posvätnej noci."
+        },
+        "ramazan_1": {
+          "title": "Požehnaný ramadán 🕌",
+          "message": "Prajeme vám požehnaný ramadán plný duchovného zamyslenia, pokoja a božského požehnania."
+        },
+        "bayram_1": {
+          "title": "Požehnaný sviatok 🌟",
+          "message": "Nech tento požehnaný Íd prinesie radosť, zdravie, jednotu a prosperitu vám a vašim blízkym."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Dua pred čítaním Koránu"
+        },
+        "hatim": {
+          "title": "Dua za dokončenie Koránu (chatm)"
+        },
+        "sajdah": {
+          "title": "Sadžda pri recitácii (tilávat sadžda)"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Korán"
+        },
+        "daily": {
+          "label": "Obsah"
+        },
+        "home": {
+          "label": "Časy"
+        },
+        "dhikr": {
+          "label": "Zikr"
+        },
+        "library": {
+          "label": "Duy"
+        },
+        "qibla": {
+          "label": "Qibla"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Modlitba",
+        "dhikr": "Zikr",
+        "quran": "Korán",
+        "kaza": "Náhrada"
+      },
+      "hijriMonths": {
+        "1": "Muharram",
+        "2": "Safar",
+        "3": "Rabí al-awwal",
+        "4": "Rabí at-tání",
+        "5": "Džumádá al-úlá",
+        "6": "Džumádá al-áchira",
+        "7": "Radžab",
+        "8": "Šaabán",
+        "9": "Ramadán",
+        "10": "Šawwál",
+        "11": "Zú al-kaida",
+        "12": "Zú al-hidždža"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Ak sa časy líšia, dlhým podržaním karty ich môžete upraviť.",
+      "title": "Upraviť čas: {{prayer}}",
+      "desc": "Ak vaša mešita alebo kalendár uvádza iný čas, pridajte alebo odpočítajte minúty. Podľa toho sa riadi aj notifikácia azánu.",
+      "minus": "O 1 minútu skôr",
+      "minutes": "{{value}} min",
+      "plus": "O 1 minútu neskôr",
+      "reset": "Obnoviť",
+      "save": "Uložiť"
+    },
+    "feedback": {
+      "settingsRow": "Odoslať spätnú väzbu",
+      "title": "Zlepšujme to spolu",
+      "subtitle": "Napíšte nám návrhy, žiadosti alebo problém, s ktorým ste sa stretli, aby sme mohli Veru vylepšiť.",
+      "placeholder": "Napíšte nápad, návrh alebo problém, ktorý ste zaznamenali...",
+      "error": "Odoslanie zlyhalo. Skúste to znova o chvíľu.",
+      "send": "Odoslať",
+      "thankYouTitle": "Spätná väzba prijatá",
+      "thankYouSubtitle": "Vaše názory sú pre nás veľmi cenné. Usilovne pracujeme na tom, aby bola Vera lepšia."
+    },
+    "battery": {
+      "stepsXiaomi": "Nastavenia → Aplikácie → Vera: zapnite \"Automatické spustenie\" a nastavte Šetrič batérie na \"Bez obmedzení\".",
+      "stepsSamsung": "Nastavenia → Batéria → Limity používania na pozadí: pridajte Veru medzi \"Aplikácie, ktoré sa nikdy neuspávajú\".",
+      "stepsOppo": "Nastavenia → Batéria → Vera: zapnite \"Povoliť aktivitu na pozadí\" a \"Automatické spustenie\".",
+      "stepsOther": "Vypnite optimalizáciu batérie pre Veru, aby sa azán prehral bez oneskorenia.",
+      "cardTitle": "Počúvajte azán včas",
+      "openSettings": "Otvoriť nastavenia"
+    },
+    "widget": {
+      "guideTitle": "Pridať na plochu",
+      "guideDesc": "Podržte prst na ploche ➔ ťuknite na \"Widgety\" ➔ nájdite widget \"VERA\" a presuňte ho na plochu.",
+      "promptTitle": "Pridať widget na plochu",
+      "promptDesc": "Sledujte ďalší čas modlitby a zostávajúce minúty priamo na ploche telefónu bez otvárania aplikácie.",
+      "addNow": "📌 Pridať na plochu",
+      "notNow": "Neskôr"
+    },
+    "greetingNotif": {
+      "dayTitle": "Požehnaný sviatok {{name}}",
+      "nightTitle": "Dnes v noci je {{name}}",
+      "body": "Pošlite pozdravnú kartu svojim blízkym.",
+      "fridayTitle": "Požehnaný piatok",
+      "fridayBody": "Pošlite piatkovú pozdravnú kartu svojim blízkym."
+    },
+    "errorBoundary": {
+      "title": "Niečo sa pokazilo",
+      "subtitle": "V aplikácii sa vyskytla neočakávaná chyba. Klepnutím na tlačidlo nižšie to skúste znova.",
+      "retry": "Skúsiť znova"
     }
   }
 }

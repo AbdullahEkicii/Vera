@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ImageBackground, StatusBar, Platform } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, StatusBar, Platform, AppState, AppStateStatus } from 'react-native';
 import Svg, { Circle, Defs, Filter, FeDropShadow, LinearGradient as SvgLinearGradient, Stop } from 'react-native-svg';
 import Animated, {
   useSharedValue,
@@ -12,7 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../context/ThemeContext';
-import { typography, spacing } from '../utils/theme';
+import { typography } from '../utils/theme';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedView = Animated.View;
@@ -63,6 +63,8 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
   useEffect(() => {
     if (!targetDate) return;
 
+    let interval: ReturnType<typeof setInterval> | null = null;
+
     const updateTimer = () => {
       const now = new Date();
       const diff = targetDate.getTime() - now.getTime();
@@ -87,9 +89,36 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
       });
     };
 
-    updateTimer();
-    const interval = setInterval(updateTimer, 1000);
-    return () => clearInterval(interval);
+    const startTimer = () => {
+      updateTimer();
+      if (!interval) {
+        interval = setInterval(updateTimer, 1000);
+      }
+    };
+
+    const stopTimer = () => {
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+      }
+    };
+
+    if (AppState.currentState === 'active') {
+      startTimer();
+    }
+
+    const sub = AppState.addEventListener('change', (nextState: AppStateStatus) => {
+      if (nextState === 'active') {
+        startTimer();
+      } else {
+        stopTimer();
+      }
+    });
+
+    return () => {
+      stopTimer();
+      sub.remove();
+    };
   }, [targetDate, onTimeReached]);
 
   const animatedProps = useAnimatedProps(() => ({

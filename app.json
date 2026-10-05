@@ -2,7 +2,7 @@
   "expo": {
     "name": "Vera",
     "slug": "ezan-app",
-    "version": "1.0.25",
+    "version": "1.0.32",
     "orientation": "default",
     "icon": "./assets/images/Vera_app_icon.png",
     "scheme": "ezanapp",
@@ -37,14 +37,13 @@
     "android": {
       "package": "com.abdllhekc.vera",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 27,
+      "versionCode": 34,
       "permissions": [
         "SCHEDULE_EXACT_ALARM",
         "USE_EXACT_ALARM",
         "RECEIVE_BOOT_COMPLETED",
         "WAKE_LOCK",
         "POST_NOTIFICATIONS",
-        "FOREGROUND_SERVICE_SPECIAL_USE",
         "com.google.android.gms.permission.AD_ID"
       ],
       "adaptiveIcon": {
@@ -100,8 +99,8 @@
       [
         "./plugins/withGoogleMobileAds.js",
         {
-          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
-          "iosAppId": "ca-app-pub-3940256099942544~1458002511",
+          "androidAppId": "ca-app-pub-2034009761866400~5203875113",
+          "iosAppId": "ca-app-pub-2034009761866400~5203875113",
           "userTrackingUsageDescription": "Size kişiselleştirilmiş reklamlar gösterebilmek ve uygulama deneyimini iyileştirebilmek için izninizi istiyoruz."
         }
       ],
@@ -121,9 +120,17 @@
         }
       ],
       "./plugins/withRemoveExpoAudioServices.js",
-      "@react-native-firebase/auth/app.plugin.js",
       "@react-native-firebase/analytics/app.plugin.js",
-      "./plugins/withAndroidSigning.js"
+      "./plugins/withAndroidSigning.js",
+      "expo-background-task",
+      [
+        "expo-tracking-transparency",
+        {
+          "userTrackingPermission": "Size kişiselleştirilmiş reklamlar gösterebilmek ve uygulama deneyimini iyileştirebilmek için izninizi istiyoruz."
+        }
+      ],
+      "@react-native-firebase/crashlytics/app.plugin.js",
+      "@react-native-firebase/messaging/app.plugin.js"
     ],
     "experiments": {
       "typedRoutes": true,
@@ -135,8 +142,8 @@
         "projectId": "f2afb534-f923-452a-adcc-df20a05fdcf1"
       },
       "react-native-google-mobile-ads": {
-        "android_app_id": "ca-app-pub-3940256099942544~3347511713",
-        "ios_app_id": "ca-app-pub-3940256099942544~1458002511"
+        "android_app_id": "ca-app-pub-2034009761866400~5203875113",
+        "ios_app_id": "ca-app-pub-2034009761866400~5203875113"
       }
     }
   }

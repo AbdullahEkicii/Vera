@@ -6,7 +6,11 @@
       "retry": "Reintentar",
       "success": "Éxito",
       "fillAllFields": "Por favor complete todos los campos.",
-      "min": "metro"
+      "min": "metro",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "ok": "Aceptar",
+      "close": "Cerrar"
     },
     "home": {
       "title": "Horarios de Oración",
@@ -35,7 +39,10 @@
       "errorLoadingTitle": "No se pudieron cargar los tiempos de oración",
       "errorLoadingSubtitle": "Por favor verifique su conexión a Internet o seleccione su ciudad.",
       "retryBtn": "Rever",
-      "loadingTimes": "Cargando tiempos de oración..."
+      "loadingTimes": "Cargando tiempos de oración...",
+      "locationPermissionTitle": "Permiso de ubicación no disponible",
+      "locationPermissionDesc": "Mostrando la ciudad predeterminada. Puedes elegir una ciudad u otorgar permiso de ubicación.",
+      "estimatedTimesNotice": "Sin conexión a internet, los horarios se calcularon en tu dispositivo (estimados)."
     },
     "settings": {
       "title": "Ajustes",
@@ -111,7 +118,19 @@
       "offsetsTitle": "Ajustes del tiempo de oración (compensaciones / ± min)",
       "offsetsDesc": "Si su mezquita o calendario local difiere en minutos, puede ajustar los tiempos hasta ±15 minutos.",
       "respectSilentModeTitle": "Mezquita / Modo Silencioso Respeto",
-      "respectSilentModeDesc": "Silencia el audio adhan y notifica silenciosamente cuando su teléfono está en modo silencio o vibración."
+      "respectSilentModeDesc": "Silencia el audio adhan y notifica silenciosamente cuando su teléfono está en modo silencio o vibración.",
+      "inviteFriend": "Invitar a un amigo",
+      "privacyOptions": "Opciones de privacidad",
+      "timeFormat24h": "Formato de 24 horas",
+      "loginLocked": "Demasiados intentos fallidos. Inténtalo de nuevo más tarde.",
+      "loginFailed": "Error al iniciar sesión. Verifica tus datos.",
+      "notifications": "Notificaciones",
+      "editorLogout": "Cerrar sesión de editor",
+      "editorLogin": "Inicio de sesión de editor",
+      "username": "Usuario",
+      "password": "Contraseña",
+      "loggingIn": "Iniciando sesión...",
+      "login": "Iniciar sesión"
     },
     "qibla": {
       "title": "Brújula de la Qibla",
@@ -154,7 +173,9 @@
       "share": "Compartir",
       "verseBody": "¡Haz clic para leer el versículo del día!",
       "hadithBody": "¡Haz clic para leer el hadiz del día!",
-      "quoteBody": "¡Haz clic para leer la cita del día!"
+      "quoteBody": "¡Haz clic para leer la cita del día!",
+      "subtitle": "Versículo, hadiz y frase seleccionados para hoy",
+      "shareHint": "Toca una tarjeta para compartirla como imagen de historia"
     },
     "notifications": {
       "fajr": {
@@ -208,7 +229,8 @@
         "dailyDesc": "Los versos, hadices o citas diarios llegan entre Dhuhr y Asr.",
         "persistentName": "Pantalla de bloqueo y barra de estado",
         "persistentDesc": "Muestra el nombre de la siguiente oración y la cuenta regresiva en vivo en el panel de notificaciones y la pantalla de bloqueo."
-      }
+      },
+      "persistentTitle": "🕌 Hasta {{prayer}}"
     },
     "tasbih": {
       "title": "Tasbih",
@@ -250,7 +272,49 @@
       "bgAudioSelect": "Seleccionar sonido de fondo Dhikr",
       "dikhr1": "Sonido dhikr 1",
       "dikhr2": "Sonido dhikr 2",
-      "dikhr3": "Sonido dhikr 3"
+      "dikhr3": "Sonido dhikr 3",
+      "shareMilestone": "Compartir",
+      "milestoneShareText": "¡Alcancé un total de {{total}} dhikr este mes, mashallah!",
+      "streakDays": "días seguidos",
+      "monthStat": "Este mes",
+      "streakStat": "Racha",
+      "streakValue": "{{count}} días",
+      "remaining": "faltan {{count}}",
+      "noTarget": "Sin meta",
+      "completed": "Completado",
+      "addShort": "Añadir",
+      "progressShort": "Progreso",
+      "recShort": "Sugerido",
+      "tapToCount": "Toca para contar",
+      "ok": "Aceptar",
+      "dailyDhikrs": [
+        {
+          "text": "Subhanal·lahi wa bihamdihi",
+          "target": 100,
+          "benefit": "Recitado 100 veces al día, los pecados son perdonados aunque sean como la espuma del mar."
+        },
+        {
+          "text": "La ilaha il·lal·lahu wahdahu la sharika lah...",
+          "target": 100,
+          "benefit": "Recitarlo 100 veces equivale a liberar 10 esclavos y protege del Shaitán."
+        },
+        {
+          "text": "Astagfirul·lahal-Azim",
+          "target": 100,
+          "benefit": "Elimina las angustias, abre las puertas del sustento y aporta alivio."
+        },
+        {
+          "text": "La hawla wa la quwwata il·la bil·lah",
+          "target": 100,
+          "benefit": "Un tesoro entre los tesoros del Paraíso, que aleja toda preocupación."
+        },
+        {
+          "text": "Subhanal·lahi wal hamdulil·lahi...",
+          "target": 100,
+          "benefit": "Las palabras más queridas por Allah, más pesadas en la balanza que todo lo demás."
+        }
+      ],
+      "recTarget": "Meta:"
     },
     "update": {
       "title": "¡Nueva Actualización Disponible!",
@@ -327,7 +391,15 @@
       "mealSource": "Traducción auténtica al inglés",
       "loadingMeal": "Cargando traducción de página...",
       "noMealFound": "No se encontró traducción para esta página. Por favor verifique su conexión a Internet.",
-      "mealBtn": "Traducción"
+      "mealBtn": "Traducción",
+      "selectReciter": "Elegir recitador",
+      "bookmarkAdded": "Versículo añadido a favoritos",
+      "bookmarkRemoved": "Versículo eliminado de favoritos",
+      "bookmarksTitle": "Versículos guardados",
+      "noBookmarks": "Aún no tienes versículos favoritos. Mantén pulsado un versículo para añadirlo.",
+      "playFromHere": "Escuchar desde aquí",
+      "juz": "Juz'",
+      "downloadingShort": "Descargando..."
     },
     "review": {
       "title": "Apóyanos",
@@ -363,7 +435,10 @@
       "themeSepia": "Sepia cálida",
       "appTagline": "Horarios de oración, Corán y Qibla",
       "storeSearchHint": "Buscar en Google Play: Vera",
-      "scanToDownload": "Escanear para descargar"
+      "scanToDownload": "Escanear para descargar",
+      "cardMessage": "✨ {{title}}\n\n\"{{text}}\"\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "cardMessageWithSource": "✨ {{title}}\n\n\"{{text}}\"\n\n— {{source}}\n\n📲 Vera – {{tagline}}\n🔗 {{link}}",
+      "inviteMessage": "🕌 Uso Vera para seguir los horarios de oración, el adhan y mi lectura del Corán. ¡Sigamos juntos una jatma!\n\n📲 Descarga la app: {{link}}"
     },
     "checklist": {
       "title": "Rastreador de oración diaria",
@@ -388,7 +463,9 @@
       "celebrationMessage": "Completaste las 5 oraciones diarias hoy. ¡Que Allah acepte tus oraciones!",
       "celebrationBtn": "Alhamdulillah",
       "trustNotice": "{{ciudad}} • Horarios de oración verificados para tu región usando {{method}}",
-      "streakDays": "Días"
+      "streakDays": "Días",
+      "shareStreak": "Compartir mi racha",
+      "shareText": "¡Llevo {{count}} días seguidos siguiendo mis oraciones, alhamdulillah!"
     },
     "search": {
       "title": "Seleccionar Ubicación",
@@ -413,7 +490,8 @@
       "subtitle": "Calendario y cuenta atrás para noches y días benditos.",
       "today": "Hoy",
       "daysLeft": "días",
-      "passed": "Aprobado"
+      "passed": "Aprobado",
+      "loadError": "No se pudieron cargar los días religiosos. Verifica tu conexión a internet."
     },
     "widgetPromo": {
       "title": "Agregar widget de oración",
@@ -477,7 +555,17 @@
       "widgetDesc": "Vea cuentas regresivas en vivo sin abrir la aplicación.",
       "widgetAdded": "¡El widget se agregó correctamente!",
       "batteryTitle": "🔋 Exención de ahorro de batería",
-      "batteryDesc": "Se recomienda desactivar las optimizaciones de batería en Xiaomi y Samsung para realizar adhans oportunos."
+      "batteryDesc": "Se recomienda desactivar las optimizaciones de batería en Xiaomi y Samsung para realizar adhans oportunos.",
+      "locationReassurance": "Siempre puedes cambiar esto más tarde en Ajustes.",
+      "notifDenied": "No se concedió el permiso de notificaciones. Las alertas del adhan podrían no funcionar — puedes activarlas más tarde en Ajustes.",
+      "retryBtn": "Intentar de nuevo",
+      "continueWithoutNotif": "Continuar sin notificaciones",
+      "skipTitle": "Omitir configuración",
+      "skipBody": "Puedes omitir la configuración por ahora. La ubicación y las notificaciones se pueden ajustar más tarde en Ajustes.",
+      "skipConfirm": "Omitir",
+      "locationDenied": "No se concedió el permiso de ubicación. Puedes elegir tu ciudad de la lista o cambiar esto más tarde en Ajustes.",
+      "locationFailed": "No se pudo obtener tu ubicación. Puedes elegir tu ciudad de la lista o cambiar esto más tarde en Ajustes.",
+      "locationNotSet": "Ubicación no disponible (permiso denegado)"
     },
     "weather": {
       "title": "Pronóstico del tiempo",
@@ -496,7 +584,8 @@
       "sunset": "Atardecer",
       "precipitation": "Precipitación",
       "kmh": "kilómetros por hora",
-      "hpa": "hPa"
+      "hpa": "hPa",
+      "retry": "Intentar de nuevo"
     },
     "duas": {
       "occasionTitle": "¿Cuándo y por qué recitar?",
@@ -542,7 +631,15 @@
       "chooseTheme": "Tema de la tarjeta",
       "shareBtn": "Compartir en WhatsApp/Historia 🌟",
       "shareImageBtn": "Compartir tarjeta de imagen 🌟",
-      "shareLinkBtn": "Compartir enlace directo a la tienda 🔗"
+      "shareLinkBtn": "Compartir enlace directo a la tienda 🔗",
+      "theme": {
+        "gold": "Línea dorada",
+        "emerald": "Cúpula esmeralda",
+        "navy": "Azul medianoche",
+        "crimson": "Rosa y rubí"
+      },
+      "customDefaultTitle": "Feliz yumua",
+      "customDefaultMessage": "Que tus oraciones y actos de adoración sean aceptados."
     },
     "mosques": {
       "title": "Mezquitas cercanas",
@@ -557,7 +654,12 @@
     "dailyContent": {
       "preparing": "Cargando inspiración diaria...",
       "queueSuccess": "Contenido agregado a la cola de aprobación.",
-      "queueError": "Se produjo un error al agregar contenido."
+      "queueError": "Se produjo un error al agregar contenido.",
+      "addModalTitle": "Añadir nuevo contenido",
+      "textPlaceholder": "Texto del contenido (árabe/traducción)",
+      "sourcePlaceholder": "Fuente (ej. Bujari, Iman 1)",
+      "saving": "Guardando...",
+      "saveAndQueue": "Guardar y poner en cola"
     },
     "hatim": {
       "title": "Rastreador de Khatm del Corán",
@@ -572,7 +674,9 @@
       "resetTitle": "Empezar nuevo Khatm",
       "resetBody": "El khatm actual se registrará como completado y un nuevo khatm comenzará desde la página 1. ¿Quieres continuar?",
       "startNew": "Empezar nuevo Khatm",
-      "resetHatimBtn": "Restablecer e iniciar un nuevo Khatm"
+      "resetHatimBtn": "Restablecer e iniciar un nuevo Khatm",
+      "share": "Compartir mi jatma",
+      "shareText": "¡Completé mi jatma número {{count}}, alhamdulillah!"
     },
     "prayerTree": {
       "title": "Árbol de oración semanal",
@@ -582,6 +686,512 @@
       "quoteHigh": "\"La oración es el pilar de la fe\". — ¡Estás teniendo una semana excepcional, MashaAllah!",
       "quoteMid": "“Establezcan la oración, paguen el zakat e inclínense con los que se inclinan”. (Al-Baqarah, 43)",
       "quoteLow": "\"De hecho, la oración ha sido decretada sobre los creyentes por un decreto de tiempos determinados\". (An-Nisa, 103)"
+    },
+    "hajjUmrah": {
+      "title": "Guía de Hach y Umra",
+      "umrah": "Umra",
+      "hajj": "Hach",
+      "stepsTitle": "Ritos paso a paso",
+      "checklistTitle": "Lista de preparación",
+      "settingsEntry": "Guía de Hach y Umra"
+    },
+    "zakat": {
+      "title": "Calculadora de zakat",
+      "info": "El zakat es el 2,5% (1/40) del patrimonio conservado durante un año lunar completo que alcance el nisab. Consulta el valor actual del nisab (según el precio del oro/plata) e ingrésalo abajo.",
+      "cash": "Efectivo y ahorros bancarios",
+      "gold": "Valor de oro / plata",
+      "tradeGoods": "Valor de mercancías comerciales",
+      "investments": "Acciones / Inversiones",
+      "debts": "Deudas (a deducir)",
+      "nisab": "Umbral del nisab (valor actual de oro/plata)",
+      "netWealth": "Patrimonio neto",
+      "zakatDue": "Zakat que debes pagar",
+      "notEligible": "Tu patrimonio no alcanza el umbral del nisab, así que no debes zakat.",
+      "enterNisab": "Ingresa el umbral del nisab para calcular.",
+      "settingsEntry": "Calculadora de zakat"
+    },
+    "ramadan": {
+      "calendarTitle": "Calendario de Ramadán",
+      "days": "días",
+      "day": "Día",
+      "date": "Fecha",
+      "sahur": "Suhur",
+      "iftar": "Iftar",
+      "noData": "No se encontraron datos del calendario de Ramadán."
+    },
+    "achievements": {
+      "title": "Mis logros",
+      "pointsLabel": "Puntos de adoración",
+      "unlockedCount": "{{unlocked}} / {{total}} insignias desbloqueadas",
+      "settingsEntry": "Mis logros",
+      "share": "Compartir mis puntos",
+      "shareText": "¡Alcancé {{points}} puntos de adoración y desbloqueé {{unlocked}} insignias!",
+      "inviteTitle": "Invitar a un amigo",
+      "inviteDesc": "Sigan juntos una jatma y motívense mutuamente.",
+      "progress": {
+        "days": "{{current}} / {{total}} días",
+        "prayers": "{{current}} / {{total}} oraciones",
+        "dhikr": "{{current}} / {{total}} dhikr",
+        "khatm": "{{current}} / {{total}} jatma",
+        "kaza": "{{current}} / {{total}} oraciones de reposición"
+      }
+    },
+    "content": {
+      "hajj": {
+        "ihram": {
+          "title": "Entrar en el estado de ihram",
+          "desc": "En el límite del miqat se hace el gusl, se viste la vestimenta de ihram y se formula la intención (niyyah) recitando la talbiya. Al entrar en ihram comienzan ciertas restricciones (no vestir ropa cosida, no perfumarse, etc.)."
+        },
+        "tawaf": {
+          "title": "Tawaf (circunvalación de la Kaaba)",
+          "desc": "Comenzando desde la Piedra Negra, se circunda la Kaaba siete veces en sentido antihorario, saludando la Piedra Negra al inicio de cada vuelta si es posible."
+        },
+        "sayi": {
+          "title": "Say (entre Safa y Marwa)",
+          "desc": "Se camina rápidamente siete veces entre las colinas de Safa y Marwa, en conmemoración de la búsqueda de agua de Hayar."
+        },
+        "halq": {
+          "title": "Afeitarse o recortar el cabello (halq/taqsir)",
+          "desc": "Los hombres se afeitan la cabeza por completo o recortan su cabello; las mujeres cortan un largo de un dedo. Con esto se completa la Umra y terminan las restricciones del ihram."
+        },
+        "arafat": {
+          "title": "Permanencia en Arafat (9 de Du al-Hiyya)",
+          "desc": "Es el pilar más esencial del Hach. Los peregrinos permanecen en Arafat desde el mediodía hasta la puesta del sol el día 9 de Du al-Hiyya, dedicados a la súplica, el dhikr y el arrepentimiento."
+        },
+        "muzdalifah": {
+          "title": "Pasar la noche en Muzdalifa",
+          "desc": "Tras Arafat, los peregrinos se dirigen a Muzdalifa, combinan las oraciones del Magrib y el Isha, pasan allí la noche y recogen piedrecillas para la lapidación."
+        },
+        "jamarat": {
+          "title": "Lapidación de los yamarat",
+          "desc": "Se lanzan piedrecillas a los pilares de los yamarat en Mina en los días señalados, en conmemoración del rechazo del profeta Ibrahim (la paz sea con él) hacia Shaitán."
+        },
+        "qurban": {
+          "title": "Sacrificio (Qurban)",
+          "desc": "Como parte de los ritos del Hach se realiza un sacrificio; este marca también el inicio del Aíd al-Adha."
+        },
+        "farewell_tawaf": {
+          "title": "Tawaf de despedida",
+          "desc": "Es el último tawaf realizado antes de partir de La Meca; marca la finalización de los ritos del Hach."
+        },
+        "ihram_clothes": {
+          "label": "Vestimenta de ihram (2 piezas de tela blanca sin costuras para hombres)"
+        },
+        "passport": {
+          "label": "Pasaporte, visado y documentos de viaje"
+        },
+        "health": {
+          "label": "Seguro médico y vacunas requeridas"
+        },
+        "comfortable_sandals": {
+          "label": "Sandalias cómodas, fáciles de quitar"
+        },
+        "unscented_soap": {
+          "label": "Jabón sin fragancia y productos de higiene personal"
+        },
+        "dua_book": {
+          "label": "Libro de duas y ritos (o esta aplicación)"
+        },
+        "money_belt": {
+          "label": "Bolsa segura para dinero/documentos"
+        },
+        "medication": {
+          "label": "Medicamentos personales y recetas"
+        }
+      },
+      "religiousDays": {
+        "regaip": {
+          "name": "Noche de Ragaib",
+          "description": "El inicio de los tres meses sagrados y una noche de misericordia."
+        },
+        "mirac": {
+          "name": "Isra y Mi'ray",
+          "description": "El viaje nocturno y la ascensión del Profeta (la paz sea con él)."
+        },
+        "berat": {
+          "name": "Noche de Barat",
+          "description": "Una noche de perdón de los pecados y alivio de las penas."
+        },
+        "ramadan": {
+          "name": "Inicio de Ramadán",
+          "description": "El primer día de ayuno del bendito mes de Ramadán."
+        },
+        "kadir": {
+          "name": "Lailat al-Qadr",
+          "description": "La Noche del Decreto, mejor que mil meses."
+        },
+        "eid-fitr": {
+          "name": "Aíd al-Fitr (Día 1)",
+          "description": "El primer día del Aíd al-Fitr."
+        },
+        "eid-adha": {
+          "name": "Aíd al-Adha (Día 1)",
+          "description": "El primer día del Aíd al-Adha."
+        },
+        "hijri-new-year": {
+          "name": "Año Nuevo Hégira",
+          "description": "El primer día del nuevo año hégira."
+        },
+        "ashura": {
+          "name": "Día de Ashura",
+          "description": "El décimo día de Muharram y día de Ashura."
+        },
+        "mevlid": {
+          "name": "Mawlid an-Nabi",
+          "description": "La noche del nacimiento del Profeta (la paz sea con él)."
+        }
+      },
+      "esma": {
+        "1": "El Compasivo, que muestra clemencia y misericordia.",
+        "2": "El Misericordioso, que en la otra vida es misericordioso solo con los creyentes.",
+        "3": "El Soberano, dueño de la creación entera.",
+        "4": "El Santísimo, libre de toda imperfección.",
+        "5": "La Fuente de la Paz, que otorga bienestar a sus siervos.",
+        "6": "El Garante de la Fe, que da seguridad y protege.",
+        "7": "El Guardián, que vigila y dirige todos los asuntos del universo.",
+        "8": "El Todopoderoso, invencible.",
+        "9": "El Compulsor, capaz de imponer Su voluntad.",
+        "10": "El Supremo, incomparable en grandeza.",
+        "11": "El Creador, que da existencia de la nada.",
+        "12": "El Hacedor, que crea todo con perfección y armonía.",
+        "13": "El Formador, que da forma a todos los seres.",
+        "14": "El Gran Perdonador, que perdona los pecados en abundancia.",
+        "15": "El Subyugador, que prevalece sobre todas las cosas.",
+        "16": "El Dador, que otorga sin límite ni exigir nada a cambio.",
+        "17": "El Proveedor, que sustenta a toda la creación.",
+        "18": "El Abridor, que abre todas las puertas materiales y espirituales.",
+        "19": "El Omnisciente, que conoce todas las cosas con perfección.",
+        "20": "El Restrictor, que limita el sustento de quien Él quiere.",
+        "21": "El Expansor, que amplía el sustento de quien Él quiere.",
+        "22": "El Humillador, que humilla a los incrédulos y opresores.",
+        "23": "El Enaltecedor, que eleva a los creyentes.",
+        "24": "El Honrador, que da honor a quien Él quiere.",
+        "25": "El Deshonrador, que priva de honor a quien Él quiere.",
+        "26": "El Omnioyente, que todo lo escucha.",
+        "27": "El Omnividente, que todo lo ve.",
+        "28": "El Juez, que gobierna y hace cumplir la justicia.",
+        "29": "El Justo, poseedor de la justicia absoluta.",
+        "30": "El Sutil, benévolo, conocedor de lo oculto y lo minucioso.",
+        "31": "El Conocedor de todo, informado de cada cosa.",
+        "32": "El Indulgente, que no se apresura a castigar.",
+        "33": "El Magnífico, cuya grandeza la razón no puede abarcar.",
+        "34": "El Perdonador, abundante en perdón y clemencia.",
+        "35": "El Agradecido, que recompensa generosamente incluso las obras pequeñas.",
+        "36": "El Altísimo, infinito en majestad.",
+        "37": "El Grandioso, cuya esencia y atributos son incomprensibles en su magnitud.",
+        "38": "El Preservador, que protege y cuida todas las cosas.",
+        "39": "El Sustentador, que provee a toda criatura.",
+        "40": "El Contador, que mejor conoce las cuentas de Sus siervos.",
+        "41": "El Majestuoso, poseedor de la gloria y la grandeza.",
+        "42": "El Generoso, abundante en favores y bondad.",
+        "43": "El Vigilante, que mantiene a todos los seres bajo Su observación.",
+        "44": "El Que Responde, que acepta la súplica de quien invoca.",
+        "45": "El Omniabarcante, cuya misericordia y conocimiento todo lo abarcan.",
+        "46": "El Sabio, cuyos actos están llenos de sabiduría.",
+        "47": "El Amoroso, que ama profundamente a Sus siervos y es digno de ser amado.",
+        "48": "El Glorioso, de renombre y valor sublimes.",
+        "49": "El Resucitador, que devuelve la vida a los muertos.",
+        "50": "El Testigo, presente y consciente de todas las cosas.",
+        "51": "La Verdad, cuya existencia permanece inmutable.",
+        "52": "El Administrador, que dirige de la mejor manera los asuntos de quien confía en Él.",
+        "53": "El Fuerte, de poder y fuerza infinitos.",
+        "54": "El Firme, sólido e inquebrantable.",
+        "55": "El Amigo Protector, aliado y auxiliador de los creyentes.",
+        "56": "El Loable, digno de toda alabanza.",
+        "57": "El Contador de todo, que conoce el número exacto de lo que ha creado.",
+        "58": "El Originador, que crea todo desde el principio sin materia ni modelo previo.",
+        "59": "El Restaurador, que hará perecer a la creación y luego la resucitará.",
+        "60": "El Dador de Vida, que otorga la existencia.",
+        "61": "El Dador de Muerte, que decreta el fin de todo ser vivo.",
+        "62": "El Viviente, que todo lo sabe y todo lo puede.",
+        "63": "El Autosubsistente, que sostiene los cielos, la tierra y todas las cosas.",
+        "64": "El Hallador, que encuentra lo que quiere cuando quiere.",
+        "65": "El Noble, de gran valor y renombre, generoso y clemente.",
+        "66": "El Único, sin igual.",
+        "67": "El Uno, incomparable en Su esencia, atributos y actos.",
+        "68": "El Eterno, que de nada necesita mientras todos necesitan de Él.",
+        "69": "El Capaz, que todo lo puede.",
+        "70": "El Poderoso, que dispone a Su voluntad de quienes poseen fuerza y poder.",
+        "71": "El Que Adelanta, que antepone y hace avanzar a quien Él quiere.",
+        "72": "El Que Retrasa, que deja atrás a quien Él quiere.",
+        "73": "El Primero, sin principio anterior a Él.",
+        "74": "El Último, sin fin posterior a Él.",
+        "75": "El Manifiesto, cuya existencia es evidente por encima de todo.",
+        "76": "El Oculto, cuya majestad la razón no puede percibir.",
+        "77": "El Gobernante, que administra todo el universo.",
+        "78": "El Sumamente Exaltado, más allá de todo lo que la razón puede concebir.",
+        "79": "La Fuente del Bien, abundante en bondad y generosidad hacia Sus siervos.",
+        "80": "El Aceptador del Arrepentimiento, que acepta con frecuencia el arrepentimiento.",
+        "81": "El Vengador, que toma represalia contra los rebeldes y opresores.",
+        "82": "El Indulgente, que perdona y borra los pecados.",
+        "83": "El Compasivo, abundante en misericordia, favor y ternura.",
+        "84": "El Dueño del Reino, soberano eterno y sin principio.",
+        "85": "El Señor de la Majestad y la Generosidad, poseedor de grandeza y favor.",
+        "86": "El Equitativo, que hace todas las cosas en equilibrio y armonía.",
+        "87": "El Reunidor, que congregará a la creación el Día del Juicio.",
+        "88": "El Autosuficiente, poseedor de toda riqueza, que de nadie necesita.",
+        "89": "El Enriquecedor, que enriquece a quien Él quiere.",
+        "90": "El Impedidor, que no permite que algo suceda.",
+        "91": "El que Aflige, que crea lo que causa daño y aflicción.",
+        "92": "El Benefactor, que crea lo que es beneficioso.",
+        "93": "La Luz, que ilumina los mundos.",
+        "94": "El Guía, que conduce por el camino recto.",
+        "95": "El Incomparable, que crea sin igual ni modelo previo.",
+        "96": "El Eternamente Subsistente, cuya existencia no tiene fin.",
+        "97": "El Heredero, verdadero dueño final de todas las cosas.",
+        "98": "El Guía hacia el Camino Recto, cuyos actos siempre alcanzan su objetivo.",
+        "99": "El Paciente, que no se apresura a castigar."
+      },
+      "duas": {
+        "shifa_hastalik": {
+          "title": "Súplica por la sanación y la recuperación",
+          "occasion": "Se recita para la sanación física y espiritual durante la enfermedad."
+        },
+        "nazar_korunma": {
+          "title": "Protección contra el mal de ojo y el daño (Ayat al-Kursi)",
+          "occasion": "Se recita mañana y noche para pedir protección divina contra el mal de ojo y el daño."
+        },
+        "rizik_bereket": {
+          "title": "Súplica por el sustento, la provisión y el alivio de las deudas",
+          "occasion": "Se recita para pedir abundancia económica, baraka en el sustento y alivio de las deudas."
+        },
+        "ferahlik_sikinti": {
+          "title": "Súplica en momentos de aflicción (súplica del profeta Yunus)",
+          "occasion": "Se recita en momentos de gran dificultad, ansiedad, desesperanza y tristeza."
+        },
+        "sinav_zihin": {
+          "title": "Súplica para el conocimiento, los exámenes y la claridad mental",
+          "occasion": "Se recita antes de un examen, al estudiar o al comenzar una tarea intelectual difícil."
+        },
+        "seyyidul_istigfar": {
+          "title": "Sayyid al-Istigfar (la más importante súplica de perdón)",
+          "occasion": "Se recita mañana y noche para el arrepentimiento sincero y el perdón de los pecados. Es un medio para alcanzar el Paraíso."
+        },
+        "anne_baba": {
+          "title": "Súplica por los padres y la familia",
+          "occasion": "Se recita por el perdón, la salud y la misericordia hacia los padres y la familia."
+        },
+        "ezan_sonrasi": {
+          "title": "Súplica tras escuchar el adhan",
+          "occasion": "Se recita inmediatamente después del adhan; es un medio para obtener la intercesión del Profeta."
+        },
+        "iftar_oruc": {
+          "title": "Súplica al romper el ayuno (iftar)",
+          "occasion": "Se recita en el momento de romper el ayuno al atardecer."
+        },
+        "morning_1": {
+          "title": "Súplica de protección divina mañana y noche",
+          "occasion": "Recitada 3 veces por la mañana y por la noche, protege por completo de todo daño."
+        },
+        "leaving_home": {
+          "title": "Súplica al salir de casa",
+          "occasion": "Se recita al salir de casa para pedir protección y guía divina."
+        },
+        "entering_home": {
+          "title": "Súplica al entrar en casa",
+          "occasion": "Se recita al entrar en casa para pedir paz, bendición y protección para el hogar."
+        },
+        "waking_up": {
+          "title": "Súplica de agradecimiento al despertar",
+          "occasion": "Se recita al despertar, en gratitud por la renovación de la vida y la fuerza."
+        },
+        "sleeping": {
+          "title": "Súplica antes de dormir",
+          "occasion": "Se recita al acostarse, con la intención de un sueño tranquilo y protegido."
+        },
+        "sukr_hamd": {
+          "title": "Súplica de gratitud y bendiciones",
+          "occasion": "Se recita al recibir una buena noticia, para agradecer las bendiciones y aumentar la baraka."
+        }
+      },
+      "achievements": {
+        "prayer_streak_7": {
+          "title": "7 días de constancia",
+          "desc": "Registraste tus oraciones 7 días seguidos"
+        },
+        "prayer_streak_30": {
+          "title": "30 días de constancia",
+          "desc": "Registraste tus oraciones 30 días seguidos"
+        },
+        "prayer_total_100": {
+          "title": "100 oraciones",
+          "desc": "Registraste un total de 100 oraciones"
+        },
+        "prayer_total_500": {
+          "title": "500 oraciones",
+          "desc": "Registraste un total de 500 oraciones"
+        },
+        "dhikr_streak_7": {
+          "title": "7 días de dhikr",
+          "desc": "Practicaste dhikr 7 días seguidos"
+        },
+        "dhikr_streak_30": {
+          "title": "30 días de dhikr",
+          "desc": "Practicaste dhikr 30 días seguidos"
+        },
+        "dhikr_total_1000": {
+          "title": "1.000 dhikr",
+          "desc": "Recitaste un total de 1.000 dhikr"
+        },
+        "dhikr_total_10000": {
+          "title": "10.000 dhikr",
+          "desc": "Recitaste un total de 10.000 dhikr"
+        },
+        "hatim_first": {
+          "title": "Primera jatma",
+          "desc": "Completaste la lectura del Corán entero"
+        },
+        "hatim_3": {
+          "title": "3 jatmas",
+          "desc": "Completaste el Corán 3 veces"
+        },
+        "kaza_10": {
+          "title": "10 oraciones de reposición completadas",
+          "desc": "Completaste 10 oraciones/ayunos de reposición"
+        },
+        "kaza_50": {
+          "title": "50 oraciones de reposición completadas",
+          "desc": "Completaste 50 oraciones/ayunos de reposición"
+        }
+      },
+      "reciters": {
+        "alafasy": {
+          "name": "Mishary Rashid Alafasy"
+        },
+        "abdulbasit": {
+          "name": "Abdul Basit Abdus Samad"
+        },
+        "husary": {
+          "name": "Mahmud Jalil al-Husary"
+        },
+        "minshawy": {
+          "name": "Muhammad Siddiq al-Minshawy"
+        },
+        "shuraym": {
+          "name": "Saud ash-Shuraym"
+        }
+      },
+      "greetingTemplates": {
+        "cuma_1": {
+          "title": "Feliz yumua 🌹",
+          "message": "¡Que Allah acepte las sinceras súplicas de nuestro corazón y bendiga nuestra yumua! Te deseo un día lleno de salud, paz y baraka."
+        },
+        "cuma_2": {
+          "title": "Feliz yumua ✨",
+          "message": "Que nuestro Señor nos honre, a nosotros y a nuestros seres queridos, en ambos mundos. Feliz y bendecida yumua."
+        },
+        "kandil_1": {
+          "title": "Feliz noche sagrada 🌙",
+          "message": "Que la gracia, la baraka y el perdón de esta noche sagrada estén sobre ti. Que nos encontremos en la súplica; feliz noche sagrada."
+        },
+        "ramazan_1": {
+          "title": "Feliz Ramadán 🕌",
+          "message": "Que nuestro bendito Ramadán, cuyo inicio es misericordia, su centro perdón y su final la liberación del fuego, sea bendecido."
+        },
+        "bayram_1": {
+          "title": "Feliz Aíd 🌟",
+          "message": "Con el deseo de que vivas, junto a tus seres queridos, muchos aíds llenos de alegría, paz, salud y cariño."
+        }
+      },
+      "quranPrayers": {
+        "start": {
+          "title": "Súplica antes de recitar el Corán"
+        },
+        "hatim": {
+          "title": "Súplica de finalización del Corán (jatma)"
+        },
+        "sajdah": {
+          "title": "Súplica de la postración de recitación (sajda)"
+        }
+      },
+      "tabs": {
+        "quran": {
+          "label": "Corán"
+        },
+        "daily": {
+          "label": "Contenido"
+        },
+        "home": {
+          "label": "Horarios"
+        },
+        "dhikr": {
+          "label": "Dhikr"
+        },
+        "library": {
+          "label": "Duas"
+        },
+        "qibla": {
+          "label": "Qibla"
+        }
+      },
+      "achievementCategories": {
+        "prayer": "Oración",
+        "dhikr": "Dhikr",
+        "quran": "Corán",
+        "kaza": "Reposición"
+      },
+      "hijriMonths": {
+        "1": "Muharram",
+        "2": "Safar",
+        "3": "Rabi al-awwal",
+        "4": "Rabi al-zani",
+        "5": "Yumada al-ula",
+        "6": "Yumada al-zania",
+        "7": "Rayab",
+        "8": "Shaaban",
+        "9": "Ramadán",
+        "10": "Shawwal",
+        "11": "Du al-Qada",
+        "12": "Du al-Hiyya"
+      }
+    },
+    "offsetSheet": {
+      "hint": "Si hay una diferencia en los horarios, mantén pulsada la tarjeta para ajustarla.",
+      "title": "Ajustar el horario de {{prayer}}",
+      "desc": "Si tu mezquita o calendario muestra una hora distinta, suma o resta minutos. La notificación del adhan seguirá este ajuste.",
+      "minus": "1 minuto antes",
+      "minutes": "{{value}} min",
+      "plus": "1 minuto después",
+      "reset": "Restablecer",
+      "save": "Guardar"
+    },
+    "feedback": {
+      "settingsRow": "Enviar comentarios",
+      "title": "Mejoremos juntos",
+      "subtitle": "Escríbenos tus sugerencias, peticiones o cualquier problema que hayas encontrado para ayudarnos a mejorar Vera.",
+      "placeholder": "Escribe una idea, sugerencia o problema que hayas encontrado...",
+      "error": "No se pudo enviar. Inténtalo de nuevo en un momento.",
+      "send": "Enviar",
+      "thankYouTitle": "Comentario recibido",
+      "thankYouSubtitle": "Tu opinión significa mucho para nosotros. Estamos trabajando con todo nuestro empeño para hacer Vera mejor."
+    },
+    "battery": {
+      "stepsXiaomi": "Ajustes → Aplicaciones → Vera: activa \"Inicio automático\" y pon el ahorro de batería en \"Sin restricciones\".",
+      "stepsSamsung": "Ajustes → Batería → Límites de uso en segundo plano: añade Vera a \"Aplicaciones que nunca duermen\".",
+      "stepsOppo": "Ajustes → Batería → Vera: activa \"Permitir actividad en segundo plano\" e \"Inicio automático\".",
+      "stepsOther": "Desactiva la optimización de batería para Vera, así el adhan sonará sin retraso a su hora.",
+      "cardTitle": "Escucha el adhan a tiempo",
+      "openSettings": "Abrir ajustes"
+    },
+    "widget": {
+      "guideTitle": "Añadir a la pantalla de inicio",
+      "guideDesc": "Mantén pulsada tu pantalla de inicio ➔ toca \"Widgets\" ➔ busca el widget \"VERA\" y arrástralo a tu pantalla.",
+      "promptTitle": "Añade un widget a la pantalla de inicio",
+      "promptDesc": "Consulta en vivo la próxima oración y los minutos restantes directamente desde la pantalla de inicio de tu teléfono, sin abrir la app.",
+      "addNow": "📌 Añadir a la pantalla de inicio",
+      "notNow": "Más tarde"
+    },
+    "greetingNotif": {
+      "dayTitle": "Feliz {{name}}",
+      "nightTitle": "Esta noche es {{name}}",
+      "body": "Envía una tarjeta de felicitación a tus seres queridos.",
+      "fridayTitle": "Feliz yumua",
+      "fridayBody": "Envía una tarjeta de felicitación de yumua a tus seres queridos."
+    },
+    "errorBoundary": {
+      "title": "Algo salió mal",
+      "subtitle": "La app encontró un error inesperado. Toca el botón de abajo para intentarlo de nuevo.",
+      "retry": "Reintentar"
     }
   }
 }

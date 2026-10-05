@@ -8,7 +8,7 @@ export function formatTime(timeStr: string | null | undefined, format: '12h' | '
     const suffix = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12 || 12;
     return `${hours}:${m} ${suffix}`;
-  } catch (e) {
+  } catch {
     return timeStr;
   }
 }

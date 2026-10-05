@@ -29,7 +29,12 @@ export const getDb = async (): Promise<SQLite.SQLiteDatabase> => {
       const database = await SQLite.openDatabaseAsync('quran_offline.db');
       await initDb(database);
       return database;
-    })();
+    })().catch((e) => {
+      // Don't cache the failure: the next call retries instead of the Quran tab staying
+      // broken until the app restarts.
+      dbPromise = null;
+      throw e;
+    });
   }
   return dbPromise;
 };
@@ -63,7 +68,7 @@ const initDb = async (database: SQLite.SQLiteDatabase) => {
 
   try {
     await database.execAsync("ALTER TABLE download_status ADD COLUMN script_type TEXT DEFAULT 'quran-imlaei';");
-  } catch (e) {
+  } catch {
     // Column might already exist, ignore error
   }
 };

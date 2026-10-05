@@ -1,11 +1,18 @@
 import notifee, { AlarmType, AndroidCategory, AndroidImportance, AndroidVisibility, TimestampTrigger, TriggerType } from '@notifee/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SecureLocationStorage } from './storageService';
 import { NativeModules, Platform } from 'react-native';
 import i18n from '../localization/i18n';
-import { DayData } from './api';
+import { applyOffsetsToTimings, DayData, fetchReligiousDays, getPrayerOffsets } from './api';
+import { RELIGIOUS_DAY_DEFS, ReligiousDay } from '../data/religiousDays';
+import { religiousDayText } from '../localization/content';
 import { updateAndroidWidget } from './widgetService';
+import { initializePushNotifications } from './pushNotificationService';
 
 const PREFS_KEY = 'NOTIFICATION_PREFS';
+
+const devLog = (...args: any[]) => { if (__DEV__) console.log(...args); };
+const devError = (...args: any[]) => { if (__DEV__) console.error(...args); };
 
 export interface NotificationPrefs {
   fajr: boolean;
@@ -45,12 +52,12 @@ const defaultPrefs: NotificationPrefs = {
 
 export const getExactChannelId = (soundName?: string) => {
   const sound = soundName || 'azizallah';
-  return `ezan_exact_${sound}_v14`;
+  return `ezan_exact_${sound}_v16`;
 };
 
 export const getWarningChannelId = (soundName?: string) => {
   const sound = soundName || 'adhan_25minutes';
-  return `ezan_warning_${sound}_v14`;
+  return `ezan_warning_${sound}_v16`;
 };
 
 export const initNotifications = async (customExactSound?: string, customWarningSound?: string) => {
@@ -65,16 +72,24 @@ export const initNotifications = async (customExactSound?: string, customWarning
       'ezan_exact_v9', 'ezan_warning_v9',
       'ezan_exact_v11', 'ezan_warning_v11',
       'ezan_exact_v12', 'ezan_warning_v12',
-      // v13 channels — replaced by v14
       'ezan_exact_azizallah_v13', 'ezan_warning_azizallah_v13',
       'ezan_exact_adhan_25minutes_v13', 'ezan_warning_adhan_25minutes_v13',
       'ezan_exact_allahu_akbar_v13', 'ezan_warning_allahu_akbar_v13',
       'ezan_exact_adhan_v13', 'ezan_warning_adhan_v13',
-      // adhan ses dosyası silindi — tüm adhan kanallarını temizle
       'ezan_exact_adhan_v14', 'ezan_warning_adhan_v14',
+      'ezan_exact_azizallah_v14', 'ezan_warning_azizallah_v14',
+      'ezan_exact_adhan_25minutes_v14', 'ezan_warning_adhan_25minutes_v14',
+      'ezan_exact_allahu_akbar_v14', 'ezan_warning_allahu_akbar_v14',
+      'ezan_exact_azizallah_v15', 'ezan_warning_azizallah_v15',
+      'ezan_exact_adhan_25minutes_v15', 'ezan_warning_adhan_25minutes_v15',
+      'ezan_exact_allahu_akbar_v15', 'ezan_warning_allahu_akbar_v15',
     ];
-    for (const legacyId of LEGACY_CHANNEL_IDS) {
-      try { await notifee.deleteChannel(legacyId); } catch (e) {}
+    // ~40 native calls: only needed once per install, not on every launch.
+    const LEGACY_CLEANUP_KEY = 'NOTIF_LEGACY_CHANNELS_CLEANED_V16';
+    if ((await AsyncStorage.getItem(LEGACY_CLEANUP_KEY)) !== 'true') {
+      await Promise.all(LEGACY_CHANNEL_IDS.map((id) => notifee.deleteChannel(id).catch(() => {})));
+      await notifee.deleteChannel('ezan_persistent_status').catch(() => {});
+      await AsyncStorage.setItem(LEGACY_CLEANUP_KEY, 'true').catch(() => {});
     }
 
     const prefs = await getNotificationPrefs();
@@ -88,15 +103,15 @@ export const initNotifications = async (customExactSound?: string, customWarning
     const KNOWN_SOUNDS = ['azizallah', 'adhan_25minutes', 'allahu_akbar'];
     for (const s of KNOWN_SOUNDS) {
       if (s !== exactSoundName) {
-        try { await notifee.deleteChannel(getExactChannelId(s)); } catch(e) {}
+        try { await notifee.deleteChannel(getExactChannelId(s)); } catch {}
       }
       if (s !== warningSoundName) {
-        try { await notifee.deleteChannel(getWarningChannelId(s)); } catch(e) {}
+        try { await notifee.deleteChannel(getWarningChannelId(s)); } catch {}
       }
     }
 
     const { AlarmChannelModule } = NativeModules;
-    console.log('📢 Native AlarmChannelModule present in NativeModules?', !!AlarmChannelModule);
+    devLog('📢 Native AlarmChannelModule present in NativeModules?', !!AlarmChannelModule);
 
     const shouldUseAlarmStream = prefs.respectSilentMode === false;
 
@@ -107,16 +122,16 @@ export const initNotifications = async (customExactSound?: string, customWarning
           i18n.t('notifications.channels.exactName', { defaultValue: 'Ezan Vakti' }),
           i18n.t('notifications.channels.exactDesc', { defaultValue: 'Namaz vakti girdiğinde çalar.' }),
           exactSoundName
-        ).catch((e: any) => console.error('createAlarmChannel (exact) failed:', e));
+        ).catch((e: any) => devError('createAlarmChannel (exact) failed:', e));
         await AlarmChannelModule.createAlarmChannel(
           warningChannelId,
           i18n.t('notifications.channels.warningName', { defaultValue: 'Ezan Yaklaşıyor (25 dk)' }),
           i18n.t('notifications.channels.warningDesc', { defaultValue: 'Ezan vaktine 25 dakika kala uyarı verir.' }),
           warningSoundName
-        ).catch((e: any) => console.error('createAlarmChannel (warning) failed:', e));
-        console.log(`✅ AlarmChannelModule: channels created with sounds: exact=${exactSoundName} (${exactChannelId}), warn=${warningSoundName} (${warningChannelId})`);
+        ).catch((e: any) => devError('createAlarmChannel (warning) failed:', e));
+        devLog(`✅ AlarmChannelModule: channels created with sounds: exact=${exactSoundName} (${exactChannelId}), warn=${warningSoundName} (${warningChannelId})`);
       } catch (e) {
-        console.error('Failed to create native alarm channels:', e);
+        devError('Failed to create native alarm channels:', e);
       }
     } else {
       // Standard notification channels (Respects Silent / Vibrate / DND modes)
@@ -153,9 +168,6 @@ export const initNotifications = async (customExactSound?: string, customWarning
       importance: AndroidImportance.DEFAULT,
     });
 
-    // Delete old silent persistent channel if exists
-    try { await notifee.deleteChannel('ezan_persistent_status'); } catch (e) {}
-
     // Persistent Status Bar & Lock Screen Countdown Channel (DEFAULT importance = NOT Silent)
     await notifee.createChannel({
       id: 'ezan_persistent_status_v2',
@@ -177,10 +189,10 @@ export const updatePersistentPrayerNotification = async (
   const NOTIF_ID = 'persistent_prayer_status';
   const CHANNEL_ID = 'ezan_persistent_status_v2';
 
-  if (!enabled) {
+  if (!enabled || targetTimestampMs <= Date.now()) {
     try {
       await notifee.cancelNotification(NOTIF_ID);
-    } catch (e) {}
+    } catch {}
     return;
   }
 
@@ -198,7 +210,10 @@ export const updatePersistentPrayerNotification = async (
     });
 
     // Title formatted cleanly for native chronometer counting down live
-    const title = `🕌 ${nextPrayerName} Vaktine`;
+    const title = i18n.t('notifications.persistentTitle', {
+      defaultValue: '🕌 {{prayer}} vaktine',
+      prayer: nextPrayerName,
+    });
     const body = `⏰ ${nextPrayerName}: ${nextPrayerTime}  ·  📍 ${city}`;
 
     await notifee.displayNotification({
@@ -223,7 +238,7 @@ export const updatePersistentPrayerNotification = async (
       },
     });
   } catch (error) {
-    console.error('Error updating persistent notification:', error);
+    devError('Error updating persistent notification:', error);
   }
 };
 
@@ -245,14 +260,16 @@ export const syncNextPrayerFromCache = async () => {
       dayData = cached.data[0];
     }
     if (!dayData || !dayData.timings) return;
+    // The cache holds raw API times; apply the user's ± minute offsets like the home screen does.
+    const timings = applyOffsetsToTimings(dayData.timings, await getPrayerOffsets());
 
     const prayers = [
-      { id: 'fajr', name: i18n.t('home.prayers.fajr', { defaultValue: 'İmsak' }), time: dayData.timings.Fajr },
-      { id: 'sunrise', name: i18n.t('home.prayers.sunrise', { defaultValue: 'Güneş' }), time: dayData.timings.Sunrise },
-      { id: 'dhuhr', name: i18n.t('home.prayers.dhuhr', { defaultValue: 'Öğle' }), time: dayData.timings.Dhuhr },
-      { id: 'asr', name: i18n.t('home.prayers.asr', { defaultValue: 'İkindi' }), time: dayData.timings.Asr },
-      { id: 'maghrib', name: i18n.t('home.prayers.maghrib', { defaultValue: 'Akşam' }), time: dayData.timings.Maghrib },
-      { id: 'isha', name: i18n.t('home.prayers.isha', { defaultValue: 'Yatsı' }), time: dayData.timings.Isha },
+      { id: 'fajr', name: i18n.t('home.prayers.fajr', { defaultValue: 'İmsak' }), time: timings.Fajr },
+      { id: 'sunrise', name: i18n.t('home.prayers.sunrise', { defaultValue: 'Güneş' }), time: timings.Sunrise },
+      { id: 'dhuhr', name: i18n.t('home.prayers.dhuhr', { defaultValue: 'Öğle' }), time: timings.Dhuhr },
+      { id: 'asr', name: i18n.t('home.prayers.asr', { defaultValue: 'İkindi' }), time: timings.Asr },
+      { id: 'maghrib', name: i18n.t('home.prayers.maghrib', { defaultValue: 'Akşam' }), time: timings.Maghrib },
+      { id: 'isha', name: i18n.t('home.prayers.isha', { defaultValue: 'Yatsı' }), time: timings.Isha },
     ];
 
     let nextPrayer = null;
@@ -272,7 +289,7 @@ export const syncNextPrayerFromCache = async () => {
     }
 
     if (!nextPrayer) {
-      const fajrTimeClean = dayData.timings.Fajr.split(' ')[0];
+      const fajrTimeClean = timings.Fajr.split(' ')[0];
       const [fh, fm] = fajrTimeClean.split(':');
       const tomorrowFajr = new Date(now);
       tomorrowFajr.setDate(tomorrowFajr.getDate() + 1);
@@ -281,13 +298,13 @@ export const syncNextPrayerFromCache = async () => {
       targetTimestampMs = tomorrowFajr.getTime();
     }
 
-    const savedLocStr = (await AsyncStorage.getItem('MANUAL_LOCATION')) || (await AsyncStorage.getItem('LAST_GPS_LOCATION'));
+    const savedLocStr = (await SecureLocationStorage.getItem('MANUAL_LOCATION')) || (await SecureLocationStorage.getItem('LAST_GPS_LOCATION'));
     let city = 'Vera';
     if (savedLocStr) {
       try {
         const parsed = JSON.parse(savedLocStr);
         if (parsed.city) city = parsed.city;
-      } catch (e) {}
+      } catch {}
     }
 
     const isNotifEnabledStr = await AsyncStorage.getItem('PERSISTENT_NOTIF_ENABLED');
@@ -315,13 +332,17 @@ export const syncNextPrayerFromCache = async () => {
     });
 
   } catch (e) {
-    console.error('Error in syncNextPrayerFromCache:', e);
+    devError('Error in syncNextPrayerFromCache:', e);
   }
 };
 
 export const requestNotificationPermissions = async () => {
   const settings = await notifee.requestPermission();
-  return settings.authorizationStatus >= 1;
+  const granted = settings.authorizationStatus >= 1;
+  if (granted) {
+    initializePushNotifications().catch(() => {});
+  }
+  return granted;
 };
 
 export const checkNotificationPermissions = async () => {
@@ -344,7 +365,7 @@ export const getNotificationPrefs = async (): Promise<NotificationPrefs> => {
       parsed.warningSound = defaultPrefs.warningSound;
     }
     return parsed;
-  } catch (error) {
+  } catch {
     return defaultPrefs;
   }
 };
@@ -353,18 +374,44 @@ export const saveNotificationPrefs = async (prefs: NotificationPrefs) => {
   try {
     await AsyncStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
   } catch (error) {
-    console.error('Error saving prefs', error);
+    devError('Error saving prefs', error);
   }
 };
 
-export const schedulePrayerNotifications = async (data: DayData[], prefs: NotificationPrefs, _t: any) => {
+// Each run cancels and recreates ~95 trigger notifications over the native bridge, and
+// it is requested from several places (launch, focus, offsets, settings, prayer
+// transitions), sometimes at the same moment. Runs are serialized, and a run whose
+// inputs match the previous one within RESCHEDULE_TTL_MS is skipped.
+const RESCHEDULE_TTL_MS = 6 * 60 * 60 * 1000;
+let scheduleChain: Promise<void> = Promise.resolve();
+let lastSchedule: { key: string; at: number } | null = null;
+
+export const schedulePrayerNotifications = (data: DayData[], prefs: NotificationPrefs, _t: any): Promise<void> => {
+  const run = scheduleChain.then(async () => {
+    const key = JSON.stringify({
+      days: data.slice(0, 8).map((d) => [d.date?.gregorian?.date, d.timings]),
+      prefs,
+      lang: i18n.language,
+    });
+    if (lastSchedule && lastSchedule.key === key && Date.now() - lastSchedule.at < RESCHEDULE_TTL_MS) {
+      devLog('Notification schedule unchanged, skipping reschedule.');
+      return;
+    }
+    await doSchedulePrayerNotifications(data, prefs);
+    lastSchedule = { key, at: Date.now() };
+  });
+  scheduleChain = run.catch(() => {});
+  return run;
+};
+
+const doSchedulePrayerNotifications = async (data: DayData[], prefs: NotificationPrefs) => {
   const t = i18n.t.bind(i18n);
 
   // Clear previously scheduled trigger notifications without clearing persistent ongoing notifications
   try {
     await notifee.cancelTriggerNotifications();
   } catch (e) {
-    console.error('Failed to cancel trigger notifications:', e);
+    devError('Failed to cancel trigger notifications:', e);
   }
 
   const exactChannelId = getExactChannelId(prefs.exactSound);
@@ -424,7 +471,7 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
             timestamp: triggerDate.getTime(),
             alarmManager: {
               allowWhileIdle: true,
-              type: AlarmType.SET_ALARM_CLOCK,
+              type: AlarmType.SET_EXACT_AND_ALLOW_WHILE_IDLE,
             },
           };
 
@@ -439,12 +486,12 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
               importance: AndroidImportance.DEFAULT,
               pressAction: { id: 'default' },
             },
-            data: { type: 'daily_content' },
+            data: { type: 'daily_content', timestamp: triggerDate.getTime().toString() },
           }, trigger);
 
           dailyContentCount++;
         } catch (e) {
-          console.error('Failed to schedule daily content', e);
+          devError('Failed to schedule daily content', e);
         }
       }
     }
@@ -461,7 +508,7 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
             timestamp: quranDate.getTime(),
             alarmManager: {
               allowWhileIdle: true,
-              type: AlarmType.SET_ALARM_CLOCK,
+              type: AlarmType.SET_EXACT_AND_ALLOW_WHILE_IDLE,
             },
           };
           await notifee.createTriggerNotification({
@@ -475,11 +522,11 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
               importance: AndroidImportance.DEFAULT,
               pressAction: { id: 'default' },
             },
-            data: { type: 'quran' },
+            data: { type: 'quran', timestamp: quranDate.getTime().toString() },
           }, trigger);
           quranReminderCount++;
         } catch (e) {
-          console.error('Failed to schedule quran reminder', e);
+          devError('Failed to schedule quran reminder', e);
         }
       }
     }
@@ -526,6 +573,7 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
                   smallIcon: 'notification_icon',
                   color: '#D4AF37',
                   channelId: exactChannelId,
+                  sound: prefs.exactSound || 'azizallah',
                   importance: AndroidImportance.HIGH,
                   pressAction: {
                     id: 'default',
@@ -547,7 +595,7 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
               }, trigger);
               scheduledCount++;
             } catch (e) {
-              console.error('Failed to schedule exact alert', e);
+              devError('Failed to schedule exact alert', e);
             }
           }
 
@@ -574,6 +622,7 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
                     smallIcon: 'notification_icon',
                     color: '#D4AF37',
                     channelId: warningChannelId,
+                    sound: prefs.warningSound || 'adhan_25minutes',
                     importance: AndroidImportance.HIGH,
                     pressAction: {
                       id: 'default',
@@ -595,7 +644,7 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
                 }, trigger);
                 scheduledCount++;
               } catch (e) {
-                console.error('Failed to schedule warning alert', e);
+                devError('Failed to schedule warning alert', e);
               }
             }
           }
@@ -608,7 +657,89 @@ export const schedulePrayerNotifications = async (data: DayData[], prefs: Notifi
       await new Promise(resolve => setTimeout(resolve, 10));
     }
   }
-  console.log(`Scheduled ${scheduledCount} prayer notifications and ${dailyContentCount} daily content notifications via Notifee.`);
+  const greetingCount = await scheduleGreetingReminders(t);
+
+  devLog(`Scheduled ${scheduledCount} prayer notifications, ${dailyContentCount} daily content and ${greetingCount} greeting reminders via Notifee.`);
+};
+
+const GREETING_WINDOW_DAYS = 7;
+const FRIDAY_HOUR = 9;
+const RELIGIOUS_DAY_HOUR = 10;
+
+const toIsoDay = (d: Date) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+/**
+ * Friday morning and religious day / kandil reminders that open the greeting card
+ * screen, so there is a weekly reason to come back and share. Dates come from
+ * fetchReligiousDays (Hijri calendar, cached per Hijri year); if that fails
+ * offline, only the Friday reminders are scheduled.
+ */
+const scheduleGreetingReminders = async (t: (key: string, def: string, opts?: Record<string, unknown>) => string): Promise<number> => {
+  let religiousDays: ReligiousDay[] = [];
+  try {
+    religiousDays = await fetchReligiousDays();
+  } catch (e) {
+    devError('Religious days unavailable for reminders:', e);
+  }
+
+  const now = new Date();
+  let count = 0;
+  for (let i = 0; i < GREETING_WINDOW_DAYS; i++) {
+    const day = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i);
+    const iso = toIsoDay(day);
+    const religious = religiousDays.find((d) => d.gregorianDate === iso);
+
+    let title: string;
+    let body: string;
+    let occasion: string;
+    const fireAt = new Date(day);
+
+    if (religious) {
+      const defId = religious.id.replace(/-\d+$/, '');
+      const kind = RELIGIOUS_DAY_DEFS.find((d) => d.id === defId)?.kind;
+      const name = religiousDayText(religious, 'name');
+      occasion = defId.startsWith('eid') ? 'eid' : defId === 'ramadan' ? 'ramadan' : 'kandil';
+      title = kind === 'day'
+        ? t('greetingNotif.dayTitle', '{{name}} mübarek olsun', { name })
+        : t('greetingNotif.nightTitle', 'Bu gece {{name}}', { name });
+      body = t('greetingNotif.body', 'Sevdiklerinize bir tebrik kartı gönderin.');
+      fireAt.setHours(RELIGIOUS_DAY_HOUR, 0, 0, 0);
+    } else if (day.getDay() === 5) {
+      occasion = 'cuma';
+      title = t('greetingNotif.fridayTitle', 'Hayırlı Cumalar');
+      body = t('greetingNotif.fridayBody', 'Sevdiklerinize bir Cuma tebrik kartı gönderin.');
+      fireAt.setHours(FRIDAY_HOUR, 0, 0, 0);
+    } else {
+      continue;
+    }
+    if (fireAt <= now) continue;
+
+    try {
+      const trigger: TimestampTrigger = {
+        type: TriggerType.TIMESTAMP,
+        timestamp: fireAt.getTime(),
+        alarmManager: { allowWhileIdle: true, type: AlarmType.SET_EXACT_AND_ALLOW_WHILE_IDLE },
+      };
+      await notifee.createTriggerNotification({
+        id: `greeting_${iso}`,
+        title,
+        body,
+        android: {
+          smallIcon: 'notification_icon',
+          color: '#D4AF37',
+          channelId: 'ezan_daily_content',
+          importance: AndroidImportance.DEFAULT,
+          pressAction: { id: 'default' },
+        },
+        data: { type: 'greeting', occasion, timestamp: fireAt.getTime().toString() },
+      }, trigger);
+      count++;
+    } catch (e) {
+      devError('Failed to schedule greeting reminder', e);
+    }
+  }
+  return count;
 };
 
 export const sendImmediateNotification = async (title: string, body: string) => {
@@ -623,6 +754,7 @@ export const sendImmediateNotification = async (title: string, body: string) => 
         smallIcon: 'notification_icon',
         color: '#D4AF37',
         channelId: exactChannelId,
+        sound: prefs.exactSound || 'azizallah',
         importance: AndroidImportance.HIGH,
         pressAction: {
           id: 'default',
@@ -638,7 +770,7 @@ export const sendImmediateNotification = async (title: string, body: string) => 
       },
     });
   } catch (error) {
-    console.error('Error sending immediate notification:', error);
+    devError('Error sending immediate notification:', error);
   }
 };
 
@@ -669,6 +801,7 @@ export const scheduleTestNotification = async (type: 'exact' | 'warning', t: any
           smallIcon: 'notification_icon',
           color: '#D4AF37',
           channelId: exactChannelId,
+          sound: prefs.exactSound || 'azizallah',
           importance: AndroidImportance.HIGH,
           pressAction: {
             id: 'default',
@@ -682,7 +815,7 @@ export const scheduleTestNotification = async (type: 'exact' | 'warning', t: any
         },
         data: { type: 'exact', prayerId: 'fajr' },
       }, trigger);
-      console.log('Test EXACT notification scheduled for 10s later');
+      devLog('Test EXACT notification scheduled for 10s later');
     } else {
       await notifee.createTriggerNotification({
         id: `test_warn`,
@@ -693,6 +826,7 @@ export const scheduleTestNotification = async (type: 'exact' | 'warning', t: any
           smallIcon: 'notification_icon',
           color: '#D4AF37',
           channelId: warningChannelId,
+          sound: prefs.warningSound || 'adhan_25minutes',
           importance: AndroidImportance.HIGH,
           pressAction: {
             id: 'default',
@@ -706,9 +840,9 @@ export const scheduleTestNotification = async (type: 'exact' | 'warning', t: any
         },
         data: { type: 'warning', prayerId: 'fajr' },
       }, trigger);
-      console.log('Test WARNING notification scheduled for 10s later');
+      devLog('Test WARNING notification scheduled for 10s later');
     }
   } catch (e) {
-    console.error('Test notification schedule failed:', e);
+    devError('Test notification schedule failed:', e);
   }
 };

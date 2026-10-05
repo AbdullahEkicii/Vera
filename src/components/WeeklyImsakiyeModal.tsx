@@ -7,7 +7,7 @@ import { useTheme } from '../context/ThemeContext';
 import { logModalOpened } from '../services/analyticsService';
 import { DayData } from '../services/api';
 import { spacing, typography } from '../utils/theme';
-import { AdBanner } from './AdBanner';
+import { BannerAdSlot } from './BannerAdSlot';
 
 interface WeeklyImsakiyeModalProps {
   visible: boolean;
@@ -33,9 +33,13 @@ export const WeeklyImsakiyeModal: React.FC<WeeklyImsakiyeModalProps> = ({
 
   if (!visible) return null;
 
-  // Take next 7 days from dataset
-  const todayStr = new Date().toISOString().split('T')[0];
-  const next7Days = (data || []).slice(0, 7);
+  // The dataset is a whole calendar month starting on the 1st, so find today first;
+  // slicing from index 0 showed the first week of the month instead of the next 7 days.
+  const now = new Date();
+  const todayKey = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
+  const allDays = data || [];
+  const todayIdx = allDays.findIndex((d) => d.date?.gregorian?.date === todayKey);
+  const next7Days = allDays.slice(Math.max(todayIdx, 0), Math.max(todayIdx, 0) + 7);
 
   const cleanTime = (tStr?: string) => (tStr ? tStr.split(' ')[0] : '--:--');
 
@@ -118,7 +122,7 @@ export const WeeklyImsakiyeModal: React.FC<WeeklyImsakiyeModalProps> = ({
 
           {/* Native Ad Banner */}
           <View style={{ marginTop: 8 }}>
-            <AdBanner />
+            <BannerAdSlot placement="weekly_imsakiye" isVisible={visible} lazy={true} />
           </View>
         </View>
       </BlurView>

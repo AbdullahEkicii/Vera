@@ -15,7 +15,7 @@ import * as Haptics from 'expo-haptics';
 import { router } from 'expo-router';
 
 import { useTheme } from '../context/ThemeContext';
-import { typography, spacing } from '../utils/theme';
+import { typography } from '../utils/theme';
 import {
   HatimState,
   DEFAULT_HATIM_STATE,
@@ -24,6 +24,7 @@ import {
   resetHatim,
 } from '../services/hatimService';
 import { logHatimProgress } from '../services/analyticsService';
+import { StoryCardShareModal } from './StoryCardShareModal';
 
 interface Props {
   onOpenPrayers: () => void;
@@ -31,12 +32,13 @@ interface Props {
 }
 
 export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { theme, isDark } = useTheme();
 
   const [hatimState, setHatimState] = useState<HatimState>(DEFAULT_HATIM_STATE);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [inputPage, setInputPage] = useState('');
+  const [shareModalVisible, setShareModalVisible] = useState(false);
 
   const fetchHatim = async () => {
     const data = await loadHatimState();
@@ -53,7 +55,7 @@ export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
   const handlePageChange = async (delta: number) => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch (_) {}
+    } catch {}
     const updated = await updateHatimPage(hatimState.currentPage + delta);
     setHatimState(updated);
     logHatimProgress(updated.currentPage, updated.currentJuz, Math.round((updated.currentPage / 604) * 100));
@@ -93,7 +95,7 @@ export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
   const handleContinue = () => {
     try {
       Haptics.selectionAsync();
-    } catch (_) {}
+    } catch {}
     if (onContinueReading) {
       onContinueReading(hatimState.currentPage, hatimState.currentJuz);
     } else {
@@ -163,6 +165,15 @@ export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
             ? t('hatim.pagesRemaining', 'Hatmin tamamlanmasına {{count}} sayfa kaldı.', { count: pagesRemaining })
             : t('hatim.completed', 'Tebrikler! Hatmi tamamladınız. 🎉')}
         </Text>
+
+        {pagesRemaining === 0 && (
+          <Pressable style={styles.shareRow} onPress={() => setShareModalVisible(true)}>
+            <Feather name="share-2" size={13} color={theme.colors.primary} />
+            <Text style={[styles.shareRowText, { color: theme.colors.primary }]}>
+              {t('hatim.share', 'Hatmimi Paylaş')}
+            </Text>
+          </Pressable>
+        )}
       </View>
 
       {/* Action Buttons Row */}
@@ -252,6 +263,15 @@ export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
           </View>
         </Modal>
       )}
+
+      <StoryCardShareModal
+        visible={shareModalVisible}
+        onClose={() => setShareModalVisible(false)}
+        title={t('hatim.title', 'Kuran Hatim Takibi')}
+        text={t('hatim.shareText', "{{count}}. hatmimi tamamladım, elhamdülillah!", { count: hatimState.hatimNumber })}
+        source="Vera"
+        type="achievement"
+      />
     </View>
   );
 }
@@ -346,6 +366,16 @@ const styles = StyleSheet.create({
   remainingText: {
     fontFamily: typography.fontFamily.regular,
     fontSize: 11.5,
+  },
+  shareRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    marginTop: 8,
+  },
+  shareRowText: {
+    fontFamily: typography.fontFamily.semiBold,
+    fontSize: 12,
   },
   actionsRow: {
     flexDirection: 'row',

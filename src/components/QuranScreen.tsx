@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,14 +9,13 @@ import {
   StatusBar,
   ActivityIndicator,
   Modal,
-  FlatList,
-  TouchableOpacity,
   TextInput,
   Alert,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { FlashList } from '@shopify/flash-list';
 import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
 import { useTheme } from '../context/ThemeContext';
 import { typography } from '../utils/theme';
@@ -26,10 +25,11 @@ import { SURAHS, FEATURED_SURAHS, getSurahsInJuz, SurahMeta, getJuzStartPageStat
 import { getFirstPageOfSurah, checkJuzStatus, downloadJuz } from '../services/quranRepository';
 import { useQuranSettings } from '../context/QuranSettingsContext';
 import { QuranStyleSelector } from './QuranStyleSelector';
-import { AdBanner } from './AdBanner';
+import { BannerAdSlot } from './BannerAdSlot';
 import { ScalePressable } from './ScalePressable';
 import { HatimTrackerCard } from './HatimTrackerCard';
 import { QuranPrayersModal } from './QuranPrayersModal';
+import { getVerseBookmarks, removeVerseBookmark, VerseBookmark } from '../services/quranBookmarks';
 
 const JUZ_LIST = Array.from({ length: 30 }, (_, i) => i + 1);
 
@@ -64,8 +64,8 @@ const FeaturedSurahCard = React.memo(({ surah }: { surah: SurahMeta }) => {
     const targetPage = page ?? surah.page;
     router.push({
       pathname: '/quran-reading',
-      params: { page: targetPage, surahName: surah.nameTurkish, juz: surah.juz },
-    } as any);
+      params: { page: String(targetPage), surahName: surah.nameTurkish, juz: String(surah.juz) },
+    });
     setNavigating(false);
   }, [surah, scriptType, t]);
 
@@ -102,6 +102,7 @@ const FeaturedSurahCard = React.memo(({ surah }: { surah: SurahMeta }) => {
     </ScalePressable>
   );
 });
+FeaturedSurahCard.displayName = 'FeaturedSurahCard';
 
 // ── Cüz Listesi Öğesi (Expandable + Detaylı) ────────────────────────────────
 const JuzListItem = React.memo(({ juz }: { juz: number }) => {
@@ -116,7 +117,7 @@ const JuzListItem = React.memo(({ juz }: { juz: number }) => {
       startDownload();
     } else if (status === 'Downloaded') {
       const startPage = getJuzStartPageStatic(juz);
-      router.push({ pathname: '/quran-reading', params: { juz, page: startPage } } as any);
+      router.push({ pathname: '/quran-reading', params: { juz: String(juz), page: String(startPage) } });
     }
   };
 
@@ -125,8 +126,8 @@ const JuzListItem = React.memo(({ juz }: { juz: number }) => {
     const page = await getFirstPageOfSurah(surah.number).catch(() => null);
     router.push({
       pathname: '/quran-reading',
-      params: { page: page ?? surah.page, surahName: surah.nameTurkish, juz },
-    } as any);
+      params: { page: String(page ?? surah.page), surahName: surah.nameTurkish, juz: String(juz) },
+    });
   }, [status, juz]);
 
   return (
@@ -204,6 +205,7 @@ const JuzListItem = React.memo(({ juz }: { juz: number }) => {
     </View>
   );
 });
+JuzListItem.displayName = 'JuzListItem';
 
 // ── Sure Arama Modalı ────────────────────────────────────────────────────────
 const SurahSearchModal = ({
@@ -256,8 +258,8 @@ const SurahSearchModal = ({
       const page = await getFirstPageOfSurah(surah.number).catch(() => null);
       router.push({
         pathname: '/quran-reading',
-        params: { page: page ?? surah.page, surahName: surah.nameTurkish, juz: surah.juz },
-      } as any);
+        params: { page: String(page ?? surah.page), surahName: surah.nameTurkish, juz: String(surah.juz) },
+      });
       setNavigating(false);
       setDownloadingJuz(null);
     }, 100);
@@ -287,15 +289,10 @@ const SurahSearchModal = ({
           />
         </View>
 
-        <FlatList
+        <FlashList
           data={filtered}
           keyExtractor={(item) => String(item.number)}
           contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 40 }}
-          initialNumToRender={10}
-          windowSize={5}
-          maxToRenderPerBatch={15}
-          updateCellsBatchingPeriod={50}
-          removeClippedSubviews={true}
           renderItem={({ item }) => (
             <ScalePressable
               activeScale={0.97}
@@ -332,15 +329,27 @@ const SurahSearchModal = ({
 };
 
 // ── Ana Ekran ────────────────────────────────────────────────────────────────
-export const QuranScreen = () => {
+export const QuranScreen = ({ isActive = true }: { isActive?: boolean }) => {
   const { t } = useTranslation();
   const { theme, isDark, isFullscreen } = useTheme();
-  const [activeTab, setActiveTab] = useState<'browse' | 'history'>('browse');
+  const [activeTab, setActiveTab] = useState<'browse' | 'history' | 'bookmarks'>('browse');
   const [surahModalVisible, setSurahModalVisible] = useState(false);
   const [styleSelectorVisible, setStyleSelectorVisible] = useState(false);
   const [prayersModalVisible, setPrayersModalVisible] = useState(false);
-  const { lastRead, history, loading } = useQuranData();
-  const { isStyleSelected, isFontLoaded } = useQuranSettings();
+  const [bookmarks, setBookmarks] = useState<VerseBookmark[]>([]);
+  const { lastRead, history } = useQuranData();
+  const { isStyleSelected } = useQuranSettings();
+
+  useEffect(() => {
+    if (activeTab === 'bookmarks') {
+      getVerseBookmarks().then(setBookmarks);
+    }
+  }, [activeTab]);
+
+  const handleRemoveBookmark = async (surahNo: number, ayahNo: number) => {
+    const updated = await removeVerseBookmark(surahNo, ayahNo);
+    setBookmarks(updated);
+  };
 
   // Initial setup trigger removed from here; moved to reading page.
 
@@ -370,7 +379,7 @@ export const QuranScreen = () => {
 
       {/* Live AdMob Native Ad */}
       <View style={{ marginVertical: 16 }}>
-        <AdBanner />
+        <BannerAdSlot placement="quran_browse_top" isVisible={isActive && activeTab === 'browse'} lazy={true} />
       </View>
 
       {/* Cüzler */}
@@ -385,7 +394,7 @@ export const QuranScreen = () => {
             <JuzListItem juz={juz} />
             {(juz === 9 || juz === 18 || juz === 27) && (
               <View style={{ marginVertical: 8 }}>
-                <AdBanner />
+                <BannerAdSlot placement="quran_browse_list" isVisible={isActive && activeTab === 'browse'} lazy={true} />
               </View>
             )}
           </React.Fragment>
@@ -425,7 +434,7 @@ export const QuranScreen = () => {
 
       {/* Live AdMob Native Ad */}
       <View style={{ marginVertical: 16 }}>
-        <AdBanner />
+        <BannerAdSlot placement="quran_history" isVisible={isActive && activeTab === 'history'} lazy={true} />
       </View>
 
       <Text style={[styles.sectionTitle, { color: theme.colors.text, marginTop: 16 }]}>{t('quran.pastReadings')}</Text>
@@ -450,6 +459,38 @@ export const QuranScreen = () => {
               <Text style={[styles.historyDate, { color: theme.colors.textSecondary }]}>
                 {new Date(item.timestamp).toLocaleDateString('tr-TR')}
               </Text>
+            </Pressable>
+          ))}
+        </View>
+      )}
+    </Animated.View>
+  );
+
+  const renderBookmarksTab = () => (
+    <Animated.View entering={FadeInDown.duration(400)}>
+      <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t('quran.bookmarksTitle', 'Kayıtlı Ayetler')}</Text>
+      {bookmarks.length === 0 ? (
+        <View style={[styles.emptyCard, { backgroundColor: isDark ? '#1C1C1E' : '#FFF', borderColor: theme.colors.border }]}>
+          <Feather name="bookmark" size={28} color={theme.colors.textSecondary} />
+          <Text style={[styles.emptyText, { color: theme.colors.textSecondary }]}>
+            {t('quran.noBookmarks', 'Henüz favori ayetiniz yok. Bir ayete uzun basarak ekleyebilirsiniz.')}
+          </Text>
+        </View>
+      ) : (
+        <View style={{ gap: 10 }}>
+          {bookmarks.map((b) => (
+            <Pressable
+              key={b.id}
+              onPress={() => router.push({ pathname: '/quran-reading', params: { page: b.pageNo, surahName: b.surahName } } as any)}
+              style={[styles.historyItem, { backgroundColor: isDark ? '#1C1C1E' : '#FFF', borderColor: theme.colors.border }]}
+            >
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.historyTitle, { color: theme.colors.text }]}>{b.surahName} - {b.ayahNo}</Text>
+                <Text style={[styles.historyDetails, { color: theme.colors.textSecondary }]} numberOfLines={1}>{b.arabicText}</Text>
+              </View>
+              <Pressable onPress={() => handleRemoveBookmark(b.surahNo, b.ayahNo)} hitSlop={10}>
+                <Feather name="trash-2" size={18} color={theme.colors.textSecondary} />
+              </Pressable>
             </Pressable>
           ))}
         </View>
@@ -486,7 +527,7 @@ export const QuranScreen = () => {
 
       {/* Segmented Control */}
       <View style={[styles.segmentedControl, { backgroundColor: isDark ? '#1C1C1E' : '#E5E5EA' }]}>
-        {(['browse', 'history'] as const).map((tab) => (
+        {(['browse', 'history', 'bookmarks'] as const).map((tab) => (
           <Pressable
             key={tab}
             style={[
@@ -496,7 +537,7 @@ export const QuranScreen = () => {
             onPress={() => setActiveTab(tab)}
           >
             <Text style={[styles.segmentText, { color: activeTab === tab ? theme.colors.text : theme.colors.textSecondary }]}>
-              {tab === 'browse' ? t('quran.tabBrowse') : t('quran.tabHistory')}
+              {tab === 'browse' ? t('quran.tabBrowse') : tab === 'history' ? t('quran.tabHistory') : t('quran.bookmarksTitle', 'Kayıtlı')}
             </Text>
           </Pressable>
         ))}
@@ -507,7 +548,7 @@ export const QuranScreen = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {activeTab === 'browse' ? renderBrowseTab() : renderHistoryTab()}
+        {activeTab === 'browse' ? renderBrowseTab() : activeTab === 'history' ? renderHistoryTab() : renderBookmarksTab()}
       </ScrollView>
 
       <SurahSearchModal visible={surahModalVisible} onClose={() => setSurahModalVisible(false)} />

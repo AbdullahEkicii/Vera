@@ -1,4 +1,4 @@
-import { Coordinates, CalculationMethod, PrayerTimes, CalculationParameters, Madhab, HighLatitudeRule } from 'adhan';
+import { Coordinates, CalculationMethod, PrayerTimes, CalculationParameters, HighLatitudeRule } from 'adhan';
 import { DayData } from './api';
 
 /**
@@ -24,8 +24,11 @@ export function getAdhanCalculationParams(methodId: number): CalculationParamete
       return CalculationMethod.UmmAlQura();
     case 5: // Egypt
       return CalculationMethod.Egyptian();
-    case 12: // France
-      return CalculationMethod.Other(); // Custom 12 deg
+    case 12: // France (UOIF / 12 degrees)
+      const franceParams = CalculationMethod.Other();
+      franceParams.fajrAngle = 12.0;
+      franceParams.ishaAngle = 12.0;
+      return franceParams;
     case 13: // Diyanet
       {
         const params = CalculationMethod.Turkey();

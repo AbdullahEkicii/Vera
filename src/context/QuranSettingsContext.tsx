@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { InteractionManager } from 'react-native';
 import { loadQuranFont } from '../services/fontDownloader';
 
 export type ScriptType = 'quran-uthmani' | 'quran-indopak' | 'quran-imlaei' | 'quran-husrev';
@@ -48,6 +49,9 @@ export const QuranSettingsProvider = ({ children }: { children: ReactNode }) => 
         setFontSizeMultiplier(parsed.fontSizeMultiplier ?? 1);
         
         if (parsed.scriptType) {
+          // Up to 1.6 MB of TTF: register it after the first screen has rendered
+          // instead of competing with startup.
+          await new Promise<void>((resolve) => InteractionManager.runAfterInteractions(() => resolve()));
           await loadQuranFont(parsed.scriptType);
         }
         setIsFontLoaded(true);
@@ -92,7 +96,7 @@ export const QuranSettingsProvider = ({ children }: { children: ReactNode }) => 
       }
       setIsFontLoaded(true);
       return false;
-    } catch (error) {
+    } catch {
       setIsFontLoaded(true);
       return false;
     }
@@ -111,7 +115,7 @@ export const QuranSettingsProvider = ({ children }: { children: ReactNode }) => 
       }
       setIsFontLoaded(true);
       return false;
-    } catch (error) {
+    } catch {
       setIsFontLoaded(true);
       return false;
     }

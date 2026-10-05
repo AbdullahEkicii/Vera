@@ -37,8 +37,14 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# graphify (local-only cost log; graphify-out/ itself is committed for team use)
+graphify-out/cost.json
+
 app-example
 
 # generated native folders
 /ios
 /android
+
+# i18n translation work files (scripts/i18n-sync.mjs)
+scripts/i18n-work/

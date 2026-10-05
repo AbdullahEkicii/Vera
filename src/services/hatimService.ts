@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { maybeRequestReview } from './reviewService';
 
 const HATIM_STORAGE_KEY = 'VERA_HATIM_TRACKER_DATA_V1';
 
@@ -53,10 +54,10 @@ export const updateHatimPage = async (newPage: number): Promise<HatimState> => {
   const juz = getJuzFromPage(validPage);
   
   let completedHatims = current.completedHatims;
-  let hatimNumber = current.hatimNumber;
-  
+
   // If reached the end of the Quran
-  if (validPage >= 604 && current.currentPage < 604) {
+  const justCompleted = validPage >= 604 && current.currentPage < 604;
+  if (justCompleted) {
     completedHatims += 1;
   }
 
@@ -69,6 +70,7 @@ export const updateHatimPage = async (newPage: number): Promise<HatimState> => {
   };
 
   await saveHatimState(updated);
+  if (justCompleted) maybeRequestReview('hatim_completed');
   return updated;
 };
 

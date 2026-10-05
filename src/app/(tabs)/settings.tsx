@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Switch, ScrollView, Alert, Pressable, Modal, DeviceEventEmitter, Platform, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Switch, ScrollView, Alert, Pressable, Modal, DeviceEventEmitter, Platform, Share } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import notifee from '@notifee/react-native';
 import Constants from 'expo-constants';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +10,8 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppBackground } from '../../components/ProgressRing';
 import { WidgetPromptModal } from '../../components/WidgetPromptModal';
-import { AdBanner } from '../../components/AdBanner';
+import { FeedbackModal } from '../../components/FeedbackModal';
+import { BannerAdSlot } from '../../components/BannerAdSlot';
 import { useTheme } from '../../context/ThemeContext';
 import { borderRadius, spacing, typography } from '../../utils/theme';
 import {
@@ -25,19 +27,21 @@ import {
 import {
   PrayerOffsets,
   getPrayerOffsets,
+  applyOffsetsToData,
   savePrayerOffsets,
   DEFAULT_OFFSETS,
 } from '../../services/api';
 import { audioManager } from '../../services/audioManager';
+import { openAdsPrivacyOptionsForm } from '../../services/adsConsentService';
+import { changeAppLanguage } from '../../localization/i18n';
+import { getOrCreateReferralCode, getReferralShareMessage } from '../../services/referralService';
 import {
   logScreenView,
   logNotificationToggled,
   logOffsetChanged,
   logBatterySettingOpened,
-  logSoundTested,
 } from '../../services/analyticsService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from '@react-native-firebase/auth';
 
 const SOUND_OPTIONS = [
   { id: 'azizallah', defaultName: 'Azizallah (Ezan Vakti)' },
@@ -72,21 +76,14 @@ const getPrayerIcon = (id: string, color: string) => {
 };
 
 export default function SettingsScreen() {
+  const isFocused = useIsFocused();
   const { t, i18n } = useTranslation();
-  const { theme, isDark, mode, setThemeMode, isFullscreen, setIsFullscreen } = useTheme();
+  const { theme, isDark, mode, setThemeMode, isFullscreen, setIsFullscreen, timeFormat, setTimeFormat } = useTheme();
   const [prefs, setPrefs] = useState<NotificationPrefs | null>(null);
   const [langModalVisible, setLangModalVisible] = useState(false);
+  const [feedbackVisible, setFeedbackVisible] = useState(false);
   const [currentMethod, setCurrentMethod] = useState<number>(13);
   const [methodModalVisible, setMethodModalVisible] = useState(false);
-  const isLangTR = i18n.language === 'tr' || i18n.language.startsWith('tr');
-
-  // Editor State
-  const [isEditor, setIsEditor] = useState(false);
-  const [editorModalVisible, setEditorModalVisible] = useState(false);
-  const [editorUsername, setEditorUsername] = useState('');
-  const [editorPassword, setEditorPassword] = useState('');
-  const [editorError, setEditorError] = useState('');
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   // Persistent Notification & Widget State
   const [persistentNotifEnabled, setPersistentNotifEnabled] = useState<boolean>(true);
@@ -127,11 +124,6 @@ export default function SettingsScreen() {
       }
     });
 
-    // Check Editor Auth State
-    const subscriber = onAuthStateChanged(getAuth(), (user) => {
-      setIsEditor(!!user);
-    });
-    return subscriber; // unsubscribe on unmount
   }, []);
 
   const handleOffsetChange = async (key: keyof PrayerOffsets, delta: number) => {
@@ -160,7 +152,9 @@ export default function SettingsScreen() {
     if (cachedString) {
       try {
         const cached = JSON.parse(cachedString);
-        await schedulePrayerNotifications(cached.data, currentPrefs, t);
+        // The cache holds raw API times; alarms must use the user's ± minute offsets.
+        const withOffsets = applyOffsetsToData(cached.data, await getPrayerOffsets());
+        await schedulePrayerNotifications(withOffsets, currentPrefs, t);
       } catch {}
     }
   };
@@ -215,16 +209,26 @@ export default function SettingsScreen() {
     } else {
       setPlayingSound(soundId);
       await audioManager.playAdhan(soundId, () => {
-        setPlayingSound(null);
+        // Only clear if this preview is still the one shown: a quicker second tap has
+        // already switched the indicator to another sound.
+        setPlayingSound((current) => (current === soundId ? null : current));
       });
     }
   };
 
   const toggleLanguage = async (newLang: string) => {
     await AsyncStorage.setItem('APP_LANG', newLang);
-    await i18n.changeLanguage(newLang);
+    await changeAppLanguage(newLang);
     setLangModalVisible(false);
     if (prefs) setTimeout(() => rescheduleFromCache(prefs), 100);
+  };
+
+  const handleInviteFriend = async () => {
+    try {
+      const code = await getOrCreateReferralCode();
+      const message = getReferralShareMessage(code, t);
+      await Share.share({ message });
+    } catch {}
   };
 
   const selectMethod = async (methodId: number) => {
@@ -296,29 +300,6 @@ export default function SettingsScreen() {
     { label: t('settings.light'), value: 'light', icon: 'sun' },
     { label: t('settings.dark'),  value: 'dark',  icon: 'moon' },
   ];
-
-  const handleEditorLogin = async () => {
-    setEditorError('');
-    setIsLoggingIn(true);
-    try {
-      // Map 'irfan' or username to email
-      const email = editorUsername.includes('@') ? editorUsername : `${editorUsername}@editor.com`;
-      await signInWithEmailAndPassword(getAuth(), email, editorPassword);
-      setEditorModalVisible(false);
-      setEditorUsername('');
-      setEditorPassword('');
-    } catch (e: any) {
-      setEditorError(t('settings.loginFailed', 'Login failed. Check your credentials.'));
-    } finally {
-      setIsLoggingIn(false);
-    }
-  };
-
-  const handleEditorLogout = async () => {
-    try {
-      await signOut(getAuth());
-    } catch (e) {}
-  };
 
   const handleTestNotification = async (type: 'exact' | 'warning') => {
     Alert.alert(
@@ -431,6 +412,20 @@ export default function SettingsScreen() {
             <Switch
               value={isFullscreen}
               onValueChange={(val) => setIsFullscreen(val)}
+              trackColor={{ false: theme.colors.border, true: theme.colors.primary }}
+              thumbColor="#fff"
+            />
+          </View>
+          <View style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 12, paddingHorizontal: 16, marginTop: 8 }]}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 }}>
+              <Feather name="clock" size={18} color={timeFormat === '24h' ? theme.colors.primary : theme.colors.textSecondary} />
+              <Text style={{ fontFamily: typography.fontFamily.medium, fontSize: 14, color: theme.colors.text }}>
+                {t('settings.timeFormat24h', '24 Saat Biçimi')}
+              </Text>
+            </View>
+            <Switch
+              value={timeFormat === '24h'}
+              onValueChange={(val) => setTimeFormat(val ? '24h' : '12h')}
               trackColor={{ false: theme.colors.border, true: theme.colors.primary }}
               thumbColor="#fff"
             />
@@ -554,7 +549,7 @@ export default function SettingsScreen() {
           </View>
 
           {/* Native Ad Banner right under Cami / Sessiz Mod Uyumu */}
-          <AdBanner />
+          <BannerAdSlot placement="settings_top" isVisible={isFocused} lazy={true} />
 
           {/* Exact Prayer Sound Selection */}
           <View style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, marginBottom: 12, padding: 14 }]}>
@@ -736,7 +731,7 @@ export default function SettingsScreen() {
 
         {/* ── Native Ad Banner (Between Vakit Düzeltme & Bildirimler) ── */}
         <Animated.View entering={FadeInDown.delay(310).duration(500)}>
-          <AdBanner />
+          <BannerAdSlot placement="settings_bottom" isVisible={isFocused} lazy={true} />
         </Animated.View>
 
         {/* ── Notifications ─────────────────────────────────────────────── */}
@@ -875,36 +870,97 @@ export default function SettingsScreen() {
           </View>
         </Animated.View>
 
+        {/* ── Invite a Friend ──────────────────────────────────────────── */}
+        <Animated.View entering={FadeInDown.delay(410).duration(500)}>
+          <Pressable
+            style={[styles.editorBtn, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, borderWidth: 1 }]}
+            onPress={handleInviteFriend}
+          >
+            <Feather name="user-plus" size={16} color={theme.colors.primary} />
+            <Text style={[styles.editorBtnText, { color: theme.colors.text }]}>
+              {t('settings.inviteFriend', 'Arkadaşını Davet Et')}
+            </Text>
+          </Pressable>
+        </Animated.View>
+
+        {/* ── Zakat Calculator ─────────────────────────────────────────── */}
+        <Animated.View entering={FadeInDown.delay(415).duration(500)}>
+          <Pressable
+            style={[styles.editorBtn, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, borderWidth: 1 }]}
+            onPress={() => router.push('/zakat-calculator')}
+          >
+            <Feather name="percent" size={16} color={theme.colors.primary} />
+            <Text style={[styles.editorBtnText, { color: theme.colors.text }]}>
+              {t('zakat.settingsEntry', 'Zekat Hesaplama')}
+            </Text>
+          </Pressable>
+        </Animated.View>
+
+        {/* ── Hajj & Umrah Guide ───────────────────────────────────────── */}
+        <Animated.View entering={FadeInDown.delay(417).duration(500)}>
+          <Pressable
+            style={[styles.editorBtn, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, borderWidth: 1 }]}
+            onPress={() => router.push('/hajj-umrah')}
+          >
+            <Feather name="map" size={16} color={theme.colors.primary} />
+            <Text style={[styles.editorBtnText, { color: theme.colors.text }]}>
+              {t('hajjUmrah.settingsEntry', 'Hac & Umre Rehberi')}
+            </Text>
+          </Pressable>
+        </Animated.View>
+
+        {/* ── Achievements ─────────────────────────────────────────────── */}
+        <Animated.View entering={FadeInDown.delay(420).duration(500)}>
+          <Pressable
+            style={[styles.editorBtn, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, borderWidth: 1 }]}
+            onPress={() => router.push('/achievements')}
+          >
+            <Feather name="award" size={16} color={theme.colors.primary} />
+            <Text style={[styles.editorBtnText, { color: theme.colors.text }]}>
+              {t('achievements.settingsEntry', 'Başarılarım')}
+            </Text>
+          </Pressable>
+        </Animated.View>
+
+        {/* ── Feedback ─────────────────────────────────────────────────── */}
+        <Animated.View entering={FadeInDown.delay(425).duration(500)}>
+          <Pressable
+            style={[styles.editorBtn, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, borderWidth: 1 }]}
+            onPress={() => setFeedbackVisible(true)}
+            accessibilityRole="button"
+          >
+            <Feather name="message-circle" size={16} color={theme.colors.textSecondary} />
+            <Text style={[styles.editorBtnText, { color: theme.colors.textSecondary }]}>
+              {t('feedback.settingsRow', 'Geri Bildirim Gönder')}
+            </Text>
+          </Pressable>
+        </Animated.View>
+
+        {/* ── Privacy / Ad Consent ─────────────────────────────────────── */}
+        <Animated.View entering={FadeInDown.delay(430).duration(500)}>
+          <Pressable
+            style={[styles.editorBtn, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, borderWidth: 1 }]}
+            onPress={() => openAdsPrivacyOptionsForm()}
+          >
+            <Feather name="shield" size={16} color={theme.colors.textSecondary} />
+            <Text style={[styles.editorBtnText, { color: theme.colors.textSecondary }]}>
+              {t('settings.privacyOptions', 'Gizlilik Tercihleri')}
+            </Text>
+          </Pressable>
+        </Animated.View>
+
         {/* ── About ─────────────────────────────────────────────────────── */}
         <Animated.View
           entering={FadeInDown.delay(440).duration(500)}
           style={[styles.aboutCard, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border }]}
         >
-          <Text style={[styles.aboutText, { color: theme.colors.textSecondary }]}>
-            بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيمِ
-          </Text>
+          <View>
+            <Text style={[styles.aboutText, { color: theme.colors.textSecondary }]}>
+              بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيمِ
+            </Text>
+          </View>
         </Animated.View>
 
-        {/* ── Editor Access ────────────────────────────────────────────── */}
-        <Animated.View entering={FadeInDown.delay(460).duration(500)}>
-          {isEditor ? (
-            <Pressable
-              style={[styles.editorBtn, { backgroundColor: '#FF3B30' }]}
-              onPress={handleEditorLogout}
-            >
-              <Feather name="log-out" size={16} color="#FFF" />
-              <Text style={styles.editorBtnText}>{t('settings.editorLogout', 'Editor Logout')}</Text>
-            </Pressable>
-          ) : (
-            <Pressable
-              style={[styles.editorBtn, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, borderWidth: 1 }]}
-              onPress={() => setEditorModalVisible(true)}
-            >
-              <Feather name="lock" size={16} color={theme.colors.textSecondary} />
-              <Text style={[styles.editorBtnText, { color: theme.colors.textSecondary }]}>{t('settings.editorLogin', 'Editor Login')}</Text>
-            </Pressable>
-          )}
-        </Animated.View>
       </ScrollView>
 
       {/* Language Selection Modal */}
@@ -969,48 +1025,7 @@ export default function SettingsScreen() {
         </View>
       </Modal>
 
-      {/* Editor Login Modal */}
-      <Modal visible={editorModalVisible} transparent animationType="fade" onRequestClose={() => setEditorModalVisible(false)}>
-        <View style={styles.modalOverlay}>
-          <View style={[styles.modalContent, { backgroundColor: isDark ? '#1C1C1E' : '#FFF', borderColor: theme.colors.border }]}>
-            <View style={[styles.modalHeader, { borderBottomColor: theme.colors.border }]}>
-              <Text style={[styles.modalTitle, { color: theme.colors.text }]}>{t('settings.editorLogin', 'Editor Login')}</Text>
-              <Pressable onPress={() => setEditorModalVisible(false)} style={[styles.modalClose, { backgroundColor: theme.colors.surfaceStrong }]}>
-                <Feather name="x" size={20} color={theme.colors.text} />
-              </Pressable>
-            </View>
-            <View style={{ padding: spacing.lg, gap: spacing.md }}>
-              <TextInput
-                style={[styles.input, { color: theme.colors.text, borderColor: theme.colors.border, backgroundColor: theme.colors.surface }]}
-                placeholder={t('settings.username', 'Username')}
-                placeholderTextColor={theme.colors.textSecondary}
-                value={editorUsername}
-                onChangeText={setEditorUsername}
-                autoCapitalize="none"
-              />
-              <TextInput
-                style={[styles.input, { color: theme.colors.text, borderColor: theme.colors.border, backgroundColor: theme.colors.surface }]}
-                placeholder={t('settings.password', 'Password')}
-                placeholderTextColor={theme.colors.textSecondary}
-                value={editorPassword}
-                onChangeText={setEditorPassword}
-                secureTextEntry
-              />
-              {editorError ? <Text style={{ color: '#FF3B30', fontSize: 13 }}>{editorError}</Text> : null}
-              
-              <Pressable
-                style={[styles.loginSubmitBtn, { backgroundColor: theme.colors.primary }]}
-                onPress={handleEditorLogin}
-                disabled={isLoggingIn}
-              >
-                <Text style={{ color: '#FFF', fontFamily: typography.fontFamily.semiBold, fontSize: 16 }}>
-                  {isLoggingIn ? t('settings.loggingIn', 'Logging in...') : t('settings.login', 'Login')}
-                </Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <FeedbackModal visible={feedbackVisible} onClose={() => setFeedbackVisible(false)} />
 
       <WidgetPromptModal
         visible={widgetModalVisible}
@@ -1214,19 +1229,5 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontFamily.semiBold,
     fontSize: 14,
     color: '#FFF',
-  },
-  input: {
-    borderWidth: 1,
-    borderRadius: borderRadius.md,
-    paddingHorizontal: spacing.md,
-    paddingVertical: 12,
-    fontSize: 16,
-    fontFamily: typography.fontFamily.medium,
-  },
-  loginSubmitBtn: {
-    padding: 14,
-    borderRadius: borderRadius.md,
-    alignItems: 'center',
-    marginTop: spacing.sm,
   },
 });

@@ -32,9 +32,17 @@ function formatDistance(meters: number): string {
   return `${(meters / 1000).toFixed(1)} km`;
 }
 
+// Round to ~110m precision before sending to the third-party Overpass API — plenty
+// accurate for a multi-km search radius, and avoids leaking the user's exact position.
+function minimizePrecision(value: number): number {
+  return Math.round(value * 1000) / 1000;
+}
+
 export const fetchNearbyMosques = async (latitude: number, longitude: number, radiusMeters = 5000): Promise<MosqueItem[]> => {
   try {
-    const query = `[out:json][timeout:15];(node["amenity"="place_of_worship"]["religion"="muslim"](around:${radiusMeters},${latitude},${longitude});way["amenity"="place_of_worship"]["religion"="muslim"](around:${radiusMeters},${latitude},${longitude}););out center;`;
+    const queryLat = minimizePrecision(latitude);
+    const queryLng = minimizePrecision(longitude);
+    const query = `[out:json][timeout:15];(node["amenity"="place_of_worship"]["religion"="muslim"](around:${radiusMeters},${queryLat},${queryLng});way["amenity"="place_of_worship"]["religion"="muslim"](around:${radiusMeters},${queryLat},${queryLng}););out center;`;
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 12000);

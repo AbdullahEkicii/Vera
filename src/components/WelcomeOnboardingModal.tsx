@@ -1,14 +1,14 @@
 import { Feather, Ionicons } from '@expo/vector-icons';
-import notifee from '@notifee/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SecureLocationStorage } from '../services/storageService';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  Alert,
   Modal,
-  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -17,16 +17,16 @@ import {
 } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import {
-  logBatterySettingOpened,
+  logEvent,
   logOnboardingCompleted,
-  logScreenView,
+  logOnboardingStep,
   logSoundTested,
-  logWidgetPinned,
 } from '../services/analyticsService';
 import { audioManager } from '../services/audioManager';
 import { requestNotificationPermissions } from '../services/notificationService';
-import { requestPinWidget } from '../services/widgetService';
 import { getRecommendedCalculationMethod } from '../utils/calcMethod';
+import { reportError } from '../services/crashReportingService';
+import { allowAdsConsentFlow } from '../services/adsConsentService';
 
 interface Props {
   visible: boolean;
@@ -42,16 +42,17 @@ export function WelcomeOnboardingModal({
   currentCity = '',
 }: Props) {
   const { t } = useTranslation();
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 2>(1);
   const [isDetectingLocation, setIsDetectingLocation] = useState(false);
   const [detectedLoc, setDetectedLoc] = useState<{ latitude: number; longitude: number; city: string } | null>(null);
   const [notifEnabled, setNotifEnabled] = useState(true);
   const [isPlayingTestSound, setIsPlayingTestSound] = useState(false);
-  const [widgetPinned, setWidgetPinned] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
+  const [notifDenied, setNotifDenied] = useState(false);
 
   useEffect(() => {
     if (visible) {
-      logScreenView(`Onboarding_Step_${step}`);
+      logOnboardingStep(step);
     }
     return () => {
       audioManager.stopAdhan();
@@ -63,10 +64,17 @@ export function WelcomeOnboardingModal({
   const handleAutoLocation = async () => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch (_) { }
+    } catch { }
     setIsDetectingLocation(true);
+    setLocationError(null);
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
+      logEvent('onboarding_permission', { type: 'location', granted: status === 'granted' });
+      if (status !== 'granted') {
+        setLocationError(
+          t('onboarding.locationDenied', 'Konum izni verilmedi. Şehrinizi listeden seçebilir veya bunu daha sonra Ayarlar\'dan değiştirebilirsiniz.')
+        );
+      }
       if (status === 'granted') {
         let loc = await Location.getLastKnownPositionAsync({});
         if (!loc) {
@@ -98,37 +106,70 @@ export function WelcomeOnboardingModal({
           };
           setDetectedLoc(newLoc);
 
-          await AsyncStorage.setItem('MANUAL_LOCATION', JSON.stringify(newLoc));
-          await AsyncStorage.setItem('LAST_GPS_LOCATION', JSON.stringify(newLoc));
+          await SecureLocationStorage.setItem('MANUAL_LOCATION', JSON.stringify(newLoc));
+          await SecureLocationStorage.setItem('LAST_GPS_LOCATION', JSON.stringify(newLoc));
 
           try {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-          } catch (_) { }
+          } catch { }
           setStep(2);
           return;
         }
       }
     } catch (e) {
       console.warn('Auto location detection in onboarding failed:', e);
+      setLocationError(
+        t('onboarding.locationFailed', 'Konum alınamadı. Şehrinizi listeden seçebilir veya bunu daha sonra Ayarlar\'dan değiştirebilirsiniz.')
+      );
     } finally {
       setIsDetectingLocation(false);
     }
-    setStep(2);
   };
 
-  const handleStepChange = (newStep: 1 | 2 | 3) => {
+  const handleStepChange = (newStep: 1 | 2) => {
     try {
       Haptics.selectionAsync();
-    } catch (_) { }
+    } catch { }
     audioManager.stopAdhan();
     setIsPlayingTestSound(false);
     setStep(newStep);
   };
 
+  // Step 2 is the last step: asking for the notification permission finishes onboarding.
+  const handleContinueFromStep2 = async () => {
+    // Request the notification permission right here — right after its rationale
+    // was shown on this same step — instead of deferring it to the final Finish button.
+    setNotifDenied(false);
+    if (notifEnabled) {
+      try {
+        const granted = await requestNotificationPermissions();
+        logEvent('onboarding_permission', { type: 'notification', granted });
+        if (!granted) {
+          // Don't silently continue — the adhan alert must never silently fail.
+          // Surface it inline (same pattern as locationError) and let the user retry
+          // or acknowledge and move on without notifications.
+          setNotifDenied(true);
+          return;
+        }
+      } catch (e) {
+        console.warn('Notification permission request failed:', e);
+        setNotifDenied(true);
+        return;
+      }
+    }
+    handleFinish();
+  };
+
+  const handleContinueWithoutNotifications = () => {
+    setNotifEnabled(false);
+    setNotifDenied(false);
+    handleFinish();
+  };
+
   const handleToggleNotif = () => {
     try {
       Haptics.selectionAsync();
-    } catch (_) { }
+    } catch { }
     setNotifEnabled(!notifEnabled);
   };
 
@@ -145,43 +186,21 @@ export function WelcomeOnboardingModal({
     }
   };
 
-  const handlePinWidget = async () => {
-    try {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    } catch (_) { }
-    if (Platform.OS === 'android') {
-      const success = await requestPinWidget();
-      if (success) {
-        setWidgetPinned(true);
-        logWidgetPinned();
-      }
-    }
-  };
-
-  const handleOpenBatterySettings = async () => {
-    try {
-      logBatterySettingOpened();
-      await notifee.openBatteryOptimizationSettings();
-    } catch (e) {
-      console.error('Error opening battery optimization settings:', e);
-    }
-  };
-
   const handleFinish = async () => {
     audioManager.stopAdhan();
     try {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    } catch (_) { }
+    } catch { }
     try {
       const cityToLog = detectedLoc?.city || currentCity;
       logOnboardingCompleted(step, cityToLog);
-      if (notifEnabled) {
-        await requestNotificationPermissions();
-      }
       await AsyncStorage.setItem('ONBOARDING_COMPLETED', 'true');
     } catch (e) {
       console.error('Error saving onboarding state', e);
+      reportError(e instanceof Error ? e : new Error(String(e)), 'Failed to persist ONBOARDING_COMPLETED flag');
     }
+    // Only now may the ATT prompt / GDPR consent form appear.
+    allowAdsConsentFlow();
     if (detectedLoc) {
       onComplete(detectedLoc.latitude, detectedLoc.longitude, detectedLoc.city);
     } else {
@@ -189,8 +208,23 @@ export function WelcomeOnboardingModal({
     }
   };
 
+  const handleRequestClose = () => {
+    if (step > 1) {
+      handleStepChange((step - 1) as 1 | 2);
+      return;
+    }
+    Alert.alert(
+      t('onboarding.skipTitle', 'Kurulumu Atla'),
+      t('onboarding.skipBody', 'Kurulumu şimdi atlayabilirsiniz. Konum ve bildirim ayarlarını daha sonra Ayarlar\'dan yapabilirsiniz.'),
+      [
+        { text: t('common.cancel', 'Vazgeç'), style: 'cancel' },
+        { text: t('onboarding.skipConfirm', 'Atla'), style: 'destructive', onPress: handleFinish },
+      ]
+    );
+  };
+
   return (
-    <Modal visible={visible} transparent animationType="fade">
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={handleRequestClose}>
       <View style={styles.overlay}>
         <View style={styles.card}>
           <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
@@ -208,7 +242,6 @@ export function WelcomeOnboardingModal({
             <View style={styles.stepIndicatorContainer}>
               <View style={[styles.stepIndicatorBar, step >= 1 && styles.stepIndicatorActive]} />
               <View style={[styles.stepIndicatorBar, step >= 2 && styles.stepIndicatorActive]} />
-              <View style={[styles.stepIndicatorBar, step >= 3 && styles.stepIndicatorActive]} />
             </View>
 
             {/* STEP 1: WELCOME & LOCATION SELECTION */}
@@ -227,6 +260,28 @@ export function WelcomeOnboardingModal({
                     )}
                   </Text>
 
+                  {/* Value proposition — shown before any permission ask */}
+                  <View style={styles.highlightsContainer}>
+                    <View style={styles.highlightBadge}>
+                      <Feather name="book" size={13} color="#D4AF37" style={{ marginRight: 4 }} />
+                      <Text style={styles.highlightText}>
+                        {t('onboarding.featureQuran', 'Kuran')}
+                      </Text>
+                    </View>
+                    <View style={styles.highlightBadge}>
+                      <Feather name="compass" size={13} color="#D4AF37" style={{ marginRight: 4 }} />
+                      <Text style={styles.highlightText}>
+                        {t('onboarding.featureQibla', 'Kıble')}
+                      </Text>
+                    </View>
+                    <View style={styles.highlightBadge}>
+                      <Feather name="heart" size={13} color="#D4AF37" style={{ marginRight: 4 }} />
+                      <Text style={styles.highlightText}>
+                        {t('onboarding.featureDhikr', 'Zikir')}
+                      </Text>
+                    </View>
+                  </View>
+
                   {/* Detected Location Card */}
                   <View style={styles.locationPreviewBox}>
                     <View style={styles.locationIconWrap}>
@@ -239,6 +294,13 @@ export function WelcomeOnboardingModal({
                       <Text style={styles.locationPreviewCity}>{displayCity}</Text>
                     </View>
                   </View>
+
+                {locationError && (
+                  <View style={styles.errorBox}>
+                    <Feather name="alert-circle" size={14} color="#F87171" style={{ marginRight: 6 }} />
+                    <Text style={styles.errorBoxText}>{locationError}</Text>
+                  </View>
+                )}
 
                 {/* Auto GPS Button */}
                 <Pressable
@@ -266,7 +328,7 @@ export function WelcomeOnboardingModal({
                   onPress={() => {
                     try {
                       Haptics.selectionAsync();
-                    } catch (_) { }
+                    } catch { }
                     onOpenCitySearch();
                     setStep(2);
                   }}
@@ -284,6 +346,9 @@ export function WelcomeOnboardingModal({
                     {t('onboarding.continueWithCity', '{{city}} İle Devam Et', { city: displayCity })}
                   </Text>
                 </Pressable>
+                <Text style={styles.reassuranceText}>
+                  {t('onboarding.locationReassurance', 'Bunu daha sonra Ayarlar\'dan istediğiniz zaman değiştirebilirsiniz.')}
+                </Text>
               </Animated.View>
             );})()}
 
@@ -361,8 +426,20 @@ export function WelcomeOnboardingModal({
                   </Text>
                 </Pressable>
 
+                {notifDenied && (
+                  <View style={styles.errorBox}>
+                    <Feather name="alert-circle" size={14} color="#F87171" style={{ marginRight: 6 }} />
+                    <Text style={styles.errorBoxText}>
+                      {t(
+                        'onboarding.notifDenied',
+                        'Bildirim izni verilmedi. Ezan uyarıları çalışmayabilir — daha sonra Ayarlar\'dan açabilirsiniz.'
+                      )}
+                    </Text>
+                  </View>
+                )}
+
                 {/* Next Button */}
-                <Pressable onPress={() => handleStepChange(3)} style={styles.primaryBtnWrapper}>
+                <Pressable onPress={handleContinueFromStep2} style={styles.primaryBtnWrapper}>
                   <LinearGradient
                     colors={['#D4AF37', '#B8860B']}
                     style={styles.primaryBtn}
@@ -370,10 +447,20 @@ export function WelcomeOnboardingModal({
                     end={{ x: 1, y: 0 }}
                   >
                     <Text style={styles.primaryBtnText}>
-                      {t('onboarding.nextStepBtn', 'Devam Et →')}
+                      {notifDenied
+                        ? t('onboarding.retryBtn', 'Tekrar Dene')
+                        : t('onboarding.startBtn', "Vera'yı Kullanmaya Başla 🌟")}
                     </Text>
                   </LinearGradient>
                 </Pressable>
+
+                {notifDenied && (
+                  <Pressable onPress={handleContinueWithoutNotifications} style={styles.skipBtn}>
+                    <Text style={styles.skipBtnText}>
+                      {t('onboarding.continueWithoutNotif', 'Bildirim Olmadan Devam Et')}
+                    </Text>
+                  </Pressable>
+                )}
 
                 {/* Back Button */}
                 <Pressable onPress={() => handleStepChange(1)} style={styles.skipBtn}>
@@ -384,111 +471,6 @@ export function WelcomeOnboardingModal({
               </Animated.View>
             )}
 
-            {/* STEP 3: DAY-1 RETENTION (WIDGET & BATTERY OPTIMIZATION) */}
-            {step === 3 && (
-              <Animated.View entering={FadeIn.duration(220)} style={styles.stepContainer}>
-                <Text style={styles.title}>
-                  {t('onboarding.step3Title', 'Kesintisiz Deneyim')}
-                </Text>
-                <Text style={styles.subtitle}>
-                  {t(
-                    'onboarding.step3Subtitle',
-                    'Vakitleri ana ekranınızdan canlı takip edin ve ezan seslerini garantiye alın.'
-                  )}
-                </Text>
-
-                {/* Pin Widget Promo Item */}
-                {Platform.OS === 'android' && (
-                  <Pressable
-                    style={[styles.featureItem, widgetPinned && styles.featureItemActive]}
-                    onPress={handlePinWidget}
-                  >
-                    <View style={[styles.featureIconWrap, { backgroundColor: 'rgba(212, 175, 55, 0.15)' }]}>
-                      <Feather name="grid" size={18} color="#D4AF37" />
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={styles.featureTitle}>
-                        {t('onboarding.widgetTitle', '📌 Ana Ekrana Widget Ekle')}
-                      </Text>
-                      <Text style={styles.featureDesc}>
-                        {widgetPinned
-                          ? t('onboarding.widgetAdded', 'Widget başarıyla eklendi!')
-                          : t('onboarding.widgetDesc', 'Uygulamayı açmadan canlı geri sayımı görün.')}
-                      </Text>
-                    </View>
-                    <Ionicons
-                      name={widgetPinned ? 'checkmark-circle' : 'add-circle-outline'}
-                      size={22}
-                      color="#D4AF37"
-                    />
-                  </Pressable>
-                )}
-
-                {/* Battery Optimization Card (Android) */}
-                {Platform.OS === 'android' && (
-                  <Pressable
-                    style={styles.featureItem}
-                    onPress={handleOpenBatterySettings}
-                  >
-                    <View style={[styles.featureIconWrap, { backgroundColor: 'rgba(59, 130, 246, 0.15)' }]}>
-                      <Feather name="battery-charging" size={18} color="#3B82F6" />
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={styles.featureTitle}>
-                        {t('onboarding.batteryTitle', '🔋 Pil Tasarrufu Kısıtlaması')}
-                      </Text>
-                      <Text style={styles.featureDesc}>
-                        {t('onboarding.batteryDesc', 'Xiaomi & Samsung cihazlarda ezanın tam vaktinde çalması için kapatmanız önerilir.')}
-                      </Text>
-                    </View>
-                    <Feather name="chevron-right" size={18} color="rgba(253, 248, 237, 0.4)" />
-                  </Pressable>
-                )}
-
-                {/* Feature Highlights Mini */}
-                <View style={styles.highlightsContainer}>
-                  <View style={styles.highlightBadge}>
-                    <Feather name="book" size={13} color="#D4AF37" style={{ marginRight: 4 }} />
-                    <Text style={styles.highlightText}>
-                      {t('onboarding.featureQuran', 'Kuran')}
-                    </Text>
-                  </View>
-                  <View style={styles.highlightBadge}>
-                    <Feather name="compass" size={13} color="#D4AF37" style={{ marginRight: 4 }} />
-                    <Text style={styles.highlightText}>
-                      {t('onboarding.featureQibla', 'Kıble')}
-                    </Text>
-                  </View>
-                  <View style={styles.highlightBadge}>
-                    <Feather name="heart" size={13} color="#D4AF37" style={{ marginRight: 4 }} />
-                    <Text style={styles.highlightText}>
-                      {t('onboarding.featureDhikr', 'Zikir')}
-                    </Text>
-                  </View>
-                </View>
-
-                {/* Finish Button */}
-                <Pressable onPress={handleFinish} style={styles.primaryBtnWrapper}>
-                  <LinearGradient
-                    colors={['#D4AF37', '#B8860B']}
-                    style={styles.primaryBtn}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                  >
-                    <Text style={styles.primaryBtnText}>
-                      {t('onboarding.startBtn', "Vera'yı Kullanmaya Başla 🌟")}
-                    </Text>
-                  </LinearGradient>
-                </Pressable>
-
-                {/* Back Button */}
-                <Pressable onPress={() => handleStepChange(2)} style={styles.skipBtn}>
-                  <Text style={styles.skipBtnText}>
-                    {t('onboarding.backBtn', '← Geri Dön')}
-                  </Text>
-                </Pressable>
-              </Animated.View>
-            )}
           </ScrollView>
         </View>
       </View>
@@ -646,6 +628,32 @@ const styles = StyleSheet.create({
     fontFamily: 'Outfit_500Medium',
     fontSize: 12,
     color: 'rgba(253, 248, 237, 0.55)',
+  },
+  reassuranceText: {
+    fontFamily: 'Outfit_400Regular',
+    fontSize: 10.5,
+    color: 'rgba(253, 248, 237, 0.4)',
+    textAlign: 'center',
+    marginTop: 2,
+    paddingHorizontal: 12,
+  },
+  errorBox: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(248, 113, 113, 0.12)',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(248, 113, 113, 0.35)',
+    padding: 10,
+    marginBottom: 12,
+  },
+  errorBoxText: {
+    flex: 1,
+    fontFamily: 'Outfit_400Regular',
+    fontSize: 11,
+    color: '#F87171',
+    lineHeight: 15,
   },
   featureItem: {
     width: '100%',
