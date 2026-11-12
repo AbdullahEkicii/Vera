@@ -10,7 +10,13 @@
       "cancel": "Cancelar",
       "save": "Salvar",
       "ok": "OK",
-      "close": "Fechar"
+      "close": "Fechar",
+      "back": "Voltar",
+      "clear": "Limpar",
+      "remove": "Remover",
+      "expand": "Expandir",
+      "collapse": "Recolher",
+      "share": "Compartilhar"
     },
     "home": {
       "title": "Horários de Oração",
@@ -42,7 +48,13 @@
       "loadingTimes": "Carregando Tempos de Oração...",
       "locationPermissionTitle": "Permissão de Localização Indisponível",
       "locationPermissionDesc": "Mostrando a cidade padrão. Você pode escolher uma cidade ou conceder permissão de localização.",
-      "estimatedTimesNotice": "Sem conexão à internet, os horários de oração foram calculados no seu dispositivo (estimados)."
+      "estimatedTimesNotice": "Sem conexão à internet, os horários de oração foram calculados no seu dispositivo (estimados).",
+      "adjustTimeHint": "Mantenha pressionado para ajustar este horário",
+      "moreTools": "Mais",
+      "locationFetchFailedTitle": "Localização não encontrada",
+      "locationFetchFailedDesc": "Não foi possível obter sua localização GPS. Você pode escolher uma cidade ou tentar novamente mais tarde.",
+      "sourceA11y": "Método de cálculo dos horários de oração",
+      "highLatNote": "Latitude alta: Fajr/Isha são aproximados"
     },
     "settings": {
       "title": "Configurações",
@@ -60,7 +72,11 @@
         "egypt": "Autoridade Egípcia",
         "karachi": "Karachi (Paquistão)",
         "france": "França (UOIF)",
-        "russia": "Rússia"
+        "russia": "Rússia",
+        "kemenag": "Indonésia (Kemenag)",
+        "jakim": "Malásia (JAKIM)",
+        "muis": "Singapura (MUIS)",
+        "tehran": "Irã (Universidade de Teerã)"
       },
       "palettes": {
         "default": "Padrão",
@@ -93,7 +109,7 @@
       "persistentNotif": "Contagem regressiva de oração persistente",
       "persistentNotifDesc": "Acompanhe o tempo restante para a próxima oração ao vivo na tela de bloqueio e no painel de notificação.",
       "widgetTitle": "Widget da tela inicial",
-      "addWidget": "📌 Adicione widget à tela inicial!",
+      "addWidget": "Adicione widget à tela inicial!",
       "addWidgetDesc": "Veja os horários de oração e a contagem regressiva ao vivo diretamente na tela inicial do seu telefone.",
       "general": "Configurações Gerais",
       "fullscreen": "Modo tela cheia",
@@ -130,7 +146,42 @@
       "username": "Nome de usuário",
       "password": "Senha",
       "loggingIn": "Entrando...",
-      "login": "Entrar"
+      "login": "Entrar",
+      "remindersTitle": "Lembretes e anúncios",
+      "dailyContentNotif": "Versículo / hadith do dia",
+      "dailyContentNotifDesc": "Um breve lembrete diário após a oração do meio-dia.",
+      "quranReminderNotif": "Lembrete de leitura do Alcorão",
+      "quranReminderNotifDesc": "Um lembrete à noite a cada dois dias.",
+      "greetingNotif": "Saudações de sexta-feira e dias sagrados",
+      "greetingNotifDesc": "Lembretes às sextas-feiras e em dias religiosos.",
+      "announcementsNotif": "Anúncios",
+      "announcementsNotifDesc": "Novidades e mensagens de campanha da Vera.",
+      "locationTitle": "Localização",
+      "changeCity": "Alterar cidade",
+      "locationNotSet": "Ainda não selecionado",
+      "locationFromGps": "Seguindo a localização do telefone",
+      "locationFromManual": "Cidade escolhida manualmente",
+      "locationHint": "Escolha uma cidade ou use a localização do telefone.",
+      "useMyLocation": "Usar minha localização atual",
+      "fullscreenDesc": "Oculta a barra de status (relógio, bateria) e a barra de navegação.",
+      "recommended": "Recomendado",
+      "asrSchoolTitle": "Cálculo do Asr",
+      "asrStandard": "Padrão (xafiita, malikita, hanbalita)",
+      "asrHanafi": "Hanafita",
+      "asrSchoolDesc": "A escola hanafita adia o Asr (sombra o dobro do objeto). É o costume no Sul da Ásia.",
+      "rateApp": "Avaliar o Vera",
+      "privacyPolicy": "Política de privacidade",
+      "restartForDirection": "Feche e reabra o app para aplicar a nova direção do texto.",
+      "warnLeadTitle": "Antecedência do aviso prévio",
+      "perPrayerSoundTitle": "Som do adhan por oração",
+      "perPrayerSoundHint": "Toque para mudar. O padrão é o som escolhido acima.",
+      "fridayTitle": "Lembrete da oração de sexta",
+      "fridayDesc": "Avisa antes do Dhuhr às sextas.",
+      "minutesShort": "{{n}} min",
+      "hijriTitle": "Ajuste da data Hijri",
+      "hijriNone": "Sem ajuste",
+      "hijriDays": "{{n}} dia(s)",
+      "hijriDesc": "Se a sua região anuncia a data Hijri com um dia de diferença, ajuste aqui. Move juntos o início, os dias religiosos e o calendário do Ramadã."
     },
     "qibla": {
       "title": "Qibla",
@@ -148,12 +199,12 @@
       "status": "Status",
       "aligned": "Alinhado",
       "aligning": "Gire",
-      "alignedSuccess": "🕌 Você está voltado para a Qibla!",
+      "alignedSuccess": "Você está voltado para a Qibla!",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "Como usar?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "Cabeçalho",
       "calibrateBtn": "Calibrar Bússola",
@@ -162,8 +213,15 @@
       "magneticShield": "Escudo de Campo Magnético",
       "magneticShieldDesc": "Precisão do sensor otimizada. Mantenha-se afastado de caixas magnéticas.",
       "levelStatus": "Nível horizontal (bolha)",
-      "levelFlat": "Plano e Paralelo ✓",
-      "gotIt": "Entendi"
+      "levelFlat": "Plano e Paralelo",
+      "gotIt": "Entendi",
+      "noLocationTitle": "Localização necessária",
+      "noLocationDesc": "A direção da Qibla depende de onde você está. Escolha sua cidade ou permita o acesso à localização.",
+      "useMyLocation": "Usar minha localização",
+      "chooseCity": "Escolher cidade",
+      "lowAccuracy": "A precisão da bússola está baixa. Toque para calibrar.",
+      "magneticNorthNote": "Usando o norte magnético: a direção pode variar alguns graus.",
+      "errorNoSensor": "O sensor da bússola não responde. Este dispositivo pode não ter bússola."
     },
     "daily": {
       "title": "Inspiração Diária",
@@ -175,7 +233,8 @@
       "hadithBody": "Clique para ler o hadith do dia!",
       "quoteBody": "Clique para ler a citação do dia!",
       "subtitle": "Versículo, hadith e citação selecionados para hoje",
-      "shareHint": "Toque em um cartão para compartilhar como imagem de story"
+      "shareHint": "Toque em um cartão para compartilhar como imagem de story",
+      "autoTranslated": "Tradução automática"
     },
     "search": {
       "title": "Selecionar Localização",
@@ -184,7 +243,10 @@
       "recent": "Pesquisas Recentes",
       "useGPS": "Usar Localização Atual",
       "gpsDenied": "Permissão de localização negada.",
-      "gpsError": "Falha ao obter localização."
+      "gpsError": "Falha ao obter localização.",
+      "searchFailed": "A pesquisa falhou, verifique sua conexão.",
+      "pin": "Salvar cidade",
+      "unpin": "Desafixar"
     },
     "notifications": {
       "exactAlert": "Alerta de Horário de Oração",
@@ -237,9 +299,12 @@
         "dailyName": "Inspiração Diária",
         "dailyDesc": "Versos diários, hadith ou citações chegam entre Dhuhr e Asr.",
         "persistentName": "Tela de bloqueio e barra de status",
-        "persistentDesc": "Exibe o nome da próxima oração e contagem regressiva ao vivo no painel de notificação e na tela de bloqueio."
+        "persistentDesc": "Exibe o nome da próxima oração e contagem regressiva ao vivo no painel de notificação e na tela de bloqueio.",
+        "announcements": "Anúncios"
       },
-      "persistentTitle": "🕌 Até {{prayer}}"
+      "persistentTitle": "🕌 Até {{prayer}}",
+      "fridayPrepTitle": "Prepare-se para a oração de sexta",
+      "fridayPrepBody": "A oração de sexta é em {{minutes}} minutos."
     },
     "tasbih": {
       "title": "Tasbih",
@@ -408,7 +473,15 @@
       "noBookmarks": "Ainda não há versículos favoritos. Mantenha pressionado um versículo para adicioná-lo.",
       "playFromHere": "Ouvir a Partir Daqui",
       "juz": "Juz",
-      "downloadingShort": "Baixando..."
+      "downloadingShort": "Baixando...",
+      "audioErrorTitle": "Não foi possível reproduzir o áudio",
+      "audioErrorMessage": "Não foi possível carregar a recitação. Verifique sua conexão com a internet e tente novamente.",
+      "audioPause": "Pausar recitação",
+      "audioResume": "Retomar recitação",
+      "audioStop": "Parar recitação",
+      "audioPlay": "Reproduzir recitação",
+      "fontSmaller": "Diminuir texto",
+      "fontLarger": "Aumentar texto"
     },
     "review": {
       "title": "Apoie-nos",
@@ -416,9 +489,9 @@
       "notNow": "Agora Não",
       "review": "Avaliar",
       "subtitle": "Avalie sua experiência com estrelas",
-      "fiveStarTitle": "Estamos emocionados em ouvir isso! 🌟",
+      "fiveStarTitle": "Estamos emocionados em ouvir isso!",
       "fiveStarSubtitle": "Você gostaria de apoiar Vera com uma avaliação de 5 estrelas?",
-      "rateOnStore": "🌟 Dê 5 estrelas e suporte",
+      "rateOnStore": "Dê 5 estrelas e suporte",
       "ratingLabels": {
         "1": "Precisa de melhorias",
         "2": "Justo",
@@ -426,11 +499,11 @@
         "4": "Muito bom",
         "5": "Excelente!"
       },
-      "feedbackTitle": "Ajude-nos a melhorar 💬",
+      "feedbackTitle": "Ajude-nos a melhorar",
       "feedbackSubtitle": "Compartilhe suas idéias e sugestões para que possamos tornar Vera ainda melhor.",
       "feedbackPlaceholder": "Escreva suas sugestões, ideias ou quaisquer problemas que você enfrentou...",
       "sendFeedback": "Enviar comentários",
-      "thankYouTitle": "Feedback recebido! 🤲",
+      "thankYouTitle": "Feedback recebido!",
       "thankYouSubtitle": "Seu feedback é muito valioso para nós. Trabalharemos muito para tornar Vera ainda melhor.",
       "close": "Fechar"
     },
@@ -453,6 +526,8 @@
       "title": "Rastreador de Oração Diária",
       "completed": "Concluído",
       "dayStreak": "Sequência do dia",
+      "restartHint": "Você pode recomeçar hoje",
+      "weekActiveDays": "{{count}} dias nos últimos 7",
       "viewHistory": "Ver histórico completo",
       "historyTitle": "História de Oração",
       "historySubtitle": "Seus registros de oração dos últimos 30 dias",
@@ -478,12 +553,13 @@
     },
     "calendar": {
       "title": "Calendário Unificado",
-      "todayNotice": "Hoje: {{gregoriano}} • Hijri: {{hijri}}"
+      "todayNotice": "Hoje: {{gregorian}} • Hijri: {{hijri}}"
     },
     "imsakiye": {
       "title": "Imsakiye semanal",
       "subtitle": "Horários dos próximos 7 dias",
-      "date": "Data"
+      "date": "Data",
+      "rangeDays": "{{n}} dias"
     },
     "religious": {
       "title": "Dias Religiosos",
@@ -500,12 +576,12 @@
       "dismissBtn": "Agora não"
     },
     "names": {
-      "title": "Nomes de Allah e Duas",
+      "title": "Nomes de Allah e Dua",
       "namesSubtitle": "Os 99 belos nomes de Allah",
       "duasSubtitle": "Súplicas diárias",
       "meaningLabel": "Significado",
       "tabNames": "99 nomes",
-      "tabDuas": "Duas",
+      "tabDuas": "Dua",
       "namesCount": "{{count}} Nomes",
       "duasCount": "{{count}} Duas",
       "tapHint": "Toque para detalhes",
@@ -541,20 +617,20 @@
       "verifiedMethodDesc": "O método islâmico mais preciso para sua região é selecionado automaticamente.",
       "notificationsTitle": "Adhan e alertas de oração",
       "notificationsDesc": "Receba lembretes suaves ou sonoros nos momentos de oração.",
-      "startBtn": "Comece a usar Vera 🌟",
+      "startBtn": "Comece a usar Vera",
       "featureQuran": "Alcorão e Áudio",
       "featureQibla": "Qibla",
       "featureDhikr": "Contador Dhikr",
-      "backBtn": "← Voltar",
-      "playTestSound": "Antevisão do som Adhan 🔊",
-      "stopTestSound": "Pare o som ⏹️",
-      "nextStepBtn": "Continuar →",
+      "backBtn": "Voltar",
+      "playTestSound": "Antevisão do som Adhan",
+      "stopTestSound": "Pare o som",
+      "nextStepBtn": "Continuar",
       "step3Title": "Experiência Ininterrupta",
       "step3Subtitle": "Acompanhe os momentos de oração ao vivo na tela inicial e garanta notificações adhan confiáveis.",
-      "widgetTitle": "📌 Adicionar widget à tela inicial",
+      "widgetTitle": "Adicionar widget à tela inicial",
       "widgetDesc": "Veja contagens regressivas ao vivo sem abrir o aplicativo.",
       "widgetAdded": "Widget adicionado com sucesso!",
-      "batteryTitle": "🔋 Isenção de economia de bateria",
+      "batteryTitle": "Isenção de economia de bateria",
       "batteryDesc": "Recomendado desligar as otimizações de bateria em Xiaomi e Samsung para adhans oportunos.",
       "locationReassurance": "Você pode alterar isso quando quiser depois, em Configurações.",
       "notifDenied": "A permissão de notificação não foi concedida. Os alertas do adhan podem não funcionar — você pode ativá-los depois em Configurações.",
@@ -565,7 +641,10 @@
       "skipConfirm": "Pular",
       "locationDenied": "A permissão de localização não foi concedida. Você pode escolher sua cidade na lista ou alterar isso depois em Configurações.",
       "locationFailed": "Não foi possível obter sua localização. Você pode escolher sua cidade na lista ou alterar isso depois em Configurações.",
-      "locationNotSet": "Localização Indisponível (Permissão Negada)"
+      "locationNotSet": "Localização Indisponível (Permissão Negada)",
+      "locationNotSetYet": "Ainda não selecionado",
+      "skipLocation": "Ignorar por agora",
+      "currentLocationLabel": "Localização atual"
     },
     "weather": {
       "title": "Previsão do tempo",
@@ -629,9 +708,9 @@
       "titlePlaceholder": "Título (por exemplo, Jummah Mubarak)",
       "messagePlaceholder": "Escreva sua oração ou mensagem de saudação...",
       "chooseTheme": "Tema do cartão",
-      "shareBtn": "Compartilhe no WhatsApp / História 🌟",
-      "shareImageBtn": "Compartilhar cartão de imagem 🌟",
-      "shareLinkBtn": "Compartilhe o link direto da loja 🔗",
+      "shareBtn": "Compartilhe no WhatsApp / História",
+      "shareImageBtn": "Compartilhar cartão de imagem",
+      "shareLinkBtn": "Compartilhe o link direto da loja",
       "theme": {
         "gold": "Linha Dourada",
         "emerald": "Cúpula Esmeralda",
@@ -649,7 +728,13 @@
       "emptyTitle": "Nenhuma mesquita encontrada nas proximidades",
       "emptyDesc": "Você pode ver todas as mesquitas diretamente na navegação de mapas.",
       "openInMaps": "Pesquisar no Maps",
-      "directionsBtn": "Instruções"
+      "directionsBtn": "Instruções",
+      "searchQuery": "mesquita",
+      "noLocationTitle": "Localização não encontrada",
+      "noLocationDesc": "Selecione uma cidade ou permita o acesso à localização para ver mesquitas próximas.",
+      "errorTitle": "Não foi possível carregar as mesquitas",
+      "errorDesc": "Houve um problema de conexão. Verifique sua internet e tente novamente.",
+      "chooseCity": "Escolher cidade"
     },
     "dailyContent": {
       "preparing": "Carregando inspiração diária...",
@@ -666,7 +751,7 @@
       "hatimLabel": "Khatm",
       "page": "Página",
       "pagesRemaining": "{{count}} páginas restantes para concluir o Khatm.",
-      "completed": "Parabéns! Você completou o Khatm. 🎉",
+      "completed": "Parabéns! Você completou o Khatm.",
       "readPageBtn": "Ler página {{page}}",
       "jumpPageTitle": "Ir para a página/progresso da atualização",
       "jumpPageDesc": "Insira o número da página atual (1 - 604):",
@@ -676,7 +761,8 @@
       "startNew": "Comece um novo Khatm",
       "resetHatimBtn": "Redefinir e iniciar um novo Khatm",
       "share": "Compartilhar Meu Khatm",
-      "shareText": "Concluí meu {{count}}º Khatm, alhamdulillah!"
+      "shareText": "Concluí meu {{count}}º Khatm, alhamdulillah!",
+      "dailyTarget": "Cerca de {{n}} páginas por dia para concluir ({{d}} dias restantes)"
     },
     "prayerTree": {
       "title": "Árvore de Oração Semanal",
@@ -1118,7 +1204,7 @@
           "label": "Dhikr"
         },
         "library": {
-          "label": "Duas"
+          "label": "Súplicas"
         },
         "qibla": {
           "label": "Qibla"
@@ -1175,10 +1261,10 @@
     },
     "widget": {
       "guideTitle": "Adicionar à Tela Inicial",
-      "guideDesc": "Mantenha pressionada a tela inicial ➔ toque em \"Widgets\" ➔ encontre o widget \"VERA\" e arraste-o para a tela.",
+      "guideDesc": "Mantenha pressionada a tela inicial > toque em \"Widgets\" > encontre o widget \"VERA\" e arraste-o para a tela.",
       "promptTitle": "Adicionar um Widget à Tela Inicial",
       "promptDesc": "Veja o próximo horário de oração e os minutos restantes ao vivo na tela inicial, sem abrir o app.",
-      "addNow": "📌 Adicionar à Tela Inicial",
+      "addNow": "Adicionar à Tela Inicial",
       "notNow": "Mais Tarde"
     },
     "greetingNotif": {
@@ -1191,7 +1277,150 @@
     "errorBoundary": {
       "title": "Algo deu errado",
       "subtitle": "O app encontrou um erro inesperado. Toque no botão abaixo para tentar novamente.",
-      "retry": "Tentar novamente"
+      "retry": "Tentar novamente",
+      "clearAndRetry": "Limpar dados em cache e tentar novamente"
+    },
+    "notifHealth": {
+      "title": "Saúde das notificações",
+      "permission": "Permissão de notificações",
+      "permissionHint": "Sem ela, os avisos de oração não chegam",
+      "exactAlarm": "Alarmes exatos",
+      "exactAlarmHint": "Sem ela, o aviso pode atrasar minutos",
+      "battery": "Restrição de bateria",
+      "batteryHint": "O telefone pode suspender o app",
+      "oem": "Gestor de energia do fabricante",
+      "oemHint": "Permita início automático / atividade em segundo plano",
+      "allGood": "Tudo certo, os avisos devem chegar na hora.",
+      "needsAttention": "As configurações abaixo podem afetar os avisos.",
+      "fix": "Corrigir",
+      "nextAlarm": "Próximo alarme agendado",
+      "noAlarm": "Nenhum alarme agendado. Verifique a cidade e as notificações.",
+      "test": "Enviar aviso de teste em 10 s"
+    },
+    "community": {
+      "tabMine": "Minhas publicações",
+      "you": "Você",
+      "emptyMine": "Você ainda não tem publicações. Você pode compartilhar quando concluir um ato de adoração.",
+      "adLabel": "Anúncio",
+      "title": "Comunidade",
+      "tabToday": "Hoje",
+      "tabWeek": "Últimos 7 dias",
+      "anonymous": "Irmão/irmã anônimo(a)",
+      "someone": "Alguém",
+      "templates": {
+        "hatimCompleted": "Concluiu um khatm",
+        "achievement": "Desbloqueou {{title}}",
+        "dhikrMilestone": "Alguém de {{country}} recitou {{count}} dhikr",
+        "prayerFullday": "Todas as cinco orações feitas hoje"
+      },
+      "emptyToday": "Ainda não há publicações hoje. Compartilhe a primeira quando concluir algo.",
+      "emptyWeek": "Nenhuma publicação nos últimos 7 dias.",
+      "loadFailed": "Não foi possível carregar o feed. Puxe para baixo para tentar de novo.",
+      "share": {
+        "title": "Quer compartilhar isto com a comunidade Vera?",
+        "note": "Somente este texto é compartilhado. Seu nome e seus dados pessoais permanecem ocultos.",
+        "submit": "Compartilhar",
+        "later": "Agora não",
+        "failed": "Não foi possível compartilhar. Tente mais tarde.",
+        "heading": "Compartilhar com a comunidade",
+        "sent": "Compartilhado",
+        "external": "Compartilhar em outro app",
+        "open": "Compartilhar com a comunidade",
+        "celebrateHint": "Compartilhe anonimamente com a comunidade Vera.",
+        "intro": "Irmãos e irmãs do mundo todo podem ver isto. Seu nome permanece oculto."
+      },
+      "settings": {
+        "title": "Configurações da comunidade",
+        "participate": "Participar da comunidade",
+        "participateHint": "Desativado, nenhuma oferta de compartilhamento aparece. Você ainda pode ler o feed.",
+        "showCountry": "Mostrar meu país",
+        "showCountryHint": "Ativado, o nome do seu país aparece ao lado das suas publicações. Desativar vale apenas para novas publicações.",
+        "country": "País",
+        "countryManual": "País escolhido: {{code}}",
+        "countryDevice": "Usando a região do dispositivo.",
+        "useDevice": "Dispositivo",
+        "countryInvalid": "Digite um código de país de duas letras, ex.: TR",
+        "myPosts": "Minhas publicações",
+        "noPosts": "Você ainda não tem publicações.",
+        "delete": "Excluir",
+        "deleteTitle": "Excluir esta publicação?",
+        "deleteBody": "Ela será removida do feed para todos.",
+        "blocked": "Pessoas bloqueadas: {{count}}",
+        "clearBlocked": "Limpar lista de bloqueados",
+        "joined": "Você está na comunidade",
+        "left": "Comunidade desativada",
+        "sectionPrivacy": "Privacidade",
+        "sectionBlocked": "Bloqueados",
+        "countryDeviceTitle": "Região do dispositivo",
+        "blockedCount": "{{count}} pessoas",
+        "change": "Alterar"
+      },
+      "report": {
+        "action": "Denunciar",
+        "thanksTitle": "Obrigado",
+        "thanksBody": "Sua denúncia será analisada.",
+        "failed": "Não foi possível enviar a denúncia."
+      },
+      "block": {
+        "action": "Bloquear esta pessoa"
+      },
+      "more": {
+        "title": "Opções desta publicação"
+      },
+      "discovery": {
+        "title": "Compartilhe suas conquistas com a comunidade Vera",
+        "body": "Compartilhe hatims, dhikr e dias de oração anonimamente com irmãos e irmãs do mundo todo.",
+        "cta": "Abrir comunidade"
+      },
+      "summary": {
+        "posts": "publicações",
+        "hatim": "Hatim",
+        "achievement": "Conquista",
+        "dhikr": "Dhikr",
+        "prayer": "Oração"
+      },
+      "howTo": {
+        "helpLabel": "Como compartilhar",
+        "title": "Como funciona o compartilhamento",
+        "intro": "Compartilhe uma adoração concluída com a comunidade Vera. Seu nome permanece oculto.",
+        "step1Title": "Conclua uma adoração",
+        "step1Body": "Complete suas cinco orações, um hatim ou uma meta de dhikr no app.",
+        "step2Title": "Toque em Compartilhar",
+        "step2Body": "Quando a comemoração aparecer, toque em Compartilhar. Você também pode usar o botão de compartilhar nas telas de oração e dhikr.",
+        "step3Title": "Sua publicação aparece aqui",
+        "step3Body": "Todos podem vê-la, com seu país apenas se você permitir. Exclua a qualquer momento em Minhas publicações.",
+        "gotIt": "Entendi"
+      },
+      "reminder": {
+        "title": "Partilhe a adoração de hoje",
+        "body": "Quer partilhar a adoração de hoje com a comunidade?",
+        "bodyAll": "Hoje cumpriu as cinco orações. Quer partilhar com a comunidade?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "Meta de hoje: um hatim. Leia algumas páginas por dia e vamos concluir o Alcorão juntos.",
+        "m1": "Meta de hoje: depois do Isha, 33 Subhanallah, 33 Alhamdulillah e 33 Allahu Akbar.",
+        "m2": "Hoje, vamos tentar fazer as cinco orações a horas, juntos.",
+        "m3": "Meta de hoje: ler uma página do Alcorão. Pequenos passos também contam.",
+        "m4": "Meta de hoje: 100 Subhanallah. Partilhe com a comunidade quando terminar.",
+        "m5": "Esta semana, escreva uma lista de dua e lembre-se nela de um irmão ou irmã.",
+        "m6": "Hoje, considere dar caridade ou fazer uma boa ação por alguém."
+      }
+    },
+    "coach": {
+      "dismiss": "Entendi",
+      "ummah": {
+        "title": "Ummah",
+        "body": "Compartilhe um ato de adoração concluído com a comunidade ou veja o que outros compartilharam hoje."
+      },
+      "qibla": {
+        "title": "Bússola da Qibla",
+        "body": "Segure o celular na horizontal e gire até a seta apontar para a Kaaba."
+      },
+      "silentMode": {
+        "title": "Modo silencioso",
+        "body": "Com o celular no silencioso ou vibrando, o adhan soa baixinho. Você pode mudar isso em Configurações."
+      }
     }
   }
 }

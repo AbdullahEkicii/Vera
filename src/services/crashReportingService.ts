@@ -16,6 +16,13 @@ export function reportError(error: Error, context?: string): void {
   }
 }
 
+/** Adds a breadcrumb that is attached to any crash or non-fatal report that follows. */
+export function logBreadcrumb(message: string): void {
+  try {
+    crashlyticsLog(getCrashlytics(), message);
+  } catch {}
+}
+
 /** Tags subsequent crash/error reports with a screen or feature name for easier triage. */
 export function setCrashContext(key: string, value: string): void {
   try {

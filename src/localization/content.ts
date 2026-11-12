@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import i18n from './i18n';
 import { HIJRI_MONTHS_EN, HIJRI_MONTHS_TR, RELIGIOUS_DAY_DEFS, ReligiousDay } from '../data/religiousDays';
 
@@ -14,12 +16,27 @@ export const ct = (key: string, tr?: string, en?: string): string => {
   return i18n.t(key, { defaultValue: fallback });
 };
 
+/**
+ * `ct` for components. `ct` reads the active language from global state, so React Compiler
+ * (enabled in this app) treats a call like `ct(key, tr, en)` as a pure function of its arguments
+ * and keeps showing the old language after a switch. This hook returns a function whose identity
+ * changes with the language, which invalidates that memoization. Use it instead of importing `ct`.
+ */
+export const useCt = () => {
+  const { i18n: instance } = useTranslation();
+  const language = instance.language;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useCallback((key: string, tr?: string, en?: string) => ct(key, tr, en), [language]);
+};
+
 /** Hijri month name (1-12) in the current language. */
-export const hijriMonthName = (month: number): string =>
+// `_language` is not read: passing the active language makes the result depend on it for React
+// Compiler's memoization (see useCt), so a language switch re-renders the name.
+export const hijriMonthName = (month: number, _language?: string): string =>
   ct(`content.hijriMonths.${month}`, HIJRI_MONTHS_TR[month - 1], HIJRI_MONTHS_EN[month - 1]);
 
 /** Name or description of a computed religious day (ids look like `mevlid-1448`). */
-export const religiousDayText = (day: ReligiousDay, field: 'name' | 'description'): string => {
+export const religiousDayText = (day: ReligiousDay, field: 'name' | 'description', _language?: string): string => {
   const defId = day.id.replace(/-\d+$/, '');
   const def = RELIGIOUS_DAY_DEFS.find((d) => d.id === defId);
   const text = field === 'name'

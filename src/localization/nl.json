@@ -10,7 +10,13 @@
       "cancel": "Annuleren",
       "save": "Opslaan",
       "ok": "OK",
-      "close": "Sluiten"
+      "close": "Sluiten",
+      "back": "Terug",
+      "clear": "Wissen",
+      "remove": "Verwijderen",
+      "expand": "Uitvouwen",
+      "collapse": "Samenvouwen",
+      "share": "Delen"
     },
     "home": {
       "title": "Gebedstijden",
@@ -42,7 +48,13 @@
       "loadingTimes": "Gebedstijden laden...",
       "locationPermissionTitle": "Locatietoestemming niet beschikbaar",
       "locationPermissionDesc": "De standaardstad wordt getoond. Je kunt een stad kiezen of locatietoestemming geven.",
-      "estimatedTimesNotice": "Geen internetverbinding, dus de gebedstijden zijn op je toestel berekend (geschat)."
+      "estimatedTimesNotice": "Geen internetverbinding, dus de gebedstijden zijn op je toestel berekend (geschat).",
+      "adjustTimeHint": "Houd lang ingedrukt om deze tijd aan te passen",
+      "moreTools": "Meer",
+      "locationFetchFailedTitle": "Locatie niet gevonden",
+      "locationFetchFailedDesc": "We konden je GPS-locatie niet ophalen. Je kunt een stad kiezen of het later opnieuw proberen.",
+      "sourceA11y": "Berekeningsmethode gebedstijden",
+      "highLatNote": "Hoge breedtegraad: Fajr/Isha zijn benaderd"
     },
     "settings": {
       "title": "Instellingen",
@@ -60,7 +72,11 @@
         "egypt": "Egyptische Autoriteit",
         "karachi": "Karachi (Pakistan)",
         "france": "Frankrijk (UOIF)",
-        "russia": "Rusland (Geestelijk Bestuur)"
+        "russia": "Rusland (Geestelijk Bestuur)",
+        "kemenag": "Indonesië (Kemenag)",
+        "jakim": "Maleisië (JAKIM)",
+        "muis": "Singapore (MUIS)",
+        "tehran": "Iran (Universiteit van Teheran)"
       },
       "palettes": {
         "default": "Standaard",
@@ -93,7 +109,7 @@
       "persistentNotif": "Aanhoudend aftellen van gebeden",
       "persistentNotifDesc": "Volg de resterende tijd voor het volgende gebed live op uw vergrendelscherm en meldingenpaneel.",
       "widgetTitle": "Startschermwidget",
-      "addWidget": "📌 Widget toevoegen aan startscherm!",
+      "addWidget": "Widget toevoegen aan startscherm!",
       "addWidgetDesc": "Bekijk gebedstijden en live aftellen rechtstreeks op het startscherm van uw telefoon.",
       "general": "Algemene instellingen",
       "fullscreen": "Volledig schermmodus",
@@ -130,7 +146,32 @@
       "username": "Gebruikersnaam",
       "password": "Wachtwoord",
       "loggingIn": "Bezig met inloggen...",
-      "login": "Inloggen"
+      "login": "Inloggen",
+      "remindersTitle": "Herinneringen en mededelingen",
+      "dailyContentNotif": "Vers / hadith van de dag",
+      "dailyContentNotifDesc": "Een korte dagelijkse herinnering na het middaggebed.",
+      "quranReminderNotif": "Herinnering om de Koran te lezen",
+      "quranReminderNotifDesc": "Een avondherinnering om de dag.",
+      "greetingNotif": "Groeten voor vrijdag en heilige dagen",
+      "greetingNotifDesc": "Herinneringen op vrijdag en religieuze dagen.",
+      "announcementsNotif": "Mededelingen",
+      "announcementsNotifDesc": "Nieuws en campagneberichten van Vera.",
+      "locationTitle": "Locatie",
+      "changeCity": "Stad wijzigen",
+      "locationNotSet": "Nog niet geselecteerd",
+      "locationFromGps": "Volgt de locatie van je telefoon",
+      "locationFromManual": "Stad handmatig gekozen",
+      "locationHint": "Kies een stad of gebruik de locatie van je telefoon.",
+      "useMyLocation": "Mijn huidige locatie gebruiken",
+      "fullscreenDesc": "Verbergt de statusbalk (klok, batterij) en de navigatiebalk.",
+      "recommended": "Aanbevolen",
+      "asrSchoolTitle": "Asr-berekening",
+      "asrStandard": "Standaard (shafi'i, maliki, hanbali)",
+      "asrHanafi": "Hanafi",
+      "asrSchoolDesc": "De hanafi-school plaatst Asr later (schaduw twee keer het voorwerp). Dat is gebruikelijk in Zuid-Azië.",
+      "rateApp": "Beoordeel Vera",
+      "privacyPolicy": "Privacybeleid",
+      "restartForDirection": "Sluit de app en open hem opnieuw om de nieuwe tekstrichting toe te passen."
     },
     "qibla": {
       "title": "Qibla",
@@ -148,12 +189,12 @@
       "status": "Status",
       "aligned": "Uitgelijnd",
       "aligning": "Draaien",
-      "alignedSuccess": "🕌 Je kijkt richting de Qibla!",
+      "alignedSuccess": "Je kijkt richting de Qibla!",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "Hoe te gebruiken?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "Rubriek",
       "calibrateBtn": "Kalibreer kompas",
@@ -162,8 +203,15 @@
       "magneticShield": "Magnetisch veldschild",
       "magneticShieldDesc": "Sensornauwkeurigheid geoptimaliseerd. Blijf uit de buurt van magnetische hoesjes.",
       "levelStatus": "Horizontaal niveau (bel)",
-      "levelFlat": "Plat & Parallel ✓",
-      "gotIt": "Ik heb het"
+      "levelFlat": "Plat & Parallel",
+      "gotIt": "Ik heb het",
+      "noLocationTitle": "Locatie nodig",
+      "noLocationDesc": "De richting van de Qibla hangt af van waar je bent. Kies je stad of sta toegang tot je locatie toe.",
+      "useMyLocation": "Mijn locatie gebruiken",
+      "chooseCity": "Stad kiezen",
+      "lowAccuracy": "De nauwkeurigheid van het kompas is laag. Tik om te kalibreren.",
+      "magneticNorthNote": "Magnetisch noorden wordt gebruikt: de richting kan een paar graden afwijken.",
+      "errorNoSensor": "De kompassensor reageert niet. Dit apparaat heeft misschien geen kompas."
     },
     "daily": {
       "title": "Dagelijkse Inspiratie",
@@ -175,7 +223,8 @@
       "hadithBody": "Klik om de hadith van de dag te lezen!",
       "quoteBody": "Klik om het citaat van de dag te lezen!",
       "subtitle": "Uitgekozen vers, hadith en uitspraak voor vandaag",
-      "shareHint": "Tik op een kaart om als storyafbeelding te delen"
+      "shareHint": "Tik op een kaart om als storyafbeelding te delen",
+      "autoTranslated": "Automatische vertaling"
     },
     "search": {
       "title": "Locatie Selecteren",
@@ -184,7 +233,10 @@
       "recent": "Recente Zoekopdrachten",
       "useGPS": "Huidige Locatie Gebruiken",
       "gpsDenied": "Locatietoestemming geweigerd.",
-      "gpsError": "Locatie ophalen mislukt."
+      "gpsError": "Locatie ophalen mislukt.",
+      "searchFailed": "Zoeken mislukt, controleer je verbinding.",
+      "pin": "Stad opslaan",
+      "unpin": "Losmaken"
     },
     "notifications": {
       "exactAlert": "Gebedstijd Melding",
@@ -237,7 +289,8 @@
         "dailyName": "Dagelijkse inspiratie",
         "dailyDesc": "Dagelijks vers, hadith of citaat arriveert tussen Dhuhr en Asr.",
         "persistentName": "Vergrendelscherm en statusbalk",
-        "persistentDesc": "Toont de volgende gebedsnaam en live aftelling in het meldingenpaneel en vergrendelscherm."
+        "persistentDesc": "Toont de volgende gebedsnaam en live aftelling in het meldingenpaneel en vergrendelscherm.",
+        "announcements": "Aankondigingen"
       },
       "persistentTitle": "🕌 Tot {{prayer}}"
     },
@@ -408,7 +461,15 @@
       "noBookmarks": "Nog geen opgeslagen verzen. Houd een vers ingedrukt om er een toe te voegen.",
       "playFromHere": "Vanaf hier beluisteren",
       "juz": "Juz",
-      "downloadingShort": "Bezig met downloaden..."
+      "downloadingShort": "Bezig met downloaden...",
+      "audioErrorTitle": "Audio kon niet worden afgespeeld",
+      "audioErrorMessage": "De recitatie kon niet worden geladen. Controleer je internetverbinding en probeer het opnieuw.",
+      "audioPause": "Recitatie pauzeren",
+      "audioResume": "Recitatie hervatten",
+      "audioStop": "Recitatie stoppen",
+      "audioPlay": "Recitatie afspelen",
+      "fontSmaller": "Tekst verkleinen",
+      "fontLarger": "Tekst vergroten"
     },
     "review": {
       "title": "Steun Ons",
@@ -416,9 +477,9 @@
       "notNow": "Niet Nu",
       "review": "Beoordelen",
       "subtitle": "Beoordeel uw ervaring met sterren",
-      "fiveStarTitle": "Wij zijn blij om dat te horen! 🌟",
+      "fiveStarTitle": "Wij zijn blij om dat te horen!",
       "fiveStarSubtitle": "Wilt u Vera steunen met een 5-sterrenbeoordeling?",
-      "rateOnStore": "🌟 Geef 5 sterren en steun",
+      "rateOnStore": "Geef 5 sterren en steun",
       "ratingLabels": {
         "1": "Verbetering nodig",
         "2": "Eerlijk",
@@ -426,11 +487,11 @@
         "4": "Erg goed",
         "5": "Uitstekend!"
       },
-      "feedbackTitle": "Help ons verbeteren 💬",
+      "feedbackTitle": "Help ons verbeteren",
       "feedbackSubtitle": "Deel uw mening en suggesties, zodat we Vera nog beter kunnen maken.",
       "feedbackPlaceholder": "Schrijf uw suggesties, ideeën of eventuele problemen waarmee u te maken kreeg...",
       "sendFeedback": "Feedback verzenden",
-      "thankYouTitle": "Feedback ontvangen! 🤲",
+      "thankYouTitle": "Feedback ontvangen!",
       "thankYouSubtitle": "Uw feedback is zeer waardevol voor ons. Wij gaan hard werken om Vera nog beter te maken.",
       "close": "Dichtbij"
     },
@@ -453,6 +514,8 @@
       "title": "Dagelijkse gebedstracker",
       "completed": "Voltooid",
       "dayStreak": "Dag Streak",
+      "restartHint": "Je kunt vandaag opnieuw beginnen",
+      "weekActiveDays": "{{count}} dagen in de afgelopen 7",
       "viewHistory": "Bekijk de volledige geschiedenis",
       "historyTitle": "Gebedsgeschiedenis",
       "historySubtitle": "Uw gebedslogboeken van de afgelopen 30 dagen",
@@ -478,12 +541,13 @@
     },
     "calendar": {
       "title": "Uniforme kalender",
-      "todayNotice": "Vandaag: {{gregoriaans}} • Hijri: {{hijri}}"
+      "todayNotice": "Vandaag: {{gregorian}} • Hijri: {{hijri}}"
     },
     "imsakiye": {
       "title": "Wekelijkse Imsakiye",
       "subtitle": "Tijdschema's voor de komende 7 dagen",
-      "date": "Datum"
+      "date": "Datum",
+      "rangeDays": "{{n}} dagen"
     },
     "religious": {
       "title": "Religieuze dagen",
@@ -500,7 +564,7 @@
       "dismissBtn": "Niet nu"
     },
     "names": {
-      "title": "Namen van Allah en Duas",
+      "title": "Namen van Allah en Dua's",
       "namesSubtitle": "De 99 mooie namen van Allah",
       "duasSubtitle": "Dagelijkse smeekbeden",
       "meaningLabel": "Betekenis",
@@ -541,20 +605,20 @@
       "verifiedMethodDesc": "De meest nauwkeurige islamitische methode voor uw regio wordt automatisch geselecteerd.",
       "notificationsTitle": "Adhan- en gebedswaarschuwingen",
       "notificationsDesc": "Ontvang zachte of hoorbare herinneringen tijdens gebedstijden.",
-      "startBtn": "Begin met het gebruiken van Vera 🌟",
+      "startBtn": "Begin met het gebruiken van Vera",
       "featureQuran": "Koran en audio",
       "featureQibla": "Qibla",
       "featureDhikr": "Dhikr-teller",
-      "backBtn": "← Ga terug",
-      "playTestSound": "Bekijk een voorbeeld van Adhan Sound 🔊",
-      "stopTestSound": "Stop geluid ⏹️",
-      "nextStepBtn": "Ga verder →",
+      "backBtn": "Ga terug",
+      "playTestSound": "Bekijk een voorbeeld van Adhan Sound",
+      "stopTestSound": "Stop geluid",
+      "nextStepBtn": "Ga verder",
       "step3Title": "Ononderbroken ervaring",
       "step3Subtitle": "Volg gebedstijden live vanaf uw startscherm en zorg voor betrouwbare adhan-meldingen.",
-      "widgetTitle": "📌 Widget toevoegen aan startscherm",
+      "widgetTitle": "Widget toevoegen aan startscherm",
       "widgetDesc": "Bekijk live aftellingen zonder de app te openen.",
       "widgetAdded": "Widget succesvol toegevoegd!",
-      "batteryTitle": "🔋 Vrijstelling voor batterijbesparing",
+      "batteryTitle": "Vrijstelling voor batterijbesparing",
       "batteryDesc": "Aanbevolen om batterij-optimalisaties op Xiaomi en Samsung uit te schakelen voor tijdige adhans.",
       "locationReassurance": "Je kunt dit later altijd wijzigen in Instellingen.",
       "notifDenied": "Meldingstoestemming is niet gegeven. Adhan-meldingen werken mogelijk niet — je kunt dit later inschakelen in Instellingen.",
@@ -565,7 +629,10 @@
       "skipConfirm": "Overslaan",
       "locationDenied": "Locatietoestemming is niet gegeven. Je kunt je stad uit de lijst kiezen of dit later wijzigen in Instellingen.",
       "locationFailed": "Locatie kon niet worden bepaald. Je kunt je stad uit de lijst kiezen of dit later wijzigen in Instellingen.",
-      "locationNotSet": "Locatie niet beschikbaar (toestemming geweigerd)"
+      "locationNotSet": "Locatie niet beschikbaar (toestemming geweigerd)",
+      "locationNotSetYet": "Nog niet geselecteerd",
+      "skipLocation": "Voorlopig overslaan",
+      "currentLocationLabel": "Huidige locatie"
     },
     "weather": {
       "title": "Weersverwachting",
@@ -629,9 +696,9 @@
       "titlePlaceholder": "Titel (bijvoorbeeld Jummah Mubarak)",
       "messagePlaceholder": "Schrijf uw gebed of begroeting...",
       "chooseTheme": "Kaart Thema",
-      "shareBtn": "Deel via WhatsApp/Verhaal 🌟",
-      "shareImageBtn": "Deel afbeeldingskaart 🌟",
-      "shareLinkBtn": "Deel directe winkellink 🔗",
+      "shareBtn": "Deel via WhatsApp/Verhaal",
+      "shareImageBtn": "Deel afbeeldingskaart",
+      "shareLinkBtn": "Deel directe winkellink",
       "theme": {
         "gold": "Gouden lijn",
         "emerald": "Smaragden koepel",
@@ -649,7 +716,13 @@
       "emptyTitle": "Geen moskeeën gevonden in de buurt",
       "emptyDesc": "U kunt alle moskeeën rechtstreeks op de kaartnavigatie bekijken.",
       "openInMaps": "Zoek op Kaarten",
-      "directionsBtn": "Routebeschrijving"
+      "directionsBtn": "Routebeschrijving",
+      "searchQuery": "moskee",
+      "noLocationTitle": "Locatie niet gevonden",
+      "noLocationDesc": "Selecteer een stad of sta locatietoegang toe om moskeeën in de buurt te zien.",
+      "errorTitle": "Moskeeën konden niet worden geladen",
+      "errorDesc": "Er was een verbindingsprobleem. Controleer je internet en probeer het opnieuw.",
+      "chooseCity": "Stad kiezen"
     },
     "dailyContent": {
       "preparing": "Dagelijkse inspiratie laden...",
@@ -666,7 +739,7 @@
       "hatimLabel": "Khatm",
       "page": "Pagina",
       "pagesRemaining": "Er zijn nog {{count}} pagina's over om Khatm te voltooien.",
-      "completed": "Gefeliciteerd! Je hebt de Khatm voltooid. 🎉",
+      "completed": "Gefeliciteerd! Je hebt de Khatm voltooid.",
       "readPageBtn": "Pagina lezen {{page}}",
       "jumpPageTitle": "Ga naar pagina / Voortgang bijwerken",
       "jumpPageDesc": "Huidig ​​paginanummer invoeren (1 - 604):",
@@ -676,7 +749,8 @@
       "startNew": "Begin nieuwe Khatm",
       "resetHatimBtn": "Reset en start nieuwe Khatm",
       "share": "Deel mijn khatm",
-      "shareText": "Ik heb mijn {{count}}e khatm voltooid, alhamdulillah!"
+      "shareText": "Ik heb mijn {{count}}e khatm voltooid, alhamdulillah!",
+      "dailyTarget": "Ongeveer {{n}} pagina's per dag om af te ronden ({{d}} dagen over)"
     },
     "prayerTree": {
       "title": "Wekelijkse gebedsboom",
@@ -1175,10 +1249,10 @@
     },
     "widget": {
       "guideTitle": "Toevoegen aan startscherm",
-      "guideDesc": "Houd je startscherm ingedrukt ➔ tik op \"Widgets\" ➔ zoek de \"VERA\"-widget en sleep deze naar je scherm.",
+      "guideDesc": "Houd je startscherm ingedrukt > tik op \"Widgets\" > zoek de \"VERA\"-widget en sleep deze naar je scherm.",
       "promptTitle": "Widget toevoegen aan startscherm",
       "promptDesc": "Bekijk de volgende gebedstijd en de resterende minuten live op je startscherm, zonder de app te openen.",
-      "addNow": "📌 Toevoegen aan startscherm",
+      "addNow": "Toevoegen aan startscherm",
       "notNow": "Later"
     },
     "greetingNotif": {
@@ -1191,7 +1265,133 @@
     "errorBoundary": {
       "title": "Er is iets misgegaan",
       "subtitle": "De app heeft een onverwachte fout. Tik op de knop hieronder om het opnieuw te proberen.",
-      "retry": "Opnieuw proberen"
+      "retry": "Opnieuw proberen",
+      "clearAndRetry": "Gecachete gegevens wissen en opnieuw proberen"
+    },
+    "community": {
+      "tabMine": "Mijn berichten",
+      "you": "Jij",
+      "emptyMine": "Je hebt nog geen berichten. Je kunt delen zodra je een aanbidding hebt voltooid.",
+      "adLabel": "Advertentie",
+      "title": "Gemeenschap",
+      "tabToday": "Vandaag",
+      "tabWeek": "Laatste 7 dagen",
+      "anonymous": "Anonieme broeder/zuster",
+      "someone": "Iemand",
+      "templates": {
+        "hatimCompleted": "Een khatm voltooid",
+        "achievement": "{{title}} ontgrendeld",
+        "dhikrMilestone": "Iemand uit {{country}} reciteerde {{count}} dhikr",
+        "prayerFullday": "Vandaag alle vijf gebeden verricht"
+      },
+      "emptyToday": "Vandaag nog geen berichten. Deel je eerste zodra je iets voltooit.",
+      "emptyWeek": "Geen berichten in de laatste 7 dagen.",
+      "loadFailed": "Kon de feed niet laden. Trek omlaag om opnieuw te proberen.",
+      "share": {
+        "title": "Wil je dit delen met de Vera-gemeenschap?",
+        "note": "Alleen deze tekst wordt gedeeld. Je naam en persoonlijke gegevens blijven verborgen.",
+        "submit": "Delen",
+        "later": "Niet nu",
+        "failed": "Delen mislukt. Probeer het later opnieuw.",
+        "heading": "Delen met de gemeenschap",
+        "sent": "Gedeeld",
+        "external": "Delen in een andere app",
+        "open": "Delen met de gemeenschap",
+        "celebrateHint": "Deel anoniem met de Vera-gemeenschap.",
+        "intro": "Broeders en zusters over de hele wereld kunnen dit zien. Je naam blijft verborgen."
+      },
+      "settings": {
+        "title": "Gemeenschapsinstellingen",
+        "participate": "Doe mee met de gemeenschap",
+        "participateHint": "Als dit uit staat, verschijnen er geen deelaanbiedingen. Je kunt de feed nog steeds lezen.",
+        "showCountry": "Mijn land tonen",
+        "showCountryHint": "Als dit aan staat, verschijnt je land naast je berichten. Uitschakelen geldt alleen voor nieuwe berichten.",
+        "country": "Land",
+        "countryManual": "Gekozen land: {{code}}",
+        "countryDevice": "Regio van je apparaat wordt gebruikt.",
+        "useDevice": "Apparaat",
+        "countryInvalid": "Voer een landcode van twee letters in, bijv. TR",
+        "myPosts": "Mijn berichten",
+        "noPosts": "Je hebt nog geen berichten.",
+        "delete": "Verwijderen",
+        "deleteTitle": "Dit bericht verwijderen?",
+        "deleteBody": "Het wordt voor iedereen uit de feed verwijderd.",
+        "blocked": "Geblokkeerde personen: {{count}}",
+        "clearBlocked": "Blokkeerlijst wissen",
+        "joined": "Je doet mee met de gemeenschap",
+        "left": "Gemeenschap is uit",
+        "sectionPrivacy": "Privacy",
+        "sectionBlocked": "Geblokkeerd",
+        "countryDeviceTitle": "Apparaatregio",
+        "blockedCount": "{{count}} personen",
+        "change": "Wijzigen"
+      },
+      "report": {
+        "action": "Melden",
+        "thanksTitle": "Bedankt",
+        "thanksBody": "Je melding wordt beoordeeld.",
+        "failed": "Melding kon niet worden verzonden."
+      },
+      "block": {
+        "action": "Deze persoon blokkeren"
+      },
+      "more": {
+        "title": "Opties voor dit bericht"
+      },
+      "discovery": {
+        "title": "Deel je successen met de Vera-gemeenschap",
+        "body": "Deel hatims, dhikr en gebedsdagen anoniem met broeders en zusters over de hele wereld.",
+        "cta": "Gemeenschap openen"
+      },
+      "summary": {
+        "posts": "berichten",
+        "hatim": "Hatim",
+        "achievement": "Prestatie",
+        "dhikr": "Dhikr",
+        "prayer": "Gebed"
+      },
+      "howTo": {
+        "helpLabel": "Hoe te delen",
+        "title": "Hoe delen werkt",
+        "intro": "Deel een voltooide gebedsdaad met de Vera-gemeenschap. Je naam blijft verborgen.",
+        "step1Title": "Voltooi een gebedsdaad",
+        "step1Body": "Rond je vijf gebeden, een hatim of een dhikr-doel in de app af.",
+        "step2Title": "Tik op Delen",
+        "step2Body": "Als de felicitatie verschijnt, tik je op Delen. Je kunt ook de deelknop op de gebeds- en dhikr-schermen gebruiken.",
+        "step3Title": "Je bericht verschijnt hier",
+        "step3Body": "Iedereen kan het zien, met alleen je land als je dat toestaat. Verwijder het op elk moment via Mijn berichten.",
+        "gotIt": "Begrepen"
+      },
+      "reminder": {
+        "title": "Deel je eredienst van vandaag",
+        "body": "Wil je je eredienst van vandaag delen met de gemeenschap?",
+        "bodyAll": "Je hebt vandaag alle vijf de gebeden verricht. Wil je dit delen met de gemeenschap?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "Doel van vandaag: één hatim. Lees elke dag een paar bladzijden en laten we samen de Koran uitlezen.",
+        "m1": "Doel van vandaag: na de Isha 33 keer Subhanallah, 33 keer Alhamdulillah en 33 keer Allahu Akbar.",
+        "m2": "Laten we vandaag proberen alle vijf de gebeden op tijd te bidden, samen.",
+        "m3": "Doel van vandaag: lees één bladzijde van de Koran. Kleine stappen tellen ook.",
+        "m4": "Doel van vandaag: 100 keer Subhanallah. Deel het met de gemeenschap als je klaar bent.",
+        "m5": "Schrijf deze week een doea-lijst en denk daarin aan een broeder of zuster.",
+        "m6": "Overweeg vandaag een aalmoes te geven of iemand een goede daad te bewijzen."
+      }
+    },
+    "coach": {
+      "dismiss": "Begrepen",
+      "ummah": {
+        "title": "Oemma",
+        "body": "Deel een voltooide aanbidding met de gemeenschap, of bekijk wat anderen vandaag deelden."
+      },
+      "qibla": {
+        "title": "Qibla-kompas",
+        "body": "Houd je telefoon plat en draai tot de pijl naar de Kaaba wijst."
+      },
+      "silentMode": {
+        "title": "Stille modus",
+        "body": "Als je telefoon op stil of trillen staat, klinkt de adhan zacht. Je kunt dit wijzigen in Instellingen."
+      }
     }
   }
 }

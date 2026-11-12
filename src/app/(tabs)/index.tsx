@@ -18,10 +18,12 @@ import {
   Text,
   View,
   DeviceEventEmitter,
+  I18nManager,
  InteractionManager } from 'react-native';
 import PagerView from 'react-native-pager-view';
+import * as Location from 'expo-location';
 import * as Haptics from 'expo-haptics';
-import { logTabChange, logCitySelected } from '../../services/analyticsService';
+import { logTabChange, logCitySelected, logFirstPrayerScreenShown, logNotificationPermissionResult, setAnalyticsUserProperties } from '../../services/analyticsService';
 import Animated, {
   cancelAnimation,
   Easing,
@@ -36,11 +38,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppStorage as AsyncStorage, SecureLocationStorage } from '../../services/storageService';
 
+import { BatteryOptimizationCard } from '../../components/BatteryOptimizationCard';
+import { CommunityDiscoveryCard } from '../../components/CommunityDiscoveryCard';
 import { BannerAdSlot } from '../../components/BannerAdSlot';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
-import { BatteryOptimizationCard } from '../../components/BatteryOptimizationCard';
 import { PrayerOffsetSheet } from '../../components/PrayerOffsetSheet';
-import { AnimatedTabBar } from '../../components/AnimatedTabBar';
+import { AnimatedTabBar, TAB_BAR_HEIGHT } from '../../components/AnimatedTabBar';
 import { CitySearchModal } from '../../components/CitySearchModal';
 import { DailyContentScreen } from '../../components/DailyContentScreen';
 import { NamesAndDuasScreen } from '../../components/NamesAndDuasScreen';
@@ -51,17 +54,26 @@ import { QuranScreen } from '../../components/QuranScreen';
 import { ReligiousDaysModal } from '../../components/ReligiousDaysModal';
 import { SimpleHomeScreen } from '../../components/SimpleHomeScreen';
 import { TasbihScreen } from '../../components/TasbihScreen';
+import { CommunityScreen } from '../../components/CommunityScreen';
 import { ThemeSelectionModal } from '../../components/ThemeSelectionModal';
 import { UnifiedCalendarModal } from '../../components/UnifiedCalendarModal';
 import { WeeklyImsakiyeModal } from '../../components/WeeklyImsakiyeModal';
+import { FeedbackModal } from '../../components/FeedbackModal';
 import { RamadanCalendarModal } from '../../components/RamadanCalendarModal';
 import { WidgetPromoModal } from '../../components/WidgetPromoModal';
 import { WelcomeOnboardingModal } from '../../components/WelcomeOnboardingModal';
+import { CoachTip } from '../../components/CoachTip';
+import { markTourShown, shouldShowTour } from '../../services/tourService';
+import { maybeSendCommunityReminder } from '../../services/communityReminder';
+
+const WIDGET_PROMO_TOUR_KEY = 'WIDGET_PROMO_TOUR_V2';
 import { KazaTrackerModal } from '../../components/KazaTrackerModal';
 import { GreetingCardModal } from '../../components/GreetingCardModal';
 import { NearbyMosquesModal } from '../../components/NearbyMosquesModal';
 import { useTheme } from '../../context/ThemeContext';
 import { useLocation } from '../../hooks/useLocation';
+import { setCrashContext } from '../../services/crashReportingService';
+import { addCalendarDays, computeDayEpochs, getDeviceTimeZone, getZonedDate, parseClock, zonedWallTimeToEpoch } from '../../utils/zonedTime';
 import { applyOffsetsToData, DayData, fetchPrayerTimes, fetchWeather, getCachedPrayerTimes, getPrayerOffsets, getTodayPrayerTimes, getWeatherIcon, WeatherData, wasLastPrayerTimesFetchEstimated } from '../../services/api';
 import {
   checkNotificationPermissions,
@@ -73,7 +85,7 @@ import {
 } from '../../services/notificationService';
 import { requestPinWidget, updateAndroidWidget } from '../../services/widgetService';
 import { formatTime } from '../../utils/format';
-import { getRecommendedCalculationMethod } from '../../utils/calcMethod';
+import { getRecommendedCalculationMethod, updateMethodForLocation } from '../../utils/calcMethod';
 import { borderRadius, typography } from '../../utils/theme';
 import QiblaScreen from './qibla';
 import { hijriMonthName } from '../../localization/content';
@@ -85,8 +97,11 @@ const TABS = [
   { id: 'quran', icon: 'book', labelTR: 'Kuran', labelEN: 'Quran' },
   { id: 'daily', icon: 'book-open', labelTR: 'İçerik', labelEN: 'Content' },
   { id: 'home', icon: 'home', labelTR: 'Vakitler', labelEN: 'Times' },
+  // Ummah sits right of Home so the community is one tap from the main screen.
+  { id: 'community', icon: 'users', labelTR: 'Ümmet', labelEN: 'Ummah' },
   { id: 'dhikr', icon: 'heart', labelTR: 'Zikir', labelEN: 'Dhikr' },
   { id: 'library', icon: 'bookmark', labelTR: 'Dualar', labelEN: 'Duas' },
+  // Compass stays last.
   { id: 'qibla', icon: 'compass', labelTR: 'Kıble', labelEN: 'Qibla' },
 ] as const;
 
@@ -138,6 +153,7 @@ const _cache: {
 const MemoQuranScreen = React.memo(QuranScreen);
 const MemoDailyContentScreen = React.memo(DailyContentScreen);
 const MemoTasbihScreen = React.memo(TasbihScreen);
+const MemoCommunityScreen = React.memo(CommunityScreen);
 const MemoNamesAndDuasScreen = React.memo(NamesAndDuasScreen);
 const MemoQiblaScreen = React.memo(QiblaScreen);
 
@@ -176,13 +192,17 @@ export default function HomeScreen() {
   const TAB_BAR_BOTTOM = Platform.OS === 'android'
     ? Math.max(insets.bottom + 8, isFullscreen ? 16 : 22)
     : Math.max(insets.bottom + 6, 16);
-  const TAB_BAR_HEIGHT = 64;
-  const { location, loading: locationLoading, needsManualLocation, permissionDenied, isResolved: locationResolved, saveManualLocation, refreshLocation } = useLocation();
+  const { location, loading: locationLoading, needsManualLocation, permissionDenied, isResolved: locationResolved, isFallbackLocation, saveManualLocation, saveGpsLocation, refreshLocation } = useLocation();
   // Only the latest loadPrayerTimes call may update state or schedule notifications;
   // an older, slower response must never overwrite a newer one.
   const prayerLoadSeq = useRef(0);
 
   const [prayerTimes, setPrayerTimes] = useState<Record<string, string> | null>(_cache.prayerTimes);
+
+  // Share reminder after Isha, for users who prayed today. The service enforces its own spacing and cap.
+  useEffect(() => {
+    maybeSendCommunityReminder(prayerTimes?.isha).catch(() => {});
+  }, [prayerTimes?.isha]);
   const [hijriDate, setHijriDate] = useState<any>(_cache.hijriDate);
   const [gregorianDate, setGregorianDate] = useState<any>(_cache.gregorianDate);
   const [loadingApi, setLoadingApi] = useState(_cache.prayerTimes === null);
@@ -214,6 +234,7 @@ export default function HomeScreen() {
 
   // Quick Feature Modals State
   const [imsakiyeVisible, setImsakiyeVisible] = useState(false);
+  const [feedbackVisible, setFeedbackVisible] = useState(false);
   const [ramadanCalendarVisible, setRamadanCalendarVisible] = useState(false);
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [religiousDaysVisible, setReligiousDaysVisible] = useState(false);
@@ -224,6 +245,7 @@ export default function HomeScreen() {
   const [kazaVisible, setKazaVisible] = useState(false);
   const [greetingVisible, setGreetingVisible] = useState(false);
   const [mosquesVisible, setMosquesVisible] = useState(false);
+  const [moreToolsOpen, setMoreToolsOpen] = useState(false);
   const [apiFullData, setApiFullData] = useState<DayData[]>(_cache.fullData ?? []);
 
   const pagerRef = useRef<PagerView>(null);
@@ -231,6 +253,8 @@ export default function HomeScreen() {
   const tabScrollX = useSharedValue(_cache.activeTab);
 
   const [hasNotifPermission, setHasNotifPermission] = useState<boolean>(true);
+  // Info cards under the ad show one at a time: location first, then notifications, then battery.
+  const showLocationCard = permissionDenied || needsManualLocation;
   const [calcMethod, setCalcMethod] = useState<number>(() => getRecommendedCalculationMethod());
   const [launchCount, setLaunchCount] = useState<number>(0);
 
@@ -266,6 +290,7 @@ export default function HomeScreen() {
             _cache.prayerTimes = today as any;
             _cache.hijriDate = today.hijri;
             _cache.gregorianDate = today.gregorian;
+            logFirstPrayerScreenShown('cache');
           }
         }
       }
@@ -315,6 +340,15 @@ export default function HomeScreen() {
         setWidgetPromoVisible(false);
         return true;
       }
+      if (offsetPrayerKey) {
+        setOffsetPrayerKey(null);
+        return true;
+      }
+      if (onboardingVisible) {
+        // Swallow back during setup: the onboarding modal handles it itself (previous step /
+        // skip confirmation); leaving the app here would abandon the new user mid-setup.
+        return true;
+      }
       if (activeTab !== 2) {
         navigateToPagerTab(2);
         return true;
@@ -336,12 +370,14 @@ export default function HomeScreen() {
     religiousDaysVisible,
     themeModalVisible,
     widgetPromoVisible,
+    offsetPrayerKey,
+    onboardingVisible,
   ]);
 
   useEffect(() => {
     if (params.tab !== undefined) {
       const targetTab = params.tab === 'daily' ? 1 : parseInt(params.tab, 10);
-      if (!isNaN(targetTab) && targetTab >= 0 && targetTab <= 5) {
+      if (!isNaN(targetTab) && targetTab >= 0 && targetTab <= 6) {
         setActiveTab(targetTab);
         _cache.activeTab = targetTab;
         pagerRef.current?.setPage(targetTab);
@@ -356,16 +392,9 @@ export default function HomeScreen() {
 
   useEffect(() => {
     (async () => {
-      // A channel error must not stop the launch-count / onboarding logic below.
-      try {
-        await initNotifications();
-      } catch (e) {
-        console.warn('initNotifications failed:', e);
-      }
-      const hasPermission = await checkNotificationPermissions();
-      setHasNotifPermission(hasPermission);
-
-      // App Launch Count and Onboarding / Widget Promo Logic
+      // App Launch Count and Onboarding / Widget Promo Logic. This runs first: the welcome
+      // screen must not wait behind the notification channel setup below (~40 native calls
+      // on a fresh install).
       try {
         const countStr = await AsyncStorage.getItem('APP_LAUNCH_COUNT');
         const count = countStr ? parseInt(countStr, 10) : 0;
@@ -378,19 +407,26 @@ export default function HomeScreen() {
           setOnboardingVisible(true);
         }
 
-        if (Platform.OS === 'android') {
-          const promoShown = await AsyncStorage.getItem('WIDGET_PROMO_SHOWN');
-          if (promoShown !== 'true') {
-            // Show prompt on the 5th launch
-            if (newCount >= 5) {
-              setWidgetPromoVisible(true);
-              await AsyncStorage.setItem('WIDGET_PROMO_SHOWN', 'true');
-            }
+        if (Platform.OS === 'android' && onboardingDone) {
+          // The 5th open already asks for a store review, so the widget promo starts at launch 8
+          // (its own launch, so the two prompts do not stack), then returns every 20 launches, three times at most.
+          if (newCount >= 8 && (await shouldShowTour(WIDGET_PROMO_TOUR_KEY, newCount, { every: 20, max: 3 }))) {
+            setWidgetPromoVisible(true);
+            await markTourShown(WIDGET_PROMO_TOUR_KEY, newCount);
           }
         }
       } catch (e) {
         console.log('Error checking launch metrics', e);
       }
+
+      // A channel error must not stop anything above.
+      try {
+        await initNotifications();
+      } catch (e) {
+        console.warn('initNotifications failed:', e);
+      }
+      const hasPermission = await checkNotificationPermissions();
+      setHasNotifPermission(hasPermission);
     })();
   }, []); // Run ONLY once on mount
 
@@ -459,56 +495,9 @@ export default function HomeScreen() {
     return () => sub.remove();
   }, [location]);
 
-  // Run ambient background circle animations only when home tab (activeTab === 2) is active
-  useEffect(() => {
-    if (activeTab !== 2) {
-      cancelAnimation(circle1X);
-      cancelAnimation(circle1Y);
-      cancelAnimation(circle2X);
-      cancelAnimation(circle2Y);
-      return;
-    }
-
-    circle1X.value = withRepeat(
-      withSequence(
-        withTiming(60, { duration: 16000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(-30, { duration: 16000, easing: Easing.inOut(Easing.ease) })
-      ),
-      -1,
-      true
-    );
-    circle1Y.value = withRepeat(
-      withSequence(
-        withTiming(140, { duration: 20000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(60, { duration: 20000, easing: Easing.inOut(Easing.ease) })
-      ),
-      -1,
-      true
-    );
-    circle2X.value = withRepeat(
-      withSequence(
-        withTiming(40, { duration: 22000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(120, { duration: 22000, easing: Easing.inOut(Easing.ease) })
-      ),
-      -1,
-      true
-    );
-    circle2Y.value = withRepeat(
-      withSequence(
-        withTiming(260, { duration: 15000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(320, { duration: 15000, easing: Easing.inOut(Easing.ease) })
-      ),
-      -1,
-      true
-    );
-
-    return () => {
-      cancelAnimation(circle1X);
-      cancelAnimation(circle1Y);
-      cancelAnimation(circle2X);
-      cancelAnimation(circle2Y);
-    };
-  }, [activeTab]);
+  // The two ambient background circles used to drift forever (four endless animations on the
+  // home tab, the screen people leave open). At 5% opacity the drift was invisible but kept the
+  // GPU compositing every frame, which is pure battery cost. They now sit still.
 
   const c1Style = useAnimatedStyle(() => ({
     transform: [{ translateX: circle1X.value }, { translateY: circle1Y.value }],
@@ -533,8 +522,11 @@ export default function HomeScreen() {
   }, [location, locationResolved, i18n.language]);
 
   useEffect(() => {
-    if (needsManualLocation && !locationLoading) setIsSearchVisible(true);
-  }, [needsManualLocation, locationLoading]);
+    // Not while the welcome modal is up: the sheet would cover the onboarding buttons.
+    // Only a missing permission opens the picker. A GPS timeout with permission granted is shown
+    // as a card instead; a full-screen picker there blocks the app for no reason.
+    if (needsManualLocation && permissionDenied && !locationLoading && !onboardingVisible) setIsSearchVisible(true);
+  }, [needsManualLocation, permissionDenied, locationLoading, onboardingVisible]);
 
   // Sync Android Home Screen Widget and Persistent Status Bar / Lock Screen Notification
   useEffect(() => {
@@ -550,6 +542,23 @@ export default function HomeScreen() {
     };
 
     const syncWidgetAndNotification = () => {
+      // The calendar day rolled over (midnight, or a long time in the background): the header
+      // date and the prayer times still describe yesterday. Re-derive today from the loaded data.
+      const full = _cache.fullData;
+      if (full && full.length > 0) {
+        const fresh = getTodayPrayerTimes(full);
+        if (fresh && fresh.gregorian?.date !== (prayerTimes as any).gregorian?.date) {
+          setPrayerTimes(fresh as any);
+          setHijriDate(fresh.hijri);
+          setGregorianDate(fresh.gregorian);
+          _cache.prayerTimes = fresh as any;
+          _cache.hijriDate = fresh.hijri;
+          _cache.gregorianDate = fresh.gregorian;
+          computePrayerState(fresh as any);
+          return;
+        }
+      }
+
       // If targetDate is already in the past, recompute prayer state
       if (targetDate.getTime() <= Date.now() && prayerTimes) {
         computePrayerState(prayerTimes);
@@ -658,11 +667,19 @@ export default function HomeScreen() {
         _cache.lastLng = lng;
         _cache.lastLang = i18n.language;
 
+        logFirstPrayerScreenShown(wasLastPrayerTimesFetchEstimated() ? 'estimate' : 'network');
+        AsyncStorage.getItem('PRAYER_CALCULATION_METHOD').then((m) => {
+          setAnalyticsUserProperties({ app_language: i18n.language, calc_method: m ?? 'auto' });
+          // Same context on crash reports: which language/method a failing user was on.
+          setCrashContext('app_language', i18n.language);
+          setCrashContext('calc_method', m ?? 'auto');
+        });
 
       }
 
       const hasPermission = await checkNotificationPermissions();
       setHasNotifPermission(hasPermission);
+      setAnalyticsUserProperties({ notif_enabled: hasPermission ? 1 : 0 });
       if (hasPermission) {
         const prefs = await getNotificationPrefs();
         InteractionManager.runAfterInteractions(() => {
@@ -678,17 +695,17 @@ export default function HomeScreen() {
     }
   };
 
-  const computePrayerState = (times: Record<string, string>) => {
-    const now = new Date();
-    const toDate = (timeStr: string) => {
-      if (!timeStr) return new Date(NaN); // malformed day: compares false instead of throwing
-      const [h, m] = timeStr.split(':');
-      const d = new Date();
-      d.setHours(+h, +m, 0, 0);
-      return d;
-    };
-    const ordered = PRAYER_KEYS.map((k) => ({ id: k, date: toDate(times[k]) }));
-    let nextIdx = ordered.findIndex((p) => p.date > now);
+  const computePrayerState = (times: Record<string, any>) => {
+    const nowMs = Date.now();
+    // The clock strings are in the city's zone; turn them into absolute moments there, not in
+    // the phone's zone (wrong for a followed city abroad or while travelling).
+    const zone = times.zone as { timeZone: string; y: number; mo: number; d: number } | undefined;
+    const timeZone = zone?.timeZone ?? getDeviceTimeZone();
+    const day = zone ? { y: zone.y, mo: zone.mo, d: zone.d } : getZonedDate(nowMs, timeZone);
+    const epochs = computeDayEpochs(times, day, timeZone);
+    // A malformed day yields NaN, which compares false instead of throwing.
+    const ordered = PRAYER_KEYS.map((k) => ({ id: k, ms: epochs[k] }));
+    let nextIdx = ordered.findIndex((p) => p.ms > nowMs);
     let isNextDay = false;
     if (nextIdx === -1) {
       nextIdx = 0;
@@ -697,9 +714,18 @@ export default function HomeScreen() {
     const activeIdx = nextIdx === 0 ? ordered.length - 1 : nextIdx - 1;
     setActivePrayerKey(ordered[activeIdx].id);
     setNextPrayerKey(ordered[nextIdx].id);
-    const nextDate = isNextDay
-      ? (() => { const d = toDate(times[ordered[0].id]); d.setDate(d.getDate() + 1); return d; })()
-      : ordered[nextIdx].date;
+    let nextMs: number;
+    if (isNextDay) {
+      // After the last prayer the target is tomorrow's Fajr (its own time, not today's).
+      const clock = parseClock(times.tomorrowFajr);
+      const tomorrow = addCalendarDays(day, 1);
+      nextMs = clock
+        ? zonedWallTimeToEpoch(tomorrow.y, tomorrow.mo, tomorrow.d, clock[0], clock[1], timeZone)
+        : ordered[0].ms + 24 * 60 * 60 * 1000;
+    } else {
+      nextMs = ordered[nextIdx].ms;
+    }
+    const nextDate = new Date(nextMs);
     setTargetDate(nextDate);
     _cache.activePrayerKey = ordered[activeIdx].id;
     _cache.nextPrayerKey = ordered[nextIdx].id;
@@ -709,11 +735,15 @@ export default function HomeScreen() {
   const handleCitySelected = async (lat: number, lng: number, city: string) => {
     logCitySelected(city, false);
     await saveManualLocation(lat, lng, city);
+    // A city in another country usually has another authority's method; keep them in step
+    // before fetching (a method chosen in Settings is never overridden).
+    await updateMethodForLocation(lat, lng);
     loadPrayerTimes(lat, lng);
   };
 
   const handleRequestNotifPermission = async () => {
     const granted = await requestNotificationPermissions();
+    logNotificationPermissionResult(granted, 'banner');
     if (granted) {
       setHasNotifPermission(true);
       if (location?.latitude && location?.longitude) {
@@ -789,7 +819,7 @@ export default function HomeScreen() {
   const formatHijri = (h: any): string | null => {
     if (!h?.day || !h?.month?.en || h.month.en === 'Hijri') return null;
     const num = Number(h.month.number);
-    const name = num >= 1 && num <= 12 ? hijriMonthName(num) : h.month.en;
+    const name = num >= 1 && num <= 12 ? hijriMonthName(num, i18n.language) : h.month.en;
     return `${Number(h.day)} ${name} ${h.year}`;
   };
 
@@ -821,12 +851,15 @@ export default function HomeScreen() {
           <Pressable
             style={styles.headerCityBtn}
             onPress={() => setIsSearchVisible(true)}
+            accessibilityRole="button"
+            accessibilityLabel={`${t('settings.changeCity', 'Change city')}: ${location?.city ?? ''}`}
+            hitSlop={8}
           >
-            <Feather name="map-pin" size={14} color={theme.colors.primary} style={{ marginRight: 6 }} />
+            <Feather name="map-pin" size={14} color={theme.colors.primary} style={{ marginEnd: 6 }} />
             <Text style={[styles.headerCityText, { color: theme.colors.text }]} numberOfLines={1}>
               {location?.city ?? t('search.title', 'Şehir Seç')}
             </Text>
-            <Feather name="chevron-down" size={14} color={theme.colors.textSecondary} style={{ marginLeft: 4 }} />
+            <Feather name="chevron-down" size={14} color={theme.colors.textSecondary} style={{ marginStart: 4 }} />
           </Pressable>
 
           <View style={styles.headerIconGroup}>
@@ -857,6 +890,7 @@ export default function HomeScreen() {
             style={[styles.headerDateCard, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
             onPress={() => setCalendarVisible(true)}
             accessibilityRole="button"
+            accessibilityLabel={`${formatGregorianLong(gregorianDate?.date)} ${formatHijri(hijriDate) ?? ''}`.trim()}
           >
             <View style={[styles.headerIconBadge, { backgroundColor: theme.colors.primaryLight }]}>
               <Feather name="calendar" size={15} color={theme.colors.primary} />
@@ -877,6 +911,7 @@ export default function HomeScreen() {
             <Pressable
               style={[styles.headerWeatherCard, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
               accessibilityRole="button"
+              accessibilityLabel={`${t('weather.title', 'Weather')} ${formatDisplayTemp(weather.temp)}`}
               onPress={() => {
                 if (location?.latitude && location?.longitude) {
                   router.push({
@@ -903,7 +938,8 @@ export default function HomeScreen() {
           {[
             { key: 'kaza', icon: 'check-square', label: t('kaza.shortTitle', 'Kaza'), onPress: () => setKazaVisible(true) },
             { key: 'greeting', icon: 'gift', label: t('greeting.shortTitle', 'Tebrik'), onPress: () => setGreetingVisible(true) },
-            { key: 'mosques', icon: 'map-pin', label: t('mosques.shortTitle', 'Camiler'), onPress: () => setMosquesVisible(true) },
+            // Distinct from the map-pin of the city selector above.
+            { key: 'mosques', icon: 'navigation-2', label: t('mosques.shortTitle', 'Camiler'), onPress: () => setMosquesVisible(true) },
           ].map((item) => (
             <Pressable
               key={item.key}
@@ -928,7 +964,14 @@ export default function HomeScreen() {
   const renderHomeContent = () => (
     <ScrollView
       style={{ flex: 1 }}
-      contentContainerStyle={[styles.homeContent, { paddingBottom: TAB_BAR_HEIGHT + TAB_BAR_BOTTOM + 16 }]}
+      contentContainerStyle={[
+        styles.homeContent,
+        {
+          // Real top inset (status bar / camera cut-out), also with edge-to-edge or fullscreen.
+          paddingTop: Platform.OS === 'ios' ? Math.max(insets.top + 8, 48) : Math.max(insets.top, StatusBar.currentHeight ?? 0) + 8,
+          paddingBottom: TAB_BAR_HEIGHT + TAB_BAR_BOTTOM + 16,
+        },
+      ]}
       showsVerticalScrollIndicator={false}
       refreshControl={
         <RefreshControl
@@ -943,65 +986,6 @@ export default function HomeScreen() {
 
       {/* Header Cards Row */}
       {renderHeaderSection()}
-
-      {/* Location Permission / Fallback Banner */}
-      {permissionDenied && (
-        <Animated.View
-          entering={FadeInDown.duration(400).springify().damping(12)}
-          style={[styles.notifBanner, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, marginBottom: 8 }]}
-        >
-          <View style={styles.notifBannerLeft}>
-            <View style={[styles.notifBannerIconWrap, { backgroundColor: theme.colors.primary + '15' }]}>
-              <Ionicons name="location" size={16} color={theme.colors.primary} />
-            </View>
-            <View style={styles.notifBannerTextWrap}>
-              <Text style={[styles.notifBannerTitle, { color: theme.colors.text }]}>
-                {t('home.locationPermissionTitle', 'Konum İzni Alınamadı')}
-              </Text>
-              <Text style={[styles.notifBannerDesc, { color: theme.colors.textSecondary }]}>
-                {t('home.locationPermissionDesc', 'Varsayılan şehir gösteriliyor. Şehir seçebilir veya konum izni verebilirsiniz.')}
-              </Text>
-            </View>
-          </View>
-          <Pressable
-            style={[styles.notifBannerBtn, { backgroundColor: theme.colors.primary }]}
-            onPress={() => setIsSearchVisible(true)}
-          >
-            <Text style={styles.notifBannerBtnText}>{t('search.title', 'Şehir Seç')}</Text>
-          </Pressable>
-        </Animated.View>
-      )}
-
-      {/* Premium Notification Permission Banner */}
-      {!hasNotifPermission && (
-        <Animated.View
-          entering={FadeInDown.duration(400).springify().damping(12)}
-          style={[styles.notifBanner, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border }]}
-        >
-          <View style={styles.notifBannerLeft}>
-            <View style={[styles.notifBannerIconWrap, { backgroundColor: theme.colors.primary + '15' }]}>
-              <Ionicons name="notifications" size={16} color={theme.colors.primary} />
-            </View>
-            <View style={styles.notifBannerTextWrap}>
-              <Text style={[styles.notifBannerTitle, { color: theme.colors.text }]}>
-                {t('notifications.bannerTitle')}
-              </Text>
-              <Text style={[styles.notifBannerDesc, { color: theme.colors.textSecondary }]}>
-                {t('notifications.bannerDesc')}
-              </Text>
-            </View>
-          </View>
-          <Pressable
-            style={[styles.notifBannerBtn, { backgroundColor: theme.colors.primary }]}
-            onPress={handleRequestNotifPermission}
-          >
-            <Text style={styles.notifBannerBtnText}>{t('notifications.bannerBtn')}</Text>
-          </Pressable>
-        </Animated.View>
-      )}
-
-      {/* First-days battery optimization reminder (Android) */}
-      <BatteryOptimizationCard />
 
       {/* Loading Skeleton if API is fetching and prayerTimes is not yet cached */}
       {loadingApi && !prayerTimes && (
@@ -1108,15 +1092,30 @@ export default function HomeScreen() {
         </Text>
       )}
 
-      {/* Reassurance & Transparency Trust Badge (Shown only for the first 5 launches) */}
-      {location?.city && prayerTimes && launchCount <= 5 && (
+      {/* Where wrong times get reported: right under the times, not buried in Settings */}
+      {prayerTimes && (
+        <Pressable
+          onPress={() => setFeedbackVisible(true)}
+          accessibilityRole="button"
+          hitSlop={8}
+          style={{ alignSelf: 'center', paddingVertical: 8, paddingHorizontal: 12, marginBottom: 6 }}
+        >
+          <Text style={{ fontFamily: typography.fontFamily.medium, fontSize: 12.5, color: theme.colors.textSecondary, textAlign: 'center', textDecorationLine: 'underline' }}>
+            {t('feedback.prayerEntry', 'Vakitler resmi takvimle uyuşmuyor mu? Bize bildirin')}
+          </Text>
+        </Pressable>
+      )}
+
+      {/* Reassurance & Transparency Trust Badge: shown for the first 15 launches, so the method is seen
+          more than once before it goes away. */}
+      {location?.city && prayerTimes && launchCount <= 15 && !isFallbackLocation && !isEstimatedTimes && (
         <Animated.View
           entering={FadeInDown.delay(180).duration(400).springify().damping(12)}
           style={[
             styles.trustBadgeCard,
             {
-              backgroundColor: isDark ? 'rgba(16, 185, 129, 0.25)' : '#ECFDF5',
-              borderColor: isDark ? 'rgba(16, 185, 129, 0.5)' : '#6EE7B7',
+              backgroundColor: isDark ? 'rgba(16, 185, 129, 0.3)' : '#D1FAE5',
+              borderColor: isDark ? 'rgba(16, 185, 129, 0.6)' : '#10B981',
             }
           ]}
         >
@@ -1131,6 +1130,12 @@ export default function HomeScreen() {
               })}
             </Text>
           </View>
+          {/* Where the times come from: a note at high latitudes, where Fajr/Isha are approximated. */}
+          {Math.abs(location?.latitude ?? 0) > 48 && (
+            <Text style={[styles.trustBadgeNote, { color: isDark ? '#A7F3D0' : '#065F46' }]}>
+              {t('home.highLatNote', { defaultValue: i18n.language.startsWith('tr') ? 'Yüksek enlem: imsak/yatsı yaklaşık hesaplanır' : 'High latitude: Fajr/Isha are approximated' })}
+            </Text>
+          )}
         </Animated.View>
       )}
 
@@ -1139,6 +1144,78 @@ export default function HomeScreen() {
       <Animated.View entering={FadeInDown.delay(185).duration(400).springify().damping(12)}>
         <BannerAdSlot placement="home" isVisible={activeTab === 2} lazy={false} />
       </Animated.View>
+
+      {/* Location Permission / Fallback Banner */}
+      {showLocationCard && (
+        <Animated.View
+          entering={FadeInDown.duration(400).springify().damping(12)}
+          style={[styles.notifBanner, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, marginBottom: 8 }]}
+        >
+          <View style={styles.notifBannerLeft}>
+            <View style={[styles.notifBannerIconWrap, { backgroundColor: theme.colors.primary + '15' }]}>
+              <Ionicons name="location" size={16} color={theme.colors.primary} />
+            </View>
+            <View style={styles.notifBannerTextWrap}>
+              <Text style={[styles.notifBannerTitle, { color: theme.colors.text }]}>
+                {permissionDenied
+                  ? t('home.locationPermissionTitle', 'Konum İzni Alınamadı')
+                  : t('home.locationFetchFailedTitle', 'Konum bulunamadı')}
+              </Text>
+              <Text style={[styles.notifBannerDesc, { color: theme.colors.textSecondary }]}>
+                {permissionDenied
+                  ? t('home.locationPermissionDesc', 'Varsayılan şehir gösteriliyor. Şehir seçebilir veya konum izni verebilirsiniz.')
+                  : t('home.locationFetchFailedDesc', 'GPS konumu alınamadı. Şehir seçebilir veya daha sonra tekrar deneyebilirsin.')}
+              </Text>
+            </View>
+          </View>
+          <Pressable
+            style={[styles.notifBannerBtn, { backgroundColor: theme.colors.primary }]}
+            onPress={() => setIsSearchVisible(true)}
+          >
+            <Text style={styles.notifBannerBtnText}>{t('search.title', 'Şehir Seç')}</Text>
+          </Pressable>
+        </Animated.View>
+      )}
+
+      {/* Premium Notification Permission Banner */}
+      {!hasNotifPermission && !showLocationCard && (
+        <Animated.View
+          entering={FadeInDown.duration(400).springify().damping(12)}
+          style={[styles.notifBanner, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border }]}
+        >
+          <View style={styles.notifBannerLeft}>
+            <View style={[styles.notifBannerIconWrap, { backgroundColor: theme.colors.primary + '15' }]}>
+              <Ionicons name="notifications" size={16} color={theme.colors.primary} />
+            </View>
+            <View style={styles.notifBannerTextWrap}>
+              <Text style={[styles.notifBannerTitle, { color: theme.colors.text }]}>
+                {t('notifications.bannerTitle')}
+              </Text>
+              <Text style={[styles.notifBannerDesc, { color: theme.colors.textSecondary }]}>
+                {t('notifications.bannerDesc')}
+              </Text>
+            </View>
+          </View>
+          <Pressable
+            style={[styles.notifBannerBtn, { backgroundColor: theme.colors.primary }]}
+            onPress={handleRequestNotifPermission}
+          >
+            <Text style={styles.notifBannerBtnText}>{t('notifications.bannerBtn')}</Text>
+          </Pressable>
+        </Animated.View>
+      )}
+
+      {/* Daily Prayer Checklist & Streak Card: right under the location and notification banners,
+          so it is visible without scrolling past the quick tools. */}
+      <Animated.View entering={FadeInDown.delay(150).duration(400).springify().damping(12)}>
+        <PrayerChecklistCard />
+      </Animated.View>
+
+      {/* Community discovery: tells people the Ummah tab exists before any share offer shows up */}
+      <CommunityDiscoveryCard onOpen={() => navigateToPagerTab(3)} />
+
+      {/* Battery tip sits below the ad so it never pushes the banner off screen */}
+      {hasNotifPermission && !showLocationCard && launchCount >= 2 && <BatteryOptimizationCard />}
 
       {/* Quick Features: calendars (need prayer data) */}
       {prayerTimes && (
@@ -1154,26 +1231,39 @@ export default function HomeScreen() {
         </Animated.View>
       )}
 
-      {/* Quick Features: guides and tools */}
-      <Animated.View
-        entering={FadeInDown.delay(200).duration(400).springify().damping(12)}
-        style={styles.quickFeaturesRow}
+      {/* Quick Features: guides and tools. Collapsed by default so the first screen stays focused
+          on prayer times; these also used to be duplicated in Settings. */}
+      <Pressable
+        onPress={() => setMoreToolsOpen((open) => !open)}
+        accessibilityRole="button"
+        accessibilityState={{ expanded: moreToolsOpen }}
+        style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, minHeight: 44 }}
       >
-        {[
-          { key: 'zakat', icon: 'percent', label: t('zakat.settingsEntry', 'Zekat Hesaplama'), onPress: () => router.push('/zakat-calculator') },
-          { key: 'hajj', icon: 'map', label: t('hajjUmrah.settingsEntry', 'Hac & Umre Rehberi'), onPress: () => router.push('/hajj-umrah') },
-          { key: 'achievements', icon: 'award', label: t('achievements.settingsEntry', 'Başarılarım'), onPress: () => router.push('/achievements') },
-        ].map(renderFeatureTile)}
-      </Animated.View>
-
-      {/* Daily Prayer Checklist & Streak Card */}
-      <Animated.View entering={FadeInDown.delay(210).duration(400).springify().damping(12)}>
-        <PrayerChecklistCard />
-      </Animated.View>
+        <Text style={{ fontFamily: typography.fontFamily.semiBold, fontSize: 13, color: theme.colors.textSecondary }}>
+          {t('home.moreTools', 'More')}
+        </Text>
+        <Feather name={moreToolsOpen ? 'chevron-up' : 'chevron-down'} size={16} color={theme.colors.textSecondary} />
+      </Pressable>
+      {moreToolsOpen && (
+        <Animated.View
+          entering={FadeInDown.duration(250)}
+          style={styles.quickFeaturesRow}
+        >
+          {[
+            { key: 'zakat', icon: 'percent', label: t('zakat.settingsEntry', 'Zekat Hesaplama'), onPress: () => router.push('/zakat-calculator') },
+            { key: 'hajj', icon: 'map', label: t('hajjUmrah.settingsEntry', 'Hac & Umre Rehberi'), onPress: () => router.push('/hajj-umrah') },
+            { key: 'achievements', icon: 'award', label: t('achievements.settingsEntry', 'Başarılarım'), onPress: () => router.push('/achievements') },
+          ].map(renderFeatureTile)}
+        </Animated.View>
+      )}
 
 
 
       {/* Feature Modals - Conditionally rendered to improve initial load performance */}
+      {feedbackVisible && (
+        <FeedbackModal visible={feedbackVisible} source="prayer_times" onClose={() => setFeedbackVisible(false)} />
+      )}
+
       {imsakiyeVisible && (
         <WeeklyImsakiyeModal
           visible={imsakiyeVisible}
@@ -1236,14 +1326,13 @@ export default function HomeScreen() {
       activeTab={activeTab}
       onTabPress={navigateToPagerTab}
       bottom={TAB_BAR_BOTTOM}
-      isLangTR={isLangTR}
       isDark={isDark}
-      heroGradient={theme.colors.heroGradient as [string, string]}
-      activeIconColor="#FFFFFF"
+      activeIconColor={theme.colors.primary}
       inactiveColor={theme.colors.textSecondary}
       glowColor={theme.colors.glow}
-      borderColor={isDark ? 'rgba(255, 255, 255, 0.14)' : 'rgba(0, 0, 0, 0.07)'}
-      backgroundColor={isDark ? 'rgba(18, 18, 24, 0.72)' : 'rgba(255, 255, 255, 0.78)'}
+      borderColor={theme.colors.border}
+      backgroundColor={theme.colors.surface}
+      shadowColor={isDark ? theme.colors.background : theme.colors.textSecondary}
     />
   );
 
@@ -1259,6 +1348,8 @@ export default function HomeScreen() {
         initialPage={_cache.activeTab}
         onPageSelected={handlePageSelected}
         offscreenPageLimit={1}
+        // Page 0 sits on the reading-direction start side, and swiping follows it.
+        layoutDirection={I18nManager.isRTL ? 'rtl' : 'ltr'}
       >
         <View key="0" style={{ flex: 1 }}>
           <LazyScreen active={activeTab === 0}>
@@ -1297,31 +1388,38 @@ export default function HomeScreen() {
 
         <View key="3" style={{ flex: 1 }}>
           <LazyScreen active={activeTab === 3}>
-            <MemoTasbihScreen isActiveTab={activeTab === 3} />
+            <MemoCommunityScreen isActive={activeTab === 3} bottomInset={TAB_BAR_BOTTOM + TAB_BAR_HEIGHT} />
           </LazyScreen>
         </View>
 
         <View key="4" style={{ flex: 1 }}>
           <LazyScreen active={activeTab === 4}>
-            <MemoNamesAndDuasScreen isActive={activeTab === 4} />
+            <MemoTasbihScreen isActiveTab={activeTab === 4} />
           </LazyScreen>
         </View>
 
         <View key="5" style={{ flex: 1 }}>
           <LazyScreen active={activeTab === 5}>
+            <MemoNamesAndDuasScreen isActive={activeTab === 5} />
+          </LazyScreen>
+        </View>
+
+        <View key="6" style={{ flex: 1 }}>
+          <LazyScreen active={activeTab === 6}>
             {/* Added onBack so Qibla screen can return to Home (index 2) */}
-            <MemoQiblaScreen isActiveTab={activeTab === 5} onBack={handleQiblaBack} />
+            <MemoQiblaScreen isActiveTab={activeTab === 6} onBack={handleQiblaBack} onChooseCity={() => setIsSearchVisible(true)} />
           </LazyScreen>
         </View>
       </PagerView>
 
       {renderTabBar()}
+      <CoachTip bottom={TAB_BAR_BOTTOM + TAB_BAR_HEIGHT + 12} enabled={activeTab === 2 && !onboardingVisible && !isSearchVisible} />
 
       <CitySearchModal
         visible={isSearchVisible}
         onClose={() => setIsSearchVisible(false)}
         onCitySelected={handleCitySelected}
-        isDismissable={!needsManualLocation}
+        isDismissable
       />
 
       <PrayerOffsetSheet
@@ -1334,10 +1432,18 @@ export default function HomeScreen() {
       <WelcomeOnboardingModal
         visible={onboardingVisible}
         currentCity={location?.city}
+        locationIsGuess={isFallbackLocation}
         onOpenCitySearch={() => setIsSearchVisible(true)}
-        onComplete={async (lat, lng, city) => {
+        onComplete={async (lat, lng, city, source) => {
           setOnboardingVisible(false);
-          if (lat && lng && city) {
+          // The permission was just answered in the onboarding; reflect it now instead of
+          // waiting for the 60s sync, or the "Enable Notifications" card stays on screen.
+          checkNotificationPermissions().then(setHasNotifPermission).catch(() => { });
+          if (lat && lng && city && source === 'gps') {
+            // A GPS fix stays refreshable; only a chosen city is pinned as manual.
+            await saveGpsLocation(lat, lng, city);
+            loadPrayerTimes(lat, lng);
+          } else if (lat && lng && city) {
             await saveManualLocation(lat, lng, city);
             handleCitySelected(lat, lng, city);
           } else {
@@ -1352,7 +1458,19 @@ export default function HomeScreen() {
                 }
               }
             } catch {}
-            await refreshLocation();
+            // The user finished setup without choosing a city. If location is already allowed
+            // (GPS merely failed in setup) try again quietly; otherwise respect the skip and do
+            // not throw a system permission dialog at someone who just declined or skipped it.
+            let permitted = false;
+            try {
+              permitted = (await Location.getForegroundPermissionsAsync()).status === 'granted';
+            } catch {}
+            if (permitted) {
+              await refreshLocation();
+            } else {
+              await AsyncStorage.setItem('LOCATION_PROMPT_SKIPPED', 'true');
+              await refreshLocation(false);
+            }
           }
         }}
       />
@@ -1371,9 +1489,11 @@ export default function HomeScreen() {
       <NearbyMosquesModal
         visible={mosquesVisible}
         onClose={() => setMosquesVisible(false)}
-        latitude={location?.latitude ?? null}
-        longitude={location?.longitude ?? null}
+        // A guessed (timezone/region) location would list mosques in the wrong city.
+        latitude={isFallbackLocation ? null : (location?.latitude ?? null)}
+        longitude={isFallbackLocation ? null : (location?.longitude ?? null)}
         currentCity={location?.city}
+        onChooseCity={() => setIsSearchVisible(true)}
       />
     </AppBackground>
   );
@@ -1415,7 +1535,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 4,
-    marginRight: 12,
+    marginEnd: 12,
   },
   headerCityText: {
     flexShrink: 1,
@@ -1541,11 +1661,11 @@ const styles = StyleSheet.create({
   // Reassurance Trust Badge
   trustBadgeCard: {
     marginHorizontal: 16,
-    marginVertical: 6,
+    marginVertical: 8,
     paddingHorizontal: 14,
-    paddingVertical: 10,
+    paddingVertical: 12,
     borderRadius: 16,
-    borderWidth: 1,
+    borderWidth: 1.5,
   },
   trustBadgeLeft: {
     flexDirection: 'row',
@@ -1563,8 +1683,16 @@ const styles = StyleSheet.create({
   trustBadgeText: {
     flex: 1,
     fontFamily: typography.fontFamily.semiBold,
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: 14,
+    lineHeight: 19,
+  },
+  // Lines up under the trust text, past the 26px icon and its 10px gap.
+  trustBadgeNote: {
+    marginTop: 6,
+    marginLeft: 36,
+    fontFamily: typography.fontFamily.regular,
+    fontSize: 12,
+    lineHeight: 16,
   },
 
   // Permission banner

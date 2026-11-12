@@ -151,8 +151,8 @@ const styles = StyleSheet.create({
   sheetCard: {
     width: '100%',
     maxHeight: '82%',
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    borderTopStartRadius: 28,
+    borderTopEndRadius: 28,
     borderWidth: 1,
     borderBottomWidth: 0,
     shadowColor: '#000',
@@ -187,9 +187,9 @@ const styles = StyleSheet.create({
     fontSize: 11.5,
   },
   closeBtn: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
   },
   ayahBadgeText: {
     fontFamily: typography.fontFamily.bold,
-    fontSize: 11,
+    fontSize: 12,
     color: '#D4AF37',
   },
   shareIconBtn: {

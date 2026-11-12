@@ -16,7 +16,7 @@ interface ReligiousDaysModalProps {
 }
 
 export const ReligiousDaysModal: React.FC<ReligiousDaysModalProps> = ({ visible, onClose }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { theme, isDark } = useTheme();
 
   const [days, setDays] = useState<ReligiousDay[]>([]);
@@ -89,12 +89,12 @@ export const ReligiousDaysModal: React.FC<ReligiousDaysModalProps> = ({ visible,
             {days.map((item) => {
               const daysLeft = getDaysRemaining(item.gregorianDate);
               const isUpcoming = daysLeft >= 0;
-              const title = religiousDayText(item, 'name');
-              const desc = religiousDayText(item, 'description');
+              const title = religiousDayText(item, 'name', i18n.language);
+              const desc = religiousDayText(item, 'description', i18n.language);
 
               const dateParts = item.gregorianDate.split('-');
               const formattedGregorian = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
-              const formattedHijri = `${item.hijriDay} ${hijriMonthName(item.hijriMonth)} ${item.hijriYear}`;
+              const formattedHijri = `${item.hijriDay} ${hijriMonthName(item.hijriMonth, i18n.language)} ${item.hijriYear}`;
 
               return (
                 <View
@@ -109,14 +109,14 @@ export const ReligiousDaysModal: React.FC<ReligiousDaysModalProps> = ({ visible,
                     },
                   ]}
                 >
-                  <View style={{ flex: 1, paddingRight: 8 }}>
+                  <View style={{ flex: 1, paddingEnd: 8 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 2 }}>
                       <Text style={[styles.dayTitle, { color: theme.colors.text }]}>{title}</Text>
                     </View>
                     <View style={styles.metaRow}>
                       <Feather name="calendar" size={11} color={theme.colors.textSecondary} />
                       <Text style={[styles.dayMeta, { color: theme.colors.textSecondary }]}>{formattedGregorian}</Text>
-                      <Feather name="moon" size={11} color={theme.colors.textSecondary} style={{ marginLeft: 8 }} />
+                      <Feather name="moon" size={11} color={theme.colors.textSecondary} style={{ marginStart: 8 }} />
                       <Text style={[styles.dayMeta, { color: theme.colors.textSecondary }]}>{formattedHijri}</Text>
                     </View>
                     {desc && <Text style={[styles.dayDesc, { color: theme.colors.textSecondary }]}>{desc}</Text>}
@@ -132,7 +132,7 @@ export const ReligiousDaysModal: React.FC<ReligiousDaysModalProps> = ({ visible,
                       },
                     ]}
                   >
-                    <Text style={styles.badgeText}>
+                    <Text style={[styles.badgeText, { color: isUpcoming ? '#1A1207' : theme.colors.textSecondary }]}>
                       {daysLeft === 0
                         ? t('religious.today', 'Today')
                         : daysLeft > 0
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
   },
   dayMeta: {
     fontFamily: typography.fontFamily.regular,
-    fontSize: 11,
+    fontSize: 12,
   },
   metaRow: {
     flexDirection: 'row',
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
   },
   dayDesc: {
     fontFamily: typography.fontFamily.medium,
-    fontSize: 10.5,
+    fontSize: 12,
     marginTop: 4,
     opacity: 0.85,
   },
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     fontFamily: typography.fontFamily.bold,
-    fontSize: 11,
+    fontSize: 12,
     color: '#FFFFFF',
   },
 });

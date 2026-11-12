@@ -2,13 +2,13 @@
   "expo": {
     "name": "Vera",
     "slug": "ezan-app",
-    "version": "1.0.32",
-    "orientation": "default",
+    "version": "1.0.39",
+    "orientation": "portrait",
     "icon": "./assets/images/Vera_app_icon.png",
     "scheme": "ezanapp",
     "userInterfaceStyle": "automatic",
     "androidStatusBar": {
-      "hidden": true,
+      "hidden": false,
       "translucent": true
     },
     "ios": {
@@ -18,11 +18,8 @@
       "infoPlist": {
         "UIStatusBarHidden": true,
         "UIViewControllerBasedStatusBarAppearance": false,
-        "NSLocationWhenInUseUsageDescription": "Ezan vakitlerini ve kıble yönünü doğru hesaplayabilmek için konum izninize ihtiyaç duyulmaktadır.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "Ezan vakitlerini ve kıble yönünü doğru hesaplayabilmek için konum izninize ihtiyaç duyulmaktadır.",
-        "NSUserTrackingUsageDescription": "Size kişiselleştirilmiş reklamlar gösterebilmek ve uygulama deneyimini iyileştirebilmek için izninizi istiyoruz.",
-        "NSPhotoLibraryUsageDescription": "Ayet, hadis ve duaları resim olarak kaydedebilmeniz için galeriye erişim izni gereklidir.",
-        "NSPhotoLibraryAddUsageDescription": "Ayet ve dua görsellerini galerinize kaydetmek için izin gereklidir.",
+        "NSLocationWhenInUseUsageDescription": "Vera uses your location to calculate accurate prayer times and the Qibla direction.",
+        "NSUserTrackingUsageDescription": "Your data is used to show you more relevant ads and to improve the app.",
         "UIBackgroundModes": [
           "audio",
           "fetch",
@@ -37,7 +34,13 @@
     "android": {
       "package": "com.abdllhekc.vera",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 34,
+      "versionCode": 41,
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ],
       "permissions": [
         "SCHEDULE_EXACT_ALARM",
         "USE_EXACT_ALARM",
@@ -87,13 +90,18 @@
         }
       ],
       "expo-sqlite",
-      "expo-audio",
+      [
+        "expo-audio",
+        {
+          "recordAudioAndroid": false
+        }
+      ],
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Ezan vakitlerini ve kıble yönünü doğru hesaplayabilmek için konum izninize ihtiyaç duyulmaktadır.",
-          "locationAlwaysPermission": "Ezan vakitlerini ve kıble yönünü doğru hesaplayabilmek için konum izninize ihtiyaç duyulmaktadır.",
-          "locationWhenInUsePermission": "Ezan vakitlerini ve kıble yönünü doğru hesaplayabilmek için konum izninize ihtiyaç duyulmaktadır."
+          "locationWhenInUsePermission": "Vera uses your location to calculate accurate prayer times and the Qibla direction.",
+          "locationAlwaysAndWhenInUsePermission": "Vera uses your location to calculate accurate prayer times and the Qibla direction.",
+          "locationAlwaysPermission": "Vera uses your location to calculate accurate prayer times and the Qibla direction."
         }
       ],
       [
@@ -101,7 +109,7 @@
         {
           "androidAppId": "ca-app-pub-2034009761866400~5203875113",
           "iosAppId": "ca-app-pub-2034009761866400~5203875113",
-          "userTrackingUsageDescription": "Size kişiselleştirilmiş reklamlar gösterebilmek ve uygulama deneyimini iyileştirebilmek için izninizi istiyoruz."
+          "userTrackingUsageDescription": "Your data is used to show you more relevant ads and to improve the app."
         }
       ],
       "expo-asset",
@@ -145,6 +153,18 @@
         "android_app_id": "ca-app-pub-2034009761866400~5203875113",
         "ios_app_id": "ca-app-pub-2034009761866400~5203875113"
       }
+    },
+    "locales": {
+      "tr": "./locales/tr.json",
+      "de": "./locales/de.json",
+      "fr": "./locales/fr.json",
+      "es": "./locales/es.json",
+      "ar": "./locales/ar.json",
+      "id": "./locales/id.json",
+      "ru": "./locales/ru.json",
+      "ur": "./locales/ur.json",
+      "ms": "./locales/ms.json",
+      "fa": "./locales/fa.json"
     }
   }
 }

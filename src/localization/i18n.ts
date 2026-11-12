@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import * as Localization from 'expo-localization';
+import { applyLayoutDirection } from '../utils/rtl';
 
 import en from './en.json';
 import tr from './tr.json';
@@ -66,10 +67,14 @@ export function ensureLanguageLoaded(lang: string): boolean {
   return true;
 }
 
-/** Loads a language (if needed) and switches i18next to it. */
-export async function changeAppLanguage(lang: string): Promise<void> {
+/**
+ * Loads a language (if needed) and switches i18next to it. Resolves to true when the layout
+ * direction has to change (to or from right-to-left): that only applies after an app restart.
+ */
+export async function changeAppLanguage(lang: string): Promise<boolean> {
   ensureLanguageLoaded(lang);
   await i18n.changeLanguage(lang);
+  return applyLayoutDirection(lang);
 }
 
 // Robust Auto-detection of system language
@@ -101,6 +106,9 @@ const getInitialLanguage = (): string => {
 };
 
 const defaultLanguage = getInitialLanguage();
+// Native layout direction follows the language from the first launch on (it applies from the
+// next start; a saved in-app language re-applies it through changeAppLanguage).
+applyLayoutDirection(defaultLanguage);
 
 // The device language's bundle must be part of the init() resources: calling
 // addResourceBundle before init() throws ("undefined is not a function") and crashed

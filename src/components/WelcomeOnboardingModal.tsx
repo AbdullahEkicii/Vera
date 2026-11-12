@@ -1,10 +1,10 @@
 import { Feather, Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SecureLocationStorage } from '../services/storageService';
+import { AppStorage as AsyncStorage } from '../services/storageService';
+import { AppStorage, SecureLocationStorage } from '../services/storageService';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from 'expo-location';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Alert,
@@ -18,21 +18,47 @@ import {
 import Animated, { FadeIn } from 'react-native-reanimated';
 import {
   logEvent,
+  logLocationResult,
+  logNotificationPermissionResult,
   logOnboardingCompleted,
+  logOnboardingSkipped,
   logOnboardingStep,
   logSoundTested,
 } from '../services/analyticsService';
 import { audioManager } from '../services/audioManager';
-import { requestNotificationPermissions } from '../services/notificationService';
+import { requestNotificationPermissions, updatePersistentPrayerNotification } from '../services/notificationService';
 import { getRecommendedCalculationMethod } from '../utils/calcMethod';
-import { reportError } from '../services/crashReportingService';
+import { logBreadcrumb, reportError } from '../services/crashReportingService';
 import { allowAdsConsentFlow } from '../services/adsConsentService';
+
+// GPS or geocoder can stall (cold start indoors, no Google geocoder); never leave the
+// button stuck on "Detecting…".
+const LOCATION_TIMEOUT_MS = 8000;
+const GEOCODE_TIMEOUT_MS = 5000;
+
+const withTimeout = <T,>(promise: Promise<T>, ms: number): Promise<T> =>
+  new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error('timeout')), ms);
+    promise.then(
+      (value) => {
+        clearTimeout(timer);
+        resolve(value);
+      },
+      (error) => {
+        clearTimeout(timer);
+        reject(error);
+      }
+    );
+  });
 
 interface Props {
   visible: boolean;
-  onComplete: (lat?: number, lng?: number, city?: string) => void;
+  // `source` is 'gps' when the coordinates come from "Find my location" (stored as a GPS fix).
+  onComplete: (lat?: number, lng?: number, city?: string, source?: 'gps') => void;
   onOpenCitySearch: () => void;
   currentCity?: string;
+  // True while `currentCity` is only a timezone/region guess, not something the user chose.
+  locationIsGuess?: boolean;
 }
 
 export function WelcomeOnboardingModal({
@@ -40,6 +66,7 @@ export function WelcomeOnboardingModal({
   onComplete,
   onOpenCitySearch,
   currentCity = '',
+  locationIsGuess = true,
 }: Props) {
   const { t } = useTranslation();
   const [step, setStep] = useState<1 | 2>(1);
@@ -50,9 +77,14 @@ export function WelcomeOnboardingModal({
   const [locationError, setLocationError] = useState<string | null>(null);
   const [notifDenied, setNotifDenied] = useState(false);
 
+  // Reopening the modal must not count the same step twice in the funnel.
+  const loggedSteps = useRef<Set<number>>(new Set());
+
   useEffect(() => {
-    if (visible) {
+    if (visible && !loggedSteps.current.has(step)) {
+      loggedSteps.current.add(step);
       logOnboardingStep(step);
+      logBreadcrumb(`onboarding step ${step}`);
     }
     return () => {
       audioManager.stopAdhan();
@@ -67,32 +99,46 @@ export function WelcomeOnboardingModal({
     } catch { }
     setIsDetectingLocation(true);
     setLocationError(null);
+    let geocodeFailed = false;
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
       logEvent('onboarding_permission', { type: 'location', granted: status === 'granted' });
+      if (status !== 'granted') logLocationResult('denied', 'onboarding');
       if (status !== 'granted') {
         setLocationError(
           t('onboarding.locationDenied', 'Konum izni verilmedi. Şehrinizi listeden seçebilir veya bunu daha sonra Ayarlar\'dan değiştirebilirsiniz.')
         );
       }
       if (status === 'granted') {
-        let loc = await Location.getLastKnownPositionAsync({});
+        // Recent fixes only: a days-old position from another city is not "my location".
+        let loc = await Location.getLastKnownPositionAsync({ maxAge: 10 * 60 * 1000, requiredAccuracy: 5000 });
         if (!loc) {
-          loc = await Location.getCurrentPositionAsync({
-            accuracy: Location.Accuracy.Balanced,
-          });
+          loc = await withTimeout(
+            Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced }),
+            LOCATION_TIMEOUT_MS
+          );
         }
         if (loc) {
-          const geocode = await Location.reverseGeocodeAsync({
-            latitude: loc.coords.latitude,
-            longitude: loc.coords.longitude,
-          });
-          let cityName = currentCity;
+          // The coordinates are valid even if the geocoder fails; keep them.
+          let geocode: Location.LocationGeocodedAddress[] = [];
+          try {
+            geocode = await withTimeout(
+              Location.reverseGeocodeAsync({
+                latitude: loc.coords.latitude,
+                longitude: loc.coords.longitude,
+              }),
+              GEOCODE_TIMEOUT_MS
+            );
+          } catch (geocodeError) {
+            console.warn('Reverse geocode in onboarding failed:', geocodeError);
+            geocodeFailed = true;
+          }
+          let cityName = t('onboarding.currentLocationLabel', 'Mevcut konum');
           if (geocode && geocode[0]) {
             const item = geocode[0];
             const district = item.district || item.subregion || item.city;
             const province = item.region;
-            cityName = district ? (province && province !== district ? `${district}, ${province}` : district) : (item.name || currentCity);
+            cityName = district ? (province && province !== district ? `${district}, ${province}` : district) : (item.name || cityName);
 
             const countryCode = item.isoCountryCode || '';
             const recommendedMethod = getRecommendedCalculationMethod(countryCode);
@@ -106,9 +152,12 @@ export function WelcomeOnboardingModal({
           };
           setDetectedLoc(newLoc);
 
-          await SecureLocationStorage.setItem('MANUAL_LOCATION', JSON.stringify(newLoc));
+          // A GPS fix, not a manual choice: MANUAL_LOCATION would pin the user to this city
+          // forever (see useLocation.saveGpsLocation).
           await SecureLocationStorage.setItem('LAST_GPS_LOCATION', JSON.stringify(newLoc));
+          await AppStorage.setItem('LAST_GPS_UPDATE_TIME', Date.now().toString()).catch(() => { });
 
+          logLocationResult(geocodeFailed ? 'geocode_failed' : 'granted', 'onboarding');
           try {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
           } catch { }
@@ -118,6 +167,7 @@ export function WelcomeOnboardingModal({
       }
     } catch (e) {
       console.warn('Auto location detection in onboarding failed:', e);
+      logLocationResult(e instanceof Error && e.message === 'timeout' ? 'timeout' : 'error', 'onboarding');
       setLocationError(
         t('onboarding.locationFailed', 'Konum alınamadı. Şehrinizi listeden seçebilir veya bunu daha sonra Ayarlar\'dan değiştirebilirsiniz.')
       );
@@ -144,6 +194,7 @@ export function WelcomeOnboardingModal({
       try {
         const granted = await requestNotificationPermissions();
         logEvent('onboarding_permission', { type: 'notification', granted });
+        logNotificationPermissionResult(granted, 'onboarding');
         if (!granted) {
           // Don't silently continue — the adhan alert must never silently fail.
           // Surface it inline (same pattern as locationError) and let the user retry
@@ -195,6 +246,12 @@ export function WelcomeOnboardingModal({
       const cityToLog = detectedLoc?.city || currentCity;
       logOnboardingCompleted(step, cityToLog);
       await AsyncStorage.setItem('ONBOARDING_COMPLETED', 'true');
+      // The always-on lock-screen countdown is opt-in for new installs (Settings). Existing
+      // users, who never wrote this key, keep it on.
+      if ((await AsyncStorage.getItem('PERSISTENT_NOTIF_ENABLED')) === null) {
+        await AsyncStorage.setItem('PERSISTENT_NOTIF_ENABLED', 'false');
+        updatePersistentPrayerNotification('', '', '', 0, false);
+      }
     } catch (e) {
       console.error('Error saving onboarding state', e);
       reportError(e instanceof Error ? e : new Error(String(e)), 'Failed to persist ONBOARDING_COMPLETED flag');
@@ -202,7 +259,7 @@ export function WelcomeOnboardingModal({
     // Only now may the ATT prompt / GDPR consent form appear.
     allowAdsConsentFlow();
     if (detectedLoc) {
-      onComplete(detectedLoc.latitude, detectedLoc.longitude, detectedLoc.city);
+      onComplete(detectedLoc.latitude, detectedLoc.longitude, detectedLoc.city, 'gps');
     } else {
       onComplete();
     }
@@ -218,7 +275,14 @@ export function WelcomeOnboardingModal({
       t('onboarding.skipBody', 'Kurulumu şimdi atlayabilirsiniz. Konum ve bildirim ayarlarını daha sonra Ayarlar\'dan yapabilirsiniz.'),
       [
         { text: t('common.cancel', 'Vazgeç'), style: 'cancel' },
-        { text: t('onboarding.skipConfirm', 'Atla'), style: 'destructive', onPress: handleFinish },
+        {
+          text: t('onboarding.skipConfirm', 'Atla'),
+          style: 'destructive',
+          onPress: () => {
+            logOnboardingSkipped(step);
+            handleFinish();
+          },
+        },
       ]
     );
   };
@@ -246,8 +310,11 @@ export function WelcomeOnboardingModal({
 
             {/* STEP 1: WELCOME & LOCATION SELECTION */}
             {step === 1 && (() => {
-              const isValidCity = currentCity && currentCity !== 'İstanbul';
-              const displayCity = detectedLoc?.city || (isValidCity ? currentCity : t('onboarding.locationNotSet', 'Konum Alınamadı (İzin Verilmedi)'));
+              const isValidCity = !!currentCity && !locationIsGuess;
+              // The timezone-guess fallback city (İstanbul) is not a chosen location: show a
+              // neutral state rather than an error before any permission was even asked.
+              const hasCity = !!(detectedLoc?.city || isValidCity);
+              const displayCity = detectedLoc?.city || (isValidCity ? currentCity : t('onboarding.locationNotSetYet', 'Henüz seçilmedi'));
               return (
                 <Animated.View entering={FadeIn.duration(220)} style={styles.stepContainer}>
                   <Text style={styles.title}>
@@ -259,28 +326,6 @@ export function WelcomeOnboardingModal({
                       'Doğru namaz vakitleri ve ezan bildirimleri için konumunuzu belirleyelim.'
                     )}
                   </Text>
-
-                  {/* Value proposition — shown before any permission ask */}
-                  <View style={styles.highlightsContainer}>
-                    <View style={styles.highlightBadge}>
-                      <Feather name="book" size={13} color="#D4AF37" style={{ marginRight: 4 }} />
-                      <Text style={styles.highlightText}>
-                        {t('onboarding.featureQuran', 'Kuran')}
-                      </Text>
-                    </View>
-                    <View style={styles.highlightBadge}>
-                      <Feather name="compass" size={13} color="#D4AF37" style={{ marginRight: 4 }} />
-                      <Text style={styles.highlightText}>
-                        {t('onboarding.featureQibla', 'Kıble')}
-                      </Text>
-                    </View>
-                    <View style={styles.highlightBadge}>
-                      <Feather name="heart" size={13} color="#D4AF37" style={{ marginRight: 4 }} />
-                      <Text style={styles.highlightText}>
-                        {t('onboarding.featureDhikr', 'Zikir')}
-                      </Text>
-                    </View>
-                  </View>
 
                   {/* Detected Location Card */}
                   <View style={styles.locationPreviewBox}>
@@ -297,7 +342,7 @@ export function WelcomeOnboardingModal({
 
                 {locationError && (
                   <View style={styles.errorBox}>
-                    <Feather name="alert-circle" size={14} color="#F87171" style={{ marginRight: 6 }} />
+                    <Feather name="alert-circle" size={14} color="#F87171" style={{ marginEnd: 6 }} />
                     <Text style={styles.errorBoxText}>{locationError}</Text>
                   </View>
                 )}
@@ -314,7 +359,7 @@ export function WelcomeOnboardingModal({
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 0 }}
                   >
-                    <Feather name="navigation" size={18} color="#1A1207" style={{ marginRight: 8 }} />
+                    <Feather name="navigation" size={18} color="#1A1207" style={{ marginEnd: 8 }} />
                     <Text style={styles.primaryBtnText}>
                       {isDetectingLocation
                         ? t('onboarding.detecting', 'Konum Alınıyor...')
@@ -334,7 +379,7 @@ export function WelcomeOnboardingModal({
                   }}
                   style={styles.secondaryActionBtn}
                 >
-                  <Feather name="search" size={16} color="#D4AF37" style={{ marginRight: 6 }} />
+                  <Feather name="search" size={16} color="#D4AF37" style={{ marginEnd: 6 }} />
                   <Text style={styles.secondaryActionText}>
                     {t('onboarding.manualCityBtn', 'Listeden Şehir Seç')}
                   </Text>
@@ -343,7 +388,9 @@ export function WelcomeOnboardingModal({
                 {/* Skip / Continue Button */}
                 <Pressable onPress={() => handleStepChange(2)} style={styles.skipBtn}>
                   <Text style={styles.skipBtnText}>
-                    {t('onboarding.continueWithCity', '{{city}} İle Devam Et', { city: displayCity })}
+                    {hasCity
+                      ? t('onboarding.continueWithCity', '{{city}} İle Devam Et', { city: displayCity })
+                      : t('onboarding.skipLocation', 'Şimdilik atla')}
                   </Text>
                 </Pressable>
                 <Text style={styles.reassuranceText}>
@@ -364,24 +411,6 @@ export function WelcomeOnboardingModal({
                     'Vakitleri kaçırmamak için bildirim tercihlerinizi tamamlayın.'
                   )}
                 </Text>
-
-                {/* Verified Method Badge */}
-                <View style={styles.featureItem}>
-                  <View style={[styles.featureIconWrap, { backgroundColor: 'rgba(16, 185, 129, 0.15)' }]}>
-                    <Feather name="shield" size={18} color="#10B981" />
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text style={styles.featureTitle}>
-                      {t('onboarding.verifiedMethodTitle', 'Doğrulanmış Vakitler')}
-                    </Text>
-                    <Text style={styles.featureDesc}>
-                      {t(
-                        'onboarding.verifiedMethodDesc',
-                        'Bölgenize en uygun İslami hesaplama yöntemi otomatik seçildi.'
-                      )}
-                    </Text>
-                  </View>
-                </View>
 
                 {/* Notification Toggle Feature */}
                 <Pressable
@@ -412,23 +441,28 @@ export function WelcomeOnboardingModal({
                   <Ionicons
                     name={notifEnabled ? 'checkmark-circle' : 'ellipse-outline'}
                     size={22}
-                    color={notifEnabled ? '#D4AF37' : 'rgba(253, 248, 237, 0.3)'}
+                    color={notifEnabled ? '#D4AF37' : 'rgba(253, 248, 237, 0.6)'}
                   />
                 </Pressable>
 
+                {/* Silent-mode behaviour is the decision users most often regret: say it here, before the permission ask. */}
+                <Text style={styles.reassuranceText}>
+                  {t('settings.respectSilentModeDesc', 'Telefonunuz sessizde veya titreşimdeyken ezan sesini kapatır, sessizce uyarır.')}
+                </Text>
+
                 {/* Sound Test / Preview Button */}
                 <Pressable onPress={handleToggleTestSound} style={styles.secondaryActionBtn}>
-                  <Feather name={isPlayingTestSound ? 'square' : 'volume-2'} size={16} color="#D4AF37" style={{ marginRight: 6 }} />
+                  <Feather name={isPlayingTestSound ? 'square' : 'volume-2'} size={16} color="#D4AF37" style={{ marginEnd: 6 }} />
                   <Text style={styles.secondaryActionText}>
                     {isPlayingTestSound
-                      ? t('onboarding.stopTestSound', 'Sesi Durdur ⏹️')
-                      : t('onboarding.playTestSound', 'Ezan Sesini Dinle 🔊')}
+                      ? t('onboarding.stopTestSound', 'Sesi Durdur')
+                      : t('onboarding.playTestSound', 'Ezan Sesini Dinle')}
                   </Text>
                 </Pressable>
 
                 {notifDenied && (
                   <View style={styles.errorBox}>
-                    <Feather name="alert-circle" size={14} color="#F87171" style={{ marginRight: 6 }} />
+                    <Feather name="alert-circle" size={14} color="#F87171" style={{ marginEnd: 6 }} />
                     <Text style={styles.errorBoxText}>
                       {t(
                         'onboarding.notifDenied',
@@ -449,7 +483,7 @@ export function WelcomeOnboardingModal({
                     <Text style={styles.primaryBtnText}>
                       {notifDenied
                         ? t('onboarding.retryBtn', 'Tekrar Dene')
-                        : t('onboarding.startBtn', "Vera'yı Kullanmaya Başla 🌟")}
+                        : t('onboarding.startBtn', "Vera'yı Kullanmaya Başla")}
                     </Text>
                   </LinearGradient>
                 </Pressable>
@@ -465,7 +499,7 @@ export function WelcomeOnboardingModal({
                 {/* Back Button */}
                 <Pressable onPress={() => handleStepChange(1)} style={styles.skipBtn}>
                   <Text style={styles.skipBtnText}>
-                    {t('onboarding.backBtn', '← Geri Dön')}
+                    {t('onboarding.backBtn', 'Geri Dön')}
                   </Text>
                 </Pressable>
               </Animated.View>
@@ -573,12 +607,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(212, 175, 55, 0.15)',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginEnd: 12,
   },
   locationPreviewLabel: {
     fontFamily: 'Outfit_400Regular',
     fontSize: 11,
-    color: 'rgba(253, 248, 237, 0.55)',
+    color: 'rgba(253, 248, 237, 0.75)',
     marginBottom: 2,
   },
   locationPreviewCity: {
@@ -627,12 +661,12 @@ const styles = StyleSheet.create({
   skipBtnText: {
     fontFamily: 'Outfit_500Medium',
     fontSize: 12,
-    color: 'rgba(253, 248, 237, 0.55)',
+    color: 'rgba(253, 248, 237, 0.75)',
   },
   reassuranceText: {
     fontFamily: 'Outfit_400Regular',
     fontSize: 10.5,
-    color: 'rgba(253, 248, 237, 0.4)',
+    color: 'rgba(253, 248, 237, 0.7)',
     textAlign: 'center',
     marginTop: 2,
     paddingHorizontal: 12,
@@ -676,7 +710,7 @@ const styles = StyleSheet.create({
     borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 10,
+    marginEnd: 10,
   },
   featureTitle: {
     fontFamily: 'Outfit_600SemiBold',
@@ -687,31 +721,7 @@ const styles = StyleSheet.create({
   featureDesc: {
     fontFamily: 'Outfit_400Regular',
     fontSize: 11,
-    color: 'rgba(253, 248, 237, 0.65)',
+    color: 'rgba(253, 248, 237, 0.8)',
     lineHeight: 15,
-  },
-  highlightsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: 14,
-    gap: 6,
-  },
-  highlightBadge: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(212, 175, 55, 0.08)',
-    borderRadius: 10,
-    paddingVertical: 7,
-    paddingHorizontal: 4,
-    borderWidth: 1,
-    borderColor: 'rgba(212, 175, 55, 0.18)',
-  },
-  highlightText: {
-    fontFamily: 'Outfit_500Medium',
-    fontSize: 11,
-    color: '#FDF8ED',
   },
 });

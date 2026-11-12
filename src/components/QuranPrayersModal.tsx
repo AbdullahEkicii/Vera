@@ -17,7 +17,7 @@ import * as Haptics from 'expo-haptics';
 import { useTheme } from '../context/ThemeContext';
 import { typography } from '../utils/theme';
 import { logQuranPrayerOpened } from '../services/analyticsService';
-import { ct } from '../localization/content';
+import { useCt } from '../localization/content';
 
 interface Props {
   visible: boolean;
@@ -57,6 +57,7 @@ const PRAYERS_DATA = {
 
 export function QuranPrayersModal({ visible, onClose, initialTab = 'start' }: Props) {
   const { t, i18n } = useTranslation();
+  const ct = useCt();
   const { theme, isDark } = useTheme();
   const isLangTR = i18n.language === 'tr' || i18n.language.startsWith('tr');
 
@@ -147,7 +148,7 @@ export function QuranPrayersModal({ visible, onClose, initialTab = 'start' }: Pr
 
           {/* Content ScrollView */}
           <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-            <Text style={[styles.prayerHeading, { color: theme.colors.primary }]}>
+            <Text style={[styles.prayerHeading, { color: theme.colors.primaryText }]}>
               {ct(`content.quranPrayers.${activeTab}.title`, currentPrayer.titleTR, currentPrayer.titleEN)}
             </Text>
 
@@ -160,7 +161,7 @@ export function QuranPrayersModal({ visible, onClose, initialTab = 'start' }: Pr
 
             {/* Transliteration */}
             <View style={styles.sectionBlock}>
-              <Text style={[styles.sectionLabel, { color: theme.colors.primary }]}>
+              <Text style={[styles.sectionLabel, { color: theme.colors.primaryText }]}>
                 {t('quran.transliteration', 'Okunuşu')}
               </Text>
               <Text style={[styles.transliterationText, { color: theme.colors.text }]}>
@@ -170,7 +171,7 @@ export function QuranPrayersModal({ visible, onClose, initialTab = 'start' }: Pr
 
             {/* Meaning */}
             <View style={styles.sectionBlock}>
-              <Text style={[styles.sectionLabel, { color: theme.colors.primary }]}>
+              <Text style={[styles.sectionLabel, { color: theme.colors.primaryText }]}>
                 {t('quran.meaning', 'Türkçe Meali / Anlamı')}
               </Text>
               <Text style={[styles.meaningText, { color: theme.colors.textSecondary }]}>

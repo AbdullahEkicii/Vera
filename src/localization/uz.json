@@ -10,7 +10,13 @@
       "cancel": "Bekor qilish",
       "save": "Saqlash",
       "ok": "OK",
-      "close": "Yopish"
+      "close": "Yopish",
+      "back": "Orqaga",
+      "clear": "Tozalash",
+      "remove": "Olib tashlash",
+      "expand": "Yoyish",
+      "collapse": "Yig‘ish",
+      "share": "Ulashish"
     },
     "home": {
       "title": "Namaz Vaqtlari",
@@ -42,7 +48,13 @@
       "loadingTimes": "Namoz vaqtlari yuklanmoqda...",
       "locationPermissionTitle": "Joylashuv ruxsati olinmadi",
       "locationPermissionDesc": "Standart shahar ko'rsatilmoqda. Shahar tanlashingiz yoki joylashuvga ruxsat berishingiz mumkin.",
-      "estimatedTimesNotice": "Internet aloqasi bo'lmagani uchun vaqtlar qurilmada hisoblab chiqildi (taxminiy)."
+      "estimatedTimesNotice": "Internet aloqasi bo'lmagani uchun vaqtlar qurilmada hisoblab chiqildi (taxminiy).",
+      "adjustTimeHint": "Bu vaqtni sozlash uchun uzoq bosing",
+      "moreTools": "Ko'proq",
+      "locationFetchFailedTitle": "Joylashuv topilmadi",
+      "locationFetchFailedDesc": "GPS joylashuvingizni olib bo‘lmadi. Shaharni tanlashingiz yoki keyinroq qayta urinishingiz mumkin.",
+      "sourceA11y": "Namoz vaqtlarini hisoblash usuli",
+      "highLatNote": "Yuqori kenglik: Bomdod/Xufton taxminiy"
     },
     "settings": {
       "title": "Sozlamalar",
@@ -60,7 +72,11 @@
         "egypt": "Misr Bosh Boshqarmasi",
         "karachi": "Karachi (Pokiston)",
         "france": "Fransiya (UOIF)",
-        "russia": "Rossiya Musulmonlari Idorasi"
+        "russia": "Rossiya Musulmonlari Idorasi",
+        "kemenag": "Indoneziya (Kemenag)",
+        "jakim": "Malayziya (JAKIM)",
+        "muis": "Singapur (MUIS)",
+        "tehran": "Eron (Tehron universiteti)"
       },
       "palettes": {
         "default": "Standart",
@@ -93,7 +109,7 @@
       "persistentNotif": "Doimiy namozni ortga hisoblash",
       "persistentNotifDesc": "Qulflangan ekran va bildirishnomalar panelida keyingi namozga qolgan vaqtni jonli ravishda kuzatib boring.",
       "widgetTitle": "Bosh ekran vidjeti",
-      "addWidget": "📌 Asosiy ekranga vidjet qo'shing!",
+      "addWidget": "Asosiy ekranga vidjet qo'shing!",
       "addWidgetDesc": "Namoz vaqtlarini va to'g'ridan-to'g'ri teskari hisobni telefoningizning bosh ekranida ko'ring.",
       "general": "Umumiy sozlamalar",
       "fullscreen": "To'liq ekran rejimi",
@@ -130,7 +146,32 @@
       "username": "Foydalanuvchi nomi",
       "password": "Parol",
       "loggingIn": "Kirilmoqda...",
-      "login": "Kirish"
+      "login": "Kirish",
+      "remindersTitle": "Eslatmalar va e'lonlar",
+      "dailyContentNotif": "Kunning oyati / hadisi",
+      "dailyContentNotifDesc": "Peshin namozidan keyin qisqa kundalik eslatma.",
+      "quranReminderNotif": "Qur'on o'qish eslatmasi",
+      "quranReminderNotifDesc": "Har ikki kunda kechki eslatma.",
+      "greetingNotif": "Juma va muborak kunlar tabrigi",
+      "greetingNotifDesc": "Juma kunlari va diniy kunlarda eslatmalar.",
+      "announcementsNotif": "E'lonlar",
+      "announcementsNotifDesc": "Vera'dan yangiliklar va kampaniya xabarlari.",
+      "locationTitle": "Joylashuv",
+      "changeCity": "Shaharni o'zgartirish",
+      "locationNotSet": "Hali tanlanmagan",
+      "locationFromGps": "Telefon joylashuvini kuzatmoqda",
+      "locationFromManual": "Shahar qo'lda tanlangan",
+      "locationHint": "Shaharni tanlang yoki telefon joylashuvidan foydalaning.",
+      "useMyLocation": "Hozirgi joylashuvimdan foydalanish",
+      "fullscreenDesc": "Holat qatori (soat, batareya) va navigatsiya panelini yashiradi.",
+      "recommended": "Tavsiya etiladi",
+      "asrSchoolTitle": "Asr hisobi",
+      "asrStandard": "Standart (shofiiy, molikiy, hanbaliy)",
+      "asrHanafi": "Hanafiy",
+      "asrSchoolDesc": "Hanafiy mazhabida asr kechroq kiradi (soya narsadan ikki barobar). Janubiy Osiyoda keng tarqalgan.",
+      "rateApp": "Vera'ni baholash",
+      "privacyPolicy": "Maxfiylik siyosati",
+      "restartForDirection": "Yangi matn yo'nalishini qo'llash uchun ilovani yoping va qayta oching."
     },
     "qibla": {
       "title": "Qibla",
@@ -148,12 +189,12 @@
       "status": "Holat",
       "aligned": "Tog'ri",
       "aligning": "Aylantiring",
-      "alignedSuccess": "🕌 Siz Qibla yo'nalishidasiz!",
+      "alignedSuccess": "Siz Qibla yo'nalishidasiz!",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "Qanday foydalanish kerak?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "Sarlavha",
       "calibrateBtn": "Kompasni kalibrlash",
@@ -162,8 +203,15 @@
       "magneticShield": "Magnit maydon qalqoni",
       "magneticShieldDesc": "Sensor aniqligi optimallashtirilgan. Magnit qutilardan uzoqroq tuting.",
       "levelStatus": "Gorizontal daraja (qabariq)",
-      "levelFlat": "Yassi va parallel ✓",
-      "gotIt": "Tushundim"
+      "levelFlat": "Yassi va parallel",
+      "gotIt": "Tushundim",
+      "noLocationTitle": "Joylashuv kerak",
+      "noLocationDesc": "Qibla yo'nalishi qayerdaligingizga bog'liq. Shaharni tanlang yoki joylashuvga ruxsat bering.",
+      "useMyLocation": "Joylashuvimdan foydalanish",
+      "chooseCity": "Shaharni tanlash",
+      "lowAccuracy": "Kompas aniqligi past. Kalibrlash uchun bosing.",
+      "magneticNorthNote": "Magnit shimol ishlatilmoqda: yo'nalish bir necha darajaga chetlashishi mumkin.",
+      "errorNoSensor": "Kompas sensori javob bermayapti. Bu qurilmada kompas bo'lmasligi mumkin."
     },
     "daily": {
       "title": "Kun Ilhomlari",
@@ -175,7 +223,8 @@
       "hadithBody": "Kunning hadisini o'qish uchun bosing!",
       "quoteBody": "Kunning hikmatini o'qish uchun bosing!",
       "subtitle": "Bugungi kun uchun tanlangan oyat, hadis va so'z",
-      "shareHint": "Hikoya rasmi sifatida ulashish uchun kartochkaga bosing"
+      "shareHint": "Hikoya rasmi sifatida ulashish uchun kartochkaga bosing",
+      "autoTranslated": "Avtomatik tarjima"
     },
     "search": {
       "title": "Joylashuvni Tanlang",
@@ -184,7 +233,10 @@
       "recent": "Oxirgi Qidiruvlar",
       "useGPS": "Hozirgi Joylashuvdan Foydalanish",
       "gpsDenied": "Joylashuv ruxsati rad etildi.",
-      "gpsError": "Joylashuvni aniqlab bo'lmadi."
+      "gpsError": "Joylashuvni aniqlab bo'lmadi.",
+      "searchFailed": "Qidiruv amalga oshmadi, aloqangizni tekshiring.",
+      "pin": "Shaharni saqlash",
+      "unpin": "Olib tashlash"
     },
     "notifications": {
       "exactAlert": "Namoz Vaqti Bildirishnomasi",
@@ -237,7 +289,8 @@
         "dailyName": "Kundalik ilhom",
         "dailyDesc": "Kundalik oyat, hadis yoki iqtibos peshin va asr oralig'ida keladi.",
         "persistentName": "Ekranni qulflash va holat paneli",
-        "persistentDesc": "Bildirishnomalar paneli va qulflangan ekranda keyingi namoz nomini va jonli ortga hisoblashni ko'rsatadi."
+        "persistentDesc": "Bildirishnomalar paneli va qulflangan ekranda keyingi namoz nomini va jonli ortga hisoblashni ko'rsatadi.",
+        "announcements": "E’lonlar"
       },
       "persistentTitle": "🕌 {{prayer}} vaqtigacha"
     },
@@ -408,7 +461,15 @@
       "noBookmarks": "Hozircha sevimli oyatingiz yo'q. Oyatga uzoq bosib qo'shishingiz mumkin.",
       "playFromHere": "Shu yerdan tinglash",
       "juz": "Juz",
-      "downloadingShort": "Yuklab olinmoqda..."
+      "downloadingShort": "Yuklab olinmoqda...",
+      "audioErrorTitle": "Audioni ijro etib bo'lmadi",
+      "audioErrorMessage": "Qiroat yuklanmadi. Internet aloqangizni tekshirib, qayta urinib ko'ring.",
+      "audioPause": "Tilovatni pauza qilish",
+      "audioResume": "Tilovatni davom ettirish",
+      "audioStop": "Tilovatni to‘xtatish",
+      "audioPlay": "Tilovatni ijro etish",
+      "fontSmaller": "Matnni kichraytirish",
+      "fontLarger": "Matnni kattalashtirish"
     },
     "review": {
       "title": "Bizni Qo'llab-quvvatlang",
@@ -416,9 +477,9 @@
       "notNow": "Hozir Emas",
       "review": "Baho Berish",
       "subtitle": "Yulduzlar bilan tajribangizni baholang",
-      "fiveStarTitle": "Buni eshitganimizdan xursandmiz! 🌟",
+      "fiveStarTitle": "Buni eshitganimizdan xursandmiz!",
       "fiveStarSubtitle": "Verani 5 yulduzli reyting bilan qo'llab-quvvatlamoqchimisiz?",
-      "rateOnStore": "🌟 5 yulduzcha bering va qo'llab-quvvatlang",
+      "rateOnStore": "5 yulduzcha bering va qo'llab-quvvatlang",
       "ratingLabels": {
         "1": "Yaxshilash kerak",
         "2": "Yarmarka",
@@ -426,11 +487,11 @@
         "4": "Juda yaxshi",
         "5": "Ajoyib!"
       },
-      "feedbackTitle": "Yaxshilashimizga yordam bering 💬",
+      "feedbackTitle": "Yaxshilashimizga yordam bering",
       "feedbackSubtitle": "Fikr va takliflaringizni o'rtoqlashing, shunda biz Verani yanada yaxshiroq qilishimiz mumkin.",
       "feedbackPlaceholder": "Takliflar, g'oyalar yoki duch kelgan muammolaringizni yozing...",
       "sendFeedback": "Fikr-mulohaza yuborish",
-      "thankYouTitle": "Fikr-mulohaza olindi! 🤲",
+      "thankYouTitle": "Fikr-mulohaza olindi!",
       "thankYouSubtitle": "Sizning fikr-mulohazalaringiz biz uchun juda qimmatlidir. Biz Verani yanada yaxshiroq qilish uchun ko'p harakat qilamiz.",
       "close": "Yopish"
     },
@@ -453,6 +514,8 @@
       "title": "Kundalik ibodat kuzatuvchisi",
       "completed": "Bajarildi",
       "dayStreak": "Kunlik chiziq",
+      "restartHint": "Bugun qaytadan boshlashingiz mumkin",
+      "weekActiveDays": "So'nggi 7 kunning {{count}} kuni",
       "viewHistory": "Toʻliq tarixni koʻrish",
       "historyTitle": "Namoz tarixi",
       "historySubtitle": "Sizning so'nggi 30 kunlik ibodatlaringiz jurnallari",
@@ -471,19 +534,20 @@
       "celebrationSubtitle": "Masha Alloh!",
       "celebrationMessage": "Siz bugun 5 kunlik namozni to'liq o'qidingiz. Alloh duolaringizni qabul qilsin!",
       "celebrationBtn": "Alhamdulillah",
-      "trustNotice": "{{city}} • {{metod}} yordamida mintaqangiz uchun tasdiqlangan namoz vaqtlari",
+      "trustNotice": "{{city}} • {{method}} yordamida mintaqangiz uchun tasdiqlangan namoz vaqtlari",
       "streakDays": "kunlar",
       "shareStreak": "Seriyamni ulashish",
       "shareText": "Uzluksiz {{count}} kundir namozlarimni kuzatib boryapman, alhamdulillah!"
     },
     "calendar": {
       "title": "Birlashtirilgan kalendar",
-      "todayNotice": "Bugun: {{grigoriy}} • Hijriy: {{hijriy}}"
+      "todayNotice": "Bugun: {{gregorian}} • Hijriy: {{hijri}}"
     },
     "imsakiye": {
       "title": "Haftalik Imsakiye",
       "subtitle": "Keyingi 7 kunlik vaqt",
-      "date": "Sana"
+      "date": "Sana",
+      "rangeDays": "{{n}} kun"
     },
     "religious": {
       "title": "Diniy kunlar",
@@ -541,20 +605,20 @@
       "verifiedMethodDesc": "Mintaqangiz uchun eng aniq islom usuli avtomatik ravishda tanlanadi.",
       "notificationsTitle": "Azon va namoz ogohlantirishlari",
       "notificationsDesc": "Namoz vaqtida yumshoq yoki ovozli eslatmalarni oling.",
-      "startBtn": "Vera 🌟 dan foydalanishni boshlang",
+      "startBtn": "Vera dan foydalanishni boshlang",
       "featureQuran": "Qur'on va audio",
       "featureQibla": "Qibla",
       "featureDhikr": "Zikr hisoblagichi",
-      "backBtn": "← Orqaga qaytish",
-      "playTestSound": "Azon ovozini oldindan ko'rish 🔊",
-      "stopTestSound": "Ovozni to'xtatish ⏹️",
-      "nextStepBtn": "Davom etish →",
+      "backBtn": "Orqaga qaytish",
+      "playTestSound": "Azon ovozini oldindan ko'rish",
+      "stopTestSound": "Ovozni to'xtatish",
+      "nextStepBtn": "Davom etish",
       "step3Title": "Uzluksiz tajriba",
       "step3Subtitle": "Namoz vaqtlarini uy ekraningizdan jonli kuzatib boring va ishonchli azon bildirishnomalarini oling.",
-      "widgetTitle": "📌 Asosiy ekranga vidjet qo‘shing",
+      "widgetTitle": "Asosiy ekranga vidjet qo‘shing",
       "widgetDesc": "Ilovani ochmasdan jonli ortga hisoblashlarni ko'ring.",
       "widgetAdded": "Vidjet muvaffaqiyatli qo‘shildi!",
-      "batteryTitle": "🔋 Batareya tejashdan ozod",
+      "batteryTitle": "Batareya tejashdan ozod",
       "batteryDesc": "O‘z vaqtida azon aytish uchun Xiaomi va Samsung’da batareya quvvatini optimallashtirishni o‘chirib qo‘yish tavsiya etiladi.",
       "locationReassurance": "Buni keyinroq istalgan vaqtda Sozlamalar'dan o'zgartirishingiz mumkin.",
       "notifDenied": "Bildirishnoma ruxsati berilmadi. Azon ogohlantirishlari ishlamasligi mumkin — keyinroq Sozlamalar'dan yoqishingiz mumkin.",
@@ -565,7 +629,10 @@
       "skipConfirm": "O'tkazib yuborish",
       "locationDenied": "Joylashuvga ruxsat berilmadi. Shahringizni ro'yxatdan tanlashingiz yoki buni keyinroq Sozlamalar'dan o'zgartirishingiz mumkin.",
       "locationFailed": "Joylashuv aniqlanmadi. Shahringizni ro'yxatdan tanlashingiz yoki buni keyinroq Sozlamalar'dan o'zgartirishingiz mumkin.",
-      "locationNotSet": "Joylashuv aniqlanmadi (Ruxsat berilmagan)"
+      "locationNotSet": "Joylashuv aniqlanmadi (Ruxsat berilmagan)",
+      "locationNotSetYet": "Hali tanlanmagan",
+      "skipLocation": "Hozircha o'tkazib yuborish",
+      "currentLocationLabel": "Joriy joylashuv"
     },
     "weather": {
       "title": "Ob-havo ma'lumoti",
@@ -630,8 +697,8 @@
       "messagePlaceholder": "Ibodatingizni yoki tabrik xabaringizni yozing...",
       "chooseTheme": "Karta mavzusi",
       "shareBtn": "WhatsApp / Hikoya 🌟 ga ulashing",
-      "shareImageBtn": "Rasm kartasini ulashing 🌟",
-      "shareLinkBtn": "To'g'ridan-to'g'ri do'kon havolasini ulashing 🔗",
+      "shareImageBtn": "Rasm kartasini ulashing",
+      "shareLinkBtn": "To'g'ridan-to'g'ri do'kon havolasini ulashing",
       "theme": {
         "gold": "Oltin chiziq",
         "emerald": "Zumrad gumbaz",
@@ -649,7 +716,13 @@
       "emptyTitle": "Yaqin atrofda hech qanday masjid topilmadi",
       "emptyDesc": "Siz barcha masjidlarni to'g'ridan-to'g'ri xaritalar navigatsiyasida ko'rishingiz mumkin.",
       "openInMaps": "Xaritalarda qidirish",
-      "directionsBtn": "Yo'nalishlar"
+      "directionsBtn": "Yo'nalishlar",
+      "searchQuery": "masjid",
+      "noLocationTitle": "Joylashuv topilmadi",
+      "noLocationDesc": "Yaqin atrofdagi masjidlarni ko'rish uchun shaharni tanlang yoki joylashuvga ruxsat bering.",
+      "errorTitle": "Masjidlarni yuklab bo'lmadi",
+      "errorDesc": "Aloqa muammosi yuz berdi. Internetni tekshirib, qayta urinib ko'ring.",
+      "chooseCity": "Shaharni tanlang"
     },
     "dailyContent": {
       "preparing": "Kundalik ilhom yuklanmoqda...",
@@ -666,7 +739,7 @@
       "hatimLabel": "Xatm",
       "page": "Sahifa",
       "pagesRemaining": "Xatmni yakunlash uchun {{count}} sahifa qoldi.",
-      "completed": "Tabriklaymiz! Siz xatmni tugatdingiz. 🎉",
+      "completed": "Tabriklaymiz! Siz xatmni tugatdingiz.",
       "readPageBtn": "{{page}} sahifasini oʻqish",
       "jumpPageTitle": "Sahifaga o'tish / Yangilanish jarayoni",
       "jumpPageDesc": "Joriy sahifa raqamini kiriting (1 - 604):",
@@ -676,7 +749,8 @@
       "startNew": "Yangi Hatmni ishga tushiring",
       "resetHatimBtn": "Qayta tiklash va yangi Hatmni ishga tushirish",
       "share": "Xatmimni ulashish",
-      "shareText": "{{count}}-xatmimni yakunladim, alhamdulillah!"
+      "shareText": "{{count}}-xatmimni yakunladim, alhamdulillah!",
+      "dailyTarget": "Tugatish uchun kuniga taxminan {{n}} bet ({{d}} kun qoldi)"
     },
     "prayerTree": {
       "title": "Haftalik ibodat daraxti",
@@ -1118,7 +1192,7 @@
           "label": "Zikr"
         },
         "library": {
-          "label": "Dualar"
+          "label": "Duolar"
         },
         "qibla": {
           "label": "Qibla"
@@ -1175,10 +1249,10 @@
     },
     "widget": {
       "guideTitle": "Bosh ekranga qo'shish",
-      "guideDesc": "Bosh ekraningizni bosib turing ➔ \"Vidjetlar\" bo'limini bosing ➔ \"VERA\" vidjetini tanlab ekraningizga suring.",
+      "guideDesc": "Bosh ekraningizni bosib turing > \"Vidjetlar\" bo'limini bosing > \"VERA\" vidjetini tanlab ekraningizga suring.",
       "promptTitle": "Bosh ekranga vidjet qo'shish",
       "promptDesc": "Navbatdagi azon vaqtini va qolgan daqiqani ilovangizni ochmasdan to'g'ridan-to'g'ri telefoningiz bosh ekranidan jonli kuzatib boring.",
-      "addNow": "📌 Bosh ekranga qo'shish",
+      "addNow": "Bosh ekranga qo'shish",
       "notNow": "Keyinroq"
     },
     "greetingNotif": {
@@ -1191,7 +1265,133 @@
     "errorBoundary": {
       "title": "Nimadir xato ketdi",
       "subtitle": "Ilovada kutilmagan xatolik yuz berdi. Qayta urinish uchun quyidagi tugmani bosing.",
-      "retry": "Qayta urinish"
+      "retry": "Qayta urinish",
+      "clearAndRetry": "Keshni tozalab, qayta urinib ko‘ring"
+    },
+    "community": {
+      "tabMine": "Mening postlarim",
+      "you": "Siz",
+      "emptyMine": "Hali postlaringiz yo‘q. Biror ibodatni bajarganingizdan so‘ng ulashishingiz mumkin.",
+      "adLabel": "Reklama",
+      "title": "Jamiyat",
+      "tabToday": "Bugun",
+      "tabWeek": "So'nggi 7 kun",
+      "anonymous": "Noma'lum aka/opa",
+      "someone": "Kimdir",
+      "templates": {
+        "hatimCompleted": "Xatmni tugatdi",
+        "achievement": "{{title}} ochildi",
+        "dhikrMilestone": "{{country}}dan kimdir {{count}} marta zikr qildi",
+        "prayerFullday": "Bugun besh vaqt namoz ado etildi"
+      },
+      "emptyToday": "Bugun hali postlar yo'q. Biror narsani tugatganingizda birinchisini ulashing.",
+      "emptyWeek": "So'nggi 7 kunda postlar yo'q.",
+      "loadFailed": "Lentani yuklab bo'lmadi. Qayta urinish uchun pastga torting.",
+      "share": {
+        "title": "Buni Vera jamiyati bilan ulashmoqchimisiz?",
+        "note": "Faqat shu matn ulashiladi. Ismingiz va shaxsiy ma'lumotlaringiz yashirin qoladi.",
+        "submit": "Ulashish",
+        "later": "Hozir emas",
+        "failed": "Ulashib bo'lmadi. Keyinroq urinib ko'ring.",
+        "heading": "Jamiyat bilan ulashish",
+        "sent": "Ulashildi",
+        "external": "Boshqa ilovada ulashish",
+        "open": "Jamiyat bilan ulashish",
+        "celebrateHint": "Vera jamiyati bilan anonim ulashing.",
+        "intro": "Butun dunyodagi aka-opalar buni ko'rishi mumkin. Ismingiz yashirin qoladi."
+      },
+      "settings": {
+        "title": "Jamiyat sozlamalari",
+        "participate": "Jamiyatga qo'shilish",
+        "participateHint": "O'chiq bo'lsa, ulashish takliflari chiqmaydi. Lentani baribir o'qiy olasiz.",
+        "showCountry": "Davlatimni ko'rsatish",
+        "showCountryHint": "Yoqilsa, postlaringiz yonida davlatingiz nomi ko'rinadi. O'chirish faqat yangi postlarga ta'sir qiladi.",
+        "country": "Davlat",
+        "countryManual": "Tanlangan davlat: {{code}}",
+        "countryDevice": "Qurilma mintaqasi ishlatilmoqda.",
+        "useDevice": "Qurilma",
+        "countryInvalid": "Ikki harfli davlat kodini kiriting, masalan TR",
+        "myPosts": "Postlarim",
+        "noPosts": "Sizda hali postlar yo'q.",
+        "delete": "O'chirish",
+        "deleteTitle": "Bu post o'chirilsinmi?",
+        "deleteBody": "U hamma uchun lentadan olib tashlanadi.",
+        "blocked": "Bloklanganlar: {{count}}",
+        "clearBlocked": "Bloklanganlar ro'yxatini tozalash",
+        "joined": "Siz jamiyatdasiz",
+        "left": "Jamiyat o'chiq",
+        "sectionPrivacy": "Maxfiylik",
+        "sectionBlocked": "Bloklanganlar",
+        "countryDeviceTitle": "Qurilma mintaqasi",
+        "blockedCount": "{{count}} kishi",
+        "change": "O'zgartirish"
+      },
+      "report": {
+        "action": "Shikoyat qilish",
+        "thanksTitle": "Rahmat",
+        "thanksBody": "Shikoyatingiz ko'rib chiqiladi.",
+        "failed": "Shikoyatni yuborib bo'lmadi."
+      },
+      "block": {
+        "action": "Bu odamni bloklash"
+      },
+      "more": {
+        "title": "Bu post uchun amallar"
+      },
+      "discovery": {
+        "title": "Yutuqlaringizni Vera jamiyati bilan ulashing",
+        "body": "Xatm, zikr va namoz kunlarini butun dunyodagi aka-opalar bilan anonim ulashing.",
+        "cta": "Jamiyatni ochish"
+      },
+      "summary": {
+        "posts": "post",
+        "hatim": "Xatm",
+        "achievement": "Yutuq",
+        "dhikr": "Zikr",
+        "prayer": "Namoz"
+      },
+      "howTo": {
+        "helpLabel": "Qanday ulashish mumkin",
+        "title": "Ulashish qanday ishlaydi",
+        "intro": "Bajargan ibodatingizni Vera hamjamiyati bilan ulashing. Ismingiz yashirin qoladi.",
+        "step1Title": "Ibodatni bajaring",
+        "step1Body": "Ilovada besh vaqt namozni, xatmni yoki zikr maqsadini yakunlang.",
+        "step2Title": "Ulashish tugmasini bosing",
+        "step2Body": "Tabrik oynasi chiqqach, Ulashish tugmasini bosing. Namoz va zikr ekranlaridagi ulashish tugmasidan ham foydalanishingiz mumkin.",
+        "step3Title": "Postingiz shu yerda ko'rinadi",
+        "step3Body": "Uni hamma ko'ra oladi, davlatingiz esa faqat ruxsat bersangiz ko'rsatiladi. Istalgan vaqtda Postlarim bo'limidan o'chirishingiz mumkin.",
+        "gotIt": "Tushunarli"
+      },
+      "reminder": {
+        "title": "Bugungi ibodatni ulashing",
+        "body": "Bugungi ibodatni jamoa bilan ulashmoqchimisiz?",
+        "bodyAll": "Bugun besh vaqt namozni ado etdingiz. Jamoa bilan ulashmoqchimisiz?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "Bugungi maqsad: bitta xatm. Kuniga bir necha sahifa o‘qing, Qur’onni birga xatm qilamiz.",
+        "m1": "Bugungi maqsad: xufton namozidan keyin 33 Subhanalloh, 33 Alhamdulillah va 33 Allohu akbar.",
+        "m2": "Bugun birga besh vaqt namozni o‘z vaqtida o‘qishni maqsad qilaylik.",
+        "m3": "Bugungi maqsad: Qur’ondan bir sahifa o‘qish. Kichik qadamlar ham qadrli.",
+        "m4": "Bugungi maqsad: 100 Subhanalloh. Tugatgach, jamoa bilan ulashing.",
+        "m5": "Shu hafta duolar ro‘yxatini yozing va unda bir birodar yoki singilni eslang.",
+        "m6": "Bugun sadaqa berish yoki kimgadir yaxshilik qilishni o‘ylab ko‘ring."
+      }
+    },
+    "coach": {
+      "dismiss": "Tushundim",
+      "ummah": {
+        "title": "Ummat",
+        "body": "Tugatgan ibodatingizni jamiyat bilan ulashing yoki bugun boshqalar nima ulashganini ko'ring."
+      },
+      "qibla": {
+        "title": "Qibla kompasi",
+        "body": "Telefonni tekis ushlang va o'q Ka'baga qaragunicha buring."
+      },
+      "silentMode": {
+        "title": "Ovozsiz rejim",
+        "body": "Telefon ovozsiz yoki tebranish rejimida bo'lsa, azon sekin eshittiriladi. Buni Sozlamalarda o'zgartirishingiz mumkin."
+      }
     }
   }
 }

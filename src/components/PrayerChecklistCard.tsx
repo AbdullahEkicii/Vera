@@ -3,14 +3,19 @@ import { View, Text, StyleSheet, Pressable, Platform, Modal } from 'react-native
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from '../services/storageService';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
 import { router } from 'expo-router';
 import { audioManager } from '../services/audioManager';
 import { logPrayerLogged } from '../services/analyticsService';
 import { StoryCardShareModal } from './StoryCardShareModal';
+import { CommunitySharePrompt } from './CommunitySharePrompt';
 import { maybeRequestReview } from '../services/reviewService';
+import { toLocalIsoDay } from '../utils/zonedTime';
+import { countActiveDaysInWindow } from '../utils/streak';
+import { readableTextOn } from '../utils/theme';
+import { directionalIconStyle } from '../utils/rtl';
 
 const PRAYER_LOGS_KEY = 'USER_PRAYER_LOGS_V1';
 const CELEBRATED_DATE_KEY = 'PRAYER_CELEBRATED_DATE_V1';
@@ -37,7 +42,7 @@ export function PrayerChecklistCard() {
   const { theme, isDark } = useTheme();
   const c = theme.colors;
 
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayStr = toLocalIsoDay();
 
   const [todayLog, setTodayLog] = useState<Record<string, boolean>>({
     fajr: false,
@@ -48,8 +53,10 @@ export function PrayerChecklistCard() {
   });
 
   const [streakCount, setStreakCount] = useState<number>(0);
+  const [weekActiveDays, setWeekActiveDays] = useState<number>(0);
   const [showCelebrationModal, setShowCelebrationModal] = useState<boolean>(false);
   const [shareModalVisible, setShareModalVisible] = useState<boolean>(false);
+  const [communityShareVisible, setCommunityShareVisible] = useState<boolean>(false);
 
   useEffect(() => {
     loadLogsAndStreak();
@@ -84,7 +91,7 @@ export function PrayerChecklistCard() {
       for (let i = 0; i < 60; i++) {
         const d = new Date(todayDate);
         d.setDate(d.getDate() - i);
-        const dStr = d.toISOString().split('T')[0];
+        const dStr = toLocalIsoDay(d);
         const dayLog = allLogs[dStr];
 
         if (dayLog) {
@@ -103,6 +110,8 @@ export function PrayerChecklistCard() {
       }
 
       setStreakCount(currentStreak);
+      // A broken streak still shows the week's progress, so one missed day does not read as a reset to zero.
+      setWeekActiveDays(countActiveDaysInWindow(allLogs, 7));
     } catch (e) {
       console.error('Error loading prayer checklist logs', e);
     }
@@ -182,7 +191,7 @@ export function PrayerChecklistCard() {
             >
               {t('checklist.title', 'Günlük Namaz Takibi')}
             </Text>
-            <Feather name="chevron-right" size={16} color={c.primary} style={{ flexShrink: 0 }} />
+            <Feather name="chevron-right" size={16} color={c.primary} style={[{ flexShrink: 0 }, directionalIconStyle]} />
           </View>
           <Text style={[styles.cardSubtitle, { color: c.textSecondary }]}>
             {completedCount} / 5 {t('checklist.completed', 'Kılındı')}
@@ -192,8 +201,12 @@ export function PrayerChecklistCard() {
         {/* Streak Badge */}
         <View style={[styles.streakBadge, { backgroundColor: c.primaryLight, borderColor: c.borderStrong }]}>
           <Ionicons name="flame" size={15} color={c.primary} />
-          <Text style={[styles.streakText, { color: c.primary }]}>
-            {streakCount} {t('checklist.dayStreak', 'Gün Seri')}
+          <Text style={[styles.streakText, { color: c.primaryText }]}>
+            {streakCount > 0
+              ? `${streakCount} ${t('checklist.dayStreak', 'Gün Seri')}`
+              : weekActiveDays > 0
+                ? t('checklist.weekActiveDays', 'Son 7 günde {{count}} gün', { count: weekActiveDays })
+                : t('checklist.restartHint', 'Bugün yeniden başlayabilirsin')}
           </Text>
         </View>
       </Pressable>
@@ -251,10 +264,10 @@ export function PrayerChecklistCard() {
         onPress={() => router.push('/prayer-history')}
         accessibilityRole="button"
       >
-        <Text style={[styles.historyBarText, { color: c.primary }]}>
+        <Text style={[styles.historyBarText, { color: c.primaryText }]}>
           {t('checklist.viewHistory', 'Tüm Geçmişi Gör')}
         </Text>
-        <Feather name="arrow-right" size={14} color={c.primary} />
+        <Feather name="arrow-right" size={14} color={c.primary} style={directionalIconStyle} />
       </Pressable>
 
       {/* 5 Daily Prayers Victory Modal */}
@@ -284,8 +297,32 @@ export function PrayerChecklistCard() {
               {t('checklist.celebrationTitle', 'Tebrikler!')}
             </Text>
 
-            <Text style={[styles.modalSubtitle, { color: c.primary }]}>
+            <Text style={[styles.modalSubtitle, { color: c.primaryText }]}>
               {t('checklist.celebrationSubtitle', 'Maşallah!')}
+            </Text>
+
+            <Pressable
+              style={({ pressed }) => [styles.modalBtn, { opacity: pressed ? 0.85 : 1 }]}
+              onPress={() => {
+                setShowCelebrationModal(false);
+                setCommunityShareVisible(true);
+              }}
+              accessibilityRole="button"
+            >
+              <LinearGradient
+                colors={c.heroGradient as [string, string]}
+                style={styles.modalBtnGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              >
+                <Feather name="users" size={16} color={readableTextOn(c.heroGradient[0])} />
+                <Text style={[styles.modalBtnText, { color: readableTextOn(c.heroGradient[0]) }]}>
+                  {t('community.share.open', 'Topluluğa paylaş')}
+                </Text>
+              </LinearGradient>
+            </Pressable>
+            <Text style={[styles.modalHint, { color: c.textSecondary }]}>
+              {t('community.share.celebrateHint', 'Vera topluluğundaki kardeşlerinle anonim olarak paylaş.')}
             </Text>
 
             <Text style={[styles.modalMessage, { color: c.textSecondary }]}>
@@ -302,7 +339,7 @@ export function PrayerChecklistCard() {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
               >
-                <Text style={styles.modalBtnText}>
+                <Text style={[styles.modalBtnText, { color: readableTextOn(c.heroGradient[0]) }]}>
                   {t('checklist.celebrationBtn', 'Elhamdülillah')}
                 </Text>
               </LinearGradient>
@@ -317,7 +354,7 @@ export function PrayerChecklistCard() {
                 }}
               >
                 <Feather name="share-2" size={14} color={c.primary} />
-                <Text style={[styles.shareRowText, { color: c.primary }]}>
+                <Text style={[styles.shareRowText, { color: c.primaryText }]}>
                   {t('checklist.shareStreak', 'Serimi Paylaş')}
                 </Text>
               </Pressable>
@@ -333,6 +370,13 @@ export function PrayerChecklistCard() {
         text={t('checklist.shareText', 'Kesintisiz {{count}} gündür namazlarımı takip ediyorum, elhamdülillah!', { count: streakCount })}
         source="Vera"
         type="achievement"
+      />
+
+      <CommunitySharePrompt
+        visible={communityShareVisible}
+        templateKey="prayer.fullday"
+        params={{}}
+        onDone={() => setCommunityShareVisible(false)}
       />
     </View>
   );
@@ -355,7 +399,7 @@ const styles = StyleSheet.create({
   },
   headerTitleGroup: {
     flex: 1,
-    marginRight: 12,
+    marginEnd: 12,
   },
   cardTitle: {
     fontFamily: 'Outfit_700Bold',
@@ -416,7 +460,7 @@ const styles = StyleSheet.create({
   },
   prayerLabel: {
     fontFamily: 'Outfit_600SemiBold',
-    fontSize: 10.5,
+    fontSize: 12,
     textAlign: 'center',
     width: '100%',
   },
@@ -484,6 +528,14 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     textAlign: 'center',
     marginBottom: 22,
+  },
+  modalHint: {
+    fontFamily: 'Outfit_400Regular',
+    fontSize: 13,
+    lineHeight: 18,
+    textAlign: 'center',
+    marginTop: 8,
+    marginBottom: 14,
   },
   modalBtn: {
     width: '100%',

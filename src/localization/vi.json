@@ -10,7 +10,13 @@
       "cancel": "Hủy",
       "save": "Lưu",
       "ok": "OK",
-      "close": "Đóng"
+      "close": "Đóng",
+      "back": "Quay lại",
+      "clear": "Xóa",
+      "remove": "Gỡ bỏ",
+      "expand": "Mở rộng",
+      "collapse": "Thu gọn",
+      "share": "Chia sẻ"
     },
     "home": {
       "title": "Giờ Cầu Nguyện",
@@ -42,7 +48,13 @@
       "loadingTimes": "Đang tải thời gian cầu nguyện...",
       "locationPermissionTitle": "Không thể lấy quyền vị trí",
       "locationPermissionDesc": "Đang hiển thị thành phố mặc định. Bạn có thể chọn thành phố hoặc cấp quyền vị trí.",
-      "estimatedTimesNotice": "Không có kết nối internet nên giờ giấc đã được tính trên thiết bị (ước tính)."
+      "estimatedTimesNotice": "Không có kết nối internet nên giờ giấc đã được tính trên thiết bị (ước tính).",
+      "adjustTimeHint": "Nhấn giữ để điều chỉnh thời gian này",
+      "moreTools": "Thêm",
+      "locationFetchFailedTitle": "Không tìm thấy vị trí",
+      "locationFetchFailedDesc": "Không thể lấy vị trí GPS của bạn. Bạn có thể chọn thành phố hoặc thử lại sau.",
+      "sourceA11y": "Phương pháp tính giờ cầu nguyện",
+      "highLatNote": "Vĩ độ cao: giờ Fajr/Isha là ước tính"
     },
     "settings": {
       "title": "Cài Đặt",
@@ -60,7 +72,11 @@
         "egypt": "Cơ Quan Ai Cập",
         "karachi": "Karachi (Pakistan)",
         "france": "Pháp (UOIF)",
-        "russia": "Nga"
+        "russia": "Nga",
+        "kemenag": "Indonesia (Kemenag)",
+        "jakim": "Malaysia (JAKIM)",
+        "muis": "Singapore (MUIS)",
+        "tehran": "Iran (Đại học Tehran)"
       },
       "palettes": {
         "default": "Mặc định",
@@ -93,7 +109,7 @@
       "persistentNotif": "Đếm ngược lời cầu nguyện bền bỉ",
       "persistentNotifDesc": "Theo dõi thời gian còn lại cho lời cầu nguyện tiếp theo trực tiếp trên màn hình khóa và bảng thông báo của bạn.",
       "widgetTitle": "Tiện ích màn hình chính",
-      "addWidget": "👉 Thêm Widget vào Màn hình chính!",
+      "addWidget": "Thêm Widget vào Màn hình chính!",
       "addWidgetDesc": "Xem thời gian cầu nguyện và đếm ngược trực tiếp trên màn hình chính của điện thoại.",
       "general": "Cài đặt chung",
       "fullscreen": "Chế độ toàn màn hình",
@@ -130,7 +146,32 @@
       "username": "Tên đăng nhập",
       "password": "Mật khẩu",
       "loggingIn": "Đang đăng nhập...",
-      "login": "Đăng Nhập"
+      "login": "Đăng Nhập",
+      "remindersTitle": "Nhắc nhở và thông báo",
+      "dailyContentNotif": "Câu kinh / Hadith trong ngày",
+      "dailyContentNotifDesc": "Lời nhắc ngắn mỗi ngày sau giờ cầu nguyện buổi trưa.",
+      "quranReminderNotif": "Nhắc đọc Kinh Qur'an",
+      "quranReminderNotifDesc": "Lời nhắc buổi tối cách ngày.",
+      "greetingNotif": "Lời chúc thứ Sáu & ngày thánh",
+      "greetingNotifDesc": "Nhắc nhở vào thứ Sáu và các ngày lễ tôn giáo.",
+      "announcementsNotif": "Thông báo",
+      "announcementsNotifDesc": "Tin tức và thông điệp chiến dịch từ Vera.",
+      "locationTitle": "Vị trí",
+      "changeCity": "Đổi thành phố",
+      "locationNotSet": "Chưa được chọn",
+      "locationFromGps": "Theo vị trí điện thoại của bạn",
+      "locationFromManual": "Thành phố được chọn thủ công",
+      "locationHint": "Chọn một thành phố hoặc dùng vị trí điện thoại.",
+      "useMyLocation": "Dùng vị trí hiện tại của tôi",
+      "fullscreenDesc": "Ẩn thanh trạng thái (đồng hồ, pin) và thanh điều hướng.",
+      "recommended": "Đề xuất",
+      "asrSchoolTitle": "Cách tính Asr",
+      "asrStandard": "Tiêu chuẩn (Shafi'i, Maliki, Hanbali)",
+      "asrHanafi": "Hanafi",
+      "asrSchoolDesc": "Trường phái Hanafi tính Asr muộn hơn (bóng dài gấp đôi vật). Đây là cách phổ biến ở Nam Á.",
+      "rateApp": "Đánh giá Vera",
+      "privacyPolicy": "Chính sách quyền riêng tư",
+      "restartForDirection": "Đóng và mở lại ứng dụng để áp dụng hướng văn bản mới."
     },
     "qibla": {
       "title": "Qibla",
@@ -148,12 +189,12 @@
       "status": "Trạng Thái",
       "aligned": "Đã Căn Chỉnh",
       "aligning": "Xoay",
-      "alignedSuccess": "🕌 Bạn đang hướng về Qibla!",
+      "alignedSuccess": "Bạn đang hướng về Qibla!",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "Làm thế nào để sử dụng?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "tiêu đề",
       "calibrateBtn": "Hiệu chỉnh la bàn",
@@ -162,8 +203,15 @@
       "magneticShield": "Lá chắn từ trường",
       "magneticShieldDesc": "Độ chính xác của cảm biến được tối ưu hóa. Tránh xa các trường hợp từ tính.",
       "levelStatus": "Mức ngang (Bong bóng)",
-      "levelFlat": "Phẳng & Song song ✓",
-      "gotIt": "Hiểu rồi"
+      "levelFlat": "Phẳng & Song song",
+      "gotIt": "Hiểu rồi",
+      "noLocationTitle": "Cần vị trí",
+      "noLocationDesc": "Hướng Qibla phụ thuộc vào nơi bạn đang ở. Hãy chọn thành phố hoặc cho phép truy cập vị trí.",
+      "useMyLocation": "Dùng vị trí của tôi",
+      "chooseCity": "Chọn thành phố",
+      "lowAccuracy": "Độ chính xác của la bàn thấp. Chạm để hiệu chỉnh.",
+      "magneticNorthNote": "Đang dùng hướng bắc từ: hướng có thể lệch vài độ.",
+      "errorNoSensor": "Cảm biến la bàn không phản hồi. Thiết bị này có thể không có la bàn."
     },
     "daily": {
       "title": "Cảm Hứng Hằng Ngày",
@@ -175,7 +223,8 @@
       "hadithBody": "Nhấp để đọc hadith trong ngày!",
       "quoteBody": "Nhấp để đọc trích dẫn trong ngày!",
       "subtitle": "Câu Kinh, hadith và câu nói được chọn cho hôm nay",
-      "shareHint": "Chạm vào thẻ để chia sẻ dưới dạng ảnh story"
+      "shareHint": "Chạm vào thẻ để chia sẻ dưới dạng ảnh story",
+      "autoTranslated": "Dịch tự động"
     },
     "search": {
       "title": "Chọn Vị Trí",
@@ -184,7 +233,10 @@
       "recent": "Tìm Kiếm Gần Đây",
       "useGPS": "Sử Dụng Vị Trí Hiện Tại",
       "gpsDenied": "Từ chối quyền vị trí.",
-      "gpsError": "Không thể lấy vị trí."
+      "gpsError": "Không thể lấy vị trí.",
+      "searchFailed": "Tìm kiếm không thành công, hãy kiểm tra kết nối.",
+      "pin": "Lưu thành phố",
+      "unpin": "Bỏ ghim"
     },
     "notifications": {
       "exactAlert": "Thông Báo Giờ Cầu Nguyện",
@@ -237,7 +289,8 @@
         "dailyName": "Cảm hứng hàng ngày",
         "dailyDesc": "Câu thơ, hadith hoặc trích dẫn hàng ngày đến giữa Dhuhr và Asr.",
         "persistentName": "Màn hình khóa & thanh trạng thái",
-        "persistentDesc": "Hiển thị tên cầu nguyện tiếp theo và đếm ngược trực tiếp trong bảng thông báo và màn hình khóa."
+        "persistentDesc": "Hiển thị tên cầu nguyện tiếp theo và đếm ngược trực tiếp trong bảng thông báo và màn hình khóa.",
+        "announcements": "Thông báo"
       },
       "persistentTitle": "🕌 Đến {{prayer}}"
     },
@@ -408,7 +461,15 @@
       "noBookmarks": "Bạn chưa có câu Kinh yêu thích nào. Nhấn giữ một câu Kinh để thêm.",
       "playFromHere": "Nghe từ đây",
       "juz": "Juz",
-      "downloadingShort": "Đang tải xuống..."
+      "downloadingShort": "Đang tải xuống...",
+      "audioErrorTitle": "Không thể phát âm thanh",
+      "audioErrorMessage": "Không thể tải bài đọc. Hãy kiểm tra kết nối internet và thử lại.",
+      "audioPause": "Tạm dừng đọc",
+      "audioResume": "Tiếp tục đọc",
+      "audioStop": "Dừng đọc",
+      "audioPlay": "Phát bài đọc",
+      "fontSmaller": "Giảm cỡ chữ",
+      "fontLarger": "Tăng cỡ chữ"
     },
     "review": {
       "title": "Ủng Hộ Chúng Tôi",
@@ -416,9 +477,9 @@
       "notNow": "Không Phải Bây Giờ",
       "review": "Đánh Giá",
       "subtitle": "Đánh giá trải nghiệm của bạn với các ngôi sao",
-      "fiveStarTitle": "Chúng tôi rất vui mừng khi nghe điều đó! 🌟",
+      "fiveStarTitle": "Chúng tôi rất vui mừng khi nghe điều đó!",
       "fiveStarSubtitle": "Bạn có muốn hỗ trợ Vera với xếp hạng 5 sao không?",
-      "rateOnStore": "🌟 Tặng 5 sao và ủng hộ",
+      "rateOnStore": "Tặng 5 sao và ủng hộ",
       "ratingLabels": {
         "1": "Cần cải thiện",
         "2": "Hội chợ",
@@ -426,11 +487,11 @@
         "4": "Rất tốt",
         "5": "Xuất sắc!"
       },
-      "feedbackTitle": "Hãy giúp chúng tôi cải thiện 💬",
+      "feedbackTitle": "Hãy giúp chúng tôi cải thiện",
       "feedbackSubtitle": "Chia sẻ suy nghĩ và đề xuất của bạn để chúng tôi có thể làm cho Vera tốt hơn nữa.",
       "feedbackPlaceholder": "Viết đề xuất, ý tưởng của bạn hoặc bất kỳ vấn đề nào bạn gặp phải...",
       "sendFeedback": "Gửi phản hồi",
-      "thankYouTitle": "Đã nhận được phản hồi! 🤲",
+      "thankYouTitle": "Đã nhận được phản hồi!",
       "thankYouSubtitle": "Phản hồi của bạn rất có giá trị đối với chúng tôi. Chúng tôi sẽ làm việc chăm chỉ để khiến Vera trở nên tốt hơn nữa.",
       "close": "Đóng"
     },
@@ -453,6 +514,8 @@
       "title": "Theo dõi cầu nguyện hàng ngày",
       "completed": "Hoàn thành",
       "dayStreak": "Chuỗi ngày",
+      "restartHint": "Hôm nay bạn có thể bắt đầu lại",
+      "weekActiveDays": "{{count}} ngày trong 7 ngày qua",
       "viewHistory": "Xem toàn bộ lịch sử",
       "historyTitle": "Lịch sử cầu nguyện",
       "historySubtitle": "Nhật ký cầu nguyện của bạn trong 30 ngày qua",
@@ -483,7 +546,8 @@
     "imsakiye": {
       "title": "Imsakiye hàng tuần",
       "subtitle": "Thời gian 7 ngày tiếp theo",
-      "date": "Ngày"
+      "date": "Ngày",
+      "rangeDays": "{{n}} ngày"
     },
     "religious": {
       "title": "Ngày tôn giáo",
@@ -500,12 +564,12 @@
       "dismissBtn": "Không phải bây giờ"
     },
     "names": {
-      "title": "Tên của Allah & Duas",
+      "title": "Tên của Allah & Dua",
       "namesSubtitle": "99 tên đẹp của Allah",
       "duasSubtitle": "Lời cầu nguyện hàng ngày",
       "meaningLabel": "Nghĩa",
       "tabNames": "99 cái tên",
-      "tabDuas": "Duas",
+      "tabDuas": "Dua",
       "namesCount": "{{count}} Tên",
       "duasCount": "{{count}} Duas",
       "tapHint": "Nhấn để biết chi tiết",
@@ -541,20 +605,20 @@
       "verifiedMethodDesc": "Phương pháp Hồi giáo chính xác nhất cho khu vực của bạn được chọn tự động.",
       "notificationsTitle": "Cảnh báo Adhan & Cầu nguyện",
       "notificationsDesc": "Nhận lời nhắc nhở nhẹ nhàng hoặc bằng âm thanh vào giờ cầu nguyện.",
-      "startBtn": "Bắt đầu sử dụng Vera 🌟",
+      "startBtn": "Bắt đầu sử dụng Vera",
       "featureQuran": "Kinh Qur'an & Âm thanh",
       "featureQibla": "Qibla",
       "featureDhikr": "quầy Dhikr",
-      "backBtn": "← Quay lại",
-      "playTestSound": "Xem trước Adhan Sound 🔊",
-      "stopTestSound": "Dừng âm thanh ⏹️",
-      "nextStepBtn": "Tiếp tục →",
+      "backBtn": "Quay lại",
+      "playTestSound": "Xem trước Adhan Sound",
+      "stopTestSound": "Dừng âm thanh",
+      "nextStepBtn": "Tiếp tục",
       "step3Title": "Trải nghiệm không bị gián đoạn",
       "step3Subtitle": "Theo dõi thời gian cầu nguyện trực tiếp từ màn hình chính của bạn và đảm bảo thông báo adhan đáng tin cậy.",
-      "widgetTitle": "👉 Thêm tiện ích vào màn hình chính",
+      "widgetTitle": "Thêm tiện ích vào màn hình chính",
       "widgetDesc": "Xem đếm ngược trực tiếp mà không cần mở ứng dụng.",
       "widgetAdded": "Đã thêm tiện ích thành công!",
-      "batteryTitle": "🔋 Miễn tiết kiệm pin",
+      "batteryTitle": "Miễn tiết kiệm pin",
       "batteryDesc": "Khuyến nghị tắt tính năng tối ưu hóa pin trên Xiaomi & Samsung để có những quảng cáo kịp thời.",
       "locationReassurance": "Bạn luôn có thể thay đổi điều này sau trong Cài đặt.",
       "notifDenied": "Quyền thông báo chưa được cấp. Thông báo adhan có thể không hoạt động — bạn có thể bật lại sau trong Cài đặt.",
@@ -565,7 +629,10 @@
       "skipConfirm": "Bỏ Qua",
       "locationDenied": "Quyền vị trí chưa được cấp. Bạn có thể chọn thành phố từ danh sách, hoặc thay đổi điều này sau trong Cài đặt.",
       "locationFailed": "Không thể lấy vị trí của bạn. Bạn có thể chọn thành phố từ danh sách, hoặc thay đổi điều này sau trong Cài đặt.",
-      "locationNotSet": "Không Có Vị Trí (Quyền Bị Từ Chối)"
+      "locationNotSet": "Không Có Vị Trí (Quyền Bị Từ Chối)",
+      "locationNotSetYet": "Chưa được chọn",
+      "skipLocation": "Bỏ qua lúc này",
+      "currentLocationLabel": "Vị trí hiện tại"
     },
     "weather": {
       "title": "Dự báo thời tiết",
@@ -629,9 +696,9 @@
       "titlePlaceholder": "Tiêu đề (ví dụ: Jummah Mubarak)",
       "messagePlaceholder": "Viết lời cầu nguyện hoặc tin nhắn chúc mừng của bạn...",
       "chooseTheme": "Chủ đề thẻ",
-      "shareBtn": "Chia sẻ lên WhatsApp / Câu chuyện 🌟",
-      "shareImageBtn": "Chia sẻ thẻ hình ảnh 🌟",
-      "shareLinkBtn": "Chia sẻ liên kết cửa hàng trực tiếp 🔗",
+      "shareBtn": "Chia sẻ lên WhatsApp / Câu chuyện",
+      "shareImageBtn": "Chia sẻ thẻ hình ảnh",
+      "shareLinkBtn": "Chia sẻ liên kết cửa hàng trực tiếp",
       "theme": {
         "gold": "Đường Nét Vàng",
         "emerald": "Mái Vòm Ngọc Lục Bảo",
@@ -649,7 +716,13 @@
       "emptyTitle": "Không tìm thấy nhà thờ Hồi giáo nào gần đó",
       "emptyDesc": "Bạn có thể xem tất cả các nhà thờ Hồi giáo trực tiếp trên bản đồ điều hướng.",
       "openInMaps": "Tìm kiếm trên Maps",
-      "directionsBtn": "Chỉ đường"
+      "directionsBtn": "Chỉ đường",
+      "searchQuery": "nhà thờ Hồi giáo",
+      "noLocationTitle": "Không tìm thấy vị trí",
+      "noLocationDesc": "Hãy chọn một thành phố hoặc cho phép truy cập vị trí để xem các nhà thờ Hồi giáo gần bạn.",
+      "errorTitle": "Không thể tải danh sách nhà thờ Hồi giáo",
+      "errorDesc": "Đã xảy ra sự cố kết nối. Hãy kiểm tra internet và thử lại.",
+      "chooseCity": "Chọn thành phố"
     },
     "dailyContent": {
       "preparing": "Đang tải nguồn cảm hứng hàng ngày...",
@@ -666,7 +739,7 @@
       "hatimLabel": "Khatm",
       "page": "Trang",
       "pagesRemaining": "{{count}} trang còn lại để hoàn thành Khatm.",
-      "completed": "Chúc mừng! Bạn đã hoàn thành Khatm. 🎉",
+      "completed": "Chúc mừng! Bạn đã hoàn thành Khatm.",
       "readPageBtn": "Đọc trang {{page}}",
       "jumpPageTitle": "Chuyển đến trang/Cập nhật tiến trình",
       "jumpPageDesc": "Nhập số trang hiện tại (1 - 604):",
@@ -676,7 +749,8 @@
       "startNew": "Bắt đầu Khatm mới",
       "resetHatimBtn": "Đặt lại và bắt đầu Khatm mới",
       "share": "Chia Sẻ Khatm Của Tôi",
-      "shareText": "Tôi đã hoàn thành Khatm thứ {{count}}, alhamdulillah!"
+      "shareText": "Tôi đã hoàn thành Khatm thứ {{count}}, alhamdulillah!",
+      "dailyTarget": "Khoảng {{n}} trang mỗi ngày để hoàn thành (còn {{d}} ngày)"
     },
     "prayerTree": {
       "title": "Cây cầu nguyện hàng tuần",
@@ -1175,10 +1249,10 @@
     },
     "widget": {
       "guideTitle": "Thêm Vào Màn Hình Chính",
-      "guideDesc": "Nhấn giữ màn hình chính của bạn ➔ chạm \"Widget\" ➔ tìm widget \"VERA\" và kéo vào màn hình của bạn.",
+      "guideDesc": "Nhấn giữ màn hình chính của bạn > chạm \"Widget\" > tìm widget \"VERA\" và kéo vào màn hình của bạn.",
       "promptTitle": "Thêm Widget Vào Màn Hình Chính",
       "promptDesc": "Xem giờ lễ nguyện tiếp theo và số phút còn lại trực tiếp trên màn hình chính, mà không cần mở ứng dụng.",
-      "addNow": "📌 Thêm Vào Màn Hình Chính",
+      "addNow": "Thêm Vào Màn Hình Chính",
       "notNow": "Để Sau"
     },
     "greetingNotif": {
@@ -1191,7 +1265,133 @@
     "errorBoundary": {
       "title": "Đã xảy ra lỗi",
       "subtitle": "Ứng dụng gặp lỗi không mong muốn. Chạm vào nút bên dưới để thử lại.",
-      "retry": "Thử lại"
+      "retry": "Thử lại",
+      "clearAndRetry": "Xóa dữ liệu bộ nhớ đệm và thử lại"
+    },
+    "community": {
+      "tabMine": "Bài đăng của tôi",
+      "you": "Bạn",
+      "emptyMine": "Bạn chưa có bài đăng nào. Bạn có thể chia sẻ sau khi hoàn thành một hoạt động thờ phụng.",
+      "adLabel": "Quảng cáo",
+      "title": "Cộng đồng",
+      "tabToday": "Hôm nay",
+      "tabWeek": "7 ngày qua",
+      "anonymous": "Anh/chị em ẩn danh",
+      "someone": "Ai đó",
+      "templates": {
+        "hatimCompleted": "Đã hoàn thành một khatm",
+        "achievement": "Đã mở khóa {{title}}",
+        "dhikrMilestone": "Ai đó từ {{country}} đã đọc {{count}} dhikr",
+        "prayerFullday": "Đã hoàn thành cả năm lần cầu nguyện hôm nay"
+      },
+      "emptyToday": "Hôm nay chưa có bài đăng nào. Hãy chia sẻ bài đầu tiên khi bạn hoàn thành điều gì đó.",
+      "emptyWeek": "Không có bài đăng nào trong 7 ngày qua.",
+      "loadFailed": "Không thể tải bảng tin. Kéo xuống để thử lại.",
+      "share": {
+        "title": "Bạn muốn chia sẻ điều này với cộng đồng Vera?",
+        "note": "Chỉ nội dung này được chia sẻ. Tên và thông tin cá nhân của bạn được giữ kín.",
+        "submit": "Chia sẻ",
+        "later": "Để sau",
+        "failed": "Không thể chia sẻ. Hãy thử lại sau.",
+        "heading": "Chia sẻ với cộng đồng",
+        "sent": "Đã chia sẻ",
+        "external": "Chia sẻ qua ứng dụng khác",
+        "open": "Chia sẻ với cộng đồng",
+        "celebrateHint": "Chia sẻ ẩn danh với cộng đồng Vera.",
+        "intro": "Anh chị em trên khắp thế giới có thể thấy điều này. Tên của bạn được giữ kín."
+      },
+      "settings": {
+        "title": "Cài đặt cộng đồng",
+        "participate": "Tham gia cộng đồng",
+        "participateHint": "Khi tắt, sẽ không có gợi ý chia sẻ nào. Bạn vẫn có thể đọc bảng tin.",
+        "showCountry": "Hiện quốc gia của tôi",
+        "showCountryHint": "Khi bật, tên quốc gia của bạn hiện cạnh bài đăng. Tắt chỉ áp dụng cho bài đăng mới.",
+        "country": "Quốc gia",
+        "countryManual": "Quốc gia đã chọn: {{code}}",
+        "countryDevice": "Đang dùng khu vực của thiết bị.",
+        "useDevice": "Thiết bị",
+        "countryInvalid": "Nhập mã quốc gia gồm hai chữ cái, ví dụ TR",
+        "myPosts": "Bài đăng của tôi",
+        "noPosts": "Bạn chưa có bài đăng nào.",
+        "delete": "Xóa",
+        "deleteTitle": "Xóa bài đăng này?",
+        "deleteBody": "Bài đăng sẽ bị gỡ khỏi bảng tin của mọi người.",
+        "blocked": "Người đã chặn: {{count}}",
+        "clearBlocked": "Xóa danh sách chặn",
+        "joined": "Bạn đã ở trong cộng đồng",
+        "left": "Cộng đồng đang tắt",
+        "sectionPrivacy": "Quyền riêng tư",
+        "sectionBlocked": "Đã chặn",
+        "countryDeviceTitle": "Khu vực thiết bị",
+        "blockedCount": "{{count}} người",
+        "change": "Đổi"
+      },
+      "report": {
+        "action": "Báo cáo",
+        "thanksTitle": "Cảm ơn bạn",
+        "thanksBody": "Báo cáo của bạn sẽ được xem xét.",
+        "failed": "Không thể gửi báo cáo."
+      },
+      "block": {
+        "action": "Chặn người này"
+      },
+      "more": {
+        "title": "Tùy chọn cho bài đăng này"
+      },
+      "discovery": {
+        "title": "Chia sẻ thành quả với cộng đồng Vera",
+        "body": "Chia sẻ ẩn danh các lần hoàn thành khatm, dhikr và ngày cầu nguyện đủ với anh chị em trên khắp thế giới.",
+        "cta": "Mở cộng đồng"
+      },
+      "summary": {
+        "posts": "bài đăng",
+        "hatim": "Khatm",
+        "achievement": "Thành tích",
+        "dhikr": "Dhikr",
+        "prayer": "Cầu nguyện"
+      },
+      "howTo": {
+        "helpLabel": "Cách chia sẻ",
+        "title": "Chia sẻ hoạt động thế nào",
+        "intro": "Chia sẻ việc thờ phượng bạn đã hoàn thành với cộng đồng Vera. Tên của bạn được ẩn.",
+        "step1Title": "Hoàn thành một việc thờ phượng",
+        "step1Body": "Hoàn tất năm lần cầu nguyện, một lần khatm hoặc mục tiêu dhikr trong ứng dụng.",
+        "step2Title": "Nhấn Chia sẻ",
+        "step2Body": "Khi màn hình chúc mừng xuất hiện, hãy nhấn Chia sẻ. Bạn cũng có thể dùng nút chia sẻ trên màn hình cầu nguyện và dhikr.",
+        "step3Title": "Bài đăng của bạn hiển thị tại đây",
+        "step3Body": "Mọi người đều thấy được, và chỉ hiện quốc gia của bạn nếu bạn cho phép. Xóa bất cứ lúc nào trong Bài đăng của tôi.",
+        "gotIt": "Đã hiểu"
+      },
+      "reminder": {
+        "title": "Chia sẻ việc thờ phượng hôm nay",
+        "body": "Bạn có muốn chia sẻ việc thờ phượng hôm nay với cộng đồng không?",
+        "bodyAll": "Hôm nay bạn đã hoàn thành cả năm lần cầu nguyện. Bạn có muốn chia sẻ với cộng đồng không?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "Mục tiêu hôm nay: một hatim. Mỗi ngày đọc vài trang để cùng nhau hoàn thành Qur’an.",
+        "m1": "Mục tiêu hôm nay: sau Isha, 33 lần Subhanallah, 33 lần Alhamdulillah và 33 lần Allahu Akbar.",
+        "m2": "Hôm nay, hãy cùng nhau cố gắng cầu nguyện đủ năm lần đúng giờ.",
+        "m3": "Mục tiêu hôm nay: đọc một trang Qur’an. Những bước nhỏ cũng có giá trị.",
+        "m4": "Mục tiêu hôm nay: 100 lần Subhanallah. Hoàn thành xong hãy chia sẻ với cộng đồng.",
+        "m5": "Tuần này, hãy viết một danh sách dua và nhớ đến một anh chị em trong đó.",
+        "m6": "Hôm nay, hãy cân nhắc bố thí hoặc làm một việc tốt cho ai đó."
+      }
+    },
+    "coach": {
+      "dismiss": "Đã hiểu",
+      "ummah": {
+        "title": "Ummah",
+        "body": "Chia sẻ việc thờ phượng đã hoàn thành với cộng đồng, hoặc xem những gì người khác chia sẻ hôm nay."
+      },
+      "qibla": {
+        "title": "La bàn Qibla",
+        "body": "Giữ điện thoại nằm ngang và xoay cho đến khi mũi tên chỉ về Kaaba."
+      },
+      "silentMode": {
+        "title": "Chế độ im lặng",
+        "body": "Khi điện thoại ở chế độ im lặng hoặc rung, adhan sẽ phát nhẹ nhàng. Bạn có thể thay đổi trong Cài đặt."
+      }
     }
   }
 }

@@ -10,7 +10,13 @@
       "cancel": "Cancel",
       "save": "Save",
       "ok": "OK",
-      "close": "Close"
+      "close": "Close",
+      "back": "Back",
+      "clear": "Clear",
+      "remove": "Remove",
+      "expand": "Expand",
+      "collapse": "Collapse",
+      "share": "Share"
     },
     "home": {
       "title": "Prayer Times",
@@ -42,7 +48,13 @@
       "loadingTimes": "Loading Prayer Times...",
       "locationPermissionTitle": "Location Permission Unavailable",
       "locationPermissionDesc": "Showing the default city. You can pick a city or grant location permission.",
-      "estimatedTimesNotice": "No internet connection, so prayer times were calculated on your device (estimated)."
+      "estimatedTimesNotice": "No internet connection, so prayer times were calculated on your device (estimated).",
+      "adjustTimeHint": "Long press to adjust this time",
+      "moreTools": "More",
+      "locationFetchFailedTitle": "Location not found",
+      "locationFetchFailedDesc": "GPS could not get your location. Pick a city, or try again later.",
+      "sourceA11y": "Prayer time calculation method",
+      "highLatNote": "High latitude: Fajr/Isha are approximated"
     },
     "onboarding": {
       "title": "Welcome to Vera",
@@ -67,22 +79,25 @@
       "verifiedMethodDesc": "The most accurate Islamic method for your region is selected automatically.",
       "notificationsTitle": "Adhan & Prayer Alerts",
       "notificationsDesc": "Receive gentle or audible reminders at prayer times.",
-      "playTestSound": "Preview Adhan Sound 🔊",
-      "stopTestSound": "Stop Sound ⏹️",
-      "nextStepBtn": "Continue →",
+      "playTestSound": "Preview Adhan Sound",
+      "stopTestSound": "Stop Sound",
+      "nextStepBtn": "Continue",
       "step3Title": "Uninterrupted Experience",
       "step3Subtitle": "Track prayer times live from your home screen and ensure reliable adhan notifications.",
-      "widgetTitle": "📌 Add Widget to Home Screen",
+      "widgetTitle": "Add Widget to Home Screen",
       "widgetDesc": "See live countdowns without opening the app.",
       "widgetAdded": "Widget added successfully!",
-      "batteryTitle": "🔋 Battery Saver Exemption",
+      "batteryTitle": "Battery Saver Exemption",
       "batteryDesc": "Recommended to turn off battery optimizations on Xiaomi & Samsung for timely adhans.",
       "featureQuran": "Quran & Audio",
       "featureQibla": "Qibla",
       "featureDhikr": "Dhikr Counter",
-      "backBtn": "← Go Back",
-      "startBtn": "Start Using Vera 🌟",
-      "locationNotSet": "Location Unavailable (Permission Denied)"
+      "backBtn": "Go Back",
+      "startBtn": "Start Using Vera",
+      "locationNotSet": "Location Unavailable (Permission Denied)",
+      "locationNotSetYet": "Not selected yet",
+      "skipLocation": "Skip for now",
+      "currentLocationLabel": "Current location"
     },
     "weather": {
       "title": "Weather Forecast",
@@ -122,7 +137,11 @@
         "egypt": "Egyptian General Authority",
         "karachi": "Karachi (Pakistan)",
         "france": "France (UOIF)",
-        "russia": "Russia (Spiritual Admin.)"
+        "russia": "Russia (Spiritual Admin.)",
+        "kemenag": "Indonesia (Kemenag)",
+        "jakim": "Malaysia (JAKIM)",
+        "muis": "Singapore (MUIS)",
+        "tehran": "Iran (University of Tehran)"
       },
       "offsetsTitle": "Prayer Time Adjustments (Offsets / ± Min)",
       "offsetsDesc": "If your local mosque or calendar differs by minutes, you can adjust timings up to ±15 minutes.",
@@ -133,7 +152,7 @@
       "persistentNotif": "Persistent Prayer Countdown",
       "persistentNotifDesc": "Track the time left for the next prayer live on your lock screen and notification panel.",
       "widgetTitle": "Home Screen Widget",
-      "addWidget": "📌 Add Widget to Home Screen!",
+      "addWidget": "Add Widget to Home Screen!",
       "addWidgetDesc": "See prayer times and live countdown directly on your phone's home screen.",
       "palettes": {
         "default": "Default",
@@ -169,6 +188,15 @@
       "volumeLevelTitle": "Adhan Volume Level",
       "respectSilentModeTitle": "Mosque / Silent Mode Respect",
       "respectSilentModeDesc": "Mutes adhan audio and notifies silently when your phone is in silent or vibrate mode.",
+      "remindersTitle": "Reminders & Announcements",
+      "dailyContentNotif": "Daily Verse / Hadith",
+      "dailyContentNotifDesc": "A short daily reminder after the noon prayer.",
+      "quranReminderNotif": "Quran Reading Reminder",
+      "quranReminderNotifDesc": "An evening reminder every other day.",
+      "greetingNotif": "Friday & Holy Day Greetings",
+      "greetingNotifDesc": "Reminders on Fridays and religious days.",
+      "announcementsNotif": "Announcements",
+      "announcementsNotifDesc": "News and campaign messages from Vera.",
       "previewSound": "Listen",
       "stopPreview": "Stop",
       "soundNames": {
@@ -190,7 +218,33 @@
       "username": "Username",
       "password": "Password",
       "loggingIn": "Logging in...",
-      "login": "Log In"
+      "login": "Log In",
+      "locationTitle": "Location",
+      "changeCity": "Change city",
+      "locationNotSet": "Not selected yet",
+      "locationFromGps": "Following your phone location",
+      "locationFromManual": "City chosen manually",
+      "locationHint": "Choose a city or use your phone location.",
+      "useMyLocation": "Use my current location",
+      "fullscreenDesc": "Hides the status bar (clock, battery) and the navigation bar.",
+      "recommended": "Recommended",
+      "asrSchoolTitle": "Asr Calculation",
+      "asrStandard": "Standard (Shafi, Maliki, Hanbali)",
+      "asrHanafi": "Hanafi",
+      "asrSchoolDesc": "Hanafi puts Asr later (shadow twice the object). It is the usual choice in South Asia.",
+      "rateApp": "Rate Vera",
+      "privacyPolicy": "Privacy Policy",
+      "restartForDirection": "Close and reopen the app to apply the new text direction.",
+      "warnLeadTitle": "Early warning lead time",
+      "perPrayerSoundTitle": "Adhan sound per prayer",
+      "perPrayerSoundHint": "Tap to change. Default is the sound chosen above.",
+      "fridayTitle": "Jumu'ah reminder",
+      "fridayDesc": "Reminds you before Dhuhr on Fridays.",
+      "minutesShort": "{{n}} min",
+      "hijriTitle": "Hijri Date Adjustment",
+      "hijriNone": "No adjustment",
+      "hijriDays": "{{n}} day(s)",
+      "hijriDesc": "If your region announces the Hijri date a day apart, adjust it here. It moves the home date, religious days and the Ramadan calendar together."
     },
     "qibla": {
       "title": "Qibla Compass",
@@ -198,7 +252,7 @@
       "guideTitle": "How to Use?",
       "step1": "1. Hold your phone flat and parallel to the ground",
       "step2": "2. Slowly rotate around yourself",
-      "step3": "3. When needle aligns with Kaaba (🕋) and turns GREEN, you are facing Qibla!",
+      "step3": "3. When needle aligns with Kaaba () and turns GREEN, you are facing Qibla!",
       "holdFlat": "Hold your device flat",
       "calibrating": "Calibrating compass...",
       "found": "Facing Qibla",
@@ -206,7 +260,7 @@
       "permissionDenied": "Location permission is required to determine the Qibla direction.",
       "openSettings": "Open Settings",
       "description": "Hold your phone flat and parallel to the ground to align with the Kaaba.",
-      "hint": "🕌 The compass turns green and vibrates when properly aligned with the Kaaba (🕋).",
+      "hint": "The compass turns green and vibrates when properly aligned with the Kaaba ().",
       "errorCompass": "Compass sensor not available.",
       "angle": "Qibla Angle",
       "heading": "Compass",
@@ -214,7 +268,7 @@
       "status": "Status",
       "aligned": "Aligned",
       "aligning": "Hold phone flat and rotate",
-      "alignedSuccess": "Facing the Qibla! ✓",
+      "alignedSuccess": "Facing the Qibla!",
       "fallbackNotice": "Calculated based on city coordinates.",
       "calibrateBtn": "Calibrate Compass",
       "calibrationTitle": "Compass Calibration",
@@ -222,8 +276,15 @@
       "magneticShield": "Magnetic Field Shield",
       "magneticShieldDesc": "Sensor accuracy optimized. Keep away from magnetic cases.",
       "levelStatus": "Horizontal Level (Bubble)",
-      "levelFlat": "Flat & Parallel ✓",
-      "gotIt": "Got It"
+      "levelFlat": "Flat & Parallel",
+      "gotIt": "Got It",
+      "noLocationTitle": "Location needed",
+      "noLocationDesc": "The Qibla direction depends on where you are. Choose your city or allow location access.",
+      "useMyLocation": "Use my location",
+      "chooseCity": "Choose city",
+      "lowAccuracy": "Compass accuracy is low. Tap to calibrate.",
+      "magneticNorthNote": "Using magnetic north: the direction can be a few degrees off.",
+      "errorNoSensor": "Compass sensor not responding. This device may not have a compass."
     },
     "directions": {
       "n": "N",
@@ -245,7 +306,8 @@
       "shareHint": "Tap a card to share as a story image",
       "verseBody": "Tap to read the verse of the day!",
       "hadithBody": "Tap to read the hadith of the day!",
-      "quoteBody": "Tap to read the quote of the day!"
+      "quoteBody": "Tap to read the quote of the day!",
+      "autoTranslated": "Automatic translation"
     },
     "hajjUmrah": {
       "title": "Hajj & Umrah Guide",
@@ -325,6 +387,8 @@
       "title": "Daily Prayer Tracker",
       "completed": "Completed",
       "dayStreak": "Day Streak",
+      "restartHint": "You can start again today",
+      "weekActiveDays": "{{count}} days in the last 7",
       "streakDays": "Days",
       "viewHistory": "View Full History",
       "historyTitle": "Prayer History",
@@ -355,7 +419,10 @@
       "recent": "Recent Searches",
       "useGPS": "Use Current Location",
       "gpsDenied": "Location permission denied.",
-      "gpsError": "Failed to get location."
+      "gpsError": "Failed to get location.",
+      "searchFailed": "Search failed, check your connection.",
+      "pin": "Save city",
+      "unpin": "Unpin"
     },
     "notifications": {
       "exactAlert": "Exact Prayer Alert",
@@ -408,9 +475,12 @@
         "dailyName": "Daily Inspiration",
         "dailyDesc": "Daily verse, hadith, or quote arrives between Dhuhr and Asr.",
         "persistentName": "Lock Screen & Status Bar",
-        "persistentDesc": "Displays next prayer name and live countdown in notification panel and lock screen."
+        "persistentDesc": "Displays next prayer name and live countdown in notification panel and lock screen.",
+        "announcements": "Announcements"
       },
-      "persistentTitle": "🕌 Until {{prayer}}"
+      "persistentTitle": "🕌 Until {{prayer}}",
+      "fridayPrepTitle": "Get Ready for Jumu'ah",
+      "fridayPrepBody": "Jumu'ah prayer is in {{minutes}} minutes."
     },
     "tasbih": {
       "title": "Tasbih",
@@ -579,7 +649,15 @@
       "mealBtn": "Translation",
       "juz": "Juz",
       "downloadingShort": "Downloading...",
-      "error": "Error"
+      "error": "Error",
+      "audioErrorTitle": "Audio could not be played",
+      "audioErrorMessage": "The recitation could not be loaded. Check your internet connection and try again.",
+      "audioPause": "Pause recitation",
+      "audioResume": "Resume recitation",
+      "audioStop": "Stop recitation",
+      "audioPlay": "Play recitation",
+      "fontSmaller": "Decrease text size",
+      "fontLarger": "Increase text size"
     },
     "review": {
       "title": "Enjoying Vera?",
@@ -587,9 +665,9 @@
       "message": "We strive to deliver the best experience for you.",
       "notNow": "Not Now",
       "review": "Review",
-      "fiveStarTitle": "We're thrilled to hear that! 🌟",
+      "fiveStarTitle": "We're thrilled to hear that!",
       "fiveStarSubtitle": "Would you like to support Vera with a 5-star rating?",
-      "rateOnStore": "🌟 Give 5 Stars & Support",
+      "rateOnStore": "Give 5 Stars & Support",
       "ratingLabels": {
         "1": "Needs Improvement",
         "2": "Fair",
@@ -597,11 +675,11 @@
         "4": "Very Good",
         "5": "Excellent!"
       },
-      "feedbackTitle": "Help Us Improve 💬",
+      "feedbackTitle": "Help Us Improve",
       "feedbackSubtitle": "Share your thoughts and suggestions so we can make Vera even better.",
       "feedbackPlaceholder": "Write your suggestions, ideas or any issues you faced...",
       "sendFeedback": "Send Feedback",
-      "thankYouTitle": "Feedback Received! 🤲",
+      "thankYouTitle": "Feedback Received!",
       "thankYouSubtitle": "Your feedback is very valuable to us. We will work hard to make Vera even better.",
       "close": "Close"
     },
@@ -612,7 +690,8 @@
     "imsakiye": {
       "title": "Weekly Imsakiye",
       "subtitle": "Next 7 days timings",
-      "date": "Date"
+      "date": "Date",
+      "rangeDays": "{{n}} days"
     },
     "religious": {
       "title": "Religious Days",
@@ -682,9 +761,9 @@
       "titlePlaceholder": "Title (e.g. Jummah Mubarak)",
       "messagePlaceholder": "Write your prayer or greeting message...",
       "chooseTheme": "Card Theme",
-      "shareBtn": "Share to WhatsApp / Story 🌟",
-      "shareImageBtn": "Share Image Card 🌟",
-      "shareLinkBtn": "Share Direct Store Link 🔗",
+      "shareBtn": "Share to WhatsApp / Story",
+      "shareImageBtn": "Share Image Card",
+      "shareLinkBtn": "Share Direct Store Link",
       "theme": {
         "gold": "Golden Line",
         "emerald": "Emerald Dome",
@@ -702,7 +781,13 @@
       "emptyTitle": "No Mosques Found Nearby",
       "emptyDesc": "You can view all mosques directly on maps navigation.",
       "openInMaps": "Search on Maps",
-      "directionsBtn": "Directions"
+      "directionsBtn": "Directions",
+      "searchQuery": "mosque",
+      "noLocationTitle": "Location Not Found",
+      "noLocationDesc": "Select a city or allow location access to see nearby mosques.",
+      "errorTitle": "Could Not Load Mosques",
+      "errorDesc": "There was a connection problem. Check your internet and try again.",
+      "chooseCity": "Choose city"
     },
     "batteryOptimization": {
       "title": "Uninterrupted Prayer Notifications",
@@ -715,7 +800,7 @@
       "hatimLabel": "Khatm",
       "page": "Page",
       "pagesRemaining": "{{count}} pages remaining to complete Khatm.",
-      "completed": "Congratulations! You have completed the Khatm. 🎉",
+      "completed": "Congratulations! You have completed the Khatm.",
       "share": "Share My Khatm",
       "shareText": "I completed my {{count}} Khatm, alhamdulillah!",
       "readPageBtn": "Read Page {{page}}",
@@ -725,7 +810,8 @@
       "resetTitle": "Start New Khatm",
       "resetBody": "Current khatm will be recorded as completed and a new khatm will begin from page 1. Do you want to proceed?",
       "startNew": "Start New Khatm",
-      "resetHatimBtn": "Reset & Start New Khatm"
+      "resetHatimBtn": "Reset & Start New Khatm",
+      "dailyTarget": "About {{n}} pages a day to finish ({{d}} days left)"
     },
     "prayerTree": {
       "title": "Weekly Prayer Tree",
@@ -1163,7 +1249,9 @@
       "error": "Couldn't send. Please try again in a moment.",
       "send": "Send",
       "thankYouTitle": "Feedback Received",
-      "thankYouSubtitle": "Your thoughts mean a lot to us. We are working hard to make Vera better."
+      "thankYouSubtitle": "Your thoughts mean a lot to us. We are working hard to make Vera better.",
+      "prayerEntry": "Do prayer times differ from the official calendar? Tell us",
+      "queuedNote": "Your connection is weak, so your message was saved on your device and will be sent automatically when you are online. No need to write it again."
     },
     "battery": {
       "stepsXiaomi": "Settings → Apps → Vera: turn on \"Autostart\" and set Battery saver to \"No restrictions\".",
@@ -1175,10 +1263,10 @@
     },
     "widget": {
       "guideTitle": "Add to Home Screen",
-      "guideDesc": "Long-press your home screen ➔ tap \"Widgets\" ➔ find the \"VERA\" widget and drag it onto your screen.",
+      "guideDesc": "Long-press your home screen > tap \"Widgets\" > find the \"VERA\" widget and drag it onto your screen.",
       "promptTitle": "Add a Home Screen Widget",
       "promptDesc": "See the next prayer time and the minutes left live on your home screen, without opening the app.",
-      "addNow": "📌 Add to Home Screen",
+      "addNow": "Add to Home Screen",
       "notNow": "Later"
     },
     "greetingNotif": {
@@ -1191,7 +1279,150 @@
     "errorBoundary": {
       "title": "Something went wrong",
       "subtitle": "The app ran into an unexpected error. Tap the button below to try again.",
-      "retry": "Try Again"
+      "retry": "Try Again",
+      "clearAndRetry": "Clear cached data and retry"
+    },
+    "notifHealth": {
+      "title": "Notification Health",
+      "permission": "Notification permission",
+      "permissionHint": "Adhan alerts cannot arrive while off",
+      "exactAlarm": "Exact alarms",
+      "exactAlarmHint": "Alerts may arrive minutes late while off",
+      "battery": "Battery restriction",
+      "batteryHint": "The phone may put the app to sleep",
+      "oem": "Manufacturer power manager",
+      "oemHint": "Allow auto-start / background activity",
+      "allGood": "All good: adhan alerts should arrive on time.",
+      "needsAttention": "The settings below can affect adhan alerts.",
+      "fix": "Fix",
+      "nextAlarm": "Next scheduled alarm",
+      "noAlarm": "No alarm scheduled. Check that a city is set and notifications are on.",
+      "test": "Send a test alert in 10 s"
+    },
+    "community": {
+      "title": "Community",
+      "tabToday": "Today",
+      "tabWeek": "Last 7 days",
+      "anonymous": "Anonymous brother/sister",
+      "someone": "Someone",
+      "templates": {
+        "hatimCompleted": "Completed a khatm",
+        "achievement": "Unlocked {{title}}",
+        "dhikrMilestone": "Someone from {{country}} recited {{count}} dhikr",
+        "prayerFullday": "All five prayers done today"
+      },
+      "emptyToday": "No posts yet today. Share your first one when you complete something.",
+      "emptyWeek": "No posts in the last 7 days.",
+      "loadFailed": "Could not load the feed. Pull down to retry.",
+      "share": {
+        "title": "Want to share this with the Vera community?",
+        "note": "Only this text is shared. Your name and personal details stay hidden.",
+        "submit": "Share",
+        "later": "Not now",
+        "failed": "Could not share. Try again later.",
+        "heading": "Share with the community",
+        "sent": "Shared",
+        "external": "Share in another app",
+        "open": "Share with the community",
+        "celebrateHint": "Share anonymously with the Vera community.",
+        "intro": "Brothers and sisters around the world can see this. Your name stays hidden."
+      },
+      "settings": {
+        "title": "Community settings",
+        "participate": "Join the community",
+        "participateHint": "When off, no share offers appear. You can still read the feed.",
+        "showCountry": "Show my country",
+        "showCountryHint": "When on, your country name appears next to your posts. Turning it off applies to new posts only.",
+        "country": "Country",
+        "countryManual": "Chosen country: {{code}}",
+        "countryDevice": "Using your device region.",
+        "useDevice": "Device",
+        "countryInvalid": "Enter a two-letter country code, e.g. TR",
+        "myPosts": "My posts",
+        "noPosts": "You have no posts yet.",
+        "delete": "Delete",
+        "deleteTitle": "Delete this post?",
+        "deleteBody": "It will be removed from the feed for everyone.",
+        "blocked": "Blocked people: {{count}}",
+        "clearBlocked": "Clear blocked list",
+        "joined": "You're in the community",
+        "left": "Community is off",
+        "sectionPrivacy": "Privacy",
+        "sectionBlocked": "Blocked",
+        "countryDeviceTitle": "Device region",
+        "blockedCount": "{{count}} people",
+        "change": "Change"
+      },
+      "report": {
+        "action": "Report",
+        "thanksTitle": "Thank you",
+        "thanksBody": "Your report will be reviewed.",
+        "failed": "Could not send the report."
+      },
+      "block": {
+        "action": "Block this person"
+      },
+      "more": {
+        "title": "Options for this post"
+      },
+      "discovery": {
+        "title": "Share your wins with the Vera community",
+        "body": "Share hatims, dhikr and prayer days anonymously with brothers and sisters around the world.",
+        "cta": "Open community"
+      },
+      "summary": {
+        "posts": "posts",
+        "hatim": "Hatim",
+        "achievement": "Achievement",
+        "dhikr": "Dhikr",
+        "prayer": "Prayer"
+      },
+      "tabMine": "My posts",
+      "you": "You",
+      "emptyMine": "You have no posts yet. Share one after you complete a worship.",
+      "adLabel": "Ad",
+      "howTo": {
+        "helpLabel": "How to share",
+        "title": "How sharing works",
+        "intro": "Share a worship you completed with the Vera community. Your name stays hidden.",
+        "step1Title": "Complete a worship",
+        "step1Body": "Finish your five prayers, a hatim or a dhikr goal in the app.",
+        "step2Title": "Tap Share",
+        "step2Body": "When the celebration appears, tap Share. You can also use the share button on the prayer and dhikr screens.",
+        "step3Title": "Your post appears here",
+        "step3Body": "Everyone can see it, with your country only if you allow it. Delete it any time from My posts.",
+        "gotIt": "Got it"
+      },
+      "reminder": {
+        "title": "Share today’s worship",
+        "body": "Want to share today’s worship with the community?",
+        "bodyAll": "You completed all five prayers today. Want to share with the community?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "Today's goal: one hatim. Read a few pages a day and let's finish the Qur’an together.",
+        "m1": "Today's goal: after Isha, 33 Subhanallah, 33 Alhamdulillah and 33 Allahu Akbar.",
+        "m2": "Today, let's aim to pray all five prayers on time, together.",
+        "m3": "Today's goal: read one page of the Qur’an. Small steps count too.",
+        "m4": "Today's goal: 100 Subhanallah. Share with the community once you finish.",
+        "m5": "This week, write a dua list and remember a brother or sister in it.",
+        "m6": "Today, consider giving charity or doing a good deed for someone."
+      }
+    },
+    "coach": {
+      "dismiss": "Got it",
+      "ummah": {
+        "title": "Ummah",
+        "body": "Share a completed worship with the community, or see what others shared today."
+      },
+      "qibla": {
+        "title": "Qibla compass",
+        "body": "Hold your phone flat and turn until the arrow points to the Kaaba."
+      },
+      "silentMode": {
+        "title": "Silent mode",
+        "body": "When your phone is silent or on vibrate, the adhan is announced quietly. You can change this in Settings."
+      }
     }
   }
 }

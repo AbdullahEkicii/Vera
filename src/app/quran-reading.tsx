@@ -9,8 +9,9 @@ import {
   ActivityIndicator,
   useWindowDimensions,
   Modal,
+  Alert,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from '../services/storageService';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -43,7 +44,8 @@ import {
   quranAudioPlayer,
 } from '../services/quranAudioService';
 import { getVerseBookmarks, toggleVerseBookmark } from '../services/quranBookmarks';
-import { ct } from '../localization/content';
+import { useCt } from '../localization/content';
+import { directionalIconStyle } from '../utils/rtl';
 
 // ── Tema Sabitleri ve Tipleri ──────────────────────────────────────────────────
 const QURAN_THEME_STORAGE_KEY = 'QURAN_READING_THEME_KEY';
@@ -81,7 +83,7 @@ export const QURAN_THEMES: Record<QuranThemeKey, QuranTheme> = {
     pageBg: '#FDF8ED',
     border: '#D4C9AE',
     text: '#2C1A0A',
-    textSecondary: '#8C7055',
+    textSecondary: '#7A6046',
     primary: '#7B4F1A',
     header: 'rgba(253,248,237,0.97)',
     footer: 'rgba(253,248,237,0.97)',
@@ -99,7 +101,7 @@ export const QURAN_THEMES: Record<QuranThemeKey, QuranTheme> = {
     pageBg: '#1A1208',
     border: '#3A2E1A',
     text: '#E2CFA0',
-    textSecondary: '#A08060',
+    textSecondary: '#B99C78',
     primary: '#C9A84C',
     header: 'rgba(17,13,6,0.97)',
     footer: 'rgba(17,13,6,0.97)',
@@ -117,7 +119,7 @@ export const QURAN_THEMES: Record<QuranThemeKey, QuranTheme> = {
     pageBg: '#FFFFFF',
     border: '#CBD5E1',
     text: '#0F172A',
-    textSecondary: '#64748B',
+    textSecondary: '#526173',
     primary: '#0284C7',
     header: 'rgba(255,255,255,0.97)',
     footer: 'rgba(255,255,255,0.97)',
@@ -135,7 +137,7 @@ export const QURAN_THEMES: Record<QuranThemeKey, QuranTheme> = {
     pageBg: '#EAF3EE',
     border: '#A3D0B9',
     text: '#0D3B2E',
-    textSecondary: '#3B7A68',
+    textSecondary: '#2F6B58',
     primary: '#059669',
     header: 'rgba(234,243,238,0.97)',
     footer: 'rgba(234,243,238,0.97)',
@@ -178,7 +180,7 @@ const SurahEndDivider = ({ surahNo, colors }: { surahNo: number; colors: QuranTh
       </View>
 
       <Text style={[surahEndStyles.title, { color: colors.text }]}>
-        ✨ {surah.nameTurkish} {t('quran.surahEnd', 'End of Surah')}
+        {surah.nameTurkish} {t('quran.surahEnd', 'End of Surah')}
       </Text>
 
       <Text style={[surahEndStyles.subtitle, { color: colors.textSecondary }]}>
@@ -187,9 +189,12 @@ const SurahEndDivider = ({ surahNo, colors }: { surahNo: number; colors: QuranTh
 
       {nextSurah && (
         <View style={[surahEndStyles.nextSurahPill, { backgroundColor: colors.primary + '15', borderColor: colors.primary + '35' }]}>
-          <Text style={[surahEndStyles.nextSurahText, { color: colors.primary }]}>
-            {t('quran.nextSurah', 'Next Surah')}: {nextSurah.nameTurkish} ({nextSurah.nameArabic}) ➔
-          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <Text style={[surahEndStyles.nextSurahText, { color: colors.primary }]}>
+              {t('quran.nextSurah', 'Next Surah')}: {nextSurah.nameTurkish} ({nextSurah.nameArabic})
+            </Text>
+            <Feather name="arrow-right" size={14} color={colors.primary} style={directionalIconStyle} />
+          </View>
         </View>
       )}
     </View>
@@ -299,7 +304,7 @@ const surahHeaderStyles = StyleSheet.create({
     marginTop: 2,
   },
   verseCount: {
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
   },
   bismillah: {
@@ -396,6 +401,7 @@ export default function QuranReadingScreen() {
   const insets = useSafeAreaInsets();
   const { isDark: appIsDark, isFullscreen } = useTheme();
   const { t, i18n } = useTranslation();
+  const ct = useCt();
   const isLandscape = width > height;
 
   const params = useLocalSearchParams();
@@ -419,6 +425,7 @@ export default function QuranReadingScreen() {
   const [reciter, setReciter] = useState<QuranReciter>(QURAN_RECITERS[0]);
   const [reciterModalVisible, setReciterModalVisible] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [isAudioPaused, setIsAudioPaused] = useState(false);
   const [playingAyahKey, setPlayingAyahKey] = useState<string | null>(null);
   const autoAdvancePendingRef = useRef(false);
 
@@ -583,6 +590,7 @@ export default function QuranReadingScreen() {
   const stopAudioPlayback = useCallback(() => {
     quranAudioPlayer.stop();
     setIsPlayingAudio(false);
+    setIsAudioPaused(false);
     setPlayingAyahKey(null);
   }, []);
 
@@ -604,11 +612,22 @@ export default function QuranReadingScreen() {
     if (ayahsToPlay.length === 0) return;
 
     setIsPlayingAudio(true);
+    setIsAudioPaused(false);
     quranAudioPlayer.play(
       ayahsToPlay.map((v) => ({ surahNo: v.surahNo, ayahNo: v.ayahNo })),
       reciter.folder,
       {
         onAyahStart: (ayah) => setPlayingAyahKey(`${ayah.surahNo}:${ayah.ayahNo}`),
+        onError: () => {
+          // Stream failed or timed out (usually offline): the player already stopped itself.
+          setIsPlayingAudio(false);
+          setIsAudioPaused(false);
+          setPlayingAyahKey(null);
+          Alert.alert(
+            t('quran.audioErrorTitle', 'Ses oynatılamadı'),
+            t('quran.audioErrorMessage', 'Okuma sesi yüklenemedi. İnternet bağlantınızı kontrol edip tekrar deneyin.')
+          );
+        },
         onStopped: () => {
           setPlayingAyahKey(null);
           if (page < 604) {
@@ -616,11 +635,12 @@ export default function QuranReadingScreen() {
             setPage((p) => p + 1);
           } else {
             setIsPlayingAudio(false);
+            setIsAudioPaused(false);
           }
         },
       }
     );
-  }, [verses, reciter, page]);
+  }, [verses, reciter, page, t]);
 
   const togglePlayPause = useCallback(() => {
     if (isPlayingAudio) {
@@ -629,6 +649,16 @@ export default function QuranReadingScreen() {
       startAudioPlayback();
     }
   }, [isPlayingAudio, stopAudioPlayback, startAudioPlayback]);
+
+  const togglePauseResume = useCallback(() => {
+    if (quranAudioPlayer.isPaused()) {
+      quranAudioPlayer.resume();
+      setIsAudioPaused(false);
+    } else {
+      quranAudioPlayer.pause();
+      setIsAudioPaused(quranAudioPlayer.isPaused());
+    }
+  }, []);
 
   const handleAyahPress = useCallback((verse: Verse) => {
     if (isPlayingAudio) stopAudioPlayback();
@@ -710,8 +740,8 @@ export default function QuranReadingScreen() {
   const contentPaddingHNarrow = isLandscape ? Math.max(insets.left, insets.right, 16) : 20;
 
   const headerPaddingTop = isLandscape
-    ? (Platform.OS === 'ios' ? Math.max(insets.top, 10) : Math.max(StatusBar.currentHeight ?? 10, 10))
-    : (Platform.OS === 'ios' ? Math.max(insets.top, 44) : (StatusBar.currentHeight ?? 24) + 10);
+    ? (Math.max(insets.top, StatusBar.currentHeight ?? 0, 10))
+    : (Math.max(insets.top, StatusBar.currentHeight ?? 0, 24) + 10);
 
   const currentSurahNo = verses.length > 0 ? verses[0].surahNo : 1;
   const currentSurahObj = SURAHS.find((s) => s.number === currentSurahNo);
@@ -744,18 +774,18 @@ export default function QuranReadingScreen() {
             animatedHeader,
           ]}
         >
-          <Pressable style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]} onPress={() => {
+          <Pressable style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]} accessibilityRole="button" accessibilityLabel={t('common.back', 'Back')} hitSlop={8} onPress={() => {
             saveLastRead(juz, verses.length > 0 ? verses[0].surahNo : 1, displaySurahName, page);
             router.back();
           }}>
-            <Feather name="arrow-left" size={20} color={colors.text} />
+            <Feather name="arrow-left" size={20} color={colors.text} style={directionalIconStyle} />
           </Pressable>
 
           <View style={styles.headerCenter}>
             <Text style={[styles.headerSurah, { color: colors.text, fontSize: isLandscape ? 15 : 17 }]}>{displaySurahName}</Text>
-            <Pressable onPress={() => setReciterModalVisible(true)} hitSlop={4}>
+            <Pressable onPress={() => setReciterModalVisible(true)} hitSlop={{ top: 12, bottom: 12, left: 4, right: 4 }} accessibilityRole="button" accessibilityLabel={t('quran.selectReciter', 'Kari Seç')}>
               <Text style={[styles.headerMeta, { color: colors.textSecondary }]}>
-                {t('quran.juzNum', { num: juz })}  •  {t('quran.pageNum', { num: page })}  •  🎙 {ct(`content.reciters.${reciter.id}.name`, reciter.nameTR, reciter.nameEN)}
+                {t('quran.juzNum', { num: juz })}  •  {t('quran.pageNum', { num: page })}  •  {ct(`content.reciters.${reciter.id}.name`, reciter.nameTR, reciter.nameEN)}
               </Text>
             </Pressable>
           </View>
@@ -766,15 +796,31 @@ export default function QuranReadingScreen() {
               style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]}
               onPress={togglePlayPause}
               hitSlop={6}
+              accessibilityRole="button"
+              accessibilityLabel={isPlayingAudio ? t('quran.audioStop', 'Stop recitation') : t('quran.audioPlay', 'Play recitation')}
             >
-              <Feather name={isPlayingAudio ? 'pause-circle' : 'headphones'} size={18} color={isPlayingAudio ? colors.primary : colors.text} />
+              <Feather name={isPlayingAudio ? 'square' : 'headphones'} size={isPlayingAudio ? 16 : 18} color={isPlayingAudio ? colors.primary : colors.text} />
             </Pressable>
+
+            {/* Pause / resume the current recitation (only while a recitation is active) */}
+            {isPlayingAudio && (
+              <Pressable
+                style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]}
+                onPress={togglePauseResume}
+                hitSlop={6}
+                accessibilityRole="button"
+                accessibilityLabel={isAudioPaused ? t('quran.audioResume', 'Resume recitation') : t('quran.audioPause', 'Pause recitation')}
+              >
+                <Feather name={isAudioPaused ? 'play' : 'pause'} size={18} color={colors.primary} />
+              </Pressable>
+            )}
 
             {/* Sayfa Meali Butonu */}
             <Pressable
               style={[styles.mealBtn, { backgroundColor: colors.surahDivider }]}
               onPress={() => setPageMealVisible(true)}
               hitSlop={6}
+              accessibilityRole="button"
             >
               <Feather name="book-open" size={13} color={colors.text} />
               <Text style={[styles.mealBtnText, { color: colors.text }]} numberOfLines={1}>
@@ -787,6 +833,8 @@ export default function QuranReadingScreen() {
               style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]}
               onPress={decreaseFontSize}
               hitSlop={6}
+              accessibilityRole="button"
+              accessibilityLabel={t('quran.fontSmaller', 'Decrease text size')}
             >
               <Text style={[styles.fontSizeBtnText, { color: colors.text }]}>A-</Text>
             </Pressable>
@@ -796,6 +844,8 @@ export default function QuranReadingScreen() {
               style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]}
               onPress={increaseFontSize}
               hitSlop={6}
+              accessibilityRole="button"
+              accessibilityLabel={t('quran.fontLarger', 'Increase text size')}
             >
               <Text style={[styles.fontSizeBtnText, { color: colors.text, fontSize: 16 }]}>A+</Text>
             </Pressable>
@@ -805,6 +855,8 @@ export default function QuranReadingScreen() {
               style={[styles.headerBtn, { backgroundColor: colors.surahDivider }]}
               onPress={() => setThemeModalVisible(true)}
               hitSlop={6}
+              accessibilityRole="button"
+              accessibilityLabel={t('quran.readingTheme', 'Okuma Teması')}
             >
               <Feather name="droplet" size={18} color={colors.text} />
             </Pressable>
@@ -878,8 +930,9 @@ export default function QuranReadingScreen() {
             style={[styles.navBtn, { backgroundColor: colors.surahDivider, opacity: page <= 1 ? 0.35 : 1 }]}
             onPress={handlePrevPage}
             disabled={page <= 1}
+            accessibilityRole="button"
           >
-            <Feather name="chevron-left" size={22} color={colors.text} />
+            <Feather name="chevron-left" size={22} color={colors.text} style={directionalIconStyle} />
             <Text style={[styles.navBtnText, { color: colors.text }]}>{t('quran.previous')}</Text>
           </Pressable>
 
@@ -891,9 +944,10 @@ export default function QuranReadingScreen() {
             style={[styles.navBtn, { backgroundColor: colors.surahDivider, opacity: page >= 604 ? 0.35 : 1 }]}
             onPress={handleNextPage}
             disabled={page >= 604}
+            accessibilityRole="button"
           >
             <Text style={[styles.navBtnText, { color: colors.text }]}>{t('quran.next')}</Text>
-            <Feather name="chevron-right" size={22} color={colors.text} />
+            <Feather name="chevron-right" size={22} color={colors.text} style={directionalIconStyle} />
           </Pressable>
         </Animated.View>
 
@@ -910,7 +964,7 @@ export default function QuranReadingScreen() {
                 <Text style={[styles.themeModalTitle, { color: colors.text }]}>
                   {t('quran.readingTheme', 'Okuma Teması')}
                 </Text>
-                <Pressable onPress={() => setThemeModalVisible(false)} hitSlop={12}>
+                <Pressable onPress={() => setThemeModalVisible(false)} hitSlop={14} accessibilityRole="button" accessibilityLabel={t('common.close', 'Close')}>
                   <Feather name="x" size={20} color={colors.textSecondary} />
                 </Pressable>
               </View>
@@ -965,7 +1019,7 @@ export default function QuranReadingScreen() {
                 <Text style={[styles.themeModalTitle, { color: colors.text }]}>
                   {t('quran.selectReciter', 'Kari Seç')}
                 </Text>
-                <Pressable onPress={() => setReciterModalVisible(false)} hitSlop={12}>
+                <Pressable onPress={() => setReciterModalVisible(false)} hitSlop={14} accessibilityRole="button" accessibilityLabel={t('common.close', 'Close')}>
                   <Feather name="x" size={20} color={colors.textSecondary} />
                 </Pressable>
               </View>
@@ -1207,7 +1261,7 @@ const styles = StyleSheet.create({
   },
   themeNameContainer: {
     flex: 1,
-    marginLeft: 12,
+    marginStart: 12,
   },
   themeNameText: {
     fontSize: 15,

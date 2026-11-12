@@ -10,7 +10,13 @@
       "cancel": "Batal",
       "save": "Simpan",
       "ok": "OK",
-      "close": "Tutup"
+      "close": "Tutup",
+      "back": "Kembali",
+      "clear": "Kosongkan",
+      "remove": "Buang",
+      "expand": "Kembangkan",
+      "collapse": "Runtuhkan",
+      "share": "Kongsi"
     },
     "home": {
       "title": "Waktu Solat",
@@ -42,7 +48,13 @@
       "loadingTimes": "Memuatkan Waktu Solat...",
       "locationPermissionTitle": "Kebenaran Lokasi Tidak Tersedia",
       "locationPermissionDesc": "Memaparkan bandar lalai. Anda boleh memilih bandar atau memberikan kebenaran lokasi.",
-      "estimatedTimesNotice": "Oleh kerana tiada sambungan internet, waktu solat telah dikira di peranti anda (anggaran)."
+      "estimatedTimesNotice": "Oleh kerana tiada sambungan internet, waktu solat telah dikira di peranti anda (anggaran).",
+      "adjustTimeHint": "Tekan lama untuk melaraskan waktu ini",
+      "moreTools": "Lagi",
+      "locationFetchFailedTitle": "Lokasi tidak dijumpai",
+      "locationFetchFailedDesc": "Lokasi GPS anda tidak dapat diperoleh. Anda boleh memilih bandar atau cuba lagi kemudian.",
+      "sourceA11y": "Kaedah pengiraan waktu solat",
+      "highLatNote": "Latitud tinggi: Subuh/Isyak dianggarkan"
     },
     "settings": {
       "title": "Tetapan",
@@ -60,7 +72,11 @@
         "egypt": "Pihak Berkuasa Am Mesir",
         "karachi": "Karachi (Pakistan)",
         "france": "Perancis (UOIF)",
-        "russia": "Rusia (Pentadbir Rohani.)"
+        "russia": "Rusia (Pentadbir Rohani.)",
+        "kemenag": "Indonesia (Kemenag)",
+        "jakim": "Malaysia (JAKIM)",
+        "muis": "Singapura (MUIS)",
+        "tehran": "Iran (Universiti Tehran)"
       },
       "palettes": {
         "default": "Lalai",
@@ -93,7 +109,7 @@
       "persistentNotif": "Undur Doa Gigih",
       "persistentNotifDesc": "Jejaki masa yang tinggal untuk solat seterusnya secara langsung pada skrin kunci dan panel pemberitahuan anda.",
       "widgetTitle": "Widget Skrin Utama",
-      "addWidget": "📌 Tambah Widget pada Skrin Utama!",
+      "addWidget": "Tambah Widget pada Skrin Utama!",
       "addWidgetDesc": "Lihat waktu solat dan kira detik secara langsung pada skrin utama telefon anda.",
       "general": "Tetapan Umum",
       "fullscreen": "Mod Skrin Penuh",
@@ -130,7 +146,32 @@
       "username": "Nama pengguna",
       "password": "Kata laluan",
       "loggingIn": "Sedang log masuk...",
-      "login": "Log Masuk"
+      "login": "Log Masuk",
+      "remindersTitle": "Peringatan & Pengumuman",
+      "dailyContentNotif": "Ayat / Hadis Harian",
+      "dailyContentNotifDesc": "Peringatan harian ringkas selepas solat Zohor.",
+      "quranReminderNotif": "Peringatan Membaca Al-Quran",
+      "quranReminderNotifDesc": "Peringatan petang setiap dua hari.",
+      "greetingNotif": "Ucapan Jumaat & Hari Mulia",
+      "greetingNotifDesc": "Peringatan pada hari Jumaat dan hari-hari keagamaan.",
+      "announcementsNotif": "Pengumuman",
+      "announcementsNotifDesc": "Berita dan mesej kempen daripada Vera.",
+      "locationTitle": "Lokasi",
+      "changeCity": "Tukar bandar",
+      "locationNotSet": "Belum dipilih",
+      "locationFromGps": "Mengikut lokasi telefon anda",
+      "locationFromManual": "Bandar dipilih secara manual",
+      "locationHint": "Pilih bandar atau gunakan lokasi telefon anda.",
+      "useMyLocation": "Gunakan lokasi semasa saya",
+      "fullscreenDesc": "Menyembunyikan bar status (jam, bateri) dan bar navigasi.",
+      "recommended": "Disyorkan",
+      "asrSchoolTitle": "Pengiraan Asar",
+      "asrStandard": "Standard (Syafie, Maliki, Hanbali)",
+      "asrHanafi": "Hanafi",
+      "asrSchoolDesc": "Mazhab Hanafi melewatkan Asar (bayang dua kali benda). Ini lazim di Asia Selatan.",
+      "rateApp": "Nilaikan Vera",
+      "privacyPolicy": "Dasar Privasi",
+      "restartForDirection": "Tutup dan buka semula aplikasi untuk menggunakan arah teks yang baharu."
     },
     "qibla": {
       "title": "Kiblat",
@@ -148,12 +189,12 @@
       "status": "Status",
       "aligned": "Sejajar",
       "aligning": "Putar",
-      "alignedSuccess": "🕌 Anda menghadap kiblat!",
+      "alignedSuccess": "Anda menghadap kiblat!",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "Cara Penggunaan?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "Tajuk",
       "calibrateBtn": "Kalibrasi Kompas",
@@ -162,8 +203,15 @@
       "magneticShield": "Perisai Medan Magnet",
       "magneticShieldDesc": "Ketepatan penderia dioptimumkan. Jauhkan dari kes magnetik.",
       "levelStatus": "Aras Mendatar (Gelembung)",
-      "levelFlat": "Rata & Selari ✓",
-      "gotIt": "Faham"
+      "levelFlat": "Rata & Selari",
+      "gotIt": "Faham",
+      "noLocationTitle": "Lokasi diperlukan",
+      "noLocationDesc": "Arah kiblat bergantung pada kedudukan anda. Pilih bandar anda atau benarkan akses lokasi.",
+      "useMyLocation": "Gunakan lokasi saya",
+      "chooseCity": "Pilih bandar",
+      "lowAccuracy": "Ketepatan kompas rendah. Ketik untuk menentukur.",
+      "magneticNorthNote": "Menggunakan utara magnet: arah mungkin tersasar beberapa darjah.",
+      "errorNoSensor": "Penderia kompas tidak bertindak balas. Peranti ini mungkin tiada kompas."
     },
     "daily": {
       "title": "Inspirasi Harian",
@@ -175,7 +223,8 @@
       "hadithBody": "Klik untuk membaca hadis hari ini!",
       "quoteBody": "Klik untuk membaca petikan hari ini!",
       "subtitle": "Ayat, hadis dan kata-kata pilihan untuk hari ini",
-      "shareHint": "Ketik kad untuk berkongsi sebagai imej cerita"
+      "shareHint": "Ketik kad untuk berkongsi sebagai imej cerita",
+      "autoTranslated": "Terjemahan automatik"
     },
     "notifications": {
       "fajr": {
@@ -205,7 +254,7 @@
       "exactAlert": "Makluman Solat Tepat",
       "warnAlert": "Makluman Amaran 25 Minit",
       "warningTitle": "Masa Mendekati",
-      "warningBody": "25 minit lagi untuk {{solat}}.",
+      "warningBody": "25 minit lagi untuk {{prayer}}.",
       "quranReminderTitle": "📖 Waktu Al-Quran",
       "quranReminderBody": "Sudahkah anda membaca Al-Quran hari ini? Ketik untuk membaca sekarang.",
       "namesReminderTitle": "✨ Nama Allah & Doa",
@@ -228,7 +277,8 @@
         "dailyName": "Inspirasi Harian",
         "dailyDesc": "Ayat harian, hadis, atau petikan tiba antara Dzuhur dan Asar.",
         "persistentName": "Kunci Skrin & Bar Status",
-        "persistentDesc": "Memaparkan nama doa seterusnya dan kira detik secara langsung dalam panel pemberitahuan dan skrin kunci."
+        "persistentDesc": "Memaparkan nama doa seterusnya dan kira detik secara langsung dalam panel pemberitahuan dan skrin kunci.",
+        "announcements": "Pengumuman"
       },
       "persistentTitle": "🕌 Menuju {{prayer}}"
     },
@@ -328,7 +378,7 @@
       "versionLabel": "Versi",
       "checkUpdate": "Semak Kemas Kini",
       "upToDateTitle": "Apl Terkini",
-      "upToDateMessage": "Anda menggunakan versi terkini (v{{versi}}).",
+      "upToDateMessage": "Anda menggunakan versi terkini (v{{version}}).",
       "checkFailed": "Gagal menyemak kemas kini."
     },
     "quran": {
@@ -399,7 +449,15 @@
       "noBookmarks": "Belum ada ayat kegemaran. Tekan lama pada ayat untuk menambahnya.",
       "playFromHere": "Dengar dari Sini",
       "juz": "Juzuk",
-      "downloadingShort": "Memuat turun..."
+      "downloadingShort": "Memuat turun...",
+      "audioErrorTitle": "Audio tidak dapat dimainkan",
+      "audioErrorMessage": "Bacaan tidak dapat dimuatkan. Semak sambungan internet anda dan cuba lagi.",
+      "audioPause": "Jeda bacaan",
+      "audioResume": "Sambung bacaan",
+      "audioStop": "Henti bacaan",
+      "audioPlay": "Mainkan bacaan",
+      "fontSmaller": "Kecilkan teks",
+      "fontLarger": "Besarkan teks"
     },
     "review": {
       "title": "Sokong Kami",
@@ -407,9 +465,9 @@
       "notNow": "Bukan Sekarang",
       "review": "Ulas",
       "subtitle": "Nilaikan pengalaman anda dengan bintang",
-      "fiveStarTitle": "Kami sangat teruja mendengarnya! 🌟",
+      "fiveStarTitle": "Kami sangat teruja mendengarnya!",
       "fiveStarSubtitle": "Adakah anda mahu menyokong Vera dengan penarafan 5 bintang?",
-      "rateOnStore": "🌟 Beri 5 Bintang & Sokongan",
+      "rateOnStore": "Beri 5 Bintang & Sokongan",
       "ratingLabels": {
         "1": "Perlu Penambahbaikan",
         "2": "Adil",
@@ -417,11 +475,11 @@
         "4": "Sangat Baik",
         "5": "Cemerlang!"
       },
-      "feedbackTitle": "Bantu Kami Meningkatkan 💬",
+      "feedbackTitle": "Bantu Kami Meningkatkan",
       "feedbackSubtitle": "Kongsi pendapat dan cadangan anda supaya kami boleh menjadikan Vera lebih baik.",
       "feedbackPlaceholder": "Tulis cadangan, idea atau sebarang isu yang anda hadapi...",
       "sendFeedback": "Hantar Maklum Balas",
-      "thankYouTitle": "Maklum Balas Diterima! 🤲",
+      "thankYouTitle": "Maklum Balas Diterima!",
       "thankYouSubtitle": "Maklum balas anda sangat berharga bagi kami. Kami akan bekerja keras untuk menjadikan Vera lebih baik.",
       "close": "tutup"
     },
@@ -444,6 +502,8 @@
       "title": "Penjejak Doa Harian",
       "completed": "Selesai",
       "dayStreak": "Rentetan Harian",
+      "restartHint": "Anda boleh mula semula hari ini",
+      "weekActiveDays": "{{count}} hari dalam 7 hari lepas",
       "viewHistory": "Lihat Sejarah Penuh",
       "historyTitle": "Sejarah Solat",
       "historySubtitle": "Log doa anda untuk 30 hari terakhir",
@@ -474,16 +534,20 @@
       "recent": "Carian Terkini",
       "useGPS": "Gunakan Lokasi Semasa",
       "gpsDenied": "Kebenaran lokasi ditolak.",
-      "gpsError": "Gagal mendapatkan lokasi."
+      "gpsError": "Gagal mendapatkan lokasi.",
+      "searchFailed": "Carian gagal, semak sambungan anda.",
+      "pin": "Simpan bandar",
+      "unpin": "Nyahsemat"
     },
     "calendar": {
       "title": "Kalendar Bersatu",
-      "todayNotice": "Hari ini: {{gregorian}} • Hijriah: {{hijriah}}"
+      "todayNotice": "Hari ini: {{gregorian}} • Hijriah: {{hijri}}"
     },
     "imsakiye": {
       "title": "Imsakiye mingguan",
       "subtitle": "Masa 7 hari seterusnya",
-      "date": "tarikh"
+      "date": "tarikh",
+      "rangeDays": "{{n}} hari"
     },
     "religious": {
       "title": "Hari Keagamaan",
@@ -505,7 +569,7 @@
       "duasSubtitle": "Doa setiap hari",
       "meaningLabel": "Maknanya",
       "tabNames": "99 Nama",
-      "tabDuas": "Duas",
+      "tabDuas": "Dua",
       "namesCount": "{{count}} Nama",
       "duasCount": "{{count}} Duas",
       "tapHint": "Ketik untuk mendapatkan butiran",
@@ -541,20 +605,20 @@
       "verifiedMethodDesc": "Kaedah Islam yang paling tepat untuk wilayah anda dipilih secara automatik.",
       "notificationsTitle": "Makluman Adzan & Solat",
       "notificationsDesc": "Terima peringatan lembut atau boleh didengar pada waktu solat.",
-      "startBtn": "Mula Menggunakan Vera 🌟",
+      "startBtn": "Mula Menggunakan Vera",
       "featureQuran": "Quran & Audio",
       "featureQibla": "kiblat",
       "featureDhikr": "Kaunter Dzikir",
-      "backBtn": "← Kembali",
-      "playTestSound": "Pratonton Bunyi Adzan 🔊",
-      "stopTestSound": "Hentikan Bunyi ⏹️",
-      "nextStepBtn": "Teruskan →",
+      "backBtn": "Kembali",
+      "playTestSound": "Pratonton Bunyi Adzan",
+      "stopTestSound": "Hentikan Bunyi",
+      "nextStepBtn": "Teruskan",
       "step3Title": "Pengalaman Tanpa Gangguan",
       "step3Subtitle": "Jejaki waktu solat secara langsung dari skrin utama anda dan pastikan pemberitahuan adzan yang boleh dipercayai.",
-      "widgetTitle": "📌 Tambah Widget pada Skrin Utama",
+      "widgetTitle": "Tambah Widget pada Skrin Utama",
       "widgetDesc": "Lihat kira detik secara langsung tanpa membuka apl.",
       "widgetAdded": "Widget berjaya ditambahkan!",
-      "batteryTitle": "🔋 Pengecualian Penjimat Bateri",
+      "batteryTitle": "Pengecualian Penjimat Bateri",
       "batteryDesc": "Disyorkan untuk mematikan pengoptimuman bateri pada Xiaomi & Samsung untuk adzan tepat pada masanya.",
       "locationReassurance": "Anda boleh menukar ini bila-bila masa kelak dalam Tetapan.",
       "notifDenied": "Kebenaran pemberitahuan tidak diberikan. Amaran azan mungkin tidak berfungsi — anda boleh mengaktifkannya kelak dalam Tetapan.",
@@ -565,7 +629,10 @@
       "skipConfirm": "Langkau",
       "locationDenied": "Kebenaran lokasi tidak diberikan. Anda boleh memilih bandar anda dari senarai, atau menukar ini kelak dalam Tetapan.",
       "locationFailed": "Tidak dapat memperoleh lokasi anda. Anda boleh memilih bandar anda dari senarai, atau menukar ini kelak dalam Tetapan.",
-      "locationNotSet": "Lokasi Tidak Tersedia (Kebenaran Ditolak)"
+      "locationNotSet": "Lokasi Tidak Tersedia (Kebenaran Ditolak)",
+      "locationNotSetYet": "Belum dipilih",
+      "skipLocation": "Langkau buat masa ini",
+      "currentLocationLabel": "Lokasi semasa"
     },
     "weather": {
       "title": "Ramalan Cuaca",
@@ -629,9 +696,9 @@
       "titlePlaceholder": "Tajuk (cth. Jummah Mubarak)",
       "messagePlaceholder": "Tulis doa atau ucapan salam anda...",
       "chooseTheme": "Tema Kad",
-      "shareBtn": "Kongsi ke WhatsApp / Story 🌟",
-      "shareImageBtn": "Kongsi Kad Imej 🌟",
-      "shareLinkBtn": "Kongsi Pautan Kedai Terus 🔗",
+      "shareBtn": "Kongsi ke WhatsApp / Story",
+      "shareImageBtn": "Kongsi Kad Imej",
+      "shareLinkBtn": "Kongsi Pautan Kedai Terus",
       "theme": {
         "gold": "Garisan Emas",
         "emerald": "Kubah Zamrud",
@@ -649,7 +716,13 @@
       "emptyTitle": "Tiada Masjid Ditemui Berdekatan",
       "emptyDesc": "Anda boleh melihat semua masjid secara langsung pada navigasi peta.",
       "openInMaps": "Cari di Peta",
-      "directionsBtn": "Arah"
+      "directionsBtn": "Arah",
+      "searchQuery": "masjid",
+      "noLocationTitle": "Lokasi Tidak Ditemui",
+      "noLocationDesc": "Pilih bandar atau benarkan akses lokasi untuk melihat masjid berdekatan.",
+      "errorTitle": "Masjid Tidak Dapat Dimuatkan",
+      "errorDesc": "Terdapat masalah sambungan. Semak internet anda dan cuba lagi.",
+      "chooseCity": "Pilih bandar"
     },
     "dailyContent": {
       "preparing": "Memuatkan inspirasi harian...",
@@ -666,7 +739,7 @@
       "hatimLabel": "Khatm",
       "page": "Halaman",
       "pagesRemaining": "{{count}} halaman tinggal untuk melengkapkan Khatm.",
-      "completed": "tahniah! Anda telah menyelesaikan Khatm. 🎉",
+      "completed": "tahniah! Anda telah menyelesaikan Khatm.",
       "readPageBtn": "Baca Halaman {{page}}",
       "jumpPageTitle": "Lompat ke Halaman / Kemajuan Kemas Kini",
       "jumpPageDesc": "Masukkan nombor halaman semasa (1 - 604):",
@@ -676,7 +749,8 @@
       "startNew": "Mulakan Khatm Baru",
       "resetHatimBtn": "Tetapkan Semula & Mulakan Khatm Baharu",
       "share": "Kongsi Khatam Saya",
-      "shareText": "Saya menyelesaikan khatam ke-{{count}}, alhamdulillah!"
+      "shareText": "Saya menyelesaikan khatam ke-{{count}}, alhamdulillah!",
+      "dailyTarget": "Kira-kira {{n}} muka surat sehari untuk khatam ({{d}} hari lagi)"
     },
     "prayerTree": {
       "title": "Pokok Doa Mingguan",
@@ -1175,10 +1249,10 @@
     },
     "widget": {
       "guideTitle": "Tambah ke Skrin Utama",
-      "guideDesc": "Tekan lama skrin utama anda ➔ ketik \"Widget\" ➔ cari widget \"VERA\" dan seret ke skrin anda.",
+      "guideDesc": "Tekan lama skrin utama anda > ketik \"Widget\" > cari widget \"VERA\" dan seret ke skrin anda.",
       "promptTitle": "Tambah Widget ke Skrin Utama",
       "promptDesc": "Lihat waktu solat seterusnya dan minit yang berbaki secara langsung dari skrin utama telefon anda, tanpa membuka aplikasi.",
-      "addNow": "📌 Tambah ke Skrin Utama",
+      "addNow": "Tambah ke Skrin Utama",
       "notNow": "Kemudian"
     },
     "greetingNotif": {
@@ -1191,7 +1265,133 @@
     "errorBoundary": {
       "title": "Sesuatu tidak kena",
       "subtitle": "Aplikasi mengalami ralat yang tidak dijangka. Ketik butang di bawah untuk mencuba lagi.",
-      "retry": "Cuba Lagi"
+      "retry": "Cuba Lagi",
+      "clearAndRetry": "Kosongkan data cache dan cuba lagi"
+    },
+    "community": {
+      "tabMine": "Siaran saya",
+      "you": "Anda",
+      "emptyMine": "Anda belum ada siaran. Anda boleh berkongsi selepas melengkapkan satu ibadah.",
+      "adLabel": "Iklan",
+      "title": "Komuniti",
+      "tabToday": "Hari ini",
+      "tabWeek": "7 hari lalu",
+      "anonymous": "Saudara/saudari tanpa nama",
+      "someone": "Seseorang",
+      "templates": {
+        "hatimCompleted": "Mengkhatamkan Al-Quran",
+        "achievement": "Membuka {{title}}",
+        "dhikrMilestone": "Seseorang dari {{country}} berzikir {{count}} kali",
+        "prayerFullday": "Kelima-lima solat selesai hari ini"
+      },
+      "emptyToday": "Belum ada hantaran hari ini. Kongsi yang pertama apabila anda selesaikan sesuatu.",
+      "emptyWeek": "Tiada hantaran dalam 7 hari lalu.",
+      "loadFailed": "Tidak dapat memuatkan suapan. Tarik ke bawah untuk cuba lagi.",
+      "share": {
+        "title": "Mahu kongsi ini dengan komuniti Vera?",
+        "note": "Hanya teks ini dikongsi. Nama dan butiran peribadi anda kekal tersembunyi.",
+        "submit": "Kongsi",
+        "later": "Bukan sekarang",
+        "failed": "Tidak dapat berkongsi. Cuba lagi kemudian.",
+        "heading": "Kongsi dengan komuniti",
+        "sent": "Dikongsi",
+        "external": "Kongsi di aplikasi lain",
+        "open": "Kongsi dengan komuniti",
+        "celebrateHint": "Kongsi secara tanpa nama dengan komuniti Vera.",
+        "intro": "Saudara-saudari di seluruh dunia boleh melihat ini. Nama anda kekal tersembunyi."
+      },
+      "settings": {
+        "title": "Tetapan komuniti",
+        "participate": "Sertai komuniti",
+        "participateHint": "Apabila dimatikan, tiada tawaran berkongsi dipaparkan. Anda masih boleh membaca suapan.",
+        "showCountry": "Tunjukkan negara saya",
+        "showCountryHint": "Apabila dihidupkan, nama negara anda dipaparkan di sebelah hantaran. Mematikannya hanya terpakai untuk hantaran baharu.",
+        "country": "Negara",
+        "countryManual": "Negara dipilih: {{code}}",
+        "countryDevice": "Menggunakan rantau peranti anda.",
+        "useDevice": "Peranti",
+        "countryInvalid": "Masukkan kod negara dua huruf, cth. TR",
+        "myPosts": "Hantaran saya",
+        "noPosts": "Anda belum ada hantaran.",
+        "delete": "Padam",
+        "deleteTitle": "Padam hantaran ini?",
+        "deleteBody": "Ia akan dibuang daripada suapan untuk semua orang.",
+        "blocked": "Orang disekat: {{count}}",
+        "clearBlocked": "Kosongkan senarai sekatan",
+        "joined": "Anda berada dalam komuniti",
+        "left": "Komuniti dimatikan",
+        "sectionPrivacy": "Privasi",
+        "sectionBlocked": "Disekat",
+        "countryDeviceTitle": "Rantau peranti",
+        "blockedCount": "{{count}} orang",
+        "change": "Tukar"
+      },
+      "report": {
+        "action": "Laporkan",
+        "thanksTitle": "Terima kasih",
+        "thanksBody": "Laporan anda akan disemak.",
+        "failed": "Tidak dapat menghantar laporan."
+      },
+      "block": {
+        "action": "Sekat orang ini"
+      },
+      "more": {
+        "title": "Pilihan untuk hantaran ini"
+      },
+      "discovery": {
+        "title": "Kongsi pencapaian anda dengan komuniti Vera",
+        "body": "Kongsi khatam, zikir dan hari solat secara tanpa nama dengan saudara-saudari di seluruh dunia.",
+        "cta": "Buka komuniti"
+      },
+      "summary": {
+        "posts": "hantaran",
+        "hatim": "Khatam",
+        "achievement": "Pencapaian",
+        "dhikr": "Zikir",
+        "prayer": "Solat"
+      },
+      "howTo": {
+        "helpLabel": "Cara berkongsi",
+        "title": "Cara perkongsian berfungsi",
+        "intro": "Kongsikan ibadah yang telah anda selesaikan dengan komuniti Vera. Nama anda kekal tersembunyi.",
+        "step1Title": "Selesaikan satu ibadah",
+        "step1Body": "Selesaikan solat lima waktu, khatam atau sasaran zikir dalam aplikasi.",
+        "step2Title": "Ketik Kongsi",
+        "step2Body": "Apabila sambutan muncul, ketik Kongsi. Anda juga boleh menggunakan butang kongsi pada skrin solat dan zikir.",
+        "step3Title": "Hantaran anda muncul di sini",
+        "step3Body": "Semua orang boleh melihatnya, dengan negara anda hanya jika anda benarkan. Padam bila-bila masa daripada Hantaran saya.",
+        "gotIt": "Faham"
+      },
+      "reminder": {
+        "title": "Kongsi ibadah hari ini",
+        "body": "Mahu kongsi ibadah hari ini dengan komuniti?",
+        "bodyAll": "Anda telah menyempurnakan kelima-lima solat hari ini. Mahu kongsi dengan komuniti?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "Matlamat hari ini: satu khatam. Baca beberapa muka surat sehari dan mari khatamkan Al-Quran bersama.",
+        "m1": "Matlamat hari ini: selepas Isyak, 33 Subhanallah, 33 Alhamdulillah dan 33 Allahu Akbar.",
+        "m2": "Hari ini, mari berazam menunaikan kelima-lima solat tepat pada waktunya, bersama-sama.",
+        "m3": "Matlamat hari ini: baca satu muka surat Al-Quran. Langkah kecil pun bermakna.",
+        "m4": "Matlamat hari ini: 100 Subhanallah. Kongsi dengan komuniti setelah selesai.",
+        "m5": "Minggu ini, tulis senarai doa dan ingat seorang saudara atau saudari di dalamnya.",
+        "m6": "Hari ini, pertimbangkan untuk bersedekah atau melakukan kebaikan untuk seseorang."
+      }
+    },
+    "coach": {
+      "dismiss": "Faham",
+      "ummah": {
+        "title": "Ummah",
+        "body": "Kongsi ibadah yang selesai dengan komuniti, atau lihat apa yang dikongsi orang lain hari ini."
+      },
+      "qibla": {
+        "title": "Kompas kiblat",
+        "body": "Pegang telefon secara mendatar dan putar sehingga anak panah menunjuk ke Kaabah."
+      },
+      "silentMode": {
+        "title": "Mod senyap",
+        "body": "Apabila telefon dalam mod senyap atau getar, azan diumumkan dengan perlahan. Anda boleh menukarnya dalam Tetapan."
+      }
     }
   }
 }

@@ -10,7 +10,13 @@
       "cancel": "Avbryt",
       "save": "Lagre",
       "ok": "OK",
-      "close": "Lukk"
+      "close": "Lukk",
+      "back": "Tilbake",
+      "clear": "Tøm",
+      "remove": "Fjern",
+      "expand": "Utvid",
+      "collapse": "Skjul",
+      "share": "Del"
     },
     "home": {
       "title": "Bønnetider",
@@ -42,7 +48,13 @@
       "loadingTimes": "Laster bønnetider...",
       "locationPermissionTitle": "Posisjonstillatelse ikke tilgjengelig",
       "locationPermissionDesc": "Viser standardbyen. Du kan velge en by eller gi posisjonstillatelse.",
-      "estimatedTimesNotice": "Ingen internettforbindelse, så bønnetidene ble beregnet på enheten din (anslått)."
+      "estimatedTimesNotice": "Ingen internettforbindelse, så bønnetidene ble beregnet på enheten din (anslått).",
+      "adjustTimeHint": "Trykk lenge for å justere denne tiden",
+      "moreTools": "Mer",
+      "locationFetchFailedTitle": "Posisjon ikke funnet",
+      "locationFetchFailedDesc": "Vi kunne ikke hente GPS-posisjonen din. Du kan velge en by eller prøve igjen senere.",
+      "sourceA11y": "Beregningsmetode for bønnetider",
+      "highLatNote": "Høy breddegrad: Fajr/Isha er tilnærmet"
     },
     "settings": {
       "title": "Innstillinger",
@@ -60,7 +72,11 @@
         "egypt": "Egyptiske Myndigheter",
         "karachi": "Karachi (Pakistan)",
         "france": "Frankrike (UOIF)",
-        "russia": "Russland"
+        "russia": "Russland",
+        "kemenag": "Indonesia (Kemenag)",
+        "jakim": "Malaysia (JAKIM)",
+        "muis": "Singapore (MUIS)",
+        "tehran": "Iran (Universitetet i Teheran)"
       },
       "palettes": {
         "default": "Misligholde",
@@ -93,7 +109,7 @@
       "persistentNotif": "Vedvarende bønn Nedtelling",
       "persistentNotifDesc": "Spor tiden som er igjen for neste bønn live på låseskjermen og varslingspanelet.",
       "widgetTitle": "Home Screen Widget",
-      "addWidget": "📌 Legg til widget på startskjermen!",
+      "addWidget": "Legg til widget på startskjermen!",
       "addWidgetDesc": "Se bønnetider og direktenedtelling direkte på telefonens startskjerm.",
       "general": "Generelle innstillinger",
       "fullscreen": "Fullskjermmodus",
@@ -130,7 +146,32 @@
       "username": "Brukernavn",
       "password": "Passord",
       "loggingIn": "Logger inn...",
-      "login": "Logg Inn"
+      "login": "Logg Inn",
+      "remindersTitle": "Påminnelser og kunngjøringer",
+      "dailyContentNotif": "Dagens vers / hadith",
+      "dailyContentNotifDesc": "En kort daglig påminnelse etter middagsbønnen.",
+      "quranReminderNotif": "Påminnelse om Koranlesing",
+      "quranReminderNotifDesc": "En kveldspåminnelse annenhver dag.",
+      "greetingNotif": "Hilsener for fredag og hellige dager",
+      "greetingNotifDesc": "Påminnelser på fredager og religiøse dager.",
+      "announcementsNotif": "Kunngjøringer",
+      "announcementsNotifDesc": "Nyheter og kampanjemeldinger fra Vera.",
+      "locationTitle": "Posisjon",
+      "changeCity": "Bytt by",
+      "locationNotSet": "Ikke valgt ennå",
+      "locationFromGps": "Følger telefonens posisjon",
+      "locationFromManual": "By valgt manuelt",
+      "locationHint": "Velg en by, eller bruk telefonens posisjon.",
+      "useMyLocation": "Bruk min nåværende posisjon",
+      "fullscreenDesc": "Skjuler statuslinjen (klokke, batteri) og navigasjonslinjen.",
+      "recommended": "Anbefalt",
+      "asrSchoolTitle": "Beregning av Asr",
+      "asrStandard": "Standard (shafi'i, maliki, hanbali)",
+      "asrHanafi": "Hanafi",
+      "asrSchoolDesc": "Hanafi legger Asr senere (skyggen dobbelt så lang som gjenstanden). Det er vanlig i Sør-Asia.",
+      "rateApp": "Vurder Vera",
+      "privacyPolicy": "Personvernerklæring",
+      "restartForDirection": "Lukk og åpne appen på nytt for å bruke den nye tekstretningen."
     },
     "qibla": {
       "title": "Qibla",
@@ -148,12 +189,12 @@
       "status": "Status",
       "aligned": "På linje",
       "aligning": "Drei",
-      "alignedSuccess": "🕌 Du vender mot Qibla!",
+      "alignedSuccess": "Du vender mot Qibla!",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "Hvordan bruke?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "Overskrift",
       "calibrateBtn": "Kalibrer kompass",
@@ -162,8 +203,15 @@
       "magneticShield": "Magnetisk feltskjold",
       "magneticShieldDesc": "Sensornøyaktighet optimalisert. Hold deg unna magnetiske tilfeller.",
       "levelStatus": "Horisontalt nivå (boble)",
-      "levelFlat": "Flat & Parallell ✓",
-      "gotIt": "Skjønner det"
+      "levelFlat": "Flat & Parallell",
+      "gotIt": "Skjønner det",
+      "noLocationTitle": "Posisjon kreves",
+      "noLocationDesc": "Qibla-retningen avhenger av hvor du er. Velg byen din, eller gi tilgang til posisjon.",
+      "useMyLocation": "Bruk min posisjon",
+      "chooseCity": "Velg by",
+      "lowAccuracy": "Kompassets nøyaktighet er lav. Trykk for å kalibrere.",
+      "magneticNorthNote": "Bruker magnetisk nord: retningen kan avvike noen grader.",
+      "errorNoSensor": "Kompassensoren svarer ikke. Denne enheten har kanskje ikke kompass."
     },
     "daily": {
       "title": "Daglig Inspirasjon",
@@ -175,7 +223,8 @@
       "hadithBody": "Klikk for å lese dagens hadith!",
       "quoteBody": "Klikk for å lese dagens sitat!",
       "subtitle": "Utvalgt vers, hadith og sitat for i dag",
-      "shareHint": "Trykk på et kort for å dele som historiebilde"
+      "shareHint": "Trykk på et kort for å dele som historiebilde",
+      "autoTranslated": "Automatisk oversettelse"
     },
     "search": {
       "title": "Velg Posisjon",
@@ -184,7 +233,10 @@
       "recent": "Nylige Søk",
       "useGPS": "Bruk Nåværende Posisjon",
       "gpsDenied": "Posisjonstillatelse avvist.",
-      "gpsError": "Kunne ikke hente posisjon."
+      "gpsError": "Kunne ikke hente posisjon.",
+      "searchFailed": "Søket mislyktes, sjekk tilkoblingen din.",
+      "pin": "Lagre by",
+      "unpin": "Fjern festing"
     },
     "notifications": {
       "exactAlert": "Bønnetidsvarsel",
@@ -237,7 +289,8 @@
         "dailyName": "Daglig inspirasjon",
         "dailyDesc": "Daglig vers, hadith eller sitat kommer mellom Dhuhr og Asr.",
         "persistentName": "Låseskjerm og statuslinje",
-        "persistentDesc": "Viser neste bønnsnavn og direkte nedtelling i varslingspanelet og låseskjermen."
+        "persistentDesc": "Viser neste bønnsnavn og direkte nedtelling i varslingspanelet og låseskjermen.",
+        "announcements": "Kunngjøringer"
       },
       "persistentTitle": "🕌 Til {{prayer}}"
     },
@@ -408,7 +461,15 @@
       "noBookmarks": "Du har ingen bokmerkede vers ennå. Trykk lenge på et vers for å legge til ett.",
       "playFromHere": "Lytt Herfra",
       "juz": "Juz",
-      "downloadingShort": "Laster ned..."
+      "downloadingShort": "Laster ned...",
+      "audioErrorTitle": "Lyden kunne ikke spilles av",
+      "audioErrorMessage": "Resitasjonen kunne ikke lastes. Sjekk internettforbindelsen og prøv igjen.",
+      "audioPause": "Sett resitasjon på pause",
+      "audioResume": "Gjenoppta resitasjon",
+      "audioStop": "Stopp resitasjon",
+      "audioPlay": "Spill av resitasjon",
+      "fontSmaller": "Gjør teksten mindre",
+      "fontLarger": "Gjør teksten større"
     },
     "review": {
       "title": "Støtt Oss",
@@ -416,9 +477,9 @@
       "notNow": "Ikke Nå",
       "review": "Anmeld",
       "subtitle": "Vurder opplevelsen din med stjerner",
-      "fiveStarTitle": "Vi er begeistret for å høre det! 🌟",
+      "fiveStarTitle": "Vi er begeistret for å høre det!",
       "fiveStarSubtitle": "Vil du støtte Vera med en 5-stjerners vurdering?",
-      "rateOnStore": "🌟 Gi 5 stjerner og støtte",
+      "rateOnStore": "Gi 5 stjerner og støtte",
       "ratingLabels": {
         "1": "Trenger forbedring",
         "2": "Rettferdig",
@@ -426,11 +487,11 @@
         "4": "Veldig bra",
         "5": "Glimrende!"
       },
-      "feedbackTitle": "Hjelp oss å bli bedre 💬",
+      "feedbackTitle": "Hjelp oss å bli bedre",
       "feedbackSubtitle": "Del dine tanker og forslag slik at vi kan gjøre Vera enda bedre.",
       "feedbackPlaceholder": "Skriv dine forslag, ideer eller problemer du har møtt...",
       "sendFeedback": "Send tilbakemelding",
-      "thankYouTitle": "Tilbakemelding mottatt! 🤲",
+      "thankYouTitle": "Tilbakemelding mottatt!",
       "thankYouSubtitle": "Din tilbakemelding er svært verdifull for oss. Vi skal jobbe hardt for å gjøre Vera enda bedre.",
       "close": "Lukke"
     },
@@ -453,6 +514,8 @@
       "title": "Daglig bønnsporing",
       "completed": "Fullført",
       "dayStreak": "Dagsrekke",
+      "restartHint": "Du kan starte på nytt i dag",
+      "weekActiveDays": "{{count}} dager de siste 7",
       "viewHistory": "Se hele historien",
       "historyTitle": "Bønnehistorie",
       "historySubtitle": "Bønneloggene dine for de siste 30 dagene",
@@ -471,7 +534,7 @@
       "celebrationSubtitle": "Masha'Allah!",
       "celebrationMessage": "Du fullførte alle 5 daglige bønnene i dag. Må Allah akseptere dine bønner!",
       "celebrationBtn": "Alhamdulillah",
-      "trustNotice": "{{city}} • Verifiserte bønnetider for din region ved hjelp av {{metode}}",
+      "trustNotice": "{{city}} • Verifiserte bønnetider for din region ved hjelp av {{method}}",
       "streakDays": "Dager",
       "shareStreak": "Del Rekken Min",
       "shareText": "Jeg har fulgt bønnene mine i {{count}} dager på rad, alhamdulillah!"
@@ -483,7 +546,8 @@
     "imsakiye": {
       "title": "Ukentlig Imsakiye",
       "subtitle": "Tidspunkter for neste 7 dager",
-      "date": "Dato"
+      "date": "Dato",
+      "rangeDays": "{{n}} dager"
     },
     "religious": {
       "title": "Religiøse dager",
@@ -500,12 +564,12 @@
       "dismissBtn": "Ikke nå"
     },
     "names": {
-      "title": "Navn på Allah og Duas",
+      "title": "Navn på Allah og Dua",
       "namesSubtitle": "De 99 vakre navnene til Allah",
       "duasSubtitle": "Daglige bønner",
       "meaningLabel": "Betydning",
       "tabNames": "99 navn",
-      "tabDuas": "Duas",
+      "tabDuas": "Dua",
       "namesCount": "{{count}} Navn",
       "duasCount": "{{count}} Duas",
       "tapHint": "Trykk for detaljer",
@@ -541,20 +605,20 @@
       "verifiedMethodDesc": "Den mest nøyaktige islamske metoden for din region velges automatisk.",
       "notificationsTitle": "Adhan og bønnvarsler",
       "notificationsDesc": "Motta milde eller hørbare påminnelser ved bønnestunder.",
-      "startBtn": "Begynn å bruke Vera 🌟",
+      "startBtn": "Begynn å bruke Vera",
       "featureQuran": "Koranen og lyd",
       "featureQibla": "Qibla",
       "featureDhikr": "Dhikr-teller",
-      "backBtn": "← Gå tilbake",
-      "playTestSound": "Forhåndsvis Adhan Sound 🔊",
-      "stopTestSound": "Stopp lyd ⏹️",
-      "nextStepBtn": "Fortsett →",
+      "backBtn": "Gå tilbake",
+      "playTestSound": "Forhåndsvis Adhan Sound",
+      "stopTestSound": "Stopp lyd",
+      "nextStepBtn": "Fortsett",
       "step3Title": "Uavbrutt opplevelse",
       "step3Subtitle": "Spor bønnetider live fra startskjermen og sørg for pålitelige adhan-varsler.",
-      "widgetTitle": "📌 Legg til widget på startskjermen",
+      "widgetTitle": "Legg til widget på startskjermen",
       "widgetDesc": "Se direkte nedtellinger uten å åpne appen.",
       "widgetAdded": "Widget ble lagt til!",
-      "batteryTitle": "🔋 Fritak for batterisparing",
+      "batteryTitle": "Fritak for batterisparing",
       "batteryDesc": "Anbefalt å slå av batterioptimaliseringer på Xiaomi og Samsung for rettidig adhans.",
       "locationReassurance": "Du kan alltid endre dette senere i Innstillinger.",
       "notifDenied": "Varslingstillatelse ble ikke gitt. Adhan-varsler fungerer kanskje ikke — du kan slå dette på senere i Innstillinger.",
@@ -565,7 +629,10 @@
       "skipConfirm": "Hopp Over",
       "locationDenied": "Posisjonstillatelse ble ikke gitt. Du kan velge byen din fra listen, eller endre dette senere i Innstillinger.",
       "locationFailed": "Kunne ikke hente posisjonen din. Du kan velge byen din fra listen, eller endre dette senere i Innstillinger.",
-      "locationNotSet": "Posisjon Ikke Tilgjengelig (Tillatelse Avslått)"
+      "locationNotSet": "Posisjon Ikke Tilgjengelig (Tillatelse Avslått)",
+      "locationNotSetYet": "Ikke valgt ennå",
+      "skipLocation": "Hopp over for nå",
+      "currentLocationLabel": "Nåværende posisjon"
     },
     "weather": {
       "title": "Værmelding",
@@ -629,9 +696,9 @@
       "titlePlaceholder": "Tittel (f.eks. Jummah Mubarak)",
       "messagePlaceholder": "Skriv din bønn eller hilsen...",
       "chooseTheme": "Kort tema",
-      "shareBtn": "Del på WhatsApp / Story 🌟",
-      "shareImageBtn": "Del bildekort 🌟",
-      "shareLinkBtn": "Del direkte butikklink 🔗",
+      "shareBtn": "Del på WhatsApp / Story",
+      "shareImageBtn": "Del bildekort",
+      "shareLinkBtn": "Del direkte butikklink",
       "theme": {
         "gold": "Gyllen Linje",
         "emerald": "Smaragdkuppel",
@@ -649,7 +716,13 @@
       "emptyTitle": "Ingen moskeer funnet i nærheten",
       "emptyDesc": "Du kan se alle moskeer direkte på kartnavigering.",
       "openInMaps": "Søk på Maps",
-      "directionsBtn": "Veibeskrivelse"
+      "directionsBtn": "Veibeskrivelse",
+      "searchQuery": "moské",
+      "noLocationTitle": "Fant ikke posisjon",
+      "noLocationDesc": "Velg en by eller gi tilgang til posisjon for å se moskeer i nærheten.",
+      "errorTitle": "Moskeer kunne ikke lastes",
+      "errorDesc": "Det oppstod et tilkoblingsproblem. Sjekk internett og prøv igjen.",
+      "chooseCity": "Velg by"
     },
     "dailyContent": {
       "preparing": "Laster inn daglig inspirasjon...",
@@ -666,7 +739,7 @@
       "hatimLabel": "Khatm",
       "page": "Side",
       "pagesRemaining": "{{count}} sider igjen for å fullføre Khatm.",
-      "completed": "Gratulerer! Du har fullført Khatm. 🎉",
+      "completed": "Gratulerer! Du har fullført Khatm.",
       "readPageBtn": "Les side {{page}}",
       "jumpPageTitle": "Gå til side / Oppdater fremdrift",
       "jumpPageDesc": "Skriv inn gjeldende sidenummer (1 - 604):",
@@ -676,7 +749,8 @@
       "startNew": "Start New Khatm",
       "resetHatimBtn": "Tilbakestill og start ny Khatm",
       "share": "Del min Khatm",
-      "shareText": "Jeg fullførte min {{count}}. khatm, alhamdulillah!"
+      "shareText": "Jeg fullførte min {{count}}. khatm, alhamdulillah!",
+      "dailyTarget": "Omtrent {{n}} sider om dagen for å bli ferdig ({{d}} dager igjen)"
     },
     "prayerTree": {
       "title": "Ukentlig bønnetre",
@@ -1128,7 +1202,7 @@
         "prayer": "Bønn",
         "dhikr": "Dhikr",
         "quran": "Koran",
-        "kaza": "Kaza"
+        "kaza": "Makeup"
       },
       "hijriMonths": {
         "1": "Muharram",
@@ -1175,10 +1249,10 @@
     },
     "widget": {
       "guideTitle": "Legg til på Hjemskjermen",
-      "guideDesc": "Trykk lenge på hjemskjermen ➔ trykk på \"Widgets\" ➔ finn \"VERA\"-widgeten og dra den til skjermen din.",
+      "guideDesc": "Trykk lenge på hjemskjermen > trykk på \"Widgets\" > finn \"VERA\"-widgeten og dra den til skjermen din.",
       "promptTitle": "Legg til en Hjemskjerm-widget",
       "promptDesc": "Se neste bønnetid og minuttene som gjenstår direkte på hjemskjermen, uten å åpne appen.",
-      "addNow": "📌 Legg til på Hjemskjermen",
+      "addNow": "Legg til på Hjemskjermen",
       "notNow": "Senere"
     },
     "greetingNotif": {
@@ -1191,7 +1265,133 @@
     "errorBoundary": {
       "title": "Noe gikk galt",
       "subtitle": "Appen fikk en uventet feil. Trykk på knappen nedenfor for å prøve igjen.",
-      "retry": "Prøv igjen"
+      "retry": "Prøv igjen",
+      "clearAndRetry": "Tøm hurtigbufrede data og prøv igjen"
+    },
+    "community": {
+      "tabMine": "Mine innlegg",
+      "you": "Du",
+      "emptyMine": "Du har ingen innlegg ennå. Du kan dele når du har fullført en handling.",
+      "adLabel": "Annonse",
+      "title": "Fellesskap",
+      "tabToday": "I dag",
+      "tabWeek": "Siste 7 dager",
+      "anonymous": "Anonym bror/søster",
+      "someone": "Noen",
+      "templates": {
+        "hatimCompleted": "Fullførte en khatm",
+        "achievement": "Låste opp {{title}}",
+        "dhikrMilestone": "Noen fra {{country}} resiterte {{count}} dhikr",
+        "prayerFullday": "Alle fem bønnene gjennomført i dag"
+      },
+      "emptyToday": "Ingen innlegg i dag ennå. Del ditt første når du fullfører noe.",
+      "emptyWeek": "Ingen innlegg de siste 7 dagene.",
+      "loadFailed": "Kunne ikke laste feeden. Dra ned for å prøve igjen.",
+      "share": {
+        "title": "Vil du dele dette med Vera-fellesskapet?",
+        "note": "Bare denne teksten deles. Navnet ditt og personlige opplysninger forblir skjult.",
+        "submit": "Del",
+        "later": "Ikke nå",
+        "failed": "Kunne ikke dele. Prøv igjen senere.",
+        "heading": "Del med fellesskapet",
+        "sent": "Delt",
+        "external": "Del i en annen app",
+        "open": "Del med fellesskapet",
+        "celebrateHint": "Del anonymt med Vera-fellesskapet.",
+        "intro": "Brødre og søstre over hele verden kan se dette. Navnet ditt forblir skjult."
+      },
+      "settings": {
+        "title": "Fellesskapsinnstillinger",
+        "participate": "Bli med i fellesskapet",
+        "participateHint": "Når dette er av, vises ingen delingstilbud. Du kan fortsatt lese feeden.",
+        "showCountry": "Vis landet mitt",
+        "showCountryHint": "Når dette er på, vises landet ditt ved innleggene dine. Å slå det av gjelder bare nye innlegg.",
+        "country": "Land",
+        "countryManual": "Valgt land: {{code}}",
+        "countryDevice": "Bruker enhetens region.",
+        "useDevice": "Enhet",
+        "countryInvalid": "Skriv inn en landskode på to bokstaver, f.eks. TR",
+        "myPosts": "Mine innlegg",
+        "noPosts": "Du har ingen innlegg ennå.",
+        "delete": "Slett",
+        "deleteTitle": "Slette dette innlegget?",
+        "deleteBody": "Det fjernes fra feeden for alle.",
+        "blocked": "Blokkerte personer: {{count}}",
+        "clearBlocked": "Tøm blokkeringslisten",
+        "joined": "Du er med i fellesskapet",
+        "left": "Fellesskapet er av",
+        "sectionPrivacy": "Personvern",
+        "sectionBlocked": "Blokkert",
+        "countryDeviceTitle": "Enhetens region",
+        "blockedCount": "{{count}} personer",
+        "change": "Endre"
+      },
+      "report": {
+        "action": "Rapporter",
+        "thanksTitle": "Takk",
+        "thanksBody": "Rapporten din vil bli gjennomgått.",
+        "failed": "Kunne ikke sende rapporten."
+      },
+      "block": {
+        "action": "Blokker denne personen"
+      },
+      "more": {
+        "title": "Valg for dette innlegget"
+      },
+      "discovery": {
+        "title": "Del fremgangen din med Vera-fellesskapet",
+        "body": "Del hatimer, dhikr og bønnedager anonymt med brødre og søstre over hele verden.",
+        "cta": "Åpne fellesskapet"
+      },
+      "summary": {
+        "posts": "innlegg",
+        "hatim": "Hatim",
+        "achievement": "Prestasjon",
+        "dhikr": "Dhikr",
+        "prayer": "Bønn"
+      },
+      "howTo": {
+        "helpLabel": "Slik deler du",
+        "title": "Slik fungerer deling",
+        "intro": "Del en fullført gudstjeneste med Vera-fellesskapet. Navnet ditt forblir skjult.",
+        "step1Title": "Fullfør en gudstjeneste",
+        "step1Body": "Fullfør de fem bønnene, en hatim eller et dhikr-mål i appen.",
+        "step2Title": "Trykk på Del",
+        "step2Body": "Når feiringen vises, trykk på Del. Du kan også bruke delingsknappen på bønne- og dhikr-skjermene.",
+        "step3Title": "Innlegget ditt vises her",
+        "step3Body": "Alle kan se det, med landet ditt bare hvis du tillater det. Slett det når som helst fra Mine innlegg.",
+        "gotIt": "Forstått"
+      },
+      "reminder": {
+        "title": "Del dagens gudstjeneste",
+        "body": "Vil du dele dagens gudstjeneste med fellesskapet?",
+        "bodyAll": "Du har bedt alle fem bønnene i dag. Vil du dele det med fellesskapet?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "Dagens mål: én hatim. Les noen sider hver dag, så fullfører vi Koranen sammen.",
+        "m1": "Dagens mål: etter Isha, 33 Subhanallah, 33 Alhamdulillah og 33 Allahu Akbar.",
+        "m2": "I dag skal vi prøve å be alle fem bønnene i tide, sammen.",
+        "m3": "Dagens mål: les én side av Koranen. Små skritt teller også.",
+        "m4": "Dagens mål: 100 Subhanallah. Del med fellesskapet når du er ferdig.",
+        "m5": "Skriv en dua-liste denne uken, og husk en bror eller søster i den.",
+        "m6": "I dag kan du vurdere å gi almisse eller gjøre en god gjerning for noen."
+      }
+    },
+    "coach": {
+      "dismiss": "Forstått",
+      "ummah": {
+        "title": "Ummah",
+        "body": "Del en fullført gudstjeneste med fellesskapet, eller se hva andre delte i dag."
+      },
+      "qibla": {
+        "title": "Qibla-kompass",
+        "body": "Hold telefonen flatt og snu til pilen peker mot Kaba."
+      },
+      "silentMode": {
+        "title": "Stille modus",
+        "body": "Når telefonen er på lydløs eller vibrasjon, lyder adhanen dempet. Du kan endre dette i Innstillinger."
+      }
     }
   }
 }

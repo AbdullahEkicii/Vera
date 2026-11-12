@@ -38,14 +38,17 @@ function minimizePrecision(value: number): number {
   return Math.round(value * 1000) / 1000;
 }
 
+/**
+ * Resolves to the (possibly empty) list of mosques. Network/API failures are thrown, not
+ * swallowed, so callers can tell "request failed" apart from "no mosques nearby".
+ */
 export const fetchNearbyMosques = async (latitude: number, longitude: number, radiusMeters = 5000): Promise<MosqueItem[]> => {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
   try {
     const queryLat = minimizePrecision(latitude);
     const queryLng = minimizePrecision(longitude);
     const query = `[out:json][timeout:15];(node["amenity"="place_of_worship"]["religion"="muslim"](around:${radiusMeters},${queryLat},${queryLng});way["amenity"="place_of_worship"]["religion"="muslim"](around:${radiusMeters},${queryLat},${queryLng}););out center;`;
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 12000);
 
     const response = await fetch('https://overpass-api.de/api/interpreter', {
       method: 'POST',
@@ -57,14 +60,15 @@ export const fetchNearbyMosques = async (latitude: number, longitude: number, ra
       body: `data=${encodeURIComponent(query)}`,
       signal: controller.signal,
     });
-    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`Overpass API error: ${response.status}`);
     }
 
     const data = await response.json();
-    const elements = data.elements || [];
+    const elements = (Array.isArray(data?.elements) ? data.elements : []).filter(
+      (elem: any) => elem && (elem.lat ?? elem.center?.lat) != null && (elem.lon ?? elem.center?.lon) != null
+    );
 
     const mosques: MosqueItem[] = elements.map((elem: any) => {
       const lat = elem.lat || elem.center?.lat;
@@ -89,10 +93,8 @@ export const fetchNearbyMosques = async (latitude: number, longitude: number, ra
     // Sort by nearest first
     mosques.sort((a, b) => a.distanceMeters - b.distanceMeters);
     return mosques;
-  } catch (error) {
-    console.warn('Error fetching nearby mosques from Overpass, using fallback:', error);
-    // Fallback: return common nearby mosque search
-    return [];
+  } finally {
+    clearTimeout(timeoutId);
   }
 };
 

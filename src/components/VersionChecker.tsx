@@ -4,12 +4,19 @@ import Constants from 'expo-constants';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, DeviceEventEmitter, Linking, Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from '../services/storageService';
 import { useTheme } from '../context/ThemeContext';
-import { spacing, typography } from '../utils/theme';
+import { readableTextOn, spacing, typography } from '../utils/theme';
 
 const VERSION_URL = 'https://raw.githubusercontent.com/AbdullahEkicii/Vera/main/Vera_version_control.json';
 const DISMISSED_KEY = 'VERA_DISMISSED_UPDATE_VERSION';
+const FETCH_TIMEOUT_MS = 8000;
+
+// The remote JSON is untrusted: only ever open real store pages, otherwise use these.
+const FALLBACK_ANDROID_URL = 'https://play.google.com/store/apps/details?id=com.abdllhekc.vera';
+const FALLBACK_IOS_URL = 'https://apps.apple.com/';
+const ANDROID_URL_PREFIX = 'https://play.google.com/';
+const IOS_URL_PREFIX = 'https://apps.apple.com/';
 
 export interface VersionData {
   latestVersion: string;
@@ -37,6 +44,32 @@ export const compareVersions = (v1: string, v2: string): number => {
   return 0;
 };
 
+const isString = (v: unknown): v is string => typeof v === 'string' && v.length > 0;
+
+/** Returns a sanitized VersionData, or null when the remote payload has the wrong shape. */
+const parseVersionData = (raw: unknown): VersionData | null => {
+  if (!raw || typeof raw !== 'object') return null;
+  const d = raw as Record<string, unknown>;
+  if (!isString(d.latestVersion) || !isString(d.minVersion)) return null;
+  const releaseNotes =
+    typeof d.releaseNotes === 'string'
+      ? d.releaseNotes
+      : d.releaseNotes && typeof d.releaseNotes === 'object'
+        ? Object.fromEntries(
+            Object.entries(d.releaseNotes as Record<string, unknown>).filter(
+              (e): e is [string, string] => typeof e[1] === 'string',
+            ),
+          )
+        : undefined;
+  return {
+    latestVersion: d.latestVersion,
+    minVersion: d.minVersion,
+    androidUrl: isString(d.androidUrl) && d.androidUrl.startsWith(ANDROID_URL_PREFIX) ? d.androidUrl : FALLBACK_ANDROID_URL,
+    iosUrl: isString(d.iosUrl) && d.iosUrl.startsWith(IOS_URL_PREFIX) ? d.iosUrl : FALLBACK_IOS_URL,
+    releaseNotes,
+  };
+};
+
 export function VersionChecker() {
   const { t, i18n } = useTranslation();
   const { theme, isDark } = useTheme();
@@ -46,9 +79,11 @@ export function VersionChecker() {
   const [updateData, setUpdateData] = useState<VersionData | null>(null);
 
   const checkVersion = async (isManual = false) => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
     try {
       const url = `${VERSION_URL}?t=${Date.now()}`;
-      const response = await fetch(url, { cache: 'no-cache' });
+      const response = await fetch(url, { cache: 'no-cache', signal: controller.signal });
       if (!response.ok) {
         if (isManual) {
           Alert.alert(
@@ -59,7 +94,16 @@ export function VersionChecker() {
         return;
       }
 
-      const data: VersionData = await response.json();
+      const data = parseVersionData(await response.json());
+      if (!data) {
+        if (isManual) {
+          Alert.alert(
+            t('common.error', 'Hata'),
+            t('update.checkFailed', 'Güncelleme bilgisi alınamadı.')
+          );
+        }
+        return;
+      }
       const currentVersion = Constants.expoConfig?.version || Constants.nativeAppVersion || '1.0.0';
 
       const isLatestNewer = compareVersions(data.latestVersion, currentVersion) > 0;
@@ -90,6 +134,8 @@ export function VersionChecker() {
           t('update.checkFailed', 'Güncelleme kontrolü yapılırken bir hata oluştu.')
         );
       }
+    } finally {
+      clearTimeout(timer);
     }
   };
 
@@ -109,9 +155,10 @@ export function VersionChecker() {
 
   const handleUpdate = () => {
     const url = Platform.OS === 'ios' ? updateData.iosUrl : updateData.androidUrl;
-    if (url) {
-      Linking.openURL(url).catch(err => console.error("Couldn't load page", err));
-    }
+    const safeUrl = url.startsWith(Platform.OS === 'ios' ? IOS_URL_PREFIX : ANDROID_URL_PREFIX)
+      ? url
+      : Platform.OS === 'ios' ? FALLBACK_IOS_URL : FALLBACK_ANDROID_URL;
+    Linking.openURL(safeUrl).catch(err => console.error("Couldn't load page", err));
   };
 
   const handleLater = async () => {
@@ -177,7 +224,7 @@ export function VersionChecker() {
           <View style={styles.actions}>
             {!isForceUpdate && (
               <Pressable
-                style={[styles.btn, { backgroundColor: 'rgba(150,150,150,0.1)', flex: 1, marginRight: 8 }]}
+                style={[styles.btn, { backgroundColor: 'rgba(150,150,150,0.1)', flex: 1, marginEnd: 8 }]}
                 onPress={handleLater}
               >
                 <Text style={[styles.btnText, { color: theme.colors.textSecondary }]}>
@@ -187,10 +234,10 @@ export function VersionChecker() {
             )}
 
             <Pressable
-              style={[styles.btn, { backgroundColor: isForceUpdate ? '#FF3B30' : theme.colors.primary, flex: 2, marginLeft: isForceUpdate ? 0 : 8 }]}
+              style={[styles.btn, { backgroundColor: isForceUpdate ? '#FF3B30' : theme.colors.primary, flex: 2, marginStart: isForceUpdate ? 0 : 8 }]}
               onPress={handleUpdate}
             >
-              <Text style={[styles.btnText, { color: '#FFF' }]}>
+              <Text style={[styles.btnText, { color: readableTextOn(isForceUpdate ? '#FF3B30' : theme.colors.primary) }]}>
                 {t('update.updateBtn', 'Şimdi Güncelle')}
               </Text>
             </Pressable>

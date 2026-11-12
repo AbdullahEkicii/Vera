@@ -10,7 +10,13 @@
       "cancel": "취소",
       "save": "저장",
       "ok": "확인",
-      "close": "닫기"
+      "close": "닫기",
+      "back": "뒤로",
+      "clear": "지우기",
+      "remove": "삭제",
+      "expand": "펼치기",
+      "collapse": "접기",
+      "share": "공유"
     },
     "home": {
       "title": "기도 시간",
@@ -42,7 +48,13 @@
       "loadingTimes": "기도 시간 로드 중...",
       "locationPermissionTitle": "위치 권한을 가져올 수 없어요",
       "locationPermissionDesc": "기본 도시를 표시하고 있어요. 도시를 선택하거나 위치 권한을 허용할 수 있어요.",
-      "estimatedTimesNotice": "인터넷 연결이 없어서 예배 시간이 기기에서 계산되었어요 (예상치)."
+      "estimatedTimesNotice": "인터넷 연결이 없어서 예배 시간이 기기에서 계산되었어요 (예상치).",
+      "adjustTimeHint": "길게 눌러 이 시간을 조정하세요",
+      "moreTools": "더보기",
+      "locationFetchFailedTitle": "위치를 찾을 수 없음",
+      "locationFetchFailedDesc": "GPS 위치를 가져오지 못했습니다. 도시를 선택하거나 나중에 다시 시도할 수 있습니다.",
+      "sourceA11y": "예배 시간 계산 방법",
+      "highLatNote": "고위도 지역: 파즈르/이샤는 근사값입니다"
     },
     "settings": {
       "title": "설정",
@@ -60,7 +72,11 @@
         "egypt": "이집트 측량국",
         "karachi": "카라치 (파키스탄)",
         "france": "프랑스 (UOIF)",
-        "russia": "러시아"
+        "russia": "러시아",
+        "kemenag": "인도네시아 (Kemenag)",
+        "jakim": "말레이시아 (JAKIM)",
+        "muis": "싱가포르 (MUIS)",
+        "tehran": "이란 (테헤란 대학교)"
       },
       "palettes": {
         "default": "기본",
@@ -93,7 +109,7 @@
       "persistentNotif": "지속적인 기도 카운트다운",
       "persistentNotifDesc": "잠금 화면과 알림 패널에서 다음 기도회까지 남은 시간을 실시간으로 추적하세요.",
       "widgetTitle": "홈 화면 위젯",
-      "addWidget": "😀 홈 화면에 위젯을 추가해보세요!",
+      "addWidget": "홈 화면에 위젯을 추가해보세요!",
       "addWidgetDesc": "휴대전화의 홈 화면에서 직접 기도 시간과 실시간 카운트다운을 확인하세요.",
       "general": "일반 설정",
       "fullscreen": "전체 화면 모드",
@@ -130,7 +146,32 @@
       "username": "사용자 이름",
       "password": "비밀번호",
       "loggingIn": "로그인 중...",
-      "login": "로그인"
+      "login": "로그인",
+      "remindersTitle": "알림 및 공지",
+      "dailyContentNotif": "오늘의 구절 / 하디스",
+      "dailyContentNotifDesc": "정오 예배 후 짧은 일일 알림.",
+      "quranReminderNotif": "꾸란 읽기 알림",
+      "quranReminderNotifDesc": "이틀에 한 번 저녁 알림.",
+      "greetingNotif": "금요일 및 성일 인사",
+      "greetingNotifDesc": "금요일과 종교 기념일 알림.",
+      "announcementsNotif": "공지사항",
+      "announcementsNotifDesc": "Vera의 소식과 캠페인 메시지.",
+      "locationTitle": "위치",
+      "changeCity": "도시 변경",
+      "locationNotSet": "아직 선택되지 않음",
+      "locationFromGps": "휴대전화 위치를 따릅니다",
+      "locationFromManual": "도시를 직접 선택함",
+      "locationHint": "도시를 선택하거나 휴대전화 위치를 사용하세요.",
+      "useMyLocation": "현재 위치 사용",
+      "fullscreenDesc": "상태 표시줄(시계, 배터리)과 탐색 막대를 숨깁니다.",
+      "recommended": "추천",
+      "asrSchoolTitle": "아스르 계산",
+      "asrStandard": "표준 (샤피이, 말리키, 한발리)",
+      "asrHanafi": "하나피",
+      "asrSchoolDesc": "하나피 학파는 아스르를 더 늦게 봅니다(그림자가 물체의 두 배). 남아시아에서 흔히 쓰입니다.",
+      "rateApp": "Vera 평가하기",
+      "privacyPolicy": "개인정보 처리방침",
+      "restartForDirection": "새 텍스트 방향을 적용하려면 앱을 닫았다가 다시 여세요."
     },
     "qibla": {
       "title": "키블라",
@@ -148,12 +189,12 @@
       "status": "상태",
       "aligned": "일치함",
       "aligning": "회전",
-      "alignedSuccess": "🕌 키블라 방향입니다!",
+      "alignedSuccess": "키블라 방향입니다!",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "사용 방법?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "표제",
       "calibrateBtn": "나침반 교정",
@@ -162,8 +203,15 @@
       "magneticShield": "자기장 쉴드",
       "magneticShieldDesc": "센서 정확도가 최적화되었습니다. 자기 케이스에서 멀리 보관하십시오.",
       "levelStatus": "수평 레벨(버블)",
-      "levelFlat": "평면 및 평행 ✓",
-      "gotIt": "알았어요"
+      "levelFlat": "평면 및 평행",
+      "gotIt": "알았어요",
+      "noLocationTitle": "위치가 필요합니다",
+      "noLocationDesc": "키블라 방향은 현재 위치에 따라 달라집니다. 도시를 선택하거나 위치 접근을 허용하세요.",
+      "useMyLocation": "내 위치 사용",
+      "chooseCity": "도시 선택",
+      "lowAccuracy": "나침반 정확도가 낮습니다. 눌러서 보정하세요.",
+      "magneticNorthNote": "자북을 사용 중: 방향이 몇 도 어긋날 수 있습니다.",
+      "errorNoSensor": "나침반 센서가 응답하지 않습니다. 이 기기에는 나침반이 없을 수 있습니다."
     },
     "daily": {
       "title": "매일의 영감",
@@ -175,7 +223,8 @@
       "hadithBody": "오늘의 하디스를 읽으려면 클릭하세요!",
       "quoteBody": "오늘의 명언을 읽으려면 클릭하세요!",
       "subtitle": "오늘을 위해 엄선한 구절, 하디스, 명언",
-      "shareHint": "스토리 이미지로 공유하려면 카드를 탭하세요"
+      "shareHint": "스토리 이미지로 공유하려면 카드를 탭하세요",
+      "autoTranslated": "자동 번역"
     },
     "search": {
       "title": "위치 선택",
@@ -184,7 +233,10 @@
       "recent": "최근 검색",
       "useGPS": "현재 위치 사용",
       "gpsDenied": "위치 권한이 거부되었습니다.",
-      "gpsError": "위치를 가져오지 못했습니다."
+      "gpsError": "위치를 가져오지 못했습니다.",
+      "searchFailed": "검색에 실패했습니다. 연결을 확인하세요.",
+      "pin": "도시 저장",
+      "unpin": "고정 해제"
     },
     "notifications": {
       "exactAlert": "기도 시간 알림",
@@ -237,7 +289,8 @@
         "dailyName": "매일의 영감",
         "dailyDesc": "Dhuhr와 Asr 사이에 일일 구절, hadith 또는 인용문이 도착합니다.",
         "persistentName": "잠금 화면 및 상태 표시줄",
-        "persistentDesc": "알림 패널과 잠금 화면에 다음 기도명과 라이브 카운트다운을 표시합니다."
+        "persistentDesc": "알림 패널과 잠금 화면에 다음 기도명과 라이브 카운트다운을 표시합니다.",
+        "announcements": "공지사항"
       },
       "persistentTitle": "🕌 {{prayer}}까지"
     },
@@ -408,7 +461,15 @@
       "noBookmarks": "아직 즐겨찾기한 구절이 없어요. 구절을 길게 눌러 추가할 수 있어요.",
       "playFromHere": "여기서부터 듣기",
       "juz": "주즈",
-      "downloadingShort": "다운로드 중..."
+      "downloadingShort": "다운로드 중...",
+      "audioErrorTitle": "오디오를 재생할 수 없습니다",
+      "audioErrorMessage": "낭송을 불러오지 못했습니다. 인터넷 연결을 확인하고 다시 시도하세요.",
+      "audioPause": "낭송 일시정지",
+      "audioResume": "낭송 계속",
+      "audioStop": "낭송 정지",
+      "audioPlay": "낭송 재생",
+      "fontSmaller": "글자 작게",
+      "fontLarger": "글자 크게"
     },
     "review": {
       "title": "응원하기",
@@ -416,9 +477,9 @@
       "notNow": "나중에",
       "review": "평가하기",
       "subtitle": "별표에 대한 경험을 평가해 주세요.",
-      "fiveStarTitle": "그 소식을 들으니 정말 기쁩니다! 🌟",
+      "fiveStarTitle": "그 소식을 들으니 정말 기쁩니다!",
       "fiveStarSubtitle": "별 5개 등급으로 Vera를 지원하시겠습니까?",
-      "rateOnStore": "🌟 별 5개 주기 및 지원",
+      "rateOnStore": "별 5개 주기 및 지원",
       "ratingLabels": {
         "1": "개선이 필요함",
         "2": "공정한",
@@ -426,11 +487,11 @@
         "4": "매우 좋은",
         "5": "훌륭한!"
       },
-      "feedbackTitle": "개선할 수 있도록 도와주세요 💬",
+      "feedbackTitle": "개선할 수 있도록 도와주세요",
       "feedbackSubtitle": "Vera를 더욱 개선할 수 있도록 여러분의 생각과 제안을 공유해 주세요.",
       "feedbackPlaceholder": "제안, 아이디어 또는 직면한 문제를 적어주세요.",
       "sendFeedback": "피드백 보내기",
-      "thankYouTitle": "피드백을 받았습니다! 🤲",
+      "thankYouTitle": "피드백을 받았습니다!",
       "thankYouSubtitle": "귀하의 피드백은 우리에게 매우 소중합니다. Vera를 더욱 발전시킬 수 있도록 열심히 노력하겠습니다.",
       "close": "닫다"
     },
@@ -453,6 +514,8 @@
       "title": "매일 기도 추적기",
       "completed": "완전한",
       "dayStreak": "하루 연속",
+      "restartHint": "오늘 다시 시작할 수 있어요",
+      "weekActiveDays": "최근 7일 중 {{count}}일",
       "viewHistory": "전체 기록 보기",
       "historyTitle": "기도의 역사",
       "historySubtitle": "지난 30일간의 기도일지",
@@ -483,7 +546,8 @@
     "imsakiye": {
       "title": "주간 임사키예",
       "subtitle": "다음 7일 타이밍",
-      "date": "날짜"
+      "date": "날짜",
+      "rangeDays": "{{n}}일"
     },
     "religious": {
       "title": "종교의 날",
@@ -541,20 +605,20 @@
       "verifiedMethodDesc": "해당 지역에 가장 정확한 이슬람 방식이 자동으로 선택됩니다.",
       "notificationsTitle": "아단 및 기도 알림",
       "notificationsDesc": "기도 시간에 부드럽게 또는 청각적으로 알림을 받으세요.",
-      "startBtn": "Vera 사용 시작하기 🌟",
+      "startBtn": "Vera 사용 시작하기",
       "featureQuran": "꾸란 및 오디오",
       "featureQibla": "키블라",
       "featureDhikr": "디크르 카운터",
-      "backBtn": "← 돌아가기",
-      "playTestSound": "Adhan 사운드 미리보기 🔊",
-      "stopTestSound": "소리 중지 ⏹️",
-      "nextStepBtn": "계속 →",
+      "backBtn": "돌아가기",
+      "playTestSound": "Adhan 사운드 미리보기",
+      "stopTestSound": "소리 중지",
+      "nextStepBtn": "계속",
       "step3Title": "중단 없는 경험",
       "step3Subtitle": "홈 화면에서 실시간으로 기도 시간을 추적하고 신뢰할 수 있는 아단 알림을 보장하세요.",
-      "widgetTitle": "😀 홈 화면에 위젯 추가",
+      "widgetTitle": "홈 화면에 위젯 추가",
       "widgetDesc": "앱을 열지 않고도 실시간 카운트다운을 확인하세요.",
       "widgetAdded": "위젯이 추가되었습니다!",
-      "batteryTitle": "🔋 배터리 절약 면제",
+      "batteryTitle": "배터리 절약 면제",
       "batteryDesc": "적시에 Adhans를 위해 Xiaomi 및 Samsung에서 배터리 최적화를 끄는 것이 좋습니다.",
       "locationReassurance": "이 설정은 나중에 설정에서 언제든지 변경할 수 있어요.",
       "notifDenied": "알림 권한이 허용되지 않았어요. 아잔 알림이 작동하지 않을 수 있어요 — 나중에 설정에서 켤 수 있어요.",
@@ -565,7 +629,10 @@
       "skipConfirm": "건너뛰기",
       "locationDenied": "위치 권한이 허용되지 않았어요. 목록에서 도시를 선택하거나 나중에 설정에서 변경할 수 있어요.",
       "locationFailed": "위치를 가져올 수 없었어요. 목록에서 도시를 선택하거나 나중에 설정에서 변경할 수 있어요.",
-      "locationNotSet": "위치를 가져올 수 없음 (권한 거부됨)"
+      "locationNotSet": "위치를 가져올 수 없음 (권한 거부됨)",
+      "locationNotSetYet": "아직 선택되지 않음",
+      "skipLocation": "지금은 건너뛰기",
+      "currentLocationLabel": "현재 위치"
     },
     "weather": {
       "title": "일기 예보",
@@ -629,9 +696,9 @@
       "titlePlaceholder": "제목(예: Jummah Mubarak)",
       "messagePlaceholder": "기도문이나 인사말을 적어주세요...",
       "chooseTheme": "카드 테마",
-      "shareBtn": "WhatsApp/스토리에 공유 🌟",
-      "shareImageBtn": "이미지 카드 공유 🌟",
-      "shareLinkBtn": "다이렉트 스토어 링크 공유 🔗",
+      "shareBtn": "WhatsApp/스토리에 공유",
+      "shareImageBtn": "이미지 카드 공유",
+      "shareLinkBtn": "다이렉트 스토어 링크 공유",
       "theme": {
         "gold": "황금빛 선",
         "emerald": "에메랄드 돔",
@@ -649,7 +716,13 @@
       "emptyTitle": "근처에 모스크가 없습니다.",
       "emptyDesc": "지도 내비게이션에서 모든 모스크를 직접 볼 수 있습니다.",
       "openInMaps": "지도에서 검색",
-      "directionsBtn": "지도"
+      "directionsBtn": "지도",
+      "searchQuery": "모스크",
+      "noLocationTitle": "위치를 찾을 수 없음",
+      "noLocationDesc": "가까운 모스크를 보려면 도시를 선택하거나 위치 접근을 허용하세요.",
+      "errorTitle": "모스크를 불러오지 못했습니다",
+      "errorDesc": "연결 문제가 발생했습니다. 인터넷을 확인하고 다시 시도하세요.",
+      "chooseCity": "도시 선택"
     },
     "dailyContent": {
       "preparing": "일상의 영감 로드 중...",
@@ -666,7 +739,7 @@
       "hatimLabel": "카텀",
       "page": "페이지",
       "pagesRemaining": "Khatm을 완료하려면 {{count}} 페이지가 남았습니다.",
-      "completed": "축하해요! Khatm을 완료했습니다. 🎉",
+      "completed": "축하해요! Khatm을 완료했습니다.",
       "readPageBtn": "페이지 읽기 {{page}}",
       "jumpPageTitle": "페이지로 이동 / 업데이트 진행 상황",
       "jumpPageDesc": "현재 페이지 번호 입력(1 - 604):",
@@ -676,7 +749,8 @@
       "startNew": "새로운 Khatm 시작",
       "resetHatimBtn": "새로운 Khatm 재설정 및 시작",
       "share": "내 카틈 공유하기",
-      "shareText": "{{count}}번째 카틈을 완료했어요, 알함두릴라!"
+      "shareText": "{{count}}번째 카틈을 완료했어요, 알함두릴라!",
+      "dailyTarget": "완독하려면 하루 약 {{n}}페이지 ({{d}}일 남음)"
     },
     "prayerTree": {
       "title": "주간기도나무",
@@ -1175,10 +1249,10 @@
     },
     "widget": {
       "guideTitle": "홈 화면에 추가하기",
-      "guideDesc": "홈 화면을 길게 누르기 ➔ \"위젯\" 선택하기 ➔ \"VERA\" 위젯을 찾아 화면으로 드래그하기",
+      "guideDesc": "홈 화면을 길게 누르기 > \"위젯\" 선택하기 > \"VERA\" 위젯을 찾아 화면으로 드래그하기",
       "promptTitle": "홈 화면 위젯 추가하기",
       "promptDesc": "앱을 열지 않고도 홈 화면에서 다음 예배 시간과 남은 시간을 바로 확인하세요.",
-      "addNow": "📌 홈 화면에 추가하기",
+      "addNow": "홈 화면에 추가하기",
       "notNow": "나중에"
     },
     "greetingNotif": {
@@ -1191,7 +1265,133 @@
     "errorBoundary": {
       "title": "문제가 발생했어요",
       "subtitle": "앱에서 예기치 않은 오류가 발생했어요. 아래 버튼을 눌러 다시 시도해 주세요.",
-      "retry": "다시 시도"
+      "retry": "다시 시도",
+      "clearAndRetry": "캐시 데이터를 지우고 다시 시도"
+    },
+    "community": {
+      "tabMine": "내 게시물",
+      "you": "나",
+      "emptyMine": "아직 게시물이 없습니다. 예배 하나를 마치면 공유할 수 있습니다.",
+      "adLabel": "광고",
+      "title": "커뮤니티",
+      "tabToday": "오늘",
+      "tabWeek": "최근 7일",
+      "anonymous": "익명의 형제/자매",
+      "someone": "누군가",
+      "templates": {
+        "hatimCompleted": "하팀(쿠란 완독)을 마쳤습니다",
+        "achievement": "{{title}}을(를) 달성했습니다",
+        "dhikrMilestone": "{{country}}의 누군가가 {{count}}회 지크르를 했습니다",
+        "prayerFullday": "오늘 다섯 번의 예배를 모두 마쳤습니다"
+      },
+      "emptyToday": "오늘은 아직 게시물이 없습니다. 무언가를 마치면 첫 게시물을 공유해 보세요.",
+      "emptyWeek": "최근 7일간 게시물이 없습니다.",
+      "loadFailed": "피드를 불러오지 못했습니다. 아래로 당겨 다시 시도하세요.",
+      "share": {
+        "title": "Vera 커뮤니티와 공유하시겠어요?",
+        "note": "이 문구만 공유됩니다. 이름과 개인 정보는 공개되지 않습니다.",
+        "submit": "공유",
+        "later": "나중에",
+        "failed": "공유하지 못했습니다. 나중에 다시 시도하세요.",
+        "heading": "커뮤니티와 공유",
+        "sent": "공유됨",
+        "external": "다른 앱으로 공유",
+        "open": "커뮤니티와 공유",
+        "celebrateHint": "Vera 커뮤니티에 익명으로 공유합니다.",
+        "intro": "전 세계의 형제자매가 볼 수 있습니다. 이름은 공개되지 않습니다."
+      },
+      "settings": {
+        "title": "커뮤니티 설정",
+        "participate": "커뮤니티 참여",
+        "participateHint": "끄면 공유 제안이 나타나지 않습니다. 피드는 계속 볼 수 있습니다.",
+        "showCountry": "내 국가 표시",
+        "showCountryHint": "켜면 게시물 옆에 국가 이름이 표시됩니다. 끄는 것은 새 게시물에만 적용됩니다.",
+        "country": "국가",
+        "countryManual": "선택한 국가: {{code}}",
+        "countryDevice": "기기 지역을 사용 중입니다.",
+        "useDevice": "기기",
+        "countryInvalid": "두 글자 국가 코드를 입력하세요. 예: TR",
+        "myPosts": "내 게시물",
+        "noPosts": "아직 게시물이 없습니다.",
+        "delete": "삭제",
+        "deleteTitle": "이 게시물을 삭제할까요?",
+        "deleteBody": "모든 사람의 피드에서 삭제됩니다.",
+        "blocked": "차단한 사람: {{count}}",
+        "clearBlocked": "차단 목록 지우기",
+        "joined": "커뮤니티에 참여 중입니다",
+        "left": "커뮤니티가 꺼져 있습니다",
+        "sectionPrivacy": "개인정보",
+        "sectionBlocked": "차단",
+        "countryDeviceTitle": "기기 지역",
+        "blockedCount": "{{count}}명",
+        "change": "변경"
+      },
+      "report": {
+        "action": "신고",
+        "thanksTitle": "감사합니다",
+        "thanksBody": "신고 내용을 검토하겠습니다.",
+        "failed": "신고를 보내지 못했습니다."
+      },
+      "block": {
+        "action": "이 사람 차단"
+      },
+      "more": {
+        "title": "이 게시물 옵션"
+      },
+      "discovery": {
+        "title": "Vera 커뮤니티와 성취를 나눠 보세요",
+        "body": "하팀, 지크르, 예배한 날을 전 세계 형제자매와 익명으로 공유하세요.",
+        "cta": "커뮤니티 열기"
+      },
+      "summary": {
+        "posts": "게시물",
+        "hatim": "하팀",
+        "achievement": "업적",
+        "dhikr": "지크르",
+        "prayer": "예배"
+      },
+      "howTo": {
+        "helpLabel": "공유 방법",
+        "title": "공유는 이렇게 작동해요",
+        "intro": "완료한 예배를 Vera 커뮤니티와 공유하세요. 이름은 공개되지 않습니다.",
+        "step1Title": "예배 완료하기",
+        "step1Body": "앱에서 하루 다섯 번의 기도, 하팀 또는 지크르 목표를 완료하세요.",
+        "step2Title": "공유 누르기",
+        "step2Body": "축하 화면이 나타나면 공유를 누르세요. 기도 및 지크르 화면의 공유 버튼도 사용할 수 있어요.",
+        "step3Title": "게시물이 여기에 표시돼요",
+        "step3Body": "누구나 볼 수 있으며, 국가는 허용한 경우에만 표시됩니다. 내 게시물에서 언제든 삭제할 수 있어요.",
+        "gotIt": "확인"
+      },
+      "reminder": {
+        "title": "오늘의 예배를 나눠 보세요",
+        "body": "오늘의 예배를 커뮤니티와 나누시겠어요?",
+        "bodyAll": "오늘 다섯 번의 예배를 모두 마쳤어요. 커뮤니티와 나누시겠어요?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "오늘의 목표: 하툼 1회. 하루에 몇 페이지씩 읽어 함께 꾸란을 완독해요.",
+        "m1": "오늘의 목표: 이샤 후에 수브하날라 33번, 알함둘릴라 33번, 알라후 아크바르 33번.",
+        "m2": "오늘은 다섯 번의 예배를 모두 제시간에, 함께 드리는 것을 목표로 해요.",
+        "m3": "오늘의 목표: 꾸란 한 페이지 읽기. 작은 걸음도 소중해요.",
+        "m4": "오늘의 목표: 수브하날라 100번. 마치면 커뮤니티와 나눠 보세요.",
+        "m5": "이번 주에는 두아 목록을 적고, 그 안에 형제나 자매 한 분을 기억해 보세요.",
+        "m6": "오늘은 누군가를 위해 자선을 베풀거나 선행을 해 보세요."
+      }
+    },
+    "coach": {
+      "dismiss": "확인",
+      "ummah": {
+        "title": "움마",
+        "body": "마친 예배를 커뮤니티와 공유하거나, 오늘 다른 사람들이 공유한 내용을 확인하세요."
+      },
+      "qibla": {
+        "title": "키블라 나침반",
+        "body": "휴대폰을 평평하게 들고 화살표가 카바를 가리킬 때까지 돌리세요."
+      },
+      "silentMode": {
+        "title": "무음 모드",
+        "body": "휴대폰이 무음이거나 진동일 때 아잔은 조용히 알려집니다. 설정에서 변경할 수 있습니다."
+      }
     }
   }
 }

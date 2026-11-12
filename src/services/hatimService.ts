@@ -1,5 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from './storageService';
 import { maybeRequestReview } from './reviewService';
+import { toLocalIsoDay } from '../utils/zonedTime';
 
 const HATIM_STORAGE_KEY = 'VERA_HATIM_TRACKER_DATA_V1';
 
@@ -17,7 +18,7 @@ export const DEFAULT_HATIM_STATE: HatimState = {
   currentPage: 1,
   currentJuz: 1,
   hatimNumber: 1,
-  startDate: new Date().toISOString().split('T')[0],
+  startDate: toLocalIsoDay(),
   goalDays: 30,
   completedHatims: 0,
   lastUpdated: new Date().toISOString(),
@@ -80,7 +81,7 @@ export const resetHatim = async (goalDays: number = 30): Promise<HatimState> => 
     currentPage: 1,
     currentJuz: 1,
     hatimNumber: current.hatimNumber + 1,
-    startDate: new Date().toISOString().split('T')[0],
+    startDate: toLocalIsoDay(),
     goalDays,
     completedHatims: current.completedHatims,
     lastUpdated: new Date().toISOString(),

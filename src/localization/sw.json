@@ -10,7 +10,13 @@
       "cancel": "Ghairi",
       "save": "Hifadhi",
       "ok": "Sawa",
-      "close": "Funga"
+      "close": "Funga",
+      "back": "Rudi",
+      "clear": "Futa",
+      "remove": "Ondoa",
+      "expand": "Panua",
+      "collapse": "Kunja",
+      "share": "Shiriki"
     },
     "home": {
       "title": "Nyakati za Swala",
@@ -42,7 +48,13 @@
       "loadingTimes": "Inapakia Nyakati za Maombi...",
       "locationPermissionTitle": "Ruhusa ya Mahali Haipatikani",
       "locationPermissionDesc": "Inaonyesha mji chaguo-msingi. Unaweza kuchagua mji au kutoa ruhusa ya mahali.",
-      "estimatedTimesNotice": "Kwa kuwa hakuna muunganisho wa intaneti, nyakati za sala zimehesabiwa kwenye kifaa chako (makadirio)."
+      "estimatedTimesNotice": "Kwa kuwa hakuna muunganisho wa intaneti, nyakati za sala zimehesabiwa kwenye kifaa chako (makadirio).",
+      "adjustTimeHint": "Bonyeza kwa muda mrefu kurekebisha wakati huu",
+      "moreTools": "Zaidi",
+      "locationFetchFailedTitle": "Mahali hayakupatikana",
+      "locationFetchFailedDesc": "Hatukuweza kupata mahali pako pa GPS. Unaweza kuchagua mji au ujaribu tena baadaye.",
+      "sourceA11y": "Njia ya kuhesabu nyakati za sala",
+      "highLatNote": "Latitudo ya juu: Alfajiri/Isha zimekadiriwa"
     },
     "settings": {
       "title": "Mipangilio",
@@ -60,7 +72,11 @@
         "egypt": "Mamlaka Kuu ya Misri",
         "karachi": "Karachi (Pakistani)",
         "france": "Ufaransa (UOIF)",
-        "russia": "Urusi (Msimamizi wa Kiroho.)"
+        "russia": "Urusi (Msimamizi wa Kiroho.)",
+        "kemenag": "Indonesia (Kemenag)",
+        "jakim": "Malaysia (JAKIM)",
+        "muis": "Singapore (MUIS)",
+        "tehran": "Iran (Chuo Kikuu cha Tehran)"
       },
       "palettes": {
         "default": "Chaguomsingi",
@@ -93,7 +109,7 @@
       "persistentNotif": "Kudumisha Maombi ya Kudumu",
       "persistentNotifDesc": "Fuatilia muda uliosalia wa maombi yanayofuata moja kwa moja kwenye skrini yako iliyofungwa na paneli ya arifa.",
       "widgetTitle": "Wijeti ya Skrini ya Nyumbani",
-      "addWidget": "📌 Ongeza Wijeti kwenye Skrini ya Nyumbani!",
+      "addWidget": "Ongeza Wijeti kwenye Skrini ya Nyumbani!",
       "addWidgetDesc": "Tazama nyakati za maombi na kuhesabu moja kwa moja kwenye skrini ya kwanza ya simu yako.",
       "general": "Mipangilio ya Jumla",
       "fullscreen": "Hali ya skrini nzima",
@@ -130,7 +146,32 @@
       "username": "Jina la mtumiaji",
       "password": "Nenosiri",
       "loggingIn": "Inaingia...",
-      "login": "Ingia"
+      "login": "Ingia",
+      "remindersTitle": "Vikumbusho na Matangazo",
+      "dailyContentNotif": "Aya / Hadithi ya Leo",
+      "dailyContentNotifDesc": "Kikumbusho kifupi cha kila siku baada ya swala ya Adhuhuri.",
+      "quranReminderNotif": "Kikumbusho cha Kusoma Qur'ani",
+      "quranReminderNotifDesc": "Kikumbusho cha jioni kila siku mbili.",
+      "greetingNotif": "Salamu za Ijumaa na Siku Tukufu",
+      "greetingNotifDesc": "Vikumbusho siku za Ijumaa na siku za kidini.",
+      "announcementsNotif": "Matangazo",
+      "announcementsNotifDesc": "Habari na ujumbe wa kampeni kutoka Vera.",
+      "locationTitle": "Mahali",
+      "changeCity": "Badilisha jiji",
+      "locationNotSet": "Bado haijachaguliwa",
+      "locationFromGps": "Inafuata mahali pa simu yako",
+      "locationFromManual": "Jiji limechaguliwa kwa mkono",
+      "locationHint": "Chagua jiji au tumia mahali pa simu yako.",
+      "useMyLocation": "Tumia mahali nilipo sasa",
+      "fullscreenDesc": "Inaficha upau wa hali (saa, betri) na upau wa urambazaji.",
+      "recommended": "Inapendekezwa",
+      "asrSchoolTitle": "Hesabu ya Alasiri",
+      "asrStandard": "Kawaida (Shafi'i, Maliki, Hanbali)",
+      "asrHanafi": "Hanafi",
+      "asrSchoolDesc": "Madhehebu ya Hanafi huchelewesha Alasiri (kivuli mara mbili ya kitu). Ni ya kawaida Asia Kusini.",
+      "rateApp": "Ipe Vera ukadiriaji",
+      "privacyPolicy": "Sera ya Faragha",
+      "restartForDirection": "Funga na ufungue tena programu ili kutumia mwelekeo mpya wa maandishi."
     },
     "qibla": {
       "title": "Qibla",
@@ -148,12 +189,12 @@
       "status": "Hali",
       "aligned": "Imepangiliwa",
       "aligning": "Zungusha",
-      "alignedSuccess": "🕌 Unaelekea Qibla!",
+      "alignedSuccess": "Unaelekea Qibla!",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "Jinsi ya kutumia?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "Kichwa",
       "calibrateBtn": "Rekebisha Dira",
@@ -162,8 +203,15 @@
       "magneticShield": "Magnetic Field Shield",
       "magneticShieldDesc": "Usahihi wa vitambuzi umeboreshwa. Weka mbali na kesi za sumaku.",
       "levelStatus": "Kiwango cha Mlalo (Kiputo)",
-      "levelFlat": "Gorofa & Sambamba ✓",
-      "gotIt": "Nimeipata"
+      "levelFlat": "Gorofa & Sambamba",
+      "gotIt": "Nimeipata",
+      "noLocationTitle": "Mahali kunahitajika",
+      "noLocationDesc": "Mwelekeo wa Qibla unategemea ulipo. Chagua jiji lako au ruhusu ufikiaji wa mahali.",
+      "useMyLocation": "Tumia mahali nilipo",
+      "chooseCity": "Chagua jiji",
+      "lowAccuracy": "Usahihi wa dira ni mdogo. Gusa ili kusawazisha.",
+      "magneticNorthNote": "Inatumia kaskazini ya sumaku: mwelekeo unaweza kupotea digrii chache.",
+      "errorNoSensor": "Kihisi cha dira hakijibu. Kifaa hiki huenda hakina dira."
     },
     "daily": {
       "title": "Ujumbe wa Leo",
@@ -175,7 +223,8 @@
       "hadithBody": "Bonyeza kusoma hadith ya siku!",
       "quoteBody": "Bofya ili kusoma nukuu ya siku hiyo!",
       "subtitle": "Aya, hadithi na maneno yaliyoteuliwa kwa ajili ya leo",
-      "shareHint": "Gusa kadi kushiriki kama picha ya hadithi"
+      "shareHint": "Gusa kadi kushiriki kama picha ya hadithi",
+      "autoTranslated": "Tafsiri ya kiotomatiki"
     },
     "notifications": {
       "fajr": {
@@ -205,7 +254,7 @@
       "exactAlert": "Tahadhari Hasa ya Maombi",
       "warnAlert": "Tahadhari ya Onyo ya Dakika 25",
       "warningTitle": "Wakati Unakaribia",
-      "warningBody": "Zimesalia dakika 25 kabla ya {{maombi}}.",
+      "warningBody": "Zimesalia dakika 25 kabla ya {{prayer}}.",
       "quranReminderTitle": "📖 Wakati wa Kurani Tukufu",
       "quranReminderBody": "Je, umesoma Quran leo? Gusa ili usome sasa.",
       "namesReminderTitle": "✨ Majina ya Mwenyezi Mungu na Duas",
@@ -228,7 +277,8 @@
         "dailyName": "Msukumo wa kila siku",
         "dailyDesc": "Aya ya kila siku, hadith, au nukuu inafika kati ya Dhuhr na Asr.",
         "persistentName": "Funga Skrini na Upau wa Hali",
-        "persistentDesc": "Huonyesha jina linalofuata la maombi na kuhesabu siku moja kwa moja kwenye paneli ya arifa na skrini iliyofungwa."
+        "persistentDesc": "Huonyesha jina linalofuata la maombi na kuhesabu siku moja kwa moja kwenye paneli ya arifa na skrini iliyofungwa.",
+        "announcements": "Matangazo"
       },
       "persistentTitle": "🕌 Hadi {{prayer}}"
     },
@@ -400,7 +450,15 @@
       "noBookmarks": "Bado huna aya pendwa. Bonyeza na kushikilia aya ili kuiongeza.",
       "playFromHere": "Sikiliza Kuanzia Hapa",
       "juz": "Juzuu",
-      "downloadingShort": "Inapakua..."
+      "downloadingShort": "Inapakua...",
+      "audioErrorTitle": "Sauti haikuweza kuchezwa",
+      "audioErrorMessage": "Usomaji haukuweza kupakiwa. Angalia muunganisho wako wa intaneti kisha ujaribu tena.",
+      "audioPause": "Simamisha qiraa kwa muda",
+      "audioResume": "Endelea na qiraa",
+      "audioStop": "Simamisha qiraa",
+      "audioPlay": "Cheza qiraa",
+      "fontSmaller": "Punguza ukubwa wa maandishi",
+      "fontLarger": "Ongeza ukubwa wa maandishi"
     },
     "review": {
       "title": "Tuunge Mkono",
@@ -408,9 +466,9 @@
       "notNow": "Sio Sasa",
       "review": "Kagua",
       "subtitle": "Kadiria uzoefu wako na nyota",
-      "fiveStarTitle": "Tumefurahi kusikia hivyo! 🌟",
+      "fiveStarTitle": "Tumefurahi kusikia hivyo!",
       "fiveStarSubtitle": "Je, ungependa kuunga mkono Vera kwa ukadiriaji wa nyota 5?",
-      "rateOnStore": "🌟 Toa Nyota 5 na Usaidizi",
+      "rateOnStore": "Toa Nyota 5 na Usaidizi",
       "ratingLabels": {
         "1": "Inahitaji Uboreshaji",
         "2": "Haki",
@@ -418,11 +476,11 @@
         "4": "Vizuri Sana",
         "5": "Bora kabisa!"
       },
-      "feedbackTitle": "Tusaidie Kuboresha 💬",
+      "feedbackTitle": "Tusaidie Kuboresha",
       "feedbackSubtitle": "Shiriki mawazo na mapendekezo yako ili tuweze kufanya Vera kuwa bora zaidi.",
       "feedbackPlaceholder": "Andika mapendekezo yako, mawazo au masuala yoyote uliyokumbana nayo...",
       "sendFeedback": "Tuma Maoni",
-      "thankYouTitle": "Maoni Yamepokelewa! 🤲",
+      "thankYouTitle": "Maoni Yamepokelewa!",
       "thankYouSubtitle": "Maoni yako ni ya thamani sana kwetu. Tutajitahidi kufanya Vera kuwa bora zaidi.",
       "close": "Funga"
     },
@@ -445,6 +503,8 @@
       "title": "Mfuatiliaji wa Maombi ya Kila Siku",
       "completed": "Imekamilika",
       "dayStreak": "Mfululizo wa Siku",
+      "restartHint": "Unaweza kuanza upya leo",
+      "weekActiveDays": "Siku {{count}} katika siku 7 zilizopita",
       "viewHistory": "Tazama Historia Kamili",
       "historyTitle": "Historia ya Maombi",
       "historySubtitle": "Maombi yako yanarekodi kwa siku 30 zilizopita",
@@ -463,7 +523,7 @@
       "celebrationSubtitle": "Masha'Allah!",
       "celebrationMessage": "Umemaliza maombi yote 5 ya kila siku leo. Mwenyezi Mungu azikubali maombi yako!",
       "celebrationBtn": "Alhamdulillah",
-      "trustNotice": "{{city}} • Muda wa maombi uliothibitishwa kwa eneo lako kwa kutumia {{njia}}",
+      "trustNotice": "{{city}} • Muda wa maombi uliothibitishwa kwa eneo lako kwa kutumia {{method}}",
       "streakDays": "Siku",
       "shareStreak": "Shiriki Mfululizo Wangu",
       "shareText": "Nimeendelea kusali kwa siku {{count}} mfululizo, alhamdulillahi!"
@@ -475,7 +535,10 @@
       "recent": "Utafutaji wa Hivi Karibuni",
       "useGPS": "Tumia Mahali Ulipo",
       "gpsDenied": "Ruhusa ya eneo imekataliwa.",
-      "gpsError": "Imeshindwa kupata eneo."
+      "gpsError": "Imeshindwa kupata eneo.",
+      "searchFailed": "Utafutaji umeshindwa, angalia muunganisho wako.",
+      "pin": "Hifadhi jiji",
+      "unpin": "Ondoa"
     },
     "calendar": {
       "title": "Kalenda Iliyounganishwa",
@@ -484,7 +547,8 @@
     "imsakiye": {
       "title": "Imsakiye ya kila wiki",
       "subtitle": "Muda wa siku 7 zijazo",
-      "date": "Tarehe"
+      "date": "Tarehe",
+      "rangeDays": "Siku {{n}}"
     },
     "religious": {
       "title": "Siku za Dini",
@@ -501,12 +565,12 @@
       "dismissBtn": "Sio Sasa"
     },
     "names": {
-      "title": "Majina ya Mwenyezi Mungu na Duas",
+      "title": "Majina ya Mwenyezi Mungu na Dua",
       "namesSubtitle": "Majina 99 Mazuri ya Mwenyezi Mungu",
       "duasSubtitle": "Dua za kila siku",
       "meaningLabel": "Maana",
       "tabNames": "99 Majina",
-      "tabDuas": "Duas",
+      "tabDuas": "Dua",
       "namesCount": "{{count}} Majina",
       "duasCount": "{{count}} Duas",
       "tapHint": "Gusa kwa maelezo",
@@ -542,20 +606,20 @@
       "verifiedMethodDesc": "Mbinu sahihi zaidi ya Kiislamu kwa eneo lako huchaguliwa kiotomatiki.",
       "notificationsTitle": "Adhana & Tahadhari za Maombi",
       "notificationsDesc": "Pokea vikumbusho vya upole au vinavyosikika wakati wa maombi.",
-      "startBtn": "Anza Kutumia Vera 🌟",
+      "startBtn": "Anza Kutumia Vera",
       "featureQuran": "Quran na Sauti",
       "featureQibla": "Kibla",
       "featureDhikr": "Kaunta ya Dhikr",
-      "backBtn": "← Rudi Nyuma",
-      "playTestSound": "Hakiki Sauti ya Adhana 🔊",
-      "stopTestSound": "Acha Sauti ⏹️",
-      "nextStepBtn": "Endelea →",
+      "backBtn": "Rudi Nyuma",
+      "playTestSound": "Hakiki Sauti ya Adhana",
+      "stopTestSound": "Acha Sauti",
+      "nextStepBtn": "Endelea",
       "step3Title": "Uzoefu Usiokatizwa",
       "step3Subtitle": "Fuatilia nyakati za maombi moja kwa moja kutoka skrini yako ya nyumbani na uhakikishe arifa za adhana zinazotegemeka.",
-      "widgetTitle": "📌 Ongeza Wijeti kwenye Skrini ya Nyumbani",
+      "widgetTitle": "Ongeza Wijeti kwenye Skrini ya Nyumbani",
       "widgetDesc": "Angalia hesabu za moja kwa moja bila kufungua programu.",
       "widgetAdded": "Wijeti imeongezwa kwa mafanikio!",
-      "batteryTitle": "🔋 Kutoruhusiwa Kuokoa Betri",
+      "batteryTitle": "Kutoruhusiwa Kuokoa Betri",
       "batteryDesc": "Inapendekezwa kuzima uboreshaji wa betri kwenye Xiaomi na Samsung kwa adhana zinazofaa.",
       "locationReassurance": "Unaweza kubadilisha hili wakati wowote baadaye katika Mipangilio.",
       "notifDenied": "Ruhusa ya arifa haikutolewa. Arifa za adhana huenda zisifanye kazi — unaweza kuziwasha baadaye katika Mipangilio.",
@@ -566,7 +630,10 @@
       "skipConfirm": "Ruka",
       "locationDenied": "Ruhusa ya mahali haikutolewa. Unaweza kuchagua mji wako kutoka kwenye orodha, au kubadilisha hili baadaye katika Mipangilio.",
       "locationFailed": "Imeshindwa kupata mahali ulipo. Unaweza kuchagua mji wako kutoka kwenye orodha, au kubadilisha hili baadaye katika Mipangilio.",
-      "locationNotSet": "Mahali Hapapatikani (Ruhusa Imekataliwa)"
+      "locationNotSet": "Mahali Hapapatikani (Ruhusa Imekataliwa)",
+      "locationNotSetYet": "Bado haijachaguliwa",
+      "skipLocation": "Ruka kwa sasa",
+      "currentLocationLabel": "Eneo la sasa"
     },
     "weather": {
       "title": "Utabiri wa hali ya hewa",
@@ -630,9 +697,9 @@
       "titlePlaceholder": "Kichwa (k.m. Jummah Mubarak)",
       "messagePlaceholder": "Andika ujumbe wako wa maombi au salamu...",
       "chooseTheme": "Mandhari ya Kadi",
-      "shareBtn": "Shiriki kwa WhatsApp / Hadithi 🌟",
-      "shareImageBtn": "Shiriki Kadi ya Picha 🌟",
-      "shareLinkBtn": "Shiriki Kiungo cha Duka la Moja kwa Moja 🔗",
+      "shareBtn": "Shiriki kwa WhatsApp / Hadithi",
+      "shareImageBtn": "Shiriki Kadi ya Picha",
+      "shareLinkBtn": "Shiriki Kiungo cha Duka la Moja kwa Moja",
       "theme": {
         "gold": "Mstari wa Dhahabu",
         "emerald": "Kuba la Zumaridi",
@@ -650,7 +717,13 @@
       "emptyTitle": "Hakuna Misikiti Inayopatikana Karibu Na",
       "emptyDesc": "Unaweza kutazama misikiti yote moja kwa moja kwenye urambazaji wa ramani.",
       "openInMaps": "Tafuta kwenye Ramani",
-      "directionsBtn": "Maelekezo"
+      "directionsBtn": "Maelekezo",
+      "searchQuery": "msikiti",
+      "noLocationTitle": "Eneo Halikupatikana",
+      "noLocationDesc": "Chagua jiji au ruhusu ufikiaji wa eneo ili kuona misikiti iliyo karibu.",
+      "errorTitle": "Misikiti Haikuweza Kupakiwa",
+      "errorDesc": "Kulikuwa na tatizo la muunganisho. Angalia intaneti yako kisha ujaribu tena.",
+      "chooseCity": "Chagua jiji"
     },
     "dailyContent": {
       "preparing": "Inapakia msukumo wa kila siku...",
@@ -667,7 +740,7 @@
       "hatimLabel": "Khatm",
       "page": "Ukurasa",
       "pagesRemaining": "Kurasa {{count}} zimesalia kukamilisha Khatm.",
-      "completed": "Hongera! Umemaliza Khatm. 🎉",
+      "completed": "Hongera! Umemaliza Khatm.",
       "readPageBtn": "Soma Ukurasa {{page}}",
       "jumpPageTitle": "Rukia Ukurasa / Sasisha Maendeleo",
       "jumpPageDesc": "Weka nambari ya ukurasa wa sasa (1 - 604):",
@@ -677,7 +750,8 @@
       "startNew": "Anzisha Khatm Mpya",
       "resetHatimBtn": "Weka upya na Uanze Khatm Mpya",
       "share": "Shiriki Hitma Yangu",
-      "shareText": "Nimekamilisha Hitma yangu ya {{count}}, alhamdulillahi!"
+      "shareText": "Nimekamilisha Hitma yangu ya {{count}}, alhamdulillahi!",
+      "dailyTarget": "Takriban kurasa {{n}} kwa siku ili kumaliza (siku {{d}} zimebaki)"
     },
     "prayerTree": {
       "title": "Mti wa Maombi ya Kila Wiki",
@@ -1176,10 +1250,10 @@
     },
     "widget": {
       "guideTitle": "Ongeza kwenye Skrini ya Nyumbani",
-      "guideDesc": "Bonyeza na kushikilia skrini yako ya nyumbani ➔ gusa \"Wijeti\" ➔ tafuta wijeti ya \"VERA\" na uiburute kwenye skrini yako.",
+      "guideDesc": "Bonyeza na kushikilia skrini yako ya nyumbani > gusa \"Wijeti\" > tafuta wijeti ya \"VERA\" na uiburute kwenye skrini yako.",
       "promptTitle": "Ongeza Wijeti kwenye Skrini ya Nyumbani",
       "promptDesc": "Ona muda wa sala unaofuata na dakika zilizobaki moja kwa moja kutoka skrini ya nyumbani ya simu yako, bila kufungua programu.",
-      "addNow": "📌 Ongeza kwenye Skrini ya Nyumbani",
+      "addNow": "Ongeza kwenye Skrini ya Nyumbani",
       "notNow": "Baadaye"
     },
     "greetingNotif": {
@@ -1192,7 +1266,133 @@
     "errorBoundary": {
       "title": "Kuna hitilafu",
       "subtitle": "Programu imekumbana na hitilafu isiyotarajiwa. Gusa kitufe hapa chini ili ujaribu tena.",
-      "retry": "Jaribu Tena"
+      "retry": "Jaribu Tena",
+      "clearAndRetry": "Futa data iliyohifadhiwa kisha ujaribu tena"
+    },
+    "community": {
+      "tabMine": "Machapisho yangu",
+      "you": "Wewe",
+      "emptyMine": "Bado huna machapisho. Unaweza kushiriki ukishakamilisha ibada.",
+      "adLabel": "Tangazo",
+      "title": "Jamii",
+      "tabToday": "Leo",
+      "tabWeek": "Siku 7 zilizopita",
+      "anonymous": "Ndugu asiyejulikana",
+      "someone": "Mtu fulani",
+      "templates": {
+        "hatimCompleted": "Amekamilisha khatma",
+        "achievement": "Amefungua {{title}}",
+        "dhikrMilestone": "Mtu kutoka {{country}} alisoma dhikri {{count}}",
+        "prayerFullday": "Sala zote tano zimetimizwa leo"
+      },
+      "emptyToday": "Hakuna machapisho leo bado. Shiriki la kwanza ukimaliza jambo.",
+      "emptyWeek": "Hakuna machapisho katika siku 7 zilizopita.",
+      "loadFailed": "Imeshindwa kupakia machapisho. Vuta chini ujaribu tena.",
+      "share": {
+        "title": "Ungependa kushiriki hili na jamii ya Vera?",
+        "note": "Maandishi haya pekee ndiyo yanashirikiwa. Jina lako na taarifa binafsi zinabaki siri.",
+        "submit": "Shiriki",
+        "later": "Si sasa",
+        "failed": "Imeshindwa kushiriki. Jaribu tena baadaye.",
+        "heading": "Shiriki na jamii",
+        "sent": "Imeshirikiwa",
+        "external": "Shiriki kwenye programu nyingine",
+        "open": "Shiriki na jamii",
+        "celebrateHint": "Shiriki bila kujitambulisha na jamii ya Vera.",
+        "intro": "Ndugu na dada duniani kote wanaweza kuona hili. Jina lako linabaki siri."
+      },
+      "settings": {
+        "title": "Mipangilio ya jamii",
+        "participate": "Jiunge na jamii",
+        "participateHint": "Ikizimwa, hakuna mapendekezo ya kushiriki yatakayoonekana. Bado unaweza kusoma machapisho.",
+        "showCountry": "Onyesha nchi yangu",
+        "showCountryHint": "Ikiwashwa, jina la nchi yako litaonekana karibu na machapisho yako. Kuizima kunahusu machapisho mapya pekee.",
+        "country": "Nchi",
+        "countryManual": "Nchi iliyochaguliwa: {{code}}",
+        "countryDevice": "Inatumia eneo la kifaa chako.",
+        "useDevice": "Kifaa",
+        "countryInvalid": "Weka msimbo wa nchi wa herufi mbili, mf. TR",
+        "myPosts": "Machapisho yangu",
+        "noPosts": "Huna machapisho bado.",
+        "delete": "Futa",
+        "deleteTitle": "Futa chapisho hili?",
+        "deleteBody": "Litaondolewa kwenye machapisho kwa kila mtu.",
+        "blocked": "Watu waliozuiwa: {{count}}",
+        "clearBlocked": "Futa orodha ya waliozuiwa",
+        "joined": "Uko kwenye jamii",
+        "left": "Jamii imezimwa",
+        "sectionPrivacy": "Faragha",
+        "sectionBlocked": "Waliozuiwa",
+        "countryDeviceTitle": "Eneo la kifaa",
+        "blockedCount": "Watu {{count}}",
+        "change": "Badilisha"
+      },
+      "report": {
+        "action": "Ripoti",
+        "thanksTitle": "Asante",
+        "thanksBody": "Ripoti yako itakaguliwa.",
+        "failed": "Imeshindwa kutuma ripoti."
+      },
+      "block": {
+        "action": "Zuia mtu huyu"
+      },
+      "more": {
+        "title": "Chaguo za chapisho hili"
+      },
+      "discovery": {
+        "title": "Shiriki mafanikio yako na jamii ya Vera",
+        "body": "Shiriki khatma, dhikri na siku za sala bila kujitambulisha na ndugu na dada duniani kote.",
+        "cta": "Fungua jamii"
+      },
+      "summary": {
+        "posts": "machapisho",
+        "hatim": "Khatma",
+        "achievement": "Mafanikio",
+        "dhikr": "Dhikri",
+        "prayer": "Sala"
+      },
+      "howTo": {
+        "helpLabel": "Jinsi ya kushiriki",
+        "title": "Jinsi kushiriki kunavyofanya kazi",
+        "intro": "Shiriki ibada uliyokamilisha na jumuiya ya Vera. Jina lako linabaki siri.",
+        "step1Title": "Kamilisha ibada",
+        "step1Body": "Maliza sala zako tano, hatima au lengo la dhikri kwenye programu.",
+        "step2Title": "Gusa Shiriki",
+        "step2Body": "Sherehe inapoonekana, gusa Shiriki. Unaweza pia kutumia kitufe cha kushiriki kwenye skrini za sala na dhikri.",
+        "step3Title": "Chapisho lako linaonekana hapa",
+        "step3Body": "Kila mtu anaweza kuliona, na nchi yako ikiwa tu utaruhusu. Liondoe wakati wowote kupitia Machapisho yangu.",
+        "gotIt": "Nimeelewa"
+      },
+      "reminder": {
+        "title": "Shiriki ibada ya leo",
+        "body": "Je, ungependa kushiriki ibada ya leo na jamii?",
+        "bodyAll": "Umeswali sala zote tano leo. Ungependa kushiriki na jamii?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "Lengo la leo: khatima moja. Soma kurasa chache kila siku tukamilishe Qur’an pamoja.",
+        "m1": "Lengo la leo: baada ya Isha, Subhanallah 33, Alhamdulillah 33 na Allahu Akbar 33.",
+        "m2": "Leo, tujitahidi kuswali sala zote tano kwa wakati, pamoja.",
+        "m3": "Lengo la leo: soma ukurasa mmoja wa Qur’an. Hatua ndogo pia zina thamani.",
+        "m4": "Lengo la leo: Subhanallah 100. Shiriki na jamii ukimaliza.",
+        "m5": "Wiki hii, andika orodha ya dua na umkumbuke ndugu au dada ndani yake.",
+        "m6": "Leo, fikiria kutoa sadaka au kumfanyia mtu wema."
+      }
+    },
+    "coach": {
+      "dismiss": "Nimeelewa",
+      "ummah": {
+        "title": "Umma",
+        "body": "Shiriki ibada uliyokamilisha na jamii, au tazama waliyoshiriki wengine leo."
+      },
+      "qibla": {
+        "title": "Dira ya Kibla",
+        "body": "Shikilia simu yako tambarare na izungushe hadi mshale uelekee Kaaba."
+      },
+      "silentMode": {
+        "title": "Hali ya kimya",
+        "body": "Simu ikiwa kimya au kwenye mtetemo, adhana hutangazwa kwa sauti ya chini. Unaweza kubadilisha hili kwenye Mipangilio."
+      }
     }
   }
 }

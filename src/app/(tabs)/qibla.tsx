@@ -16,27 +16,30 @@ import { SecureLocationStorage } from '../../services/storageService';
 import { useTranslation } from 'react-i18next';
 import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
 import { useIsFocused } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 
 import { useTheme } from '../../context/ThemeContext';
 import { typography } from '../../utils/theme';
 import { QiblaCompass } from '../../components/QiblaCompass';
+import { directionalIconStyle } from '../../utils/rtl';
 import { getQiblaAngle, getDistanceToKaaba } from '../../utils/qibla';
 import { AppBackground } from '../../components/ProgressRing';
 import { logScreenView } from '../../services/analyticsService';
 import { BannerAdSlot } from '../../components/BannerAdSlot';
 
-const DEFAULT_COORDS = { latitude: 41.0082, longitude: 28.9784 };
-
 interface QiblaScreenProps {
   onBack?: () => void;
   isActiveTab?: boolean;
+  // Opens the city picker; offered when there is no location to compute the Qibla from.
+  onChooseCity?: () => void;
 }
 
-export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenProps) {
+export default function QiblaScreen({ onBack, isActiveTab = true, onChooseCity }: QiblaScreenProps) {
   const { t } = useTranslation();
   const { theme, isDark, isFullscreen } = useTheme();
+  const insets = useSafeAreaInsets();
   const isFocused = useIsFocused();
 
   const [, setHasPermission] = useState<boolean | null>(null);
@@ -44,7 +47,11 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
   const [distance, setDistance] = useState<number | null>(null);
   const [heading, setHeading] = useState<number>(0);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [usedFallbackLocation, setUsedFallbackLocation] = useState<boolean>(false);
+  const [noLocation, setNoLocation] = useState<boolean>(false);
+  const [lowAccuracy, setLowAccuracy] = useState<boolean>(false);
+  // Without a true-north heading the OS gives magnetic north: off by the local declination.
+  const [usingMagneticNorth, setUsingMagneticNorth] = useState<boolean>(false);
+  const [retryKey, setRetryKey] = useState(0);
   const [isCalibrateModalVisible, setIsCalibrateModalVisible] = useState<boolean>(false);
 
   // The compass sensor only runs while this tab is visible and the app is in the foreground.
@@ -59,6 +66,7 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
     logScreenView('QiblaScreen');
 
     let headingSubscription: Location.LocationSubscription | null = null;
+    let silenceTimer: ReturnType<typeof setTimeout> | null = null;
     let isMounted = true;
 
     (async () => {
@@ -71,7 +79,6 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
           const manual = JSON.parse(manualStr);
           if (manual?.latitude && manual?.longitude) {
             coords = { latitude: manual.latitude, longitude: manual.longitude };
-            if (isMounted) setUsedFallbackLocation(true);
           }
         }
 
@@ -86,13 +93,15 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
         }
       } catch {}
 
-      // 2. If no cached location is available, query device location
+      // 2. No saved location: use the device location only if the permission is already
+      // granted. A permission dialog must never pop up just because the user swiped to this tab;
+      // the explicit "Use my location" button below asks.
       if (!coords) {
         try {
-          const { status } = await Location.requestForegroundPermissionsAsync();
+          const { status } = await Location.getForegroundPermissionsAsync();
           if (status === 'granted') {
             if (isMounted) setHasPermission(true);
-            let loc = await Location.getLastKnownPositionAsync({});
+            let loc = await Location.getLastKnownPositionAsync({ maxAge: 10 * 60 * 1000, requiredAccuracy: 5000 });
             if (!loc) {
               const timeoutPromise = new Promise<any>((_, reject) =>
                 setTimeout(() => reject(new Error('Location timed out')), 3500)
@@ -113,13 +122,14 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
         }
       }
 
-      // 3. Ultimate Fallback to default coordinates
+      // 3. No location at all: say so instead of showing another city's Qibla as if it were right.
       if (!coords) {
-        coords = DEFAULT_COORDS;
-        if (isMounted) setUsedFallbackLocation(true);
+        if (isMounted) setNoLocation(true);
+        return;
       }
 
       if (!isMounted) return;
+      setNoLocation(false);
 
       const angle = getQiblaAngle(coords.latitude, coords.longitude);
       setQiblaAngle(angle);
@@ -129,8 +139,17 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
 
       try {
         let lastHeading = -1;
+        // A device without a magnetometer never fires: after a few seconds of silence tell the
+        // user instead of leaving a needle frozen at 0.
+        silenceTimer = setTimeout(() => {
+          if (isMounted && lastHeading < 0) setErrorMsg(t('qibla.errorNoSensor', 'Compass sensor not responding. This device may not have a compass.'));
+        }, 4000);
         const sub = await Location.watchHeadingAsync((data) => {
           if (!isMounted) return;
+          if (silenceTimer) clearTimeout(silenceTimer);
+          // accuracy: 0 unreliable, 1 low, 2 medium, 3 high
+          setLowAccuracy(data.accuracy <= 1);
+          setUsingMagneticNorth(data.trueHeading === -1);
           const next = data.trueHeading !== -1 ? data.trueHeading : data.magHeading;
           // The sensor fires 20–50 times a second; re-render only on a visible change.
           const delta = Math.abs(((next - lastHeading + 540) % 360) - 180);
@@ -154,9 +173,54 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
 
     return () => {
       isMounted = false;
+      if (silenceTimer) clearTimeout(silenceTimer);
       headingSubscription?.remove();
     };
-  }, [isFocused, isActiveTab, appActive, t]);
+  }, [isFocused, isActiveTab, appActive, t, retryKey]);
+
+  // Explicit user action: ask for the location permission, then run the lookup again.
+  const handleUseMyLocation = async () => {
+    try {
+      Haptics.selectionAsync();
+    } catch {}
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status === 'granted') setRetryKey((k) => k + 1);
+    } catch {}
+  };
+
+  // ── No location: the Qibla depends on it, so ask for one instead of guessing ──
+  if (qiblaAngle === null && noLocation) {
+    return (
+      <AppBackground isDark={isDark}>
+        <View style={styles.center}>
+          <Ionicons name="location-outline" size={40} color="#D4AF37" />
+          <Text style={[styles.noLocationTitle, { color: theme.colors.text }]}>
+            {t('qibla.noLocationTitle', 'Location needed')}
+          </Text>
+          <Text style={[styles.noLocationDesc, { color: theme.colors.textSecondary }]}>
+            {t('qibla.noLocationDesc', 'The Qibla direction depends on where you are. Choose your city or allow location access.')}
+          </Text>
+          <Pressable
+            onPress={handleUseMyLocation}
+            accessibilityRole="button"
+            style={[styles.noLocationBtn, { backgroundColor: '#D4AF37' }]}
+          >
+            <Text style={styles.noLocationBtnText}>{t('qibla.useMyLocation', 'Use my location')}</Text>
+          </Pressable>
+          {onChooseCity && (
+            <Pressable
+              onPress={onChooseCity}
+              accessibilityRole="button"
+              style={[styles.noLocationBtn, { borderWidth: 1, borderColor: '#D4AF37' }]}
+            >
+              <Text style={[styles.noLocationBtnText, { color: '#D4AF37' }]}>{t('qibla.chooseCity', 'Choose city')}</Text>
+            </Pressable>
+          )}
+        </View>
+      </AppBackground>
+    );
+  }
 
   // ── Loading state ─────────────────────────────────────────────────────────
   if (qiblaAngle === null) {
@@ -175,7 +239,7 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
   const cardBg = isDark ? '#1E160C' : '#FFFFFF';
   const cardBorder = isDark ? 'rgba(212, 175, 55, 0.25)' : 'rgba(0,0,0,0.08)';
   const textPrimary = isDark ? '#FDF8ED' : '#1A1A24';
-  const textSecondary = isDark ? 'rgba(253, 248, 237, 0.65)' : 'rgba(26,26,36,0.6)';
+  const textSecondary = isDark ? 'rgba(253, 248, 237, 0.78)' : 'rgba(26,26,36,0.6)';
 
   return (
     <AppBackground isDark={isDark}>
@@ -187,19 +251,28 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
       />
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingTop: Platform.OS === 'ios' ? Math.max(insets.top + 8, 44) : Math.max(insets.top, StatusBar.currentHeight ?? 0) + 8 },
+        ]}
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
         <Animated.View entering={FadeInDown.delay(0).duration(400)} style={styles.header}>
           <View style={styles.headerTop}>
             {onBack && (
-              <Pressable onPress={onBack} style={styles.backButton}>
-                <Feather name="arrow-left" size={22} color={textPrimary} />
+              <Pressable
+                onPress={onBack}
+                style={styles.backButton}
+                hitSlop={8}
+                accessibilityRole="button"
+                accessibilityLabel={t('common.back', 'Back')}
+              >
+                <Feather name="arrow-left" size={22} color={textPrimary} style={directionalIconStyle} />
               </Pressable>
             )}
             <Text style={[styles.title, { color: textPrimary }]}>
-              🧭 {t('qibla.title', 'Kıble Pusulası')}
+              {t('qibla.title', 'Kıble Pusulası')}
             </Text>
             
             {/* Calibration Button */}
@@ -209,7 +282,9 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
                 setIsCalibrateModalVisible(true);
               }}
               style={[styles.calibrateHeaderBtn, { borderColor: cardBorder }]}
-              hitSlop={8}
+              hitSlop={12}
+              accessibilityRole="button"
+              accessibilityLabel={t('qibla.calibrationTitle', 'Pusula Kalibrasyonu')}
             >
               <MaterialCommunityIcons name="rotate-3d-variant" size={18} color="#D4AF37" />
             </Pressable>
@@ -217,9 +292,16 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
           <Text style={[styles.subtitle, { color: textSecondary }]}>
             {t('qibla.description', 'Telefonunuzu yere paralel tutarak ibreyi Kabe hizasına getirin.')}
           </Text>
-          {usedFallbackLocation && (
+          {lowAccuracy && (
+            <Pressable onPress={() => setIsCalibrateModalVisible(true)} accessibilityRole="button" hitSlop={8}>
+              <Text style={styles.fallbackNotice}>
+                {t('qibla.lowAccuracy', 'Compass accuracy is low. Tap to calibrate.')}
+              </Text>
+            </Pressable>
+          )}
+          {usingMagneticNorth && !lowAccuracy && (
             <Text style={styles.fallbackNotice}>
-              {t('qibla.fallbackNotice', 'Şehir konum koordinatlarına göre hesaplanmaktadır.')}
+              {t('qibla.magneticNorthNote', 'Using magnetic north: the direction can be a few degrees off.')}
             </Text>
           )}
         </Animated.View>
@@ -239,15 +321,15 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
         <Animated.View entering={FadeInDown.delay(100).duration(400)} style={styles.safetyRow}>
           {/* Level Bubble Indicator */}
           <View style={[styles.safetyBadge, { backgroundColor: cardBg, borderColor: cardBorder }]}>
-            <Ionicons name="scan-outline" size={15} color="#10B981" style={{ marginRight: 6 }} />
+            <Ionicons name="scan-outline" size={15} color="#10B981" style={{ marginEnd: 6 }} />
             <Text style={[styles.safetyBadgeText, { color: textSecondary }]}>
-              {t('qibla.levelFlat', 'Düz ve Paralel ✓')}
+              {t('qibla.levelFlat', 'Düz ve Paralel')}
             </Text>
           </View>
 
           {/* Magnetic Shield Badge */}
           <View style={[styles.safetyBadge, { backgroundColor: cardBg, borderColor: cardBorder }]}>
-            <Ionicons name="shield-checkmark-outline" size={15} color="#D4AF37" style={{ marginRight: 6 }} />
+            <Ionicons name="shield-checkmark-outline" size={15} color="#D4AF37" style={{ marginEnd: 6 }} />
             <Text style={[styles.safetyBadgeText, { color: textSecondary }]}>
               {t('qibla.magneticShield', 'Manyetik Koruma')}
             </Text>
@@ -262,7 +344,7 @@ export default function QiblaScreen({ onBack, isActiveTab = true }: QiblaScreenP
         {/* Calibration & How to Use Guide */}
         <Animated.View entering={FadeInDown.delay(140).duration(400)} style={[styles.guideCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
           <View style={styles.guideHeader}>
-            <Ionicons name="information-circle-outline" size={16} color="#D4AF37" style={{ marginRight: 6 }} />
+            <Ionicons name="information-circle-outline" size={16} color="#D4AF37" style={{ marginEnd: 6 }} />
             <Text style={[styles.guideTitle, { color: textPrimary }]}>
               {t('qibla.guideTitle', 'Nasıl Kullanılır?')}
             </Text>
@@ -336,6 +418,35 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 12,
   },
+  noLocationTitle: {
+    fontFamily: typography.fontFamily.bold,
+    fontSize: 18,
+    marginTop: 12,
+    textAlign: 'center',
+  },
+  noLocationDesc: {
+    fontFamily: typography.fontFamily.regular,
+    fontSize: 13,
+    lineHeight: 19,
+    textAlign: 'center',
+    marginTop: 6,
+    marginBottom: 18,
+    paddingHorizontal: 32,
+  },
+  noLocationBtn: {
+    minHeight: 44,
+    minWidth: 200,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  noLocationBtnText: {
+    fontFamily: typography.fontFamily.bold,
+    fontSize: 14,
+    color: '#1A1207',
+  },
   header: {
     alignItems: 'center',
     width: '100%',
@@ -350,12 +461,12 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    left: 0,
+    start: 0,
     padding: 6,
   },
   calibrateHeaderBtn: {
     position: 'absolute',
-    right: 0,
+    end: 0,
     padding: 6,
     borderRadius: 10,
     borderWidth: 1,

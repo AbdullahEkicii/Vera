@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { StatusBar, AppState, Platform } from 'react-native';
+import { StatusBar, AppState, Platform, useColorScheme } from 'react-native';
+import { AppStorage as AsyncStorage } from '../services/storageService';
 import * as SecureStore from 'expo-secure-store';
-import { lightTheme, darkTheme, ThemeType, palettes } from '../utils/theme';
+import { lightTheme, darkTheme, ThemeType, palettes, accentForText } from '../utils/theme';
 
 
 import * as NavigationBar from 'expo-navigation-bar';
@@ -47,17 +48,18 @@ const applySystemUI = (fullscreen: boolean) => {
 };
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [mode, setMode] = useState<ThemeMode>('light');
-  const [isFullscreen, setIsFullscreenState] = useState(true);
+  // null = the user never picked a theme: follow the system light/dark setting.
+  const [userMode, setUserMode] = useState<ThemeMode | null>(null);
+  const systemScheme = useColorScheme();
+  const mode: ThemeMode = userMode ?? (systemScheme === 'dark' ? 'dark' : 'light');
+  // System bars stay visible unless the user turns fullscreen on in Settings.
+  const [isFullscreen, setIsFullscreenState] = useState(false);
   const [timeFormat, setTimeFormatState] = useState<TimeFormat>('24h');
   const [colorPalette, setColorPaletteState] = useState<ColorPalette>('default');
   const [circlePalette, setCirclePaletteState] = useState<ColorPalette>('default');
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    // Hide immediately on mount to prevent statusbar layout flash on first launch
-    applySystemUI(true);
-
     const loadSettings = async () => {
       try {
         // Each SecureStore read is a Keystore decrypt (20–50 ms on low-end phones) and the
@@ -70,15 +72,21 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             SecureStore.getItemAsync(COLOR_PALETTE_KEY),
             SecureStore.getItemAsync(CIRCLE_PALETTE_KEY),
           ]);
-        if (storedTheme) {
-          if (storedTheme === 'system') {
-            setMode('light');
-            SecureStore.setItemAsync(THEME_STORAGE_KEY, 'light').catch(() => {});
-          } else {
-            setMode(storedTheme as ThemeMode);
-          }
+        // Only an explicit choice pins the theme; a legacy 'system' value means "follow system".
+        if (storedTheme === 'light' || storedTheme === 'dark') {
+          setUserMode(storedTheme);
         }
-        const isFull = storedFullscreen !== null ? storedFullscreen === 'true' : true;
+
+        let isFull: boolean;
+        if (storedFullscreen !== null) {
+          isFull = storedFullscreen === 'true';
+        } else {
+          // Never chosen: new installs start with visible system bars (clock, battery, navigation);
+          // users who already finished onboarding keep the fullscreen they have been seeing.
+          const onboardingDone = await AsyncStorage.getItem('ONBOARDING_COMPLETED').catch(() => null);
+          isFull = onboardingDone === 'true';
+          SecureStore.setItemAsync(FULLSCREEN_STORAGE_KEY, String(isFull)).catch(() => {});
+        }
         setIsFullscreenState(isFull);
         applySystemUI(isFull);
 
@@ -105,7 +113,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const appStateSub = AppState.addEventListener('change', (nextState) => {
       if (nextState === 'active') {
         SecureStore.getItemAsync(FULLSCREEN_STORAGE_KEY).then((saved) => {
-          const isFull = saved !== null ? saved === 'true' : true;
+          const isFull = saved === 'true';
           applySystemUI(isFull);
         }).catch(() => {});
       }
@@ -117,7 +125,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const setThemeMode = async (newMode: ThemeMode) => {
-    setMode(newMode);
+    setUserMode(newMode);
     try {
       await SecureStore.setItemAsync(THEME_STORAGE_KEY, newMode);
     } catch (error) {
@@ -175,6 +183,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       theme.colors = {
         ...theme.colors,
         primary: selectedPalette.primary,
+        primaryText: accentForText(selectedPalette.primary, theme.colors.background),
         primaryLight: selectedPalette.primaryLight,
         glow: selectedPalette.glow,
         borderStrong: selectedPalette.borderStrong,

@@ -10,7 +10,13 @@
       "cancel": "キャンセル",
       "save": "保存",
       "ok": "OK",
-      "close": "閉じる"
+      "close": "閉じる",
+      "back": "戻る",
+      "clear": "クリア",
+      "remove": "削除",
+      "expand": "展開",
+      "collapse": "折りたたむ",
+      "share": "共有"
     },
     "home": {
       "title": "礼拝時間",
@@ -42,7 +48,13 @@
       "loadingTimes": "祈りの時間を読み込んでいます...",
       "locationPermissionTitle": "位置情報の権限を取得できませんでした",
       "locationPermissionDesc": "デフォルトの都市を表示しています。都市を選択するか、位置情報の権限を許可できます。",
-      "estimatedTimesNotice": "インターネット接続がないため、礼拝時間は端末上で計算されました（概算）。"
+      "estimatedTimesNotice": "インターネット接続がないため、礼拝時間は端末上で計算されました（概算）。",
+      "adjustTimeHint": "長押しでこの時刻を調整",
+      "moreTools": "その他",
+      "locationFetchFailedTitle": "位置情報が見つかりません",
+      "locationFetchFailedDesc": "GPSの位置情報を取得できませんでした。都市を選ぶか、後で再度お試しください。",
+      "sourceA11y": "礼拝時刻の計算方法",
+      "highLatNote": "高緯度：ファジュル／イシャーは概算です"
     },
     "settings": {
       "title": "設定",
@@ -60,7 +72,11 @@
         "egypt": "エジプト測量局",
         "karachi": "カラチ (パキスタン)",
         "france": "フランス (UOIF)",
-        "russia": "ロシア"
+        "russia": "ロシア",
+        "kemenag": "インドネシア (Kemenag)",
+        "jakim": "マレーシア (JAKIM)",
+        "muis": "シンガポール (MUIS)",
+        "tehran": "イラン (テヘラン大学)"
       },
       "palettes": {
         "default": "デフォルト",
@@ -93,7 +109,7 @@
       "persistentNotif": "持続的な祈りのカウントダウン",
       "persistentNotifDesc": "次の祈りまでの残り時間をロック画面と通知パネルでリアルタイムに追跡します。",
       "widgetTitle": "ホーム画面ウィジェット",
-      "addWidget": "📌 ホーム画面にウィジェットを追加しましょう！",
+      "addWidget": "ホーム画面にウィジェットを追加しましょう！",
       "addWidgetDesc": "携帯電話のホーム画面で礼拝時間とライブカウントダウンを直接確認できます。",
       "general": "一般設定",
       "fullscreen": "全画面モード",
@@ -130,7 +146,32 @@
       "username": "ユーザー名",
       "password": "パスワード",
       "loggingIn": "ログイン中...",
-      "login": "ログイン"
+      "login": "ログイン",
+      "remindersTitle": "リマインダーとお知らせ",
+      "dailyContentNotif": "今日の聖句／ハディース",
+      "dailyContentNotifDesc": "正午の礼拝後の短い毎日のリマインダー。",
+      "quranReminderNotif": "クルアーン読誦のリマインダー",
+      "quranReminderNotifDesc": "2日に1回、夕方のリマインダー。",
+      "greetingNotif": "金曜日・聖なる日のご挨拶",
+      "greetingNotifDesc": "金曜日や宗教的な日のリマインダー。",
+      "announcementsNotif": "お知らせ",
+      "announcementsNotifDesc": "Veraからのニュースとキャンペーンのメッセージ。",
+      "locationTitle": "位置情報",
+      "changeCity": "都市を変更",
+      "locationNotSet": "まだ選択されていません",
+      "locationFromGps": "スマートフォンの位置情報に従います",
+      "locationFromManual": "都市を手動で選択済み",
+      "locationHint": "都市を選ぶか、スマートフォンの位置情報を使用してください。",
+      "useMyLocation": "現在地を使用",
+      "fullscreenDesc": "ステータスバー（時計・バッテリー）とナビゲーションバーを非表示にします。",
+      "recommended": "おすすめ",
+      "asrSchoolTitle": "アスルの計算",
+      "asrStandard": "標準（シャーフィイー派・マーリク派・ハンバル派）",
+      "asrHanafi": "ハナフィー派",
+      "asrSchoolDesc": "ハナフィー派ではアスルが遅くなります（影が物の2倍）。南アジアで一般的です。",
+      "rateApp": "Veraを評価",
+      "privacyPolicy": "プライバシーポリシー",
+      "restartForDirection": "新しい文字方向を反映するには、アプリを閉じてもう一度開いてください。"
     },
     "qibla": {
       "title": "キブラ",
@@ -148,12 +189,12 @@
       "status": "状態",
       "aligned": "一致",
       "aligning": "回転",
-      "alignedSuccess": "🕌 キブラの方向を向いています！",
+      "alignedSuccess": "キブラの方向を向いています！",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "使用方法?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "見出し",
       "calibrateBtn": "コンパスの校正",
@@ -162,8 +203,15 @@
       "magneticShield": "磁場シールド",
       "magneticShieldDesc": "センサーの精度が最適化されました。磁気ケースから遠ざけてください。",
       "levelStatus": "水平レベル（バブル）",
-      "levelFlat": "フラット＆パラレル ✓",
-      "gotIt": "わかった"
+      "levelFlat": "フラット＆パラレル",
+      "gotIt": "わかった",
+      "noLocationTitle": "位置情報が必要です",
+      "noLocationDesc": "キブラの方向は現在地によって決まります。都市を選ぶか、位置情報の利用を許可してください。",
+      "useMyLocation": "現在地を使用",
+      "chooseCity": "都市を選ぶ",
+      "lowAccuracy": "コンパスの精度が低いです。タップして調整してください。",
+      "magneticNorthNote": "磁北を使用中：方向が数度ずれることがあります。",
+      "errorNoSensor": "コンパスセンサーが応答しません。この端末にはコンパスがない可能性があります。"
     },
     "daily": {
       "title": "今日のインスピレーション",
@@ -175,7 +223,8 @@
       "hadithBody": "クリックして今日のハディースを読む",
       "quoteBody": "クリックして今日的名言を読む",
       "subtitle": "今日のために選ばれた節句、ハディース、格言",
-      "shareHint": "ストーリー画像として共有するにはカードをタップしてください"
+      "shareHint": "ストーリー画像として共有するにはカードをタップしてください",
+      "autoTranslated": "自動翻訳"
     },
     "search": {
       "title": "位置を選択",
@@ -184,7 +233,10 @@
       "recent": "最近の検索",
       "useGPS": "現在地を使用",
       "gpsDenied": "位置情報の権限が拒否されました。",
-      "gpsError": "位置情報の取得に失敗しました。"
+      "gpsError": "位置情報の取得に失敗しました。",
+      "searchFailed": "検索に失敗しました。接続を確認してください。",
+      "pin": "都市を保存",
+      "unpin": "固定を解除"
     },
     "notifications": {
       "exactAlert": "礼拝時間のお知らせ",
@@ -237,7 +289,8 @@
         "dailyName": "日々のインスピレーション",
         "dailyDesc": "毎日の詩、ハディース、または引用がドゥフルとアスルの間に届きます。",
         "persistentName": "ロック画面とステータスバー",
-        "persistentDesc": "通知パネルとロック画面に次の祈りの名前とライブカウントダウンが表示されます。"
+        "persistentDesc": "通知パネルとロック画面に次の祈りの名前とライブカウントダウンが表示されます。",
+        "announcements": "お知らせ"
       },
       "persistentTitle": "🕌 {{prayer}}まで"
     },
@@ -408,7 +461,15 @@
       "noBookmarks": "まだブックマークしたアーヤがありません。アーヤを長押しして追加できます。",
       "playFromHere": "ここから聴く",
       "juz": "ジュズ",
-      "downloadingShort": "ダウンロード中..."
+      "downloadingShort": "ダウンロード中...",
+      "audioErrorTitle": "音声を再生できませんでした",
+      "audioErrorMessage": "朗誦を読み込めませんでした。インターネット接続を確認して、もう一度お試しください。",
+      "audioPause": "朗誦を一時停止",
+      "audioResume": "朗誦を再開",
+      "audioStop": "朗誦を停止",
+      "audioPlay": "朗誦を再生",
+      "fontSmaller": "文字を小さく",
+      "fontLarger": "文字を大きく"
     },
     "review": {
       "title": "応援する",
@@ -416,9 +477,9 @@
       "notNow": "後で",
       "review": "評価する",
       "subtitle": "あなたの経験を星で評価してください",
-      "fiveStarTitle": "それを聞いてとてもうれしく思います！ 🌟",
+      "fiveStarTitle": "それを聞いてとてもうれしく思います！",
       "fiveStarSubtitle": "5 つ星の評価で Vera をサポートしませんか?",
-      "rateOnStore": "🌟 5 つ星を付けてサポートしてください",
+      "rateOnStore": "5 つ星を付けてサポートしてください",
       "ratingLabels": {
         "1": "改善が必要",
         "2": "公平",
@@ -426,11 +487,11 @@
         "4": "とても良い",
         "5": "素晴らしい！"
       },
-      "feedbackTitle": "改善にご協力ください 💬",
+      "feedbackTitle": "改善にご協力ください",
       "feedbackSubtitle": "Vera をさらに改善できるよう、ご意見やご提案を共有してください。",
       "feedbackPlaceholder": "あなたの提案、アイデア、または直面した問題を書いてください...",
       "sendFeedback": "フィードバックを送信する",
-      "thankYouTitle": "フィードバックを受け取りました! 🤲",
+      "thankYouTitle": "フィードバックを受け取りました!",
       "thankYouSubtitle": "あなたのフィードバックは私たちにとって非常に貴重です。 Veraをさらに良くするために私たちは一生懸命努力します。",
       "close": "近い"
     },
@@ -453,6 +514,8 @@
       "title": "毎日の祈りのトラッカー",
       "completed": "完了",
       "dayStreak": "日連続記録",
+      "restartHint": "今日から再開できます",
+      "weekActiveDays": "直近7日間で{{count}}日",
       "viewHistory": "全履歴を表示",
       "historyTitle": "祈りの歴史",
       "historySubtitle": "過去 30 日間の祈りの記録",
@@ -478,12 +541,13 @@
     },
     "calendar": {
       "title": "統一カレンダー",
-      "todayNotice": "今日: {{グレゴリオ暦}} • ヒジュラ語: {{ヒジュリ}}"
+      "todayNotice": "今日: {{gregorian}} • ヒジュラ語: {{hijri}}"
     },
     "imsakiye": {
       "title": "週刊イムサキエ",
       "subtitle": "次の 7 日間のタイミング",
-      "date": "日付"
+      "date": "日付",
+      "rangeDays": "{{n}}日間"
     },
     "religious": {
       "title": "宗教日",
@@ -541,20 +605,20 @@
       "verifiedMethodDesc": "お住まいの地域で最も正確なイスラム法が自動的に選択されます。",
       "notificationsTitle": "アザーンと祈りのアラート",
       "notificationsDesc": "祈りの時間に穏やかな、または音声によるリマインダーを受け取ります。",
-      "startBtn": "Vera を使い始めましょう 🌟",
+      "startBtn": "Vera を使い始めましょう",
       "featureQuran": "コーランとオーディオ",
       "featureQibla": "キブラ",
       "featureDhikr": "ディクルカウンター",
-      "backBtn": "← 戻る",
-      "playTestSound": "アザーンサウンドをプレビュー 🔊",
-      "stopTestSound": "音を止める ⏹️",
-      "nextStepBtn": "続き→",
+      "backBtn": "戻る",
+      "playTestSound": "アザーンサウンドをプレビュー",
+      "stopTestSound": "音を止める",
+      "nextStepBtn": "続き",
       "step3Title": "途切れることのないエクスペリエンス",
       "step3Subtitle": "ホーム画面から礼拝時間をライブで追跡し、信頼性の高いアザーン通知を確保します。",
-      "widgetTitle": "📌 ホーム画面にウィジェットを追加",
+      "widgetTitle": "ホーム画面にウィジェットを追加",
       "widgetDesc": "アプリを開かずにライブカウントダウンを確認できます。",
       "widgetAdded": "ウィジェットが正常に追加されました。",
-      "batteryTitle": "🔋 バッテリーセーバーの免除",
+      "batteryTitle": "バッテリーセーバーの免除",
       "batteryDesc": "タイムリーなアザーンのために、Xiaomi と Samsung のバッテリーの最適化をオフにすることをお勧めします。",
       "locationReassurance": "これは後でいつでも設定から変更できます。",
       "notifDenied": "通知の権限が許可されませんでした。アザーンの通知が届かない場合があります — 後で設定からオンにできます。",
@@ -565,7 +629,10 @@
       "skipConfirm": "スキップ",
       "locationDenied": "位置情報の権限が許可されませんでした。リストから都市を選択するか、後で設定から変更できます。",
       "locationFailed": "位置情報を取得できませんでした。リストから都市を選択するか、後で設定から変更できます。",
-      "locationNotSet": "位置情報を取得できません（権限が拒否されました）"
+      "locationNotSet": "位置情報を取得できません（権限が拒否されました）",
+      "locationNotSetYet": "まだ選択されていません",
+      "skipLocation": "今はスキップ",
+      "currentLocationLabel": "現在地"
     },
     "weather": {
       "title": "天気予報",
@@ -629,9 +696,9 @@
       "titlePlaceholder": "タイトル (例: ジュマ・ムバラク)",
       "messagePlaceholder": "祈りや挨拶のメッセージを書いてください...",
       "chooseTheme": "カードのテーマ",
-      "shareBtn": "WhatsApp / ストーリーに共有する 🌟",
-      "shareImageBtn": "画像カードを共有する 🌟",
-      "shareLinkBtn": "ストアのダイレクトリンクを共有する 🔗",
+      "shareBtn": "WhatsApp / ストーリーに共有する",
+      "shareImageBtn": "画像カードを共有する",
+      "shareLinkBtn": "ストアのダイレクトリンクを共有する",
       "theme": {
         "gold": "ゴールドライン",
         "emerald": "エメラルドドーム",
@@ -649,7 +716,13 @@
       "emptyTitle": "近くにモスクは見つかりません",
       "emptyDesc": "地図ナビゲーションですべてのモスクを直接表示できます。",
       "openInMaps": "地図で検索",
-      "directionsBtn": "方向"
+      "directionsBtn": "方向",
+      "searchQuery": "モスク",
+      "noLocationTitle": "位置情報が見つかりません",
+      "noLocationDesc": "近くのモスクを表示するには、都市を選択するか位置情報へのアクセスを許可してください。",
+      "errorTitle": "モスクを読み込めませんでした",
+      "errorDesc": "接続に問題が発生しました。インターネットを確認して、もう一度お試しください。",
+      "chooseCity": "都市を選択"
     },
     "dailyContent": {
       "preparing": "毎日のインスピレーションを読み込み中...",
@@ -666,7 +739,7 @@
       "hatimLabel": "カトム",
       "page": "ページ",
       "pagesRemaining": "Khatm を完了するには残り {{count}} ページです。",
-      "completed": "おめでとう！ Khatm を完了しました。 🎉",
+      "completed": "おめでとう！ Khatm を完了しました。",
       "readPageBtn": "ページ {{page}} を読む",
       "jumpPageTitle": "ページに移動/更新の進行状況",
       "jumpPageDesc": "現在のページ番号を入力してください (1 ～ 604):",
@@ -676,7 +749,8 @@
       "startNew": "新しいKhatmを始める",
       "resetHatimBtn": "リセットして新しい Khatm を開始",
       "share": "ハトムを共有",
-      "shareText": "{{count}} 回目のハトムを完了しました、アルハムドゥリッラー！"
+      "shareText": "{{count}} 回目のハトムを完了しました、アルハムドゥリッラー！",
+      "dailyTarget": "読了まで1日約{{n}}ページ（残り{{d}}日）"
     },
     "prayerTree": {
       "title": "毎週の祈りの木",
@@ -1175,10 +1249,10 @@
     },
     "widget": {
       "guideTitle": "ホーム画面に追加",
-      "guideDesc": "ホーム画面を長押し ➔「ウィジェット」をタップ ➔「VERA」ウィジェットを選んで画面にドラッグしてください。",
+      "guideDesc": "ホーム画面を長押し > 「ウィジェット」をタップ > 「VERA」ウィジェットを選んで画面にドラッグしてください。",
       "promptTitle": "ホーム画面にウィジェットを追加",
       "promptDesc": "次の礼拝時間と残り時間を、アプリを開かずにホーム画面からライブで確認できます。",
-      "addNow": "📌 ホーム画面に追加",
+      "addNow": "ホーム画面に追加",
       "notNow": "後で"
     },
     "greetingNotif": {
@@ -1191,7 +1265,133 @@
     "errorBoundary": {
       "title": "問題が発生しました",
       "subtitle": "アプリで予期しないエラーが発生しました。下のボタンをタップしてもう一度お試しください。",
-      "retry": "再試行"
+      "retry": "再試行",
+      "clearAndRetry": "キャッシュを消去して再試行"
+    },
+    "community": {
+      "tabMine": "自分の投稿",
+      "you": "あなた",
+      "emptyMine": "まだ投稿がありません。お勤めを一つ達成すると共有できます。",
+      "adLabel": "広告",
+      "title": "コミュニティ",
+      "tabToday": "今日",
+      "tabWeek": "過去7日間",
+      "anonymous": "匿名の兄弟姉妹",
+      "someone": "誰か",
+      "templates": {
+        "hatimCompleted": "ハトム（クルアーン読了）を達成しました",
+        "achievement": "{{title}}を獲得しました",
+        "dhikrMilestone": "{{country}}の誰かが{{count}}回ズィクルを唱えました",
+        "prayerFullday": "今日は5回の礼拝をすべて行いました"
+      },
+      "emptyToday": "今日はまだ投稿がありません。何かを達成したら最初の投稿を共有しましょう。",
+      "emptyWeek": "過去7日間の投稿はありません。",
+      "loadFailed": "フィードを読み込めませんでした。下に引いて再試行してください。",
+      "share": {
+        "title": "Veraコミュニティと共有しますか？",
+        "note": "共有されるのはこのテキストのみです。名前や個人情報は公開されません。",
+        "submit": "共有",
+        "later": "今はしない",
+        "failed": "共有できませんでした。後でもう一度お試しください。",
+        "heading": "コミュニティと共有",
+        "sent": "共有しました",
+        "external": "他のアプリで共有",
+        "open": "コミュニティと共有",
+        "celebrateHint": "Veraコミュニティに匿名で共有します。",
+        "intro": "世界中の兄弟姉妹が見ることができます。あなたの名前は公開されません。"
+      },
+      "settings": {
+        "title": "コミュニティ設定",
+        "participate": "コミュニティに参加",
+        "participateHint": "オフの間は共有の提案が表示されません。フィードは引き続き閲覧できます。",
+        "showCountry": "国を表示",
+        "showCountryHint": "オンにすると、投稿の横に国名が表示されます。オフにしても新しい投稿にのみ適用されます。",
+        "country": "国",
+        "countryManual": "選択した国：{{code}}",
+        "countryDevice": "端末の地域を使用中。",
+        "useDevice": "端末",
+        "countryInvalid": "2文字の国コードを入力してください（例：TR）",
+        "myPosts": "自分の投稿",
+        "noPosts": "まだ投稿がありません。",
+        "delete": "削除",
+        "deleteTitle": "この投稿を削除しますか？",
+        "deleteBody": "全員のフィードから削除されます。",
+        "blocked": "ブロックした人：{{count}}",
+        "clearBlocked": "ブロックリストを消去",
+        "joined": "コミュニティに参加中",
+        "left": "コミュニティはオフです",
+        "sectionPrivacy": "プライバシー",
+        "sectionBlocked": "ブロック",
+        "countryDeviceTitle": "端末の地域",
+        "blockedCount": "{{count}}人",
+        "change": "変更"
+      },
+      "report": {
+        "action": "報告",
+        "thanksTitle": "ありがとうございます",
+        "thanksBody": "報告内容を確認します。",
+        "failed": "報告を送信できませんでした。"
+      },
+      "block": {
+        "action": "この人をブロック"
+      },
+      "more": {
+        "title": "この投稿のオプション"
+      },
+      "discovery": {
+        "title": "達成をVeraコミュニティと共有しましょう",
+        "body": "ハトム、ズィクル、礼拝の日を、世界中の兄弟姉妹と匿名で共有できます。",
+        "cta": "コミュニティを開く"
+      },
+      "summary": {
+        "posts": "件の投稿",
+        "hatim": "ハトム",
+        "achievement": "実績",
+        "dhikr": "ズィクル",
+        "prayer": "礼拝"
+      },
+      "howTo": {
+        "helpLabel": "シェアの方法",
+        "title": "シェアのしくみ",
+        "intro": "達成した礼拝をVeraコミュニティとシェアしましょう。あなたの名前は表示されません。",
+        "step1Title": "礼拝を達成する",
+        "step1Body": "アプリで1日5回の礼拝、ハティム、またはズィクルの目標を達成します。",
+        "step2Title": "「シェア」をタップ",
+        "step2Body": "お祝い画面が表示されたら「シェア」をタップします。礼拝画面やズィクル画面のシェアボタンも使えます。",
+        "step3Title": "投稿がここに表示されます",
+        "step3Body": "誰でも見られます。国名は許可した場合のみ表示されます。「自分の投稿」からいつでも削除できます。",
+        "gotIt": "わかりました"
+      },
+      "reminder": {
+        "title": "今日の礼拝を共有しましょう",
+        "body": "今日の礼拝をコミュニティと共有しませんか？",
+        "bodyAll": "今日は5回の礼拝をすべて終えました。コミュニティと共有しませんか？"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "今日の目標：ハトム1回。毎日数ページ読んで、みんなでクルアーンを読み終えましょう。",
+        "m1": "今日の目標：イシャーの後に、スブハーナッラー33回、アルハムドゥリッラー33回、アッラーフ・アクバル33回。",
+        "m2": "今日は、5回の礼拝をすべて時間どおりに、みんなで行うことを目指しましょう。",
+        "m3": "今日の目標：クルアーンを1ページ読むこと。小さな一歩も大切です。",
+        "m4": "今日の目標：スブハーナッラー100回。終えたらコミュニティと共有しましょう。",
+        "m5": "今週は、ドゥアーのリストを書いて、その中に兄弟姉妹を思い起こしましょう。",
+        "m6": "今日は、誰かのために施しや善い行いをしてみませんか。"
+      }
+    },
+    "coach": {
+      "dismiss": "了解",
+      "ummah": {
+        "title": "ウンマ",
+        "body": "達成した礼拝や善行をコミュニティと共有したり、今日みんなが共有した内容を見たりできます。"
+      },
+      "qibla": {
+        "title": "キブラコンパス",
+        "body": "スマートフォンを水平に持ち、矢印がカアバの方向を指すまで回してください。"
+      },
+      "silentMode": {
+        "title": "サイレントモード",
+        "body": "スマートフォンがサイレントまたはバイブの時は、アザーンが静かに通知されます。設定で変更できます。"
+      }
     }
   }
 }

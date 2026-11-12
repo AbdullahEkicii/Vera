@@ -30,6 +30,8 @@ import { ScalePressable } from './ScalePressable';
 import { HatimTrackerCard } from './HatimTrackerCard';
 import { QuranPrayersModal } from './QuranPrayersModal';
 import { getVerseBookmarks, removeVerseBookmark, VerseBookmark } from '../services/quranBookmarks';
+import { directionalIconStyle } from '../utils/rtl';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const JUZ_LIST = Array.from({ length: 30 }, (_, i) => i + 1);
 
@@ -79,7 +81,7 @@ const FeaturedSurahCard = React.memo(({ surah }: { surah: SurahMeta }) => {
       onPress={handlePress}
     >
       <View style={[styles.featuredArabicBadge, { backgroundColor: theme.colors.primary + '18' }]}>
-        <Text style={[styles.featuredArabicText, { color: theme.colors.primary }]}>
+        <Text style={[styles.featuredArabicText, { color: theme.colors.primaryText }]}>
           {surah.nameArabic}
         </Text>
       </View>
@@ -91,7 +93,7 @@ const FeaturedSurahCard = React.memo(({ surah }: { surah: SurahMeta }) => {
           {t('quran.verseCount', { count: surah.verseCount })}
         </Text>
         {navigating && progress > 0 && progress < 100 && (
-          <Text style={{ color: theme.colors.primary, fontSize: 10, marginTop: 4 }}>
+          <Text style={{ color: theme.colors.primaryText, fontSize: 12, marginTop: 4 }}>
             {t('quran.downloading', { progress: Math.round(progress * 100) / 100 }) || `%${Math.round(progress)} İndiriliyor...`}
           </Text>
         )}
@@ -135,7 +137,7 @@ const JuzListItem = React.memo(({ juz }: { juz: number }) => {
       {/* Ana satır */}
       <ScalePressable style={styles.juzRow} onPress={handleMainPress} activeScale={0.98}>
         <View style={[styles.juzBadge, { backgroundColor: theme.colors.primary + '18' }]}>
-          <Text style={[styles.juzBadgeText, { color: theme.colors.primary }]}>{juz}</Text>
+          <Text style={[styles.juzBadgeText, { color: theme.colors.primaryText }]}>{juz}</Text>
         </View>
 
         <View style={styles.juzInfo}>
@@ -146,12 +148,12 @@ const JuzListItem = React.memo(({ juz }: { juz: number }) => {
               : ''}
           </Text>
           {status === 'Downloading' && (
-            <Text style={{ color: theme.colors.primary, fontSize: 11, marginTop: 2 }}>
+            <Text style={{ color: theme.colors.primaryText, fontSize: 12, marginTop: 2 }}>
               {t('quran.downloading', { progress })}
             </Text>
           )}
           {status === 'NotDownloaded' && (
-            <Text style={{ color: theme.colors.textSecondary, fontSize: 11, marginTop: 2 }}>
+            <Text style={{ color: theme.colors.textSecondary, fontSize: 12, marginTop: 2 }}>
               {t('quran.downloadToRead')}
             </Text>
           )}
@@ -166,6 +168,9 @@ const JuzListItem = React.memo(({ juz }: { juz: number }) => {
               style={[styles.expandButton, { backgroundColor: theme.colors.surfaceStrong }]}
               hitSlop={8}
               activeScale={0.9}
+              accessibilityRole="button"
+              accessibilityLabel={`${t('quran.juzNum', { num: juz })}: ${expanded ? t('common.collapse', 'Collapse') : t('common.expand', 'Expand')}`}
+              accessibilityState={{ expanded }}
             >
               <Feather name={expanded ? 'chevron-up' : 'chevron-down'} size={16} color={theme.colors.textSecondary} />
             </ScalePressable>
@@ -192,12 +197,12 @@ const JuzListItem = React.memo(({ juz }: { juz: number }) => {
               </View>
               <View style={styles.surahNameContainer}>
                 <Text style={[styles.surahTurkishName, { color: theme.colors.text }]}>{surah.nameTurkish}</Text>
-                <Text style={[styles.surahArabicName, { color: theme.colors.primary }]}>{surah.nameArabic}</Text>
+                <Text style={[styles.surahArabicName, { color: theme.colors.primaryText }]}>{surah.nameArabic}</Text>
               </View>
               <Text style={[styles.surahVerseCount, { color: theme.colors.textSecondary }]}>
                 {t('quran.verseCount', { count: surah.verseCount })}
               </Text>
-              <Feather name="chevron-right" size={14} color={theme.colors.border} />
+              <Feather name="chevron-right" size={14} color={theme.colors.border} style={directionalIconStyle} />
             </ScalePressable>
           ))}
         </Animated.View>
@@ -271,7 +276,7 @@ const SurahSearchModal = ({
         {/* Modal Header */}
         <View style={[styles.modalHeader, { borderBottomColor: theme.colors.border }]}>
           <Text style={[styles.modalTitle, { color: theme.colors.text }]}>{t('quran.allSurahs')}</Text>
-          <Pressable onPress={onClose} style={[styles.modalClose, { backgroundColor: theme.colors.surfaceStrong }]}>
+          <Pressable onPress={onClose} accessibilityRole="button" accessibilityLabel={t('common.close', 'Close')} style={[styles.modalClose, { backgroundColor: theme.colors.surfaceStrong }]}>
             <Feather name="x" size={20} color={theme.colors.text} />
           </Pressable>
         </View>
@@ -300,7 +305,7 @@ const SurahSearchModal = ({
               onPress={() => handleSelect(item)}
             >
               <View style={[styles.modalSurahBadge, { backgroundColor: theme.colors.primary + '15' }]}>
-                <Text style={[styles.modalSurahNumber, { color: theme.colors.primary }]}>{item.number}</Text>
+                <Text style={[styles.modalSurahNumber, { color: theme.colors.primaryText }]}>{item.number}</Text>
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={[styles.modalSurahTurkish, { color: theme.colors.text }]}>{item.nameTurkish}</Text>
@@ -310,7 +315,7 @@ const SurahSearchModal = ({
               </View>
               {navigating && downloadingJuz === item.juz ? (
                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                   <Text style={{ color: theme.colors.primary, fontSize: 11 }}>
+                   <Text style={{ color: theme.colors.primaryText, fontSize: 11 }}>
                      {progress > 0 && progress < 100
                        ? `${Math.round(progress)}%`
                        : t('quran.downloadingShort', 'İndiriliyor...')}
@@ -318,7 +323,7 @@ const SurahSearchModal = ({
                    <ActivityIndicator size="small" color={theme.colors.primary} />
                  </View>
               ) : (
-                <Feather name="chevron-right" size={14} color={theme.colors.border} />
+                <Feather name="chevron-right" size={14} color={theme.colors.border} style={directionalIconStyle} />
               )}
             </ScalePressable>
           )}
@@ -330,6 +335,9 @@ const SurahSearchModal = ({
 
 // ── Ana Ekran ────────────────────────────────────────────────────────────────
 export const QuranScreen = ({ isActive = true }: { isActive?: boolean }) => {
+  const insets = useSafeAreaInsets();
+  // Edge-to-edge / cut-out safe: StatusBar.currentHeight alone can be 0 or stale.
+  const topInset = Math.max(insets.top, StatusBar.currentHeight ?? 0);
   const { t } = useTranslation();
   const { theme, isDark, isFullscreen } = useTheme();
   const [activeTab, setActiveTab] = useState<'browse' | 'history' | 'bookmarks'>('browse');
@@ -362,8 +370,8 @@ export const QuranScreen = ({ isActive = true }: { isActive?: boolean }) => {
       <View style={styles.sectionHeader}>
         <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>{t('quran.featuredSurahs')}</Text>
         <Pressable onPress={() => setSurahModalVisible(true)} style={styles.seeAllButton}>
-          <Text style={[styles.seeAllText, { color: theme.colors.primary }]}>{t('quran.seeAll')}</Text>
-          <Feather name="chevron-right" size={14} color={theme.colors.primary} />
+          <Text style={[styles.seeAllText, { color: theme.colors.primaryText }]}>{t('quran.seeAll')}</Text>
+          <Feather name="chevron-right" size={14} color={theme.colors.primary} style={directionalIconStyle} />
         </Pressable>
       </View>
 
@@ -392,11 +400,6 @@ export const QuranScreen = ({ isActive = true }: { isActive?: boolean }) => {
         {JUZ_LIST.map((juz) => (
           <React.Fragment key={juz}>
             <JuzListItem juz={juz} />
-            {(juz === 9 || juz === 18 || juz === 27) && (
-              <View style={{ marginVertical: 8 }}>
-                <BannerAdSlot placement="quran_browse_list" isVisible={isActive && activeTab === 'browse'} lazy={true} />
-              </View>
-            )}
           </React.Fragment>
         ))}
       </View>
@@ -420,7 +423,7 @@ export const QuranScreen = ({ isActive = true }: { isActive?: boolean }) => {
             </Text>
           </View>
           <View style={[styles.goButton, { backgroundColor: theme.colors.primary }]}>
-            <Feather name="arrow-right" size={18} color="#FFF" />
+            <Feather name="arrow-right" size={18} color="#FFF" style={directionalIconStyle} />
           </View>
         </Pressable>
       ) : (
@@ -488,7 +491,7 @@ export const QuranScreen = ({ isActive = true }: { isActive?: boolean }) => {
                 <Text style={[styles.historyTitle, { color: theme.colors.text }]}>{b.surahName} - {b.ayahNo}</Text>
                 <Text style={[styles.historyDetails, { color: theme.colors.textSecondary }]} numberOfLines={1}>{b.arabicText}</Text>
               </View>
-              <Pressable onPress={() => handleRemoveBookmark(b.surahNo, b.ayahNo)} hitSlop={10}>
+              <Pressable onPress={() => handleRemoveBookmark(b.surahNo, b.ayahNo)} hitSlop={14} accessibilityRole="button" accessibilityLabel={`${t('common.remove', 'Remove')}: ${b.surahName} ${b.ayahNo}`}>
                 <Feather name="trash-2" size={18} color={theme.colors.textSecondary} />
               </Pressable>
             </Pressable>
@@ -502,7 +505,7 @@ export const QuranScreen = ({ isActive = true }: { isActive?: boolean }) => {
     <View style={[styles.container, { backgroundColor: isDark ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.3)' }]}>
       <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} translucent backgroundColor="transparent" hidden={isFullscreen} />
 
-      <View style={[styles.header, { backgroundColor: 'transparent' }]}>
+      <View style={[styles.header, { paddingTop: topInset + 16 }, { backgroundColor: 'transparent' }]}>
         <View>
           <Text style={[styles.headerTitle, { color: theme.colors.text }]}>{t('quran.title')}</Text>
           <Text style={[styles.headerSubtitle, { color: theme.colors.textSecondary }]}>
@@ -512,12 +515,16 @@ export const QuranScreen = ({ isActive = true }: { isActive?: boolean }) => {
         <View style={{ flexDirection: 'row', gap: 10 }}>
           <Pressable
             onPress={() => setSurahModalVisible(true)}
+            accessibilityRole="button"
+            accessibilityLabel={t('quran.searchPlaceholder', 'Surah name or number...')}
             style={[styles.searchIconButton, { backgroundColor: isDark ? '#1C1C1E' : '#FFF', borderColor: theme.colors.border }]}
           >
             <Feather name="search" size={20} color={theme.colors.text} />
           </Pressable>
           <Pressable
             onPress={() => setStyleSelectorVisible(true)}
+            accessibilityRole="button"
+            accessibilityLabel={t('quran.styleTitle', 'Quran Script Selection')}
             style={[styles.searchIconButton, { backgroundColor: isDark ? '#1C1C1E' : '#FFF', borderColor: theme.colors.border }]}
           >
             <Feather name="settings" size={20} color={theme.colors.text} />
@@ -579,7 +586,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'ios' ? 60 : (StatusBar.currentHeight ?? 24) + 16,
     paddingBottom: 12,
   },
   headerTitle: {
@@ -592,9 +598,9 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   searchIconButton: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -689,7 +695,7 @@ const styles = StyleSheet.create({
   },
   featuredVerseCount: {
     fontFamily: typography.fontFamily.regular,
-    fontSize: 11,
+    fontSize: 12,
   },
   // Cüzler
   juzList: { gap: 10 },
@@ -764,7 +770,7 @@ const styles = StyleSheet.create({
   },
   surahNumberText: {
     fontFamily: typography.fontFamily.medium,
-    fontSize: 11,
+    fontSize: 12,
   },
   surahNameContainer: { flex: 1 },
   surahTurkishName: {
@@ -777,8 +783,8 @@ const styles = StyleSheet.create({
   },
   surahVerseCount: {
     fontFamily: typography.fontFamily.regular,
-    fontSize: 11,
-    marginRight: 4,
+    fontSize: 12,
+    marginEnd: 4,
   },
   // History tab
   lastReadCard: {
@@ -854,9 +860,9 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   modalClose: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
   },

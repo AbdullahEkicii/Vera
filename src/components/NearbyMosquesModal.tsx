@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   Modal,
   View,
@@ -26,14 +26,20 @@ interface Props {
   latitude: number | null;
   longitude: number | null;
   currentCity?: string;
+  /** Offered in the no-location state; the modal closes itself before calling it. */
+  onChooseCity?: () => void;
 }
 
-export function NearbyMosquesModal({ visible, onClose, latitude, longitude, currentCity }: Props) {
+export function NearbyMosquesModal({ visible, onClose, latitude, longitude, currentCity, onChooseCity }: Props) {
   const { t } = useTranslation();
   const { isDark } = useTheme();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   const [mosques, setMosques] = useState<MosqueItem[]>([]);
+  // Ignore results of a superseded request (retry, location change, modal closed).
+  const requestIdRef = useRef(0);
+  const hasLocation = latitude != null && longitude != null;
 
   useEffect(() => {
     if (visible) {
@@ -42,29 +48,38 @@ export function NearbyMosquesModal({ visible, onClose, latitude, longitude, curr
   }, [visible]);
 
   const loadMosques = useCallback(async () => {
-    if (!latitude || !longitude) return;
+    if (latitude == null || longitude == null) return;
+    const requestId = ++requestIdRef.current;
     setLoading(true);
+    setLoadError(false);
     try {
       const list = await fetchNearbyMosques(latitude, longitude);
+      if (requestId !== requestIdRef.current) return;
       setMosques(list);
     } catch (e) {
+      if (requestId !== requestIdRef.current) return;
       console.warn('Error loading mosques:', e);
+      setMosques([]);
+      setLoadError(true);
     } finally {
-      setLoading(false);
+      if (requestId === requestIdRef.current) setLoading(false);
     }
   }, [latitude, longitude]);
 
   useEffect(() => {
-    if (visible && latitude && longitude) {
+    if (visible && latitude != null && longitude != null) {
       loadMosques();
     }
+    return () => {
+      requestIdRef.current++;
+    };
   }, [visible, latitude, longitude, loadMosques]);
 
   const handleOpenGeneralSearch = () => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     } catch {}
-    const query = encodeURIComponent(`Cami ${currentCity || ''}`);
+    const query = encodeURIComponent(`${t('mosques.searchQuery', 'Cami')} ${currentCity || ''}`.trim());
     const url = Platform.select({
       ios: `maps:0,0?q=${query}`,
       android: `geo:0,0?q=${query}`,
@@ -87,7 +102,7 @@ export function NearbyMosquesModal({ visible, onClose, latitude, longitude, curr
   const cardBg = isDark ? '#1E160C' : '#FFFFFF';
   const cardBorder = isDark ? 'rgba(212, 175, 55, 0.25)' : 'rgba(0,0,0,0.08)';
   const textPrimary = isDark ? '#FDF8ED' : '#1A1A24';
-  const textSecondary = isDark ? 'rgba(253, 248, 237, 0.65)' : 'rgba(26,26,36,0.6)';
+  const textSecondary = isDark ? 'rgba(253, 248, 237, 0.75)' : 'rgba(26,26,36,0.75)';
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
@@ -108,17 +123,59 @@ export function NearbyMosquesModal({ visible, onClose, latitude, longitude, curr
                 </Text>
               </View>
             </View>
-            <Pressable onPress={onClose} hitSlop={10} style={styles.closeBtn}>
+            <Pressable onPress={onClose} hitSlop={10} style={styles.closeBtn} accessibilityRole="button" accessibilityLabel={t('common.close', 'Close')}>
               <Feather name="x" size={20} color={textSecondary} />
             </Pressable>
           </View>
 
-          {loading ? (
+          {!hasLocation ? (
+            <View style={styles.centerBox}>
+              <Ionicons name="location-outline" size={48} color="#D4AF37" style={{ marginBottom: 12 }} />
+              <Text style={[styles.emptyTitle, { color: textPrimary }]}>
+                {t('mosques.noLocationTitle', 'Konum Bulunamadı')}
+              </Text>
+              <Text style={[styles.emptyDesc, { color: textSecondary }]}>
+                {t('mosques.noLocationDesc', 'Yakındaki camileri görmek için önce bir şehir seçin veya konum erişimine izin verin.')}
+              </Text>
+              {onChooseCity && (
+                <Pressable
+                  style={styles.searchMapBtn}
+                  onPress={() => { onClose(); setTimeout(onChooseCity, 250); }} // let this modal dismiss before the next opens
+                  accessibilityRole="button"
+                >
+                  <LinearGradient colors={['#D4AF37', '#B8860B']} style={styles.searchMapBtnGrad}>
+                    <Feather name="map-pin" size={16} color="#1A1207" style={{ marginEnd: 6 }} />
+                    <Text style={styles.searchMapBtnText}>
+                      {t('mosques.chooseCity', 'Şehir Seç')}
+                    </Text>
+                  </LinearGradient>
+                </Pressable>
+              )}
+            </View>
+          ) : loading ? (
             <View style={styles.centerBox}>
               <ActivityIndicator size="large" color="#D4AF37" />
               <Text style={[styles.loadingText, { color: textSecondary }]}>
                 {t('mosques.loading', 'Yakındaki camiler taranıyor...')}
               </Text>
+            </View>
+          ) : loadError ? (
+            <View style={styles.centerBox}>
+              <Ionicons name="cloud-offline-outline" size={48} color="#D4AF37" style={{ marginBottom: 12 }} />
+              <Text style={[styles.emptyTitle, { color: textPrimary }]}>
+                {t('mosques.errorTitle', 'Camiler Yüklenemedi')}
+              </Text>
+              <Text style={[styles.emptyDesc, { color: textSecondary }]}>
+                {t('mosques.errorDesc', 'Bağlantı sorunu yaşandı. İnternet bağlantınızı kontrol edip tekrar deneyin.')}
+              </Text>
+              <Pressable style={styles.searchMapBtn} onPress={loadMosques} accessibilityRole="button">
+                <LinearGradient colors={['#D4AF37', '#B8860B']} style={styles.searchMapBtnGrad}>
+                  <Feather name="refresh-cw" size={16} color="#1A1207" style={{ marginEnd: 6 }} />
+                  <Text style={styles.searchMapBtnText}>
+                    {t('common.retry', 'Tekrar Dene')}
+                  </Text>
+                </LinearGradient>
+              </Pressable>
             </View>
           ) : mosques.length === 0 ? (
             <View style={styles.centerBox}>
@@ -129,9 +186,9 @@ export function NearbyMosquesModal({ visible, onClose, latitude, longitude, curr
               <Text style={[styles.emptyDesc, { color: textSecondary }]}>
                 {t('mosques.emptyDesc', 'Harita üzerinde doğrudan yakındaki tüm camileri görüntüleyebilirsiniz.')}
               </Text>
-              <Pressable style={styles.searchMapBtn} onPress={handleOpenGeneralSearch}>
+              <Pressable style={styles.searchMapBtn} onPress={handleOpenGeneralSearch} accessibilityRole="button">
                 <LinearGradient colors={['#D4AF37', '#B8860B']} style={styles.searchMapBtnGrad}>
-                  <Feather name="map" size={16} color="#1A1207" style={{ marginRight: 6 }} />
+                  <Feather name="map" size={16} color="#1A1207" style={{ marginEnd: 6 }} />
                   <Text style={styles.searchMapBtnText}>
                     {t('mosques.openInMaps', 'Haritada Ara')}
                   </Text>
@@ -164,7 +221,7 @@ export function NearbyMosquesModal({ visible, onClose, latitude, longitude, curr
                       )}
 
                       <View style={styles.distanceBadge}>
-                        <Feather name="navigation" size={11} color="#10B981" style={{ marginRight: 4 }} />
+                        <Feather name="navigation" size={11} color="#10B981" style={{ marginEnd: 4 }} />
                         <Text style={styles.distanceText}>{item.distanceFormatted}</Text>
                       </View>
                     </View>
@@ -180,7 +237,7 @@ export function NearbyMosquesModal({ visible, onClose, latitude, longitude, curr
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 1 }}
                       >
-                        <Ionicons name="navigate" size={15} color="#1A1207" style={{ marginRight: 4 }} />
+                        <Ionicons name="navigate" size={15} color="#1A1207" style={{ marginEnd: 4 }} />
                         <Text style={styles.directionsText}>
                           {t('mosques.directionsBtn', 'Yol Tarifi')}
                         </Text>
@@ -205,8 +262,8 @@ const styles = StyleSheet.create({
   },
   sheetContainer: {
     maxHeight: '88%',
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    borderTopStartRadius: 28,
+    borderTopEndRadius: 28,
     overflow: 'hidden',
   },
   sheetHeader: {
@@ -228,7 +285,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginEnd: 12,
   },
   sheetTitle: {
     fontFamily: 'Outfit_700Bold',
@@ -241,6 +298,10 @@ const styles = StyleSheet.create({
   },
   closeBtn: {
     padding: 6,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   centerBox: {
     padding: 36,
@@ -294,7 +355,7 @@ const styles = StyleSheet.create({
   },
   cardInfoCol: {
     flex: 1,
-    marginRight: 12,
+    marginEnd: 12,
   },
   cardHeaderRow: {
     flexDirection: 'row',
@@ -308,7 +369,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(212, 175, 55, 0.15)',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 6,
+    marginEnd: 6,
   },
   mosqueName: {
     fontFamily: 'Outfit_600SemiBold',
@@ -331,7 +392,7 @@ const styles = StyleSheet.create({
   },
   distanceText: {
     fontFamily: 'Outfit_600SemiBold',
-    fontSize: 11,
+    fontSize: 12,
     color: '#10B981',
   },
   directionsBtn: {

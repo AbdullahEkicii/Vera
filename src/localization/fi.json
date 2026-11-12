@@ -10,7 +10,13 @@
       "cancel": "Peruuta",
       "save": "Tallenna",
       "ok": "OK",
-      "close": "Sulje"
+      "close": "Sulje",
+      "back": "Takaisin",
+      "clear": "Tyhjennä",
+      "remove": "Poista",
+      "expand": "Laajenna",
+      "collapse": "Tiivistä",
+      "share": "Jaa"
     },
     "home": {
       "title": "Rukousajat",
@@ -42,7 +48,13 @@
       "loadingTimes": "Ladataan rukousaikoja...",
       "locationPermissionTitle": "Sijaintilupa ei käytettävissä",
       "locationPermissionDesc": "Näytetään oletuskaupunki. Voit valita kaupungin tai myöntää sijaintiluvan.",
-      "estimatedTimesNotice": "Koska internetyhteyttä ei ole, rukousajat on laskettu laitteessa (arvio)."
+      "estimatedTimesNotice": "Koska internetyhteyttä ei ole, rukousajat on laskettu laitteessa (arvio).",
+      "adjustTimeHint": "Säädä aikaa painamalla pitkään",
+      "moreTools": "Lisää",
+      "locationFetchFailedTitle": "Sijaintia ei löytynyt",
+      "locationFetchFailedDesc": "GPS-sijaintiasi ei saatu. Voit valita kaupungin tai yrittää myöhemmin uudelleen.",
+      "sourceA11y": "Rukousaikojen laskentatapa",
+      "highLatNote": "Korkea leveysaste: Fajr/Isha ovat likimääräisiä"
     },
     "settings": {
       "title": "Asetukset",
@@ -60,7 +72,11 @@
         "egypt": "Egyptin viranomaiset",
         "karachi": "Karachi (Pakistan)",
         "france": "Ranska (UOIF)",
-        "russia": "Venäjä"
+        "russia": "Venäjä",
+        "kemenag": "Indonesia (Kemenag)",
+        "jakim": "Malesia (JAKIM)",
+        "muis": "Singapore (MUIS)",
+        "tehran": "Iran (Teheranin yliopisto)"
       },
       "palettes": {
         "default": "Oletus",
@@ -93,7 +109,7 @@
       "persistentNotif": "Jatkuva rukouslaskenta",
       "persistentNotifDesc": "Seuraa seuraavaan rukoukseen jäljellä olevaa aikaa livenä lukitusnäytöltäsi ja ilmoituspaneelistasi.",
       "widgetTitle": "Aloitusnäytön widget",
-      "addWidget": "📌 Lisää widget aloitusnäyttöön!",
+      "addWidget": "Lisää widget aloitusnäyttöön!",
       "addWidgetDesc": "Katso rukousajat ja suora lähtölaskenta suoraan puhelimesi aloitusnäytöltä.",
       "general": "Yleiset asetukset",
       "fullscreen": "Koko näytön tila",
@@ -130,7 +146,32 @@
       "username": "Käyttäjätunnus",
       "password": "Salasana",
       "loggingIn": "Kirjaudutaan sisään...",
-      "login": "Kirjaudu sisään"
+      "login": "Kirjaudu sisään",
+      "remindersTitle": "Muistutukset ja ilmoitukset",
+      "dailyContentNotif": "Päivän jae / hadith",
+      "dailyContentNotifDesc": "Lyhyt päivittäinen muistutus keskipäivän rukouksen jälkeen.",
+      "quranReminderNotif": "Koraanin lukemisen muistutus",
+      "quranReminderNotifDesc": "Iltamuistutus joka toinen päivä.",
+      "greetingNotif": "Perjantain ja pyhäpäivien tervehdykset",
+      "greetingNotifDesc": "Muistutukset perjantaisin ja uskonnollisina päivinä.",
+      "announcementsNotif": "Ilmoitukset",
+      "announcementsNotifDesc": "Uutisia ja kampanjaviestejä Veralta.",
+      "locationTitle": "Sijainti",
+      "changeCity": "Vaihda kaupunki",
+      "locationNotSet": "Ei vielä valittu",
+      "locationFromGps": "Seuraa puhelimen sijaintia",
+      "locationFromManual": "Kaupunki valittu käsin",
+      "locationHint": "Valitse kaupunki tai käytä puhelimen sijaintia.",
+      "useMyLocation": "Käytä nykyistä sijaintiani",
+      "fullscreenDesc": "Piilottaa tilapalkin (kello, akku) ja navigointipalkin.",
+      "recommended": "Suositeltu",
+      "asrSchoolTitle": "Asr-laskenta",
+      "asrStandard": "Vakio (šafiilainen, malikilainen, hanbalilainen)",
+      "asrHanafi": "Hanafilainen",
+      "asrSchoolDesc": "Hanafilainen koulukunta siirtää Asrin myöhemmäksi (varjo kaksinkertainen esineeseen nähden). Se on tavallinen Etelä-Aasiassa.",
+      "rateApp": "Arvostele Vera",
+      "privacyPolicy": "Tietosuojakäytäntö",
+      "restartForDirection": "Sulje ja avaa sovellus uudelleen ottaaksesi uuden tekstin suunnan käyttöön."
     },
     "qibla": {
       "title": "Qibla",
@@ -148,12 +189,12 @@
       "status": "Tila",
       "aligned": "Kohdistettu",
       "aligning": "Käännä",
-      "alignedSuccess": "🕌 Olet kohti Qiblaa!",
+      "alignedSuccess": "Olet kohti Qiblaa!",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "Kuinka käyttää?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "Otsikko",
       "calibrateBtn": "Kalibroi kompassi",
@@ -162,8 +203,15 @@
       "magneticShield": "Magneettikentän suoja",
       "magneticShieldDesc": "Anturin tarkkuus optimoitu. Pidä poissa magneettikoteloista.",
       "levelStatus": "Vaakasuora taso (kupla)",
-      "levelFlat": "Tasainen ja rinnakkainen ✓",
-      "gotIt": "Selvä"
+      "levelFlat": "Tasainen ja rinnakkainen",
+      "gotIt": "Selvä",
+      "noLocationTitle": "Sijainti tarvitaan",
+      "noLocationDesc": "Qiblan suunta riippuu sijainnistasi. Valitse kaupunki tai salli sijainnin käyttö.",
+      "useMyLocation": "Käytä sijaintiani",
+      "chooseCity": "Valitse kaupunki",
+      "lowAccuracy": "Kompassin tarkkuus on heikko. Kalibroi napauttamalla.",
+      "magneticNorthNote": "Käytössä magneettinen pohjoinen: suunta voi poiketa muutaman asteen.",
+      "errorNoSensor": "Kompassianturi ei vastaa. Tässä laitteessa ei ehkä ole kompassia."
     },
     "daily": {
       "title": "Päivittäinen inspiraatio",
@@ -175,7 +223,8 @@
       "hadithBody": "Napsauta lukeaksesi päivän hadithin!",
       "quoteBody": "Napsauta lukeaksesi päivän sitaatin!",
       "subtitle": "Tälle päivälle valittu jae, hadith ja sitaatti",
-      "shareHint": "Jaa kortti tarinakuvana napauttamalla sitä"
+      "shareHint": "Jaa kortti tarinakuvana napauttamalla sitä",
+      "autoTranslated": "Automaattinen käännös"
     },
     "search": {
       "title": "Valitse sijainti",
@@ -184,7 +233,10 @@
       "recent": "Viimeisimmät haut",
       "useGPS": "Käytä nykyistä sijaintia",
       "gpsDenied": "Sijaintilupa hylätty.",
-      "gpsError": "Sijainnin hakeminen epäonnistui."
+      "gpsError": "Sijainnin hakeminen epäonnistui.",
+      "searchFailed": "Haku epäonnistui, tarkista yhteytesi.",
+      "pin": "Tallenna kaupunki",
+      "unpin": "Poista kiinnitys"
     },
     "notifications": {
       "exactAlert": "Rukousaian ilmoitus",
@@ -237,7 +289,8 @@
         "dailyName": "Päivittäinen inspiraatio",
         "dailyDesc": "Päivittäinen säe, hadith tai lainaus saapuu Dhuhrin ja Asrin välille.",
         "persistentName": "Lukitusnäyttö ja tilapalkki",
-        "persistentDesc": "Näyttää seuraavan rukouksen nimen ja reaaliaikaisen lähtölaskennan ilmoituspaneelissa ja lukitusnäytössä."
+        "persistentDesc": "Näyttää seuraavan rukouksen nimen ja reaaliaikaisen lähtölaskennan ilmoituspaneelissa ja lukitusnäytössä.",
+        "announcements": "Tiedotteet"
       },
       "persistentTitle": "🕌 {{prayer}} alkaa"
     },
@@ -408,7 +461,15 @@
       "noBookmarks": "Sinulla ei vielä ole tallennettuja jakeita. Lisää jae painamalla sitä pitkään.",
       "playFromHere": "Toista tästä",
       "juz": "Juz",
-      "downloadingShort": "Ladataan..."
+      "downloadingShort": "Ladataan...",
+      "audioErrorTitle": "Ääntä ei voitu toistaa",
+      "audioErrorMessage": "Resitaatiota ei voitu ladata. Tarkista internetyhteytesi ja yritä uudelleen.",
+      "audioPause": "Keskeytä resitaatio",
+      "audioResume": "Jatka resitaatiota",
+      "audioStop": "Pysäytä resitaatio",
+      "audioPlay": "Toista resitaatio",
+      "fontSmaller": "Pienennä tekstiä",
+      "fontLarger": "Suurenna tekstiä"
     },
     "review": {
       "title": "Tue meitä",
@@ -416,9 +477,9 @@
       "notNow": "Ei nyt",
       "review": "Arvostele",
       "subtitle": "Arvioi kokemuksesi tähdistä",
-      "fiveStarTitle": "Olemme innoissamme kuullessamme sen! 🌟",
+      "fiveStarTitle": "Olemme innoissamme kuullessamme sen!",
       "fiveStarSubtitle": "Haluatko tukea Veraa 5 tähden luokituksella?",
-      "rateOnStore": "🌟 Anna 5 tähteä ja tuki",
+      "rateOnStore": "Anna 5 tähteä ja tuki",
       "ratingLabels": {
         "1": "Tarvitsee parannusta",
         "2": "Reilu",
@@ -426,11 +487,11 @@
         "4": "Erittäin hyvä",
         "5": "Erinomainen!"
       },
-      "feedbackTitle": "Auta meitä kehittymään 💬",
+      "feedbackTitle": "Auta meitä kehittymään",
       "feedbackSubtitle": "Jaa ajatuksesi ja ehdotuksesi, jotta voimme tehdä Verasta entistä paremman.",
       "feedbackPlaceholder": "Kirjoita ehdotuksesi, ideasi tai kohtaamasi ongelmat...",
       "sendFeedback": "Lähetä palautetta",
-      "thankYouTitle": "Palautetta saatu! 🤲",
+      "thankYouTitle": "Palautetta saatu!",
       "thankYouSubtitle": "Palautteesi on meille erittäin arvokasta. Teemme kovasti töitä tehdäksemme Verasta entistä paremman.",
       "close": "Lähellä"
     },
@@ -453,6 +514,8 @@
       "title": "Päivittäinen rukousseuranta",
       "completed": "Valmis",
       "dayStreak": "Päivän putki",
+      "restartHint": "Voit aloittaa uudelleen tänään",
+      "weekActiveDays": "{{count}} päivää viimeisen 7 päivän aikana",
       "viewHistory": "Näytä koko historia",
       "historyTitle": "Rukoushistoria",
       "historySubtitle": "Rukouslokit viimeisten 30 päivän ajalta",
@@ -483,7 +546,8 @@
     "imsakiye": {
       "title": "Viikoittainen Imsakiye",
       "subtitle": "Seuraavan 7 päivän aikataulut",
-      "date": "Päivämäärä"
+      "date": "Päivämäärä",
+      "rangeDays": "{{n}} päivää"
     },
     "religious": {
       "title": "Uskonnolliset päivät",
@@ -500,12 +564,12 @@
       "dismissBtn": "Ei nyt"
     },
     "names": {
-      "title": "Allahin ja Duasin nimet",
+      "title": "Allahin nimet ja Dua",
       "namesSubtitle": "Allahin 99 kaunista nimeä",
       "duasSubtitle": "Jokapäiväiset rukoukset",
       "meaningLabel": "Merkitys",
       "tabNames": "99 nimeä",
-      "tabDuas": "Duas",
+      "tabDuas": "Dua",
       "namesCount": "{{count}} Nimet",
       "duasCount": "{{count}} Duas",
       "tapHint": "Napauta saadaksesi lisätietoja",
@@ -541,20 +605,20 @@
       "verifiedMethodDesc": "Alueesi tarkin islamilainen menetelmä valitaan automaattisesti.",
       "notificationsTitle": "Adhan- ja rukoushälytykset",
       "notificationsDesc": "Vastaanota lempeitä tai äänimuistutuksia rukousaikoina.",
-      "startBtn": "Aloita Veran käyttö 🌟",
+      "startBtn": "Aloita Veran käyttö",
       "featureQuran": "Koraani ja ääni",
       "featureQibla": "Qibla",
       "featureDhikr": "Dhikr-laskuri",
-      "backBtn": "← Palaa takaisin",
-      "playTestSound": "Esikatselu Adhan Sound 🔊",
-      "stopTestSound": "Stop Sound ⏹️",
-      "nextStepBtn": "Jatka →",
+      "backBtn": "Palaa takaisin",
+      "playTestSound": "Esikatselu Adhan Sound",
+      "stopTestSound": "Stop Sound",
+      "nextStepBtn": "Jatka",
       "step3Title": "Keskeytymätön kokemus",
       "step3Subtitle": "Seuraa rukousaikoja suorana aloitusnäytöltäsi ja varmista luotettavat adhan-ilmoitukset.",
-      "widgetTitle": "📌 Lisää widget aloitusnäyttöön",
+      "widgetTitle": "Lisää widget aloitusnäyttöön",
       "widgetDesc": "Katso suoria lähtölaskentaa avaamatta sovellusta.",
       "widgetAdded": "Widget lisätty onnistuneesti!",
-      "batteryTitle": "🔋 Virransäästövapautus",
+      "batteryTitle": "Virransäästövapautus",
       "batteryDesc": "Suositellaan Xiaomin ja Samsungin akun optimoinnin kytkemistä pois päältä, jotta saat oikea-aikaiset ilmoitukset.",
       "locationReassurance": "Voit muuttaa tätä milloin tahansa myöhemmin Asetuksista.",
       "notifDenied": "Ilmoituslupaa ei myönnetty. Adhan-hälytykset eivät ehkä toimi — voit ottaa ne käyttöön myöhemmin Asetuksista.",
@@ -565,7 +629,10 @@
       "skipConfirm": "Ohita",
       "locationDenied": "Sijaintilupaa ei myönnetty. Voit valita kaupunkisi luettelosta tai muuttaa tätä myöhemmin Asetuksista.",
       "locationFailed": "Sijaintia ei saatu selville. Voit valita kaupunkisi luettelosta tai muuttaa tätä myöhemmin Asetuksista.",
-      "locationNotSet": "Sijainti ei käytettävissä (lupa evätty)"
+      "locationNotSet": "Sijainti ei käytettävissä (lupa evätty)",
+      "locationNotSetYet": "Ei vielä valittu",
+      "skipLocation": "Ohita toistaiseksi",
+      "currentLocationLabel": "Nykyinen sijainti"
     },
     "weather": {
       "title": "Sääennuste",
@@ -629,9 +696,9 @@
       "titlePlaceholder": "Otsikko (esim. Jummah Mubarak)",
       "messagePlaceholder": "Kirjoita rukouksesi tai tervehdysviestisi...",
       "chooseTheme": "Kortin teema",
-      "shareBtn": "Jaa WhatsAppissa / Storyssa 🌟",
-      "shareImageBtn": "Jaa kuvakortti 🌟",
-      "shareLinkBtn": "Jaa suora kauppalinkki 🔗",
+      "shareBtn": "Jaa WhatsAppissa / Storyssa",
+      "shareImageBtn": "Jaa kuvakortti",
+      "shareLinkBtn": "Jaa suora kauppalinkki",
       "theme": {
         "gold": "Kultainen linja",
         "emerald": "Smaragdikupu",
@@ -649,7 +716,13 @@
       "emptyTitle": "Lähistöltä ei löytynyt moskeijoita",
       "emptyDesc": "Voit tarkastella kaikkia moskeijoita suoraan karttanavigaatiosta.",
       "openInMaps": "Hae Mapsista",
-      "directionsBtn": "Ohjeet"
+      "directionsBtn": "Ohjeet",
+      "searchQuery": "moskeija",
+      "noLocationTitle": "Sijaintia ei löytynyt",
+      "noLocationDesc": "Valitse kaupunki tai salli sijainnin käyttö nähdäksesi lähellä olevat moskeijat.",
+      "errorTitle": "Moskeijoita ei voitu ladata",
+      "errorDesc": "Yhteysongelma. Tarkista internetyhteytesi ja yritä uudelleen.",
+      "chooseCity": "Valitse kaupunki"
     },
     "dailyContent": {
       "preparing": "Ladataan päivittäistä inspiraatiota...",
@@ -666,7 +739,7 @@
       "hatimLabel": "Khatm",
       "page": "Sivu",
       "pagesRemaining": "{{count}} sivua jäljellä Khatm.",
-      "completed": "Onnittelut! Olet suorittanut Khatmin. 🎉",
+      "completed": "Onnittelut! Olet suorittanut Khatmin.",
       "readPageBtn": "Lue sivu {{page}}",
       "jumpPageTitle": "Siirry sivulle / Päivitä edistyminen",
       "jumpPageDesc": "Anna nykyinen sivunumero (1 - 604):",
@@ -676,7 +749,8 @@
       "startNew": "Aloita uusi Khatm",
       "resetHatimBtn": "Nollaa ja aloita uusi Khatm",
       "share": "Jaa khatmini",
-      "shareText": "Sain valmiiksi {{count}}. khatmini, alhamdulillah!"
+      "shareText": "Sain valmiiksi {{count}}. khatmini, alhamdulillah!",
+      "dailyTarget": "Noin {{n}} sivua päivässä valmistumiseen ({{d}} päivää jäljellä)"
     },
     "prayerTree": {
       "title": "Viikoittainen rukouspuu",
@@ -1175,10 +1249,10 @@
     },
     "widget": {
       "guideTitle": "Lisää aloitusnäytölle",
-      "guideDesc": "Paina aloitusnäyttöä pitkään ➔ napauta \"Vimpaimet\" ➔ etsi \"VERA\"-vimpain ja vedä se näytölle.",
+      "guideDesc": "Paina aloitusnäyttöä pitkään > napauta \"Vimpaimet\" > etsi \"VERA\"-vimpain ja vedä se näytölle.",
       "promptTitle": "Lisää vimpain aloitusnäytölle",
       "promptDesc": "Seuraa seuraavaa rukousaikaa ja jäljellä olevia minuutteja suoraan puhelimesi aloitusnäytöltä avaamatta sovellusta.",
-      "addNow": "📌 Lisää aloitusnäytölle",
+      "addNow": "Lisää aloitusnäytölle",
       "notNow": "Myöhemmin"
     },
     "greetingNotif": {
@@ -1191,7 +1265,133 @@
     "errorBoundary": {
       "title": "Jokin meni pieleen",
       "subtitle": "Sovelluksessa tapahtui odottamaton virhe. Yritä uudelleen napauttamalla alla olevaa painiketta.",
-      "retry": "Yritä uudelleen"
+      "retry": "Yritä uudelleen",
+      "clearAndRetry": "Tyhjennä välimuistin tiedot ja yritä uudelleen"
+    },
+    "community": {
+      "tabMine": "Omat julkaisut",
+      "you": "Sinä",
+      "emptyMine": "Sinulla ei ole vielä julkaisuja. Voit jakaa, kun olet suorittanut jotain.",
+      "adLabel": "Mainos",
+      "title": "Yhteisö",
+      "tabToday": "Tänään",
+      "tabWeek": "Viimeiset 7 päivää",
+      "anonymous": "Nimetön veli/sisar",
+      "someone": "Joku",
+      "templates": {
+        "hatimCompleted": "Suoritti khatmin",
+        "achievement": "Avasi saavutuksen {{title}}",
+        "dhikrMilestone": "Joku maasta {{country}} luki {{count}} dhikriä",
+        "prayerFullday": "Kaikki viisi rukousta tehty tänään"
+      },
+      "emptyToday": "Tänään ei ole vielä julkaisuja. Jaa ensimmäinen, kun olet suorittanut jotain.",
+      "emptyWeek": "Ei julkaisuja viimeisten 7 päivän aikana.",
+      "loadFailed": "Syötteen lataus epäonnistui. Vedä alas yrittääksesi uudelleen.",
+      "share": {
+        "title": "Haluatko jakaa tämän Vera-yhteisön kanssa?",
+        "note": "Vain tämä teksti jaetaan. Nimesi ja henkilötietosi pysyvät piilossa.",
+        "submit": "Jaa",
+        "later": "Ei nyt",
+        "failed": "Jakaminen epäonnistui. Yritä myöhemmin uudelleen.",
+        "heading": "Jaa yhteisölle",
+        "sent": "Jaettu",
+        "external": "Jaa toisessa sovelluksessa",
+        "open": "Jaa yhteisölle",
+        "celebrateHint": "Jaa nimettömänä Vera-yhteisölle.",
+        "intro": "Veljet ja sisaret ympäri maailmaa voivat nähdä tämän. Nimesi pysyy piilossa."
+      },
+      "settings": {
+        "title": "Yhteisön asetukset",
+        "participate": "Liity yhteisöön",
+        "participateHint": "Kun pois päältä, jakoehdotuksia ei näytetä. Voit silti lukea syötettä.",
+        "showCountry": "Näytä maani",
+        "showCountryHint": "Kun päällä, maasi nimi näkyy julkaisujesi vieressä. Poiskytkentä koskee vain uusia julkaisuja.",
+        "country": "Maa",
+        "countryManual": "Valittu maa: {{code}}",
+        "countryDevice": "Käytetään laitteesi aluetta.",
+        "useDevice": "Laite",
+        "countryInvalid": "Anna kaksikirjaiminen maakoodi, esim. TR",
+        "myPosts": "Omat julkaisuni",
+        "noPosts": "Sinulla ei ole vielä julkaisuja.",
+        "delete": "Poista",
+        "deleteTitle": "Poistetaanko tämä julkaisu?",
+        "deleteBody": "Se poistetaan syötteestä kaikilta.",
+        "blocked": "Estetyt henkilöt: {{count}}",
+        "clearBlocked": "Tyhjennä estolista",
+        "joined": "Olet yhteisössä",
+        "left": "Yhteisö on pois päältä",
+        "sectionPrivacy": "Yksityisyys",
+        "sectionBlocked": "Estetyt",
+        "countryDeviceTitle": "Laitteen alue",
+        "blockedCount": "{{count}} henkilöä",
+        "change": "Vaihda"
+      },
+      "report": {
+        "action": "Ilmoita",
+        "thanksTitle": "Kiitos",
+        "thanksBody": "Ilmoituksesi tarkistetaan.",
+        "failed": "Ilmoituksen lähetys epäonnistui."
+      },
+      "block": {
+        "action": "Estä tämä henkilö"
+      },
+      "more": {
+        "title": "Julkaisun asetukset"
+      },
+      "discovery": {
+        "title": "Jaa saavutuksesi Vera-yhteisön kanssa",
+        "body": "Jaa khatmit, dhikrit ja rukouspäivät nimettömänä veljien ja sisarten kanssa ympäri maailmaa.",
+        "cta": "Avaa yhteisö"
+      },
+      "summary": {
+        "posts": "julkaisua",
+        "hatim": "Khatm",
+        "achievement": "Saavutus",
+        "dhikr": "Dhikr",
+        "prayer": "Rukous"
+      },
+      "howTo": {
+        "helpLabel": "Näin jaat",
+        "title": "Näin jakaminen toimii",
+        "intro": "Jaa suorittamasi jumalanpalvelus Vera-yhteisön kanssa. Nimesi pysyy piilossa.",
+        "step1Title": "Suorita jumalanpalvelus",
+        "step1Body": "Suorita sovelluksessa viisi rukoustasi, hatim tai dhikr-tavoite.",
+        "step2Title": "Napauta Jaa",
+        "step2Body": "Kun juhlanäkymä ilmestyy, napauta Jaa. Voit käyttää myös jakopainiketta rukous- ja dhikr-näkymissä.",
+        "step3Title": "Julkaisusi näkyy täällä",
+        "step3Body": "Kaikki voivat nähdä sen, ja maasi vain jos sallit sen. Poista se milloin tahansa kohdassa Omat julkaisut.",
+        "gotIt": "Selvä"
+      },
+      "reminder": {
+        "title": "Jaa tämän päivän palvonta",
+        "body": "Haluatko jakaa tämän päivän palvonnan yhteisön kanssa?",
+        "bodyAll": "Suoritit tänään kaikki viisi rukousta. Haluatko jakaa sen yhteisön kanssa?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "Tämän päivän tavoite: yksi hatim. Lue muutama sivu päivässä ja viimeistellään Koraani yhdessä.",
+        "m1": "Tämän päivän tavoite: isha-rukouksen jälkeen 33 Subhanallah, 33 Alhamdulillah ja 33 Allahu Akbar.",
+        "m2": "Pyritään tänään rukoilemaan kaikki viisi rukousta ajallaan yhdessä.",
+        "m3": "Tämän päivän tavoite: lue yksi sivu Koraanista. Pienetkin askeleet merkitsevät.",
+        "m4": "Tämän päivän tavoite: 100 Subhanallah. Jaa se yhteisön kanssa, kun olet valmis.",
+        "m5": "Kirjoita tällä viikolla dua-lista ja muista siinä veljeä tai sisarta.",
+        "m6": "Harkitse tänään almujen antamista tai hyvän työn tekemistä jollekulle."
+      }
+    },
+    "coach": {
+      "dismiss": "Selvä",
+      "ummah": {
+        "title": "Ummah",
+        "body": "Jaa suorittamasi hartaudenharjoitus yhteisölle tai katso, mitä muut ovat jakaneet tänään."
+      },
+      "qibla": {
+        "title": "Qibla-kompassi",
+        "body": "Pidä puhelinta vaakasuorassa ja käänny, kunnes nuoli osoittaa Kaabaan."
+      },
+      "silentMode": {
+        "title": "Äänetön tila",
+        "body": "Kun puhelin on äänettömällä tai värinällä, adhan ilmoitetaan hiljaa. Voit muuttaa tätä asetuksista."
+      }
     }
   }
 }

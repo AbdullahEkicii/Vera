@@ -38,15 +38,34 @@ export const getQuranEditionForLanguage = (langCode: string): string => {
   return LANG_EDITIONS[code]?.edition || 'en.asad';
 };
 
+// expo-sqlite can reject the very first statements right after the database opens ("prepareAsync ...
+// cannot be cast to NativeStatement"); the same call succeeds a moment later. One retry hides it,
+// instead of reporting a downloaded juz as not downloaded.
+const queryWithRetry = async <T>(run: () => Promise<T>): Promise<T> => {
+  try {
+    return await run();
+  } catch {
+    await new Promise<void>((resolve) => setTimeout(resolve, 250));
+    return await run();
+  }
+};
+
 export const checkJuzStatus = async (juzNo: number, scriptType: string = 'quran-imlaei'): Promise<{ status: DownloadStatus; langCode?: string }> => {
   try {
-    const db = await getDb();
-    const result = await db.getFirstAsync<{ status: string; lang_code: string; script_type: string }>(
-      'SELECT status, lang_code, script_type FROM download_status WHERE juz_no = ?',
-      [juzNo]
-    );
+    const result = await queryWithRetry(async () => {
+      const db = await getDb();
+      return db.getFirstAsync<{ status: string; lang_code: string; script_type: string }>(
+        'SELECT status, lang_code, script_type FROM download_status WHERE juz_no = ?',
+        [juzNo]
+      );
+    });
 
     if (result && result.script_type === scriptType) {
+      // A 'Downloading' row with no live download in this process is a leftover from a
+      // killed app / failed run: the data is incomplete, so report it as not downloaded.
+      if (result.status === 'Downloading' && !isDownloadActive(juzNo)) {
+        return { status: 'NotDownloaded' };
+      }
       return { status: result.status as DownloadStatus, langCode: result.lang_code };
     }
     return { status: 'NotDownloaded' };
@@ -66,6 +85,28 @@ const API_SCRIPT_MAP: Record<string, string> = {
 
 // Active download promises map to prevent concurrent download & transaction conflicts
 const activeDownloadMap = new Map<string, Promise<boolean>>();
+
+const isDownloadActive = (juzNo: number): boolean => {
+  for (const key of activeDownloadMap.keys()) {
+    if (key.startsWith(`${juzNo}:`)) return true;
+  }
+  return false;
+};
+
+const FETCH_TIMEOUT_MS = 15000;
+
+// fetch with an abort timeout and an ok check, so a stalled connection can't hang forever.
+const fetchJsonWithTimeout = async (url: string): Promise<any> => {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    const res = await fetch(url, { signal: controller.signal });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } finally {
+    clearTimeout(timeoutId);
+  }
+};
 
 export const downloadJuz = async (
   juzNo: number,
@@ -101,13 +142,27 @@ export const downloadJuz = async (
 
       // 1. Arapça metni çek
       const apiEdition = API_SCRIPT_MAP[scriptType] || 'quran-simple-enhanced';
-      const arabicRes = await fetch(`https://api.alquran.cloud/v1/juz/${juzNo}/${apiEdition}`);
-      const arabicData = await arabicRes.json();
+      const arabicData = await fetchJsonWithTimeout(`https://api.alquran.cloud/v1/juz/${juzNo}/${apiEdition}`);
 
-      if (arabicData.code !== 200) throw new Error('Arapça API hatası');
+      if (arabicData?.code !== 200) throw new Error('Arapça API hatası');
+      const arabicAyahs = arabicData.data?.ayahs;
+      // Validate the payload before touching the DB so a bad response can't wipe good data.
+      if (
+        !Array.isArray(arabicAyahs) ||
+        arabicAyahs.length === 0 ||
+        !arabicAyahs.every(
+          (a: any) =>
+            a &&
+            typeof a.text === 'string' &&
+            typeof a.numberInSurah === 'number' &&
+            typeof a.page === 'number' &&
+            typeof a.surah?.number === 'number'
+        )
+      ) {
+        throw new Error('Arapça API geçersiz veri');
+      }
       onProgress?.(50);
 
-      const arabicAyahs = arabicData.data.ayahs;
       const verses: Verse[] = arabicAyahs.map((ayah: any) => ({
         id: `${ayah.surah.number}:${ayah.numberInSurah}`,
         juzNo: juzNo,
@@ -119,11 +174,12 @@ export const downloadJuz = async (
         langCode: 'ar',
       }));
 
-      // Safe Batch Insert using prepared statement without nested transaction conflict
-      await db.runAsync('DELETE FROM verses WHERE juz_no = ?', [juzNo]);
+      // Atomic-ish: new rows are written with INSERT OR REPLACE (id is the primary key) rather
+      // than delete-then-insert, so an interrupted download never leaves the juz empty. The
+      // 'Downloading' status is only promoted to 'Downloaded' after every row is in.
 
       const statement = await db.prepareAsync(`
-        INSERT INTO verses (id, juz_no, surah_no, ayah_no, page_no, arabic_text, translation_text, lang_code)
+        INSERT OR REPLACE INTO verses (id, juz_no, surah_no, ayah_no, page_no, arabic_text, translation_text, lang_code)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
       `);
 
@@ -264,24 +320,20 @@ export interface PageVerseMeal {
 export const getPageMeal = async (pageNo: number, langCode: string = 'tr'): Promise<PageVerseMeal[]> => {
   const edition = getQuranEditionForLanguage(langCode);
   try {
-    const [arRes, trRes] = await Promise.all([
-      fetch(`https://api.alquran.cloud/v1/page/${pageNo}/quran-simple-enhanced`),
-      fetch(`https://api.alquran.cloud/v1/page/${pageNo}/${edition}`),
+    const [arJson, trJson] = await Promise.all([
+      fetchJsonWithTimeout(`https://api.alquran.cloud/v1/page/${pageNo}/quran-simple-enhanced`),
+      fetchJsonWithTimeout(`https://api.alquran.cloud/v1/page/${pageNo}/${edition}`),
     ]);
 
-    if (arRes.ok && trRes.ok) {
-      const arJson = await arRes.json();
-      const trJson = await trRes.json();
-      const arAyahs = arJson.data?.ayahs || [];
-      const trAyahs = trJson.data?.ayahs || [];
+    const arAyahs = arJson?.data?.ayahs || [];
+    const trAyahs = trJson?.data?.ayahs || [];
 
-      return arAyahs.map((ayah: any, idx: number) => ({
-        surahNo: ayah.surah.number,
-        ayahNo: ayah.numberInSurah,
-        arabicText: ayah.text,
-        translationText: trAyahs[idx]?.text || '',
-      }));
-    }
+    return arAyahs.map((ayah: any, idx: number) => ({
+      surahNo: ayah.surah.number,
+      ayahNo: ayah.numberInSurah,
+      arabicText: ayah.text,
+      translationText: trAyahs[idx]?.text || '',
+    }));
   } catch (err) {
     console.warn(`Failed to fetch online meal for page ${pageNo}:`, err);
   }

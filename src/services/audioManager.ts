@@ -1,12 +1,13 @@
 import { createAudioPlayer, setAudioModeAsync } from 'expo-audio';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from './storageService';
 
 const VOLUME_KEY = 'ADHAN_VOLUME';
 
 class AudioManager {
   private player: any = null;
   private timeoutId: any = null;
-  private currentVolume: number = 0.75;
+  // Default to a quiet level; a first adhan at full volume startles new users.
+  private currentVolume: number = 0.25;
   private statusSubscription: any = null;
   private onEndCallback: (() => void) | null = null;
   // Bumped by every play/stop request. A play call that was overtaken while awaiting

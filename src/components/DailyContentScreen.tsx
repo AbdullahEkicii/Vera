@@ -25,8 +25,8 @@ import { logScreenView } from '../services/analyticsService';
 // Gradient palettes for each card type
 const CARD_GRADIENTS = {
   verse:  ['#1a2a6c', '#b21f1f'] as [string, string],
-  hadith: ['#134e5e', '#71b280'] as [string, string],
-  quote:  ['#373b44', '#4286f4'] as [string, string],
+  hadith: ['#134e5e', '#2F7D5B'] as [string, string],
+  quote:  ['#373b44', '#2F6FD6'] as [string, string],
 };
 
 const CARD_ICONS = {
@@ -45,6 +45,7 @@ interface ContentCardProps {
 }
 
 function ContentCard({ type, title, text, source, delay, onStoryShare }: ContentCardProps) {
+  const { t } = useTranslation();
   const scale = useSharedValue(1);
 
   const animStyle = useAnimatedStyle(() => ({
@@ -56,7 +57,14 @@ function ContentCard({ type, title, text, source, delay, onStoryShare }: Content
 
   return (
     <Animated.View entering={FadeInDown.delay(delay).duration(600)}>
-      <Pressable onPressIn={onPressIn} onPressOut={onPressOut} onPress={onStoryShare}>
+      <Pressable
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        onPress={onStoryShare}
+        accessibilityRole={onStoryShare ? 'button' : undefined}
+        accessibilityLabel={`${title}. ${text}. ${source}`}
+        accessibilityHint={onStoryShare ? t('share.actionBtn', 'Share Card Image') : undefined}
+      >
         <Animated.View style={animStyle}>
           <LinearGradient
             colors={CARD_GRADIENTS[type]}
@@ -75,7 +83,7 @@ function ContentCard({ type, title, text, source, delay, onStoryShare }: Content
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                 {onStoryShare && (
-                  <Pressable onPress={onStoryShare} hitSlop={10} style={styles.shareBtn}>
+                  <Pressable onPress={onStoryShare} hitSlop={10} style={styles.shareBtn} accessibilityRole="button" accessibilityLabel={t('share.actionBtn', 'Share Card Image')}>
                     <Feather name="share-2" size={18} color="rgba(255,255,255,0.9)" />
                   </Pressable>
                 )}
@@ -169,6 +177,11 @@ export function DailyContentScreen({ isActive = true }: { isActive?: boolean }) 
           <Text style={[styles.heroSub, { color: theme.colors.textSecondary }]}>
             {t('daily.subtitle', 'Bugün için seçilmiş ayet, hadis ve söz')}
           </Text>
+          {dailyContent.machineTranslated ? (
+            <Text style={[styles.heroSub, { color: theme.colors.textSecondary, fontSize: 12, marginTop: 4, opacity: 0.8 }]}>
+              {t('daily.autoTranslated', 'Otomatik çeviri')}
+            </Text>
+          ) : null}
         </LinearGradient>
       </Animated.View>
 
@@ -321,6 +334,10 @@ const styles = StyleSheet.create({
   },
   shareBtn: {
     padding: spacing.xs,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   quoteDecor: {
     fontFamily: typography.fontFamily.bold,
@@ -328,7 +345,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.15)',
     lineHeight: 52,
     marginBottom: -4,
-    marginLeft: -4,
+    marginStart: -4,
   },
   cardText: {
     fontFamily: typography.fontFamily.medium,
@@ -350,7 +367,7 @@ const styles = StyleSheet.create({
   sourceText: {
     fontFamily: typography.fontFamily.regular,
     fontSize: 13,
-    color: 'rgba(255,255,255,0.65)',
+    color: 'rgba(255,255,255,0.8)',
     fontStyle: 'italic',
   },
 

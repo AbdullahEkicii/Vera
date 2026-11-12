@@ -1,6 +1,14 @@
 import { NativeModules, Platform } from 'react-native';
 
-const { WidgetModule } = NativeModules;
+// Resolved on use, not at import: touching NativeModules instantiates the native module, and an
+// error there during bundle evaluation is fatal.
+const getWidgetModule = (): any => {
+  try {
+    return NativeModules.WidgetModule;
+  } catch {
+    return undefined;
+  }
+};
 
 export interface WidgetData {
   city: string;
@@ -15,12 +23,12 @@ export interface WidgetData {
 }
 
 export const updateAndroidWidget = (data: WidgetData) => {
-  if (Platform.OS !== 'android' || !WidgetModule || typeof WidgetModule.updateWidgetData !== 'function') {
+  if (Platform.OS !== 'android' || !getWidgetModule() || typeof getWidgetModule().updateWidgetData !== 'function') {
     return;
   }
 
   try {
-    WidgetModule.updateWidgetData(
+    getWidgetModule().updateWidgetData(
       data.city,
       data.nextName,
       data.nextTime,
@@ -37,11 +45,11 @@ export const updateAndroidWidget = (data: WidgetData) => {
 };
 
 export const requestPinWidget = async (): Promise<boolean> => {
-  if (Platform.OS !== 'android' || !WidgetModule || typeof WidgetModule.requestPinWidget !== 'function') {
+  if (Platform.OS !== 'android' || !getWidgetModule() || typeof getWidgetModule().requestPinWidget !== 'function') {
     return false;
   }
   try {
-    const res = await WidgetModule.requestPinWidget();
+    const res = await getWidgetModule().requestPinWidget();
     return !!res;
   } catch (error) {
     console.error('Error requesting pin widget:', error);

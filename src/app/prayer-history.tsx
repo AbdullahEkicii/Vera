@@ -13,13 +13,16 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import * as Haptics from 'expo-haptics';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from '../services/storageService';
 import { useTheme } from '../context/ThemeContext';
 import { AppBackground } from '../components/ProgressRing';
 import { logScreenView } from '../services/analyticsService';
 import { PrayerTreeVisual } from '../components/PrayerTreeVisual';
 import { BannerAdSlot } from '../components/BannerAdSlot';
 import { useIsFocused } from '@react-navigation/native';
+import { toLocalIsoDay } from '../utils/zonedTime';
+import { directionalIconStyle } from '../utils/rtl';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const PRAYER_LOGS_KEY = 'USER_PRAYER_LOGS_V1';
 
@@ -41,6 +44,9 @@ const PRAYERS = [
 ] as const;
 
 export default function PrayerHistoryScreen() {
+  const insets = useSafeAreaInsets();
+  // Edge-to-edge / cut-out safe: StatusBar.currentHeight alone can be 0 or stale.
+  const topInset = Math.max(insets.top, StatusBar.currentHeight ?? 0);
   const isFocused = useIsFocused();
   const { t, i18n } = useTranslation();
   const { isDark } = useTheme();
@@ -78,7 +84,7 @@ export default function PrayerHistoryScreen() {
       for (let i = 0; i < 60; i++) {
         const d = new Date(today);
         d.setDate(d.getDate() - i);
-        const dStr = d.toISOString().split('T')[0];
+        const dStr = toLocalIsoDay(d);
         const dayLog = parsed[dStr];
 
         if (dayLog) {
@@ -94,7 +100,7 @@ export default function PrayerHistoryScreen() {
       for (let i = 0; i < 7; i++) {
         const d = new Date(today);
         d.setDate(d.getDate() - i);
-        const dStr = d.toISOString().split('T')[0];
+        const dStr = toLocalIsoDay(d);
         const dayLog = parsed[dStr];
         if (dayLog) {
           weekLogged += [dayLog.fajr, dayLog.dhuhr, dayLog.asr, dayLog.maghrib, dayLog.isha].filter(Boolean).length;
@@ -144,7 +150,7 @@ export default function PrayerHistoryScreen() {
     for (let i = 0; i < 30; i++) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
-      const dateStr = d.toISOString().split('T')[0];
+      const dateStr = toLocalIsoDay(d);
 
       let dayLabel = '';
       if (i === 0) dayLabel = t('checklist.today', 'Bugün');
@@ -168,15 +174,15 @@ export default function PrayerHistoryScreen() {
         <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} translucent backgroundColor="transparent" />
 
         {/* Header */}
-        <View style={[styles.topHeader, { backgroundColor: isDark ? 'rgba(15, 11, 6, 0.45)' : 'rgba(247, 243, 233, 0.55)' }]}>
-          <Pressable style={styles.backBtn} onPress={() => router.back()} hitSlop={12}>
-            <Feather name="arrow-left" size={22} color={isDark ? '#FDF8ED' : '#2C1A0A'} />
+        <View style={[styles.topHeader, { paddingTop: topInset + 12 }, { backgroundColor: isDark ? 'rgba(15, 11, 6, 0.45)' : 'rgba(247, 243, 233, 0.55)' }]}>
+          <Pressable style={styles.backBtn} onPress={() => router.back()} hitSlop={12} accessibilityRole="button" accessibilityLabel={t('common.back', 'Back')}>
+            <Feather name="arrow-left" size={22} color={isDark ? '#FDF8ED' : '#2C1A0A'} style={directionalIconStyle} />
           </Pressable>
           <View style={styles.headerTitleContainer}>
             <Text style={[styles.headerTitle, { color: isDark ? '#FDF8ED' : '#2C1A0A' }]}>
               {t('checklist.historyTitle', 'Namaz Takip Geçmişi')}
             </Text>
-            <Text style={[styles.headerSubtitle, { color: isDark ? 'rgba(253,248,237,0.6)' : '#8C7055' }]}>
+            <Text style={[styles.headerSubtitle, { color: isDark ? 'rgba(253,248,237,0.75)' : '#7A6046' }]}>
               {t('checklist.historySubtitle', 'Son 30 günlük ibadet kayıtlarınız')}
             </Text>
           </View>
@@ -192,7 +198,7 @@ export default function PrayerHistoryScreen() {
             >
               <Ionicons name="checkmark-done-circle" size={22} color="#D4AF37" />
               <Text style={[styles.statValue, { color: isDark ? '#FDF8ED' : '#2C1A0A' }]}>{totalCount}</Text>
-              <Text style={[styles.statLabel, { color: isDark ? 'rgba(253,248,237,0.6)' : '#8C7055' }]}>
+              <Text style={[styles.statLabel, { color: isDark ? 'rgba(253,248,237,0.75)' : '#7A6046' }]}>
                 {t('checklist.totalLogged', 'Kılınan Vakit')}
               </Text>
             </LinearGradient>
@@ -204,7 +210,7 @@ export default function PrayerHistoryScreen() {
             >
               <Ionicons name="flame" size={22} color="#F59E0B" />
               <Text style={[styles.statValue, { color: isDark ? '#FDF8ED' : '#2C1A0A' }]}>{streakCount}</Text>
-              <Text style={[styles.statLabel, { color: isDark ? 'rgba(253,248,237,0.6)' : '#8C7055' }]}>
+              <Text style={[styles.statLabel, { color: isDark ? 'rgba(253,248,237,0.75)' : '#7A6046' }]}>
                 {t('checklist.activeStreak', 'Aktif Seri')}
               </Text>
             </LinearGradient>
@@ -216,7 +222,7 @@ export default function PrayerHistoryScreen() {
             >
               <Ionicons name="stats-chart" size={20} color="#10B981" />
               <Text style={[styles.statValue, { color: isDark ? '#FDF8ED' : '#2C1A0A' }]}>%{weeklyRate}</Text>
-              <Text style={[styles.statLabel, { color: isDark ? 'rgba(253,248,237,0.6)' : '#8C7055' }]}>
+              <Text style={[styles.statLabel, { color: isDark ? 'rgba(253,248,237,0.75)' : '#7A6046' }]}>
                 {t('checklist.weeklyRate', 'Haftalık Oran')}
               </Text>
             </LinearGradient>
@@ -244,7 +250,7 @@ export default function PrayerHistoryScreen() {
                 Boolean
               ).length;
 
-              const isToday = dateStr === new Date().toISOString().split('T')[0];
+              const isToday = dateStr === toLocalIsoDay();
 
               return (
                 <View
@@ -276,6 +282,8 @@ export default function PrayerHistoryScreen() {
                       <Pressable
                         key={p.id}
                         disabled={!isToday}
+                        accessibilityRole="checkbox"
+                        accessibilityState={{ checked: !!isDone, disabled: !isToday }}
                         style={[
                           styles.pillItem,
                           {
@@ -335,19 +343,18 @@ const styles = StyleSheet.create({
   topHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight || 24) + 12 : 54,
     paddingBottom: 16,
     paddingHorizontal: 20,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: 'rgba(212, 175, 55, 0.15)',
   },
   backBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginEnd: 12,
   },
   headerTitleContainer: {
     flex: 1,
@@ -387,7 +394,7 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontFamily: 'Outfit_500Medium',
-    fontSize: 10,
+    fontSize: 12,
     textAlign: 'center',
   },
   daysContainer: {
@@ -438,6 +445,6 @@ const styles = StyleSheet.create({
   },
   pillLabel: {
     fontFamily: 'Outfit_600SemiBold',
-    fontSize: 10,
+    fontSize: 12,
   },
 });

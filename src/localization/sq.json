@@ -10,7 +10,13 @@
       "cancel": "Anulo",
       "save": "Ruaj",
       "ok": "OK",
-      "close": "Mbyll"
+      "close": "Mbyll",
+      "back": "Kthehu",
+      "clear": "Pastro",
+      "remove": "Hiq",
+      "expand": "Zgjero",
+      "collapse": "Palos",
+      "share": "Ndaj"
     },
     "home": {
       "title": "Orari i Namazit",
@@ -42,7 +48,13 @@
       "loadingTimes": "Kohët e lutjes po ngarkohen...",
       "locationPermissionTitle": "Leja e Vendndodhjes Nuk u Mor",
       "locationPermissionDesc": "Po shfaqet qyteti i paracaktuar. Mund të zgjidhni një qytet ose të jepni leje vendndodhjeje.",
-      "estimatedTimesNotice": "Për shkak të mungesës së lidhjes në internet, kohët e namazit u llogaritën në pajisje (të përafërta)."
+      "estimatedTimesNotice": "Për shkak të mungesës së lidhjes në internet, kohët e namazit u llogaritën në pajisje (të përafërta).",
+      "adjustTimeHint": "Shtyp gjatë për të rregulluar këtë orar",
+      "moreTools": "Më shumë",
+      "locationFetchFailedTitle": "Vendndodhja nuk u gjet",
+      "locationFetchFailedDesc": "Nuk u arrit të merret vendndodhja jote GPS. Mund të zgjedhësh një qytet ose të provosh përsëri më vonë.",
+      "sourceA11y": "Metoda e llogaritjes së kohëve të namazit",
+      "highLatNote": "Gjerësi e lartë gjeografike: Sabahu/Jacia janë të përafërta"
     },
     "settings": {
       "title": "Cilësimet",
@@ -60,7 +72,11 @@
         "egypt": "Autoriteti Egjiptian",
         "karachi": "Karaçi (Pakistan)",
         "france": "Francë (UOIF)",
-        "russia": "Rusi (Administrata Shpirtërore)"
+        "russia": "Rusi (Administrata Shpirtërore)",
+        "kemenag": "Indonezia (Kemenag)",
+        "jakim": "Malajzia (JAKIM)",
+        "muis": "Singapori (MUIS)",
+        "tehran": "Irani (Universiteti i Teheranit)"
       },
       "palettes": {
         "default": "E paracaktuar",
@@ -93,7 +109,7 @@
       "persistentNotif": "Numërimi i vazhdueshëm i lutjes mbrapsht",
       "persistentNotifDesc": "Ndiqni drejtpërdrejt kohën e mbetur për lutjen e radhës në ekranin tuaj të kyçjes dhe panelin e njoftimeve.",
       "widgetTitle": "Miniaplikacioni i ekranit bazë",
-      "addWidget": "📌 Shto miniaplikacion në ekranin bazë!",
+      "addWidget": "Shto miniaplikacion në ekranin bazë!",
       "addWidgetDesc": "Shikoni kohët e lutjes dhe numërimin mbrapsht drejtpërdrejt në ekranin bazë të telefonit tuaj.",
       "general": "Cilësimet e përgjithshme",
       "fullscreen": "Modaliteti i ekranit të plotë",
@@ -130,7 +146,32 @@
       "username": "Emri i përdoruesit",
       "password": "Fjalëkalimi",
       "loggingIn": "Po hyni...",
-      "login": "Hyr"
+      "login": "Hyr",
+      "remindersTitle": "Kujtesa dhe njoftime",
+      "dailyContentNotif": "Ajeti / hadithi i ditës",
+      "dailyContentNotifDesc": "Një kujtesë e shkurtër ditore pas namazit të drekës.",
+      "quranReminderNotif": "Kujtesë për leximin e Kuranit",
+      "quranReminderNotifDesc": "Një kujtesë mbrëmjeje çdo dy ditë.",
+      "greetingNotif": "Urime të së premtes dhe ditëve të shenjta",
+      "greetingNotifDesc": "Kujtesa të premteve dhe ditëve fetare.",
+      "announcementsNotif": "Njoftime",
+      "announcementsNotifDesc": "Lajme dhe mesazhe fushatash nga Vera.",
+      "locationTitle": "Vendndodhja",
+      "changeCity": "Ndrysho qytetin",
+      "locationNotSet": "Ende pa zgjedhur",
+      "locationFromGps": "Ndjek vendndodhjen e telefonit",
+      "locationFromManual": "Qyteti u zgjodh manualisht",
+      "locationHint": "Zgjidhni një qytet ose përdorni vendndodhjen e telefonit.",
+      "useMyLocation": "Përdor vendndodhjen time aktuale",
+      "fullscreenDesc": "Fsheh shiritin e statusit (ora, bateria) dhe shiritin e navigimit.",
+      "recommended": "E rekomanduar",
+      "asrSchoolTitle": "Llogaritja e Ikindisë",
+      "asrStandard": "Standard (shafiit, malikit, hanbalit)",
+      "asrHanafi": "Hanefi",
+      "asrSchoolDesc": "Shkolla hanefite e shtyn Ikindinë (hija dyfishi i objektit). Është zakonisht në Azinë Jugore.",
+      "rateApp": "Vlerëso Vera",
+      "privacyPolicy": "Politika e privatësisë",
+      "restartForDirection": "Mbyllni dhe rihapni aplikacionin për të zbatuar drejtimin e ri të tekstit."
     },
     "qibla": {
       "title": "Kibla",
@@ -148,12 +189,12 @@
       "status": "Statusi",
       "aligned": "I rreshtuar",
       "aligning": "Rrotullo",
-      "alignedSuccess": "🕌 Jeni të kthyer nga Kibla!",
+      "alignedSuccess": "Jeni të kthyer nga Kibla!",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "Si të përdorni?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "Drejtimi",
       "calibrateBtn": "Kalibroni busullën",
@@ -162,8 +203,15 @@
       "magneticShield": "Mburoja e Fushës Magnetike",
       "magneticShieldDesc": "Saktësia e sensorit e optimizuar. Mbajeni larg kutive magnetike.",
       "levelStatus": "Niveli horizontal (flluska)",
-      "levelFlat": "Flat & Paralele ✓",
-      "gotIt": "E kuptova"
+      "levelFlat": "Flat & Paralele",
+      "gotIt": "E kuptova",
+      "noLocationTitle": "Nevojitet vendndodhja",
+      "noLocationDesc": "Drejtimi i Kibles varet nga ku ndodheni. Zgjidhni qytetin ose lejoni qasjen te vendndodhja.",
+      "useMyLocation": "Përdor vendndodhjen time",
+      "chooseCity": "Zgjidh qytetin",
+      "lowAccuracy": "Saktësia e busullës është e ulët. Prekni për ta kalibruar.",
+      "magneticNorthNote": "Po përdoret veriu magnetik: drejtimi mund të ndryshojë disa gradë.",
+      "errorNoSensor": "Sensori i busullës nuk përgjigjet. Ky pajisje mund të mos ketë busull."
     },
     "daily": {
       "title": "Frymëzimi Ditor",
@@ -175,7 +223,8 @@
       "hadithBody": "Kliko për të lexuar hadithin e ditës!",
       "quoteBody": "Kliko për të lexuar thënien e ditës!",
       "subtitle": "Ajet, hadith dhe thënie e zgjedhur për sot",
-      "shareHint": "Prekni kartën për ta ndarë si imazh historie"
+      "shareHint": "Prekni kartën për ta ndarë si imazh historie",
+      "autoTranslated": "Përkthim automatik"
     },
     "search": {
       "title": "Zgjidh Vendndodhjen",
@@ -184,7 +233,10 @@
       "recent": "Kërkimet e Fundit",
       "useGPS": "Përdor Vendndodhjen Aktuale",
       "gpsDenied": "Leja e vendndodhjes u refuzua.",
-      "gpsError": "Dështoi marrja e vendndodhjes."
+      "gpsError": "Dështoi marrja e vendndodhjes.",
+      "searchFailed": "Kërkimi dështoi, kontrollo lidhjen.",
+      "pin": "Ruaj qytetin",
+      "unpin": "Hiq nga të ruajturit"
     },
     "notifications": {
       "exactAlert": "Njoftimi i Kohës së Namazit",
@@ -237,7 +289,8 @@
         "dailyName": "Frymëzimi i përditshëm",
         "dailyDesc": "Vargu, hadithi ose citat i përditshëm mbërrin ndërmjet Dhuhrit dhe Asr.",
         "persistentName": "Kyçja e ekranit dhe shiriti i statusit",
-        "persistentDesc": "Shfaq emrin e lutjes tjetër dhe numërimin mbrapsht drejtpërdrejt në panelin e njoftimeve dhe në ekranin e kyçjes."
+        "persistentDesc": "Shfaq emrin e lutjes tjetër dhe numërimin mbrapsht drejtpërdrejt në panelin e njoftimeve dhe në ekranin e kyçjes.",
+        "announcements": "Njoftime"
       },
       "persistentTitle": "🕌 Deri në {{prayer}}"
     },
@@ -408,7 +461,15 @@
       "noBookmarks": "Ende nuk keni asnjë ajet të preferuar. Mund ta shtoni duke mbajtur shtypur mbi një ajet.",
       "playFromHere": "Dëgjo nga Këtu",
       "juz": "Xhuz",
-      "downloadingShort": "Po shkarkohet..."
+      "downloadingShort": "Po shkarkohet...",
+      "audioErrorTitle": "Audioja nuk u luajt dot",
+      "audioErrorMessage": "Recitimi nuk u ngarkua dot. Kontrollo lidhjen me internetin dhe provo përsëri.",
+      "audioPause": "Ndërprit recitimin",
+      "audioResume": "Vazhdo recitimin",
+      "audioStop": "Ndalo recitimin",
+      "audioPlay": "Luaj recitimin",
+      "fontSmaller": "Zvogëlo tekstin",
+      "fontLarger": "Zmadho tekstin"
     },
     "review": {
       "title": "Na Mbështetni",
@@ -416,9 +477,9 @@
       "notNow": "Jo Tani",
       "review": "Vlerëso",
       "subtitle": "Vlerësoni përvojën tuaj me yjet",
-      "fiveStarTitle": "Jemi të emocionuar kur e dëgjojmë këtë! 🌟",
+      "fiveStarTitle": "Jemi të emocionuar kur e dëgjojmë këtë!",
       "fiveStarSubtitle": "Dëshironi të mbështesni Vera me një vlerësim 5 yje?",
-      "rateOnStore": "🌟 Jep 5 Yje dhe Mbështetje",
+      "rateOnStore": "Jep 5 Yje dhe Mbështetje",
       "ratingLabels": {
         "1": "Ka nevojë për përmirësim",
         "2": "E drejtë",
@@ -426,11 +487,11 @@
         "4": "Shumë mirë",
         "5": "E shkëlqyeshme!"
       },
-      "feedbackTitle": "Na ndihmo të përmirësohemi 💬",
+      "feedbackTitle": "Na ndihmo të përmirësohemi",
       "feedbackSubtitle": "Ndani mendimet dhe sugjerimet tuaja që ne ta bëjmë Vera edhe më të mirë.",
       "feedbackPlaceholder": "Shkruani sugjerimet, idetë tuaja apo ndonjë problem që keni hasur...",
       "sendFeedback": "Dërgo koment",
-      "thankYouTitle": "Reagimi i marrë! 🤲",
+      "thankYouTitle": "Reagimi i marrë!",
       "thankYouSubtitle": "Komentet tuaja janë shumë të vlefshme për ne. Do të punojmë shumë për ta bërë Verën edhe më të mirë.",
       "close": "Mbylle"
     },
@@ -453,6 +514,8 @@
       "title": "Gjurmuesi i lutjes ditore",
       "completed": "E përfunduar",
       "dayStreak": "Rrjedha e ditës",
+      "restartHint": "Mund të fillosh përsëri sot",
+      "weekActiveDays": "{{count}} ditë në 7 ditët e fundit",
       "viewHistory": "Shiko Historinë e Plotë",
       "historyTitle": "Historia e lutjes",
       "historySubtitle": "Regjistrimet e lutjeve tuaja për 30 ditët e fundit",
@@ -471,19 +534,20 @@
       "celebrationSubtitle": "MashaAllah!",
       "celebrationMessage": "Ju i keni kryer të 5 namazet ditore sot. Allahu ua pranoftë lutjet!",
       "celebrationBtn": "Elhamdulilah",
-      "trustNotice": "{{qyteti}} • Kohët e verifikuara të lutjes për rajonin tuaj duke përdorur {{metodën}}",
+      "trustNotice": "{{city}} • Kohët e verifikuara të lutjes për rajonin tuaj duke përdorur {{method}}",
       "streakDays": "Ditët",
       "shareStreak": "Ndaj Serinë Time",
       "shareText": "Kam ndjekur namazet e mia {{count}} ditë rresht, elhamdulilah!"
     },
     "calendar": {
       "title": "Kalendari i Unifikuar",
-      "todayNotice": "Sot: {{gregorian}} • Hixhri: {{hixhri}}"
+      "todayNotice": "Sot: {{gregorian}} • Hixhri: {{hijri}}"
     },
     "imsakiye": {
       "title": "E përjavshme Imsakiye",
       "subtitle": "Orari i 7 ditëve të ardhshme",
-      "date": "Data"
+      "date": "Data",
+      "rangeDays": "{{n}} ditë"
     },
     "religious": {
       "title": "Ditët fetare",
@@ -500,12 +564,12 @@
       "dismissBtn": "Jo Tani"
     },
     "names": {
-      "title": "Emrat e Allahut dhe Duas",
+      "title": "Emrat e Allahut dhe Dua",
       "namesSubtitle": "99 Emrat e Bukur të Allahut",
       "duasSubtitle": "Lutjet e përditshme",
       "meaningLabel": "Kuptimi",
       "tabNames": "99 Emra",
-      "tabDuas": "Duas",
+      "tabDuas": "Dua",
       "namesCount": "{{count}} Emrat",
       "duasCount": "{{count}} Duas",
       "tapHint": "Prekni për detaje",
@@ -541,20 +605,20 @@
       "verifiedMethodDesc": "Metoda më e saktë islame për rajonin tuaj zgjidhet automatikisht.",
       "notificationsTitle": "Alarmet e ezanit dhe lutjes",
       "notificationsDesc": "Merrni përkujtues të butë ose të dëgjueshëm në kohët e lutjes.",
-      "startBtn": "Filloni të përdorni Vera 🌟",
+      "startBtn": "Filloni të përdorni Vera",
       "featureQuran": "Kuran & Audio",
       "featureQibla": "Kibla",
       "featureDhikr": "Numër Dhikri",
-      "backBtn": "← Kthehu prapa",
-      "playTestSound": "Pamja paraprake e Tingullit të Ezanit 🔊",
-      "stopTestSound": "Stop Sound ⏹️",
-      "nextStepBtn": "Vazhdo →",
+      "backBtn": "Kthehu prapa",
+      "playTestSound": "Pamja paraprake e Tingullit të Ezanit",
+      "stopTestSound": "Stop Sound",
+      "nextStepBtn": "Vazhdo",
       "step3Title": "Përvojë e pandërprerë",
       "step3Subtitle": "Ndiqni kohën e lutjes drejtpërdrejt nga ekrani juaj bazë dhe sigurohuni që njoftime të besueshme të ezanit.",
-      "widgetTitle": "📌 Shto miniaplikacion në ekranin bazë",
+      "widgetTitle": "Shto miniaplikacion në ekranin bazë",
       "widgetDesc": "Shikoni numërimin mbrapsht drejtpërdrejt pa hapur aplikacionin.",
       "widgetAdded": "Miniaplikacioni u shtua me sukses!",
-      "batteryTitle": "🔋 Përjashtim i kursimit të baterisë",
+      "batteryTitle": "Përjashtim i kursimit të baterisë",
       "batteryDesc": "Rekomandohet të çaktivizoni optimizimin e baterisë në Xiaomi dhe Samsung për adhan në kohë.",
       "locationReassurance": "Këtë mund ta ndryshoni gjithmonë më vonë te Cilësimet.",
       "notifDenied": "Leja e njoftimeve nuk u dha. Paralajmërimet e ezanit mund të mos funksionojnë — mund ta aktivizoni më vonë te Cilësimet.",
@@ -565,7 +629,10 @@
       "skipConfirm": "Anulo",
       "locationDenied": "Leja e vendndodhjes nuk u dha. Mund të zgjidhni qytetin tuaj nga lista, ose ta ndryshoni këtë më vonë te Cilësimet.",
       "locationFailed": "Vendndodhja nuk u mor. Mund të zgjidhni qytetin tuaj nga lista, ose ta ndryshoni këtë më vonë te Cilësimet.",
-      "locationNotSet": "Vendndodhja Nuk u Mor (Leja Nuk u Dha)"
+      "locationNotSet": "Vendndodhja Nuk u Mor (Leja Nuk u Dha)",
+      "locationNotSetYet": "Ende pa zgjedhur",
+      "skipLocation": "Kapërce tani për tani",
+      "currentLocationLabel": "Vendndodhja aktuale"
     },
     "weather": {
       "title": "Parashikimi i motit",
@@ -629,9 +696,9 @@
       "titlePlaceholder": "Titulli (p.sh. Xhuma Mubarak)",
       "messagePlaceholder": "Shkruani mesazhin tuaj të lutjes ose përshëndetjes...",
       "chooseTheme": "Tema e kartës",
-      "shareBtn": "Ndani në WhatsApp / Story 🌟",
-      "shareImageBtn": "Ndani kartën e imazhit 🌟",
-      "shareLinkBtn": "Ndani lidhjen e drejtpërdrejtë të dyqanit 🔗",
+      "shareBtn": "Ndani në WhatsApp / Story",
+      "shareImageBtn": "Ndani kartën e imazhit",
+      "shareLinkBtn": "Ndani lidhjen e drejtpërdrejtë të dyqanit",
       "theme": {
         "gold": "Vija e Artë",
         "emerald": "Kupola Smerald",
@@ -649,7 +716,13 @@
       "emptyTitle": "Nuk u gjetën xhami në afërsi",
       "emptyDesc": "Ju mund t'i shikoni të gjitha xhamitë drejtpërdrejt në navigimin e hartave.",
       "openInMaps": "Kërkoni në Maps",
-      "directionsBtn": "Drejtimet"
+      "directionsBtn": "Drejtimet",
+      "searchQuery": "xhami",
+      "noLocationTitle": "Vendndodhja nuk u gjet",
+      "noLocationDesc": "Zgjidh një qytet ose lejo qasjen në vendndodhje për të parë xhamitë pranë.",
+      "errorTitle": "Xhamitë nuk u ngarkuan dot",
+      "errorDesc": "Pati një problem me lidhjen. Kontrollo internetin dhe provo përsëri.",
+      "chooseCity": "Zgjidh qytetin"
     },
     "dailyContent": {
       "preparing": "Duke ngarkuar frymëzimin e përditshëm...",
@@ -666,7 +739,7 @@
       "hatimLabel": "Khatm",
       "page": "Faqe",
       "pagesRemaining": "{{count}} faqe të mbetura për të përfunduar Khatm.",
-      "completed": "urime! Ju e keni përfunduar Khatm-in. 🎉",
+      "completed": "urime! Ju e keni përfunduar Khatm-in.",
       "readPageBtn": "Lexo faqen {{page}}",
       "jumpPageTitle": "Shko te faqja / Përditësimi i progresit",
       "jumpPageDesc": "Fut numrin aktual të faqes (1 - 604):",
@@ -676,7 +749,8 @@
       "startNew": "Filloni Khatm-in e Ri",
       "resetHatimBtn": "Rivendos dhe fillo Khatm të ri",
       "share": "Ndaj Hatmen Time",
-      "shareText": "Përfundova hatmen time të {{count}}-të, elhamdulilah!"
+      "shareText": "Përfundova hatmen time të {{count}}-të, elhamdulilah!",
+      "dailyTarget": "Rreth {{n}} faqe në ditë për ta përfunduar (mbeten {{d}} ditë)"
     },
     "prayerTree": {
       "title": "Pema javore e lutjes",
@@ -733,7 +807,7 @@
         "prayers": "{{current}} / {{total}} namaze",
         "dhikr": "{{current}} / {{total}} zikër",
         "khatm": "{{current}} / {{total}} hatme",
-        "kaza": "{{current}} / {{total}} kaza"
+        "kaza": "{{current}} / {{total}} make-up prayers"
       }
     },
     "content": {
@@ -1128,7 +1202,7 @@
         "prayer": "Namazi",
         "dhikr": "Zikri",
         "quran": "Kurani",
-        "kaza": "Kaza"
+        "kaza": "Makeup"
       },
       "hijriMonths": {
         "1": "Muharrem",
@@ -1175,10 +1249,10 @@
     },
     "widget": {
       "guideTitle": "Shto në Ekranin Kryesor",
-      "guideDesc": "Mbani shtypur ekranin kryesor ➔ prekni \"Widgets\" ➔ zgjidhni widget-in \"VERA\" dhe tërhiqeni në ekranin tuaj.",
+      "guideDesc": "Mbani shtypur ekranin kryesor > prekni \"Widgets\" > zgjidhni widget-in \"VERA\" dhe tërhiqeni në ekranin tuaj.",
       "promptTitle": "Shto një Widget në Ekranin Kryesor",
       "promptDesc": "Ndiqni në kohë reale kohën e ardhshme të namazit dhe minutat e mbetura direkt nga ekrani kryesor i telefonit, pa hapur aplikacionin.",
-      "addNow": "📌 Shto në Ekranin Kryesor",
+      "addNow": "Shto në Ekranin Kryesor",
       "notNow": "Më Vonë"
     },
     "greetingNotif": {
@@ -1191,7 +1265,133 @@
     "errorBoundary": {
       "title": "Diçka shkoi keq",
       "subtitle": "Aplikacioni hasi një gabim të papritur. Prek butonin më poshtë për të provuar përsëri.",
-      "retry": "Provo përsëri"
+      "retry": "Provo përsëri",
+      "clearAndRetry": "Pastro të dhënat në cache dhe provo përsëri"
+    },
+    "community": {
+      "tabMine": "Postimet e mia",
+      "you": "Ti",
+      "emptyMine": "Ende nuk ke postime. Mund të ndash kur të përfundosh një ibadet.",
+      "adLabel": "Reklamë",
+      "title": "Komuniteti",
+      "tabToday": "Sot",
+      "tabWeek": "7 ditët e fundit",
+      "anonymous": "Vëlla/motër anonim(e)",
+      "someone": "Dikush",
+      "templates": {
+        "hatimCompleted": "Përfundoi një hatme",
+        "achievement": "Zhbllokoi {{title}}",
+        "dhikrMilestone": "Dikush nga {{country}} recitoi {{count}} dhikr",
+        "prayerFullday": "Të pesë namazet u falën sot"
+      },
+      "emptyToday": "Ende nuk ka postime sot. Ndaj të parin kur të përfundosh diçka.",
+      "emptyWeek": "Nuk ka postime në 7 ditët e fundit.",
+      "loadFailed": "Rrjedha nuk u ngarkua. Tërhiq poshtë për të provuar përsëri.",
+      "share": {
+        "title": "Dëshiron ta ndash këtë me komunitetin Vera?",
+        "note": "Ndahet vetëm ky tekst. Emri dhe të dhënat e tua personale mbeten të fshehura.",
+        "submit": "Ndaj",
+        "later": "Jo tani",
+        "failed": "Nuk u ndanë. Provo më vonë.",
+        "heading": "Ndaj me komunitetin",
+        "sent": "U nda",
+        "external": "Ndaj në një aplikacion tjetër",
+        "open": "Ndaj me komunitetin",
+        "celebrateHint": "Ndaj në mënyrë anonime me komunitetin Vera.",
+        "intro": "Vëllezër e motra nga e gjithë bota mund ta shohin këtë. Emri yt mbetet i fshehur."
+      },
+      "settings": {
+        "title": "Cilësimet e komunitetit",
+        "participate": "Bashkohu me komunitetin",
+        "participateHint": "Kur është joaktiv, nuk shfaqen ofertat për ndarje. Mund ta lexosh ende rrjedhën.",
+        "showCountry": "Shfaq vendin tim",
+        "showCountryHint": "Kur është aktiv, emri i vendit tënd shfaqet pranë postimeve. Çaktivizimi vlen vetëm për postimet e reja.",
+        "country": "Vendi",
+        "countryManual": "Vendi i zgjedhur: {{code}}",
+        "countryDevice": "Po përdoret rajoni i pajisjes.",
+        "useDevice": "Pajisja",
+        "countryInvalid": "Shkruaj një kod vendi me dy shkronja, p.sh. TR",
+        "myPosts": "Postimet e mia",
+        "noPosts": "Ende nuk ke postime.",
+        "delete": "Fshi",
+        "deleteTitle": "Ta fshish këtë postim?",
+        "deleteBody": "Do të hiqet nga rrjedha për të gjithë.",
+        "blocked": "Persona të bllokuar: {{count}}",
+        "clearBlocked": "Pastro listën e bllokimeve",
+        "joined": "Je pjesë e komunitetit",
+        "left": "Komuniteti është joaktiv",
+        "sectionPrivacy": "Privatësia",
+        "sectionBlocked": "Të bllokuarit",
+        "countryDeviceTitle": "Rajoni i pajisjes",
+        "blockedCount": "{{count}} persona",
+        "change": "Ndrysho"
+      },
+      "report": {
+        "action": "Raporto",
+        "thanksTitle": "Faleminderit",
+        "thanksBody": "Raportimi yt do të shqyrtohet.",
+        "failed": "Raportimi nuk u dërgua."
+      },
+      "block": {
+        "action": "Blloko këtë person"
+      },
+      "more": {
+        "title": "Opsionet e këtij postimi"
+      },
+      "discovery": {
+        "title": "Ndaj sukseset e tua me komunitetin Vera",
+        "body": "Ndaj anonimisht hatme, dhikr dhe ditë namazi me vëllezër e motra nga e gjithë bota.",
+        "cta": "Hap komunitetin"
+      },
+      "summary": {
+        "posts": "postime",
+        "hatim": "Hatme",
+        "achievement": "Arritje",
+        "dhikr": "Dhikr",
+        "prayer": "Namaz"
+      },
+      "howTo": {
+        "helpLabel": "Si të ndash",
+        "title": "Si funksionon ndarja",
+        "intro": "Ndaj një ibadet të kryer me komunitetin Vera. Emri yt mbetet i fshehur.",
+        "step1Title": "Kryej një ibadet",
+        "step1Body": "Përfundo pesë namazet, një hatme ose një synim dhikri në aplikacion.",
+        "step2Title": "Trokit Ndaj",
+        "step2Body": "Kur shfaqet urimi, trokit Ndaj. Mund të përdorësh edhe butonin e ndarjes te ekranet e namazit dhe dhikrit.",
+        "step3Title": "Postimi yt shfaqet këtu",
+        "step3Body": "Të gjithë mund ta shohin, me vendin tënd vetëm nëse e lejon. Fshije kur të duash te Postimet e mia.",
+        "gotIt": "E kuptova"
+      },
+      "reminder": {
+        "title": "Ndaj adhurimin e sotëm",
+        "body": "Dëshiron ta ndash adhurimin e sotëm me komunitetin?",
+        "bodyAll": "Sot i ke falur të pesë namazet. Dëshiron ta ndash me komunitetin?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "Qëllimi i sotëm: një hatme. Lexo disa faqe në ditë dhe ta mbarojmë Kuranin bashkë.",
+        "m1": "Qëllimi i sotëm: pas jacisë, 33 Subhanallah, 33 Elhamdulilah dhe 33 Allahu Ekber.",
+        "m2": "Sot le të përpiqemi t'i falim të pesë namazet në kohë, bashkë.",
+        "m3": "Qëllimi i sotëm: lexo një faqe nga Kurani. Edhe hapat e vegjël llogariten.",
+        "m4": "Qëllimi i sotëm: 100 Subhanallah. Ndaje me komunitetin kur ta mbarosh.",
+        "m5": "Këtë javë shkruaj një listë dua-sh dhe kujto në të një vëlla a motër.",
+        "m6": "Sot mendo të japësh sadaka ose të bësh një vepër të mirë për dikë."
+      }
+    },
+    "coach": {
+      "dismiss": "E kuptova",
+      "ummah": {
+        "title": "Umeti",
+        "body": "Ndaj me komunitetin një adhurim të përfunduar, ose shiko çfarë kanë ndarë të tjerët sot."
+      },
+      "qibla": {
+        "title": "Busulla e Kibles",
+        "body": "Mbaje telefonin horizontalisht dhe rrotulloje derisa shigjeta të tregojë drejt Qabesë."
+      },
+      "silentMode": {
+        "title": "Modaliteti i heshtur",
+        "body": "Kur telefoni është në heshtje ose dridhje, ezani njoftohet butë. Mund ta ndryshosh te Cilësimet."
+      }
     }
   }
 }

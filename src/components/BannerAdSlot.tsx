@@ -5,7 +5,7 @@ import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 import { useTheme } from '../context/ThemeContext';
 import { borderRadius, spacing } from '../utils/theme';
 import { waitForAdsConsent } from '../services/adsConsentService';
-import { logAdFailed, logAdLoaded, logAdRequest } from '../services/analyticsService';
+import { logAdFailed, logAdLoaded, logAdRequest, logEvent } from '../services/analyticsService';
 
 // Banner unit used on every ad placement in the app. AdMob's own policy-compliant
 // banner refresh cadence yields extra impressions over long sessions.
@@ -30,6 +30,10 @@ export interface BannerAdSlotProps {
   lazy?: boolean;
   /** Where the slot sits, reported with ad_request / ad_loaded / ad_failed. */
   placement?: string;
+  /** Called once the ad has filled, so a host can label the slot as an ad. */
+  onAdLoaded?: () => void;
+  /** `banner` is the small fixed 320x50 unit; `adaptive` fills the card's width. */
+  size?: 'adaptive' | 'banner';
 }
 
 /**
@@ -37,7 +41,13 @@ export interface BannerAdSlotProps {
  * card's measured inner width (not the screen width), so it fits inside padded
  * layouts instead of being clipped.
  */
-export const BannerAdSlot = ({ isVisible = true, lazy = true, placement = 'unknown' }: BannerAdSlotProps) => {
+export const BannerAdSlot = ({
+  isVisible = true,
+  lazy = true,
+  placement = 'unknown',
+  onAdLoaded,
+  size = 'adaptive',
+}: BannerAdSlotProps) => {
   const isFocused = useIsFocused();
   const { theme } = useTheme();
 
@@ -48,8 +58,11 @@ export const BannerAdSlot = ({ isVisible = true, lazy = true, placement = 'unkno
   const [attempt, setAttempt] = useState(0);
   const [retryPending, setRetryPending] = useState(false);
   const [adWidth, setAdWidth] = useState(0);
+  const [adLoaded, setAdLoaded] = useState(false);
 
   const containerRef = useRef<View>(null);
+  // The attempt whose first fill has already been logged; a refresh of the same attempt is not a new load.
+  const loadedFor = useRef<number | null>(null);
   const retryTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const shouldBeActive = isVisible && isFocused;
 
@@ -102,6 +115,11 @@ export const BannerAdSlot = ({ isVisible = true, lazy = true, placement = 'unkno
 
   const ready = isInViewport && canRequestAds && adWidth > 0 && !retryPending;
 
+  // Space stays reserved while the first requests are in flight. Once the quick retries
+  // are spent without an ad, collapse the card so no-fill users do not see an empty frame;
+  // it expands again if a slow retry finally loads.
+  const collapsed = !adLoaded && attempt >= QUICK_RETRY_DELAYS_MS.length;
+
   useEffect(() => {
     if (ready) logAdRequest(placement, attempt);
   }, [ready, attempt, placement]);
@@ -139,16 +157,33 @@ export const BannerAdSlot = ({ isVisible = true, lazy = true, placement = 'unkno
     <View
       ref={containerRef}
       onLayout={handleLayout}
-      style={[styles.card, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
+      style={[
+        styles.card,
+        // Until the ad loads the frame stays invisible: an empty bordered box reads as a broken
+        // screen. The ad is still mounted so its request runs.
+        { backgroundColor: adLoaded ? theme.colors.surface : 'transparent', borderColor: adLoaded ? theme.colors.border : 'transparent' },
+        collapsed && styles.cardCollapsed,
+      ]}
     >
-      <View style={styles.adArea}>
+      <View style={[styles.adArea, !adLoaded && styles.adAreaPending, collapsed && styles.adAreaCollapsed]}>
         {ready && (
           <BannerAd
             key={attempt}
             unitId={BANNER_AD_UNIT_ID}
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+            size={size === 'banner' ? BannerAdSize.BANNER : BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
             width={adWidth}
-            onAdLoaded={() => logAdLoaded(placement, attempt)}
+            onAdLoaded={() => {
+              setAdLoaded(true);
+              // AdMob refreshes a banner on its own and fires onAdLoaded again. Only the first fill of
+              // a request is an ad_loaded; later fills are ad_refreshed, so the two counts stay comparable.
+              if (loadedFor.current === attempt) {
+                logEvent('ad_refreshed', { placement });
+              } else {
+                loadedFor.current = attempt;
+                logAdLoaded(placement, attempt);
+              }
+              onAdLoaded?.();
+            }}
             onAdFailedToLoad={handleAdFailed}
           />
         )}
@@ -165,6 +200,19 @@ const styles = StyleSheet.create({
     padding: CARD_PADDING,
     marginVertical: spacing.xs,
     overflow: 'hidden',
+  },
+  cardCollapsed: {
+    height: 0,
+    padding: 0,
+    marginVertical: 0,
+    borderWidth: 0,
+  },
+  adAreaCollapsed: {
+    minHeight: 0,
+    height: 0,
+  },
+  adAreaPending: {
+    minHeight: 0,
   },
   adArea: {
     minHeight: AD_MIN_HEIGHT,

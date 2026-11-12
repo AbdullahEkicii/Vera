@@ -15,13 +15,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
 
 import { useTheme } from '../context/ThemeContext';
-import { typography } from '../utils/theme';
+import { readableTextOn, typography } from '../utils/theme';
 import { ESMAUL_HUSNA, EsmaulHusna } from '../data/esmaulhusna';
 import { DUAS, DuaItem } from '../data/duas';
 import { BannerAdSlot } from './BannerAdSlot';
 import { ScalePressable } from './ScalePressable';
 import { logScreenView } from '../services/analyticsService';
-import { ct } from '../localization/content';
+import { useCt } from '../localization/content';
 
 type TabType = 'names' | 'duas';
 
@@ -37,6 +37,7 @@ interface EsmaItemCardProps {
 }
 
 const EsmaItemCard = React.memo(({ item, isExpanded, onToggle, isDark, isLangTR, theme }: EsmaItemCardProps) => {
+  const ct = useCt();
   const meaning = ct(`content.esma.${item.id}`, item.tr, item.en);
   const cardBg = isDark ? '#1A1A24' : '#FFFFFF';
   const cardBgExpanded = isDark ? '#22213A' : '#FFFBF0';
@@ -55,7 +56,7 @@ const EsmaItemCard = React.memo(({ item, isExpanded, onToggle, isDark, isLangTR,
     >
       <View style={styles.cardHeader}>
         <View style={[styles.numberBadge, { backgroundColor: theme.colors.primary + '18' }]}>
-          <Text style={[styles.numberText, { color: theme.colors.primary }]}>{item.id}</Text>
+          <Text style={[styles.numberText, { color: theme.colors.primaryText }]}>{item.id}</Text>
         </View>
 
         <View style={styles.titleCol}>
@@ -98,6 +99,7 @@ interface DuaItemCardProps {
 }
 
 const DuaItemCard = React.memo(({ item, isExpanded, onToggle, isDark, isLangTR, theme, t }: DuaItemCardProps) => {
+  const ct = useCt();
   const title = ct(`content.duas.${item.id}.title`, item.title_tr, item.title_en);
   const meaning = isLangTR ? item.tr : item.en;
   const occasion = ct(`content.duas.${item.id}.occasion`, item.occasion_tr, item.occasion_en);
@@ -127,7 +129,7 @@ const DuaItemCard = React.memo(({ item, isExpanded, onToggle, isDark, isLangTR, 
             },
           ]}
         >
-          <Feather name="book-open" size={15} color={isExpanded ? (isDark ? '#000' : '#FFF') : theme.colors.primary} />
+          <Feather name="book-open" size={15} color={isExpanded ? readableTextOn(theme.colors.primary) : theme.colors.primary} />
         </View>
 
         <View style={{ flex: 1 }}>
@@ -173,7 +175,7 @@ const DuaItemCard = React.memo(({ item, isExpanded, onToggle, isDark, isLangTR, 
                 },
               ]}
             >
-              <Ionicons name="sparkles" size={14} color="#D4AF37" style={{ marginRight: 8, marginTop: 1 }} />
+              <Ionicons name="sparkles" size={14} color="#D4AF37" style={{ marginEnd: 8, marginTop: 1 }} />
               <View style={{ flex: 1 }}>
                 <Text style={[styles.occasionLabel, { color: '#D4AF37' }]}>
                   {t('duas.occasionTitle', 'Ne Zaman / Ne İçin Okunur?')}
@@ -218,7 +220,7 @@ const DuaItemCard = React.memo(({ item, isExpanded, onToggle, isDark, isLangTR, 
               },
             ]}
           >
-            <Text style={[styles.meaningLabel, { color: theme.colors.primary }]}>
+            <Text style={[styles.meaningLabel, { color: theme.colors.primaryText }]}>
               {t('names.meaningLabel', 'Anlamı')}
             </Text>
             <Text style={[styles.duaMeaning, { color: theme.colors.text }]}>{meaning}</Text>
@@ -232,6 +234,7 @@ DuaItemCard.displayName = 'DuaItemCard';
 
 export function NamesAndDuasScreen({ isActive = true }: { isActive?: boolean }) {
   const { t, i18n } = useTranslation();
+  const ct = useCt();
   const { theme, isDark } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>('names');
   const [expandedId, setExpandedId] = useState<number | string | null>(null);
@@ -375,10 +378,12 @@ export function NamesAndDuasScreen({ isActive = true }: { isActive?: boolean }) 
                 key={tab}
                 style={[styles.segmentBtn, { overflow: 'hidden', borderRadius: 12 }]}
                 onPress={() => switchTab(tab)}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: isActive }}
               >
                 {isActive && (
                   <LinearGradient
-                    colors={['#C8860A', '#A06A00']}
+                    colors={['#A06A00', '#8A5A00']}
                     style={StyleSheet.absoluteFillObject}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 0 }}
@@ -387,9 +392,9 @@ export function NamesAndDuasScreen({ isActive = true }: { isActive?: boolean }) 
                 <Feather
                   name={tab === 'names' ? 'star' : 'book-open'}
                   size={14}
-                  color={isActive ? '#FFF' : theme.colors.textSecondary}
+                  color={isActive ? '#FFFFFF' : theme.colors.textSecondary}
                 />
-                <Text style={[styles.segmentText, { color: isActive ? '#FFF' : theme.colors.textSecondary }]}>
+                <Text style={[styles.segmentText, { color: isActive ? '#FFFFFF' : theme.colors.textSecondary }]}>
                   {tab === 'names' ? t('names.tabNames', '99 İsim') : t('names.tabDuas', 'Dualar')}
                 </Text>
               </Pressable>
@@ -401,7 +406,7 @@ export function NamesAndDuasScreen({ isActive = true }: { isActive?: boolean }) 
       {/* Live Search Bar */}
       <View style={styles.searchWrap}>
         <View style={[styles.searchBar, { backgroundColor: isDark ? '#1A1A24' : '#FFFFFF', borderColor: theme.colors.border }]}>
-          <Feather name="search" size={16} color={theme.colors.textSecondary} style={{ marginRight: 8 }} />
+          <Feather name="search" size={16} color={theme.colors.textSecondary} style={{ marginEnd: 8 }} />
           <TextInput
             style={[styles.searchInput, { color: theme.colors.text }]}
             placeholder={
@@ -414,7 +419,7 @@ export function NamesAndDuasScreen({ isActive = true }: { isActive?: boolean }) 
             onChangeText={setSearchQuery}
           />
           {searchQuery.length > 0 && (
-            <Pressable onPress={() => setSearchQuery('')} hitSlop={8}>
+            <Pressable onPress={() => setSearchQuery('')} hitSlop={14} accessibilityRole="button" accessibilityLabel={t('common.clear', 'Clear')}>
               <Feather name="x-circle" size={16} color={theme.colors.textSecondary} />
             </Pressable>
           )}
@@ -424,7 +429,7 @@ export function NamesAndDuasScreen({ isActive = true }: { isActive?: boolean }) 
       {/* Count badge */}
       <View style={styles.countBadgeRow}>
         <View style={[styles.countBadge, { backgroundColor: theme.colors.primary + '18' }]}>
-          <Text style={[styles.countBadgeText, { color: theme.colors.primary }]}>
+          <Text style={[styles.countBadgeText, { color: theme.colors.primaryText }]}>
             {activeTab === 'names'
               ? t('names.namesCount', { count: filteredNames.length, defaultValue: `${filteredNames.length} İsim` })
               : t('names.duasCount', { count: filteredDuas.length, defaultValue: `${filteredDuas.length} Dua` })}
@@ -527,7 +532,7 @@ const styles = StyleSheet.create({
   },
   countHint: {
     fontFamily: 'Outfit_400Regular',
-    fontSize: 11,
+    fontSize: 12,
   },
   listContent: {
     paddingHorizontal: 16,
@@ -553,7 +558,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginEnd: 12,
   },
   numberText: {
     fontFamily: 'Outfit_700Bold',
@@ -561,7 +566,7 @@ const styles = StyleSheet.create({
   },
   titleCol: {
     flex: 1,
-    marginRight: 8,
+    marginEnd: 8,
   },
   translitText: {
     fontFamily: 'Outfit_600SemiBold',
@@ -603,7 +608,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 10,
+    marginEnd: 10,
   },
   duaTitle: {
     fontFamily: 'Outfit_600SemiBold',
@@ -611,7 +616,7 @@ const styles = StyleSheet.create({
   },
   duaOccasionPreview: {
     fontFamily: 'Outfit_400Regular',
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
   },
   chevronBox: {
@@ -620,7 +625,7 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 6,
+    marginStart: 6,
   },
   duaBody: {
     marginTop: 10,
@@ -635,7 +640,7 @@ const styles = StyleSheet.create({
   },
   occasionLabel: {
     fontFamily: 'Outfit_600SemiBold',
-    fontSize: 11,
+    fontSize: 12,
     marginBottom: 2,
   },
   occasionText: {
@@ -664,7 +669,7 @@ const styles = StyleSheet.create({
     width: 3,
     height: '100%',
     borderRadius: 2,
-    marginRight: 8,
+    marginEnd: 8,
   },
   duaTranslit: {
     flex: 1,
@@ -680,7 +685,7 @@ const styles = StyleSheet.create({
   },
   meaningLabel: {
     fontFamily: 'Outfit_600SemiBold',
-    fontSize: 11,
+    fontSize: 12,
     marginBottom: 4,
   },
   duaMeaning: {

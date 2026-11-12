@@ -20,6 +20,8 @@ import { AppBackground } from '../components/ProgressRing';
 import { logScreenView } from '../services/analyticsService';
 import { BannerAdSlot } from '../components/BannerAdSlot';
 import { useIsFocused } from '@react-navigation/native';
+import { directionalIconStyle } from '../utils/rtl';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const ZAKAT_RATE = 0.025; // 1/40
 
@@ -29,6 +31,9 @@ function parseAmount(v: string): number {
 }
 
 export default function ZakatCalculatorScreen() {
+  const insets = useSafeAreaInsets();
+  // Edge-to-edge / cut-out safe: StatusBar.currentHeight alone can be 0 or stale.
+  const topInset = Math.max(insets.top, StatusBar.currentHeight ?? 0);
   const { t } = useTranslation();
   const { theme, isDark } = useTheme();
   const isFocused = useIsFocused();
@@ -68,12 +73,14 @@ export default function ZakatCalculatorScreen() {
         <View style={styles.container}>
           <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} translucent backgroundColor="transparent" />
 
-          <View style={styles.header}>
+          <View style={[styles.header, { paddingTop: topInset + 16 }]}>
             <Pressable
               style={[styles.backBtn, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border }]}
               onPress={() => router.back()}
+              accessibilityRole="button"
+              accessibilityLabel={t('common.back', 'Back')}
             >
-              <Feather name="arrow-left" size={20} color={theme.colors.text} />
+              <Feather name="arrow-left" size={20} color={theme.colors.text} style={directionalIconStyle} />
             </Pressable>
             <Text style={[styles.headerTitle, { color: theme.colors.text }]}>
               {t('zakat.title', 'Zekat Hesaplama')}
@@ -120,7 +127,7 @@ export default function ZakatCalculatorScreen() {
                   <Feather name="target" size={16} color={theme.colors.primary} />
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={[styles.fieldLabel, { color: theme.colors.primary }]}>
+                  <Text style={[styles.fieldLabel, { color: theme.colors.primaryText }]}>
                     {t('zakat.nisab', 'Nisap Tutarı (Güncel Altın/Gümüş Değeri)')}
                   </Text>
                   <TextInput
@@ -151,7 +158,7 @@ export default function ZakatCalculatorScreen() {
                   <Text style={[styles.resultLabel, { color: theme.colors.textSecondary }]}>
                     {t('zakat.zakatDue', 'Ödemeniz Gereken Zekat')}
                   </Text>
-                  <Text style={[styles.zakatDueValue, { color: theme.colors.primary }]}>{totals.zakatDue.toLocaleString()}</Text>
+                  <Text style={[styles.zakatDueValue, { color: theme.colors.primaryText }]}>{totals.zakatDue.toLocaleString()}</Text>
                 </>
               ) : (
                 <Text style={[styles.notEligibleText, { color: theme.colors.textSecondary }]}>
@@ -182,13 +189,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'ios' ? 60 : (StatusBar.currentHeight ?? 24) + 16,
     paddingBottom: 12,
   },
   backBtn: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,

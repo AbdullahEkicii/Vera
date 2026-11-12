@@ -51,9 +51,14 @@ export function getReferralShareMessage(code: string, t: Translate): string {
   );
 }
 
+// Matches generateCode(): 6 chars from CODE_CHARS (no 0/O/1/I). Deep-link input is untrusted.
+const REFERRAL_CODE_PATTERN = /^[A-HJ-NP-Z2-9]{6}$/;
+
 /** Persists the referral code that brought this user in (first-touch, never overwritten). */
 export async function recordReferralIfPresent(refCode: string | undefined | null): Promise<void> {
-  if (!refCode) return;
+  if (typeof refCode !== 'string') return;
+  refCode = refCode.trim().toUpperCase();
+  if (!REFERRAL_CODE_PATTERN.test(refCode)) return;
   const alreadyRecorded = await AppStorage.getItem(REFERRED_BY_KEY);
   if (alreadyRecorded) return; // first-touch attribution only
   await AppStorage.setItem(REFERRED_BY_KEY, refCode);

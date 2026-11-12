@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import {
   Modal,
   View,
@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Pressable,
   Share,
-  Dimensions,
+  useWindowDimensions,
   ActivityIndicator,
   ScrollView,
 } from 'react-native';
@@ -19,7 +19,6 @@ import * as Haptics from 'expo-haptics';
 import QRCode from 'react-native-qrcode-svg';
 import { getStoreLink } from '../services/referralService';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface Props {
   visible: boolean;
@@ -87,6 +86,8 @@ export function StoryCardShareModal({
   type,
 }: Props) {
   const { t } = useTranslation();
+  const { width: SCREEN_WIDTH } = useWindowDimensions();
+  const storyCardW = useMemo(() => ({ width: SCREEN_WIDTH - 56 }), [SCREEN_WIDTH]);
   const [selectedThemeIndex, setSelectedThemeIndex] = useState(0);
   const [isSharing, setIsSharing] = useState(false);
 
@@ -145,8 +146,8 @@ export function StoryCardShareModal({
             <Text style={styles.sheetTitle}>
               {t('share.storyTitle', 'Hikaye & Kart Paylaşımı')}
             </Text>
-            <Pressable onPress={onClose} hitSlop={12}>
-              <Feather name="x" size={20} color="#A08060" />
+            <Pressable onPress={onClose} hitSlop={12} style={styles.iconCloseBtn} accessibilityRole="button" accessibilityLabel={t('common.close', 'Close')}>
+              <Feather name="x" size={20} color="#BBA07C" />
             </Pressable>
           </View>
 
@@ -158,7 +159,7 @@ export function StoryCardShareModal({
             >
               <LinearGradient
                 colors={theme.gradient}
-                style={[styles.storyCard, { borderColor: theme.border + '50' }]}
+                style={[styles.storyCard, storyCardW, { borderColor: theme.border + '50' }]}
               >
                 <View style={styles.storyCardInner}>
                   <Feather
@@ -183,9 +184,9 @@ export function StoryCardShareModal({
                   {/* Compact Watermark + Real Scannable QR Code */}
                   <View style={styles.watermarkContainer}>
                     <View style={styles.watermarkRow}>
-                      <View style={{ flex: 1, marginRight: 10 }}>
+                      <View style={{ flex: 1, marginEnd: 10 }}>
                         <View style={[styles.brandPill, { borderColor: theme.border + '50' }]}>
-                          <Ionicons name="moon" size={10} color={theme.border} style={{ marginRight: 4 }} />
+                          <Ionicons name="moon" size={10} color={theme.border} style={{ marginEnd: 4 }} />
                           <Text style={[styles.watermarkBrand, { color: theme.border }]}>
                             VERA
                           </Text>
@@ -236,6 +237,8 @@ export function StoryCardShareModal({
                     },
                   ]}
                   onPress={() => setSelectedThemeIndex(idx)}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: isSelected }}
                 >
                   <Text style={[styles.themeChipText, { color: preset.primaryText }]}>
                     {t(preset.labelKey, preset.nameFallback)}
@@ -246,7 +249,7 @@ export function StoryCardShareModal({
           </ScrollView>
 
           {/* Share Action Buttons */}
-          <Pressable style={styles.shareBtnWrapper} onPress={handleShareImage} disabled={isSharing}>
+          <Pressable style={styles.shareBtnWrapper} onPress={handleShareImage} disabled={isSharing} accessibilityRole="button">
             <LinearGradient
               colors={['#D4AF37', '#B8860B']}
               style={styles.shareBtn}
@@ -259,17 +262,17 @@ export function StoryCardShareModal({
                 <>
                   <Feather name="image" size={17} color="#1A1207" />
                   <Text style={styles.shareBtnText}>
-                    {t('greeting.shareImageBtn', 'Görsel Olarak Paylaş 🌟')}
+                    {t('greeting.shareImageBtn', 'Görsel Olarak Paylaş')}
                   </Text>
                 </>
               )}
             </LinearGradient>
           </Pressable>
 
-          <Pressable style={styles.shareLinkBtn} onPress={handleShareDirectLink}>
-            <Ionicons name="link-outline" size={16} color="#D4AF37" style={{ marginRight: 6 }} />
+          <Pressable style={styles.shareLinkBtn} onPress={handleShareDirectLink} accessibilityRole="button">
+            <Ionicons name="link-outline" size={16} color="#D4AF37" style={{ marginEnd: 6 }} />
             <Text style={styles.shareLinkBtnText}>
-              {t('greeting.shareLinkBtn', 'Doğrudan Tıklanabilir Link Paylaş 🔗')}
+              {t('greeting.shareLinkBtn', 'Doğrudan Tıklanabilir Link Paylaş')}
             </Text>
           </Pressable>
         </View>
@@ -279,6 +282,12 @@ export function StoryCardShareModal({
 }
 
 const styles = StyleSheet.create({
+  iconCloseBtn: {
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.7)',
@@ -286,8 +295,8 @@ const styles = StyleSheet.create({
   },
   sheetContainer: {
     backgroundColor: '#161008',
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    borderTopStartRadius: 28,
+    borderTopEndRadius: 28,
     paddingHorizontal: 20,
     paddingTop: 18,
     paddingBottom: 28,
@@ -311,7 +320,6 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   storyCard: {
-    width: SCREEN_WIDTH - 56,
     minHeight: 290,
     borderRadius: 20,
     borderWidth: 1.5,

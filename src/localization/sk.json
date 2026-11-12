@@ -10,7 +10,13 @@
       "cancel": "Zrušiť",
       "save": "Uložiť",
       "ok": "OK",
-      "close": "Zavrieť"
+      "close": "Zavrieť",
+      "back": "Späť",
+      "clear": "Vymazať",
+      "remove": "Odstrániť",
+      "expand": "Rozbaliť",
+      "collapse": "Zbaliť",
+      "share": "Zdieľať"
     },
     "home": {
       "title": "Modlitebné časy",
@@ -42,7 +48,13 @@
       "loadingTimes": "Načítavajú sa časy modlitieb...",
       "locationPermissionTitle": "Povolenie polohy nedostupné",
       "locationPermissionDesc": "Zobrazuje sa predvolené mesto. Môžete si vybrať mesto alebo udeliť povolenie polohy.",
-      "estimatedTimesNotice": "Bez internetového pripojenia boli časy modlitieb vypočítané priamo v zariadení (odhadované)."
+      "estimatedTimesNotice": "Bez internetového pripojenia boli časy modlitieb vypočítané priamo v zariadení (odhadované).",
+      "adjustTimeHint": "Dlhým stlačením upravíte tento čas",
+      "moreTools": "Viac",
+      "locationFetchFailedTitle": "Poloha sa nenašla",
+      "locationFetchFailedDesc": "Nepodarilo sa získať vašu GPS polohu. Môžete vybrať mesto alebo to skúsiť neskôr.",
+      "sourceA11y": "Metóda výpočtu časov modlitieb",
+      "highLatNote": "Vysoká zemepisná šírka: Fadžr/Isha sú približné"
     },
     "settings": {
       "title": "Nastavenia",
@@ -60,7 +72,11 @@
         "egypt": "Egyptský úrad",
         "karachi": "Karači (Pakistan)",
         "france": "Francúzsko (UOIF)",
-        "russia": "Rusko"
+        "russia": "Rusko",
+        "kemenag": "Indonézia (Kemenag)",
+        "jakim": "Malajzia (JAKIM)",
+        "muis": "Singapur (MUIS)",
+        "tehran": "Irán (Teheránska univerzita)"
       },
       "palettes": {
         "default": "Predvolené",
@@ -93,7 +109,7 @@
       "persistentNotif": "Odpočítavanie vytrvalých modlitieb",
       "persistentNotifDesc": "Sledujte čas zostávajúci do ďalšej modlitby naživo na uzamknutej obrazovke a paneli upozornení.",
       "widgetTitle": "Widget domovskej obrazovky",
-      "addWidget": "📌 Pridajte miniaplikáciu na domovskú obrazovku!",
+      "addWidget": "Pridajte miniaplikáciu na domovskú obrazovku!",
       "addWidgetDesc": "Pozrite si modlitebné časy a živé odpočítavanie priamo na domovskej obrazovke telefónu.",
       "general": "Všeobecné nastavenia",
       "fullscreen": "Režim celej obrazovky",
@@ -130,7 +146,32 @@
       "username": "Používateľské meno",
       "password": "Heslo",
       "loggingIn": "Prihlasovanie...",
-      "login": "Prihlásiť sa"
+      "login": "Prihlásiť sa",
+      "remindersTitle": "Pripomienky a oznámenia",
+      "dailyContentNotif": "Verš / hadís dňa",
+      "dailyContentNotifDesc": "Krátka denná pripomienka po poludňajšej modlitbe.",
+      "quranReminderNotif": "Pripomienka čítania Koránu",
+      "quranReminderNotifDesc": "Večerná pripomienka každý druhý deň.",
+      "greetingNotif": "Pozdravy k piatku a posvätným dňom",
+      "greetingNotifDesc": "Pripomienky v piatok a v náboženské sviatky.",
+      "announcementsNotif": "Oznámenia",
+      "announcementsNotifDesc": "Novinky a kampaňové správy od Vera.",
+      "locationTitle": "Poloha",
+      "changeCity": "Zmeniť mesto",
+      "locationNotSet": "Zatiaľ nevybrané",
+      "locationFromGps": "Sleduje polohu telefónu",
+      "locationFromManual": "Mesto vybrané ručne",
+      "locationHint": "Vyberte mesto alebo použite polohu telefónu.",
+      "useMyLocation": "Použiť moju aktuálnu polohu",
+      "fullscreenDesc": "Skryje stavový riadok (hodiny, batéria) a navigačnú lištu.",
+      "recommended": "Odporúčané",
+      "asrSchoolTitle": "Výpočet Asr",
+      "asrStandard": "Štandardný (šáfiovský, málikovský, hanbalovský)",
+      "asrHanafi": "Hanafský",
+      "asrSchoolDesc": "Hanafský smer posúva Asr neskôr (tieň dvojnásobok predmetu). V južnej Ázii je obvyklý.",
+      "rateApp": "Ohodnotiť Vera",
+      "privacyPolicy": "Zásady ochrany osobných údajov",
+      "restartForDirection": "Zavrite a znova otvorte aplikáciu, aby sa použil nový smer textu."
     },
     "qibla": {
       "title": "Kibla",
@@ -148,12 +189,12 @@
       "status": "Stav",
       "aligned": "Zarovnané",
       "aligning": "Otáčajte",
-      "alignedSuccess": "🕌 Ste otočení ku Kible!",
+      "alignedSuccess": "Ste otočení ku Kible!",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "Ako používať?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "Smerovanie",
       "calibrateBtn": "Kalibrujte kompas",
@@ -162,8 +203,15 @@
       "magneticShield": "Štít magnetického poľa",
       "magneticShieldDesc": "Optimalizovaná presnosť snímača. Uchovávajte mimo dosahu magnetických puzdier.",
       "levelStatus": "Horizontálna úroveň (bublina)",
-      "levelFlat": "Ploché a paralelné ✓",
-      "gotIt": "Dobre"
+      "levelFlat": "Ploché a paralelné",
+      "gotIt": "Dobre",
+      "noLocationTitle": "Je potrebná poloha",
+      "noLocationDesc": "Smer Qibly závisí od toho, kde ste. Vyberte mesto alebo povoľte prístup k polohe.",
+      "useMyLocation": "Použiť moju polohu",
+      "chooseCity": "Vybrať mesto",
+      "lowAccuracy": "Presnosť kompasu je nízka. Klepnutím skalibrujte.",
+      "magneticNorthNote": "Používa sa magnetický sever: smer sa môže líšiť o niekoľko stupňov.",
+      "errorNoSensor": "Senzor kompasu neodpovedá. Toto zariadenie nemusí mať kompas."
     },
     "daily": {
       "title": "Denná inšpirácia",
@@ -175,7 +223,8 @@
       "hadithBody": "Kliknite pre prečítanie hadísu dňa!",
       "quoteBody": "Kliknite pre prečítanie citátu dňa!",
       "subtitle": "Vybraný verš, hadís a citát na dnešný deň",
-      "shareHint": "Ťuknutím na kartu ju zdieľajte ako obrázok príbehu"
+      "shareHint": "Ťuknutím na kartu ju zdieľajte ako obrázok príbehu",
+      "autoTranslated": "Automatický preklad"
     },
     "search": {
       "title": "Vybrať polohu",
@@ -184,7 +233,10 @@
       "recent": "Nedávne hľadania",
       "useGPS": "Použiť aktuálnu polohu",
       "gpsDenied": "Povolenie polohy zamietnuté.",
-      "gpsError": "Zlyhalo získanie polohy."
+      "gpsError": "Zlyhalo získanie polohy.",
+      "searchFailed": "Vyhľadávanie zlyhalo, skontrolujte pripojenie.",
+      "pin": "Uložiť mesto",
+      "unpin": "Odopnúť"
     },
     "notifications": {
       "exactAlert": "Upozornenie na čas modlitby",
@@ -237,7 +289,8 @@
         "dailyName": "Denná inšpirácia",
         "dailyDesc": "Denný verš, hadís alebo citát prichádzajú medzi Dhuhr a Asr.",
         "persistentName": "Uzamknutá obrazovka a stavový riadok",
-        "persistentDesc": "Zobrazuje názov ďalšej modlitby a živé odpočítavanie na paneli upozornení a na uzamknutej obrazovke."
+        "persistentDesc": "Zobrazuje názov ďalšej modlitby a živé odpočítavanie na paneli upozornení a na uzamknutej obrazovke.",
+        "announcements": "Oznamy"
       },
       "persistentTitle": "🕌 Do {{prayer}}"
     },
@@ -408,7 +461,15 @@
       "noBookmarks": "Zatiaľ nemáte žiadne obľúbené verše. Dlhým podržaním verša ho môžete pridať.",
       "playFromHere": "Prehrať odtiaľto",
       "juz": "Džuz",
-      "downloadingShort": "Sťahuje sa..."
+      "downloadingShort": "Sťahuje sa...",
+      "audioErrorTitle": "Zvuk sa nepodarilo prehrať",
+      "audioErrorMessage": "Recitáciu sa nepodarilo načítať. Skontrolujte pripojenie na internet a skúste to znova.",
+      "audioPause": "Pozastaviť recitáciu",
+      "audioResume": "Pokračovať v recitácii",
+      "audioStop": "Zastaviť recitáciu",
+      "audioPlay": "Prehrať recitáciu",
+      "fontSmaller": "Zmenšiť text",
+      "fontLarger": "Zväčšiť text"
     },
     "review": {
       "title": "Podporte nás",
@@ -416,9 +477,9 @@
       "notNow": "Teraz nie",
       "review": "Ohodnotiť",
       "subtitle": "Ohodnoťte svoje skúsenosti hviezdičkami",
-      "fiveStarTitle": "To nás veľmi teší! 🌟",
+      "fiveStarTitle": "To nás veľmi teší!",
       "fiveStarSubtitle": "Chceli by ste Veru podporiť 5-hviezdičkovým hodnotením?",
-      "rateOnStore": "🌟 Dajte 5 hviezdičiek a podporujte",
+      "rateOnStore": "Dajte 5 hviezdičiek a podporujte",
       "ratingLabels": {
         "1": "Vyžaduje zlepšenie",
         "2": "Spravodlivé",
@@ -426,11 +487,11 @@
         "4": "Veľmi dobré",
         "5": "Výborne!"
       },
-      "feedbackTitle": "Pomôžte nám zlepšiť sa 💬",
+      "feedbackTitle": "Pomôžte nám zlepšiť sa",
       "feedbackSubtitle": "Podeľte sa o svoje myšlienky a návrhy, aby sme mohli Veru ešte zlepšiť.",
       "feedbackPlaceholder": "Napíšte svoje návrhy, nápady alebo akékoľvek problémy, s ktorými ste sa stretli...",
       "sendFeedback": "Odoslať spätnú väzbu",
-      "thankYouTitle": "Prijatá spätná väzba! 🤲",
+      "thankYouTitle": "Prijatá spätná väzba!",
       "thankYouSubtitle": "Vaša spätná väzba je pre nás veľmi cenná. Budeme tvrdo pracovať, aby bola Vera ešte lepšia.",
       "close": "Zavrieť"
     },
@@ -453,6 +514,8 @@
       "title": "Denný sledovač modlitieb",
       "completed": "Dokončené",
       "dayStreak": "Day Streak",
+      "restartHint": "Dnes môžeš začať znova",
+      "weekActiveDays": "{{count}} dní za posledných 7",
       "viewHistory": "Zobraziť celú históriu",
       "historyTitle": "História modlitieb",
       "historySubtitle": "Vaše záznamy modlitieb za posledných 30 dní",
@@ -483,7 +546,8 @@
     "imsakiye": {
       "title": "Týždenný Imsakiye",
       "subtitle": "Termíny nasledujúcich 7 dní",
-      "date": "Dátum"
+      "date": "Dátum",
+      "rangeDays": "{{n}} dní"
     },
     "religious": {
       "title": "Náboženské dni",
@@ -500,12 +564,12 @@
       "dismissBtn": "Teraz nie"
     },
     "names": {
-      "title": "Mená Alaha a Duasa",
+      "title": "Mená Alaha a Dua",
       "namesSubtitle": "99 krásnych mien Alaha",
       "duasSubtitle": "Každodenné prosby",
       "meaningLabel": "Význam",
       "tabNames": "99 mien",
-      "tabDuas": "Duas",
+      "tabDuas": "Dua",
       "namesCount": "{{count}} mená",
       "duasCount": "{{count}} Duas",
       "tapHint": "Klepnutím zobrazíte podrobnosti",
@@ -541,20 +605,20 @@
       "verifiedMethodDesc": "Automaticky sa vyberie najpresnejšia islamská metóda pre váš región.",
       "notificationsTitle": "Adhan & Prayer Alerts",
       "notificationsDesc": "Prijmite jemné alebo počuteľné pripomienky v časoch modlitby.",
-      "startBtn": "Začnite používať Veru 🌟",
+      "startBtn": "Začnite používať Veru",
       "featureQuran": "Korán a zvuk",
       "featureQibla": "Qibla",
       "featureDhikr": "Počítadlo Dhikr",
-      "backBtn": "← Vráťte sa späť",
-      "playTestSound": "Ukážka zvuku Adhan 🔊",
-      "stopTestSound": "Zastaviť zvuk ⏹️",
-      "nextStepBtn": "Pokračovať →",
+      "backBtn": "Vráťte sa späť",
+      "playTestSound": "Ukážka zvuku Adhan",
+      "stopTestSound": "Zastaviť zvuk",
+      "nextStepBtn": "Pokračovať",
       "step3Title": "Nerušený zážitok",
       "step3Subtitle": "Sledujte časy modlitieb naživo zo svojej domovskej obrazovky a zaistite spoľahlivé upozornenia adhan.",
-      "widgetTitle": "📌 Pridať miniaplikáciu na plochu",
+      "widgetTitle": "Pridať miniaplikáciu na plochu",
       "widgetDesc": "Pozrite si živé odpočítavanie bez otvorenia aplikácie.",
       "widgetAdded": "Widget bol úspešne pridaný!",
-      "batteryTitle": "🔋 Výnimka pre šetrič batérie",
+      "batteryTitle": "Výnimka pre šetrič batérie",
       "batteryDesc": "Odporúča sa vypnúť optimalizáciu batérie v zariadeniach Xiaomi a Samsung pre včasné reklamy.",
       "locationReassurance": "Toto môžete kedykoľvek zmeniť neskôr v Nastaveniach.",
       "notifDenied": "Povolenie na notifikácie nebolo udelené. Upozornenia na azán nemusia fungovať — môžete ich zapnúť neskôr v Nastaveniach.",
@@ -565,7 +629,10 @@
       "skipConfirm": "Preskočiť",
       "locationDenied": "Povolenie polohy nebolo udelené. Mesto si môžete vybrať zo zoznamu alebo to zmeniť neskôr v Nastaveniach.",
       "locationFailed": "Polohu sa nepodarilo zistiť. Mesto si môžete vybrať zo zoznamu alebo to zmeniť neskôr v Nastaveniach.",
-      "locationNotSet": "Poloha nedostupná (povolenie zamietnuté)"
+      "locationNotSet": "Poloha nedostupná (povolenie zamietnuté)",
+      "locationNotSetYet": "Zatiaľ nevybrané",
+      "skipLocation": "Zatiaľ preskočiť",
+      "currentLocationLabel": "Aktuálna poloha"
     },
     "weather": {
       "title": "Predpoveď počasia",
@@ -629,9 +696,9 @@
       "titlePlaceholder": "Názov (napr. Jummah Mubarak)",
       "messagePlaceholder": "Napíšte svoju modlitbu alebo pozdrav...",
       "chooseTheme": "Téma karty",
-      "shareBtn": "Zdieľať na WhatsApp / Príbeh 🌟",
-      "shareImageBtn": "Zdieľajte obrázkovú kartu 🌟",
-      "shareLinkBtn": "Zdieľajte priamy odkaz na obchod 🔗",
+      "shareBtn": "Zdieľať na WhatsApp / Príbeh",
+      "shareImageBtn": "Zdieľajte obrázkovú kartu",
+      "shareLinkBtn": "Zdieľajte priamy odkaz na obchod",
       "theme": {
         "gold": "Zlatá línia",
         "emerald": "Smaragdová kupola",
@@ -649,7 +716,13 @@
       "emptyTitle": "V blízkosti sa nenašli žiadne mešity",
       "emptyDesc": "Všetky mešity si môžete prezrieť priamo v navigácii mapy.",
       "openInMaps": "Hľadajte v Mapách",
-      "directionsBtn": "Pokyny"
+      "directionsBtn": "Pokyny",
+      "searchQuery": "mešita",
+      "noLocationTitle": "Poloha sa nenašla",
+      "noLocationDesc": "Vyberte mesto alebo povoľte prístup k polohe, aby sa zobrazili mešity v okolí.",
+      "errorTitle": "Mešity sa nepodarilo načítať",
+      "errorDesc": "Vyskytol sa problém s pripojením. Skontrolujte internet a skúste to znova.",
+      "chooseCity": "Vybrať mesto"
     },
     "dailyContent": {
       "preparing": "Načítavam každodennú inšpiráciu...",
@@ -666,7 +739,7 @@
       "hatimLabel": "Khatm",
       "page": "Stránka",
       "pagesRemaining": "Na dokončenie Khatmu zostáva {{count}} strán.",
-      "completed": "Gratulujem! Dokončili ste Khatm. 🎉",
+      "completed": "Gratulujem! Dokončili ste Khatm.",
       "readPageBtn": "Čítať stránku {{page}}",
       "jumpPageTitle": "Prejsť na stránku / Priebeh aktualizácie",
       "jumpPageDesc": "Zadajte číslo aktuálnej strany (1 – 604):",
@@ -676,7 +749,8 @@
       "startNew": "Začnite nový Khatm",
       "resetHatimBtn": "Obnoviť a spustiť nový Khatm",
       "share": "Zdieľať môj chatm",
-      "shareText": "Dokončil/-a som svoj {{count}}. chatm, alhamdulillah!"
+      "shareText": "Dokončil/-a som svoj {{count}}. chatm, alhamdulillah!",
+      "dailyTarget": "Približne {{n}} strán denne na dokončenie (zostáva dní: {{d}})"
     },
     "prayerTree": {
       "title": "Týždenný modlitebný strom",
@@ -1175,10 +1249,10 @@
     },
     "widget": {
       "guideTitle": "Pridať na plochu",
-      "guideDesc": "Podržte prst na ploche ➔ ťuknite na \"Widgety\" ➔ nájdite widget \"VERA\" a presuňte ho na plochu.",
+      "guideDesc": "Podržte prst na ploche > ťuknite na \"Widgety\" > nájdite widget \"VERA\" a presuňte ho na plochu.",
       "promptTitle": "Pridať widget na plochu",
       "promptDesc": "Sledujte ďalší čas modlitby a zostávajúce minúty priamo na ploche telefónu bez otvárania aplikácie.",
-      "addNow": "📌 Pridať na plochu",
+      "addNow": "Pridať na plochu",
       "notNow": "Neskôr"
     },
     "greetingNotif": {
@@ -1191,7 +1265,133 @@
     "errorBoundary": {
       "title": "Niečo sa pokazilo",
       "subtitle": "V aplikácii sa vyskytla neočakávaná chyba. Klepnutím na tlačidlo nižšie to skúste znova.",
-      "retry": "Skúsiť znova"
+      "retry": "Skúsiť znova",
+      "clearAndRetry": "Vymazať údaje vo vyrovnávacej pamäti a skúsiť znova"
+    },
+    "community": {
+      "tabMine": "Moje príspevky",
+      "you": "Ty",
+      "emptyMine": "Zatiaľ nemáte žiadne príspevky. Môžete zdieľať, keď dokončíte nejaký úkon.",
+      "adLabel": "Reklama",
+      "title": "Komunita",
+      "tabToday": "Dnes",
+      "tabWeek": "Posledných 7 dní",
+      "anonymous": "Anonymný brat/sestra",
+      "someone": "Niekto",
+      "templates": {
+        "hatimCompleted": "Dokončil(a) chatm",
+        "achievement": "Odomknuté: {{title}}",
+        "dhikrMilestone": "Niekto z krajiny {{country}} odriekal {{count}} dhikr",
+        "prayerFullday": "Dnes všetkých päť modlitieb splnených"
+      },
+      "emptyToday": "Dnes zatiaľ žiadne príspevky. Zdieľajte prvý, keď niečo dokončíte.",
+      "emptyWeek": "Za posledných 7 dní žiadne príspevky.",
+      "loadFailed": "Kanál sa nepodarilo načítať. Potiahnutím nadol skúste znova.",
+      "share": {
+        "title": "Chcete to zdieľať s komunitou Vera?",
+        "note": "Zdieľa sa iba tento text. Vaše meno a osobné údaje zostanú skryté.",
+        "submit": "Zdieľať",
+        "later": "Teraz nie",
+        "failed": "Zdieľanie zlyhalo. Skúste to neskôr.",
+        "heading": "Zdieľať s komunitou",
+        "sent": "Zdieľané",
+        "external": "Zdieľať v inej aplikácii",
+        "open": "Zdieľať s komunitou",
+        "celebrateHint": "Zdieľajte anonymne s komunitou Vera.",
+        "intro": "Bratia a sestry z celého sveta to môžu vidieť. Vaše meno zostane skryté."
+      },
+      "settings": {
+        "title": "Nastavenia komunity",
+        "participate": "Pripojiť sa ku komunite",
+        "participateHint": "Keď je vypnuté, nezobrazujú sa ponuky na zdieľanie. Kanál môžete naďalej čítať.",
+        "showCountry": "Zobraziť moju krajinu",
+        "showCountryHint": "Keď je zapnuté, názov vašej krajiny sa zobrazí pri príspevkoch. Vypnutie platí iba pre nové príspevky.",
+        "country": "Krajina",
+        "countryManual": "Vybraná krajina: {{code}}",
+        "countryDevice": "Používa sa región zariadenia.",
+        "useDevice": "Zariadenie",
+        "countryInvalid": "Zadajte dvojpísmenový kód krajiny, napr. TR",
+        "myPosts": "Moje príspevky",
+        "noPosts": "Zatiaľ nemáte žiadne príspevky.",
+        "delete": "Odstrániť",
+        "deleteTitle": "Odstrániť tento príspevok?",
+        "deleteBody": "Bude odstránený z kanála pre všetkých.",
+        "blocked": "Blokovaní ľudia: {{count}}",
+        "clearBlocked": "Vymazať zoznam blokovaných",
+        "joined": "Ste v komunite",
+        "left": "Komunita je vypnutá",
+        "sectionPrivacy": "Súkromie",
+        "sectionBlocked": "Blokované",
+        "countryDeviceTitle": "Región zariadenia",
+        "blockedCount": "Ľudí: {{count}}",
+        "change": "Zmeniť"
+      },
+      "report": {
+        "action": "Nahlásiť",
+        "thanksTitle": "Ďakujeme",
+        "thanksBody": "Vaše nahlásenie bude preskúmané.",
+        "failed": "Nahlásenie sa nepodarilo odoslať."
+      },
+      "block": {
+        "action": "Zablokovať túto osobu"
+      },
+      "more": {
+        "title": "Možnosti príspevku"
+      },
+      "discovery": {
+        "title": "Zdieľajte svoje úspechy s komunitou Vera",
+        "body": "Zdieľajte anonymne chatmy, dhikr a dni modlitby s bratmi a sestrami z celého sveta.",
+        "cta": "Otvoriť komunitu"
+      },
+      "summary": {
+        "posts": "príspevky",
+        "hatim": "Chatm",
+        "achievement": "Úspech",
+        "dhikr": "Dhikr",
+        "prayer": "Modlitba"
+      },
+      "howTo": {
+        "helpLabel": "Ako zdieľať",
+        "title": "Ako funguje zdieľanie",
+        "intro": "Zdieľajte dokončenú bohoslužbu s komunitou Vera. Vaše meno zostane skryté.",
+        "step1Title": "Dokončite bohoslužbu",
+        "step1Body": "Dokončite päť modlitieb, hatim alebo cieľ dhikru v aplikácii.",
+        "step2Title": "Ťuknite na Zdieľať",
+        "step2Body": "Keď sa zobrazí gratulácia, ťuknite na Zdieľať. Môžete použiť aj tlačidlo zdieľania na obrazovkách modlitby a dhikru.",
+        "step3Title": "Váš príspevok sa zobrazí tu",
+        "step3Body": "Uvidí ho každý, s vašou krajinou iba ak to povolíte. Kedykoľvek ho odstráňte v časti Moje príspevky.",
+        "gotIt": "Rozumiem"
+      },
+      "reminder": {
+        "title": "Zdieľajte dnešnú bohoslužbu",
+        "body": "Chcete zdieľať dnešnú bohoslužbu s komunitou?",
+        "bodyAll": "Dnes ste vykonali všetkých päť modlitieb. Chcete to zdieľať s komunitou?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "Cieľ na dnes: jeden hatim. Čítajte denne pár strán a dokončime Korán spolu.",
+        "m1": "Cieľ na dnes: po Isha 33-krát Subhanallah, 33-krát Alhamdulillah a 33-krát Allahu Akbar.",
+        "m2": "Skúsme dnes spolu vykonať všetkých päť modlitieb načas.",
+        "m3": "Cieľ na dnes: prečítať jednu stranu Koránu. Aj malé kroky sa počítajú.",
+        "m4": "Cieľ na dnes: 100-krát Subhanallah. Keď skončíte, zdieľajte s komunitou.",
+        "m5": "Tento týždeň si napíšte zoznam dua a spomeňte si v ňom na brata alebo sestru.",
+        "m6": "Zvážte dnes dať almužnu alebo urobiť niekomu dobrý skutok."
+      }
+    },
+    "coach": {
+      "dismiss": "Rozumiem",
+      "ummah": {
+        "title": "Umma",
+        "body": "Zdieľajte dokončenú bohoslužbu s komunitou alebo si pozrite, čo dnes zdieľali ostatní."
+      },
+      "qibla": {
+        "title": "Kompas kibly",
+        "body": "Držte telefón vodorovne a otáčajte, kým šípka neukáže na Kaabu."
+      },
+      "silentMode": {
+        "title": "Tichý režim",
+        "body": "Keď je telefón v tichom režime alebo na vibráciách, azan zaznie potichu. Zmeniť to môžete v Nastaveniach."
+      }
     }
   }
 }

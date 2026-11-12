@@ -25,6 +25,10 @@ import {
 } from '../services/hatimService';
 import { logHatimProgress } from '../services/analyticsService';
 import { StoryCardShareModal } from './StoryCardShareModal';
+import { CommunitySharePrompt } from './CommunitySharePrompt';
+import { loadCommunitySettings } from '../services/communityService';
+import { markPromptAnswered, wasPromptAnswered } from '../services/communityPrompts';
+import { hatimPromptKey } from '../utils/community';
 
 interface Props {
   onOpenPrayers: () => void;
@@ -32,10 +36,12 @@ interface Props {
 }
 
 export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { theme, isDark } = useTheme();
 
   const [hatimState, setHatimState] = useState<HatimState>(DEFAULT_HATIM_STATE);
+  // Set when a hatim just finished and the user has not answered the share offer for it yet.
+  const [sharePromptKey, setSharePromptKey] = useState<string | null>(null);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [inputPage, setInputPage] = useState('');
   const [shareModalVisible, setShareModalVisible] = useState(false);
@@ -52,12 +58,24 @@ export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
   const percentage = Math.min(100, Math.round((hatimState.currentPage / 604) * 100));
   const pagesRemaining = Math.max(0, 604 - hatimState.currentPage);
 
+  // Offers sharing once per finished hatim, and only if the user takes part in the community.
+  const offerCommunityShare = async (previousCompleted: number, nextCompleted: number) => {
+    if (nextCompleted <= previousCompleted) return;
+    const settings = await loadCommunitySettings();
+    if (!settings.participate) return;
+    const key = hatimPromptKey(nextCompleted);
+    if (await wasPromptAnswered(key)) return;
+    setSharePromptKey(key);
+  };
+
   const handlePageChange = async (delta: number) => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     } catch {}
+    const previousCompleted = hatimState.completedHatims;
     const updated = await updateHatimPage(hatimState.currentPage + delta);
     setHatimState(updated);
+    offerCommunityShare(previousCompleted, updated.completedHatims);
     logHatimProgress(updated.currentPage, updated.currentJuz, Math.round((updated.currentPage / 604) * 100));
   };
 
@@ -67,8 +85,10 @@ export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
       Alert.alert(t('common.error', 'Hata'), t('hatim.invalidPage', 'Lütfen 1 ile 604 arasında bir sayfa numarası girin.'));
       return;
     }
+    const previousCompleted = hatimState.completedHatims;
     const updated = await updateHatimPage(pageNum);
     setHatimState(updated);
+    offerCommunityShare(previousCompleted, updated.completedHatims);
     setEditModalVisible(false);
     setInputPage('');
     logHatimProgress(updated.currentPage, updated.currentJuz, Math.round((updated.currentPage / 604) * 100));
@@ -111,6 +131,7 @@ export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
   };
 
   return (
+    <>
     <View style={[styles.card, { backgroundColor: isDark ? '#1C150C' : '#FFFFFF', borderColor: theme.colors.border }]}>
       {/* Top Header */}
       <View style={styles.headerRow}>
@@ -133,7 +154,7 @@ export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
           style={[styles.prayersBtn, { borderColor: 'rgba(212,175,55,0.35)', backgroundColor: 'rgba(212,175,55,0.12)' }]}
           hitSlop={6}
         >
-          <Text style={styles.prayersBtnIcon}>🤲</Text>
+          <Feather name="heart" size={14} color="#D4AF37" />
           <Text style={styles.prayersBtnText} numberOfLines={1} ellipsizeMode="tail">
             {t('quran.prayersBtn', 'Dualar')}
           </Text>
@@ -144,9 +165,9 @@ export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
       <View style={styles.progressContainer}>
         <View style={styles.progressTextRow}>
           <Text style={[styles.statValue, { color: theme.colors.text }]}>
-            {t('hatim.page', 'Sayfa')} <Text style={{ color: theme.colors.primary, fontFamily: typography.fontFamily.bold }}>{hatimState.currentPage}</Text> / 604
+            {t('hatim.page', 'Sayfa')} <Text style={{ color: theme.colors.primaryText, fontFamily: typography.fontFamily.bold }}>{hatimState.currentPage}</Text> / 604
           </Text>
-          <Text style={[styles.statPercent, { color: theme.colors.primary }]}>
+          <Text style={[styles.statPercent, { color: theme.colors.primaryText }]}>
             %{percentage}
           </Text>
         </View>
@@ -163,13 +184,32 @@ export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
         <Text style={[styles.remainingText, { color: theme.colors.textSecondary }]}>
           {pagesRemaining > 0
             ? t('hatim.pagesRemaining', 'Hatmin tamamlanmasına {{count}} sayfa kaldı.', { count: pagesRemaining })
-            : t('hatim.completed', 'Tebrikler! Hatmi tamamladınız. 🎉')}
+            : t('hatim.completed', 'Tebrikler! Hatmi tamamladınız.')}
         </Text>
+
+        {pagesRemaining > 0 && (() => {
+          // Daily pace needed to finish inside the goal; keeps a Khatm from silently slipping.
+          const start = new Date(hatimState.startDate + 'T00:00:00');
+          const elapsed = Number.isFinite(start.getTime()) ? Math.max(0, Math.floor((Date.now() - start.getTime()) / 86400000)) : 0;
+          const daysLeft = Math.max(1, (hatimState.goalDays || 30) - elapsed);
+          const perDay = Math.ceil(pagesRemaining / daysLeft);
+          return (
+            <Text style={[styles.remainingText, { color: theme.colors.primaryText, marginTop: 4 }]}>
+              {t('hatim.dailyTarget', {
+                defaultValue: i18n.language.startsWith('tr')
+                  ? 'Hedef için günde ~{{n}} sayfa ({{d}} gün kaldı)'
+                  : 'About {{n}} pages a day to finish ({{d}} days left)',
+                n: perDay,
+                d: daysLeft,
+              })}
+            </Text>
+          );
+        })()}
 
         {pagesRemaining === 0 && (
           <Pressable style={styles.shareRow} onPress={() => setShareModalVisible(true)}>
             <Feather name="share-2" size={13} color={theme.colors.primary} />
-            <Text style={[styles.shareRowText, { color: theme.colors.primary }]}>
+            <Text style={[styles.shareRowText, { color: theme.colors.primaryText }]}>
               {t('hatim.share', 'Hatmimi Paylaş')}
             </Text>
           </Pressable>
@@ -185,7 +225,7 @@ export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
             end={{ x: 1, y: 0 }}
             style={styles.continueBtn}
           >
-            <Feather name="book-open" size={15} color="#1A1207" style={{ marginRight: 6 }} />
+            <Feather name="book-open" size={15} color="#1A1207" style={{ marginEnd: 6 }} />
             <Text style={styles.continueBtnText}>
               {t('hatim.readPageBtn', 'Sayfa {{page}}\'yi Oku', { page: hatimState.currentPage })}
             </Text>
@@ -255,9 +295,12 @@ export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
               </View>
 
               <Pressable onPress={handleResetHatim} style={{ marginTop: 16, alignItems: 'center' }}>
-                <Text style={{ fontFamily: typography.fontFamily.medium, fontSize: 12, color: '#EF4444' }}>
-                  🔄 {t('hatim.resetHatimBtn', 'Yeni Hatim Sıfırla & Başlat')}
-                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                  <Feather name="refresh-cw" size={13} color="#EF4444" />
+                  <Text style={{ fontFamily: typography.fontFamily.medium, fontSize: 12, color: '#EF4444' }}>
+                    {t('hatim.resetHatimBtn', 'Yeni Hatim Sıfırla & Başlat')}
+                  </Text>
+                </View>
               </Pressable>
             </View>
           </View>
@@ -273,6 +316,14 @@ export function HatimTrackerCard({ onOpenPrayers, onContinueReading }: Props) {
         type="achievement"
       />
     </View>
+    <CommunitySharePrompt
+      visible={sharePromptKey !== null}
+      templateKey="hatim.completed"
+      params={{}}
+      promptKey={sharePromptKey ?? ''}
+      onDone={() => setSharePromptKey(null)}
+    />
+    </>
   );
 }
 
@@ -301,7 +352,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginRight: 4,
+    marginEnd: 4,
   },
   iconBadge: {
     width: 34,

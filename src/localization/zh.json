@@ -10,7 +10,13 @@
       "cancel": "取消",
       "save": "保存",
       "ok": "好",
-      "close": "关闭"
+      "close": "关闭",
+      "back": "返回",
+      "clear": "清除",
+      "remove": "移除",
+      "expand": "展开",
+      "collapse": "收起",
+      "share": "分享"
     },
     "home": {
       "title": "礼拜时间",
@@ -42,7 +48,13 @@
       "loadingTimes": "正在加载祈祷时间...",
       "locationPermissionTitle": "无法获取定位权限",
       "locationPermissionDesc": "正在显示默认城市。您可以选择城市或授予定位权限。",
-      "estimatedTimesNotice": "由于没有网络连接，礼拜时间已在设备上计算（为估算值）。"
+      "estimatedTimesNotice": "由于没有网络连接，礼拜时间已在设备上计算（为估算值）。",
+      "adjustTimeHint": "长按以调整此时间",
+      "moreTools": "更多",
+      "locationFetchFailedTitle": "未找到位置",
+      "locationFetchFailedDesc": "无法获取您的 GPS 位置。您可以选择城市，或稍后再试。",
+      "sourceA11y": "礼拜时间计算方法",
+      "highLatNote": "高纬度地区：晨礼/宵礼时间为估算值"
     },
     "settings": {
       "title": "设置",
@@ -60,7 +72,11 @@
         "egypt": "埃及测绘局",
         "karachi": "卡拉奇伊斯兰科学大学",
         "france": "法国伊斯兰组织联盟 (UOIF)",
-        "russia": "俄罗斯穆斯林精神管理局"
+        "russia": "俄罗斯穆斯林精神管理局",
+        "kemenag": "印度尼西亚 (Kemenag)",
+        "jakim": "马来西亚 (JAKIM)",
+        "muis": "新加坡 (MUIS)",
+        "tehran": "伊朗（德黑兰大学）"
       },
       "palettes": {
         "default": "默认",
@@ -93,7 +109,7 @@
       "persistentNotif": "持续祷告倒计时",
       "persistentNotifDesc": "在锁定屏幕和通知面板上跟踪下一次祈祷直播的剩余时间。",
       "widgetTitle": "主屏幕小部件",
-      "addWidget": "📌 将小部件添加到主屏幕！",
+      "addWidget": "将小部件添加到主屏幕！",
       "addWidgetDesc": "直接在手机的主屏幕上查看祈祷时间和实时倒计时。",
       "general": "常规设置",
       "fullscreen": "全屏模式",
@@ -130,7 +146,32 @@
       "username": "用户名",
       "password": "密码",
       "loggingIn": "正在登录…",
-      "login": "登录"
+      "login": "登录",
+      "remindersTitle": "提醒与公告",
+      "dailyContentNotif": "每日经文 / 圣训",
+      "dailyContentNotifDesc": "晌礼后的每日简短提醒。",
+      "quranReminderNotif": "诵读《古兰经》提醒",
+      "quranReminderNotifDesc": "每两天一次的晚间提醒。",
+      "greetingNotif": "主麻日与圣日问候",
+      "greetingNotifDesc": "主麻日和宗教节日提醒。",
+      "announcementsNotif": "公告",
+      "announcementsNotifDesc": "来自 Vera 的新闻与活动消息。",
+      "locationTitle": "位置",
+      "changeCity": "更改城市",
+      "locationNotSet": "尚未选择",
+      "locationFromGps": "跟随手机位置",
+      "locationFromManual": "已手动选择城市",
+      "locationHint": "请选择城市或使用手机位置。",
+      "useMyLocation": "使用我当前的位置",
+      "fullscreenDesc": "隐藏状态栏（时钟、电池）和导航栏。",
+      "recommended": "推荐",
+      "asrSchoolTitle": "晡礼计算",
+      "asrStandard": "标准（沙菲仪、马立克、罕百里）",
+      "asrHanafi": "哈乃斐",
+      "asrSchoolDesc": "哈乃斐学派的晡礼时间较晚（影长为物体的两倍）。在南亚较为常见。",
+      "rateApp": "为 Vera 评分",
+      "privacyPolicy": "隐私政策",
+      "restartForDirection": "请关闭并重新打开应用以应用新的文字方向。"
     },
     "qibla": {
       "title": "朝向 (Qibla)",
@@ -148,12 +189,12 @@
       "status": "状态",
       "aligned": "已对齐",
       "aligning": "旋转中",
-      "alignedSuccess": "🕌 您已正对克尔白方向！",
+      "alignedSuccess": "您已正对克尔白方向！",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "如何使用？",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "标题",
       "calibrateBtn": "校准指南针",
@@ -162,8 +203,15 @@
       "magneticShield": "磁场屏蔽",
       "magneticShieldDesc": "传感器精度优化。远离磁性盒。",
       "levelStatus": "水平仪（气泡）",
-      "levelFlat": "平坦和平行 ✓",
-      "gotIt": "知道了"
+      "levelFlat": "平坦和平行",
+      "gotIt": "知道了",
+      "noLocationTitle": "需要位置信息",
+      "noLocationDesc": "朝向取决于您所在的位置。请选择城市或允许访问位置信息。",
+      "useMyLocation": "使用我的位置",
+      "chooseCity": "选择城市",
+      "lowAccuracy": "指南针精度较低。点按以校准。",
+      "magneticNorthNote": "正在使用磁北：方向可能有几度偏差。",
+      "errorNoSensor": "指南针传感器无响应。此设备可能没有指南针。"
     },
     "daily": {
       "title": "每日灵感",
@@ -175,7 +223,8 @@
       "hadithBody": "点击阅读今日圣训！",
       "quoteBody": "点击阅读今日名言！",
       "subtitle": "为您精选的今日经文、圣训与格言",
-      "shareHint": "点击卡片以图片形式分享到故事"
+      "shareHint": "点击卡片以图片形式分享到故事",
+      "autoTranslated": "自动翻译"
     },
     "search": {
       "title": "选择位置",
@@ -184,7 +233,10 @@
       "recent": "最近搜索",
       "useGPS": "使用当前位置",
       "gpsDenied": "位置权限已拒绝。",
-      "gpsError": "获取位置失败。"
+      "gpsError": "获取位置失败。",
+      "searchFailed": "搜索失败，请检查网络连接。",
+      "pin": "保存城市",
+      "unpin": "取消固定"
     },
     "notifications": {
       "exactAlert": "礼拜时间提醒",
@@ -237,7 +289,8 @@
         "dailyName": "每日灵感",
         "dailyDesc": "每日诗歌、圣训或引述在杜尔和晡礼之间到达。",
         "persistentName": "锁屏和状态栏",
-        "persistentDesc": "在通知面板和锁定屏幕中显示下一个祈祷名称和实时倒计时。"
+        "persistentDesc": "在通知面板和锁定屏幕中显示下一个祈祷名称和实时倒计时。",
+        "announcements": "公告"
       },
       "persistentTitle": "🕌 距离{{prayer}}"
     },
@@ -408,7 +461,15 @@
       "noBookmarks": "您还没有收藏的经文。长按一节经文即可添加。",
       "playFromHere": "从此处播放",
       "juz": "朱兹",
-      "downloadingShort": "正在下载…"
+      "downloadingShort": "正在下载…",
+      "audioErrorTitle": "无法播放音频",
+      "audioErrorMessage": "无法加载诵读。请检查网络连接后重试。",
+      "audioPause": "暂停诵读",
+      "audioResume": "继续诵读",
+      "audioStop": "停止诵读",
+      "audioPlay": "播放诵读",
+      "fontSmaller": "缩小文字",
+      "fontLarger": "放大文字"
     },
     "review": {
       "title": "支持我们",
@@ -416,9 +477,9 @@
       "notNow": "暂不",
       "review": "评价",
       "subtitle": "评价您的星级体验",
-      "fiveStarTitle": "听到这个消息我们很高兴！ 🌟",
+      "fiveStarTitle": "听到这个消息我们很高兴！",
       "fiveStarSubtitle": "您愿意以 5 星评级支持 Vera 吗？",
-      "rateOnStore": "🌟 给5星并支持",
+      "rateOnStore": "给5星并支持",
       "ratingLabels": {
         "1": "需要改进",
         "2": "公平的",
@@ -426,11 +487,11 @@
         "4": "非常好",
         "5": "出色的！"
       },
-      "feedbackTitle": "帮助我们改进💬",
+      "feedbackTitle": "帮助我们改进",
       "feedbackSubtitle": "分享您的想法和建议，以便我们让 Vera 变得更好。",
       "feedbackPlaceholder": "写下您的建议、想法或您遇到的任何问题...",
       "sendFeedback": "发送反馈",
-      "thankYouTitle": "反馈已收到！ 🤲",
+      "thankYouTitle": "反馈已收到！",
       "thankYouSubtitle": "您的反馈对我们非常有价值。我们会努力让维拉变得更好。",
       "close": "关闭"
     },
@@ -453,6 +514,8 @@
       "title": "每日祷告追踪",
       "completed": "完全的",
       "dayStreak": "连续日数",
+      "restartHint": "今天可以重新开始",
+      "weekActiveDays": "最近7天中有{{count}}天",
       "viewHistory": "查看完整历史记录",
       "historyTitle": "祷告历史",
       "historySubtitle": "您过去 30 天的祷告日志",
@@ -483,7 +546,8 @@
     "imsakiye": {
       "title": "周刊 Imsakiye",
       "subtitle": "未来 7 天时间安排",
-      "date": "日期"
+      "date": "日期",
+      "rangeDays": "{{n}} 天"
     },
     "religious": {
       "title": "宗教日",
@@ -541,20 +605,20 @@
       "verifiedMethodDesc": "自动选择适合您所在地区的最准确的伊斯兰方法。",
       "notificationsTitle": "拜恩和祈祷提醒",
       "notificationsDesc": "在祈祷时收到温柔或声音的提醒。",
-      "startBtn": "开始使用维拉🌟",
+      "startBtn": "开始使用维拉",
       "featureQuran": "古兰经和音频",
       "featureQibla": "朝拜",
       "featureDhikr": "迪克尔柜台",
-      "backBtn": "← 返回",
-      "playTestSound": "预览 Adhan 声音 🔊",
-      "stopTestSound": "停止声音⏹️",
-      "nextStepBtn": "继续 →",
+      "backBtn": "返回",
+      "playTestSound": "预览 Adhan 声音",
+      "stopTestSound": "停止声音",
+      "nextStepBtn": "继续",
       "step3Title": "不间断的体验",
       "step3Subtitle": "从主屏幕实时跟踪祈祷时间并确保可靠的宣礼通知。",
-      "widgetTitle": "📌 将小部件添加到主屏幕",
+      "widgetTitle": "将小部件添加到主屏幕",
       "widgetDesc": "无需打开应用程序即可查看实时倒计时。",
       "widgetAdded": "小部件添加成功！",
-      "batteryTitle": "🔋 省电豁免",
+      "batteryTitle": "省电豁免",
       "batteryDesc": "建议关闭小米和三星的电池优化，以便及时进行广告。",
       "locationReassurance": "您以后随时可以在设置中更改此设置。",
       "notifDenied": "未授予通知权限。宣礼提醒可能无法正常工作——您可以稍后在设置中开启。",
@@ -565,7 +629,10 @@
       "skipConfirm": "跳过",
       "locationDenied": "未授予定位权限。您可以从列表中选择您的城市，或稍后在设置中更改此设置。",
       "locationFailed": "无法获取您的位置。您可以从列表中选择您的城市，或稍后在设置中更改此设置。",
-      "locationNotSet": "无法获取位置（权限被拒绝）"
+      "locationNotSet": "无法获取位置（权限被拒绝）",
+      "locationNotSetYet": "尚未选择",
+      "skipLocation": "暂时跳过",
+      "currentLocationLabel": "当前位置"
     },
     "weather": {
       "title": "天气预报",
@@ -629,9 +696,9 @@
       "titlePlaceholder": "头衔（例如 Jummah Mubarak）",
       "messagePlaceholder": "写下您的祈祷或问候语......",
       "chooseTheme": "卡片主题",
-      "shareBtn": "分享至 WhatsApp / 故事 🌟",
-      "shareImageBtn": "分享图片卡🌟",
-      "shareLinkBtn": "分享直接商店链接🔗",
+      "shareBtn": "分享至 WhatsApp / 故事",
+      "shareImageBtn": "分享图片卡",
+      "shareLinkBtn": "分享直接商店链接",
       "theme": {
         "gold": "金色线条",
         "emerald": "翡翠穹顶",
@@ -649,7 +716,13 @@
       "emptyTitle": "附近没有发现清真寺",
       "emptyDesc": "您可以直接在地图导航上查看所有清真寺。",
       "openInMaps": "在地图上搜索",
-      "directionsBtn": "路线"
+      "directionsBtn": "路线",
+      "searchQuery": "清真寺",
+      "noLocationTitle": "未找到位置",
+      "noLocationDesc": "请选择城市或允许访问位置信息，以查看附近的清真寺。",
+      "errorTitle": "无法加载清真寺",
+      "errorDesc": "出现连接问题。请检查网络后重试。",
+      "chooseCity": "选择城市"
     },
     "dailyContent": {
       "preparing": "正在加载每日灵感...",
@@ -666,7 +739,7 @@
       "hatimLabel": "哈特姆",
       "page": "页",
       "pagesRemaining": "还剩 {{count}} 页来完成 Khatm。",
-      "completed": "恭喜！您已完成 Khatm。 🎉",
+      "completed": "恭喜！您已完成 Khatm。",
       "readPageBtn": "阅读页 {{page}}",
       "jumpPageTitle": "跳转页面/更新进度",
       "jumpPageDesc": "输入当前页码 (1 - 604)：",
@@ -676,7 +749,8 @@
       "startNew": "开始新卡塔姆",
       "resetHatimBtn": "重置并启动新的 Khatm",
       "share": "分享我的完经进度",
-      "shareText": "我完成了第 {{count}} 次完经，感赞真主！"
+      "shareText": "我完成了第 {{count}} 次完经，感赞真主！",
+      "dailyTarget": "每天约 {{n}} 页即可读完（还剩 {{d}} 天）"
     },
     "prayerTree": {
       "title": "每周祈祷树",
@@ -1175,10 +1249,10 @@
     },
     "widget": {
       "guideTitle": "添加到主屏幕",
-      "guideDesc": "长按主屏幕 ➔ 点击\"小组件\" ➔ 找到\"VERA\"小组件并拖到屏幕上。",
+      "guideDesc": "长按主屏幕 > 点击\"小组件\" > 找到\"VERA\"小组件并拖到屏幕上。",
       "promptTitle": "添加主屏幕小组件",
       "promptDesc": "无需打开应用，即可在手机主屏幕上实时查看下一个礼拜时间及剩余分钟数。",
-      "addNow": "📌 添加到主屏幕",
+      "addNow": "添加到主屏幕",
       "notNow": "稍后"
     },
     "greetingNotif": {
@@ -1191,7 +1265,133 @@
     "errorBoundary": {
       "title": "出了点问题",
       "subtitle": "应用遇到了意外错误。请点击下方按钮重试。",
-      "retry": "重试"
+      "retry": "重试",
+      "clearAndRetry": "清除缓存数据并重试"
+    },
+    "community": {
+      "tabMine": "我的分享",
+      "you": "你",
+      "emptyMine": "你还没有分享。完成一项功课后即可分享。",
+      "adLabel": "广告",
+      "title": "社区",
+      "tabToday": "今天",
+      "tabWeek": "最近 7 天",
+      "anonymous": "匿名的兄弟姐妹",
+      "someone": "某位用户",
+      "templates": {
+        "hatimCompleted": "完成了一次诵读全本",
+        "achievement": "解锁了「{{title}}」",
+        "dhikrMilestone": "来自{{country}}的用户念诵了 {{count}} 次赞念",
+        "prayerFullday": "今天完成了五次礼拜"
+      },
+      "emptyToday": "今天还没有动态。完成某项功修后，分享你的第一条吧。",
+      "emptyWeek": "最近 7 天没有动态。",
+      "loadFailed": "无法加载动态。下拉重试。",
+      "share": {
+        "title": "想与 Vera 社区分享这个吗？",
+        "note": "仅分享这段文字。你的姓名和个人信息会保持隐藏。",
+        "submit": "分享",
+        "later": "暂不",
+        "failed": "分享失败，请稍后再试。",
+        "heading": "分享到社区",
+        "sent": "已分享",
+        "external": "分享到其他应用",
+        "open": "分享到社区",
+        "celebrateHint": "向 Vera 社区匿名分享。",
+        "intro": "全世界的兄弟姐妹都能看到。你的姓名会保持隐藏。"
+      },
+      "settings": {
+        "title": "社区设置",
+        "participate": "加入社区",
+        "participateHint": "关闭后不会出现分享提示，但仍可浏览动态。",
+        "showCountry": "显示我的国家",
+        "showCountryHint": "开启后，你的国家名称会显示在动态旁。关闭仅对新动态生效。",
+        "country": "国家",
+        "countryManual": "已选国家：{{code}}",
+        "countryDevice": "正在使用设备所在地区。",
+        "useDevice": "设备",
+        "countryInvalid": "请输入两位字母的国家代码，例如 TR",
+        "myPosts": "我的动态",
+        "noPosts": "你还没有动态。",
+        "delete": "删除",
+        "deleteTitle": "删除这条动态？",
+        "deleteBody": "它将从所有人的动态中移除。",
+        "blocked": "已屏蔽：{{count}} 人",
+        "clearBlocked": "清空屏蔽列表",
+        "joined": "你已加入社区",
+        "left": "社区已关闭",
+        "sectionPrivacy": "隐私",
+        "sectionBlocked": "已屏蔽",
+        "countryDeviceTitle": "设备地区",
+        "blockedCount": "{{count}} 人",
+        "change": "更改"
+      },
+      "report": {
+        "action": "举报",
+        "thanksTitle": "谢谢",
+        "thanksBody": "你的举报将会被审核。",
+        "failed": "无法发送举报。"
+      },
+      "block": {
+        "action": "屏蔽此人"
+      },
+      "more": {
+        "title": "此动态的选项"
+      },
+      "discovery": {
+        "title": "与 Vera 社区分享你的成果",
+        "body": "向全世界的兄弟姐妹匿名分享诵读全本、赞念和礼拜完成的日子。",
+        "cta": "打开社区"
+      },
+      "summary": {
+        "posts": "条动态",
+        "hatim": "诵读全本",
+        "achievement": "成就",
+        "dhikr": "赞念",
+        "prayer": "礼拜"
+      },
+      "howTo": {
+        "helpLabel": "如何分享",
+        "title": "分享的运作方式",
+        "intro": "与 Vera 社区分享你完成的功修。你的姓名不会公开。",
+        "step1Title": "完成一项功修",
+        "step1Body": "在应用中完成五次礼拜、一次诵读全本古兰经（哈提姆）或一个赞念（齐克尔）目标。",
+        "step2Title": "点击分享",
+        "step2Body": "庆祝页面出现时，点击分享。你也可以使用礼拜和赞念页面上的分享按钮。",
+        "step3Title": "你的帖子会显示在这里",
+        "step3Body": "所有人都能看到，只有在你允许时才会显示你所在的国家。可随时在“我的帖子”中删除。",
+        "gotIt": "知道了"
+      },
+      "reminder": {
+        "title": "分享今日的功修",
+        "body": "想和社区分享今天的功修吗？",
+        "bodyAll": "你今天完成了全部五次礼拜。想和社区分享吗？"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "今日目标：一次完整诵读（哈提目）。每天读几页，让我们一起读完《古兰经》。",
+        "m1": "今日目标：宵礼之后，念33遍“嗦布哈尼拉”、33遍“艾勒哈姆杜利拉”、33遍“安拉乎艾克拜尔”。",
+        "m2": "今天，让我们一起努力按时完成五次礼拜。",
+        "m3": "今日目标：读一页《古兰经》。小小的一步也很可贵。",
+        "m4": "今日目标：念100遍“嗦布哈尼拉”。完成后与社区分享。",
+        "m5": "本周，写一份祈祷（都阿）清单，并在其中记挂一位兄弟或姐妹。",
+        "m6": "今天，不妨施舍或为他人做一件善事。"
+      }
+    },
+    "coach": {
+      "dismiss": "知道了",
+      "ummah": {
+        "title": "乌玛",
+        "body": "与社区分享你完成的功修，或查看今天大家分享的内容。"
+      },
+      "qibla": {
+        "title": "朝向罗盘",
+        "body": "将手机水平放置并转动，直到箭头指向天房。"
+      },
+      "silentMode": {
+        "title": "静音模式",
+        "body": "手机处于静音或振动模式时，宣礼会轻声播放。你可以在设置中更改。"
+      }
     }
   }
 }

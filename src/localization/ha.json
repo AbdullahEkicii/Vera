@@ -10,7 +10,13 @@
       "cancel": "Soke",
       "save": "Ajiye",
       "ok": "To",
-      "close": "Rufe"
+      "close": "Rufe",
+      "back": "Koma baya",
+      "clear": "Share",
+      "remove": "Cire",
+      "expand": "Fadada",
+      "collapse": "Rufe",
+      "share": "Raba"
     },
     "home": {
       "title": "Lokutan Sallah",
@@ -42,7 +48,13 @@
       "loadingTimes": "Loading lokutan Sallah...",
       "locationPermissionTitle": "Ba a Samu Izinin Wuri Ba",
       "locationPermissionDesc": "Ana nuna birni na tsoho. Kana iya zaɓar birni ko ba da izinin wuri.",
-      "estimatedTimesNotice": "Saboda babu haɗin intanet, an lissafa lokutan sallah a na'urarka (kimanin)."
+      "estimatedTimesNotice": "Saboda babu haɗin intanet, an lissafa lokutan sallah a na'urarka (kimanin).",
+      "adjustTimeHint": "Danna ka riƙe don daidaita wannan lokaci",
+      "moreTools": "Ƙari",
+      "locationFetchFailedTitle": "Ba a sami wuri ba",
+      "locationFetchFailedDesc": "Ba a sami wurin GPS ɗinka ba. Za ka iya zaɓar birni ko ka sake gwadawa daga baya.",
+      "sourceA11y": "Hanyar lissafin lokutan sallah",
+      "highLatNote": "Yankin sanyi sosai: ana ƙiyasta Asuba/Isha'i"
     },
     "settings": {
       "title": "Saituna",
@@ -60,7 +72,11 @@
         "egypt": "Babban Hukumar Masar",
         "karachi": "Karachi (Pakistan)",
         "france": "Faransa (UOIF)",
-        "russia": "Rasha (Ruhaniya Admin.)"
+        "russia": "Rasha (Ruhaniya Admin.)",
+        "kemenag": "Indonesiya (Kemenag)",
+        "jakim": "Malaysiya (JAKIM)",
+        "muis": "Singapore (MUIS)",
+        "tehran": "Iran (Jami'ar Tehran)"
       },
       "palettes": {
         "default": "Tsohuwar",
@@ -93,7 +109,7 @@
       "persistentNotif": "Ƙididdigar Addu'a Mai Dagewa",
       "persistentNotifDesc": "Bibiyar lokacin da ya rage don addu'a ta gaba kai tsaye akan allon kulle ku da kwamitin sanarwa.",
       "widgetTitle": "Widget din allo na gida",
-      "addWidget": "📌 Ƙara Widget zuwa Allon Gida!",
+      "addWidget": "Ƙara Widget zuwa Allon Gida!",
       "addWidgetDesc": "Duba lokutan addu'a da kirga kai tsaye akan allon gida na wayarka.",
       "general": "Gabaɗaya Saituna",
       "fullscreen": "Yanayin cikakken allo",
@@ -130,7 +146,32 @@
       "username": "Sunan mai amfani",
       "password": "Kalmar sirri",
       "loggingIn": "Ana shiga...",
-      "login": "Shiga"
+      "login": "Shiga",
+      "remindersTitle": "Tunatarwa da Sanarwa",
+      "dailyContentNotif": "Aya / Hadisin Yau",
+      "dailyContentNotifDesc": "Taƙaitaccen tunatarwa ta yau da kullum bayan sallar azahar.",
+      "quranReminderNotif": "Tunatarwar Karatun Alƙur'ani",
+      "quranReminderNotifDesc": "Tunatarwar maraice kowace rana ta biyu.",
+      "greetingNotif": "Gaisuwar Juma'a da Ranaku Masu Albarka",
+      "greetingNotifDesc": "Tunatarwa a ranakun Juma'a da ranakun addini.",
+      "announcementsNotif": "Sanarwa",
+      "announcementsNotifDesc": "Labarai da saƙonnin kamfen daga Vera.",
+      "locationTitle": "Wuri",
+      "changeCity": "Canja birni",
+      "locationNotSet": "Ba a zaɓa ba tukuna",
+      "locationFromGps": "Yana bin wurin wayarka",
+      "locationFromManual": "An zaɓi birni da hannu",
+      "locationHint": "Zaɓi birni ko yi amfani da wurin wayarka.",
+      "useMyLocation": "Yi amfani da wurina na yanzu",
+      "fullscreenDesc": "Yana ɓoye mashayin matsayi (agogo, baturi) da mashayin kewayawa.",
+      "recommended": "An ba da shawara",
+      "asrSchoolTitle": "Lissafin La'asar",
+      "asrStandard": "Na yau da kullum (Shafi'i, Maliki, Hanbali)",
+      "asrHanafi": "Hanafi",
+      "asrSchoolDesc": "Hanafi yana jinkirta La'asar (inuwa ninki biyu na abu). Shi ne ake amfani da shi a Kudancin Asiya.",
+      "rateApp": "Ba Vera maki",
+      "privacyPolicy": "Manufar Sirri",
+      "restartForDirection": "Rufe aikace-aikacen ka sake buɗewa domin amfani da sabon alkiblar rubutu."
     },
     "qibla": {
       "title": "Alqibla",
@@ -148,12 +189,12 @@
       "status": "Matsayi",
       "aligned": "Daidaitacce",
       "aligning": "Juyawa",
-      "alignedSuccess": "🕌 Kina fuskantar alqibla!",
+      "alignedSuccess": "Kina fuskantar alqibla!",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "Yadda Ake Amfani?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "Jagora",
       "calibrateBtn": "Calibrate Compass",
@@ -162,8 +203,15 @@
       "magneticShield": "Garkuwar Filin Magnetic",
       "magneticShieldDesc": "An inganta ingancin firikwensin. Ka nisanci lamuran maganadisu.",
       "levelStatus": "Matsayin A kwance (Kumfa)",
-      "levelFlat": "Flat & Daidaitacce ✓",
-      "gotIt": "Na Samu"
+      "levelFlat": "Flat & Daidaitacce",
+      "gotIt": "Na Samu",
+      "noLocationTitle": "Ana buƙatar wuri",
+      "noLocationDesc": "Alkiblar Qibla ta dogara da inda kake. Zaɓi birninka ko ka ba da izinin wuri.",
+      "useMyLocation": "Yi amfani da wurina",
+      "chooseCity": "Zaɓi birni",
+      "lowAccuracy": "Daidaiton kamfas ya yi ƙasa. Taɓa don daidaitawa.",
+      "magneticNorthNote": "Ana amfani da arewa ta maganaɗisu: alkibla na iya karkata da digiri kaɗan.",
+      "errorNoSensor": "Na'urar kamfas ba ta amsawa. Wannan na'urar ba ta da kamfas watakila."
     },
     "daily": {
       "title": "Ilhamar Yau",
@@ -175,7 +223,8 @@
       "hadithBody": "Danna don karanta hadisan ranar!",
       "quoteBody": "Danna don karanta maganar ranar!",
       "subtitle": "Aya, hadisi da magana da aka zaɓa don yau",
-      "shareHint": "Danna katin don raba shi a matsayin hoto"
+      "shareHint": "Danna katin don raba shi a matsayin hoto",
+      "autoTranslated": "Fassara ta atomatik"
     },
     "notifications": {
       "fajr": {
@@ -205,7 +254,7 @@
       "exactAlert": "Daidaiton Fadakarwar Addu'a",
       "warnAlert": "Faɗakarwar Gargaɗi na Minti 25",
       "warningTitle": "Lokaci yana Gabatowa",
-      "warningBody": "saura minti 25 sai {{salla}}.",
+      "warningBody": "saura minti 25 sai {{prayer}}.",
       "quranReminderTitle": "📖 Lokacin Alqur'ani",
       "quranReminderBody": "Yau ka karanta Alqur'ani? Matsa don karantawa yanzu.",
       "namesReminderTitle": "✨ Sunayen Allah & Addu'o'i",
@@ -228,7 +277,8 @@
         "dailyName": "Wahayi na yau da kullun",
         "dailyDesc": "Aya, hadisi, ko nassoshi na yau da kullun suna zuwa tsakanin Zuhr da La'asar.",
         "persistentName": "Allon Kulle & Matsayin Matsayi",
-        "persistentDesc": "Yana nuna sunan addu'a na gaba da kirgawa kai tsaye a cikin kwamitin sanarwa da allon kullewa."
+        "persistentDesc": "Yana nuna sunan addu'a na gaba da kirgawa kai tsaye a cikin kwamitin sanarwa da allon kullewa.",
+        "announcements": "Sanarwa"
       },
       "persistentTitle": "🕌 Zuwa {{prayer}}"
     },
@@ -399,7 +449,15 @@
       "noBookmarks": "Har yanzu ba ka da ayar da aka ajiye ba. Danna aya na tsawon lokaci don ƙarawa.",
       "playFromHere": "Saurara Daga Nan",
       "juz": "Juzu'i",
-      "downloadingShort": "Ana Saukewa..."
+      "downloadingShort": "Ana Saukewa...",
+      "audioErrorTitle": "Ba a iya kunna sautin ba",
+      "audioErrorMessage": "Ba a iya loda karatun ba. Duba haɗin intanet ɗinka ka sake gwadawa.",
+      "audioPause": "Dakatar da karatu",
+      "audioResume": "Ci gaba da karatu",
+      "audioStop": "Tsayar da karatu",
+      "audioPlay": "Kunna karatu",
+      "fontSmaller": "Rage girman rubutu",
+      "fontLarger": "Ƙara girman rubutu"
     },
     "review": {
       "title": "Goyon Baya",
@@ -407,9 +465,9 @@
       "notNow": "Ba yanzu ba",
       "review": "Bita",
       "subtitle": "Ƙimar kwarewar ku da taurari",
-      "fiveStarTitle": "Mun yi farin ciki da jin haka! 🌟",
+      "fiveStarTitle": "Mun yi farin ciki da jin haka!",
       "fiveStarSubtitle": "Kuna so ku tallafa wa Vera tare da ƙimar tauraro 5?",
-      "rateOnStore": "🌟 Bada Taurari 5 & Tallafi",
+      "rateOnStore": "Bada Taurari 5 & Tallafi",
       "ratingLabels": {
         "1": "Yana Bukatar Ingantawa",
         "2": "Gaskiya",
@@ -417,11 +475,11 @@
         "4": "Yayi kyau sosai",
         "5": "Madalla!"
       },
-      "feedbackTitle": "A Taimaka Mana Ingantawa 💬",
+      "feedbackTitle": "A Taimaka Mana Ingantawa",
       "feedbackSubtitle": "Raba tunanin ku da shawarwarin ku don mu ƙara inganta Vera.",
       "feedbackPlaceholder": "Rubuta shawarwarinku, ra'ayoyinku ko kowace matsala da kuka fuskanta...",
       "sendFeedback": "Aika da martani",
-      "thankYouTitle": "An Karɓi Ra'ayin! 🤲",
+      "thankYouTitle": "An Karɓi Ra'ayin!",
       "thankYouSubtitle": "Ra'ayin ku yana da matukar amfani a gare mu. Za mu yi aiki tuƙuru don ƙara inganta Vera.",
       "close": "Kusa"
     },
@@ -444,6 +502,8 @@
       "title": "Mabiyan Addu'ar Kullum",
       "completed": "An kammala",
       "dayStreak": "Rana Streak",
+      "restartHint": "Za ka iya farawa yau",
+      "weekActiveDays": "Kwanaki {{count}} cikin 7 da suka wuce",
       "viewHistory": "Duba Cikakken Tarihi",
       "historyTitle": "Tarihin Addu'a",
       "historySubtitle": "Addu'ar ku tana yin rajistan kwanaki 30 na ƙarshe",
@@ -462,7 +522,7 @@
       "celebrationSubtitle": "Masha'Allah!",
       "celebrationMessage": "Yau kun gama dukkan salloli guda 5. Allah ya karbi addu'ar ku!",
       "celebrationBtn": "Alhamdulillah",
-      "trustNotice": "{{birni}} • Tabbatar da lokutan sallah don yankinku ta amfani da {{hanyar}}",
+      "trustNotice": "{{city}} • Tabbatar da lokutan sallah don yankinku ta amfani da {{method}}",
       "streakDays": "Kwanaki",
       "shareStreak": "Raba Jerina",
       "shareText": "Na yi ta bin sallolina na tsawon kwanaki {{count}} a jere, Alhamdulillah!"
@@ -474,16 +534,20 @@
       "recent": "Bincike na kwanan nan",
       "useGPS": "Yi amfani da Wuri na Yanzu",
       "gpsDenied": "An ƙi izinin wurin.",
-      "gpsError": "An kasa samun wuri"
+      "gpsError": "An kasa samun wuri",
+      "searchFailed": "Bincike ya kasa, duba haɗin intanet ɗinka.",
+      "pin": "Ajiye birni",
+      "unpin": "Cire daga ajiya"
     },
     "calendar": {
       "title": "Kalanda Haɗin Kai",
-      "todayNotice": "Yau: {{Gregorian}} • Hijira: {{hijri}}"
+      "todayNotice": "Yau: {{gregorian}} • Hijira: {{hijri}}"
     },
     "imsakiye": {
       "title": "Imsakiye na mako-mako",
       "subtitle": "Kwanaki 7 masu zuwa",
-      "date": "Kwanan wata"
+      "date": "Kwanan wata",
+      "rangeDays": "Kwanaki {{n}}"
     },
     "religious": {
       "title": "Ranakun Addini",
@@ -500,7 +564,7 @@
       "dismissBtn": "Ba yanzu"
     },
     "names": {
-      "title": "Sunayen Allah & Duas",
+      "title": "Sunayen Allah & Addu'a",
       "namesSubtitle": "Sunayen Allah 99 Kyawawa",
       "duasSubtitle": "Addu'o'in yau da kullun",
       "meaningLabel": "Ma'ana",
@@ -541,20 +605,20 @@
       "verifiedMethodDesc": "Hanyar Musulunci mafi inganci don yankinku ana zaɓar ta atomatik.",
       "notificationsTitle": "Adhan & Faɗakarwar Sallah",
       "notificationsDesc": "Karɓi tunatarwa masu laushi ko masu ji a lokutan sallah.",
-      "startBtn": "Fara Amfani da Vera 🌟",
+      "startBtn": "Fara Amfani da Vera",
       "featureQuran": "Alqur'ani & Audio",
       "featureQibla": "Alqibla",
       "featureDhikr": "Dhikr Counter",
-      "backBtn": "← Komawa",
-      "playTestSound": "Preview Adhan Sound 🔊",
-      "stopTestSound": "Tsaida Sauti ⏹️",
-      "nextStepBtn": "Ci gaba →",
+      "backBtn": "Komawa",
+      "playTestSound": "Preview Adhan Sound",
+      "stopTestSound": "Tsaida Sauti",
+      "nextStepBtn": "Ci gaba",
       "step3Title": "Kwarewa mara katsewa",
       "step3Subtitle": "Bibiyar lokutan addu'a kai tsaye daga allon gida kuma tabbatar da ingantaccen sanarwar adhan.",
-      "widgetTitle": "📌 Ƙara Widget zuwa Allon Gida",
+      "widgetTitle": "Ƙara Widget zuwa Allon Gida",
       "widgetDesc": "Duba kirgawa kai tsaye ba tare da buɗe app ɗin ba.",
       "widgetAdded": "An ƙara widget cikin nasara!",
-      "batteryTitle": "🔋 Keɓance Mai Ajiye Baturi",
+      "batteryTitle": "Keɓance Mai Ajiye Baturi",
       "batteryDesc": "An ba da shawarar kashe haɓakar baturi akan Xiaomi & Samsung don adhans na kan lokaci.",
       "locationReassurance": "Kana iya canza wannan a kowane lokaci daga Saitunan.",
       "notifDenied": "Ba a ba da izinin sanarwa ba. Faɗakarwar kiran sallah na iya kasa aiki — kana iya kunna shi daga Saitunan daga baya.",
@@ -565,7 +629,10 @@
       "skipConfirm": "Tsallake",
       "locationDenied": "Ba a ba da izinin wuri ba. Kana iya zaɓar birninka daga jerin, ko canza wannan daga Saitunan daga baya.",
       "locationFailed": "An kasa samun wurinka. Kana iya zaɓar birninka daga jerin, ko canza wannan daga Saitunan daga baya.",
-      "locationNotSet": "Ba a Samu Wuri Ba (Ba a Bada Izini Ba)"
+      "locationNotSet": "Ba a Samu Wuri Ba (Ba a Bada Izini Ba)",
+      "locationNotSetYet": "Ba a zaɓa ba tukuna",
+      "skipLocation": "Tsallake yanzu",
+      "currentLocationLabel": "Wurin da kake yanzu"
     },
     "weather": {
       "title": "Hasashen Yanayi",
@@ -629,9 +696,9 @@
       "titlePlaceholder": "Take (misali Jummah Mubarak)",
       "messagePlaceholder": "Ku rubuta sakon addu'a ko gaisuwa...",
       "chooseTheme": "Jigon Kati",
-      "shareBtn": "Share zuwa WhatsApp / Labari 🌟",
-      "shareImageBtn": "Raba Katin Hoto 🌟",
-      "shareLinkBtn": "Kuyi Share Direct Store Link 🔗",
+      "shareBtn": "Share zuwa WhatsApp / Labari",
+      "shareImageBtn": "Raba Katin Hoto",
+      "shareLinkBtn": "Kuyi Share Direct Store Link",
       "theme": {
         "gold": "Layin Zinariya",
         "emerald": "Kubba Emerald",
@@ -649,7 +716,13 @@
       "emptyTitle": "Babu Masallatai Da Aka Sami Kusa",
       "emptyDesc": "Kuna iya duba duk masallatai kai tsaye akan kewayawa taswira.",
       "openInMaps": "Bincika akan Taswirori",
-      "directionsBtn": "Hanyoyi"
+      "directionsBtn": "Hanyoyi",
+      "searchQuery": "masallaci",
+      "noLocationTitle": "Ba a sami wuri ba",
+      "noLocationDesc": "Zaɓi birni ko ba da izinin samun wuri don ganin masallatai na kusa.",
+      "errorTitle": "Ba a iya loda masallatai ba",
+      "errorDesc": "An sami matsalar haɗi. Duba intanet ɗinka ka sake gwadawa.",
+      "chooseCity": "Zaɓi birni"
     },
     "dailyContent": {
       "preparing": "Ana loda ilhama kullum...",
@@ -666,7 +739,7 @@
       "hatimLabel": "Khatm",
       "page": "Shafi",
       "pagesRemaining": "Shafukan {{count}} sun rage don kammala Khatm.",
-      "completed": "Taya murna! Kun kammala Khatm. 🎉",
+      "completed": "Taya murna! Kun kammala Khatm.",
       "readPageBtn": "Karanta Shafi {{page}}",
       "jumpPageTitle": "Tsallaka zuwa Shafi / Sabunta Ci gaba",
       "jumpPageDesc": "Shigar da lambar shafi na yanzu (1 - 604):",
@@ -676,11 +749,12 @@
       "startNew": "Fara Sabon Khatm",
       "resetHatimBtn": "Sake saitin & Fara Sabon Khatm",
       "share": "Raba Hatimina",
-      "shareText": "Na kammala Hatimi na {{count}}, Alhamdulillah!"
+      "shareText": "Na kammala Hatimi na {{count}}, Alhamdulillah!",
+      "dailyTarget": "Kusan shafuka {{n}} a rana don gamawa (saura kwanaki {{d}})"
     },
     "prayerTree": {
       "title": "Bishiyar Sallah mako-mako",
-      "subtitle": "An kammala wannan makon: _VAR_0__/35 Addu'o'i",
+      "subtitle": "An kammala wannan makon: {{count}}/35 Sallolin",
       "successRate": "Daidaiton Sallar Makowa",
       "quote": "Addu'a ita ce ginshiƙin imani; kowace addu'a da aka kammala tana samun ganye mai ban sha'awa ga itacen ku.",
       "quoteHigh": "\"Addu'a itace ginshiƙin imani.\" - Kuna da mako na musamman, MashaAllah!",
@@ -1128,7 +1202,7 @@
         "prayer": "Sallah",
         "dhikr": "Zikiri",
         "quran": "Alkur'ani",
-        "kaza": "Kaza"
+        "kaza": "Makeup"
       },
       "hijriMonths": {
         "1": "Muharram",
@@ -1175,10 +1249,10 @@
     },
     "widget": {
       "guideTitle": "Ƙara zuwa Babban Allo",
-      "guideDesc": "Danna Babban Allonka na dogon lokaci ➔ Danna \"Widgets\" ➔ Nemo widget ɗin \"VERA\" ka ja shi zuwa allonka.",
+      "guideDesc": "Danna Babban Allonka na dogon lokaci > Danna \"Widgets\" > Nemo widget ɗin \"VERA\" ka ja shi zuwa allonka.",
       "promptTitle": "Ƙara Widget zuwa Babban Allo",
       "promptDesc": "Ku ga lokacin sallah na gaba da mintunan da suka rage kai tsaye a babban allon wayarku, ba tare da buɗe manhajar ba.",
-      "addNow": "📌 Ƙara zuwa Babban Allo",
+      "addNow": "Ƙara zuwa Babban Allo",
       "notNow": "Daga baya"
     },
     "greetingNotif": {
@@ -1191,7 +1265,133 @@
     "errorBoundary": {
       "title": "Wani abu ya faru ba daidai ba",
       "subtitle": "Manhajar ta gamu da kuskuren da ba a zata ba. Danna maɓallin da ke ƙasa don sake gwadawa.",
-      "retry": "Sake Gwadawa"
+      "retry": "Sake Gwadawa",
+      "clearAndRetry": "Share bayanan da aka adana kuma sake gwadawa"
+    },
+    "community": {
+      "tabMine": "Sakonnina na",
+      "you": "Kai",
+      "emptyMine": "Babu sakonni tukuna. Za ka iya rabawa idan ka kammala ibada.",
+      "adLabel": "Talla",
+      "title": "Al'umma",
+      "tabToday": "Yau",
+      "tabWeek": "Kwanaki 7 da suka gabata",
+      "anonymous": "Ɗan'uwa/'Yar'uwa wanda ba a bayyana ba",
+      "someone": "Wani",
+      "templates": {
+        "hatimCompleted": "Ya kammala khatm",
+        "achievement": "Ya buɗe {{title}}",
+        "dhikrMilestone": "Wani daga {{country}} ya yi zikiri {{count}}",
+        "prayerFullday": "An yi sallolin nan biyar duka yau"
+      },
+      "emptyToday": "Babu rubutu yau tukuna. Raba na farko idan ka kammala wani abu.",
+      "emptyWeek": "Babu rubutu a cikin kwanaki 7 da suka gabata.",
+      "loadFailed": "Ba a iya ɗora shafin ba. Ja ƙasa don sake gwadawa.",
+      "share": {
+        "title": "Kana son raba wannan da al'ummar Vera?",
+        "note": "Wannan rubutu kaɗai ake rabawa. Sunanka da bayananka na sirri ba za su bayyana ba.",
+        "submit": "Raba",
+        "later": "Ba yanzu ba",
+        "failed": "Ba a iya rabawa ba. Sake gwadawa daga baya.",
+        "heading": "Raba da al'umma",
+        "sent": "An raba",
+        "external": "Raba a wata manhaja",
+        "open": "Raba da al'umma",
+        "celebrateHint": "Raba ba tare da bayyana sunanka ba da al'ummar Vera.",
+        "intro": "'Yan'uwa maza da mata a duniya za su iya ganin wannan. Sunanka ba zai bayyana ba."
+      },
+      "settings": {
+        "title": "Saitunan al'umma",
+        "participate": "Shiga al'umma",
+        "participateHint": "Idan an kashe, babu tayin rabawa da zai bayyana. Har yanzu za ka iya karanta shafin.",
+        "showCountry": "Nuna ƙasata",
+        "showCountryHint": "Idan an kunna, sunan ƙasarka zai bayyana kusa da rubutunka. Kashewa yana shafar sababbin rubutu kawai.",
+        "country": "Ƙasa",
+        "countryManual": "Ƙasar da aka zaɓa: {{code}}",
+        "countryDevice": "Ana amfani da yankin wayarka.",
+        "useDevice": "Waya",
+        "countryInvalid": "Shigar da lambar ƙasa mai haruffa biyu, misali TR",
+        "myPosts": "Rubuce-rubucena",
+        "noPosts": "Ba ka da rubutu tukuna.",
+        "delete": "Share",
+        "deleteTitle": "Share wannan rubutu?",
+        "deleteBody": "Za a cire shi daga shafin ga kowa.",
+        "blocked": "Mutanen da aka toshe: {{count}}",
+        "clearBlocked": "Share jerin da aka toshe",
+        "joined": "Kana cikin al'umma",
+        "left": "An kashe al'umma",
+        "sectionPrivacy": "Sirri",
+        "sectionBlocked": "Da aka toshe",
+        "countryDeviceTitle": "Yankin waya",
+        "blockedCount": "Mutane {{count}}",
+        "change": "Canza"
+      },
+      "report": {
+        "action": "Kai rahoto",
+        "thanksTitle": "Na gode",
+        "thanksBody": "Za a duba rahotonka.",
+        "failed": "Ba a iya aika rahoton ba."
+      },
+      "block": {
+        "action": "Toshe wannan mutum"
+      },
+      "more": {
+        "title": "Zaɓuɓɓukan wannan rubutu"
+      },
+      "discovery": {
+        "title": "Raba nasarorinka da al'ummar Vera",
+        "body": "Raba hatim, zikiri da ranakun sallah ba tare da bayyana sunanka ba ga 'yan'uwa a faɗin duniya.",
+        "cta": "Buɗe al'umma"
+      },
+      "summary": {
+        "posts": "rubuce-rubuce",
+        "hatim": "Hatim",
+        "achievement": "Nasara",
+        "dhikr": "Zikiri",
+        "prayer": "Sallah"
+      },
+      "howTo": {
+        "helpLabel": "Yadda ake rabawa",
+        "title": "Yadda rabawa ke aiki",
+        "intro": "Raba ibadar da ka kammala da al'ummar Vera. Sunanka zai kasance a ɓoye.",
+        "step1Title": "Kammala ibada",
+        "step1Body": "Ka kammala sallolinka biyar, hatim ko burin zikiri a cikin manhajar.",
+        "step2Title": "Danna Raba",
+        "step2Body": "Idan bikin murna ya bayyana, danna Raba. Kana iya amfani da maɓallin raba a shafukan sallah da zikiri.",
+        "step3Title": "Rubutunka zai bayyana a nan",
+        "step3Body": "Kowa zai iya ganinsa, tare da ƙasarka kawai idan ka yarda. Ka goge shi a kowane lokaci daga Rubuce-rubucena.",
+        "gotIt": "Na gane"
+      },
+      "reminder": {
+        "title": "Raba ibadar yau",
+        "body": "Kana son raba ibadar yau da al'umma?",
+        "bodyAll": "Ka kammala sallolin nan biyar yau. Kana son raba wa al'umma?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "Burin yau: hatima ɗaya. Mu karanta shafuka kaɗan a kowace rana mu kammala Alƙur'ani tare.",
+        "m1": "Burin yau: bayan Isha'i, Subhanallah 33, Alhamdulillah 33 da Allahu Akbar 33.",
+        "m2": "Yau, mu yi niyyar yin sallolin nan biyar a kan lokaci, tare.",
+        "m3": "Burin yau: karanta shafi ɗaya na Alƙur'ani. Ƙananan matakai ma suna da daraja.",
+        "m4": "Burin yau: Subhanallah 100. Ka raba wa al'umma idan ka gama.",
+        "m5": "A wannan mako, rubuta jerin addu'o'i ka tuna da ɗan'uwa ko 'yar'uwa a ciki.",
+        "m6": "Yau, yi tunanin yin sadaka ko wani aikin alheri ga wani."
+      }
+    },
+    "coach": {
+      "dismiss": "Na gane",
+      "ummah": {
+        "title": "Al'umma",
+        "body": "Raba ibadar da ka kammala da al'umma, ko duba abin da wasu suka raba yau."
+      },
+      "qibla": {
+        "title": "Kompas ɗin Qibla",
+        "body": "Riƙe wayarka a kwance ka juya har kibiya ta nuna Ka'aba."
+      },
+      "silentMode": {
+        "title": "Yanayin shiru",
+        "body": "Idan wayarka tana shiru ko kan girgiza, ana sanar da kiran sallah a hankali. Za ka iya canza wannan a Saituna."
+      }
     }
   }
 }

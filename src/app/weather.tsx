@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import {
   ActivityIndicator,
-  Dimensions,
+  useWindowDimensions,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -16,7 +16,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from '../services/storageService';
 import * as Haptics from 'expo-haptics';
 
 import { AppBackground } from '../components/ProgressRing';
@@ -27,14 +27,16 @@ import {
   DetailedWeatherData,
   fetchDetailedWeather,
   getWeatherDescription,
-  getWeatherEmoji,
+  getWeatherIcon,
 } from '../services/api';
 import { logScreenView } from '../services/analyticsService';
+import { directionalIconStyle } from '../utils/rtl';
 
-const { width: SCREEN_W } = Dimensions.get('window');
 
 export default function WeatherScreen() {
   const isFocused = useIsFocused();
+  const { width: SCREEN_W } = useWindowDimensions();
+  const metricCardW = useMemo(() => ({ width: (SCREEN_W - 42) / 2 }), [SCREEN_W]);
   const { t, i18n } = useTranslation();
   const { isDark, isFullscreen } = useTheme();
   const insets = useSafeAreaInsets();
@@ -127,7 +129,7 @@ export default function WeatherScreen() {
   const cardBg = isDark ? 'rgba(30, 22, 12, 0.75)' : '#FFFFFF';
   const cardBorder = isDark ? 'rgba(212, 175, 55, 0.22)' : 'rgba(0,0,0,0.06)';
   const textPrimary = isDark ? '#FDF8ED' : '#1A1A24';
-  const textSecondary = isDark ? 'rgba(253, 248, 237, 0.65)' : 'rgba(26,26,36,0.6)';
+  const textSecondary = isDark ? 'rgba(253, 248, 237, 0.75)' : 'rgba(26,26,36,0.75)';
 
   return (
     <AppBackground isDark={isDark}>
@@ -138,8 +140,10 @@ export default function WeatherScreen() {
           <Pressable
             style={[styles.backBtn, { backgroundColor: cardBg, borderColor: cardBorder }]}
             onPress={() => router.back()}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.back', 'Back')}
           >
-            <Feather name="arrow-left" size={20} color={textPrimary} />
+            <Feather name="arrow-left" size={20} color={textPrimary} style={directionalIconStyle} />
           </Pressable>
           <View style={styles.headerTextBox}>
             <Text style={[styles.headerTitle, { color: textPrimary }]}>
@@ -154,6 +158,9 @@ export default function WeatherScreen() {
           <View style={[styles.unitToggleContainer, { backgroundColor: isDark ? 'rgba(212, 175, 55, 0.12)' : 'rgba(0,0,0,0.06)', borderColor: cardBorder }]}>
             <Pressable
               onPress={() => toggleUnit('C')}
+              accessibilityRole="button"
+              hitSlop={{ top: 10, bottom: 10, left: 4, right: 4 }}
+              accessibilityState={{ selected: unit === 'C' }}
               style={[
                 styles.unitToggleBtn,
                 unit === 'C' && { backgroundColor: '#D4AF37' },
@@ -163,6 +170,9 @@ export default function WeatherScreen() {
             </Pressable>
             <Pressable
               onPress={() => toggleUnit('F')}
+              accessibilityRole="button"
+              hitSlop={{ top: 10, bottom: 10, left: 4, right: 4 }}
+              accessibilityState={{ selected: unit === 'F' }}
               style={[
                 styles.unitToggleBtn,
                 unit === 'F' && { backgroundColor: '#D4AF37' },
@@ -218,7 +228,7 @@ export default function WeatherScreen() {
                 end={{ x: 1, y: 1 }}
                 style={[styles.heroCard, { borderColor: cardBorder }]}
               >
-                <Text style={styles.heroEmoji}>{getWeatherEmoji(weatherData.code)}</Text>
+                <Feather name={getWeatherIcon(weatherData.code) as any} size={56} color="#D4AF37" style={styles.heroEmoji} />
                 <Text style={[styles.heroTemp, { color: textPrimary }]}>
                   {convertTemp(weatherData.temp)}
                   <Text style={styles.heroTempUnit}>°{unit}</Text>
@@ -231,20 +241,20 @@ export default function WeatherScreen() {
                 <View style={styles.heroRangeRow}>
                   {forecast[0] && (
                     <View style={[styles.rangePill, { backgroundColor: cardBg, borderColor: cardBorder }]}>
-                      <Feather name="arrow-up" size={12} color="#EF4444" style={{ marginRight: 4 }} />
+                      <Feather name="arrow-up" size={12} color="#EF4444" style={{ marginEnd: 4 }} />
                       <Text style={[styles.rangeLabel, { color: textSecondary }]}>{t('weather.high', 'Yüksek')}:</Text>
                       <Text style={[styles.rangeValue, { color: textPrimary }]}>{convertTemp(forecast[0].maxTemp)}°</Text>
                     </View>
                   )}
                   {forecast[0] && (
                     <View style={[styles.rangePill, { backgroundColor: cardBg, borderColor: cardBorder }]}>
-                      <Feather name="arrow-down" size={12} color="#3B82F6" style={{ marginRight: 4 }} />
+                      <Feather name="arrow-down" size={12} color="#3B82F6" style={{ marginEnd: 4 }} />
                       <Text style={[styles.rangeLabel, { color: textSecondary }]}>{t('weather.low', 'Düşük')}:</Text>
                       <Text style={[styles.rangeValue, { color: textPrimary }]}>{convertTemp(forecast[0].minTemp)}°</Text>
                     </View>
                   )}
                   <View style={[styles.rangePill, { backgroundColor: cardBg, borderColor: cardBorder }]}>
-                    <Feather name="thermometer" size={12} color="#D4AF37" style={{ marginRight: 4 }} />
+                    <Feather name="thermometer" size={12} color="#D4AF37" style={{ marginEnd: 4 }} />
                     <Text style={[styles.rangeLabel, { color: textSecondary }]}>{t('weather.feelsLike', 'Hissedilen')}:</Text>
                     <Text style={[styles.rangeValue, { color: textPrimary }]}>{convertTemp(weatherData.feelsLike)}°</Text>
                   </View>
@@ -256,7 +266,7 @@ export default function WeatherScreen() {
             {weatherData.hourly && weatherData.hourly.length > 0 && (
               <Animated.View entering={FadeInDown.delay(120).duration(450)} style={styles.sectionWrap}>
                 <View style={styles.sectionHeader}>
-                  <Feather name="clock" size={15} color="#D4AF37" style={{ marginRight: 6 }} />
+                  <Feather name="clock" size={15} color="#D4AF37" style={{ marginEnd: 6 }} />
                   <Text style={[styles.sectionTitle, { color: textPrimary }]}>
                     {t('weather.hourlyTitle', '24 Saatlik Tahmin')}
                   </Text>
@@ -274,13 +284,13 @@ export default function WeatherScreen() {
                       <Text style={[styles.hourlyTime, { color: textSecondary }]}>
                         {idx === 0 ? t('weather.today', 'Şimdi') : h.time}
                       </Text>
-                      <Text style={styles.hourlyEmoji}>{getWeatherEmoji(h.code)}</Text>
+                      <Feather name={getWeatherIcon(h.code) as any} size={22} color="#D4AF37" style={styles.hourlyEmoji} />
                       <Text style={[styles.hourlyTemp, { color: textPrimary }]}>
                         {convertTemp(h.temp)}°
                       </Text>
                       {h.pop > 0 && (
                         <View style={styles.hourlyPopBadge}>
-                          <Ionicons name="water" size={10} color="#60A5FA" style={{ marginRight: 2 }} />
+                          <Ionicons name="water" size={10} color="#60A5FA" style={{ marginEnd: 2 }} />
                           <Text style={styles.hourlyPopText}>%{h.pop}</Text>
                         </View>
                       )}
@@ -297,7 +307,7 @@ export default function WeatherScreen() {
             <Animated.View entering={FadeInDown.delay(180).duration(450)} style={styles.sectionWrap}>
               <View style={styles.metricsGrid}>
                 {/* Humidity */}
-                <View style={[styles.metricCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
+                <View style={[styles.metricCard, metricCardW, { backgroundColor: cardBg, borderColor: cardBorder }]}>
                   <View style={styles.metricHeaderRow}>
                     <View style={[styles.metricIconWrap, { backgroundColor: 'rgba(59, 130, 246, 0.15)' }]}>
                       <Ionicons name="water-outline" size={16} color="#3B82F6" />
@@ -308,7 +318,7 @@ export default function WeatherScreen() {
                 </View>
 
                 {/* Wind Speed */}
-                <View style={[styles.metricCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
+                <View style={[styles.metricCard, metricCardW, { backgroundColor: cardBg, borderColor: cardBorder }]}>
                   <View style={styles.metricHeaderRow}>
                     <View style={[styles.metricIconWrap, { backgroundColor: 'rgba(16, 185, 129, 0.15)' }]}>
                       <Feather name="wind" size={16} color="#10B981" />
@@ -319,7 +329,7 @@ export default function WeatherScreen() {
                 </View>
 
                 {/* UV Index */}
-                <View style={[styles.metricCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
+                <View style={[styles.metricCard, metricCardW, { backgroundColor: cardBg, borderColor: cardBorder }]}>
                   <View style={styles.metricHeaderRow}>
                     <View style={[styles.metricIconWrap, { backgroundColor: 'rgba(245, 158, 11, 0.15)' }]}>
                       <Feather name="sun" size={16} color="#F59E0B" />
@@ -330,7 +340,7 @@ export default function WeatherScreen() {
                 </View>
 
                 {/* Pressure */}
-                <View style={[styles.metricCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
+                <View style={[styles.metricCard, metricCardW, { backgroundColor: cardBg, borderColor: cardBorder }]}>
                   <View style={styles.metricHeaderRow}>
                     <View style={[styles.metricIconWrap, { backgroundColor: 'rgba(139, 92, 246, 0.15)' }]}>
                       <Feather name="compass" size={16} color="#8B5CF6" />
@@ -368,7 +378,7 @@ export default function WeatherScreen() {
             {/* 7-Day Forecast Section */}
             <Animated.View entering={FadeInDown.delay(260).duration(450)} style={styles.sectionWrap}>
               <View style={styles.sectionHeader}>
-                <Feather name="calendar" size={15} color="#D4AF37" style={{ marginRight: 6 }} />
+                <Feather name="calendar" size={15} color="#D4AF37" style={{ marginEnd: 6 }} />
                 <Text style={[styles.sectionTitle, { color: textPrimary }]}>
                   {t('weather.forecast7Day', '7 Günlük Tahmin')}
                 </Text>
@@ -381,8 +391,6 @@ export default function WeatherScreen() {
 
                   return (
                     <React.Fragment key={item.date}>
-                    {/* Second banner between the days, after the third one */}
-                    {idx === 3 && <BannerAdSlot placement="weather_list" isVisible={isFocused} lazy={true} />}
                     <Animated.View entering={FadeInUp.delay(280 + idx * 40).duration(350)}>
                       <Pressable
                         style={({ pressed }) => [
@@ -415,7 +423,7 @@ export default function WeatherScreen() {
 
                         {/* Condition */}
                         <View style={styles.conditionCell}>
-                          <Text style={styles.forecastEmoji}>{getWeatherEmoji(item.code)}</Text>
+                          <Feather name={getWeatherIcon(item.code) as any} size={18} color="#D4AF37" style={styles.forecastEmoji} />
                           <Text style={[styles.forecastDesc, { color: textSecondary }]} numberOfLines={1}>
                             {getWeatherDescription(item.code, i18n.language)}
                           </Text>
@@ -461,16 +469,16 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   backBtn: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
   },
   headerTextBox: {
     flex: 1,
-    marginLeft: 14,
+    marginStart: 14,
   },
   headerTitle: {
     fontFamily: 'Outfit_700Bold',
@@ -536,7 +544,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   heroEmoji: {
-    fontSize: 56,
     marginBottom: 4,
   },
   heroTemp: {
@@ -571,7 +578,7 @@ const styles = StyleSheet.create({
   rangeLabel: {
     fontFamily: 'Outfit_400Regular',
     fontSize: 12,
-    marginRight: 4,
+    marginEnd: 4,
   },
   rangeValue: {
     fontFamily: 'Outfit_600SemiBold',
@@ -604,11 +611,10 @@ const styles = StyleSheet.create({
   },
   hourlyTime: {
     fontFamily: 'Outfit_400Regular',
-    fontSize: 11,
+    fontSize: 12,
     marginBottom: 6,
   },
   hourlyEmoji: {
-    fontSize: 22,
     marginBottom: 6,
   },
   hourlyTemp: {
@@ -622,7 +628,7 @@ const styles = StyleSheet.create({
   },
   hourlyPopText: {
     fontFamily: 'Outfit_500Medium',
-    fontSize: 9,
+    fontSize: 12,
     color: '#60A5FA',
   },
   metricsGrid: {
@@ -631,7 +637,6 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   metricCard: {
-    width: (SCREEN_W - 42) / 2,
     borderRadius: 18,
     padding: 14,
     borderWidth: 1,
@@ -647,7 +652,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 8,
+    marginEnd: 8,
   },
   metricLabel: {
     fontFamily: 'Outfit_400Regular',
@@ -678,7 +683,7 @@ const styles = StyleSheet.create({
   },
   sunLabel: {
     fontFamily: 'Outfit_400Regular',
-    fontSize: 11,
+    fontSize: 12,
   },
   sunValue: {
     fontFamily: 'Outfit_600SemiBold',
@@ -722,8 +727,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   forecastEmoji: {
-    fontSize: 18,
-    marginRight: 6,
+    marginEnd: 6,
   },
   forecastDesc: {
     fontFamily: 'Outfit_400Regular',
@@ -752,10 +756,10 @@ const styles = StyleSheet.create({
   },
   tempMin: {
     fontFamily: 'Outfit_400Regular',
-    fontSize: 11,
+    fontSize: 12,
   },
   tempMax: {
     fontFamily: 'Outfit_600SemiBold',
-    fontSize: 11,
+    fontSize: 12,
   },
 });

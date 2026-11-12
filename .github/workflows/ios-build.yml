@@ -1,0 +1,114 @@
+name: iOS Build
+
+# Runs on pushes to the ios-build branch and on manual dispatch.
+# - ios-simulator-build: generates the native iOS project with `expo prebuild`,
+#   installs CocoaPods and compiles an UNSIGNED Release build for the iOS Simulator.
+#   No Apple account or secrets are needed, so this is the always-on build check.
+# - js-checks: Node unit tests and TypeScript type check.
+
+on:
+  push:
+    branches:
+      - ios-build
+  workflow_dispatch:
+
+concurrency:
+  group: ios-build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  js-checks:
+    name: JS tests & typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests
+        run: npm test
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+
+  ios-simulator-build:
+    name: iOS simulator build (unsigned)
+    runs-on: macos-15
+    timeout-minutes: 90
+    env:
+      CI: '1'
+      EXPO_NO_TELEMETRY: '1'
+      EXPO_NO_DOCTOR: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Select Xcode 16
+        run: |
+          XCODE_APP=$(ls -d /Applications/Xcode_16*.app 2>/dev/null | sort -V | tail -1)
+          if [ -n "$XCODE_APP" ]; then
+            sudo xcode-select -s "$XCODE_APP"
+          fi
+          xcodebuild -version
+          xcrun --sdk iphonesimulator --show-sdk-version
+
+      - name: Install JS dependencies
+        run: npm ci
+
+      - name: Generate native iOS project (expo prebuild)
+        run: npx expo prebuild --platform ios --clean --no-install
+
+      - name: Install CocoaPods dependencies
+        working-directory: ios
+        run: pod install --repo-update
+
+      - name: Build for iOS Simulator (unsigned)
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -workspace ios/Vera.xcworkspace \
+            -scheme Vera \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build
+
+      - name: Package simulator .app
+        run: |
+          APP_DIR=build/DerivedData/Build/Products/Release-iphonesimulator
+          APP_PATH=$(find "$APP_DIR" -maxdepth 1 -name "*.app" | head -n 1)
+          if [ -z "$APP_PATH" ]; then
+            echo "No .app found in $APP_DIR"
+            exit 1
+          fi
+          echo "Packaging $APP_PATH"
+          (cd "$APP_DIR" && zip -qr "$GITHUB_WORKSPACE/Vera-ios-simulator.zip" "$(basename "$APP_PATH")")
+
+      - name: Upload simulator build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Vera-ios-simulator
+          path: Vera-ios-simulator.zip
+          retention-days: 7

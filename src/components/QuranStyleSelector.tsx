@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../context/ThemeContext';
-import { typography } from '../utils/theme';
+import { readableTextOn, typography } from '../utils/theme';
 import { useQuranSettings, ScriptType } from '../context/QuranSettingsContext';
 import { clearAllJuzData } from '../services/quranRepository';
 
@@ -153,7 +153,7 @@ export const QuranStyleSelector: React.FC<Props> = ({ visible, onClose, isInitia
                       styles.sampleText,
                       { color: theme.colors.text },
                       opt.fontFamily ? { fontFamily: opt.fontFamily } : null,
-                      opt.id === 'quran-husrev' ? { fontSize: 15, fontFamily: typography.fontFamily.semiBold, color: theme.colors.primary } : (opt.id === 'quran-indopak' ? { fontSize: 26 } : null)
+                      opt.id === 'quran-husrev' ? { fontSize: 15, fontFamily: typography.fontFamily.semiBold, color: theme.colors.primaryText } : (opt.id === 'quran-indopak' ? { fontSize: 26 } : null)
                     ]}>
                       {opt.sample}
                     </Text>
@@ -169,9 +169,9 @@ export const QuranStyleSelector: React.FC<Props> = ({ visible, onClose, isInitia
             disabled={loading}
           >
             {loading ? (
-              <ActivityIndicator color="#FFF" />
+              <ActivityIndicator color={readableTextOn(theme.colors.primary)} />
             ) : (
-              <Text style={styles.saveButtonText}>{t('quran.saveAndContinue', 'Kaydet ve Devam Et')}</Text>
+              <Text style={[styles.saveButtonText, { color: readableTextOn(theme.colors.primary) }]}>{t('quran.saveAndContinue', 'Kaydet ve Devam Et')}</Text>
             )}
           </Pressable>
         </View>
@@ -186,8 +186,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   container: {
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
+    borderTopStartRadius: 24,
+    borderTopEndRadius: 24,
     padding: 24,
     maxHeight: '85%',
   },
@@ -202,9 +202,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   closeBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
   },

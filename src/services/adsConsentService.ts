@@ -1,6 +1,7 @@
-import { Platform } from 'react-native';
+import { AppState, InteractionManager, Platform } from 'react-native';
 import * as TrackingTransparency from 'expo-tracking-transparency';
-import { AdsConsent, AdsConsentPrivacyOptionsRequirementStatus, MobileAds } from 'react-native-google-mobile-ads';
+import { AdsConsent, AdsConsentPrivacyOptionsRequirementStatus, AdsConsentStatus, MobileAds } from 'react-native-google-mobile-ads';
+import { applyAnalyticsConsent } from './consentPropagation';
 
 const devLog = (...args: any[]) => { if (__DEV__) console.log(...args); };
 const devWarn = (...args: any[]) => { if (__DEV__) console.warn(...args); };
@@ -8,6 +9,34 @@ const devError = (...args: any[]) => { if (__DEV__) console.error(...args); };
 
 let canRequestAds = false;
 let initPromise: Promise<boolean> | null = null;
+let adsSdkInitialized = false;
+// True once UMP gave a definitive answer (form flow succeeded, or a cached non-UNKNOWN state).
+// While false (e.g. offline first launch) the flow is retried on the next call / app foreground.
+let consentResolved = false;
+
+// The Mobile Ads SDK spins up a WebView, which blocks the main thread (ANR reports show the main
+// thread waiting inside libwebviewchromium on slow phones). Never start it while the app is still
+// drawing its first screens: wait until the interactions settle and the process is a few seconds old.
+const PROCESS_START_MS = Date.now();
+const ADS_INIT_MIN_UPTIME_MS = 5000;
+
+const waitForQuietStartup = async (): Promise<void> => {
+  await new Promise<void>((resolve) => InteractionManager.runAfterInteractions(() => resolve()));
+  const remaining = ADS_INIT_MIN_UPTIME_MS - (Date.now() - PROCESS_START_MS);
+  if (remaining > 0) await new Promise<void>((resolve) => setTimeout(resolve, remaining));
+};
+
+const initializeAdsSdk = async (): Promise<void> => {
+  if (adsSdkInitialized) return;
+  adsSdkInitialized = true;
+  try {
+    await waitForQuietStartup();
+    await MobileAds().initialize();
+  } catch (e) {
+    adsSdkInitialized = false;
+    devWarn('MobileAds initialize failed:', e);
+  }
+};
 
 // The ATT prompt and the UMP consent form must not appear before (or on top of) the
 // welcome onboarding. Ad slots may mount behind the onboarding modal and ask for
@@ -58,6 +87,9 @@ export async function initializeAdsWithConsent(): Promise<boolean> {
         const consentInfo = await AdsConsent.gatherConsent();
         devLog('UMP consent status:', consentInfo.status, 'canRequestAds:', consentInfo.canRequestAds);
         canRequestAds = consentInfo.canRequestAds;
+        consentResolved = true;
+        // canRequestAds is also true where consent isn't required (outside EEA/UK).
+        void applyAnalyticsConsent(consentInfo.canRequestAds);
       } catch (e) {
         devWarn('UMP gatherConsent failed (check AdMob Privacy & Messaging / GDPR form):', e);
         // The form couldn't be shown (offline, form not configured…). Fall back to the consent
@@ -66,13 +98,17 @@ export async function initializeAdsWithConsent(): Promise<boolean> {
         try {
           const cached = await AdsConsent.getConsentInfo();
           canRequestAds = cached.canRequestAds;
+          if (cached.status !== AdsConsentStatus.UNKNOWN) {
+            consentResolved = true;
+            void applyAnalyticsConsent(cached.canRequestAds);
+          }
         } catch {
           canRequestAds = false;
         }
       }
 
       if (canRequestAds) {
-        await MobileAds().initialize();
+        await initializeAdsSdk();
       }
 
       return canRequestAds;
@@ -82,6 +118,11 @@ export async function initializeAdsWithConsent(): Promise<boolean> {
       return false;
     }
   })();
+
+  // Don't cache an unresolved outcome forever: let the next caller start the flow again.
+  initPromise.then(() => {
+    if (!consentResolved) initPromise = null;
+  });
 
   return initPromise;
 }
@@ -93,8 +134,18 @@ export async function openAdsPrivacyOptionsForm(): Promise<void> {
     if (consentInfo.privacyOptionsRequirementStatus === AdsConsentPrivacyOptionsRequirementStatus.REQUIRED) {
       const updated = await AdsConsent.showPrivacyOptionsForm();
       canRequestAds = updated.canRequestAds;
+      consentResolved = true;
+      void applyAnalyticsConsent(updated.canRequestAds);
+      if (canRequestAds) await initializeAdsSdk();
     }
   } catch (e) {
     devWarn('Failed to show privacy options form:', e);
   }
 }
+
+// Retry an unresolved consent flow (e.g. first launch was offline) when the app comes back to the foreground.
+AppState.addEventListener('change', (state) => {
+  if (state === 'active' && !consentResolved && !initPromise) {
+    void initializeAdsWithConsent();
+  }
+});

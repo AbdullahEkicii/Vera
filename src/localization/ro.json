@@ -10,7 +10,13 @@
       "cancel": "Anulează",
       "save": "Salvează",
       "ok": "OK",
-      "close": "Închide"
+      "close": "Închide",
+      "back": "Înapoi",
+      "clear": "Șterge",
+      "remove": "Elimină",
+      "expand": "Extinde",
+      "collapse": "Restrânge",
+      "share": "Distribuie"
     },
     "home": {
       "title": "Orele de Rugăciune",
@@ -42,7 +48,13 @@
       "loadingTimes": "Se încarcă orele de rugăciune...",
       "locationPermissionTitle": "Permisiunea de Localizare Indisponibilă",
       "locationPermissionDesc": "Se afișează orașul implicit. Poți alege un oraș sau poți acorda permisiunea de localizare.",
-      "estimatedTimesNotice": "Fără conexiune la internet, orele de rugăciune au fost calculate pe dispozitivul tău (estimative)."
+      "estimatedTimesNotice": "Fără conexiune la internet, orele de rugăciune au fost calculate pe dispozitivul tău (estimative).",
+      "adjustTimeHint": "Apăsați lung pentru a ajusta această oră",
+      "moreTools": "Mai multe",
+      "locationFetchFailedTitle": "Locația nu a fost găsită",
+      "locationFetchFailedDesc": "Nu am putut obține locația GPS. Poți alege un oraș sau încerca din nou mai târziu.",
+      "sourceA11y": "Metoda de calcul a orelor de rugăciune",
+      "highLatNote": "Latitudine mare: Fajr/Isha sunt aproximate"
     },
     "settings": {
       "title": "Setări",
@@ -60,7 +72,11 @@
         "egypt": "Autoritatea Egipteană",
         "karachi": "Karachi (Pakistan)",
         "france": "Franța (UOIF)",
-        "russia": "Rusia"
+        "russia": "Rusia",
+        "kemenag": "Indonezia (Kemenag)",
+        "jakim": "Malaezia (JAKIM)",
+        "muis": "Singapore (MUIS)",
+        "tehran": "Iran (Universitatea din Teheran)"
       },
       "palettes": {
         "default": "Implicit",
@@ -93,7 +109,7 @@
       "persistentNotif": "Numărătoare inversă de rugăciune persistentă",
       "persistentNotifDesc": "Urmăriți timpul rămas pentru următoarea rugăciune în direct pe ecranul de blocare și pe panoul de notificare.",
       "widgetTitle": "Widget pentru ecranul de pornire",
-      "addWidget": "📌 Adăugați un widget pe ecranul de pornire!",
+      "addWidget": "Adăugați un widget pe ecranul de pornire!",
       "addWidgetDesc": "Vedeți orele de rugăciune și numărătoarea inversă live direct pe ecranul de pornire al telefonului dvs.",
       "general": "Setări generale",
       "fullscreen": "Modul ecran complet",
@@ -130,7 +146,32 @@
       "username": "Nume de utilizator",
       "password": "Parolă",
       "loggingIn": "Se conectează...",
-      "login": "Conectare"
+      "login": "Conectare",
+      "remindersTitle": "Mementouri și anunțuri",
+      "dailyContentNotif": "Versetul / hadisul zilei",
+      "dailyContentNotifDesc": "Un scurt memento zilnic după rugăciunea de amiază.",
+      "quranReminderNotif": "Memento pentru citirea Coranului",
+      "quranReminderNotifDesc": "Un memento seara, la două zile.",
+      "greetingNotif": "Urări de vineri și zile sfinte",
+      "greetingNotifDesc": "Mementouri vinerea și în zilele religioase.",
+      "announcementsNotif": "Anunțuri",
+      "announcementsNotifDesc": "Noutăți și mesaje de campanie de la Vera.",
+      "locationTitle": "Locație",
+      "changeCity": "Schimbă orașul",
+      "locationNotSet": "Încă neselectat",
+      "locationFromGps": "Urmărește locația telefonului",
+      "locationFromManual": "Oraș ales manual",
+      "locationHint": "Alegeți un oraș sau folosiți locația telefonului.",
+      "useMyLocation": "Folosește locația mea curentă",
+      "fullscreenDesc": "Ascunde bara de stare (ceas, baterie) și bara de navigare.",
+      "recommended": "Recomandat",
+      "asrSchoolTitle": "Calculul Asr",
+      "asrStandard": "Standard (șafiit, malikit, hanbalit)",
+      "asrHanafi": "Hanafit",
+      "asrSchoolDesc": "Școala hanafită amână Asr (umbra dublă față de obiect). Este obișnuită în Asia de Sud.",
+      "rateApp": "Evaluează Vera",
+      "privacyPolicy": "Politica de confidențialitate",
+      "restartForDirection": "Închideți și redeschideți aplicația pentru a aplica noua direcție a textului."
     },
     "qibla": {
       "title": "Qibla",
@@ -148,12 +189,12 @@
       "status": "Stare",
       "aligned": "Aliniat",
       "aligning": "Rotiți",
-      "alignedSuccess": "🕌 Sunteți orientat către Qibla!",
+      "alignedSuccess": "Sunteți orientat către Qibla!",
       "subtitle": "Follow the steps to accurately find the Qibla direction",
       "guideTitle": "Cum se utilizează?",
       "step1": "1. Hold your phone FLAT in your hand",
       "step2": "2. Turn your body SLOWLY around",
-      "step3": "3. When the needle points to 🕋 Kaaba and turns GREEN, you are facing Qibla!",
+      "step3": "3. When the needle points to Kaaba and turns GREEN, you are facing Qibla!",
       "fallbackNotice": "Calculated based on city coordinates as GPS is unavailable.",
       "heading": "Titlu",
       "calibrateBtn": "Calibrați busola",
@@ -162,8 +203,15 @@
       "magneticShield": "Scut de câmp magnetic",
       "magneticShieldDesc": "Precizia senzorului optimizată. Țineți departe de carcasele magnetice.",
       "levelStatus": "Nivel orizontal (bulă)",
-      "levelFlat": "Plat și paralel ✓",
-      "gotIt": "Am înţeles"
+      "levelFlat": "Plat și paralel",
+      "gotIt": "Am înţeles",
+      "noLocationTitle": "Este necesară locația",
+      "noLocationDesc": "Direcția Qibla depinde de locul în care vă aflați. Alegeți orașul sau permiteți accesul la locație.",
+      "useMyLocation": "Folosește locația mea",
+      "chooseCity": "Alege orașul",
+      "lowAccuracy": "Precizia busolei este scăzută. Atingeți pentru calibrare.",
+      "magneticNorthNote": "Se folosește nordul magnetic: direcția poate diferi cu câteva grade.",
+      "errorNoSensor": "Senzorul busolei nu răspunde. Este posibil ca acest dispozitiv să nu aibă busolă."
     },
     "daily": {
       "title": "Inspirație Zilnică",
@@ -175,7 +223,8 @@
       "hadithBody": "Faceți clic pentru a citi hadith-ul zilei!",
       "quoteBody": "Faceți clic pentru a citi citatul zilei!",
       "subtitle": "Verset, hadith și citat selectate pentru astăzi",
-      "shareHint": "Atinge un card pentru a-l distribui ca imagine de poveste"
+      "shareHint": "Atinge un card pentru a-l distribui ca imagine de poveste",
+      "autoTranslated": "Traducere automată"
     },
     "search": {
       "title": "Selectați Locația",
@@ -184,7 +233,10 @@
       "recent": "Căutări Recente",
       "useGPS": "Utilizează Locația Actuală",
       "gpsDenied": "Permisiunea de locație a fost refuzată.",
-      "gpsError": "Preluarea locației a eșuat."
+      "gpsError": "Preluarea locației a eșuat.",
+      "searchFailed": "Căutarea a eșuat, verifică conexiunea.",
+      "pin": "Salvează orașul",
+      "unpin": "Elimină fixarea"
     },
     "notifications": {
       "exactAlert": "Alertă Oră de Rugăciune",
@@ -237,7 +289,8 @@
         "dailyName": "Inspirație zilnică",
         "dailyDesc": "Versul zilnic, hadith-ul sau citatul sosesc între Dhuhr și Asr.",
         "persistentName": "Ecran de blocare și bară de stare",
-        "persistentDesc": "Afișează următorul nume de rugăciune și numărătoarea inversă live în panoul de notificare și ecranul de blocare."
+        "persistentDesc": "Afișează următorul nume de rugăciune și numărătoarea inversă live în panoul de notificare și ecranul de blocare.",
+        "announcements": "Anunțuri"
       },
       "persistentTitle": "🕌 Până la {{prayer}}"
     },
@@ -408,7 +461,15 @@
       "noBookmarks": "Încă nu ai versete favorite. Apasă lung pe un verset pentru a-l adăuga.",
       "playFromHere": "Ascultă de Aici",
       "juz": "Juz",
-      "downloadingShort": "Se descarcă..."
+      "downloadingShort": "Se descarcă...",
+      "audioErrorTitle": "Sunetul nu a putut fi redat",
+      "audioErrorMessage": "Recitarea nu a putut fi încărcată. Verifică conexiunea la internet și încearcă din nou.",
+      "audioPause": "Pauză recitare",
+      "audioResume": "Reluați recitarea",
+      "audioStop": "Oprește recitarea",
+      "audioPlay": "Redă recitarea",
+      "fontSmaller": "Micșorează textul",
+      "fontLarger": "Mărește textul"
     },
     "review": {
       "title": "Susțineți-ne",
@@ -416,9 +477,9 @@
       "notNow": "Nu Acum",
       "review": "Evaluează",
       "subtitle": "Evaluează-ți experiența cu vedetele",
-      "fiveStarTitle": "Suntem încântați să auzim asta! 🌟",
+      "fiveStarTitle": "Suntem încântați să auzim asta!",
       "fiveStarSubtitle": "Doriți să susțineți Vera cu o evaluare de 5 stele?",
-      "rateOnStore": "🌟 Oferă 5 stele și sprijin",
+      "rateOnStore": "Oferă 5 stele și sprijin",
       "ratingLabels": {
         "1": "Necesită îmbunătățire",
         "2": "Corect",
@@ -426,11 +487,11 @@
         "4": "Foarte bun",
         "5": "Excelent!"
       },
-      "feedbackTitle": "Ajutați-ne să îmbunătățim 💬",
+      "feedbackTitle": "Ajutați-ne să îmbunătățim",
       "feedbackSubtitle": "Împărtășiți-vă gândurile și sugestiile pentru a o face pe Vera și mai bună.",
       "feedbackPlaceholder": "Scrieți sugestiile, ideile sau orice problemă cu care v-ați confruntat...",
       "sendFeedback": "Trimiteți feedback",
-      "thankYouTitle": "Feedback primit! 🤲",
+      "thankYouTitle": "Feedback primit!",
       "thankYouSubtitle": "Feedback-ul dumneavoastră este foarte valoros pentru noi. Vom munci din greu pentru ca Vera să fie și mai bună.",
       "close": "Aproape"
     },
@@ -453,6 +514,8 @@
       "title": "Tracker zilnic de rugăciune",
       "completed": "Terminat",
       "dayStreak": "Day Streak",
+      "restartHint": "Poți să începi din nou azi",
+      "weekActiveDays": "{{count}} zile din ultimele 7",
       "viewHistory": "Vezi istoricul complet",
       "historyTitle": "Istoria rugăciunii",
       "historySubtitle": "Jurnalele de rugăciune din ultimele 30 de zile",
@@ -471,7 +534,7 @@
       "celebrationSubtitle": "Masha'Allah!",
       "celebrationMessage": "Ai îndeplinit toate cele 5 rugăciuni zilnice astăzi. Allah să vă accepte rugăciunile!",
       "celebrationBtn": "Alhamdulillah",
-      "trustNotice": "{{oraș}} • Orele de rugăciune verificate pentru regiunea dvs. folosind {{metoda}}",
+      "trustNotice": "{{city}} • Orele de rugăciune verificate pentru regiunea dvs. folosind {{method}}",
       "streakDays": "Zile",
       "shareStreak": "Distribuie Seria Mea",
       "shareText": "Mi-am ținut rugăciunile timp de {{count}} zile la rând, alhamdulillah!"
@@ -483,7 +546,8 @@
     "imsakiye": {
       "title": "Săptămânal Imsakiye",
       "subtitle": "Următoarele 7 zile",
-      "date": "Data"
+      "date": "Data",
+      "rangeDays": "{{n}} zile"
     },
     "religious": {
       "title": "Zilele religioase",
@@ -500,12 +564,12 @@
       "dismissBtn": "Nu acum"
     },
     "names": {
-      "title": "Numele lui Allah și Duas",
+      "title": "Numele lui Allah și Dua",
       "namesSubtitle": "Cele 99 de nume frumoase ale lui Allah",
       "duasSubtitle": "Cereri de zi cu zi",
       "meaningLabel": "Sens",
       "tabNames": "99 Nume",
-      "tabDuas": "Duas",
+      "tabDuas": "Dua",
       "namesCount": "{{count}} Nume",
       "duasCount": "{{count}} Duas",
       "tapHint": "Atingeți pentru detalii",
@@ -541,20 +605,20 @@
       "verifiedMethodDesc": "Cea mai precisă metodă islamică pentru regiunea dvs. este selectată automat.",
       "notificationsTitle": "Adhan și alerte de rugăciune",
       "notificationsDesc": "Primiți mementouri blânde sau sonore la orele de rugăciune.",
-      "startBtn": "Începeți să utilizați Vera 🌟",
+      "startBtn": "Începeți să utilizați Vera",
       "featureQuran": "Coran și audio",
       "featureQibla": "Qibla",
       "featureDhikr": "Contor Dhikr",
-      "backBtn": "← Du-te înapoi",
-      "playTestSound": "Previzualizează Adhan Sound 🔊",
-      "stopTestSound": "Opriți sunetul ⏹️",
-      "nextStepBtn": "Continuați →",
+      "backBtn": "Du-te înapoi",
+      "playTestSound": "Previzualizează Adhan Sound",
+      "stopTestSound": "Opriți sunetul",
+      "nextStepBtn": "Continuați",
       "step3Title": "Experiență neîntreruptă",
       "step3Subtitle": "Urmăriți timpii de rugăciune în direct de pe ecranul dvs. de pornire și asigurați-vă notificări adhan de încredere.",
-      "widgetTitle": "📌 Adăugați un widget pe ecranul de pornire",
+      "widgetTitle": "Adăugați un widget pe ecranul de pornire",
       "widgetDesc": "Vedeți numărătoarea inversă în direct fără a deschide aplicația.",
       "widgetAdded": "Widget adăugat cu succes!",
-      "batteryTitle": "🔋 Scutire pentru economisirea bateriei",
+      "batteryTitle": "Scutire pentru economisirea bateriei",
       "batteryDesc": "Recomandat să dezactivați optimizările bateriei pe Xiaomi și Samsung pentru adhans în timp util.",
       "locationReassurance": "Poți schimba oricând asta mai târziu din Setări.",
       "notifDenied": "Permisiunea de notificare nu a fost acordată. Este posibil ca alertele pentru adhan să nu funcționeze — o poți activa mai târziu din Setări.",
@@ -565,7 +629,10 @@
       "skipConfirm": "Omite",
       "locationDenied": "Permisiunea de localizare nu a fost acordată. Poți alege orașul din listă sau poți schimba asta mai târziu din Setări.",
       "locationFailed": "Nu am putut obține locația ta. Poți alege orașul din listă sau poți schimba asta mai târziu din Setări.",
-      "locationNotSet": "Localizare Indisponibilă (Permisiune Refuzată)"
+      "locationNotSet": "Localizare Indisponibilă (Permisiune Refuzată)",
+      "locationNotSetYet": "Încă neselectat",
+      "skipLocation": "Omite deocamdată",
+      "currentLocationLabel": "Locația curentă"
     },
     "weather": {
       "title": "Prognoza meteo",
@@ -629,9 +696,9 @@
       "titlePlaceholder": "Titlu (de exemplu, Jummah Mubarak)",
       "messagePlaceholder": "Scrie-ți rugăciunea sau mesajul de salut...",
       "chooseTheme": "Tema cardului",
-      "shareBtn": "Distribuie pe WhatsApp / Povestea 🌟",
-      "shareImageBtn": "Distribuiți cardul cu imagine 🌟",
-      "shareLinkBtn": "Distribuie linkul direct la magazin 🔗",
+      "shareBtn": "Distribuie pe WhatsApp / Povestea",
+      "shareImageBtn": "Distribuiți cardul cu imagine",
+      "shareLinkBtn": "Distribuie linkul direct la magazin",
       "theme": {
         "gold": "Linia de Aur",
         "emerald": "Cupola de Smarald",
@@ -649,7 +716,13 @@
       "emptyTitle": "Nu s-au găsit moschei în apropiere",
       "emptyDesc": "Puteți vizualiza toate moscheile direct pe hărți de navigare.",
       "openInMaps": "Căutați pe Maps",
-      "directionsBtn": "Direcții"
+      "directionsBtn": "Direcții",
+      "searchQuery": "moschee",
+      "noLocationTitle": "Locația nu a fost găsită",
+      "noLocationDesc": "Selectează un oraș sau permite accesul la locație pentru a vedea moscheile din apropiere.",
+      "errorTitle": "Moscheile nu au putut fi încărcate",
+      "errorDesc": "A apărut o problemă de conexiune. Verifică internetul și încearcă din nou.",
+      "chooseCity": "Alege orașul"
     },
     "dailyContent": {
       "preparing": "Se încarcă inspirația zilnică...",
@@ -666,7 +739,7 @@
       "hatimLabel": "Khatm",
       "page": "Pagină",
       "pagesRemaining": "{{count}} pagini rămase pentru a finaliza Khatm.",
-      "completed": "Felicitări! Ați finalizat Khatm-ul. 🎉",
+      "completed": "Felicitări! Ați finalizat Khatm-ul.",
       "readPageBtn": "Citiți pagina {{page}}",
       "jumpPageTitle": "Salt la pagină / Actualizare progres",
       "jumpPageDesc": "Introduceți numărul actual al paginii (1 - 604):",
@@ -676,7 +749,8 @@
       "startNew": "Începeți New Khatm",
       "resetHatimBtn": "Resetați și începeți un nou Khatm",
       "share": "Distribuie Khatm-ul Meu",
-      "shareText": "Mi-am finalizat {{count}}-lea Khatm, alhamdulillah!"
+      "shareText": "Mi-am finalizat {{count}}-lea Khatm, alhamdulillah!",
+      "dailyTarget": "Aproximativ {{n}} pagini pe zi pentru a termina (mai sunt {{d}} zile)"
     },
     "prayerTree": {
       "title": "Arborele săptămânal de rugăciune",
@@ -1175,10 +1249,10 @@
     },
     "widget": {
       "guideTitle": "Adaugă pe Ecranul Principal",
-      "guideDesc": "Apasă lung pe ecranul principal ➔ atinge „Widgeturi” ➔ găsește widgetul „VERA” și trage-l pe ecran.",
+      "guideDesc": "Apasă lung pe ecranul principal > atinge „Widgeturi” > găsește widgetul „VERA” și trage-l pe ecran.",
       "promptTitle": "Adaugă un Widget pe Ecranul Principal",
       "promptDesc": "Vezi în timp real următoarea oră de rugăciune și minutele rămase direct pe ecranul principal, fără să deschizi aplicația.",
-      "addNow": "📌 Adaugă pe Ecranul Principal",
+      "addNow": "Adaugă pe Ecranul Principal",
       "notNow": "Mai Târziu"
     },
     "greetingNotif": {
@@ -1191,7 +1265,133 @@
     "errorBoundary": {
       "title": "Ceva nu a mers bine",
       "subtitle": "Aplicația a întâmpinat o eroare neașteptată. Atinge butonul de mai jos pentru a încerca din nou.",
-      "retry": "Încearcă din nou"
+      "retry": "Încearcă din nou",
+      "clearAndRetry": "Șterge datele din cache și reîncearcă"
+    },
+    "community": {
+      "tabMine": "Postările mele",
+      "you": "Tu",
+      "emptyMine": "Nu ai încă postări. Poți împărtăși după ce finalizezi un act de cult.",
+      "adLabel": "Reclamă",
+      "title": "Comunitate",
+      "tabToday": "Astăzi",
+      "tabWeek": "Ultimele 7 zile",
+      "anonymous": "Frate/soră anonim(ă)",
+      "someone": "Cineva",
+      "templates": {
+        "hatimCompleted": "A încheiat un khatm",
+        "achievement": "A deblocat {{title}}",
+        "dhikrMilestone": "Cineva din {{country}} a recitat {{count}} dhikr",
+        "prayerFullday": "Toate cele cinci rugăciuni făcute astăzi"
+      },
+      "emptyToday": "Încă nu sunt postări astăzi. Distribuie-o pe prima când termini ceva.",
+      "emptyWeek": "Nicio postare în ultimele 7 zile.",
+      "loadFailed": "Fluxul nu a putut fi încărcat. Trage în jos pentru a reîncerca.",
+      "share": {
+        "title": "Vrei să distribui asta comunității Vera?",
+        "note": "Se distribuie doar acest text. Numele și datele tale personale rămân ascunse.",
+        "submit": "Distribuie",
+        "later": "Nu acum",
+        "failed": "Nu s-a putut distribui. Încearcă mai târziu.",
+        "heading": "Distribuie comunității",
+        "sent": "Distribuit",
+        "external": "Distribuie în altă aplicație",
+        "open": "Distribuie comunității",
+        "celebrateHint": "Distribuie anonim comunității Vera.",
+        "intro": "Frați și surori din întreaga lume pot vedea asta. Numele tău rămâne ascuns."
+      },
+      "settings": {
+        "title": "Setările comunității",
+        "participate": "Alătură-te comunității",
+        "participateHint": "Când e oprit, nu apar propuneri de distribuire. Poți citi în continuare fluxul.",
+        "showCountry": "Arată țara mea",
+        "showCountryHint": "Când e pornit, numele țării tale apare lângă postări. Oprirea se aplică doar postărilor noi.",
+        "country": "Țara",
+        "countryManual": "Țara aleasă: {{code}}",
+        "countryDevice": "Se folosește regiunea dispozitivului.",
+        "useDevice": "Dispozitiv",
+        "countryInvalid": "Introdu un cod de țară din două litere, ex. TR",
+        "myPosts": "Postările mele",
+        "noPosts": "Nu ai încă postări.",
+        "delete": "Șterge",
+        "deleteTitle": "Ștergi această postare?",
+        "deleteBody": "Va fi eliminată din flux pentru toată lumea.",
+        "blocked": "Persoane blocate: {{count}}",
+        "clearBlocked": "Golește lista de blocări",
+        "joined": "Ești în comunitate",
+        "left": "Comunitatea este oprită",
+        "sectionPrivacy": "Confidențialitate",
+        "sectionBlocked": "Blocate",
+        "countryDeviceTitle": "Regiunea dispozitivului",
+        "blockedCount": "{{count}} persoane",
+        "change": "Schimbă"
+      },
+      "report": {
+        "action": "Raportează",
+        "thanksTitle": "Mulțumim",
+        "thanksBody": "Raportul tău va fi verificat.",
+        "failed": "Raportul nu a putut fi trimis."
+      },
+      "block": {
+        "action": "Blochează această persoană"
+      },
+      "more": {
+        "title": "Opțiuni pentru această postare"
+      },
+      "discovery": {
+        "title": "Împărtășește reușitele tale cu comunitatea Vera",
+        "body": "Distribuie anonim hatimuri, dhikr și zile de rugăciune cu frați și surori din întreaga lume.",
+        "cta": "Deschide comunitatea"
+      },
+      "summary": {
+        "posts": "postări",
+        "hatim": "Hatim",
+        "achievement": "Realizare",
+        "dhikr": "Dhikr",
+        "prayer": "Rugăciune"
+      },
+      "howTo": {
+        "helpLabel": "Cum să distribui",
+        "title": "Cum funcționează distribuirea",
+        "intro": "Distribuie o închinare finalizată cu comunitatea Vera. Numele tău rămâne ascuns.",
+        "step1Title": "Finalizează o închinare",
+        "step1Body": "Termină cele cinci rugăciuni, un hatim sau un obiectiv de dhikr în aplicație.",
+        "step2Title": "Atinge Distribuie",
+        "step2Body": "Când apare mesajul de felicitare, atinge Distribuie. Poți folosi și butonul de distribuire de pe ecranele de rugăciune și dhikr.",
+        "step3Title": "Postarea ta apare aici",
+        "step3Body": "O poate vedea oricine, cu țara ta doar dacă permiți. O poți șterge oricând din Postările mele.",
+        "gotIt": "Am înțeles"
+      },
+      "reminder": {
+        "title": "Împărtășește închinarea de azi",
+        "body": "Vrei să împărtășești închinarea de azi cu comunitatea?",
+        "bodyAll": "Azi ai făcut toate cele cinci rugăciuni. Vrei să împărtășești cu comunitatea?"
+      },
+      "vera": {
+        "label": "Vera",
+        "m0": "Ținta de azi: un hatim. Citește câteva pagini pe zi și să terminăm Coranul împreună.",
+        "m1": "Ținta de azi: după Isha, 33 Subhanallah, 33 Alhamdulillah și 33 Allahu Akbar.",
+        "m2": "Azi să încercăm să facem toate cele cinci rugăciuni la timp, împreună.",
+        "m3": "Ținta de azi: citește o pagină din Coran. Și pașii mici contează.",
+        "m4": "Ținta de azi: 100 Subhanallah. Împărtășește cu comunitatea când termini.",
+        "m5": "Săptămâna aceasta, scrie o listă de dua și amintește-ți în ea de un frate sau o soră.",
+        "m6": "Azi, gândește-te să dai milostenie sau să faci o faptă bună pentru cineva."
+      }
+    },
+    "coach": {
+      "dismiss": "Am înțeles",
+      "ummah": {
+        "title": "Ummah",
+        "body": "Distribuie comunității o închinare încheiată sau vezi ce au distribuit alții astăzi."
+      },
+      "qibla": {
+        "title": "Busola Qibla",
+        "body": "Ține telefonul orizontal și rotește-l până când săgeata indică spre Kaaba."
+      },
+      "silentMode": {
+        "title": "Mod silențios",
+        "body": "Când telefonul e pe silențios sau vibrații, adhanul se aude încet. Poți schimba asta din Setări."
+      }
     }
   }
 }

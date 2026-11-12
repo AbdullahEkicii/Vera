@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from '../services/storageService';
 import { createAudioPlayer, useAudioPlayer } from 'expo-audio';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -34,14 +34,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, Stop, LinearGradient as SvgLinearGradient } from 'react-native-svg';
 
 import { useTheme } from '../context/ThemeContext';
-import { borderRadius, spacing, typography } from '../utils/theme';
+import { borderRadius, readableTextOn, spacing, typography } from '../utils/theme';
 
 import { logScreenView, logDhikrCompleted } from '../services/analyticsService';
-import { StoryCardShareModal } from './StoryCardShareModal';
+import { CommunitySharePrompt } from './CommunitySharePrompt';
 import { sendImmediateNotification } from '../services/notificationService';
 import { BannerAdSlot } from './BannerAdSlot';
 import { DhikrHistory, DhikrProgressModal } from './DhikrProgressModal';
 import { ScalePressable } from './ScalePressable';
+import { toLocalIsoDay } from '../utils/zonedTime';
+import { directionalIconStyle } from '../utils/rtl';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -78,7 +80,7 @@ interface TasbihScreenProps {
 }
 
 const monthKeyOf = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-const dayKeyOf = (d: Date) => d.toISOString().split('T')[0];
+const dayKeyOf = (d: Date) => toLocalIsoDay(d);
 
 export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
   const { t, i18n } = useTranslation();
@@ -455,7 +457,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
               >
                 <Text
                   numberOfLines={1}
-                  style={[styles.chipText, { color: selected ? '#FFFFFF' : theme.colors.text }]}
+                  style={[styles.chipText, { color: selected ? readableTextOn(theme.colors.primary) : theme.colors.text }]}
                 >
                   {item.text}
                 </Text>
@@ -480,7 +482,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
             style={[styles.chip, styles.chipAdd, { borderColor: theme.colors.primary }]}
           >
             <Feather name="plus" size={14} color={theme.colors.primary} />
-            <Text style={[styles.chipText, { color: theme.colors.primary }]}>{t('tasbih.addShort', 'Ekle')}</Text>
+            <Text style={[styles.chipText, { color: theme.colors.primaryText }]}>{t('tasbih.addShort', 'Ekle')}</Text>
           </ScalePressable>
         </ScrollView>
       </Animated.View>
@@ -497,15 +499,15 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
           ]}
         >
           <Feather name="star" size={13} color={theme.colors.primary} />
-          <Text style={[styles.recLabel, { color: theme.colors.primary }]}>{t('tasbih.recShort', 'Öneri')}</Text>
+          <Text style={[styles.recLabel, { color: theme.colors.primaryText }]}>{t('tasbih.recShort', 'Öneri')}</Text>
           <Text numberOfLines={1} style={[styles.recText, { color: theme.colors.text }]}>
             {dailyDhikr.text}
           </Text>
           <View style={styles.recCta}>
-            <Text style={[styles.recCtaText, { color: theme.colors.primary }]}>
+            <Text style={[styles.recCtaText, { color: theme.colors.primaryText }]}>
               {t('tasbih.recBtnText', 'Zikre Başla')}
             </Text>
-            <Feather name="chevron-right" size={14} color={theme.colors.primary} />
+            <Feather name="chevron-right" size={14} color={theme.colors.primary} style={directionalIconStyle} />
           </View>
         </Pressable>
       </Animated.View>
@@ -686,7 +688,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
                 style={[styles.sheetBtn, { flex: 2, backgroundColor: theme.colors.primary }]}
                 onPress={handleAddCustomDhikr}
               >
-                <Text style={[styles.sheetBtnText, { color: '#FFFFFF' }]}>{t('tasbih.save', 'Kaydet')}</Text>
+                <Text style={[styles.sheetBtnText, { color: readableTextOn(theme.colors.primary) }]}>{t('tasbih.save', 'Kaydet')}</Text>
               </Pressable>
             </View>
           </View>
@@ -714,7 +716,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
                 <Text style={[styles.sheetBtnText, { color: theme.colors.textSecondary }]}>{t('tasbih.no', 'Hayır')}</Text>
               </Pressable>
               <Pressable style={[styles.sheetBtn, { backgroundColor: theme.colors.danger }]} onPress={confirmReset}>
-                <Text style={[styles.sheetBtnText, { color: '#FFFFFF' }]}>{t('tasbih.reset', 'Sıfırla')}</Text>
+                <Text style={[styles.sheetBtnText, { color: readableTextOn(theme.colors.danger) }]}>{t('tasbih.reset', 'Sıfırla')}</Text>
               </Pressable>
             </View>
           </View>
@@ -738,7 +740,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
               style={[styles.sheetBtn, { alignSelf: 'stretch', backgroundColor: theme.colors.primary, marginTop: spacing.lg }]}
               onPress={() => setCongratModalData(null)}
             >
-              <Text style={[styles.sheetBtnText, { color: '#FFFFFF' }]}>{t('tasbih.ok', 'Tamam')}</Text>
+              <Text style={[styles.sheetBtnText, { color: readableTextOn(theme.colors.primary) }]}>{t('tasbih.ok', 'Tamam')}</Text>
             </Pressable>
             <Pressable
               style={styles.shareLink}
@@ -748,22 +750,20 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
                 setMilestoneShareVisible(true);
               }}
             >
-              <Feather name="share-2" size={13} color={theme.colors.primary} />
-              <Text style={[styles.shareLinkText, { color: theme.colors.primary }]}>
-                {t('tasbih.shareMilestone', 'Paylaş')}
+              <Feather name="users" size={13} color={theme.colors.primary} />
+              <Text style={[styles.shareLinkText, { color: theme.colors.primaryText }]}>
+                {t('community.share.open', 'Topluluğa paylaş')}
               </Text>
             </Pressable>
           </View>
         </View>
       </Modal>
 
-      <StoryCardShareModal
+      <CommunitySharePrompt
         visible={milestoneShareVisible}
-        onClose={() => setMilestoneShareVisible(false)}
-        title={t('tasbih.title', 'Zikirmatik')}
-        text={t('tasbih.milestoneShareText', 'Bu ay toplam {{total}} zikre ulaştım, maşallah!', { total: lastMilestoneTotal })}
-        source="Vera"
-        type="achievement"
+        templateKey="dhikr.milestone"
+        params={{ count: lastMilestoneTotal ?? 1 }}
+        onDone={() => setMilestoneShareVisible(false)}
       />
 
       {/* ── Daily recommendation details ── */}
@@ -772,7 +772,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
           <View style={[styles.sheet, { backgroundColor: sheetColor, borderColor: theme.colors.border }]}>
             <View style={[styles.recBadge, { backgroundColor: theme.colors.primaryLight }]}>
               <Feather name="star" size={12} color={theme.colors.primary} />
-              <Text style={[styles.recBadgeText, { color: theme.colors.primary }]}>
+              <Text style={[styles.recBadgeText, { color: theme.colors.primaryText }]}>
                 {t('tasbih.recTitle', 'Günün Zikir Önerisi')}
               </Text>
             </View>
@@ -784,7 +784,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
             </ScrollView>
             <View style={[styles.recBadge, { backgroundColor: theme.colors.primaryLight, marginBottom: spacing.md }]}>
               <Feather name="target" size={12} color={theme.colors.primary} />
-              <Text style={[styles.recBadgeText, { color: theme.colors.primary }]}>
+              <Text style={[styles.recBadgeText, { color: theme.colors.primaryText }]}>
                 {t('tasbih.recTarget', 'Hedef:')} {dailyDhikr.target || 100}
               </Text>
             </View>
@@ -792,7 +792,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
               style={[styles.sheetBtn, { backgroundColor: theme.colors.primary }]}
               onPress={() => setIsRecModalVisible(false)}
             >
-              <Text style={[styles.sheetBtnText, { color: '#FFFFFF' }]}>{t('tasbih.ok', 'Tamam')}</Text>
+              <Text style={[styles.sheetBtnText, { color: readableTextOn(theme.colors.primary) }]}>{t('tasbih.ok', 'Tamam')}</Text>
             </Pressable>
           </View>
         </View>
@@ -812,7 +812,7 @@ export function TasbihScreen({ isActiveTab = true }: TasbihScreenProps) {
                   {t('tasbih.bgAudioSelect', 'Zikir esnasında arkada çalacak sesi seçin')}
                 </Text>
               </View>
-              <Pressable onPress={() => setIsAudioModalVisible(false)} hitSlop={10} accessibilityRole="button">
+              <Pressable onPress={() => setIsAudioModalVisible(false)} hitSlop={14} accessibilityRole="button" accessibilityLabel={t('common.close', 'Close')}>
                 <Feather name="x" size={20} color={theme.colors.textSecondary} />
               </Pressable>
             </View>
@@ -921,9 +921,9 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   iconBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -988,7 +988,7 @@ const styles = StyleSheet.create({
   },
   chipTarget: {
     fontFamily: typography.fontFamily.medium,
-    fontSize: 11,
+    fontSize: 12,
     fontVariant: ['tabular-nums'],
   },
 
@@ -1007,7 +1007,7 @@ const styles = StyleSheet.create({
   },
   recLabel: {
     fontFamily: typography.fontFamily.bold,
-    fontSize: 11,
+    fontSize: 12,
     letterSpacing: 0.4,
   },
   recText: {
