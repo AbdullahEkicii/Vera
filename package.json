@@ -9,7 +9,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "test": "node --test tests/",
+    "test": "node --test \"tests/*.test.mts\"",
     "sync-i18n": "node ./scripts/sync_translations.js",
     "translate-all": "node ./scripts/translate_all.js",
     "i18n:content": "node ./scripts/i18n-content.mjs",

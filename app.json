@@ -138,7 +138,8 @@
         }
       ],
       "@react-native-firebase/crashlytics/app.plugin.js",
-      "@react-native-firebase/messaging/app.plugin.js"
+      "@react-native-firebase/messaging/app.plugin.js",
+      "./plugins/withRNFirebaseStaticFramework.js"
     ],
     "experiments": {
       "typedRoutes": true,
