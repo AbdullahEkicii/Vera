@@ -123,7 +123,15 @@
           },
           "ios": {
             "deploymentTarget": "15.1",
-            "useFrameworks": "static"
+            "useFrameworks": "static",
+            "forceStaticLinking": [
+              "RNFBApp",
+              "RNFBAnalytics",
+              "RNFBAuth",
+              "RNFBCrashlytics",
+              "RNFBFirestore",
+              "RNFBMessaging"
+            ]
           }
         }
       ],
@@ -138,8 +146,7 @@
         }
       ],
       "@react-native-firebase/crashlytics/app.plugin.js",
-      "@react-native-firebase/messaging/app.plugin.js",
-      "./plugins/withRNFirebaseStaticFramework.js"
+      "@react-native-firebase/messaging/app.plugin.js"
     ],
     "experiments": {
       "typedRoutes": true,
