@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from './storageService';
 
 const STORAGE_KEYS = {
   LAST_READ: '@quran_last_read',

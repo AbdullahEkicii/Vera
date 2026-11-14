@@ -21,7 +21,8 @@ const WORK = path.join(ROOT, 'scripts', 'i18n-work');
 const flatten = (obj, prefix = '', out = {}) => {
   for (const [k, v] of Object.entries(obj)) {
     const key = prefix ? `${prefix}.${k}` : k;
-    if (v && typeof v === 'object') flatten(v, key, out);
+    // Arrays (e.g. tasbih.dailyDhikrs, read with returnObjects) are one key, not one key per index.
+    if (v && typeof v === 'object' && !Array.isArray(v)) flatten(v, key, out);
     else out[key] = v;
   }
   return out;

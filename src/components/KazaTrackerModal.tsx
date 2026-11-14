@@ -205,7 +205,7 @@ export function KazaTrackerModal({ visible, onClose }: Props) {
   const cardBg = isDark ? '#1E160C' : '#FFFFFF';
   const cardBorder = isDark ? 'rgba(212, 175, 55, 0.25)' : 'rgba(0,0,0,0.08)';
   const textPrimary = isDark ? '#FDF8ED' : '#1A1A24';
-  const textSecondary = isDark ? 'rgba(253, 248, 237, 0.65)' : 'rgba(26,26,36,0.6)';
+  const textSecondary = isDark ? 'rgba(253, 248, 237, 0.75)' : 'rgba(26,26,36,0.75)';
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
@@ -226,7 +226,7 @@ export function KazaTrackerModal({ visible, onClose }: Props) {
                 </Text>
               </View>
             </View>
-            <Pressable onPress={onClose} hitSlop={12} style={styles.closeBtn}>
+            <Pressable onPress={onClose} hitSlop={12} style={styles.closeBtn} accessibilityRole="button" accessibilityLabel={t('common.close', 'Close')}>
               <Feather name="x" size={20} color={textSecondary} />
             </Pressable>
           </View>
@@ -271,7 +271,7 @@ export function KazaTrackerModal({ visible, onClose }: Props) {
                 style={[styles.quickActionBtn, { borderColor: cardBorder, backgroundColor: isDark ? '#2A1F13' : '#F7F2E8' }]}
                 onPress={handleAddDailyPackage}
               >
-                <Feather name="plus-circle" size={16} color="#D4AF37" style={{ marginRight: 6 }} />
+                <Feather name="plus-circle" size={16} color="#D4AF37" style={{ marginEnd: 6 }} />
                 <Text style={[styles.quickActionText, { color: textPrimary }]}>
                   {t('kaza.addDailyBtn', '+1 Günlük Kaza')}
                 </Text>
@@ -281,7 +281,7 @@ export function KazaTrackerModal({ visible, onClose }: Props) {
                 style={[styles.quickActionBtn, { borderColor: cardBorder, backgroundColor: isDark ? '#2A1F13' : '#F7F2E8' }]}
                 onPress={() => setCalcModalVisible(true)}
               >
-                <Ionicons name="calculator-outline" size={16} color="#D4AF37" style={{ marginRight: 6 }} />
+                <Ionicons name="calculator-outline" size={16} color="#D4AF37" style={{ marginEnd: 6 }} />
                 <Text style={[styles.quickActionText, { color: textPrimary }]}>
                   {t('kaza.calcBtn', 'Borç Hesapla')}
                 </Text>
@@ -463,8 +463,8 @@ const styles = StyleSheet.create({
   },
   sheetContainer: {
     maxHeight: '90%',
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    borderTopStartRadius: 28,
+    borderTopEndRadius: 28,
     overflow: 'hidden',
   },
   sheetHeader: {
@@ -486,7 +486,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginEnd: 12,
   },
   sheetTitle: {
     fontFamily: 'Outfit_700Bold',
@@ -499,6 +499,10 @@ const styles = StyleSheet.create({
   },
   closeBtn: {
     padding: 6,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   scrollContent: {
     paddingHorizontal: 16,
@@ -525,7 +529,7 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontFamily: 'Outfit_400Regular',
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
   },
   statDivider: {
@@ -582,7 +586,7 @@ const styles = StyleSheet.create({
     borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 10,
+    marginEnd: 10,
   },
   prayerName: {
     fontFamily: 'Outfit_600SemiBold',
@@ -590,7 +594,7 @@ const styles = StyleSheet.create({
   },
   prayerMeta: {
     fontFamily: 'Outfit_400Regular',
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 1,
   },
   remainingBadge: {
@@ -603,7 +607,7 @@ const styles = StyleSheet.create({
   },
   remainingSub: {
     fontFamily: 'Outfit_400Regular',
-    fontSize: 10,
+    fontSize: 12,
   },
   controlsRow: {
     flexDirection: 'row',

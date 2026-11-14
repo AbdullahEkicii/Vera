@@ -1,4 +1,4 @@
-import { Coordinates, CalculationMethod, PrayerTimes, CalculationParameters, HighLatitudeRule } from 'adhan';
+import { Coordinates, CalculationMethod, PrayerTimes, CalculationParameters, HighLatitudeRule, Madhab } from 'adhan';
 import { DayData } from './api';
 
 /**
@@ -10,7 +10,11 @@ import { DayData } from './api';
  * 5: Egyptian (Egyptian)
  * 12: France (UOIF / 12 degrees)
  * 13: Diyanet (Turkey Diyanet / 18 deg Fajr, 17 deg Isha)
- * 14: Russia (Spiritual Administration of Muslims of Russia)
+ * 14: Russia (Spiritual Administration of Muslims of Russia, 16 deg Fajr / 15 deg Isha)
+ * 20: Indonesia (Kemenag, 20 deg / 18 deg)
+ * 17: Malaysia (JAKIM, 20 deg / 18 deg)
+ * 11: Singapore (MUIS)
+ * 7: Iran (University of Tehran)
  */
 export function getAdhanCalculationParams(methodId: number): CalculationParameters {
   switch (methodId) {
@@ -34,8 +38,23 @@ export function getAdhanCalculationParams(methodId: number): CalculationParamete
         const params = CalculationMethod.Turkey();
         return params;
       }
-    case 14: // Russia
-      return CalculationMethod.MuslimWorldLeague(); // 18 deg Fajr, 17 deg Isha
+    case 14: { // Russia (Aladhan method 14: 16 deg / 15 deg)
+      const russiaParams = CalculationMethod.Other();
+      russiaParams.fajrAngle = 16.0;
+      russiaParams.ishaAngle = 15.0;
+      return russiaParams;
+    }
+    case 20: // Indonesia (Kemenag)
+    case 17: { // Malaysia (JAKIM)
+      const seaParams = CalculationMethod.Other();
+      seaParams.fajrAngle = 20.0;
+      seaParams.ishaAngle = 18.0;
+      return seaParams;
+    }
+    case 11: // Singapore
+      return CalculationMethod.Singapore();
+    case 7: // Tehran
+      return CalculationMethod.Tehran();
     default:
       return CalculationMethod.MuslimWorldLeague();
   }
@@ -54,10 +73,13 @@ export function calculateOfflinePrayerTimes(
   latitude: number,
   longitude: number,
   methodId: number = 13,
-  daysCount: number = 35
+  daysCount: number = 35,
+  school: 0 | 1 = 0
 ): DayData[] {
   const coordinates = new Coordinates(latitude, longitude);
   const params = getAdhanCalculationParams(methodId);
+  // Aladhan `school` 1 = Hanafi (later Asr), matching what the API path requests.
+  if (school === 1) params.madhab = Madhab.Hanafi;
 
   // Set high latitude rule if beyond 48 degrees
   if (Math.abs(latitude) > 48) {
@@ -66,7 +88,9 @@ export function calculateOfflinePrayerTimes(
 
   const result: DayData[] = [];
   const now = new Date();
-  const startDate = new Date(now.getFullYear(), now.getMonth(), 1); // Start from beginning of current month
+  // Start today so the whole window lies ahead: starting at the 1st of the month left only a
+  // few future days on the 31st, which starved the notification scheduler.
+  const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   for (let i = 0; i < daysCount; i++) {
     const targetDate = new Date(startDate);

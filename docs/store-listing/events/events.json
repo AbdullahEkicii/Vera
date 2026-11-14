@@ -1,0 +1,101 @@
+{
+  "_note": "Sirali etkinlik plani. Her etkinlik bir oncekinin bitisinden hemen sonra baslar. Tarihler yaklasik Islami takvime gore; yayin oncesi dogrulayin.",
+  "events": [
+    {
+      "id": "daily-share",
+      "start": "2026-11-03",
+      "end": "2026-11-30",
+      "color": ["#0F5132", "#198754"],
+      "en": {
+        "title": "Daily Worship Share",
+        "subtitle": "Share one good deed or your prayer streak every day",
+        "description": "Every day in November, share one act of worship with the community. Use the share card in Vera to post your prayer streak, your Quran reading or a dua you are thankful for. Invite a friend to join and keep each other going.\n\nHow to join:\n1. Check off today's prayers in Vera\n2. Tap Share on your daily card\n3. Post it with #VeraDaily\n\nRuns 3-30 November 2026."
+      },
+      "tr": {
+        "title": "Günlük İbadet Paylaşımı",
+        "subtitle": "Her gün bir ibadetini veya namaz serini paylaş",
+        "description": "Kasım boyunca her gün topluluğla bir ibadetini paylaş. Vera'daki paylaşım kartıyla namaz serini, Kur'an okumanı veya şükrettiğin bir duayı paylaşabilirsin. Bir arkadaşını davet edip birbirinizi motive edin.\n\nNasıl katılırım?\n1. Vera'da bugünkü namazlarını işaretle\n2. Günlük kartında Paylaş'a dokun\n3. #VeraDaily etiketiyle paylaş\n\n3-30 Kasım 2026 tarihleri arasında."
+      }
+    },
+    {
+      "id": "hatim",
+      "start": "2026-12-01",
+      "end": "2026-12-31",
+      "color": ["#1E3A5F", "#2F6690"],
+      "en": {
+        "title": "Quran Hatim Challenge",
+        "subtitle": "Read the Quran together this December",
+        "description": "Finish the Quran in one month with Vera's Hatim tracker. Pick a daily portion, track your progress and share your milestone when you reach it.\n\nRuns 1-31 December 2026."
+      },
+      "tr": {
+        "title": "Kur'an Hatim Ayı",
+        "subtitle": "Aralık'ta birlikte Kur'an okuyalım",
+        "description": "Vera'nın hatim takibiyle Kur'an-ı Kerim'i bir ayda tamamla. Günlük bir bölüm seç, ilerlemeni takip et ve hedefe ulaştığında paylaş.\n\n1-31 Aralık 2026 tarihleri arasında."
+      }
+    },
+    {
+      "id": "kandil",
+      "start": "2027-01-01",
+      "end": "2027-01-25",
+      "color": ["#4A1D5C", "#7B3F98"],
+      "en": {
+        "title": "Rajab & Sha'ban Kandils",
+        "subtitle": "Prepare for the blessed nights of Rajab and Sha'ban",
+        "description": "Set reminders for the blessed kandil nights, including Isra and Mi'raj and Mid-Sha'ban. Read a short dua each night and share your reminder with a friend.\n\nRuns 1-25 January 2027. Dates follow the moon-sighting announcement."
+      },
+      "tr": {
+        "title": "Recep & Berat Kandilleri",
+        "subtitle": "Recep ve Berat'ın mübarek gecelerine hazır ol",
+        "description": "Regaip, Miraç ve Berat kandillerinin hatırlatmalarını kur. Her gece kısa bir dua oku ve hatırlatmanı bir arkadaşınla paylaş.\n\n1-25 Ocak 2027 tarihleri arasında. Tarihler resmi takvime göre güncellenir."
+      }
+    },
+    {
+      "id": "ramadan-prep",
+      "start": "2027-01-26",
+      "end": "2027-02-07",
+      "color": ["#7A4A00", "#C98A1B"],
+      "en": {
+        "title": "Get Ready for Ramadan",
+        "subtitle": "Set your Suhoor and Iftar reminders",
+        "description": "Ramadan is almost here. Set up your Suhoor and Iftar times, plan your Quran goals and turn on the Ramadan calendar. Invite your family to join.\n\nRuns 26 January - 7 February 2027."
+      },
+      "tr": {
+        "title": "Ramazan'a Hazırlan",
+        "subtitle": "Sahur ve iftar hatırlatmalarını kur",
+        "description": "Ramazan yaklaşıyor. Sahur ve iftar vakitlerini ayarla, Kur'an hedeflerini planla ve Ramazan takvimini aç. Ailenizi de davet edin.\n\n26 Ocak - 7 Şubat 2027 tarihleri arasında."
+      }
+    },
+    {
+      "id": "ramadan",
+      "start": "2027-02-08",
+      "end": "2027-03-10",
+      "color": ["#0B3D2E", "#1B7A5A"],
+      "en": {
+        "title": "Ramadan 2027 with Vera",
+        "subtitle": "Suhoor, Iftar, Quran and daily sharing",
+        "description": "Follow every day of Ramadan with Suhoor and Iftar times, the imsakiye, Quran reading, the tasbih counter and daily share cards. Share your Ramadan streak with the community and invite a friend.\n\nRuns 8 February - 10 March 2027 (includes Eid al-Fitr)."
+      },
+      "tr": {
+        "title": "Ramazan 2027 ile Vera",
+        "subtitle": "Sahur, iftar, Kur'an ve günlük paylaşım",
+        "description": "Ramazan'ın her gününü sahur ve iftar vakitleri, imsakiye, Kur'an okuma, tesbih sayacı ve günlük paylaşım kartlarıyla takip et. Ramazan serini topluluğla paylaş, bir arkadaşını davet et.\n\n8 Şubat - 10 Mart 2027 tarihleri arasında (Ramazan Bayramı dahil)."
+      }
+    },
+    {
+      "id": "kurban",
+      "start": "2027-05-10",
+      "end": "2027-05-20",
+      "color": ["#5C2A16", "#A8552B"],
+      "en": {
+        "title": "Arafat & Eid al-Adha",
+        "subtitle": "Dua, takbir and Eid greetings to share",
+        "description": "Share Arafat duas, the takbir and Eid greeting cards with friends and family. Set reminders for the day of Arafat and Eid.\n\nRuns 10-20 May 2027. Dates follow the official announcement."
+      },
+      "tr": {
+        "title": "Arefe & Kurban Bayramı",
+        "subtitle": "Arefe duası, tekbir ve bayram tebriklerini paylaş",
+        "description": "Arefe duasını, tekbiri ve bayram tebrik kartlarını aile ve arkadaşlarınla paylaş. Arefe ve bayram hatırlatmalarını kur.\n\n10-20 Mayıs 2027 tarihleri arasında. Tarihler resmi duyuruya göre güncellenir."
+      }
+    }
+  ]
+}

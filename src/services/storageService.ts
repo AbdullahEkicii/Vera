@@ -2,8 +2,54 @@ import { createMMKV, MMKV } from 'react-native-mmkv';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
 
-// Initialize fast MMKV v4 instance
-export const mmkv: MMKV = createMMKV();
+// Initialize fast MMKV v4 instance. This runs while the JS bundle is evaluated, which also happens
+// in headless starts (FCM / notification events with no Activity). If the native side is not ready
+// the error would abort the process before the runtime is up ("[runtime not ready]"), so fall back
+// to an in-memory store: AppStorage still writes every value through to AsyncStorage.
+const createStore = (): MMKV => {
+  try {
+    return createMMKV();
+  } catch (error) {
+    if (__DEV__) console.warn('MMKV unavailable, using in-memory fallback:', error);
+    const memory = new Map<string, string>();
+    return {
+      getString: (key: string) => memory.get(key),
+      set: (key: string, value: unknown) => {
+        memory.set(key, String(value));
+      },
+      remove: (key: string) => memory.delete(key),
+    } as unknown as MMKV;
+  }
+};
+
+export const mmkv: MMKV = createStore();
+
+// MMKV is only a read-through cache in front of AsyncStorage (AppStorage writes both). Several
+// files used to write the same keys straight to AsyncStorage, which left MMKV holding the OLD
+// value that AppStorage.getItem then kept returning (e.g. a calculation method changed in
+// Settings was never picked up). AsyncStorage is always at least as new as MMKV, so one pass
+// copying it over MMKV repairs existing installs.
+const RECONCILE_FLAG = '__STORAGE_RECONCILED_V1';
+let reconcilePromise: Promise<void> | null = null;
+
+const reconcileOnce = (): Promise<void> => {
+  if (!reconcilePromise) {
+    reconcilePromise = (async () => {
+      try {
+        if (mmkv.getString(RECONCILE_FLAG) === '1') return;
+        const keys = await AsyncStorage.getAllKeys();
+        const pairs = await AsyncStorage.multiGet(keys);
+        for (const [key, value] of pairs) {
+          if (value !== null && mmkv.getString(key) !== value) mmkv.set(key, value);
+        }
+        mmkv.set(RECONCILE_FLAG, '1');
+      } catch {
+        // retried on the next launch (the flag is not set)
+      }
+    })();
+  }
+  return reconcilePromise;
+};
 
 /**
  * High-performance hybrid storage wrapper.
@@ -32,6 +78,7 @@ export const AppStorage = {
    * If not in MMKV, checks AsyncStorage and migrates on-the-fly.
    */
   async getItem(key: string): Promise<string | null> {
+    await reconcileOnce();
     const val = mmkv.getString(key);
     if (val !== undefined && val !== null) {
       return val;

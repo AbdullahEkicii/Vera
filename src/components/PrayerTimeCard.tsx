@@ -17,7 +17,7 @@ import Animated, {
 import Svg, { Circle, Defs, Stop, LinearGradient as SvgLinearGradient } from 'react-native-svg';
 
 import { useTheme } from '../context/ThemeContext';
-import { borderRadius, prayerGradients, spacing, typography, palettes } from '../utils/theme';
+import { borderRadius, prayerGradients, readableTextOn, spacing, typography, palettes } from '../utils/theme';
 import { formatTime } from '../utils/format';
 import { ScalePressable } from './ScalePressable';
 
@@ -68,6 +68,9 @@ function formatCountdown(ms: number, t: any): string {
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
+// How long the decorative pulses keep going after the card becomes visible.
+const PULSE_DURATION_MS = 15000;
+
 export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
   id, name, time, isHero = false, isActive = false, targetDate, onTimeReached, onLongPress, isVisible = true,
 }) => {
@@ -115,6 +118,10 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
 
     let interval: ReturnType<typeof setInterval> | null = null;
 
+    // Decorative pulses run for a short while, then settle. A screen that people leave open for
+    // hours must not keep the GPU compositing every frame.
+    let settleTimer: ReturnType<typeof setTimeout> | null = null;
+
     const startAnimations = () => {
       // Inner Glow slow breath animation
       pulseValue.value = withRepeat(
@@ -124,18 +131,21 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
         ),
         -1, true
       );
+      if (settleTimer) clearTimeout(settleTimer);
+      settleTimer = setTimeout(() => {
+        pulseValue.value = withTiming(1, { duration: 600 });
+      }, PULSE_DURATION_MS);
 
-      // Outer Dial Dots opacity oscillation
-      dotsOpacity.value = withRepeat(
-        withSequence(
-          withTiming(0.25, { duration: 3000, easing: Easing.inOut(Easing.ease) }),
-          withTiming(0.7, { duration: 3000, easing: Easing.inOut(Easing.ease) })
-        ),
-        -1, true
-      );
+      // Outer dial dots stay at a fixed opacity: animating an SVG prop made react-native-svg
+      // redraw the dial every frame for an effect nobody could read as meaningful.
+      dotsOpacity.value = 0.5;
     };
 
     const stopAnimations = () => {
+      if (settleTimer) {
+        clearTimeout(settleTimer);
+        settleTimer = null;
+      }
       cancelAnimation(pulseValue);
       cancelAnimation(dotsOpacity);
     };
@@ -163,7 +173,9 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
 
       const total = 6 * 60 * 60 * 1000;
       const currentProgress = Math.max(0, Math.min(1, 1 - diff / total));
-      animatedProgress.value = withTiming(currentProgress, { duration: 950, easing: Easing.linear });
+      // Assigned directly, once a second. The dial covers 6 hours per turn (0.017 degrees per
+      // second), so tweening it only kept the SVG comet/stroke redrawing at 60 fps for nothing.
+      animatedProgress.value = currentProgress;
     };
 
     const startTimer = () => {
@@ -206,6 +218,7 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
 
   // Active state border glow pulse
   useEffect(() => {
+    let settleTimer: ReturnType<typeof setTimeout> | null = null;
     if (isActive && !isHero && isVisible) {
       activeBorderPulse.value = withRepeat(
         withSequence(
@@ -214,10 +227,16 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
         ),
         -1, true
       );
+      settleTimer = setTimeout(() => {
+        activeBorderPulse.value = withTiming(0.5, { duration: 600 });
+      }, PULSE_DURATION_MS);
     } else {
       cancelAnimation(activeBorderPulse);
     }
-    return () => cancelAnimation(activeBorderPulse);
+    return () => {
+      if (settleTimer) clearTimeout(settleTimer);
+      cancelAnimation(activeBorderPulse);
+    };
   }, [isActive, isHero, isVisible]);
 
   // Spring scale styles for interactions
@@ -253,8 +272,19 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
       }
     }
 
+    // White by default; flips to dark ink when a palette's colour is too light for white text.
+    const heroInk = readableTextOn(circleColors[0]);
+    const heroCountdownText = formatCountdown(remaining, t);
+    const heroTimeText = formatTime(time, timeFormat);
+
     return (
-      <Pressable onPressIn={onPressIn} onPressOut={onPressOut}>
+      <Pressable
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        accessible
+        accessibilityRole="timer"
+        accessibilityLabel={`${t('home.nextPrayer')}: ${name} ${heroTimeText}. ${t('home.timeLeft')}: ${heroCountdownText}`}
+      >
         <Animated.View style={[scaleStyle, styles.heroContainer, { width: HERO_SIZE, height: HERO_SIZE }]}>
           <LinearGradient
             colors={circleColors}
@@ -332,20 +362,20 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
 
             {/* Inner Content Texts */}
             <View style={styles.heroContent}>
-              <Text style={[styles.heroNextLabel, { fontSize: 9 * SCALE }]}>{t('home.nextPrayer').toUpperCase()}</Text>
+              <Text style={[styles.heroNextLabel, { fontSize: 10.5 * SCALE, color: heroInk }]}>{t('home.nextPrayer').toUpperCase()}</Text>
               
               <View style={[styles.heroIconRow, { gap: 6 * SCALE, marginBottom: 1 * SCALE }]}>
                 <View style={[styles.heroIconBox, { width: 22 * SCALE, height: 22 * SCALE, borderRadius: 11 * SCALE }]}>
-                  {getIcon(id, 16 * SCALE, '#FFF')}
+                  {getIcon(id, 16 * SCALE, heroInk)}
                 </View>
-                <Text style={[styles.heroName, { fontSize: 18 * SCALE }]}>{name}</Text>
+                <Text style={[styles.heroName, { fontSize: 18 * SCALE, color: heroInk }]}>{name}</Text>
               </View>
 
-              <Text style={[styles.heroTime, { fontSize: 28 * SCALE, marginBottom: 4 * SCALE }]}>{formatTime(time, timeFormat)}</Text>
+              <Text style={[styles.heroTime, { fontSize: 28 * SCALE, marginBottom: 4 * SCALE, color: heroInk }]}>{heroTimeText}</Text>
               <View style={[styles.heroDivider, { width: 32 * SCALE, height: 1.5 * SCALE, marginBottom: 4 * SCALE }]} />
               
-              <Text style={[styles.heroCountdown, { fontSize: 22 * SCALE }]}>{formatCountdown(remaining, t)}</Text>
-              <Text style={[styles.heroLeftLabel, { fontSize: 11 * SCALE, marginTop: 1 * SCALE }]}>{t('home.timeLeft').toLowerCase()}</Text>
+              <Text style={[styles.heroCountdown, { fontSize: 22 * SCALE, color: heroInk }]}>{heroCountdownText}</Text>
+              <Text style={[styles.heroLeftLabel, { fontSize: 11 * SCALE, marginTop: 1 * SCALE, color: heroInk }]}>{t('home.timeLeft').toLowerCase()}</Text>
             </View>
 
           </LinearGradient>
@@ -359,15 +389,24 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
     ? ['rgba(255, 255, 255, 0.05)', 'rgba(255, 255, 255, 0.02)'] as const
     : ['rgba(255, 255, 255, 0.65)', 'rgba(255, 255, 255, 0.35)'] as const;
 
+  const cellTime = formatTime(time, timeFormat);
+  const cellA11y = {
+    accessibilityRole: 'button' as const,
+    accessibilityLabel: `${name} ${cellTime}`,
+    accessibilityHint: onLongPress ? t('home.adjustTimeHint', 'Long press to adjust this time') : undefined,
+  };
+
   const iconBgColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.04)';
 
   if (isActive) {
+    const activeInk = readableTextOn(theme.colors.primary);
     // Premium custom styling for active prayer card
     return (
       <ScalePressable
         activeScale={0.94}
         onLongPress={onLongPress ? () => onLongPress(id) : undefined}
         delayLongPress={350}
+        {...cellA11y}
         style={[
           styles.gridCellContainer,
           styles.gridCellWrapper,
@@ -382,16 +421,16 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
 
         <View style={styles.gridCell}>
           <View style={styles.gridCellHeader}>
-            <View style={[styles.iconContainer, { backgroundColor: 'rgba(255, 255, 255, 0.25)' }]}>
-              {getIcon(id, 16, '#FFF')}
+            <View style={[styles.iconContainer, { backgroundColor: activeInk === '#FFFFFF' ? 'rgba(255, 255, 255, 0.25)' : 'rgba(26, 18, 7, 0.12)' }]}>
+              {getIcon(id, 16, activeInk)}
             </View>
-            <View style={styles.activePill} />
+            <View style={[styles.activePill, { backgroundColor: activeInk }]} />
           </View>
-          <Text style={[styles.gridName, { color: '#FFF' }]} numberOfLines={1} adjustsFontSizeToFit>
+          <Text style={[styles.gridName, { color: activeInk }]} numberOfLines={1} adjustsFontSizeToFit>
             {name}
           </Text>
-          <Text style={[styles.gridTime, { color: '#FFF' }]} numberOfLines={1} adjustsFontSizeToFit>
-            {formatTime(time, timeFormat)}
+          <Text style={[styles.gridTime, { color: activeInk }]} numberOfLines={1} adjustsFontSizeToFit>
+            {cellTime}
           </Text>
         </View>
       </ScalePressable>
@@ -404,6 +443,7 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
       activeScale={0.94}
       onLongPress={onLongPress ? () => onLongPress(id) : undefined}
       delayLongPress={350}
+      {...cellA11y}
       style={[styles.gridCellContainer, styles.gridCellWrapper]}
     >
       <LinearGradient
@@ -421,7 +461,7 @@ export const PrayerTimeCard: React.FC<PrayerTimeCardProps> = React.memo(({
           {name}
         </Text>
         <Text style={[styles.gridTime, { color: theme.colors.text }]} numberOfLines={1} adjustsFontSizeToFit>
-          {formatTime(time, timeFormat)}
+          {cellTime}
         </Text>
       </LinearGradient>
     </ScalePressable>
@@ -469,7 +509,7 @@ const styles = StyleSheet.create({
   heroNextLabel: {
     fontFamily: typography.fontFamily.medium,
     fontSize: 9,
-    color: 'rgba(255, 255, 255, 0.75)',
+    color: 'rgba(255, 255, 255, 0.92)',
     letterSpacing: 2,
     marginBottom: 2,
   },
@@ -516,7 +556,7 @@ const styles = StyleSheet.create({
   heroLeftLabel: {
     fontFamily: typography.fontFamily.medium,
     fontSize: 11,
-    color: 'rgba(255, 255, 255, 0.75)',
+    color: 'rgba(255, 255, 255, 0.92)',
     letterSpacing: 1.5,
     marginTop: 1,
   },
@@ -565,11 +605,11 @@ const styles = StyleSheet.create({
   },
   activePill: {
     position: 'absolute',
-    right: 4,
+    end: 4,
     top: 4,
     width: 6,
     height: 6,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    opacity: 0.85,
     borderRadius: 3,
   },
   activeDot: {
@@ -577,7 +617,7 @@ const styles = StyleSheet.create({
   },
   gridName: {
     fontFamily: typography.fontFamily.medium,
-    fontSize: 11,
+    fontSize: 12,
     letterSpacing: 0.1,
   },
   gridTime: {

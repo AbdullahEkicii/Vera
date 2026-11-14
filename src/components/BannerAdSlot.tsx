@@ -1,35 +1,104 @@
 import { useIsFocused } from '@react-navigation/native';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Dimensions, LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads';
 import { useTheme } from '../context/ThemeContext';
 import { borderRadius, spacing } from '../utils/theme';
+import { Settle, isSlotOnScreen, nextSettle } from '../utils/adViewport';
 import { waitForAdsConsent } from '../services/adsConsentService';
-import { logAdFailed, logAdLoaded, logAdRequest } from '../services/analyticsService';
+import { logAdFailed, logAdLoaded, logAdPaid, logAdRequest, logEvent } from '../services/analyticsService';
 
-// Banner unit used on every ad placement in the app. AdMob's own policy-compliant
+// Default banner unit, used by every placement without its own unit. AdMob's own policy-compliant
 // banner refresh cadence yields extra impressions over long sessions.
 const PRODUCTION_BANNER_AD_UNIT_ID = 'ca-app-pub-2034009761866400/5350507904';
-const BANNER_AD_UNIT_ID = __DEV__ ? TestIds.BANNER : PRODUCTION_BANNER_AD_UNIT_ID;
+// Per-placement units let AdMob report fill and impressions by screen. Add an entry here once the unit
+// exists in AdMob; placements without an entry keep the default unit.
+const AD_UNIT_OVERRIDES: Record<string, string> = {};
+
+const unitIdFor = (placement: string): string => {
+  if (__DEV__) return TestIds.BANNER;
+  return AD_UNIT_OVERRIDES[placement] ?? PRODUCTION_BANNER_AD_UNIT_ID;
+};
 
 // Reserved height so the card does not jump when the ad arrives (a phone-width
 // anchored adaptive banner is ~50-62dp tall).
 const AD_MIN_HEIGHT = 56;
 const CARD_PADDING = spacing.sm;
 
-// Back-off between reloads after a failed request (no-fill, network): three quick
-// retries, then a slow cadence so a no-fill user is not hammered. The slot keeps its
-// space while retrying instead of collapsing.
-const QUICK_RETRY_DELAYS_MS = [10_000, 20_000, 30_000];
+// An ad is requested only once the slot is really on screen and has stayed there for a moment, so a banner
+// far down a long screen costs no request until the user scrolls to it. The rules live in utils/adViewport.
+
+/**
+ * Height at the bottom of the screen that is covered by something floating over the content (the tab bar).
+ * A banner behind it is not seen, so it does not count as on screen. Screens without such an overlay use 0.
+ */
+export const AdViewportInsetContext = createContext(0);
+
+// Back-off between reloads after a failed request (no-fill, network). Every retry is a real ad request
+// that AdMob counts, and a no-fill slot with no impression used to make up to ten of them per user.
+// Now: two quick retries, then one slow retry, then the slot gives up for this visit.
+const QUICK_RETRY_DELAYS_MS = [10_000, 20_000];
 const SLOW_RETRY_DELAY_MS = 5 * 60_000;
-const MAX_SLOW_RETRIES = 6;
+const MAX_SLOW_RETRIES = 1;
 const MAX_RETRIES = QUICK_RETRY_DELAYS_MS.length + MAX_SLOW_RETRIES;
+
+/**
+ * One <BannerAd> mount. Each mount is one ad request, so the request is logged here, on mount,
+ * and not in the parent: a remount after a tab switch is a new request and must be counted as one.
+ * The first fill of a mount is ad_loaded; later fills of the same mount are AdMob refreshes.
+ */
+const AdInstance = ({
+  unitId,
+  size,
+  width,
+  placement,
+  attempt,
+  onFilled,
+  onFailed,
+}: {
+  unitId: string;
+  size: (typeof BannerAdSize)[keyof typeof BannerAdSize];
+  width: number;
+  placement: string;
+  attempt: number;
+  onFilled: () => void;
+  onFailed: (error: { code?: string; message?: string }) => void;
+}) => {
+  const filled = useRef(false);
+
+  useEffect(() => {
+    logAdRequest(placement, attempt);
+  }, [placement, attempt]);
+
+  return (
+    <BannerAd
+      unitId={unitId}
+      size={size}
+      width={width}
+      onAdLoaded={() => {
+        if (filled.current) {
+          logEvent('ad_refreshed', { placement });
+        } else {
+          filled.current = true;
+          logAdLoaded(placement, attempt);
+        }
+        onFilled();
+      }}
+      onAdFailedToLoad={onFailed}
+      onPaid={(event) => logAdPaid(placement, event.value, event.currency)}
+    />
+  );
+};
 
 export interface BannerAdSlotProps {
   isVisible?: boolean;
   lazy?: boolean;
   /** Where the slot sits, reported with ad_request / ad_loaded / ad_failed. */
   placement?: string;
+  /** Called once the ad has filled, so a host can label the slot as an ad. */
+  onAdLoaded?: () => void;
+  /** `banner` is the small fixed 320x50 unit; `adaptive` fills the card's width. */
+  size?: 'adaptive' | 'banner';
 }
 
 /**
@@ -37,7 +106,13 @@ export interface BannerAdSlotProps {
  * card's measured inner width (not the screen width), so it fits inside padded
  * layouts instead of being clipped.
  */
-export const BannerAdSlot = ({ isVisible = true, lazy = true, placement = 'unknown' }: BannerAdSlotProps) => {
+export const BannerAdSlot = ({
+  isVisible = true,
+  lazy = true,
+  placement = 'unknown',
+  onAdLoaded,
+  size = 'adaptive',
+}: BannerAdSlotProps) => {
   const isFocused = useIsFocused();
   const { theme } = useTheme();
 
@@ -48,26 +123,25 @@ export const BannerAdSlot = ({ isVisible = true, lazy = true, placement = 'unkno
   const [attempt, setAttempt] = useState(0);
   const [retryPending, setRetryPending] = useState(false);
   const [adWidth, setAdWidth] = useState(0);
+  const [adLoaded, setAdLoaded] = useState(false);
 
   const containerRef = useRef<View>(null);
   const retryTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const shouldBeActive = isVisible && isFocused;
+  const bottomInset = useContext(AdViewportInsetContext);
+  // First moment the slot was seen on screen at a given position; see checkViewport.
+  const settleRef = useRef<Settle | null>(null);
 
   const checkViewport = useCallback(() => {
     if (isInViewport) return;
     containerRef.current?.measureInWindow((x, y, width, height) => {
-      if (!width || !height || width <= 0 || height <= 0 || y === undefined || y === null) {
-        return;
-      }
-      const windowHeight = Dimensions.get('window').height;
-      const windowWidth = Dimensions.get('window').width;
-      const verticallyVisible = y < windowHeight + 80 && y + height > -50;
-      const horizontallyVisible = x < windowWidth + 80 && x + width > -50;
-      if (verticallyVisible && horizontallyVisible) {
-        setIsInViewport(true);
-      }
+      if (y === undefined || y === null) return;
+      const onScreen = isSlotOnScreen({ x, y, width, height }, Dimensions.get('window'), bottomInset);
+      const { settle, commit } = nextSettle(settleRef.current, onScreen, y, Date.now());
+      settleRef.current = settle;
+      if (commit) setIsInViewport(true);
     });
-  }, [isInViewport]);
+  }, [isInViewport, bottomInset]);
 
   useEffect(() => {
     if (!shouldBeActive || isInViewport) return;
@@ -102,9 +176,10 @@ export const BannerAdSlot = ({ isVisible = true, lazy = true, placement = 'unkno
 
   const ready = isInViewport && canRequestAds && adWidth > 0 && !retryPending;
 
-  useEffect(() => {
-    if (ready) logAdRequest(placement, attempt);
-  }, [ready, attempt, placement]);
+  // Space stays reserved while the first requests are in flight. Once the quick retries
+  // are spent without an ad, collapse the card so no-fill users do not see an empty frame;
+  // it expands again if a slow retry finally loads.
+  const collapsed = !adLoaded && attempt >= QUICK_RETRY_DELAYS_MS.length;
 
   const handleAdFailed = (error: { code?: string; message?: string }) => {
     // Report only when the quick retries are exhausted and when giving up entirely,
@@ -130,26 +205,42 @@ export const BannerAdSlot = ({ isVisible = true, lazy = true, placement = 'unkno
     checkViewport();
   };
 
-  // No consent: collapse. A failed request keeps the slot's space while it retries.
-  if (!shouldBeActive || (consentChecked && !canRequestAds)) {
-    return null;
-  }
+  // No consent: nothing to show, ever.
+  if (consentChecked && !canRequestAds) return null;
+  // Leaving the screen (tab switch) does not unmount a loaded ad. Unmounting and remounting it on
+  // every return issued a new request each time, and AdMob counts those requests without a matching
+  // impression. A hidden (display: none) banner is not viewable, so the SDK does not refresh it either.
+  // Before the first fill nothing has been shown yet, so the request is dropped while away.
+  const hidden = !shouldBeActive;
+  if (hidden && !adLoaded) return null;
 
   return (
     <View
       ref={containerRef}
       onLayout={handleLayout}
-      style={[styles.card, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
+      style={[
+        styles.card,
+        // Until the ad loads the frame stays invisible: an empty bordered box reads as a broken
+        // screen. The ad is still mounted so its request runs.
+        { backgroundColor: adLoaded ? theme.colors.surface : 'transparent', borderColor: adLoaded ? theme.colors.border : 'transparent' },
+        collapsed && styles.cardCollapsed,
+        hidden && styles.hidden,
+      ]}
     >
-      <View style={styles.adArea}>
+      <View style={[styles.adArea, !adLoaded && styles.adAreaPending, collapsed && styles.adAreaCollapsed]}>
         {ready && (
-          <BannerAd
+          <AdInstance
             key={attempt}
-            unitId={BANNER_AD_UNIT_ID}
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+            unitId={unitIdFor(placement)}
+            size={size === 'banner' ? BannerAdSize.BANNER : BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
             width={adWidth}
-            onAdLoaded={() => logAdLoaded(placement, attempt)}
-            onAdFailedToLoad={handleAdFailed}
+            placement={placement}
+            attempt={attempt}
+            onFilled={() => {
+              setAdLoaded(true);
+              onAdLoaded?.();
+            }}
+            onFailed={handleAdFailed}
           />
         )}
       </View>
@@ -165,6 +256,22 @@ const styles = StyleSheet.create({
     padding: CARD_PADDING,
     marginVertical: spacing.xs,
     overflow: 'hidden',
+  },
+  cardCollapsed: {
+    height: 0,
+    padding: 0,
+    marginVertical: 0,
+    borderWidth: 0,
+  },
+  hidden: {
+    display: 'none',
+  },
+  adAreaCollapsed: {
+    minHeight: 0,
+    height: 0,
+  },
+  adAreaPending: {
+    minHeight: 0,
   },
   adArea: {
     minHeight: AD_MIN_HEIGHT,

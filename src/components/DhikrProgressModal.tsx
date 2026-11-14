@@ -4,7 +4,7 @@ import { BlurView } from 'expo-blur';
 import { useTranslation } from 'react-i18next';
 import { Feather } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
-import { spacing, typography } from '../utils/theme';
+import { readableTextOn, spacing, typography } from '../utils/theme';
 
 export interface DhikrMonthData {
   total: number;
@@ -84,14 +84,14 @@ export function DhikrProgressModal({ visible, onClose, history, dhikrList }: Pro
                       { backgroundColor: selectedMonth === m ? theme.colors.primary : 'rgba(150,150,150,0.1)' }
                     ]}
                   >
-                    <Text style={[styles.monthText, { color: selectedMonth === m ? '#fff' : theme.colors.text }]}>
+                    <Text style={[styles.monthText, { color: selectedMonth === m ? readableTextOn(theme.colors.primary) : theme.colors.text }]}>
                       {formatMonthName(m)}
                     </Text>
                   </Pressable>
                 ))
               ) : (
                 <View style={[styles.monthChip, { backgroundColor: theme.colors.primary }]}>
-                  <Text style={[styles.monthText, { color: '#fff' }]}>{formatMonthName(currentMonthKey)}</Text>
+                  <Text style={[styles.monthText, { color: readableTextOn(theme.colors.primary) }]}>{formatMonthName(currentMonthKey)}</Text>
                 </View>
               )}
             </ScrollView>
@@ -105,7 +105,7 @@ export function DhikrProgressModal({ visible, onClose, history, dhikrList }: Pro
                   <Text style={[styles.totalLabel, { color: theme.colors.textSecondary }]}>
                     {t('tasbih.totalThisMonth', 'Bu Ayki Toplam:')}
                   </Text>
-                  <Text style={[styles.totalValue, { color: theme.colors.primary }]}>
+                  <Text style={[styles.totalValue, { color: theme.colors.primaryText }]}>
                     {monthData.total}
                   </Text>
                 </View>
@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   container: {
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
+    borderTopStartRadius: 32,
+    borderTopEndRadius: 32,
     borderWidth: 1,
     borderBottomWidth: 0,
     borderColor: 'rgba(255,255,255,0.1)',
@@ -168,6 +168,10 @@ const styles = StyleSheet.create({
   },
   closeBtn: {
     padding: spacing.xs,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   monthSelector: {
     borderBottomWidth: 1,

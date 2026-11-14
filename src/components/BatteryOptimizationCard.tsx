@@ -7,7 +7,7 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import { useTheme } from '../context/ThemeContext';
 import { AppStorage } from '../services/storageService';
 import { logBatterySettingOpened, logEvent } from '../services/analyticsService';
-import { typography } from '../utils/theme';
+import { readableTextOn, typography } from '../utils/theme';
 
 const FIRST_LAUNCH_KEY = 'FIRST_LAUNCH_AT';
 const DISMISSED_KEY = 'BATTERY_CARD_DISMISSED';
@@ -130,7 +130,7 @@ export function BatteryOptimizationCard() {
         onPress={handleOpen}
         accessibilityRole="button"
       >
-        <Text style={styles.btnText}>{t('battery.openSettings', 'Ayarları Aç')}</Text>
+        <Text style={[styles.btnText, { color: readableTextOn(theme.colors.primary) }]}>{t('battery.openSettings', 'Ayarları Aç')}</Text>
       </Pressable>
     </Animated.View>
   );

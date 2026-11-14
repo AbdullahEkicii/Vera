@@ -1,9 +1,19 @@
 import notifee, { AlarmType, AndroidCategory, AndroidImportance, AndroidVisibility, TimestampTrigger, TriggerType } from '@notifee/react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from './storageService';
 import { SecureLocationStorage } from './storageService';
 import { NativeModules, Platform } from 'react-native';
+import { recordScheduledAlerts } from './deliveryLog';
+import { WARN_MINUTE_CHOICES, FRIDAY_MINUTE_CHOICES, getWarnMinutes, getExactSoundFor, withMinutes } from '../utils/notifPrefs';
 import i18n from '../localization/i18n';
-import { applyOffsetsToTimings, DayData, fetchReligiousDays, getPrayerOffsets } from './api';
+import { applyOffsetsToTimings, DayData, fetchReligiousDays, getDataTimeZone, getPrayerOffsets } from './api';
+import {
+  computeDayEpochs,
+  getZonedDate,
+  PRAYER_ORDER,
+  zonedWallTimeToEpoch,
+  addCalendarDays,
+  parseClock,
+} from '../utils/zonedTime';
 import { RELIGIOUS_DAY_DEFS, ReligiousDay } from '../data/religiousDays';
 import { religiousDayText } from '../localization/content';
 import { updateAndroidWidget } from './widgetService';
@@ -30,6 +40,19 @@ export interface NotificationPrefs {
   exactSound?: string;
   warningSound?: string;
   respectSilentMode?: boolean;
+  // Engagement reminders. Saved prefs from older versions lack these keys; the schedulers
+  // treat "undefined" as on (`!== false`) so existing users keep what they had, while
+  // defaultPrefs sets them explicitly for new installs.
+  dailyContent?: boolean;
+  quranReminder?: boolean;
+  greetingReminders?: boolean;
+  /** Minutes before adhan for the early warning (5-30). Missing = 25, the original fixed value. */
+  warnMinutes?: number;
+  /** Per-prayer adhan sound; a missing prayer uses `exactSound`. */
+  sounds?: Partial<Record<'fajr' | 'sunrise' | 'dhuhr' | 'asr' | 'maghrib' | 'isha', string>>;
+  /** Friday: a "get ready for Jumu'ah" reminder before Dhuhr. Off by default. */
+  fridayReminder?: boolean;
+  fridayReminderMinutes?: number;
 }
 
 const defaultPrefs: NotificationPrefs = {
@@ -39,16 +62,28 @@ const defaultPrefs: NotificationPrefs = {
   asr: true,
   maghrib: true,
   isha: true,
-  fajr_warn: true,
+  // The 25-minute early warnings are opt-in: ten alarm-style alerts a day is too many for a new install.
+  fajr_warn: false,
   sunrise_warn: false,
-  dhuhr_warn: true,
-  asr_warn: true,
-  maghrib_warn: true,
-  isha_warn: true,
+  dhuhr_warn: false,
+  asr_warn: false,
+  maghrib_warn: false,
+  isha_warn: false,
   exactSound: 'azizallah',
   warningSound: 'adhan_25minutes',
-  respectSilentMode: false,
+  // true = adhan follows the phone's silent/vibrate mode (regular notification stream). false =
+  // adhan plays on the alarm stream and bypasses silent mode. New installs must not blast the
+  // adhan at 4am in a meeting; users who want the loud adhan can switch it off in Settings.
+  respectSilentMode: true,
+  dailyContent: false,
+  quranReminder: false,
+  greetingReminders: true,
+  warnMinutes: 25,
+  fridayReminder: false,
+  fridayReminderMinutes: 45,
 };
+
+export { WARN_MINUTE_CHOICES, FRIDAY_MINUTE_CHOICES, getWarnMinutes, getExactSoundFor, withMinutes };
 
 export const getExactChannelId = (soundName?: string) => {
   const sound = soundName || 'azizallah';
@@ -95,18 +130,22 @@ export const initNotifications = async (customExactSound?: string, customWarning
     const prefs = await getNotificationPrefs();
     const exactSoundName = customExactSound || prefs.exactSound || 'azizallah';
     const warningSoundName = customWarningSound || prefs.warningSound || 'adhan_25minutes';
+    const warnMinutes = getWarnMinutes(prefs);
 
-    const exactChannelId = getExactChannelId(exactSoundName);
-    const warningChannelId = getWarningChannelId(warningSoundName);
+    // Every sound a prayer can use needs its own channel (the sound belongs to the channel).
+    const exactSounds = new Set<string>([exactSoundName]);
+    for (const own of Object.values(prefs.sounds ?? {})) {
+      if (own && VALID_SOUNDS.includes(own as any)) exactSounds.add(own);
+    }
 
     // Delete unused sound channels to keep channel list clean
     const KNOWN_SOUNDS = ['azizallah', 'adhan_25minutes', 'allahu_akbar'];
-    for (const s of KNOWN_SOUNDS) {
-      if (s !== exactSoundName) {
-        try { await notifee.deleteChannel(getExactChannelId(s)); } catch {}
+    for (const sound of KNOWN_SOUNDS) {
+      if (!exactSounds.has(sound)) {
+        try { await notifee.deleteChannel(getExactChannelId(sound)); } catch {}
       }
-      if (s !== warningSoundName) {
-        try { await notifee.deleteChannel(getWarningChannelId(s)); } catch {}
+      if (sound !== warningSoundName) {
+        try { await notifee.deleteChannel(getWarningChannelId(sound)); } catch {}
       }
     }
 
@@ -114,51 +153,39 @@ export const initNotifications = async (customExactSound?: string, customWarning
     devLog('📢 Native AlarmChannelModule present in NativeModules?', !!AlarmChannelModule);
 
     const shouldUseAlarmStream = prefs.respectSilentMode === false;
+    const exactName = i18n.t('notifications.channels.exactName', { defaultValue: 'Ezan Vakti' });
+    const exactDesc = i18n.t('notifications.channels.exactDesc', { defaultValue: 'Namaz vakti girdiğinde çalar.' });
+    const warningName = withMinutes(i18n.t('notifications.channels.warningName', { defaultValue: 'Ezan Yaklaşıyor (25 dk)' }), warnMinutes);
+    const warningDesc = withMinutes(i18n.t('notifications.channels.warningDesc', { defaultValue: 'Ezan vaktine 25 dakika kala uyarı verir.' }), warnMinutes);
 
-    if (shouldUseAlarmStream && AlarmChannelModule) {
-      try {
-        await AlarmChannelModule.createAlarmChannel(
-          exactChannelId,
-          i18n.t('notifications.channels.exactName', { defaultValue: 'Ezan Vakti' }),
-          i18n.t('notifications.channels.exactDesc', { defaultValue: 'Namaz vakti girdiğinde çalar.' }),
-          exactSoundName
-        ).catch((e: any) => devError('createAlarmChannel (exact) failed:', e));
-        await AlarmChannelModule.createAlarmChannel(
-          warningChannelId,
-          i18n.t('notifications.channels.warningName', { defaultValue: 'Ezan Yaklaşıyor (25 dk)' }),
-          i18n.t('notifications.channels.warningDesc', { defaultValue: 'Ezan vaktine 25 dakika kala uyarı verir.' }),
-          warningSoundName
-        ).catch((e: any) => devError('createAlarmChannel (warning) failed:', e));
-        devLog(`✅ AlarmChannelModule: channels created with sounds: exact=${exactSoundName} (${exactChannelId}), warn=${warningSoundName} (${warningChannelId})`);
-      } catch (e) {
-        devError('Failed to create native alarm channels:', e);
+    const createChannel = async (id: string, name: string, description: string, sound: string) => {
+      if (shouldUseAlarmStream && AlarmChannelModule) {
+        try {
+          await AlarmChannelModule.createAlarmChannel(id, name, description, sound);
+          devLog(`✅ AlarmChannelModule: channel ${id} created with sound ${sound}`);
+        } catch (e) {
+          devError('createAlarmChannel failed:', id, e);
+        }
+      } else {
+        // Standard notification channel (respects Silent / Vibrate / DND modes)
+        await notifee.createChannel({
+          id,
+          name,
+          description,
+          importance: AndroidImportance.HIGH,
+          sound,
+          vibration: true,
+          vibrationPattern: [300, 500, 300, 500],
+          visibility: AndroidVisibility.PUBLIC,
+          bypassDnd: false,
+        });
       }
-    } else {
-      // Standard notification channels (Respects Silent / Vibrate / DND modes)
-      await notifee.createChannel({
-        id: exactChannelId,
-        name: i18n.t('notifications.channels.exactName', { defaultValue: 'Ezan Vakti' }),
-        description: i18n.t('notifications.channels.exactDesc', { defaultValue: 'Namaz vakti girdiğinde çalar.' }),
-        importance: AndroidImportance.HIGH,
-        sound: exactSoundName,
-        vibration: true,
-        vibrationPattern: [300, 500, 300, 500],
-        visibility: AndroidVisibility.PUBLIC,
-        bypassDnd: false,
-      });
+    };
 
-      await notifee.createChannel({
-        id: warningChannelId,
-        name: i18n.t('notifications.channels.warningName', { defaultValue: 'Ezan Yaklaşıyor (25 dk)' }),
-        description: i18n.t('notifications.channels.warningDesc', { defaultValue: 'Ezan vaktine 25 dakika kala uyarı verir.' }),
-        importance: AndroidImportance.HIGH,
-        sound: warningSoundName,
-        vibration: true,
-        vibrationPattern: [300, 500, 300, 500],
-        visibility: AndroidVisibility.PUBLIC,
-        bypassDnd: false,
-      });
+    for (const sound of exactSounds) {
+      await createChannel(getExactChannelId(sound), exactName, exactDesc, sound);
     }
+    await createChannel(getWarningChannelId(warningSoundName), warningName, warningDesc, warningSoundName);
 
     // Daily Content Channel
     await notifee.createChannel({
@@ -249,19 +276,33 @@ export const syncNextPrayerFromCache = async () => {
     const cached = JSON.parse(cachedString);
     if (!cached?.data || !Array.isArray(cached.data)) return;
 
-    const now = new Date();
-    const dayStr = String(now.getDate()).padStart(2, '0');
-    const monthStr = String(now.getMonth() + 1).padStart(2, '0');
-    const yearStr = now.getFullYear();
-    const todayStr = `${dayStr}-${monthStr}-${yearStr}`;
+    const nowMs = Date.now();
+    // Times are clock strings in the city's zone; "today" and every moment below are in that zone.
+    const timeZone = getDataTimeZone(cached.data);
+    const today = getZonedDate(nowMs, timeZone);
+    const dayKey = (d: { y: number; mo: number; d: number }) =>
+      `${String(d.d).padStart(2, '0')}-${String(d.mo).padStart(2, '0')}-${d.y}`;
 
-    let dayData = cached.data.find((d: any) => d.date?.gregorian?.date === todayStr);
-    if (!dayData && cached.data.length > 0) {
-      dayData = cached.data[0];
-    }
+    // No entry for today means the cache is stale: showing another day's times would be wrong.
+    const dayData = cached.data.find((d: any) => d.date?.gregorian?.date === dayKey(today));
     if (!dayData || !dayData.timings) return;
+    const tomorrowData = cached.data.find((d: any) => d.date?.gregorian?.date === dayKey(addCalendarDays(today, 1)));
     // The cache holds raw API times; apply the user's ± minute offsets like the home screen does.
-    const timings = applyOffsetsToTimings(dayData.timings, await getPrayerOffsets());
+    const offsets = await getPrayerOffsets();
+    const timings = applyOffsetsToTimings(dayData.timings, offsets);
+    const tomorrowTimings = tomorrowData?.timings ? applyOffsetsToTimings(tomorrowData.timings, offsets) : null;
+    const epochs = computeDayEpochs(
+      {
+        fajr: timings.Fajr,
+        sunrise: timings.Sunrise,
+        dhuhr: timings.Dhuhr,
+        asr: timings.Asr,
+        maghrib: timings.Maghrib,
+        isha: timings.Isha,
+      },
+      today,
+      timeZone
+    );
 
     const prayers = [
       { id: 'fajr', name: i18n.t('home.prayers.fajr', { defaultValue: 'İmsak' }), time: timings.Fajr },
@@ -276,26 +317,22 @@ export const syncNextPrayerFromCache = async () => {
     let targetTimestampMs = 0;
 
     for (const p of prayers) {
-      const cleanTime = p.time.split(' ')[0];
-      const [h, m] = cleanTime.split(':');
-      const pDate = new Date(now);
-      pDate.setHours(parseInt(h, 10), parseInt(m, 10), 0, 0);
-
-      if (pDate.getTime() > now.getTime()) {
+      const pMs = epochs[p.id as typeof PRAYER_ORDER[number]];
+      if (pMs > nowMs) {
         nextPrayer = p;
-        targetTimestampMs = pDate.getTime();
+        targetTimestampMs = pMs;
         break;
       }
     }
 
     if (!nextPrayer) {
-      const fajrTimeClean = timings.Fajr.split(' ')[0];
-      const [fh, fm] = fajrTimeClean.split(':');
-      const tomorrowFajr = new Date(now);
-      tomorrowFajr.setDate(tomorrowFajr.getDate() + 1);
-      tomorrowFajr.setHours(parseInt(fh, 10), parseInt(fm, 10), 0, 0);
-      nextPrayer = prayers[0];
-      targetTimestampMs = tomorrowFajr.getTime();
+      // After Isha: tomorrow's Fajr, at tomorrow's own time.
+      const clock = parseClock(tomorrowTimings?.Fajr);
+      const tomorrow = addCalendarDays(today, 1);
+      targetTimestampMs = clock
+        ? zonedWallTimeToEpoch(tomorrow.y, tomorrow.mo, tomorrow.d, clock[0], clock[1], timeZone)
+        : epochs.fajr + 24 * 60 * 60 * 1000;
+      nextPrayer = { ...prayers[0], time: tomorrowTimings?.Fajr ?? prayers[0].time };
     }
 
     const savedLocStr = (await SecureLocationStorage.getItem('MANUAL_LOCATION')) || (await SecureLocationStorage.getItem('LAST_GPS_LOCATION'));
@@ -364,6 +401,11 @@ export const getNotificationPrefs = async (): Promise<NotificationPrefs> => {
     if (parsed.warningSound && !VALID_SOUNDS.includes(parsed.warningSound as any)) {
       parsed.warningSound = defaultPrefs.warningSound;
     }
+    if (parsed.sounds) {
+      for (const k of Object.keys(parsed.sounds) as (keyof NonNullable<NotificationPrefs['sounds']>)[]) {
+        if (!VALID_SOUNDS.includes(parsed.sounds[k] as any)) delete parsed.sounds[k];
+      }
+    }
     return parsed;
   } catch {
     return defaultPrefs;
@@ -386,16 +428,41 @@ const RESCHEDULE_TTL_MS = 6 * 60 * 60 * 1000;
 let scheduleChain: Promise<void> = Promise.resolve();
 let lastSchedule: { key: string; at: number } | null = null;
 
+// Notifications keep firing for a user who does not open the app: the rolling window has to
+// outlast a long absence (the best-effort background task cannot be relied on to extend it).
+// 21 days x 5 adhan alarms (10 with the optional 25-minute warnings) stays far below
+// Android's 500-alarm-per-app ceiling.
+const SCHEDULE_WINDOW_DAYS = 21;
+const ALARM_LIMIT = 230;
+const DAILY_CONTENT_LIMIT = 14;
+const QURAN_REMINDER_LIMIT = 7;
+
+// Only these ids are ours to replace on a reschedule; anything else (e.g. test alerts) stays.
+const SCHEDULED_ID_PREFIXES = ['exact_', 'warn_', 'daily_content_', 'quran_reminder_', 'greeting_', 'refresh_', 'friday_'];
+
+// The ongoing "next prayer" notification only changes when something runs. These silent,
+// instantly-dismissed triggers wake the background handler right after each prayer time so it
+// moves on to the next prayer even when no adhan alert is enabled (see index.js).
+const REFRESH_CHANNEL_ID = 'ezan_refresh_silent';
+const REFRESH_WINDOW_DAYS = 3;
+
 export const schedulePrayerNotifications = (data: DayData[], prefs: NotificationPrefs, _t: any): Promise<void> => {
   const run = scheduleChain.then(async () => {
     const key = JSON.stringify({
       days: data.slice(0, 8).map((d) => [d.date?.gregorian?.date, d.timings]),
+      tz: getDataTimeZone(data),
       prefs,
       lang: i18n.language,
+      persistent: await AsyncStorage.getItem('PERSISTENT_NOTIF_ENABLED').catch(() => null),
     });
     if (lastSchedule && lastSchedule.key === key && Date.now() - lastSchedule.at < RESCHEDULE_TTL_MS) {
-      devLog('Notification schedule unchanged, skipping reschedule.');
-      return;
+      // "Unchanged" is only true if the alarms are still there (permission revoked and
+      // re-granted, OS cleanup, battery manager): verify before skipping.
+      const pending = await notifee.getTriggerNotificationIds().catch(() => [] as string[]);
+      if (pending.some((id) => SCHEDULED_ID_PREFIXES.some((p) => id.startsWith(p)))) {
+        devLog('Notification schedule unchanged, skipping reschedule.');
+        return;
+      }
     }
     await doSchedulePrayerNotifications(data, prefs);
     lastSchedule = { key, at: Date.now() };
@@ -407,41 +474,140 @@ export const schedulePrayerNotifications = (data: DayData[], prefs: Notification
 const doSchedulePrayerNotifications = async (data: DayData[], prefs: NotificationPrefs) => {
   const t = i18n.t.bind(i18n);
 
-  // Clear previously scheduled trigger notifications without clearing persistent ongoing notifications
+  // Clear our previously scheduled triggers, leaving persistent ongoing notifications and
+  // anything we did not schedule (test alerts) untouched.
   try {
-    await notifee.cancelTriggerNotifications();
+    const pending = await notifee.getTriggerNotificationIds();
+    const ours = pending.filter((id) => SCHEDULED_ID_PREFIXES.some((p) => id.startsWith(p)));
+    if (ours.length > 0) await notifee.cancelTriggerNotifications(ours);
   } catch (e) {
     devError('Failed to cancel trigger notifications:', e);
   }
 
-  const exactChannelId = getExactChannelId(prefs.exactSound);
   const warningChannelId = getWarningChannelId(prefs.warningSound);
+  const warnMinutes = getWarnMinutes(prefs);
 
   const now = new Date();
-  const limit = 84; // 7 days of exact + warning alarms (12 per day = 84 max)
+  const limit = ALARM_LIMIT;
   let scheduledCount = 0;
+  const scheduledAdhanTimes: number[] = [];
   let dailyContentCount = 0;
   let quranReminderCount = 0;
+  // Prayer times are clock strings in the city's zone; alarms need absolute moments.
+  const dataTimeZone = getDataTimeZone(data);
+
+  // Legacy installs have no stored value and keep the persistent notification on.
+  const persistentOn = (await AsyncStorage.getItem('PERSISTENT_NOTIF_ENABLED').catch(() => null)) !== 'false';
+  if (persistentOn) {
+    await notifee
+      .createChannel({
+        id: REFRESH_CHANNEL_ID,
+        name: i18n.t('notifications.channels.persistentName', { defaultValue: 'Sabit Vakit & Kilit Ekranı' }),
+        importance: AndroidImportance.MIN,
+        vibration: false,
+        sound: undefined,
+      })
+      .catch(() => {});
+  }
 
   let dayIndex = 0;
   for (const day of data) {
-    if (scheduledCount >= limit && dailyContentCount >= 7) break;
+    if (scheduledCount >= limit && dailyContentCount >= DAILY_CONTENT_LIMIT) break;
 
     const [dayStr, monthStr, yearStr] = day.date.gregorian.date.split('-');
+    // Local midnight of the day in the phone's zone: used for phone-local reminders (Quran 20:00).
     const baseDate = new Date(parseInt(yearStr), parseInt(monthStr) - 1, parseInt(dayStr));
+    const dayYmd = { y: parseInt(yearStr), mo: parseInt(monthStr), d: parseInt(dayStr) };
+    const dayStartInZone = zonedWallTimeToEpoch(dayYmd.y, dayYmd.mo, dayYmd.d, 0, 0, dataTimeZone);
 
-    if (baseDate.getTime() + 86400000 < now.getTime()) continue;
+    if (dayStartInZone + 86400000 < now.getTime()) continue;
     dayIndex++;
-    if (dayIndex > 7) break; // Keep strictly within a 7-day rolling window
+    if (dayIndex > SCHEDULE_WINDOW_DAYS) break;
 
-    // Daily Content Notification Scheduling (up to 7 days)
-    if (dailyContentCount < 7) {
-      const cleanTime = day.timings.Dhuhr.split(' ')[0];
-      const [dh, dm] = cleanTime.split(':');
-      const dhuhrDate = new Date(baseDate);
-      dhuhrDate.setHours(parseInt(dh), parseInt(dm), 0, 0);
+    // One absolute time per prayer; Isha that falls after midnight is moved to the next day.
+    const epochs = computeDayEpochs(
+      {
+        fajr: day.timings.Fajr,
+        sunrise: day.timings.Sunrise,
+        dhuhr: day.timings.Dhuhr,
+        asr: day.timings.Asr,
+        maghrib: day.timings.Maghrib,
+        isha: day.timings.Isha,
+      },
+      dayYmd,
+      dataTimeZone
+    );
 
-      const triggerDate = new Date(dhuhrDate.getTime() + 90 * 60 * 1000); // 1.5 hours after Dhuhr
+    // Silent refresh right after each prayer time (nearby days only) for the persistent notification.
+    if (persistentOn && dayIndex <= REFRESH_WINDOW_DAYS) {
+      for (const id of PRAYER_ORDER) {
+        const at = epochs[id] + 5000;
+        if (!Number.isFinite(at) || at <= now.getTime()) continue;
+        try {
+          await notifee.createTriggerNotification(
+            {
+              id: `refresh_${id}_${yearStr}_${monthStr}_${dayStr}`,
+              title: 'Vera',
+              android: {
+                channelId: REFRESH_CHANNEL_ID,
+                smallIcon: 'notification_icon',
+                importance: AndroidImportance.MIN,
+                timeoutAfter: 2000,
+                autoCancel: true,
+              },
+              data: { type: 'refresh', timestamp: String(at) },
+            },
+            {
+              type: TriggerType.TIMESTAMP,
+              timestamp: at,
+              alarmManager: { allowWhileIdle: true, type: AlarmType.SET_EXACT_AND_ALLOW_WHILE_IDLE },
+            }
+          );
+        } catch (e) {
+          devError('Failed to schedule persistent refresh', e);
+        }
+      }
+    }
+
+    // Friday: a reminder before Dhuhr (Jumu'ah). Opt-in; the morning greeting card is separate.
+    if (prefs.fridayReminder === true && new Date(Date.UTC(dayYmd.y, dayYmd.mo - 1, dayYmd.d)).getUTCDay() === 5) {
+      const lead = FRIDAY_MINUTE_CHOICES.includes(prefs.fridayReminderMinutes as any) ? (prefs.fridayReminderMinutes as number) : 45;
+      const at = epochs.dhuhr - lead * 60 * 1000;
+      if (Number.isFinite(at) && at > now.getTime()) {
+        try {
+          await notifee.createTriggerNotification(
+            {
+              id: `friday_${yearStr}_${monthStr}_${dayStr}`,
+              title: t('notifications.fridayPrepTitle', { defaultValue: i18n.language.startsWith('tr') ? 'Cuma Namazına Hazırlık' : "Get Ready for Jumu'ah" }),
+              body: t('notifications.fridayPrepBody', {
+                defaultValue: i18n.language.startsWith('tr') ? 'Cuma namazına {{minutes}} dakika kaldı.' : "Jumu'ah prayer is in {{minutes}} minutes.",
+                minutes: lead,
+              }),
+              android: {
+                smallIcon: 'notification_icon',
+                color: '#D4AF37',
+                channelId: 'ezan_daily_content',
+                importance: AndroidImportance.DEFAULT,
+                pressAction: { id: 'default' },
+              },
+              data: { type: 'friday', timestamp: String(at) },
+            },
+            {
+              type: TriggerType.TIMESTAMP,
+              timestamp: at,
+              alarmManager: { allowWhileIdle: true, type: AlarmType.SET_EXACT_AND_ALLOW_WHILE_IDLE },
+            }
+          );
+        } catch (e) {
+          devError('Failed to schedule Friday reminder', e);
+        }
+      }
+    }
+
+    // Daily Content Notification Scheduling
+    if (prefs.dailyContent !== false && dailyContentCount < DAILY_CONTENT_LIMIT) {
+      const dhuhrMs = epochs.dhuhr;
+      const triggerDate = new Date(dhuhrMs + 90 * 60 * 1000); // 1.5 hours after Dhuhr
 
       if (triggerDate > now) {
         try {
@@ -497,7 +663,7 @@ const doSchedulePrayerNotifications = async (data: DayData[], prefs: Notificatio
     }
 
     // Quran Reminder Notification (Every 2 days at 20:00 in the evening)
-    if (dayIndex % 2 === 0 && quranReminderCount < 4) {
+    if (prefs.quranReminder !== false && dayIndex % 2 === 0 && quranReminderCount < QURAN_REMINDER_LIMIT) {
       const quranDate = new Date(baseDate);
       quranDate.setHours(20, 0, 0, 0);
       if (quranDate > now) {
@@ -533,24 +699,14 @@ const doSchedulePrayerNotifications = async (data: DayData[], prefs: Notificatio
 
     if (scheduledCount < limit) {
       const dayKey = `${yearStr}_${monthStr}_${dayStr}`;
-      const prayers = [
-        { id: 'fajr', time: day.timings.Fajr },
-        { id: 'sunrise', time: day.timings.Sunrise },
-        { id: 'dhuhr', time: day.timings.Dhuhr },
-        { id: 'asr', time: day.timings.Asr },
-        { id: 'maghrib', time: day.timings.Maghrib },
-        { id: 'isha', time: day.timings.Isha },
-      ];
+      const prayers = PRAYER_ORDER.map((id) => ({ id }));
 
       for (const prayer of prayers) {
         const isExactEnabled = prefs[prayer.id as keyof NotificationPrefs];
         const isWarnEnabled = prefs[`${prayer.id}_warn` as keyof NotificationPrefs];
 
-        if (isExactEnabled || isWarnEnabled) {
-          const cleanTime = prayer.time.split(' ')[0];
-          const [h, m] = cleanTime.split(':');
-          const triggerDate = new Date(baseDate);
-          triggerDate.setHours(parseInt(h), parseInt(m), 0, 0);
+        if ((isExactEnabled || isWarnEnabled) && Number.isFinite(epochs[prayer.id])) {
+          const triggerDate = new Date(epochs[prayer.id]);
 
           // Tam ezan vakti bildirimi
           if (isExactEnabled && triggerDate > now) {
@@ -572,8 +728,8 @@ const doSchedulePrayerNotifications = async (data: DayData[], prefs: Notificatio
                   category: AndroidCategory.ALARM,
                   smallIcon: 'notification_icon',
                   color: '#D4AF37',
-                  channelId: exactChannelId,
-                  sound: prefs.exactSound || 'azizallah',
+                  channelId: getExactChannelId(getExactSoundFor(prefs, prayer.id)),
+                  sound: getExactSoundFor(prefs, prayer.id),
                   importance: AndroidImportance.HIGH,
                   pressAction: {
                     id: 'default',
@@ -594,6 +750,7 @@ const doSchedulePrayerNotifications = async (data: DayData[], prefs: Notificatio
                 }
               }, trigger);
               scheduledCount++;
+              scheduledAdhanTimes.push(triggerDate.getTime());
             } catch (e) {
               devError('Failed to schedule exact alert', e);
             }
@@ -601,7 +758,7 @@ const doSchedulePrayerNotifications = async (data: DayData[], prefs: Notificatio
 
           // 25 dakika öncesi bildirimi
           if (isWarnEnabled) {
-            const warningDate = new Date(triggerDate.getTime() - 25 * 60 * 1000);
+            const warningDate = new Date(triggerDate.getTime() - warnMinutes * 60 * 1000);
             if (warningDate > now) {
               try {
                 const trigger: TimestampTrigger = {
@@ -616,7 +773,7 @@ const doSchedulePrayerNotifications = async (data: DayData[], prefs: Notificatio
                 await notifee.createTriggerNotification({
                   id: `warn_${prayer.id}_${dayKey}`,
                   title: t('notifications.warningTitle'),
-                  body: t('notifications.warningBody', { prayer: t(`home.prayers.${prayer.id}`) }),
+                  body: withMinutes(t('notifications.warningBody', { prayer: t(`home.prayers.${prayer.id}`) }), warnMinutes),
                   android: {
                     category: AndroidCategory.ALARM,
                     smallIcon: 'notification_icon',
@@ -657,7 +814,8 @@ const doSchedulePrayerNotifications = async (data: DayData[], prefs: Notificatio
       await new Promise(resolve => setTimeout(resolve, 10));
     }
   }
-  const greetingCount = await scheduleGreetingReminders(t);
+  recordScheduledAlerts(scheduledAdhanTimes).catch(() => {});
+  const greetingCount = prefs.greetingReminders !== false ? await scheduleGreetingReminders(t) : 0;
 
   devLog(`Scheduled ${scheduledCount} prayer notifications, ${dailyContentCount} daily content and ${greetingCount} greeting reminders via Notifee.`);
 };
@@ -820,7 +978,7 @@ export const scheduleTestNotification = async (type: 'exact' | 'warning', t: any
       await notifee.createTriggerNotification({
         id: `test_warn`,
         title: t('notifications.warningTitle') || 'Ezan Yaklaşıyor (Test)',
-        body: t('notifications.warningBody', { prayer: 'Test' }) || 'Ezan vaktine 25 dakika kaldı.',
+        body: withMinutes(t('notifications.warningBody', { prayer: 'Test' }) || 'Ezan vaktine 25 dakika kaldı.', getWarnMinutes(prefs)),
         android: {
           category: AndroidCategory.ALARM,
           smallIcon: 'notification_icon',

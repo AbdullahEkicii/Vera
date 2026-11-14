@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Dimensions, Pressable } from 'react-native';
+import { StyleSheet, useWindowDimensions, Pressable } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -11,8 +11,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
+import { AppStorage } from '../services/storageService';
 
-const { width, height } = Dimensions.get('window');
+const SPLASH_SEEN_KEY = 'SPLASH_SEEN';
+const EXIT_MS = 230;
 
 const SPLASH_SUBTITLES: Record<string, string> = {
   en: 'Your Islamic Life Guide',
@@ -37,12 +39,27 @@ interface Props {
 
 export function AnimatedSplashScreen({ onAnimationComplete }: Props) {
   const { i18n } = useTranslation();
+  const { width, height } = useWindowDimensions();
+  const logoSize = width * 0.45;
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.8);
   const textOpacity = useSharedValue(0);
   const textTranslateY = useSharedValue(20);
 
+  // Synchronous MMKV read: whether a previous launch already showed the splash.
+  const seenBefore = useRef(AppStorage.getString(SPLASH_SEEN_KEY) === '1').current;
+  const done = useRef(false);
+
+  // Idempotent: the tap-to-skip and the timer can both fire.
+  const finish = () => {
+    if (done.current) return;
+    done.current = true;
+    onAnimationComplete();
+  };
+
   useEffect(() => {
+    if (!seenBefore) AppStorage.setString(SPLASH_SEEN_KEY, '1');
+
     // 1. Logo fades in and scales up quickly
     opacity.value = withTiming(1, { duration: 400, easing: Easing.out(Easing.exp) });
     scale.value = withSpring(1, { damping: 14, stiffness: 120 });
@@ -57,22 +74,24 @@ export function AnimatedSplashScreen({ onAnimationComplete }: Props) {
       withTiming(0, { duration: 400, easing: Easing.out(Easing.ease) })
     );
 
-    // 3. Keep it on screen briefly, then complete smoothly (total ~1.1s)
+    // 3. First launch: brief ~0.5s total. Later launches: no artificial hold, just the quick exit.
+    const hold = seenBefore ? 0 : 250;
+    let finishTimer: ReturnType<typeof setTimeout> | null = null;
     const timeout = setTimeout(() => {
-      opacity.value = withTiming(0, { duration: 300 });
-      textOpacity.value = withTiming(0, { duration: 250 });
-      scale.value = withTiming(1.05, { duration: 300 });
+      opacity.value = withTiming(0, { duration: EXIT_MS });
+      textOpacity.value = withTiming(0, { duration: EXIT_MS });
+      scale.value = withTiming(1.05, { duration: EXIT_MS });
+      finishTimer = setTimeout(finish, EXIT_MS + 20);
+    }, hold);
 
-      setTimeout(() => {
-        onAnimationComplete();
-      }, 320);
-    }, 1100);
-
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(timeout);
+      if (finishTimer) clearTimeout(finishTimer);
+    };
   }, []);
 
   const handlePressToSkip = () => {
-    onAnimationComplete();
+    finish();
   };
 
   const logoStyle = useAnimatedStyle(() => {
@@ -97,16 +116,16 @@ export function AnimatedSplashScreen({ onAnimationComplete }: Props) {
         style={StyleSheet.absoluteFillObject}
       />
       
-      <Animated.View style={[styles.logoContainer, logoStyle]}>
+      <Animated.View style={[styles.logoContainer, { borderRadius: logoSize / 2 }, logoStyle]}>
         <Image
           source={require('../../assets/images/splash-icon.png')}
-          style={styles.logo}
+          style={[styles.logo, { width: logoSize, height: logoSize, borderRadius: logoSize / 2 }]}
           contentFit="contain"
           transition={0}
         />
       </Animated.View>
 
-      <Animated.View style={[styles.textContainer, textStyle]}>
+      <Animated.View style={[styles.textContainer, { bottom: height * 0.15 }, textStyle]}>
         <Animated.Text style={styles.title}>V E R A</Animated.Text>
         <Animated.Text style={styles.subtitle}>{SPLASH_SUBTITLES[i18n.language] || SPLASH_SUBTITLES['en']}</Animated.Text>
       </Animated.View>
@@ -126,18 +145,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // Eğer resmin kendisi kare ve arka planı varsa, 
     // container'a veya direkt logoya yuvarlatma uygulayabiliriz:
-    borderRadius: width * 0.45 / 2, // Tam yuvarlak yapmak için
     // borderRadius: 30, // Eğer hafif kavisli kare (iOS ikonu) istenirse
     overflow: 'hidden',
   },
   logo: {
-    width: width * 0.45,
-    height: width * 0.45,
-    borderRadius: width * 0.45 / 2, // Logoyu tam yuvarlak yapar
   },
   textContainer: {
     position: 'absolute',
-    bottom: height * 0.15,
     alignItems: 'center',
   },
   title: {
@@ -150,7 +164,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontFamily: 'Outfit_400Regular',
     fontSize: 16,
-    color: 'rgba(212, 175, 55, 0.7)',
+    color: 'rgba(212, 175, 55, 0.85)',
     letterSpacing: 2,
   },
 });

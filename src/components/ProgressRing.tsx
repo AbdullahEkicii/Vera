@@ -192,7 +192,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
         </Text>
         <Text style={[styles.timeDisplay, { color: theme.colors.text }]}>{timeLeftStr}</Text>
         <View style={[styles.dividerLine, { backgroundColor: theme.colors.borderStrong }]} />
-        <Text style={[styles.untilLabel, { color: theme.colors.primary }]}>
+        <Text style={[styles.untilLabel, { color: theme.colors.primaryText }]}>
           kalan süre
         </Text>
       </View>

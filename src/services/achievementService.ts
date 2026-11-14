@@ -1,7 +1,8 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from './storageService';
 import { loadHatimState } from './hatimService';
 import { loadKazaState } from './kazaService';
 import i18n from '../localization/i18n';
+import { toLocalIsoDay } from '../utils/zonedTime';
 
 type ProgressUnit = 'days' | 'prayers' | 'dhikr' | 'khatm' | 'kaza';
 const PROGRESS_UNIT_TR: Record<ProgressUnit, string> = { days: 'gün', prayers: 'vakit', dhikr: 'zikir', khatm: 'hatim', kaza: 'kaza' };
@@ -50,7 +51,7 @@ function computeConsecutiveDayStreak(activeDates: Set<string>): number {
   for (let i = 0; i < 365; i++) {
     const d = new Date(today);
     d.setDate(d.getDate() - i);
-    const dayKey = d.toISOString().split('T')[0];
+    const dayKey = toLocalIsoDay(d);
     if (activeDates.has(dayKey)) {
       streak++;
     } else if (i > 0) {

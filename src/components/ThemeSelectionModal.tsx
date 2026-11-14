@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Modal,
   View,
@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Pressable,
   ScrollView,
-  Dimensions,
+  useWindowDimensions,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { Feather, Ionicons } from '@expo/vector-icons';
@@ -14,12 +14,11 @@ import { useTheme } from '../context/ThemeContext';
 import { palettes } from '../utils/theme';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from '../services/storageService';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { logModalOpened } from '../services/analyticsService';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface ThemeSelectionModalProps {
   visible: boolean;
@@ -33,6 +32,8 @@ export const ThemeSelectionModal: React.FC<ThemeSelectionModalProps> = ({
   onHomeStyleChange,
 }) => {
   const { t } = useTranslation();
+  const { width: SCREEN_WIDTH } = useWindowDimensions();
+  const paletteCardW = useMemo(() => ({ width: (SCREEN_WIDTH - 40 - 24) / 4 }), [SCREEN_WIDTH]);
   const {
     theme,
     isDark,
@@ -127,6 +128,8 @@ export const ThemeSelectionModal: React.FC<ThemeSelectionModalProps> = ({
             </View>
             <Pressable
               onPress={onClose}
+              accessibilityRole="button"
+              accessibilityLabel={t('common.close', 'Close')}
               style={[styles.closeBtn, { backgroundColor: isDark ? '#261D14' : '#F2EFE9' }]}
             >
               <Feather name="x" size={18} color={theme.colors.textSecondary} />
@@ -259,7 +262,7 @@ export const ThemeSelectionModal: React.FC<ThemeSelectionModalProps> = ({
               {/* Default Theme */}
               <Pressable
                 style={[
-                  styles.paletteCard,
+                  styles.paletteCard, paletteCardW,
                   {
                     backgroundColor: isDark ? '#221910' : '#F8F6F0',
                     borderColor: colorPalette === 'default' ? theme.colors.primary : 'transparent',
@@ -287,7 +290,7 @@ export const ThemeSelectionModal: React.FC<ThemeSelectionModalProps> = ({
                   <Pressable
                     key={`theme_${key}`}
                     style={[
-                      styles.paletteCard,
+                      styles.paletteCard, paletteCardW,
                       {
                         backgroundColor: isDark ? '#221910' : '#F8F6F0',
                         borderColor: isSelected ? pal.primary : 'transparent',
@@ -317,7 +320,7 @@ export const ThemeSelectionModal: React.FC<ThemeSelectionModalProps> = ({
             <View style={styles.paletteGrid}>
               <Pressable
                 style={[
-                  styles.paletteCard,
+                  styles.paletteCard, paletteCardW,
                   {
                     backgroundColor: isDark ? '#221910' : '#F8F6F0',
                     borderColor: circlePalette === 'default' ? theme.colors.primary : 'transparent',
@@ -344,7 +347,7 @@ export const ThemeSelectionModal: React.FC<ThemeSelectionModalProps> = ({
                   <Pressable
                     key={`circle_${key}`}
                     style={[
-                      styles.paletteCard,
+                      styles.paletteCard, paletteCardW,
                       {
                         backgroundColor: isDark ? '#221910' : '#F8F6F0',
                         borderColor: isSelected ? pal.primary : 'transparent',
@@ -377,8 +380,8 @@ const styles = StyleSheet.create({
   },
   container: {
     maxHeight: '88%',
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    borderTopStartRadius: 28,
+    borderTopEndRadius: 28,
     paddingTop: 18,
     borderWidth: 1,
   },
@@ -402,7 +405,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginEnd: 12,
   },
   title: {
     fontFamily: 'Outfit_700Bold',
@@ -414,12 +417,12 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
   closeBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 10,
+    marginStart: 10,
   },
   list: {
     paddingHorizontal: 20,
@@ -436,7 +439,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontFamily: 'Outfit_600SemiBold',
     fontSize: 13,
-    marginLeft: 7,
+    marginStart: 7,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
@@ -482,7 +485,7 @@ const styles = StyleSheet.create({
   },
   layoutDesc: {
     fontFamily: 'Outfit_400Regular',
-    fontSize: 11,
+    fontSize: 12,
     lineHeight: 15,
   },
   paletteGrid: {
@@ -491,7 +494,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   paletteCard: {
-    width: (SCREEN_WIDTH - 40 - 24) / 4,
     alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 4,
@@ -513,7 +515,7 @@ const styles = StyleSheet.create({
   },
   paletteName: {
     fontFamily: 'Outfit_500Medium',
-    fontSize: 11,
+    fontSize: 12,
     textAlign: 'center',
   },
 });

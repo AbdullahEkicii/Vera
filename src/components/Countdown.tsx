@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
 import { typography } from '../utils/theme';
 import Animated, {
@@ -13,6 +14,7 @@ interface CountdownProps {
 
 export const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
   const { theme } = useTheme();
+  const { t } = useTranslation();
   
   // Provide an initial positive string avoiding initial render glitch
   const [timeLeftStr, setTimeLeftStr] = useState('00:00:00');
@@ -41,12 +43,18 @@ export const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
   }, [targetDate]);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      accessible
+      accessibilityRole="timer"
+      accessibilityLabel={`${t('home.timeLeft')}: ${timeLeftStr}`}
+    >
       <Animated.Text
         key={timeLeftStr} // Changing key triggers enter/exit animations smoothly
         entering={FadeInDown.duration(200)}
         exiting={FadeOutUp.duration(200)}
-        style={[styles.text, { color: theme.colors.primary }]}
+        maxFontSizeMultiplier={1.3}
+        style={[styles.text, { color: theme.colors.primaryText }]}
       >
         {timeLeftStr}
       </Animated.Text>
@@ -56,7 +64,7 @@ export const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 60, // Fixed height avoids layout jumps
+    minHeight: 66, // Min (not fixed) so large system font sizes are not clipped
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',

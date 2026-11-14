@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import {
   Platform,
   Pressable,
@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Dimensions,
+  useWindowDimensions,
   AppState,
   AppStateStatus,
 } from 'react-native';
@@ -17,8 +17,8 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useTheme } from '../context/ThemeContext';
 import { formatTime } from '../utils/format';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getWeatherEmoji, WeatherData, DayData } from '../services/api';
+import { AppStorage as AsyncStorage } from '../services/storageService';
+import { getWeatherIcon, WeatherData, DayData } from '../services/api';
 import * as Haptics from 'expo-haptics';
 
 import { WeeklyImsakiyeModal } from './WeeklyImsakiyeModal';
@@ -28,12 +28,12 @@ import { WidgetPromoModal } from './WidgetPromoModal';
 import { ThemeSelectionModal } from './ThemeSelectionModal';
 import { KazaTrackerModal } from './KazaTrackerModal';
 import { GreetingCardModal } from './GreetingCardModal';
+import { readableTextOn } from '../utils/theme';
 import { NearbyMosquesModal } from './NearbyMosquesModal';
 import { BannerAdSlot } from './BannerAdSlot';
 import { ScalePressable } from './ScalePressable';
 import { requestPinWidget } from '../services/widgetService';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const PRAYER_KEYS = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'] as const;
 type PrayerKey = typeof PRAYER_KEYS[number];
@@ -77,6 +77,8 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
   isVisible = true,
 }) => {
   const insets = useSafeAreaInsets();
+  const { width: SCREEN_WIDTH } = useWindowDimensions();
+  const quickBtnW = useMemo(() => ({ width: (SCREEN_WIDTH - 32 - 16) / 3 }), [SCREEN_WIDTH]);
   const { t } = useTranslation();
   const { theme, isDark, timeFormat, setTimeFormat } = useTheme();
   const router = useRouter();
@@ -177,7 +179,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingTop: (Platform.OS === 'ios' ? insets.top : (StatusBar.currentHeight ?? 24)) + 14,
+          paddingTop: Math.max(insets.top, StatusBar.currentHeight ?? 0) + 14,
           paddingBottom: insets.bottom + 95,
           paddingHorizontal: 16,
           gap: 12,
@@ -186,7 +188,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
         {/* ── HEADER ── */}
         <View style={styles.header}>
           {/* City */}
-          <Pressable style={styles.cityBtn} onPress={onCityPress}>
+          <Pressable style={styles.cityBtn} onPress={onCityPress} accessibilityRole="button" accessibilityLabel={`${t('search.title', 'Select Location')}: ${location?.city ?? ''}`}>
             <View style={[styles.cityPinWrap, { backgroundColor: isDark ? 'rgba(212, 175, 55, 0.15)' : 'rgba(5, 150, 105, 0.12)' }]}>
               <Feather name="map-pin" size={13} color={theme.colors.primary} />
             </View>
@@ -205,6 +207,8 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
                 try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
                 setGreetingModalVisible(true);
               }}
+              accessibilityRole="button"
+              accessibilityLabel={t('greeting.shortTitle', 'Greetings')}
             >
               <Ionicons name="sparkles" size={15} color="#D4AF37" />
             </Pressable>
@@ -216,6 +220,8 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
                 try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
                 setKazaModalVisible(true);
               }}
+              accessibilityRole="button"
+              accessibilityLabel={t('kaza.shortTitle', 'Missed')}
             >
               <Ionicons name="bookmark-outline" size={15} color={theme.colors.primary} />
             </Pressable>
@@ -227,6 +233,8 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
                 try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
                 setThemeModalVisible(true);
               }}
+              accessibilityRole="button"
+              accessibilityLabel={t('settings.theme', 'Theme')}
             >
               <Ionicons name="color-palette-outline" size={15} color={theme.colors.textSecondary} />
             </Pressable>
@@ -235,6 +243,8 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
             <Pressable
               style={[styles.iconBtn, { backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)', borderColor: borderCol }]}
               onPress={() => router.push('/settings')}
+              accessibilityRole="button"
+              accessibilityLabel={t('settings.title', 'Settings')}
             >
               <Feather name="settings" size={15} color={theme.colors.textSecondary} />
             </Pressable>
@@ -281,8 +291,10 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
                 } as any);
               }
             }}
+            accessibilityRole="button"
+            accessibilityLabel={t('weather.title', 'Weather')}
           >
-            <Text style={{ fontSize: 13 }}>{weather ? getWeatherEmoji(weather.code) : '🌤️'}</Text>
+            <Feather name={(weather ? getWeatherIcon(weather.code) : 'cloud') as any} size={14} color={theme.colors.primary} />
             <Text style={[styles.infoChipText, { color: theme.colors.text, flex: 0 }]}>
               {weather ? formatDisplayTemp(weather.temp) : '--°'}
             </Text>
@@ -297,7 +309,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
                 <Text style={[styles.heroLabel, { color: theme.colors.textSecondary }]}>
                   {t('home.nextPrayer', 'Sıradaki Vakit')}
                 </Text>
-                <Text style={[styles.heroPrayerName, { color: theme.colors.primary }]}>
+                <Text style={[styles.heroPrayerName, { color: theme.colors.primaryText }]}>
                   {t(`home.prayers.${nextPrayerKey}`)}
                 </Text>
               </View>
@@ -309,7 +321,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
 
             {/* Countdown */}
             <View style={[styles.cdRow, { backgroundColor: isDark ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.75)' }]}>
-              <Feather name="clock" size={13} color={theme.colors.primary} style={{ marginRight: 6 }} />
+              <Feather name="clock" size={13} color={theme.colors.primary} style={{ marginEnd: 6 }} />
               <Text style={[styles.cdText, { color: theme.colors.textSecondary }]}>
                 {t('home.remaining', 'Kalan Süre')}:{' '}
               </Text>
@@ -338,7 +350,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
                   ]}
                 >
                   <View style={[styles.iconWrap, { backgroundColor: isActive ? theme.colors.primary : (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)') }]}>
-                    <Feather name={PRAYER_ICON[key]} size={14} color={isActive ? '#FFFFFF' : theme.colors.textSecondary} />
+                    <Feather name={PRAYER_ICON[key]} size={14} color={isActive ? readableTextOn(theme.colors.primary) : theme.colors.textSecondary} />
                   </View>
 
                   <Text style={[styles.prayerName, { color: isActive ? theme.colors.text : theme.colors.textSecondary }, isActive && styles.bold]}>
@@ -348,7 +360,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
                   <View style={styles.badgeRow}>
                     {isActive && (
                       <View style={[styles.badge, { backgroundColor: theme.colors.primary }]}>
-                        <Text style={styles.badgeText}>{t('home.active', 'Şimdi')}</Text>
+                        <Text style={[styles.badgeText, { color: readableTextOn(theme.colors.primary) }]}>{t('home.active', 'Şimdi')}</Text>
                       </View>
                     )}
                     {isNext && !isActive && (
@@ -378,7 +390,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
               try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
               setKazaModalVisible(true);
             }}
-            style={[styles.quickBtn, { backgroundColor: cardBg, borderColor: borderCol }]}
+            style={[styles.quickBtn, quickBtnW, { backgroundColor: cardBg, borderColor: borderCol }]}
           >
             <View style={[styles.quickIcon, { backgroundColor: 'rgba(212,175,55,0.14)' }]}>
               <Ionicons name="bookmark" size={16} color="#D4AF37" />
@@ -394,7 +406,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
               try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
               setGreetingModalVisible(true);
             }}
-            style={[styles.quickBtn, { backgroundColor: cardBg, borderColor: borderCol }]}
+            style={[styles.quickBtn, quickBtnW, { backgroundColor: cardBg, borderColor: borderCol }]}
           >
             <View style={[styles.quickIcon, { backgroundColor: 'rgba(244,63,94,0.14)' }]}>
               <Ionicons name="sparkles" size={16} color="#F43F5E" />
@@ -410,7 +422,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
               try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
               setMosquesModalVisible(true);
             }}
-            style={[styles.quickBtn, { backgroundColor: cardBg, borderColor: borderCol }]}
+            style={[styles.quickBtn, quickBtnW, { backgroundColor: cardBg, borderColor: borderCol }]}
           >
             <View style={[styles.quickIcon, { backgroundColor: 'rgba(16,185,129,0.14)' }]}>
               <Ionicons name="navigate" size={16} color="#10B981" />
@@ -426,7 +438,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
               try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
               setImsakiyeVisible(true);
             }}
-            style={[styles.quickBtn, { backgroundColor: cardBg, borderColor: borderCol }]}
+            style={[styles.quickBtn, quickBtnW, { backgroundColor: cardBg, borderColor: borderCol }]}
           >
             <View style={[styles.quickIcon, { backgroundColor: 'rgba(59,130,246,0.14)' }]}>
               <Feather name="calendar" size={16} color="#3B82F6" />
@@ -442,7 +454,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
               try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
               setReligiousDaysVisible(true);
             }}
-            style={[styles.quickBtn, { backgroundColor: cardBg, borderColor: borderCol }]}
+            style={[styles.quickBtn, quickBtnW, { backgroundColor: cardBg, borderColor: borderCol }]}
           >
             <View style={[styles.quickIcon, { backgroundColor: 'rgba(168,85,247,0.14)' }]}>
               <Feather name="moon" size={16} color="#A855F7" />
@@ -458,7 +470,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
               try { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch {}
               setCalendarVisible(true);
             }}
-            style={[styles.quickBtn, { backgroundColor: cardBg, borderColor: borderCol }]}
+            style={[styles.quickBtn, quickBtnW, { backgroundColor: cardBg, borderColor: borderCol }]}
           >
             <View style={[styles.quickIcon, { backgroundColor: 'rgba(14,165,233,0.14)' }]}>
               <Feather name="grid" size={16} color="#0EA5E9" />
@@ -517,6 +529,7 @@ export const SimpleHomeScreen: React.FC<SimpleHomeScreenProps> = ({
           latitude={location?.latitude ?? null}
           longitude={location?.longitude ?? null}
           currentCity={location?.city}
+          onChooseCity={onCityPress}
         />
       )}
 
@@ -576,8 +589,8 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   iconBtn: {
-    width: 32,
-    height: 32,
+    width: 44,
+    height: 44,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -662,7 +675,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 10,
+    marginEnd: 10,
   },
   prayerName: {
     fontFamily: 'Outfit_500Medium',
@@ -670,7 +683,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   badgeRow: {
-    marginRight: 10,
+    marginEnd: 10,
   },
   badge: {
     paddingHorizontal: 7,
@@ -679,7 +692,7 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     fontFamily: 'Outfit_600SemiBold',
-    fontSize: 10,
+    fontSize: 12,
     color: '#FFFFFF',
   },
   prayerTime: {
@@ -696,7 +709,6 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   quickBtn: {
-    width: (SCREEN_WIDTH - 32 - 16) / 3,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
@@ -714,7 +726,7 @@ const styles = StyleSheet.create({
   },
   quickText: {
     fontFamily: 'Outfit_600SemiBold',
-    fontSize: 11,
+    fontSize: 12,
     textAlign: 'center',
   },
 });

@@ -5,7 +5,7 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated';
 import { useTheme } from '../context/ThemeContext';
-import { typography, spacing } from '../utils/theme';
+import { readableTextOn, typography, spacing } from '../utils/theme';
 
 interface WidgetPromoModalProps {
   visible: boolean;
@@ -71,7 +71,7 @@ export const WidgetPromoModal: React.FC<WidgetPromoModalProps> = ({
               ]}
               onPress={onAddWidget}
             >
-              <Text style={styles.primaryBtnText}>
+              <Text style={[styles.primaryBtnText, { color: readableTextOn(theme.colors.primary) }]}>
                 {t('widgetPromo.addBtn', 'Add to Home Screen')}
               </Text>
             </Pressable>
@@ -115,6 +115,10 @@ const styles = StyleSheet.create({
   },
   closeBtn: {
     padding: 4,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   illustrationContainer: {
     alignItems: 'center',

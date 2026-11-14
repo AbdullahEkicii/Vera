@@ -133,7 +133,7 @@ export const RamadanCalendarModal: React.FC<RamadanCalendarModalProps> = ({
                   : ''}
               </Text>
             </View>
-            <Pressable onPress={handleShare} hitSlop={10} style={{ marginRight: 12 }}>
+            <Pressable onPress={handleShare} hitSlop={10} style={{ marginEnd: 12 }}>
               <Feather name="share-2" size={20} color={theme.colors.textSecondary} />
             </Pressable>
             <Pressable onPress={onClose} hitSlop={10}>
@@ -254,13 +254,13 @@ const styles = StyleSheet.create({
   colHeaderDay: {
     width: 36,
     fontFamily: typography.fontFamily.bold,
-    fontSize: 11,
+    fontSize: 12,
     textAlign: 'center',
   },
   colHeader: {
     flex: 1,
     fontFamily: typography.fontFamily.bold,
-    fontSize: 11,
+    fontSize: 12,
     textAlign: 'center',
   },
   tableRow: {
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
   colCell: {
     flex: 1,
     fontFamily: typography.fontFamily.medium,
-    fontSize: 11,
+    fontSize: 12,
     textAlign: 'center',
   },
 });

@@ -11,12 +11,19 @@ module.exports = function withAndroidSigning(config) {
     if (config.modResults.language === 'groovy') {
       let buildGradle = config.modResults.contents;
 
+      // EAS signs with its own managed credentials, so never inject the local keystore there.
+      if (process.env.EAS_BUILD) {
+        console.warn('withAndroidSigning: EAS_BUILD detected, skipping local release signing injection.');
+        return config;
+      }
+
       const [storePassword, keyAlias, keyPassword] = REQUIRED_ENV_VARS.map((name) => process.env[name]);
       if (!storePassword || !keyAlias || !keyPassword) {
-        throw new Error(
-          `withAndroidSigning: missing required env var(s) ${REQUIRED_ENV_VARS.filter((name) => !process.env[name]).join(', ')}. ` +
-          'Set these as EAS secrets or in a local .env before building a release.'
+        console.warn(
+          `withAndroidSigning: missing env var(s) ${REQUIRED_ENV_VARS.filter((name) => !process.env[name]).join(', ')}; ` +
+          'skipping release signing injection (debug signing stays). Set them before building a release locally.'
         );
+        return config;
       }
 
       const releaseConfig = `

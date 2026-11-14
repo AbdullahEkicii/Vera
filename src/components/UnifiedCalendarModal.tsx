@@ -210,9 +210,9 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   closeBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
   },
   hijriSub: {
     fontFamily: typography.fontFamily.semiBold,
-    fontSize: 10,
+    fontSize: 12,
     marginTop: 1,
   },
   footerHint: {
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
   },
   footerHintText: {
     fontFamily: typography.fontFamily.medium,
-    fontSize: 11,
+    fontSize: 12,
     opacity: 0.6,
     textAlign: 'center',
   },

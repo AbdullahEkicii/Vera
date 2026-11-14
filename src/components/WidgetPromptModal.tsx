@@ -28,7 +28,7 @@ export const WidgetPromptModal: React.FC<WidgetPromptModalProps> = ({ visible, o
           t('widget.guideTitle', 'Ana Ekrana Ekle'),
           t(
             'widget.guideDesc',
-            'Ana ekranınıza basılı tutun ➔ "Widgetlar" seçeneğini tıklayın ➔ "VERA" widget\'ını seçip ekranınıza sürükleyin.'
+            'Ana ekranınıza basılı tutun > "Widgetlar" seçeneğini tıklayın > "VERA" widget\'ını seçip ekranınıza sürükleyin.'
           )
         );
       }
@@ -37,7 +37,7 @@ export const WidgetPromptModal: React.FC<WidgetPromptModalProps> = ({ visible, o
         t('widget.guideTitle', 'Ana Ekrana Ekle'),
         t(
           'widget.guideDesc',
-          'Ana ekranınıza basılı tutun ➔ Sol üstteki "+" butonuna tıklayın ➔ "VERA" aratıp widget\'ı ekleyin.'
+          'Ana ekranınıza basılı tutun > Sol üstteki "+" butonuna tıklayın > "VERA" aratıp widget\'ı ekleyin.'
         )
       );
     }
@@ -85,21 +85,21 @@ export const WidgetPromptModal: React.FC<WidgetPromptModalProps> = ({ visible, o
           </View>
 
           {/* Action Buttons */}
-          <Pressable onPress={handleAddWidget} style={styles.primaryBtnWrapper}>
+          <Pressable onPress={handleAddWidget} style={styles.primaryBtnWrapper} accessibilityRole="button">
             <LinearGradient
               colors={['#D4AF37', '#B8860B']}
               style={styles.primaryBtn}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
             >
-              <Feather name="plus-circle" size={18} color="#1A1207" style={{ marginRight: 6 }} />
+              <Feather name="plus-circle" size={18} color="#1A1207" style={{ marginEnd: 6 }} />
               <Text style={styles.primaryBtnText}>
-                {t('widget.addNow', '📌 Ana Ekrana Ekle')}
+                {t('widget.addNow', 'Ana Ekrana Ekle')}
               </Text>
             </LinearGradient>
           </Pressable>
 
-          <Pressable onPress={onClose} style={styles.secondaryBtn}>
+          <Pressable onPress={onClose} style={styles.secondaryBtn} accessibilityRole="button">
             <Text style={[styles.secondaryBtnText, { color: theme.colors.textSecondary }]}>
               {t('widget.notNow', 'Daha Sonra')}
             </Text>
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   previewSub: {
     fontFamily: typography.fontFamily.medium,
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
   },
   primaryBtnWrapper: {

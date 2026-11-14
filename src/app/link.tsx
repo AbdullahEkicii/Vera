@@ -2,10 +2,9 @@ import { useEffect, useRef } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTheme } from '../context/ThemeContext';
-import { useQuranSettings } from '../context/QuranSettingsContext';
 import { recordReferralIfPresent } from '../services/referralService';
-import { checkJuzStatus, downloadJuz, getFirstPageOfSurah } from '../services/quranRepository';
-import { SURAHS, getJuzsForSurah } from '../data/quranMeta';
+import { getFirstPageOfSurah } from '../services/quranRepository';
+import { SURAHS } from '../data/quranMeta';
 import { logEvent } from '../services/analyticsService';
 
 /**
@@ -15,13 +14,16 @@ import { logEvent } from '../services/analyticsService';
  *   ezanapp://link?type=name&id=1           — open the 99 Names / Duas screen
  *   ezanapp://link?type=dua&id=1
  *
+ * Params come from outside the app, so they are untrusted: unknown types fall through to
+ * the home tab, ids must be plain integers in range, and a link never starts downloads
+ * (the reader fetches what it needs itself).
+ *
  * Kept as a single thin route rather than one file per link type, since all of
  * them just resolve a target and redirect.
  */
 export default function DeepLinkHandler() {
   const params = useLocalSearchParams<{ type?: string; id?: string; ref?: string }>();
   const { isDark } = useTheme();
-  const { scriptType } = useQuranSettings();
   const handledRef = useRef(false);
 
   useEffect(() => {
@@ -30,26 +32,21 @@ export default function DeepLinkHandler() {
 
     (async () => {
       const { type, id, ref } = params;
-      logEvent('deep_link_opened', { link_type: type || 'unknown' });
+      const knownTypes = ['invite', 'surah', 'name', 'dua'];
+      const safeType = typeof type === 'string' && knownTypes.includes(type) ? type : 'unknown';
+      logEvent('deep_link_opened', { link_type: safeType });
 
       try {
-        if (type === 'invite') {
-          await recordReferralIfPresent(ref);
+        if (safeType === 'invite') {
+          await recordReferralIfPresent(typeof ref === 'string' ? ref : undefined);
           router.replace('/(tabs)');
           return;
         }
 
-        if (type === 'surah' && id) {
+        if (safeType === 'surah' && typeof id === 'string' && /^\d{1,3}$/.test(id)) {
           const surahNo = Number(id);
-          const surah = SURAHS.find((s) => s.number === surahNo);
+          const surah = surahNo >= 1 && surahNo <= 114 ? SURAHS.find((s) => s.number === surahNo) : undefined;
           if (surah) {
-            const requiredJuzs = getJuzsForSurah(surah.number);
-            for (const jNo of requiredJuzs) {
-              const status = await checkJuzStatus(jNo, scriptType);
-              if (status.status !== 'Downloaded') {
-                await downloadJuz(jNo, 'ar', scriptType);
-              }
-            }
             const page = (await getFirstPageOfSurah(surah.number).catch(() => null)) ?? surah.page;
             router.replace({
               pathname: '/quran-reading',
@@ -59,8 +56,8 @@ export default function DeepLinkHandler() {
           }
         }
 
-        if (type === 'name' || type === 'dua') {
-          router.replace({ pathname: '/(tabs)', params: { tab: '4' } });
+        if (safeType === 'name' || safeType === 'dua') {
+          router.replace({ pathname: '/(tabs)', params: { tab: '5' } });
           return;
         }
 

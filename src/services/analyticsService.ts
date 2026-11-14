@@ -1,4 +1,10 @@
-import { getAnalytics, logEvent as fbLogEvent } from '@react-native-firebase/analytics';
+import { getAnalytics, logEvent as fbLogEvent, setUserProperty } from '@react-native-firebase/analytics';
+import { AppStorage } from './storageService';
+import { localDayKey } from '../utils/dayKey';
+
+// JS start of this process: the zero point for "time to first content".
+const PROCESS_START_MS = Date.now();
+const devLog = (...args: any[]) => { if (__DEV__) console.log(...args); };
 
 /**
  * Firebase Analytics Service
@@ -42,28 +48,62 @@ export const logScreenView = async (screenName: string, screenClass: string = sc
     const analytics = getAnalytics();
     const cleanName = normalizeScreenName(screenName);
 
-    // Standard Firebase screen_view event
+    // Standard Firebase screen_view event. (`firebase_`-prefixed params are reserved.)
     await fbLogEvent(analytics, 'screen_view', {
-      firebase_screen: cleanName,
-      firebase_screen_class: screenClass,
       screen_name: cleanName,
       screen_class: screenClass,
     });
 
-    console.log(`[Analytics] Screen view logged: ${cleanName}`);
+    devLog(`[Analytics] Screen view logged: ${cleanName}`);
   } catch (error) {
     console.warn('[Analytics] Failed to log screen view:', error);
   }
 };
 
+// The city name is not sent (location-level data nobody needs for the funnel): only whether one existed.
 export const logOnboardingCompleted = async (step: number, city: string) => {
+  await safeLog('onboarding_completed', {
+    completed_at_step: step,
+    has_city: city ? 1 : 0,
+  });
+};
+
+export const logOnboardingSkipped = async (step: number) => {
+  await safeLog('onboarding_skipped', { at_step: step });
+};
+
+// Why location did (not) work: the single most useful diagnostic for early uninstalls.
+export type LocationResult = 'granted' | 'denied' | 'timeout' | 'geocode_failed' | 'error';
+export const logLocationResult = async (result: LocationResult, source: 'onboarding' | 'startup') => {
+  await safeLog('location_result', { result, source });
+};
+
+export const logNotificationPermissionResult = async (granted: boolean, source: 'onboarding' | 'settings' | 'banner') => {
+  await safeLog('notification_permission_result', { granted: granted ? 1 : 0, source });
+};
+
+// Fires once per process, the first time real prayer times are on screen.
+let firstContentLogged = false;
+export const logFirstPrayerScreenShown = async (source: 'cache' | 'network' | 'estimate') => {
+  if (firstContentLogged) return;
+  firstContentLogged = true;
+  await safeLog('first_prayer_screen_shown', {
+    time_to_first_content_ms: Date.now() - PROCESS_START_MS,
+    source,
+  });
+};
+
+// Properties must be registered as custom definitions in the Firebase console to be reportable.
+export const setAnalyticsUserProperties = async (props: Record<string, string | number | boolean | null | undefined>) => {
   try {
     const analytics = getAnalytics();
-    await fbLogEvent(analytics, 'onboarding_completed', {
-      completed_at_step: step,
-      selected_city: city,
-    });
-  } catch {}
+    for (const [name, value] of Object.entries(props)) {
+      if (value === undefined) continue;
+      await setUserProperty(analytics, name, value === null ? null : String(value));
+    }
+  } catch (error) {
+    console.warn('[Analytics] Failed to set user properties:', error);
+  }
 };
 
 // Funnel events: onboarding_step_1 (location), onboarding_step_2 (notifications).
@@ -91,18 +131,29 @@ export const logAdFailed = async (placement: string, attempt: number, error: { c
   });
 };
 
-export const logFirstOpen = async () => {
-  try {
-    const analytics = getAnalytics();
-    await fbLogEvent(analytics, 'first_open');
-  } catch {}
+/** Revenue of one paid banner impression. `valueMicros` is in micros of `currency`, summed per placement in reports. */
+export const logAdPaid = (placement: string, valueMicros: number, currency: string) =>
+  safeLog('ad_paid', { placement, value_micros: Math.round(valueMicros), currency: clip(currency) });
+
+// Firebase event params accept only strings and numbers: a boolean can be dropped on Android,
+// which silently emptied the permission/toggle funnels. Booleans go out as 1/0.
+const sanitizeParams = (params?: Record<string, any>): Record<string, string | number> | undefined => {
+  if (!params) return undefined;
+  const out: Record<string, string | number> = {};
+  for (const [key, value] of Object.entries(params)) {
+    if (value === undefined || value === null) continue;
+    if (typeof value === 'boolean') out[key] = value ? 1 : 0;
+    else if (typeof value === 'number' || typeof value === 'string') out[key] = typeof value === 'string' ? value.slice(0, 100) : value;
+    else out[key] = String(value).slice(0, 100);
+  }
+  return out;
 };
 
 // Generic helper: swallow errors so a failed analytics call never breaks a user-facing flow.
 const safeLog = async (eventName: string, params?: Record<string, any>) => {
   try {
     const analytics = getAnalytics();
-    await fbLogEvent(analytics, eventName, params);
+    await fbLogEvent(analytics, eventName, sanitizeParams(params));
   } catch (error) {
     console.warn(`[Analytics] Failed to log ${eventName}:`, error);
   }
@@ -143,12 +194,42 @@ export const logOffsetChanged = async (prayerKey: string, offsetMinutes: number)
   await safeLog('prayer_offset_changed', { prayer_key: prayerKey, offset_minutes: offsetMinutes });
 };
 
+const LAST_ACTIVE_DAY_KEY = 'ANALYTICS_LAST_ACTIVE_DAY_V1';
+const FIRST_PRAYER_LOGGED_KEY = 'ANALYTICS_FIRST_PRAYER_LOGGED_V1';
+
+/**
+ * "Active day": the first real use of the app on a local calendar day (a prayer mark, a dhikr,
+ * a surah, a hatim page). Retention is measured against this, not against a mere app open.
+ */
+export const markActiveDay = async () => {
+  try {
+    const today = localDayKey();
+    if ((await AppStorage.getItem(LAST_ACTIVE_DAY_KEY)) === today) return;
+    await AppStorage.setItem(LAST_ACTIVE_DAY_KEY, today);
+    await safeLog('active_day');
+  } catch (error) {
+    console.warn('[Analytics] active_day failed:', error);
+  }
+};
+
+const markFirstPrayerLogged = async () => {
+  try {
+    if ((await AppStorage.getItem(FIRST_PRAYER_LOGGED_KEY)) === '1') return;
+    await AppStorage.setItem(FIRST_PRAYER_LOGGED_KEY, '1');
+    await safeLog('first_prayer_logged');
+  } catch (error) {
+    console.warn('[Analytics] first_prayer_logged failed:', error);
+  }
+};
+
 export const logQuranSurahRead = async (surahNumber: number, surahName: string) => {
   await safeLog('quran_surah_read', { surah_number: surahNumber, surah_name: surahName });
+  await markActiveDay();
 };
 
 export const logDhikrCompleted = async (dhikrId: string, targetCount: number) => {
   await safeLog('dhikr_completed', { dhikr_id: dhikrId, target_count: targetCount });
+  await markActiveDay();
 };
 
 export const logBatterySettingOpened = async () => {
@@ -157,6 +238,12 @@ export const logBatterySettingOpened = async () => {
 
 export const logHatimProgress = async (currentPage: number, currentJuz: number, percentComplete: number) => {
   await safeLog('hatim_progress', { current_page: currentPage, current_juz: currentJuz, percent_complete: percentComplete });
+  await markActiveDay();
+};
+
+/** A notification was opened: `type` is the data.type of the push or local notification. */
+export const logNotificationOpened = async (type: string, source: 'tap' | 'fcm_tap' | 'initial') => {
+  await safeLog('notif_opened', { type, source });
 };
 
 export const logPageMealViewed = async (pageNo: number) => {
@@ -165,6 +252,10 @@ export const logPageMealViewed = async (pageNo: number) => {
 
 export const logPrayerLogged = async (prayerId: string, completed: boolean, streakCount: number) => {
   await safeLog('prayer_logged', { prayer_id: prayerId, completed, streak_count: streakCount });
+  if (completed) {
+    await markFirstPrayerLogged();
+    await markActiveDay();
+  }
 };
 
 export const logKazaUpdated = async (prayerKey: string, completedCount: number) => {
@@ -174,3 +265,27 @@ export const logKazaUpdated = async (prayerKey: string, completedCount: number) 
 export const logQuranPrayerOpened = async (tabName: string) => {
   await safeLog('quran_prayer_opened', { tab: tabName });
 };
+
+// Community feed events (docs/sosyal-akis-plani-2026-10-21.md, Bölüm 8). No uid, post text or prayer detail.
+export const logCommunityOpened = (source: 'tab' | 'banner' | 'notification' | 'share_success') =>
+  logEvent('community_opened', { source });
+export const logCommunityTabChanged = (tab: 'today' | 'week' | 'mine') => logEvent('community_tab_changed', { tab });
+export const logCommunityFeedPage = (tab: 'today' | 'week' | 'mine', page: number, count: number) =>
+  logEvent('community_feed_page', { tab, page, count });
+export const logCommunitySharePromptShown = (templateKey: string) =>
+  logEvent('community_share_prompt_shown', { template_key: templateKey });
+export const logCommunitySharePromptAnswer = (templateKey: string, answer: 'accept' | 'decline' | 'later') =>
+  logEvent('community_share_prompt_answer', { template_key: templateKey, answer });
+export const logCommunityShareSubmitted = (templateKey: string, countryVisible: boolean) =>
+  logEvent('community_share_submitted', { template_key: templateKey, country_visible: countryVisible });
+export const logCommunityShareFailed = (templateKey: string, reason: string) =>
+  logEvent('community_share_failed', { template_key: templateKey, reason });
+export const logCommunityReaction = (emoji: string, action: 'add' | 'remove') =>
+  logEvent('community_reaction', { emoji, action });
+export const logCommunityPostReported = (templateKey: string) =>
+  logEvent('community_post_reported', { template_key: templateKey });
+export const logCommunityUserBlocked = () => logEvent('community_user_blocked');
+export const logCommunityPostDeleted = (templateKey: string) =>
+  logEvent('community_post_deleted', { template_key: templateKey });
+export const logCommunitySettingChanged = (setting: 'country' | 'visibility' | 'participation', value: string | boolean) =>
+  logEvent('community_setting_changed', { setting, value: String(value) });

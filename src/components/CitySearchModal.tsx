@@ -13,23 +13,27 @@ import {
   Keyboard,
 } from 'react-native';
 import { BlurView } from 'expo-blur';
-import { Feather } from '@expo/vector-icons';
+import { Feather, Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from '../services/storageService';
 import Animated, { FadeInUp, FadeOutDown, FadeIn } from 'react-native-reanimated';
 import * as Location from 'expo-location';
 
 import { useTheme } from '../context/ThemeContext';
 import { spacing, typography } from '../utils/theme';
+import { directionalIconStyle } from '../utils/rtl';
 
 const RECENT_KEY = 'RECENT_SEARCHES';
 const MAX_RECENT = 5;
+const MAX_PINNED = 5;
 
 interface RecentCity {
   city: string;
   country: string;
   lat: number;
   lng: number;
+  /** Saved cities stay on top and are never pushed out by newer searches. */
+  pinned?: boolean;
 }
 
 interface NominatimResult {
@@ -86,6 +90,9 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
   const [suggestions, setSuggestions] = useState<NominatimResult[]>([]);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [searchFailed, setSearchFailed] = useState(false);
+  // Only the latest search may update state (older responses can arrive out of order).
+  const searchIdRef = useRef(0);
   const [recentSearches, setRecentSearches] = useState<RecentCity[]>([]);
 
   // Load recent searches when modal opens
@@ -97,6 +104,7 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
       setSearchQuery('');
       setSuggestions([]);
       setError(null);
+      setSearchFailed(false);
     }
   }, [visible]);
 
@@ -109,8 +117,12 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
 
   const saveRecentSearch = async (entry: RecentCity) => {
     try {
+      const previous = recentSearches.find((r) => r.city === entry.city);
       const existing = recentSearches.filter((r) => r.city !== entry.city);
-      const updated = [entry, ...existing].slice(0, MAX_RECENT);
+      const merged = [{ ...entry, pinned: previous?.pinned }, ...existing];
+      const pinned = merged.filter((r) => r.pinned).slice(0, MAX_PINNED);
+      const recent = merged.filter((r) => !r.pinned).slice(0, MAX_RECENT);
+      const updated = [...pinned, ...recent];
       setRecentSearches(updated);
       await AsyncStorage.setItem(RECENT_KEY, JSON.stringify(updated));
     } catch {}
@@ -118,11 +130,16 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
 
   // Autocomplete via Nominatim
   const fetchSuggestions = useCallback(async (query: string) => {
+    const searchId = ++searchIdRef.current;
     if (query.trim().length < 2) {
       setSuggestions([]);
+      setSearchFailed(false);
       return;
     }
     setLoadingSuggestions(true);
+    setSearchFailed(false);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
     try {
       const lang = i18n.language.split('-')[0]; // 'tr', 'en', etc.
       const url =
@@ -133,10 +150,12 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
         `&accept-language=${lang},en`;
 
       const res = await fetch(url, {
-        headers: { 'User-Agent': 'VeraApp/1.0 contact@vera.app' },
+        headers: { 'User-Agent': 'VeraApp/1.0 (com.abdllhekc.vera)' },
+        signal: controller.signal,
       });
       if (!res.ok) throw new Error(`Nominatim ${res.status}`);
       const data = await res.json();
+      if (searchId !== searchIdRef.current) return;
       // Keep only results that have the fields the list renders.
       setSuggestions(
         Array.isArray(data)
@@ -144,19 +163,25 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
           : []
       );
     } catch {
+      if (searchId !== searchIdRef.current) return;
       setSuggestions([]);
+      setSearchFailed(true);
     } finally {
-      setLoadingSuggestions(false);
+      clearTimeout(timeoutId);
+      if (searchId === searchIdRef.current) setLoadingSuggestions(false);
     }
   }, [i18n.language]);
 
   const onChangeText = (text: string) => {
     setSearchQuery(text);
     setError(null);
+    setSearchFailed(false);
 
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
     if (text.trim().length < 2) {
+      searchIdRef.current++;
       setSuggestions([]);
+      setLoadingSuggestions(false);
       return;
     }
     debounceTimer.current = setTimeout(() => fetchSuggestions(text), 350);
@@ -180,6 +205,16 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
   const handleRecentPress = (item: RecentCity) => {
     onCitySelected(item.lat, item.lng, item.city);
     onClose();
+  };
+
+  const togglePin = async (cityName: string) => {
+    const target = recentSearches.find((r) => r.city === cityName);
+    if (!target) return;
+    if (!target.pinned && recentSearches.filter((r) => r.pinned).length >= MAX_PINNED) return;
+    const toggled = recentSearches.map((r) => (r.city === cityName ? { ...r, pinned: !r.pinned } : r));
+    const updated = [...toggled.filter((r) => r.pinned), ...toggled.filter((r) => !r.pinned)];
+    setRecentSearches(updated);
+    await AsyncStorage.setItem(RECENT_KEY, JSON.stringify(updated));
   };
 
   const removeRecent = async (cityName: string) => {
@@ -270,7 +305,7 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
             </Text>
           ) : null}
         </View>
-        <Feather name="chevron-right" size={16} color={theme.colors.textSecondary} />
+        <Feather name="chevron-right" size={16} color={theme.colors.textSecondary} style={directionalIconStyle} />
       </Pressable>
     );
   }, [handleSelectSuggestion, theme.colors]);
@@ -281,18 +316,28 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
       onPress={() => handleRecentPress(item)}
     >
       <View style={[styles.suggestionIconBox, { backgroundColor: theme.colors.primaryLight }]}>
-        <Feather name="clock" size={14} color={theme.colors.primary} />
+        <Feather name={item.pinned ? 'star' : 'clock'} size={14} color={theme.colors.primary} />
       </View>
       <View style={styles.suggestionTexts}>
         <Text style={[styles.suggestionCity, { color: theme.colors.text }]} numberOfLines={1}>
           {item.city}
         </Text>
       </View>
-      <Pressable onPress={() => removeRecent(item.city)} hitSlop={10}>
+      <Pressable
+        onPress={() => togglePin(item.city)}
+        hitSlop={12}
+        accessibilityRole="button"
+        accessibilityState={{ selected: !!item.pinned }}
+        accessibilityLabel={`${item.pinned ? t('search.unpin', 'Unpin') : t('search.pin', 'Save city')}: ${item.city}`}
+        style={{ marginEnd: 14 }}
+      >
+        <Ionicons name={item.pinned ? 'star' : 'star-outline'} size={17} color={item.pinned ? theme.colors.primary : theme.colors.textSecondary} />
+      </Pressable>
+      <Pressable onPress={() => removeRecent(item.city)} hitSlop={14} accessibilityRole="button" accessibilityLabel={`${t('common.remove', 'Remove')}: ${item.city}`}>
         <Feather name="x" size={16} color={theme.colors.textSecondary} />
       </Pressable>
     </Pressable>
-  ), [handleRecentPress, removeRecent, theme.colors]);
+  ), [handleRecentPress, removeRecent, togglePin, theme.colors, t]);
 
   const keyExtractorSuggestion = useCallback((item: NominatimResult) => String(item.place_id), []);
   const keyExtractorRecent = useCallback((item: RecentCity) => item.city, []);
@@ -345,7 +390,7 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
               </Text>
             </View>
             {isDismissable && (
-              <Pressable onPress={onClose} style={[styles.closeBtn, { backgroundColor: theme.colors.surface }]}>
+              <Pressable onPress={onClose} hitSlop={8} accessibilityRole="button" accessibilityLabel={t('common.close', 'Close')} style={[styles.closeBtn, { backgroundColor: theme.colors.surface }]}>
                 <Feather name="x" size={20} color={theme.colors.textSecondary} />
               </Pressable>
             )}
@@ -369,7 +414,7 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
               <ActivityIndicator size="small" color={theme.colors.primary} />
             )}
             {searchQuery.length > 0 && !loadingSuggestions && (
-              <Pressable onPress={() => { setSearchQuery(''); setSuggestions([]); }} hitSlop={8}>
+              <Pressable onPress={() => { searchIdRef.current++; setSearchQuery(''); setSuggestions([]); setSearchFailed(false); }} hitSlop={14} accessibilityRole="button" accessibilityLabel={t('common.clear', 'Clear')}>
                 <Feather name="x-circle" size={18} color={theme.colors.textSecondary} />
               </Pressable>
             )}
@@ -389,7 +434,7 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
               onPress={handleUseGPS}
             >
               <Feather name="navigation" size={15} color={theme.colors.primary} />
-              <Text style={[styles.gpsBtnText, { color: theme.colors.primary }]}>
+              <Text style={[styles.gpsBtnText, { color: theme.colors.primaryText }]}>
                 {t('search.useGPS', 'Mevcut Konumu Kullan')}
               </Text>
             </Pressable>
@@ -397,6 +442,25 @@ export const CitySearchModal: React.FC<CitySearchModalProps> = ({
 
           {error && (
             <Text style={[styles.errorText, { color: theme.colors.danger }]}>{error}</Text>
+          )}
+
+          {searchFailed && searchQuery.trim().length >= 2 && (
+            <View style={styles.searchFailedBox}>
+              <Text style={[styles.errorText, styles.searchFailedText, { color: theme.colors.danger }]}>
+                {t('search.searchFailed', 'Arama başarısız oldu, bağlantınızı kontrol edin.')}
+              </Text>
+              <Pressable
+                onPress={() => fetchSuggestions(searchQuery)}
+                hitSlop={8}
+                accessibilityRole="button"
+                style={({ pressed }) => [styles.retryBtn, { borderColor: theme.colors.primary, opacity: pressed ? 0.7 : 1 }]}
+              >
+                <Feather name="refresh-cw" size={14} color={theme.colors.primary} />
+                <Text style={[styles.gpsBtnText, { color: theme.colors.primaryText, fontSize: 14 }]}>
+                  {t('common.retry', 'Tekrar Dene')}
+                </Text>
+              </Pressable>
+            </View>
           )}
 
           {/* Autocomplete suggestions */}
@@ -449,11 +513,11 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   sheet: {
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    borderTopStartRadius: 28,
+    borderTopEndRadius: 28,
     borderTopWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
+    borderStartWidth: 1,
+    borderEndWidth: 1,
     padding: spacing.lg,
     paddingBottom: Platform.OS === 'ios' ? 44 : spacing.xl,
     gap: spacing.md,
@@ -480,8 +544,11 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   closeBtn: {
-    padding: 8,
-    borderRadius: 20,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 22,
   },
   inputRow: {
     flexDirection: 'row',
@@ -501,6 +568,26 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontFamily.medium,
     fontSize: 14,
     marginTop: -spacing.xs,
+  },
+
+  searchFailedBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.sm,
+  },
+  searchFailedText: {
+    flex: 1,
+    marginTop: 0,
+  },
+  retryBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    minHeight: 44,
+    paddingHorizontal: spacing.md,
+    borderRadius: 14,
+    borderWidth: 1,
   },
 
   /* Suggestions */
@@ -554,7 +641,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: StyleSheet.hairlineWidth,
-    marginLeft: 52,
+    marginStart: 52,
   },
   gpsBtn: {
     flexDirection: 'row',

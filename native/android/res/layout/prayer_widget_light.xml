@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:background="@drawable/prayer_widget_light_bg"
+    android:clipChildren="true"
+    android:clipToPadding="true"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- Header Row: App Brand & City -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/widget_app_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🕌 Vera"
+            android:textColor="#B45309"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:includeFontPadding="false" />
+
+        <TextView
+            android:id="@+id/widget_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:textColor="#64748B"
+            android:textSize="11sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxWidth="160dp" />
+    </LinearLayout>
+
+    <!-- Center Hero Card: Next Prayer & Big Time -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/widget_next_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="#0F172A"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:includeFontPadding="false" />
+
+            <TextView
+                android:id="@+id/widget_countdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#D97706"
+                android:textSize="11.5sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/widget_next_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="--:--"
+            android:textColor="#B45309"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:includeFontPadding="false"
+            android:gravity="end|center_vertical" />
+    </LinearLayout>
+
+    <!-- Divider Line -->
+    <ImageView
+        android:id="@+id/widget_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#15000000"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="3dp" />
+
+    <!-- 6 Prayer Times Ribbon -->
+    <LinearLayout
+        android:id="@+id/widget_prayer_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="6">
+
+        <!-- 1. Fajr -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/widget_p1_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="#64748B"
+                android:textSize="9sp"
+                android:singleLine="true"
+                android:includeFontPadding="false" />
+            <TextView
+                android:id="@+id/widget_p1_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--:--"
+                android:textColor="#1E293B"
+                android:textSize="10.5sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:layout_marginTop="1dp" />
+        </LinearLayout>
+
+        <!-- 2. Sunrise -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/widget_p2_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="#64748B"
+                android:textSize="9sp"
+                android:singleLine="true"
+                android:includeFontPadding="false" />
+            <TextView
+                android:id="@+id/widget_p2_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--:--"
+                android:textColor="#1E293B"
+                android:textSize="10.5sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:layout_marginTop="1dp" />
+        </LinearLayout>
+
+        <!-- 3. Dhuhr -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/widget_p3_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="#64748B"
+                android:textSize="9sp"
+                android:singleLine="true"
+                android:includeFontPadding="false" />
+            <TextView
+                android:id="@+id/widget_p3_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--:--"
+                android:textColor="#1E293B"
+                android:textSize="10.5sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:layout_marginTop="1dp" />
+        </LinearLayout>
+
+        <!-- 4. Asr -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/widget_p4_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="#64748B"
+                android:textSize="9sp"
+                android:singleLine="true"
+                android:includeFontPadding="false" />
+            <TextView
+                android:id="@+id/widget_p4_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--:--"
+                android:textColor="#1E293B"
+                android:textSize="10.5sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:layout_marginTop="1dp" />
+        </LinearLayout>
+
+        <!-- 5. Maghrib -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/widget_p5_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="#64748B"
+                android:textSize="9sp"
+                android:singleLine="true"
+                android:includeFontPadding="false" />
+            <TextView
+                android:id="@+id/widget_p5_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--:--"
+                android:textColor="#1E293B"
+                android:textSize="10.5sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:layout_marginTop="1dp" />
+        </LinearLayout>
+
+        <!-- 6. Isha -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/widget_p6_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="#64748B"
+                android:textSize="9sp"
+                android:singleLine="true"
+                android:includeFontPadding="false" />
+            <TextView
+                android:id="@+id/widget_p6_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--:--"
+                android:textColor="#1E293B"
+                android:textSize="10.5sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:includeFontPadding="false"
+                android:layout_marginTop="1dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

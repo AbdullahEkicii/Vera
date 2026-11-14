@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -14,19 +14,21 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
-import Constants from 'expo-constants';
-import { addDoc, collection, getFirestore, serverTimestamp } from '@react-native-firebase/firestore';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { logEvent } from '../services/analyticsService';
+import { submitFeedback } from '../services/feedbackService';
+import { MAX_MESSAGE_LENGTH } from '../utils/feedbackOutbox';
 
 interface Props {
   visible: boolean;
   onClose: () => void;
+  /** Where the user opened it from (e.g. 'settings', 'prayer_times'); stored with the message. */
+  source?: string;
 }
 
 type Step = 'form' | 'thankyou';
 
-const MAX_LENGTH = 2000;
+const MAX_LENGTH = MAX_MESSAGE_LENGTH;
 
 /**
  * Free-form feedback, opened from Settings. Stored in the Firestore `app_feedback`
@@ -34,19 +36,25 @@ const MAX_LENGTH = 2000;
  * review prompt (see reviewService) on purpose: Play policy forbids routing
  * unhappy users away from the store review.
  */
-export function FeedbackModal({ visible, onClose }: Props) {
+export function FeedbackModal({ visible, onClose, source = 'settings' }: Props) {
   const { t, i18n } = useTranslation();
   const [step, setStep] = useState<Step>('form');
   const [text, setText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(false);
+  // Saved on the device but not yet confirmed by the server (it is re-sent automatically).
+  const [queued, setQueued] = useState(false);
+  // Synchronous guard: state updates are async, so a fast double tap could pass `isSubmitting`.
+  const submittingRef = useRef(false);
 
   useEffect(() => {
     if (visible) {
       setStep('form');
       setText('');
       setError(false);
+      setQueued(false);
       setIsSubmitting(false);
+      submittingRef.current = false;
     }
   }, [visible]);
 
@@ -55,24 +63,22 @@ export function FeedbackModal({ visible, onClose }: Props) {
   const trimmed = text.trim();
 
   const handleSubmit = async () => {
-    if (isSubmitting || !trimmed) return;
+    if (submittingRef.current || !trimmed) return;
+    submittingRef.current = true;
     setIsSubmitting(true);
     setError(false);
     try {
-      await addDoc(collection(getFirestore(), 'app_feedback'), {
-        message: trimmed.slice(0, MAX_LENGTH),
-        language: i18n.language,
-        platform: Platform.OS,
-        osVersion: String(Platform.Version),
-        appVersion: Constants.expoConfig?.version ?? 'unknown',
-        createdAt: serverTimestamp(),
-      });
-      logEvent('feedback_sent', { length: trimmed.length });
+      // Saved on the device before any network call, so even a stalled connection cannot lose it
+      // or tempt the user into sending it twice; undelivered feedback is re-sent later.
+      const result = await submitFeedback(trimmed, i18n.language, source);
+      logEvent('feedback_sent', { length: trimmed.length, delivered: result.delivered });
+      setQueued(!result.delivered);
       setStep('thankyou');
     } catch (e) {
       if (__DEV__) console.warn('Feedback submit failed:', e);
       setError(true);
     } finally {
+      submittingRef.current = false;
       setIsSubmitting(false);
     }
   };
@@ -88,8 +94,8 @@ export function FeedbackModal({ visible, onClose }: Props) {
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
           >
-            <Pressable onPress={onClose} style={styles.closeIconBtn} hitSlop={12}>
-              <Ionicons name="close" size={20} color="rgba(253, 248, 237, 0.6)" />
+            <Pressable onPress={onClose} style={styles.closeIconBtn} hitSlop={12} accessibilityRole="button" accessibilityLabel={t('common.close', 'Kapat')}>
+              <Ionicons name="close" size={20} color="rgba(253, 248, 237, 0.75)" />
             </Pressable>
 
             <LinearGradient colors={['#D4AF37', '#996515']} style={styles.iconBadge} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
@@ -106,7 +112,7 @@ export function FeedbackModal({ visible, onClose }: Props) {
                 <TextInput
                   style={styles.textInput}
                   placeholder={t('feedback.placeholder', 'Fikir, öneri veya karşılaştığınız bir sorunu yazın...')}
-                  placeholderTextColor="rgba(253, 248, 237, 0.4)"
+                  placeholderTextColor="rgba(253, 248, 237, 0.75)"
                   multiline
                   numberOfLines={5}
                   maxLength={MAX_LENGTH}
@@ -136,7 +142,7 @@ export function FeedbackModal({ visible, onClose }: Props) {
                   </LinearGradient>
                 </Pressable>
 
-                <Pressable onPress={onClose} style={styles.secondaryBtn}>
+                <Pressable onPress={onClose} style={styles.secondaryBtn} accessibilityRole="button">
                   <Text style={styles.secondaryBtnText}>{t('common.cancel', 'Vazgeç')}</Text>
                 </Pressable>
               </Animated.View>
@@ -148,7 +154,12 @@ export function FeedbackModal({ visible, onClose }: Props) {
                 <Text style={styles.message}>
                   {t('feedback.thankYouSubtitle', "Görüşleriniz bizim için çok değerli. Vera'yı güzelleştirmek için var gücümüzle çalışıyoruz.")}
                 </Text>
-                <Pressable onPress={onClose} style={styles.primaryBtnWrapper}>
+                {queued && (
+                  <Text style={styles.queuedText}>
+                    {t('feedback.queuedNote', 'Bağlantı zayıf olduğu için mesajınız cihazınıza kaydedildi; internet geldiğinde otomatik gönderilecek.')}
+                  </Text>
+                )}
+                <Pressable onPress={onClose} style={styles.primaryBtnWrapper} accessibilityRole="button">
                   <LinearGradient colors={['#D4AF37', '#B8860B']} style={styles.primaryBtn} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
                     <Text style={styles.primaryBtnText}>{t('common.close', 'Kapat')}</Text>
                   </LinearGradient>
@@ -196,7 +207,7 @@ const styles = StyleSheet.create({
   closeIconBtn: {
     position: 'absolute',
     top: 14,
-    right: 14,
+    end: 14,
     width: 32,
     height: 32,
     borderRadius: 16,
@@ -248,6 +259,14 @@ const styles = StyleSheet.create({
     color: '#FDF8ED',
     marginBottom: 14,
   },
+  queuedText: {
+    fontFamily: 'Outfit_400Regular',
+    fontSize: 12,
+    color: 'rgba(253, 248, 237, 0.75)',
+    textAlign: 'center',
+    lineHeight: 18,
+    marginBottom: 14,
+  },
   errorText: {
     fontFamily: 'Outfit_400Regular',
     fontSize: 12,
@@ -281,6 +300,6 @@ const styles = StyleSheet.create({
   secondaryBtnText: {
     fontFamily: 'Outfit_500Medium',
     fontSize: 14,
-    color: 'rgba(253, 248, 237, 0.55)',
+    color: 'rgba(253, 248, 237, 0.75)',
   },
 });

@@ -7,7 +7,7 @@ import { useTheme } from '../context/ThemeContext';
 import { getPrayerOffsets, PrayerOffsets, savePrayerOffsets } from '../services/api';
 import { logOffsetChanged } from '../services/analyticsService';
 import { formatTime } from '../utils/format';
-import { typography } from '../utils/theme';
+import { readableTextOn, typography } from '../utils/theme';
 
 const MAX_OFFSET = 15;
 
@@ -117,7 +117,7 @@ export function PrayerOffsetSheet({ prayerKey, prayerName, time, onClose }: Prop
               </Text>
             </Pressable>
             <Pressable onPress={handleSave} style={[styles.saveBtn, { backgroundColor: theme.colors.primary }]} accessibilityRole="button">
-              <Text style={styles.saveBtnText}>{t('offsetSheet.save', 'Kaydet')}</Text>
+              <Text style={[styles.saveBtnText, { color: readableTextOn(theme.colors.primary) }]}>{t('offsetSheet.save', 'Kaydet')}</Text>
             </Pressable>
           </View>
         </Pressable>

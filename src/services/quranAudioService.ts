@@ -21,6 +21,9 @@ export const QURAN_RECITERS: QuranReciter[] = [
   { id: 'shuraym', nameTR: 'Suud eş-Şüreym', nameEN: 'Saud Al-Shuraym', folder: 'Saud_ash-Shuraym_128kbps' },
 ];
 
+// How long a single ayah may take to start loading before we treat the stream as failed.
+const AYAH_LOAD_TIMEOUT_MS = 8000;
+
 const pad3 = (n: number) => String(n).padStart(3, '0');
 
 export const getAyahAudioUrl = (reciterFolder: string, surahNo: number, ayahNo: number): string =>
@@ -66,6 +69,8 @@ class QuranAudioPlayer {
   // Bumped by stop(); a play() overtaken while awaiting checks it and bails out.
   private playGen = 0;
   private stopped = true;
+  private paused = false;
+  private loadTimeout: ReturnType<typeof setTimeout> | null = null;
 
   isPlaying(): boolean {
     return !this.stopped;
@@ -105,18 +110,39 @@ class QuranAudioPlayer {
 
     const ayah = this.queue[this.queueIndex];
     const url = getAyahAudioUrl(this.reciterFolder, ayah.surahNo, ayah.ayahNo);
+    // Per-ayah guard: a repeated 'ended' event (or a late timeout) must not advance twice.
+    let settled = false;
+    let loaded = false;
 
     try {
       this.player = createAudioPlayer(url);
       this.callbacks.onAyahStart?.(ayah);
 
+      // Streaming from the network can hang silently when offline: give up if nothing loads.
+      this.loadTimeout = setTimeout(() => {
+        if (settled || loaded || this.stopped) return;
+        settled = true;
+        this.fail(ayah, new Error('Ayah audio load timed out'));
+      }, AYAH_LOAD_TIMEOUT_MS);
+
       if (this.player && typeof this.player.addListener === 'function') {
         this.statusSubscription = this.player.addListener('playbackStatusUpdate', (status: any) => {
+          if (settled || this.stopped) return;
+          if (status?.error || status?.playbackState === 'error') {
+            settled = true;
+            this.fail(ayah, status?.error ?? new Error('Ayah audio playback error'));
+            return;
+          }
+          if (status?.isLoaded || status?.playing || status?.currentTime > 0) {
+            loaded = true;
+            this.clearLoadTimeout();
+          }
           const finished =
             status?.didJustFinish ||
             status?.playbackState === 'ended' ||
             (!status?.playing && status?.currentTime > 0 && status?.duration > 0 && Math.abs(status.currentTime - status.duration) < 0.4);
-          if (finished) {
+          if (finished && !this.paused) {
+            settled = true;
             this.callbacks.onAyahEnd?.(ayah);
             this.advance();
           }
@@ -125,9 +151,49 @@ class QuranAudioPlayer {
 
       this.player?.play();
     } catch (e) {
-      this.callbacks.onError?.(ayah, e);
-      this.advance();
+      settled = true;
+      this.fail(ayah, e);
     }
+  }
+
+  private clearLoadTimeout() {
+    if (this.loadTimeout) {
+      clearTimeout(this.loadTimeout);
+      this.loadTimeout = null;
+    }
+  }
+
+  /** Report a failed ayah and stop cleanly (no auto-advance to the next page). */
+  private fail(ayah: AyahRef, error: unknown) {
+    const onError = this.callbacks.onError;
+    this.destroyCurrentPlayer();
+    this.stopped = true;
+    this.paused = false;
+    this.queue = [];
+    this.queueIndex = 0;
+    this.callbacks = {};
+    onError?.(ayah, error);
+  }
+
+  /** Pause the current ayah; resume() continues from the same position. */
+  pause() {
+    if (this.stopped || this.paused || !this.player) return;
+    try {
+      this.player.pause?.();
+      this.paused = true;
+    } catch {}
+  }
+
+  resume() {
+    if (this.stopped || !this.paused || !this.player) return;
+    try {
+      this.player.play?.();
+    } catch {}
+    this.paused = false;
+  }
+
+  isPaused(): boolean {
+    return this.paused;
   }
 
   private advance() {
@@ -138,6 +204,7 @@ class QuranAudioPlayer {
   }
 
   private destroyCurrentPlayer() {
+    this.clearLoadTimeout();
     if (this.statusSubscription) {
       try { this.statusSubscription.remove?.(); } catch {}
       this.statusSubscription = null;
@@ -155,6 +222,7 @@ class QuranAudioPlayer {
     this.destroyCurrentPlayer();
     const wasPlaying = !this.stopped;
     this.stopped = true;
+    this.paused = false;
     this.queue = [];
     this.queueIndex = 0;
     if (wasPlaying) {
@@ -167,6 +235,7 @@ class QuranAudioPlayer {
     this.playGen++;
     this.destroyCurrentPlayer();
     this.stopped = true;
+    this.paused = false;
     this.queue = [];
     this.queueIndex = 0;
     // Drop the screen's closures (state setters) so this singleton doesn't retain them.

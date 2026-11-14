@@ -22,6 +22,8 @@ expo-env.d.ts
 .metro-health-check*
 
 # debug
+adblog.txt
+*.log
 npm-debug.*
 yarn-debug.*
 yarn-error.*
@@ -48,3 +50,17 @@ app-example
 
 # i18n translation work files (scripts/i18n-sync.mjs)
 scripts/i18n-work/
+
+# Ruflo local secrets and runtime data
+.env.local
+.env.*.local
+.claude-flow/data/
+.claude-flow/logs/
+.claude-flow/sessions/
+
+# Cloud Functions env (Telegram bot token for feedback notices)
+functions/.env
+functions/.env.*
+
+# Exported feedback (scripts/export-feedback.mjs)
+feedback-export/

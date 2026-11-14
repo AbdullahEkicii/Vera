@@ -9,9 +9,10 @@ const devError = (...args: any[]) => { if (__DEV__) console.error(...args); };
 
 export const PRAYER_REFRESH_TASK = 'ezan-prayer-notifications-refresh';
 
-// Keeps the ~7-day rolling notification schedule alive even if the user
+// Keeps the rolling (21-day) notification schedule alive even if the user
 // doesn't open the app for an extended period (OS may run this every few
 // hours to once a day depending on battery/usage — see registerTaskAsync below).
+try {
 TaskManager.defineTask(PRAYER_REFRESH_TASK, async () => {
   try {
     const savedLocationStr =
@@ -38,14 +39,18 @@ TaskManager.defineTask(PRAYER_REFRESH_TASK, async () => {
     return BackgroundTask.BackgroundTaskResult.Failed;
   }
 });
+} catch (e) {
+  devError('Could not define the prayer refresh task:', e);
+}
 
 export async function registerBackgroundPrayerRefreshTask(): Promise<void> {
   try {
-    const isRegistered = await TaskManager.isTaskRegisteredAsync(PRAYER_REFRESH_TASK);
-    if (isRegistered) return;
-
+    // Re-register on every launch instead of trusting an earlier registration: OEM battery
+    // managers and app updates silently drop the periodic work, and nothing else would
+    // notice. The call replaces any existing registration, so it is safe to repeat.
+    await TaskManager.isTaskRegisteredAsync(PRAYER_REFRESH_TASK);
     await BackgroundTask.registerTaskAsync(PRAYER_REFRESH_TASK, {
-      minimumInterval: 12 * 60, // minutes; OS decides actual cadence
+      minimumInterval: 6 * 60, // minutes; OS decides actual cadence
     });
     devLog('✅ Background prayer notification refresh task registered');
   } catch (e) {

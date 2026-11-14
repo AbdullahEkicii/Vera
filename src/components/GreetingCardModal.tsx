@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import {
   Modal,
   View,
@@ -7,7 +7,7 @@ import {
   Pressable,
   ScrollView,
   TextInput,
-  Dimensions,
+  useWindowDimensions,
   ActivityIndicator,
   Share,
 } from 'react-native';
@@ -22,9 +22,8 @@ import QRCode from 'react-native-qrcode-svg';
 
 import { useTheme } from '../context/ThemeContext';
 import { getStoreLink } from '../services/referralService';
-import { ct } from '../localization/content';
+import { useCt } from '../localization/content';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface Props {
   visible: boolean;
@@ -113,6 +112,9 @@ const CARD_THEMES = [
 
 export function GreetingCardModal({ visible, onClose, initialCategory }: Props) {
   const { t } = useTranslation();
+  const ct = useCt();
+  const { width: SCREEN_WIDTH } = useWindowDimensions();
+  const cardCanvasW = useMemo(() => ({ width: SCREEN_WIDTH - 48 }), [SCREEN_WIDTH]);
   const { isDark } = useTheme();
 
 
@@ -194,12 +196,12 @@ export function GreetingCardModal({ visible, onClose, initialCategory }: Props) 
                 <Text style={[styles.sheetTitle, { color: isDark ? '#FDF8ED' : '#1A1A24' }]}>
                   {t('greeting.modalTitle', 'Tebrik Kartı Oluşturucu')}
                 </Text>
-                <Text style={[styles.sheetSubtitle, { color: isDark ? 'rgba(253,248,237,0.6)' : 'rgba(26,26,36,0.6)' }]}>
+                <Text style={[styles.sheetSubtitle, { color: isDark ? 'rgba(253,248,237,0.75)' : 'rgba(26,26,36,0.75)' }]}>
                   {t('greeting.modalSubtitle', 'Cuma, Kandil ve Bayram tebriklerini şık görselle paylaşın')}
                 </Text>
               </View>
             </View>
-            <Pressable onPress={onClose} hitSlop={10}>
+            <Pressable onPress={onClose} hitSlop={12} style={styles.iconCloseBtn} accessibilityRole="button" accessibilityLabel={t('common.close', 'Close')}>
               <Feather name="x" size={20} color={isDark ? '#FDF8ED' : '#1A1A24'} />
             </Pressable>
           </View>
@@ -210,7 +212,7 @@ export function GreetingCardModal({ visible, onClose, initialCategory }: Props) 
               <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 1.0, result: 'tmpfile' }}>
                 <LinearGradient
                   colors={activeTheme.gradient}
-                  style={[styles.cardCanvas, { borderColor: activeTheme.border }]}
+                  style={[styles.cardCanvas, cardCanvasW, { borderColor: activeTheme.border }]}
                 >
                   {/* Decorative Frame */}
                   <View style={[styles.cardInnerBorder, { borderColor: activeTheme.goldAccent + '40' }]}>
@@ -231,7 +233,7 @@ export function GreetingCardModal({ visible, onClose, initialCategory }: Props) 
                       <View style={styles.watermarkMainRow}>
                         <View style={styles.watermarkBrandCol}>
                           <View style={[styles.appIconPill, { borderColor: activeTheme.goldAccent + '60', backgroundColor: 'rgba(0,0,0,0.25)' }]}>
-                            <Ionicons name="moon" size={11} color={activeTheme.goldAccent} style={{ marginRight: 4 }} />
+                            <Ionicons name="moon" size={11} color={activeTheme.goldAccent} style={{ marginEnd: 4 }} />
                             <Text style={[styles.watermarkAppName, { color: activeTheme.goldAccent }]}>
                               VERA
                             </Text>
@@ -295,7 +297,7 @@ export function GreetingCardModal({ visible, onClose, initialCategory }: Props) 
                 ]}
                 onPress={() => setIsCustomMode(true)}
               >
-                <Feather name="edit-3" size={13} color="#D4AF37" style={{ marginRight: 4 }} />
+                <Feather name="edit-3" size={13} color="#D4AF37" style={{ marginEnd: 4 }} />
                 <Text style={[styles.templateChipText, { color: isDark ? '#FDF8ED' : '#1A1A24' }]}>
                   {t('greeting.customMessage', 'Kendi Mesajını Yaz')}
                 </Text>
@@ -308,14 +310,14 @@ export function GreetingCardModal({ visible, onClose, initialCategory }: Props) 
                 <TextInput
                   style={[styles.customInput, { color: isDark ? '#FDF8ED' : '#1A1A24', backgroundColor: isDark ? '#2A1F13' : '#F5F5F0' }]}
                   placeholder={t('greeting.titlePlaceholder', 'Başlık (Örn: Hayırlı Cumalar)')}
-                  placeholderTextColor="rgba(150,150,150,0.6)"
+                  placeholderTextColor="rgba(150,150,150,0.85)"
                   value={customTitle}
                   onChangeText={setCustomTitle}
                 />
                 <TextInput
                   style={[styles.customInput, styles.customTextArea, { color: isDark ? '#FDF8ED' : '#1A1A24', backgroundColor: isDark ? '#2A1F13' : '#F5F5F0' }]}
                   placeholder={t('greeting.messagePlaceholder', 'Tebrik veya dua mesajınızı yazın...')}
-                  placeholderTextColor="rgba(150,150,150,0.6)"
+                  placeholderTextColor="rgba(150,150,150,0.85)"
                   multiline
                   value={customMessage}
                   onChangeText={setCustomMessage}
@@ -337,6 +339,8 @@ export function GreetingCardModal({ visible, onClose, initialCategory }: Props) 
                     { backgroundColor: thm.gradient[0] }
                   ]}
                   onPress={() => setSelectedThemeIndex(idx)}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: selectedThemeIndex === idx }}
                 >
                   <Text style={[styles.themeBtnText, { color: thm.primaryText }]}>
                     {t(`greeting.theme.${thm.id}`, thm.name)}
@@ -346,15 +350,15 @@ export function GreetingCardModal({ visible, onClose, initialCategory }: Props) 
             </View>
 
             {/* Share Buttons Row */}
-            <Pressable style={styles.shareBtnWrap} onPress={handleShare} disabled={isSharing}>
+            <Pressable style={styles.shareBtnWrap} onPress={handleShare} disabled={isSharing} accessibilityRole="button">
               <LinearGradient colors={['#D4AF37', '#B8860B']} style={styles.shareBtn} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
                 {isSharing ? (
                   <ActivityIndicator size="small" color="#1A1207" />
                 ) : (
                   <>
-                    <Ionicons name="image-outline" size={18} color="#1A1207" style={{ marginRight: 8 }} />
+                    <Ionicons name="image-outline" size={18} color="#1A1207" style={{ marginEnd: 8 }} />
                     <Text style={styles.shareBtnText}>
-                      {t('greeting.shareImageBtn', 'Görsel Olarak Paylaş 🌟')}
+                      {t('greeting.shareImageBtn', 'Görsel Olarak Paylaş')}
                     </Text>
                   </>
                 )}
@@ -364,10 +368,11 @@ export function GreetingCardModal({ visible, onClose, initialCategory }: Props) 
             <Pressable
               style={[styles.shareLinkBtn, { borderColor: isDark ? 'rgba(212, 175, 55, 0.4)' : 'rgba(0,0,0,0.12)', backgroundColor: isDark ? '#251B10' : '#F7F2E8' }]}
               onPress={handleShareTextAndLink}
+              accessibilityRole="button"
             >
-              <Ionicons name="link-outline" size={16} color="#D4AF37" style={{ marginRight: 6 }} />
+              <Ionicons name="link-outline" size={16} color="#D4AF37" style={{ marginEnd: 6 }} />
               <Text style={[styles.shareLinkBtnText, { color: isDark ? '#FDF8ED' : '#1A1A24' }]}>
-                {t('greeting.shareLinkBtn', 'Doğrudan Tıklanabilir Link Paylaş 🔗')}
+                {t('greeting.shareLinkBtn', 'Doğrudan Tıklanabilir Link Paylaş')}
               </Text>
             </Pressable>
           </ScrollView>
@@ -378,6 +383,12 @@ export function GreetingCardModal({ visible, onClose, initialCategory }: Props) 
 }
 
 const styles = StyleSheet.create({
+  iconCloseBtn: {
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.8)',
@@ -385,8 +396,8 @@ const styles = StyleSheet.create({
   },
   sheetContainer: {
     maxHeight: '92%',
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    borderTopStartRadius: 28,
+    borderTopEndRadius: 28,
     overflow: 'hidden',
   },
   sheetHeader: {
@@ -408,7 +419,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginEnd: 12,
   },
   sheetTitle: {
     fontFamily: 'Outfit_700Bold',
@@ -428,7 +439,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   cardCanvas: {
-    width: SCREEN_WIDTH - 48,
     borderRadius: 24,
     borderWidth: 1.5,
     padding: 12,
@@ -512,7 +522,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 3,
     borderRadius: 8,
-    marginLeft: 10,
+    marginStart: 10,
   },
   qrCodeLabel: {
     fontFamily: 'Outfit_600SemiBold',

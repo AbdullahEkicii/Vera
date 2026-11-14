@@ -11,10 +11,16 @@ import { logScreenView } from '../services/analyticsService';
 import { HAJJ_UMRAH_STEPS, HAJJ_UMRAH_CHECKLIST } from '../data/hajjUmrah';
 import { BannerAdSlot } from '../components/BannerAdSlot';
 import { useIsFocused } from '@react-navigation/native';
-import { ct } from '../localization/content';
+import { useCt } from '../localization/content';
+import { directionalIconStyle } from '../utils/rtl';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function HajjUmrahScreen() {
+  const insets = useSafeAreaInsets();
+  // Edge-to-edge / cut-out safe: StatusBar.currentHeight alone can be 0 or stale.
+  const topInset = Math.max(insets.top, StatusBar.currentHeight ?? 0);
   const { t, i18n } = useTranslation();
+  const ct = useCt();
   const { theme, isDark } = useTheme();
   const isFocused = useIsFocused();
   const isLangTR = i18n.language.startsWith('tr');
@@ -51,12 +57,14 @@ export default function HajjUmrahScreen() {
       <View style={styles.container}>
         <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} translucent backgroundColor="transparent" />
 
-        <View style={styles.header}>
+        <View style={[styles.header, { paddingTop: topInset + 16 }]}>
           <Pressable
             style={[styles.backBtn, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border }]}
             onPress={() => router.back()}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.back', 'Back')}
           >
-            <Feather name="arrow-left" size={20} color={theme.colors.text} />
+            <Feather name="arrow-left" size={20} color={theme.colors.text} style={directionalIconStyle} />
           </Pressable>
           <Text style={[styles.headerTitle, { color: theme.colors.text }]}>
             {t('hajjUmrah.title', 'Hac & Umre Rehberi')}
@@ -73,6 +81,8 @@ export default function HajjUmrahScreen() {
                 mode === m && [styles.segmentButtonActive, { backgroundColor: isDark ? '#2C2C2E' : '#FFF' }],
               ]}
               onPress={() => setMode(m)}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: mode === m }}
             >
               <Text style={[styles.segmentText, { color: mode === m ? theme.colors.text : theme.colors.textSecondary }]}>
                 {m === 'umrah' ? t('hajjUmrah.umrah', 'Umre') : t('hajjUmrah.hajj', 'Hac')}
@@ -97,7 +107,7 @@ export default function HajjUmrahScreen() {
                 >
                   <Pressable style={styles.stepHeader} onPress={() => toggleExpanded(step.id)}>
                     <View style={[styles.stepNumber, { backgroundColor: theme.colors.primary + '20' }]}>
-                      <Text style={[styles.stepNumberText, { color: theme.colors.primary }]}>{idx + 1}</Text>
+                      <Text style={[styles.stepNumberText, { color: theme.colors.primaryText }]}>{idx + 1}</Text>
                     </View>
                     <Text style={[styles.stepTitle, { color: theme.colors.text }]}>
                       {ct(`content.hajj.${step.id}.title`, step.titleTR, step.titleEN)}
@@ -178,13 +188,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'ios' ? 60 : (StatusBar.currentHeight ?? 24) + 16,
     paddingBottom: 12,
   },
   backBtn: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import React, { useEffect, useMemo } from 'react';
+import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -11,16 +11,12 @@ import Animated, {
   Easing,
   cancelAnimation,
 } from 'react-native-reanimated';
-import Svg, { Circle, G, Line, Path, Text as SvgText, Defs, RadialGradient, Stop } from 'react-native-svg';
+import Svg, { Circle, G, Line, Path, Rect, Text as SvgText, Defs, RadialGradient, Stop } from 'react-native-svg';
 import * as Haptics from 'expo-haptics';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
 import { typography } from '../utils/theme';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const COMPASS_SIZE = Math.min(SCREEN_WIDTH - 80, 240);
-const STROKE = COMPASS_SIZE * 0.04;
 
 interface QiblaCompassProps {
   heading: number;
@@ -58,6 +54,9 @@ function getShortestAngle(from: number, to: number): number {
 }
 
 export function QiblaCompass({ heading, qiblaAngle, distance, error, isActive = true }: QiblaCompassProps) {
+  const { width: SCREEN_WIDTH } = useWindowDimensions();
+  const COMPASS_SIZE = Math.min(SCREEN_WIDTH - 80, 240);
+  const STROKE = COMPASS_SIZE * 0.04;
   const { t } = useTranslation();
   const { theme, isDark } = useTheme();
 
@@ -141,6 +140,15 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error, isActive = 
 
   const CENTER = COMPASS_SIZE / 2;
   const R = CENTER - STROKE;
+  const outerSize = useMemo(() => ({ width: COMPASS_SIZE + 20, height: COMPASS_SIZE + 20 }), [COMPASS_SIZE]);
+  const glowSize = useMemo(
+    () => ({ width: COMPASS_SIZE + 20, height: COMPASS_SIZE + 20, borderRadius: (COMPASS_SIZE + 20) / 2 }),
+    [COMPASS_SIZE]
+  );
+  const ringSize = useMemo(
+    () => ({ width: COMPASS_SIZE, height: COMPASS_SIZE, borderRadius: COMPASS_SIZE / 2 }),
+    [COMPASS_SIZE]
+  );
 
   const pt = (angle: number, radius: number) => {
     const rad = ((angle - 90) * Math.PI) / 180;
@@ -160,14 +168,15 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error, isActive = 
   return (
     <View style={styles.container}>
       {/* Compass container */}
-      <View style={styles.compassOuter}>
+      <View style={[styles.compassOuter, outerSize]}>
         {/* Glow halo when aligned */}
-        <Animated.View style={[styles.alignedGlow, glowStyle, { backgroundColor: '#10B981' }]} />
+        <Animated.View style={[styles.alignedGlow, glowSize, glowStyle, { backgroundColor: '#10B981' }]} />
 
         {/* Outer Bezel Ring */}
         <Animated.View
           style={[
             styles.compassRing,
+            ringSize,
             ringStyle,
             {
               backgroundColor: isDark ? 'rgba(22, 17, 11, 0.92)' : 'rgba(255,255,255,0.98)',
@@ -291,9 +300,9 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error, isActive = 
                   stroke={aligned ? '#34D399' : '#D4AF37'}
                   strokeWidth={2}
                 />
-                <SvgText x={0} y={6} fontSize={16} textAnchor="middle">
-                  🕋
-                </SvgText>
+                {/* Kaaba glyph drawn as shapes instead of an emoji */}
+                <Rect x={-7} y={-7} width={14} height={14} rx={1.5} fill="#0B0B0B" stroke="#D4AF37" strokeWidth={1} />
+                <Rect x={-7} y={-3.5} width={14} height={2.5} fill="#D4AF37" />
               </G>
             </Svg>
           </View>
@@ -333,7 +342,7 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error, isActive = 
           name={aligned ? 'checkmark-circle' : 'compass-outline'}
           size={20}
           color={aligned ? '#10B981' : '#D4AF37'}
-          style={{ marginRight: 8 }}
+          style={{ marginEnd: 8 }}
         />
         <Text
           style={[
@@ -344,7 +353,7 @@ export function QiblaCompass({ heading, qiblaAngle, distance, error, isActive = 
           {error
             ? error
             : aligned
-            ? t('qibla.alignedSuccess', 'Kıble yönündesiniz! ✓')
+            ? t('qibla.alignedSuccess', 'Kıble yönündesiniz!')
             : t('qibla.aligning', 'Telefonu düz tutun ve döndürün')}
         </Text>
       </View>
@@ -403,22 +412,14 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   compassOuter: {
-    width: COMPASS_SIZE + 20,
-    height: COMPASS_SIZE + 20,
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 2,
   },
   alignedGlow: {
     position: 'absolute',
-    width: COMPASS_SIZE + 20,
-    height: COMPASS_SIZE + 20,
-    borderRadius: (COMPASS_SIZE + 20) / 2,
   },
   compassRing: {
-    width: COMPASS_SIZE,
-    height: COMPASS_SIZE,
-    borderRadius: COMPASS_SIZE / 2,
     borderWidth: 2.5,
     alignItems: 'center',
     justifyContent: 'center',

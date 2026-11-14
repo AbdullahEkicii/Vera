@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AppStorage as AsyncStorage } from '../services/storageService';
 import { InteractionManager } from 'react-native';
 import { loadQuranFont } from '../services/fontDownloader';
 

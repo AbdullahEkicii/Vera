@@ -2,7 +2,7 @@ import { Feather } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 import { logModalOpened } from '../services/analyticsService';
 import { DayData } from '../services/api';
@@ -22,8 +22,10 @@ export const WeeklyImsakiyeModal: React.FC<WeeklyImsakiyeModalProps> = ({
   data,
   cityName,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { theme, isDark } = useTheme();
+  // 7 days (the weekly view) or the next 30 days (a month at a glance).
+  const [range, setRange] = React.useState<7 | 30>(7);
 
   React.useEffect(() => {
     if (visible) {
@@ -39,9 +41,22 @@ export const WeeklyImsakiyeModal: React.FC<WeeklyImsakiyeModalProps> = ({
   const todayKey = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
   const allDays = data || [];
   const todayIdx = allDays.findIndex((d) => d.date?.gregorian?.date === todayKey);
-  const next7Days = allDays.slice(Math.max(todayIdx, 0), Math.max(todayIdx, 0) + 7);
+  const next7Days = allDays.slice(Math.max(todayIdx, 0), Math.max(todayIdx, 0) + range);
 
   const cleanTime = (tStr?: string) => (tStr ? tStr.split(' ')[0] : '--:--');
+
+  const handleShare = async () => {
+    const head = ['Date', 'Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    const lines = next7Days.map((d) => {
+      const [dd, mm] = d.date.gregorian.date.split('-');
+      const tm = d.timings;
+      return [`${dd}/${mm}`, cleanTime(tm.Fajr), cleanTime(tm.Sunrise), cleanTime(tm.Dhuhr), cleanTime(tm.Asr), cleanTime(tm.Maghrib), cleanTime(tm.Isha)].join('  ');
+    });
+    try {
+      await Share.share({ message: `${cityName}\n${head.join('  ')}\n${lines.join('\n')}\n\nVera` });
+    } catch {}
+  };
+  const isTr = (i18n.language || '').startsWith('tr');
 
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
@@ -64,12 +79,44 @@ export const WeeklyImsakiyeModal: React.FC<WeeklyImsakiyeModalProps> = ({
               <Text style={[styles.title, { color: theme.colors.text }]}>
                 {t('imsakiye.title', 'Weekly Imsakiye')}
               </Text>
-              <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
-                📍 {cityName} • {t('imsakiye.subtitle', 'Next 7 days timings')}
-              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                <Feather name="map-pin" size={12} color={theme.colors.textSecondary} />
+                <Text style={[styles.subtitle, { color: theme.colors.textSecondary, flexShrink: 1 }]}>
+                  {cityName} • {range === 7 ? t('imsakiye.subtitle', 'Next 7 days timings') : t('imsakiye.rangeDays', { defaultValue: isTr ? '{{n}} gün' : '{{n}} days', n: 30 })}
+                </Text>
+              </View>
             </View>
-            <Pressable onPress={onClose} hitSlop={10}>
+            <Pressable onPress={onClose} hitSlop={14} accessibilityRole="button" accessibilityLabel={t('common.close', 'Close')}>
               <Feather name="x" size={22} color={theme.colors.textSecondary} />
+            </Pressable>
+          </View>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+            {([7, 30] as const).map((n) => {
+              const active = range === n;
+              return (
+                <Pressable
+                  key={n}
+                  onPress={() => setRange(n)}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: active }}
+                  style={{ paddingVertical: 7, paddingHorizontal: 14, minHeight: 36, justifyContent: 'center', borderRadius: 10, backgroundColor: active ? theme.colors.primary : 'transparent', borderWidth: 1, borderColor: active ? theme.colors.primary : theme.colors.border }}
+                >
+                  <Text style={{ fontFamily: typography.fontFamily.semiBold, fontSize: 12, color: active ? '#1A1207' : theme.colors.text }}>
+                    {t('imsakiye.rangeDays', { defaultValue: isTr ? '{{n}} gün' : '{{n}} days', n })}
+                  </Text>
+                </Pressable>
+              );
+            })}
+            <View style={{ flex: 1 }} />
+            <Pressable
+              onPress={handleShare}
+              hitSlop={10}
+              accessibilityRole="button"
+              accessibilityLabel={t('common.share', { defaultValue: isTr ? 'Paylaş' : 'Share' })}
+              style={{ width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: theme.colors.border }}
+            >
+              <Feather name="share-2" size={15} color={theme.colors.primary} />
             </Pressable>
           </View>
 
@@ -85,7 +132,7 @@ export const WeeklyImsakiyeModal: React.FC<WeeklyImsakiyeModalProps> = ({
           </View>
 
           {/* Table Rows */}
-          <ScrollView style={{ maxHeight: 380 }} showsVerticalScrollIndicator={false}>
+          <ScrollView style={{ maxHeight: 340 }} showsVerticalScrollIndicator={false}>
             {next7Days.map((day, idx) => {
               const dateParts = day.date.gregorian.date.split('-'); // DD-MM-YYYY
               const formattedDate = `${dateParts[0]}/${dateParts[1]}`;
@@ -105,7 +152,7 @@ export const WeeklyImsakiyeModal: React.FC<WeeklyImsakiyeModalProps> = ({
                   ]}
                 >
                   <Text style={[styles.colCellDate, { color: isToday ? '#D4AF37' : theme.colors.text }]}>
-                    {formattedDate} {isToday ? '★' : ''}
+                    {formattedDate}
                   </Text>
                   <Text style={[styles.colCell, { color: theme.colors.text }]}>{cleanTime(day.timings.Fajr)}</Text>
                   <Text style={[styles.colCell, { color: theme.colors.textSecondary }]}>{cleanTime(day.timings.Sunrise)}</Text>
@@ -182,7 +229,7 @@ const styles = StyleSheet.create({
   colHeader: {
     flex: 1,
     fontFamily: typography.fontFamily.bold,
-    fontSize: 11,
+    fontSize: 12,
     textAlign: 'center',
   },
   tableRow: {
@@ -202,7 +249,7 @@ const styles = StyleSheet.create({
   colCell: {
     flex: 1,
     fontFamily: typography.fontFamily.medium,
-    fontSize: 11,
+    fontSize: 12,
     textAlign: 'center',
   },
 });

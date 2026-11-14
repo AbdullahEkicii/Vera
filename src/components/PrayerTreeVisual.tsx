@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '../context/ThemeContext';
 import { typography } from '../utils/theme';
+import { toLocalIsoDay } from '../utils/zonedTime';
 
 export interface DayPrayerLog {
   date: string; // YYYY-MM-DD
@@ -44,7 +45,7 @@ export function PrayerTreeVisual({ allLogs, streakCount }: Props) {
     for (let i = 0; i < 7; i++) {
       const d = new Date(monday);
       d.setDate(monday.getDate() + i);
-      const dateStr = d.toISOString().split('T')[0];
+      const dateStr = toLocalIsoDay(d);
       const log = allLogs[dateStr] || {
         date: dateStr,
         fajr: false,
@@ -57,7 +58,7 @@ export function PrayerTreeVisual({ allLogs, streakCount }: Props) {
       const completedCount = PRAYER_KEYS.filter((k) => log[k] === true).length;
       const rawDay = d.toLocaleDateString(i18n.language, { weekday: 'short' });
       const dayName = (rawDay || '').replace('.', '').slice(0, 3);
-      const isToday = dateStr === today.toISOString().split('T')[0];
+      const isToday = dateStr === toLocalIsoDay(today);
       const isPastOrToday = d <= today;
 
       days.push({
@@ -96,7 +97,10 @@ export function PrayerTreeVisual({ allLogs, streakCount }: Props) {
         </View>
 
         <View style={[styles.streakBadge, { backgroundColor: 'rgba(245,158,11,0.15)', borderColor: 'rgba(245,158,11,0.3)' }]}>
-          <Text style={styles.streakText} numberOfLines={1}>🔥 {streakCount} {t('checklist.streakDays', 'Gün')}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+            <Ionicons name="flame" size={14} color="#F59E0B" />
+            <Text style={[styles.streakText, { color: isDark ? '#FBBF24' : '#92400E' }]} numberOfLines={1}>{streakCount} {t('checklist.streakDays', 'Gün')}</Text>
+          </View>
         </View>
       </View>
 
@@ -186,10 +190,10 @@ export function PrayerTreeVisual({ allLogs, streakCount }: Props) {
       <View style={[styles.motivationBox, { backgroundColor: isDark ? 'rgba(16,185,129,0.08)' : 'rgba(16,185,129,0.06)' }]}>
         <Text style={[styles.motivationText, { color: isDark ? '#A7F3D0' : '#065F46' }]}>
           {weekPercentage >= 80
-            ? '🌿 ' + t('prayerTree.quoteHigh', '“Namaz dinin direğidir.” — Harika bir hafta geçiriyorsunuz, maşallah!')
+            ? t('prayerTree.quoteHigh', '“Namaz dinin direğidir.” — Harika bir hafta geçiriyorsunuz, maşallah!')
             : weekPercentage >= 50
-            ? '🌱 ' + t('prayerTree.quoteMid', '“Namaz kılın, zekat verin ve rüku edenlerle birlikte rüku edin.” (Bakara, 43)')
-            : '🍃 ' + t('prayerTree.quoteLow', '“Şüphesiz namaz, müminler üzerine vakitleri belirlenmiş bir farzdır.” (Nisa, 103)')}
+            ? t('prayerTree.quoteMid', '“Namaz kılın, zekat verin ve rüku edenlerle birlikte rüku edin.” (Bakara, 43)')
+            : t('prayerTree.quoteLow', '“Şüphesiz namaz, müminler üzerine vakitleri belirlenmiş bir farzdır.” (Nisa, 103)')}
         </Text>
       </View>
 
@@ -222,7 +226,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginRight: 4,
+    marginEnd: 4,
   },
   iconBadge: {
     width: 32,
@@ -251,7 +255,7 @@ const styles = StyleSheet.create({
   },
   streakText: {
     fontFamily: typography.fontFamily.bold,
-    fontSize: 11,
+    fontSize: 12,
     color: '#D97706',
   },
   statusBox: {
@@ -267,7 +271,7 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontFamily.medium,
     fontSize: 11.5,
     flex: 1,
-    marginRight: 6,
+    marginEnd: 6,
   },
   scorePercent: {
     fontFamily: typography.fontFamily.bold,
@@ -342,7 +346,7 @@ const styles = StyleSheet.create({
   },
   motivationText: {
     fontFamily: typography.fontFamily.regular,
-    fontSize: 10.5,
+    fontSize: 12,
     lineHeight: 15,
     textAlign: 'center',
   },

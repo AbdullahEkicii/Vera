@@ -2,8 +2,25 @@ import { AppStorage as AsyncStorage } from './storageService';
 
 import { calculateOfflinePrayerTimes } from './offlinePrayerService';
 import { HIJRI_MONTHS_TR, RELIGIOUS_DAY_DEFS, ReligiousDay } from '../data/religiousDays';
+import * as Localization from 'expo-localization';
+import { addCalendarDays, getDeviceTimeZone, getZonedDate, toLocalIsoDay } from '../utils/zonedTime';
 
 const CACHE_KEY = 'PRAYER_TIMES_CACHE';
+const devLog = (...args: any[]) => { if (__DEV__) console.log(...args); };
+
+// A stalled mobile connection must not leave a first-install user on the loading
+// spinner: abort and let the on-device calculation take over.
+const PRAYER_FETCH_TIMEOUT_MS = 8000;
+
+const fetchWithTimeout = async (url: string): Promise<Response> => {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), PRAYER_FETCH_TIMEOUT_MS);
+  try {
+    return await fetch(url, { signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+};
 
 // Aladhan API Types
 export interface PrayerTimes {
@@ -31,6 +48,8 @@ export interface DayData {
       year: string;
     };
   };
+  // Present on Aladhan responses; `timezone` is the IANA zone the "HH:mm" timings are in.
+  meta?: { timezone?: string };
 }
 
 export interface CachedData {
@@ -39,8 +58,35 @@ export interface CachedData {
   latitude: number;
   longitude: number;
   method: number;
+  // Asr school (0 = Shafi/standard, 1 = Hanafi). Absent in caches written before the setting existed.
+  school?: number;
+  // Bumped when the shape/semantics of cached data change, so old caches are refetched once.
+  version?: number;
   data: DayData[];
 }
+
+export const ASR_SCHOOL_KEY = 'PRAYER_ASR_SCHOOL';
+const CACHE_VERSION = 2;
+
+// South Asia and Afghanistan follow the Hanafi (later) Asr; everyone else defaults to standard.
+const HANAFI_REGIONS = ['PK', 'IN', 'BD', 'AF'];
+
+export const getAsrSchool = async (): Promise<0 | 1> => {
+  try {
+    const saved = await AsyncStorage.getItem(ASR_SCHOOL_KEY);
+    if (saved === '0' || saved === '1') return saved === '1' ? 1 : 0;
+    const region = (Localization.getLocales()[0]?.regionCode || '').toUpperCase();
+    return HANAFI_REGIONS.includes(region) ? 1 : 0;
+  } catch {
+    return 0;
+  }
+};
+
+// A month of API data is only worth caching if it looks like one.
+const isUsableMonth = (data: unknown): data is DayData[] =>
+  Array.isArray(data) &&
+  data.length >= 28 &&
+  data.every((d: any) => d?.timings?.Fajr && d?.date?.gregorian?.date);
 
 export const autoDetectCalculationMethod = (latitude: number, longitude: number): number => {
   // 1. Turkey (Lat 35.5 - 42.5, Lng 25.0 - 45.0) -> Diyanet (13)
@@ -85,6 +131,25 @@ export const autoDetectCalculationMethod = (latitude: number, longitude: number)
 
   // 9. Rest of World (Europe, UK, SE Asia, Australia, LatAm, Africa) -> Muslim World League (3)
   return 3;
+};
+
+/**
+ * The method used for a location. A saved method wins only when the user chose it in Settings.
+ * An automatically saved one can be stale or wrong (for example guessed from the phone's region
+ * before the location was known), so inside Turkey it is replaced by Diyanet: every Turkish city
+ * checked against Diyanet's own times is within a minute with it, and 5-8 minutes off without it.
+ */
+export const resolveCalculationMethod = async (latitude: number, longitude: number): Promise<number> => {
+  const saved = await AsyncStorage.getItem('PRAYER_CALCULATION_METHOD');
+  const parsed = saved ? parseInt(saved, 10) : NaN;
+  const userSet = (await AsyncStorage.getItem('PRAYER_METHOD_USER_SET')) === 'true';
+  const detected = autoDetectCalculationMethod(latitude, longitude);
+  if (!userSet && detected === 13) {
+    // Keep what Settings shows in step with what is used.
+    if (parsed !== 13) AsyncStorage.setItem('PRAYER_CALCULATION_METHOD', '13').catch(() => {});
+    return 13;
+  }
+  return Number.isFinite(parsed) ? parsed : detected;
 };
 
 export const getCachedPrayerTimes = async (): Promise<CachedData | null> => {
@@ -178,6 +243,50 @@ export function applyOffsetsToData(data: DayData[], offsets: PrayerOffsets): Day
   }));
 }
 
+// ── Hijri day adjustment ────────────────────────────────────────────────────────────────
+// Countries and mosques announce the Hijri date a day apart. One user-chosen offset (-2..+2)
+// is applied wherever a Hijri date is shown or a Hijri-derived day is placed on the Gregorian
+// calendar: home header, religious days and nights, Ramadan calendar. Cached API data stays raw.
+export const HIJRI_OFFSET_KEY = 'HIJRI_DAY_OFFSET';
+export const HIJRI_OFFSET_CHANGED_EVENT = 'HIJRI_OFFSET_CHANGED';
+let hijriOffset = 0;
+
+const clampHijriOffset = (n: number) => (Number.isFinite(n) ? Math.max(-2, Math.min(2, Math.round(n))) : 0);
+
+export const getHijriOffset = async (): Promise<number> => {
+  try {
+    const raw = await AsyncStorage.getItem(HIJRI_OFFSET_KEY);
+    hijriOffset = clampHijriOffset(raw ? parseInt(raw, 10) : 0);
+  } catch {}
+  return hijriOffset;
+};
+
+export const setHijriOffset = async (value: number): Promise<number> => {
+  hijriOffset = clampHijriOffset(value);
+  await AsyncStorage.setItem(HIJRI_OFFSET_KEY, String(hijriOffset));
+  return hijriOffset;
+};
+
+getHijriOffset();
+
+/** The Hijri date shown for a day: that of the neighbouring day when the user shifts it. */
+const shiftHijri = (data: DayData[], index: number, offset: number) => {
+  const own = data[index].date.hijri;
+  if (!offset) return own;
+  const neighbour = data[index + offset];
+  if (neighbour) return neighbour.date.hijri;
+  // Edge of the cached window: shift the day number inside the month (every month has 29+ days).
+  const day = Number(own.day) + offset;
+  return day >= 1 && day <= 29 ? { ...own, day: String(day).padStart(2, '0') } : own;
+};
+
+const shiftDdMmYyyy = (value: string, days: number): string => {
+  const [dd, mm, yyyy] = value.split('-').map(Number);
+  if (!dd || !mm || !yyyy) return value;
+  const d = new Date(yyyy, mm - 1, dd + days);
+  return `${String(d.getDate()).padStart(2, '0')}-${String(d.getMonth() + 1).padStart(2, '0')}-${d.getFullYear()}`;
+};
+
 // Active in-flight requests map to avoid duplicate concurrent network calls
 const activePrayerRequests = new Map<string, Promise<DayData[]>>();
 
@@ -186,15 +295,18 @@ export const fetchPrayerTimes = async (latitude: number, longitude: number): Pro
   const year = date.getFullYear();
   const month = date.getMonth() + 1; // 1-12
 
-  const savedMethod = await AsyncStorage.getItem('PRAYER_CALCULATION_METHOD');
-  const method = savedMethod ? parseInt(savedMethod, 10) : autoDetectCalculationMethod(latitude, longitude);
+  const method = await resolveCalculationMethod(latitude, longitude);
+  const school = await getAsrSchool();
+  // Same Hijri calendar as the Ramadan / religious-day screens, or the home date can differ by a day.
+  const hijriCalendarMethod = method === 13 ? 'DIYANET' : 'HJCoSA';
   const offsets = await getPrayerOffsets();
+  await getHijriOffset();
 
   // Deduplication Key (rounded to 2 decimal places to catch micro-GPS jitter)
-  const reqKey = `${latitude.toFixed(2)}_${longitude.toFixed(2)}_${year}_${month}_${method}`;
+  const reqKey = `${latitude.toFixed(2)}_${longitude.toFixed(2)}_${year}_${month}_${method}_${school}`;
 
   if (activePrayerRequests.has(reqKey)) {
-    console.log('Sharing in-flight prayer times request:', reqKey);
+    devLog('Sharing in-flight prayer times request:', reqKey);
     const inFlightData = await activePrayerRequests.get(reqKey)!;
     return applyOffsetsToData(inFlightData, offsets);
   }
@@ -209,10 +321,10 @@ export const fetchPrayerTimes = async (latitude: number, longitude: number): Pro
       const isSameLocation = 
         Math.abs(cached.latitude - latitude) < 0.1 && 
         Math.abs(cached.longitude - longitude) < 0.1;
-      const isSameMethod = cached.method === method;
+      const isSameMethod = cached.method === method && (cached.school ?? 0) === school && cached.version === CACHE_VERSION;
 
-      if (cached.year === year && cached.month === month && isSameLocation && isSameMethod) {
-        console.log('Returning cached prayer times');
+      if (cached.year === year && cached.month === month && isSameLocation && isSameMethod && isUsableMonth(cached.data)) {
+        devLog('Returning cached prayer times');
         lastPrayerTimesWereEstimated = false;
         // Raw times: offsets are applied once, after the promise resolves below.
         return cached.data;
@@ -221,9 +333,9 @@ export const fetchPrayerTimes = async (latitude: number, longitude: number): Pro
 
     // Fetch from Aladhan API (current month and next month for 30+ days coverage)
     const highLatParam = Math.abs(latitude) > 45 ? '&latitudeAdjustmentMethod=3' : '';
-    console.log(`Fetching new prayer times from API using method ${method}... (highLat: ${Math.abs(latitude) > 45})`);
-    const response = await fetch(
-      `https://api.aladhan.com/v1/calendar/${year}/${month}?latitude=${latitude}&longitude=${longitude}&method=${method}${highLatParam}`
+    devLog(`Fetching new prayer times from API using method ${method}... (highLat: ${Math.abs(latitude) > 45})`);
+    const response = await fetchWithTimeout(
+      `https://api.aladhan.com/v1/calendar/${year}/${month}?latitude=${latitude}&longitude=${longitude}&method=${method}&school=${school}&calendarMethod=${hijriCalendarMethod}${highLatParam}`
     );
 
     if (!response.ok) {
@@ -231,14 +343,18 @@ export const fetchPrayerTimes = async (latitude: number, longitude: number): Pro
     }
 
     const json = await response.json();
-    let data: DayData[] = json.data || [];
+    // An empty or malformed 200 must not be cached for a month: fall through to the estimate.
+    if (!isUsableMonth(json?.data)) {
+      throw new Error('Unexpected prayer times payload');
+    }
+    let data: DayData[] = json.data;
 
     try {
       const nextMonthDate = new Date(year, month, 1);
       const nextYear = nextMonthDate.getFullYear();
       const nextMonth = nextMonthDate.getMonth() + 1;
-      const nextResponse = await fetch(
-        `https://api.aladhan.com/v1/calendar/${nextYear}/${nextMonth}?latitude=${latitude}&longitude=${longitude}&method=${method}${highLatParam}`
+      const nextResponse = await fetchWithTimeout(
+        `https://api.aladhan.com/v1/calendar/${nextYear}/${nextMonth}?latitude=${latitude}&longitude=${longitude}&method=${method}&school=${school}&calendarMethod=${hijriCalendarMethod}${highLatParam}`
       );
       if (nextResponse.ok) {
         const nextJson = await nextResponse.json();
@@ -257,6 +373,8 @@ export const fetchPrayerTimes = async (latitude: number, longitude: number): Pro
         latitude,
         longitude,
         method,
+        school,
+        version: CACHE_VERSION,
         data,
       };
       await AsyncStorage.setItem(CACHE_KEY, JSON.stringify(cacheToSave));
@@ -270,8 +388,14 @@ export const fetchPrayerTimes = async (latitude: number, longitude: number): Pro
         const fallbackCache = await AsyncStorage.getItem(CACHE_KEY);
         if (fallbackCache) {
           const cached: CachedData = JSON.parse(fallbackCache);
-          if (cached.data && cached.data.length > 0) {
-            console.log('Returning fallback offline cached prayer times');
+          // Only reuse the cache when it is still the right answer: same place, method and Asr
+          // school, and it still covers today. Anything else is worse than an on-device estimate.
+          const sameLocation =
+            Math.abs(cached.latitude - latitude) < 0.1 &&
+            Math.abs(cached.longitude - longitude) < 0.1;
+          const sameSettings = cached.method === method && (cached.school ?? 0) === school;
+          if (sameLocation && sameSettings && Array.isArray(cached.data) && getTodayPrayerTimes(cached.data)) {
+            devLog('Returning fallback offline cached prayer times');
             lastPrayerTimesWereEstimated = false;
             return cached.data;
           }
@@ -281,9 +405,9 @@ export const fetchPrayerTimes = async (latitude: number, longitude: number): Pro
       }
 
       // Fallback: On-device mathematical calculation with adhan library
-      console.log('Calculating instant on-device offline prayer times');
+      devLog('Calculating instant on-device offline prayer times');
       lastPrayerTimesWereEstimated = true;
-      return calculateOfflinePrayerTimes(latitude, longitude, method, 35);
+      return calculateOfflinePrayerTimes(latitude, longitude, method, 35, school);
     } finally {
       activePrayerRequests.delete(reqKey);
     }
@@ -305,14 +429,13 @@ export const fetchRamadanCalendar = async (
   latitude: number,
   longitude: number
 ): Promise<{ hijriYear: number; days: DayData[] }> => {
-  const savedMethod = await AsyncStorage.getItem('PRAYER_CALCULATION_METHOD');
-  const method = savedMethod ? parseInt(savedMethod, 10) : autoDetectCalculationMethod(latitude, longitude);
+  const method = await resolveCalculationMethod(latitude, longitude);
   const calendarMethod = method === 13 ? 'DIYANET' : 'HJCoSA';
   const offsets = await getPrayerOffsets();
 
   const now = new Date();
   const today = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
-  const gToH = await fetch(`https://api.aladhan.com/v1/gToH/${today}?calendarMethod=${calendarMethod}`);
+  const gToH = await fetchWithTimeout(`https://api.aladhan.com/v1/gToH/${today}?calendarMethod=${calendarMethod}`);
   if (!gToH.ok) throw new Error(`gToH failed: ${gToH.status}`);
   const hijri = (await gToH.json()).data.hijri;
   const hijriMonth = Number(hijri.month.number);
@@ -321,16 +444,22 @@ export const fetchRamadanCalendar = async (
 
   const cacheKey = `${latitude.toFixed(2)}_${longitude.toFixed(2)}_${hijriYear}_${method}`;
   const cached = ramadanCache.get(cacheKey);
-  if (cached) return { hijriYear, days: applyOffsetsToData(cached.days, offsets) };
+  const shift = await getHijriOffset();
+  // A Hijri day that falls one day earlier on the calendar moves its date, not its (near identical) timings.
+  const placeOnCalendar = (list: DayData[]): DayData[] =>
+    shift === 0
+      ? list
+      : list.map((d) => ({ ...d, date: { ...d.date, gregorian: { ...d.date.gregorian, date: shiftDdMmYyyy(d.date.gregorian.date, -shift) } } }));
+  if (cached) return { hijriYear, days: placeOnCalendar(applyOffsetsToData(cached.days, offsets)) };
 
   const highLatParam = Math.abs(latitude) > 45 ? '&latitudeAdjustmentMethod=3' : '';
-  const res = await fetch(
+  const res = await fetchWithTimeout(
     `https://api.aladhan.com/v1/hijriCalendar/${hijriYear}/9?latitude=${latitude}&longitude=${longitude}&method=${method}&calendarMethod=${calendarMethod}${highLatParam}`
   );
   if (!res.ok) throw new Error(`hijriCalendar failed: ${res.status}`);
   const days: DayData[] = (await res.json()).data || [];
   ramadanCache.set(cacheKey, { hijriYear, days });
-  return { hijriYear, days: applyOffsetsToData(days, offsets) };
+  return { hijriYear, days: placeOnCalendar(applyOffsetsToData(days, offsets)) };
 };
 
 // The API rate-limits bursts (429/5xx on ~20 parallel calls), so callers go one at a
@@ -338,7 +467,7 @@ export const fetchRamadanCalendar = async (
 const hToG = async (day: number, month: number, year: number, calendarMethod: string): Promise<Date> => {
   const url = `https://api.aladhan.com/v1/hToG/${String(day).padStart(2, '0')}-${String(month).padStart(2, '0')}-${year}?calendarMethod=${calendarMethod}`;
   for (let attempt = 1; ; attempt++) {
-    const res = await fetch(url);
+    const res = await fetchWithTimeout(url);
     if (res.ok) {
       const [dd, mm, yyyy] = (await res.json()).data.gregorian.date.split('-').map(Number);
       return new Date(yyyy, mm - 1, dd);
@@ -422,7 +551,7 @@ export const fetchReligiousDays = async (): Promise<ReligiousDay[]> => {
 
   const now = new Date();
   const today = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
-  const gToH = await fetch(`https://api.aladhan.com/v1/gToH/${today}?calendarMethod=${calendarMethod}`);
+  const gToH = await fetchWithTimeout(`https://api.aladhan.com/v1/gToH/${today}?calendarMethod=${calendarMethod}`);
   if (!gToH.ok) throw new Error(`gToH failed: ${gToH.status}`);
   const currentHijriYear = Number((await gToH.json()).data.hijri.year);
 
@@ -445,23 +574,44 @@ export const fetchReligiousDays = async (): Promise<ReligiousDay[]> => {
 
   const todayIso = toIsoDate(now);
   const horizonIso = toIsoDate(addDays(now, 366));
+  const shift = await getHijriOffset();
+  const place = (d: ReligiousDay): ReligiousDay => {
+    if (!shift) return d;
+    const [y, m, dd] = d.gregorianDate.split('-').map(Number);
+    return { ...d, gregorianDate: toIsoDate(new Date(y, m - 1, dd - shift)) };
+  };
   return perYear
     .flat()
+    .map(place)
     .filter((d) => d.gregorianDate >= todayIso && d.gregorianDate <= horizonIso)
     .sort((a, b) => a.gregorianDate.localeCompare(b.gregorianDate));
 };
 
 // Helper function to extract cleanly formatted times for today
+// The IANA zone the data's "HH:mm" timings are in (Aladhan meta.timezone). On-device estimates
+// carry no meta and are expressed in the device zone.
+export const getDataTimeZone = (data: DayData[]): string => {
+  for (const d of data) {
+    const tz = d.meta?.timezone;
+    if (tz) return tz;
+  }
+  return getDeviceTimeZone();
+};
+
+const formatDayKey = (d: { y: number; mo: number; d: number }) =>
+  `${String(d.d).padStart(2, '0')}-${String(d.mo).padStart(2, '0')}-${d.y}`; // DD-MM-YYYY
+
 export const getTodayPrayerTimes = (data: DayData[]) => {
-  const date = new Date();
-  const dayStr = String(date.getDate()).padStart(2, '0');
-  const monthStr = String(date.getMonth() + 1).padStart(2, '0');
-  const yearStr = date.getFullYear();
-  const todayFormatted = `${dayStr}-${monthStr}-${yearStr}`; // DD-MM-YYYY
+  // "Today" is the date in the city's zone, not the phone's.
+  const timeZone = getDataTimeZone(data);
+  const today = getZonedDate(Date.now(), timeZone);
+  const todayFormatted = formatDayKey(today);
 
   const todayData = data.find((d) => d.date.gregorian.date === todayFormatted);
-  
+
   if (!todayData) return null;
+
+  const tomorrowData = data.find((d) => d.date.gregorian.date === formatDayKey(addCalendarDays(today, 1)));
 
   // Clean times (Aladhan returns '04:30 (EEST)', we need '04:30')
   const cleanTime = (time: string) => time.split(' ')[0];
@@ -473,8 +623,12 @@ export const getTodayPrayerTimes = (data: DayData[]) => {
     asr: cleanTime(todayData.timings.Asr),
     maghrib: cleanTime(todayData.timings.Maghrib),
     isha: cleanTime(todayData.timings.Isha),
-    hijri: todayData.date.hijri,
+    hijri: shiftHijri(data, data.indexOf(todayData), hijriOffset),
     gregorian: todayData.date.gregorian,
+    // Needed to turn the clock strings above into absolute moments (countdown, alarms).
+    zone: { timeZone, y: today.y, mo: today.mo, d: today.d },
+    // Tomorrow's Fajr, so the post-Isha countdown targets the real next Fajr, not today's.
+    tomorrowFajr: tomorrowData ? cleanTime(tomorrowData.timings.Fajr) : undefined,
   };
 };
 
@@ -507,7 +661,7 @@ export const fetchWeather = async (latitude: number, longitude: number): Promise
   }
 
   try {
-    const response = await fetch(
+    const response = await fetchWithTimeout(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code`
     );
     if (!response.ok) return null;
@@ -581,7 +735,7 @@ export interface DetailedWeatherData {
 
 export const fetchWeatherForecast = async (latitude: number, longitude: number): Promise<ForecastDay[]> => {
   try {
-    const response = await fetch(
+    const response = await fetchWithTimeout(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`
     );
     if (!response.ok) return [];
@@ -615,7 +769,7 @@ export const fetchDetailedWeather = async (latitude: number, longitude: number):
   }
 
   try {
-    const response = await fetch(
+    const response = await fetchWithTimeout(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,uv_index&hourly=temperature_2m,precipitation_probability,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max,wind_speed_10m_max&timezone=auto`
     );
     if (!response.ok) return null;
@@ -641,7 +795,7 @@ export const fetchDetailedWeather = async (latitude: number, longitude: number):
       const now = new Date();
       const currentHour = now.getHours();
       // Find start hour
-      const todayDatePrefix = now.toISOString().split('T')[0];
+      const todayDatePrefix = toLocalIsoDay(now);
       let startIndex = hourly.time.findIndex((t: string) => t.startsWith(`${todayDatePrefix}T${String(currentHour).padStart(2, '0')}`));
       if (startIndex === -1) startIndex = 0;
 

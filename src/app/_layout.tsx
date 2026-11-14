@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { Slot, SplashScreen, router } from 'expo-router';
 import notifee, { EventType } from '@notifee/react-native';
+import '../utils/intlDisplayNames';
 import { audioManager } from '../services/audioManager';
+import { flushFeedbackOutbox } from '../services/feedbackService';
 import { useFonts, Outfit_400Regular, Outfit_500Medium, Outfit_600SemiBold, Outfit_700Bold } from '@expo-google-fonts/outfit';
 import { ThemeProvider } from '../context/ThemeContext';
 import { QuranSettingsProvider } from '../context/QuranSettingsContext';
@@ -12,14 +14,22 @@ import { ErrorBoundary } from '../components/ErrorBoundary';
 import { registerBackgroundPrayerRefreshTask } from '../services/backgroundTaskService';
 import { allowAdsConsentFlow, initializeAdsWithConsent } from '../services/adsConsentService';
 import { reportError } from '../services/crashReportingService';
+import { recordDeliveredAlert } from '../services/deliveryLog';
 import { initializePushNotifications } from '../services/pushNotificationService';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  getInitialNotification,
+  getMessaging,
+  onNotificationOpenedApp,
+  type RemoteMessage,
+} from '@react-native-firebase/messaging';
+import { AppStorage as AsyncStorage } from '../services/storageService';
 import { changeAppLanguage } from '../localization/i18n';
-import { View, StyleSheet, Platform, InteractionManager } from 'react-native';
-import * as NavigationBar from 'expo-navigation-bar';
+import { HOME_TAB, homeTabParams } from '../utils/homeTabRoute';
+import { logNotificationOpened } from '../services/analyticsService';
+import { View, StyleSheet, InteractionManager } from 'react-native';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync().catch(() => {});
 
 // Global Error Handler for uncaught JS errors
 if (typeof ErrorUtils !== 'undefined') {
@@ -46,7 +56,7 @@ function isNotificationFresh(detail: any) {
   }
   if (!notifTime) return true;
   const now = Date.now();
-  return Math.abs(now - notifTime) <= 2 * 60 * 1000;
+  return Math.abs(now - notifTime) <= 6 * 60 * 60 * 1000;
 }
 
 export default function RootLayout() {
@@ -64,6 +74,10 @@ export default function RootLayout() {
 
   useEffect(() => {
     const unsubscribe = notifee.onForegroundEvent(({ type, detail }) => {
+      if (type === EventType.DELIVERED || type === EventType.PRESS) {
+        const data = detail.notification?.data;
+        if (data?.type === 'exact') recordDeliveredAlert(Number(data.timestamp)).catch(() => {});
+      }
       if (type === EventType.ACTION_PRESS) {
         if (detail.pressAction?.id === 'stop_sound') {
           console.log('Stop sound action pressed in foreground');
@@ -76,9 +90,9 @@ export default function RootLayout() {
         // Stop any playing adhan audio when tapping the notification to enter the app
         audioManager.stopAdhan();
 
-        if (!isNotificationFresh(detail)) return;
-
+        // The user tapped it themselves: open its target however long it sat in the tray.
         const notifType = detail.notification?.data?.type;
+        if (notifType) void logNotificationOpened(String(notifType), 'tap');
         setTimeout(() => {
           try {
             if (notifType === 'daily_content') {
@@ -86,7 +100,10 @@ export default function RootLayout() {
             } else if (notifType === 'quran') {
               router.replace({ pathname: '/(tabs)', params: { tab: '0' } });
             } else if (notifType === 'names') {
-              router.replace({ pathname: '/(tabs)', params: { tab: '4' } });
+              router.replace({ pathname: '/(tabs)', params: { tab: '5' } });
+            } else if (notifType === 'community_reminder' || notifType === 'community_feed') {
+              // Tab 3 is the Ummah (community) tab.
+              router.replace({ pathname: '/(tabs)', params: homeTabParams(HOME_TAB.community) });
             } else if (notifType === 'greeting') {
               const occasion = String(detail.notification?.data?.occasion ?? 'cuma');
               router.replace({ pathname: '/(tabs)', params: { tab: '2', open: 'greeting', occasion } });
@@ -101,6 +118,32 @@ export default function RootLayout() {
     return unsubscribe;
   }, []);
 
+  // Feedback that could not be delivered earlier (no signal) is re-sent once the app is up.
+  useEffect(() => {
+    if (!isAppReady) return;
+    flushFeedbackOutbox().catch(() => {});
+  }, [isAppReady]);
+
+  // Taps on FCM tray notifications (the automatic-post announcement) open the Ummah tab's daily feed.
+  useEffect(() => {
+    if (!isAppReady || !isSplashAnimationComplete) return;
+    const openFeed = (message: RemoteMessage | null | undefined) => {
+      if (message?.data?.type !== 'community_feed') return;
+      void logNotificationOpened('community_feed', 'fcm_tap');
+      setTimeout(() => {
+        try {
+          router.replace({ pathname: '/(tabs)', params: homeTabParams(HOME_TAB.community) });
+        } catch (e) {
+          console.error('Error opening community feed from push:', e);
+        }
+      }, 500);
+    };
+    const messaging = getMessaging();
+    const unsubscribe = onNotificationOpenedApp(messaging, openFeed);
+    getInitialNotification(messaging).then(openFeed).catch(() => {});
+    return unsubscribe;
+  }, [isAppReady, isSplashAnimationComplete]);
+
   useEffect(() => {
     if (isAppReady && isSplashAnimationComplete && !hasHandledInitialNotif.current) {
       hasHandledInitialNotif.current = true;
@@ -108,6 +151,7 @@ export default function RootLayout() {
         const notifType = initialNotification?.notification?.data?.type;
         if (!notifType) return;
         if (!isNotificationFresh(initialNotification)) return;
+        void logNotificationOpened(String(notifType), 'initial');
         setTimeout(() => {
           try {
             if (notifType === 'daily_content') {
@@ -115,7 +159,10 @@ export default function RootLayout() {
             } else if (notifType === 'quran') {
               router.replace({ pathname: '/(tabs)', params: { tab: '0' } });
             } else if (notifType === 'names') {
-              router.replace({ pathname: '/(tabs)', params: { tab: '4' } });
+              router.replace({ pathname: '/(tabs)', params: { tab: '5' } });
+            } else if (notifType === 'community_reminder' || notifType === 'community_feed') {
+              // Tab 3 is the Ummah (community) tab.
+              router.replace({ pathname: '/(tabs)', params: homeTabParams(HOME_TAB.community) });
             } else if (notifType === 'greeting') {
               const occasion = String(initialNotification?.notification?.data?.occasion ?? 'cuma');
               router.replace({ pathname: '/(tabs)', params: { tab: '2', open: 'greeting', occasion } });
@@ -127,17 +174,6 @@ export default function RootLayout() {
       }).catch((err) => console.error('Error getting initial notification:', err));
     }
   }, [isAppReady, isSplashAnimationComplete]);
-
-  useEffect(() => {
-    if (Platform.OS === 'android') {
-      try {
-        NavigationBar.setVisibilityAsync('hidden').catch(() => {});
-        // setBehaviorAsync is deprecated/unsupported with edge-to-edge
-      } catch (e) {
-        console.warn('Failed to configure navigation bar:', e);
-      }
-    }
-  }, []);
 
   useEffect(() => {
     AsyncStorage.getItem('APP_LANG')
@@ -163,9 +199,10 @@ export default function RootLayout() {
           const count = (countStr ? parseInt(countStr, 10) : 0) + 1;
           AsyncStorage.setItem('APP_OPEN_COUNT', count.toString()).catch(() => {});
           // Ask Play for a review once the user has come back a few times; Play
-          // decides whether the card actually shows.
+          // decides whether the card actually shows. Delayed well past launch so it never
+          // stacks on top of the consent, location and notification prompts of the same open.
           if (count >= 5) {
-            setTimeout(() => maybeRequestReview('open_5'), 4000);
+            setTimeout(() => maybeRequestReview('open_5'), 60_000);
           }
         } catch (e) {
           console.error("Error tracking app open count", e);
