@@ -2,7 +2,7 @@
   "expo": {
     "name": "Vera",
     "slug": "ezan-app",
-    "version": "1.0.41",
+    "version": "1.0.44",
     "orientation": "portrait",
     "icon": "./assets/images/Vera_app_icon.png",
     "scheme": "ezanapp",
@@ -34,7 +34,7 @@
     "android": {
       "package": "com.abdllhekc.vera",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 42,
+      "versionCode": 46,
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",
         "android.permission.SYSTEM_ALERT_WINDOW",
@@ -139,6 +139,7 @@
       "@react-native-firebase/analytics/app.plugin.js",
       "./plugins/withAndroidSigning.js",
       "./plugins/withVeraNativeAndroid.js",
+      "./plugins/withOptionalHardwareFeatures.js",
       "expo-background-task",
       [
         "expo-tracking-transparency",

@@ -23,10 +23,19 @@ import {
   type RemoteMessage,
 } from '@react-native-firebase/messaging';
 import { AppStorage as AsyncStorage } from '../services/storageService';
-import { changeAppLanguage } from '../localization/i18n';
+import {
+  changeAppLanguage,
+  getSystemLanguage,
+  hasExplicitLanguage,
+  isLayoutDirectionMismatch,
+  syncSystemLanguage,
+} from '../localization/i18n';
+import { SplashProvider } from '../context/SplashContext';
+import { isRtlLanguage, reloadForLayoutDirection } from '../utils/rtl';
 import { HOME_TAB, homeTabParams } from '../utils/homeTabRoute';
 import { logNotificationOpened } from '../services/analyticsService';
-import { View, StyleSheet, InteractionManager } from 'react-native';
+import { useLocales } from 'expo-localization';
+import { AppState, View, StyleSheet, InteractionManager } from 'react-native';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -67,6 +76,7 @@ export default function RootLayout() {
     Outfit_700Bold,
   });
 
+  const locales = useLocales();
   const [langLoaded, setLangLoaded] = useState(false);
   const [isAppReady, setIsAppReady] = useState(false);
   const [isSplashAnimationComplete, setSplashAnimationComplete] = useState(false);
@@ -176,17 +186,49 @@ export default function RootLayout() {
   }, [isAppReady, isSplashAnimationComplete]);
 
   useEffect(() => {
+    let mounted = true;
     AsyncStorage.getItem('APP_LANG')
-      .then((lang) => {
-        if (lang) {
-          changeAppLanguage(lang);
+      .then(async (savedLang) => {
+        const effectiveLang = savedLang || getSystemLanguage();
+        await changeAppLanguage(effectiveLang);
+        if (isLayoutDirectionMismatch()) {
+          await reloadForLayoutDirection(isRtlLanguage(effectiveLang));
         }
       })
       .catch(() => {})
       .finally(() => {
-        setLangLoaded(true);
+        if (mounted) setLangLoaded(true);
       });
+    return () => {
+      mounted = false;
+    };
   }, []);
+
+  useEffect(() => {
+    if (!langLoaded || hasExplicitLanguage()) return;
+    let cancelled = false;
+    syncSystemLanguage().then((needsRestart) => {
+      if (!cancelled && needsRestart) {
+        void reloadForLayoutDirection(isRtlLanguage(getSystemLanguage()));
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [langLoaded, locales]);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active' && langLoaded && !hasExplicitLanguage()) {
+        void syncSystemLanguage().then((needsRestart) => {
+          if (needsRestart) {
+            void reloadForLayoutDirection(isRtlLanguage(getSystemLanguage()));
+          }
+        });
+      }
+    });
+    return () => subscription.remove();
+  }, [langLoaded]);
 
   useEffect(() => {
     if ((fontsLoaded || fontError) && langLoaded) {
@@ -232,18 +274,19 @@ export default function RootLayout() {
 
   return (
     <View style={styles.container}>
-      {isSplashAnimationComplete ? (
-        <ErrorBoundary>
-          <ThemeProvider>
-            <QuranSettingsProvider>
+      <ErrorBoundary>
+        <ThemeProvider>
+          <QuranSettingsProvider>
+            <SplashProvider value={isSplashAnimationComplete}>
               <Slot />
-              <VersionChecker />
-            </QuranSettingsProvider>
-          </ThemeProvider>
-        </ErrorBoundary>
-      ) : (
-        <AnimatedSplashScreen 
-          onAnimationComplete={() => setSplashAnimationComplete(true)} 
+              {isSplashAnimationComplete && <VersionChecker />}
+            </SplashProvider>
+          </QuranSettingsProvider>
+        </ThemeProvider>
+      </ErrorBoundary>
+      {!isSplashAnimationComplete && (
+        <AnimatedSplashScreen
+          onAnimationComplete={() => setSplashAnimationComplete(true)}
         />
       )}
     </View>
@@ -253,6 +296,6 @@ export default function RootLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1A1207', // Match the splash screen background
+    backgroundColor: '#0D0D0D', // Match native & animated splash background
   },
 });

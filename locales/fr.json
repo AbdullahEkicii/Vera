@@ -1,4 +1,6 @@
 {
-  "NSLocationWhenInUseUsageDescription": "Vera utilise votre position pour calculer des horaires de prière précis et la direction de la Qibla.",
-  "NSUserTrackingUsageDescription": "Vos données servent à vous proposer des publicités plus pertinentes et à améliorer l'application."
+  "ios": {
+    "NSLocationWhenInUseUsageDescription": "Vera utilise votre position pour calculer des horaires de prière précis et la direction de la Qibla.",
+    "NSUserTrackingUsageDescription": "Vos données servent à vous proposer des publicités plus pertinentes et à améliorer l'application."
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "NSLocationWhenInUseUsageDescription": "Vera nutzt Ihren Standort, um genaue Gebetszeiten und die Gebetsrichtung (Kibla) zu berechnen.",
-  "NSUserTrackingUsageDescription": "Ihre Daten werden verwendet, um Ihnen relevantere Werbung zu zeigen und die App zu verbessern."
+  "ios": {
+    "NSLocationWhenInUseUsageDescription": "Vera nutzt Ihren Standort, um genaue Gebetszeiten und die Gebetsrichtung (Kibla) zu berechnen.",
+    "NSUserTrackingUsageDescription": "Ihre Daten werden verwendet, um Ihnen relevantere Werbung zu zeigen und die App zu verbessern."
+  }
 }

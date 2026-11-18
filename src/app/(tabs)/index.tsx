@@ -73,6 +73,7 @@ import { KazaTrackerModal } from '../../components/KazaTrackerModal';
 import { GreetingCardModal } from '../../components/GreetingCardModal';
 import { NearbyMosquesModal } from '../../components/NearbyMosquesModal';
 import { useTheme } from '../../context/ThemeContext';
+import { useSplashComplete } from '../../context/SplashContext';
 import { useLocation } from '../../hooks/useLocation';
 import { setCrashContext } from '../../services/crashReportingService';
 import { addCalendarDays, computeDayEpochs, getDeviceTimeZone, getZonedDate, parseClock, zonedWallTimeToEpoch } from '../../utils/zonedTime';
@@ -191,6 +192,7 @@ export default function HomeScreen() {
   const { t, i18n } = useTranslation();
   const isLangTR = i18n.language === 'tr' || i18n.language.startsWith('tr');
   const { theme, isDark, isFullscreen, timeFormat } = useTheme();
+  const splashComplete = useSplashComplete();
   const TAB_BAR_BOTTOM = Platform.OS === 'android'
     ? Math.max(insets.bottom + 8, isFullscreen ? 16 : 22)
     : Math.max(insets.bottom + 6, 16);
@@ -1108,6 +1110,12 @@ export default function HomeScreen() {
         </Pressable>
       )}
 
+      {/* Banner ad: right above the Ramadan countdown card.
+          Loads once it scrolls into view (lazy), so an off-screen mount does not spend a request. */}
+      <Animated.View entering={FadeInDown.delay(185).duration(400).springify().damping(12)}>
+        <BannerAdSlot placement="home" isVisible={activeTab === 2} />
+      </Animated.View>
+
       {/* Countdown to Ramazan, then a daily Ramazan item during the month. Renders nothing when the date is unknown. */}
       {location?.latitude != null && location?.longitude != null && (
         <RamadanCard
@@ -1161,12 +1169,6 @@ export default function HomeScreen() {
           )}
         </Animated.View>
       )}
-
-      {/* Banner ad: under the prayer times, right above the quick feature buttons.
-          Loads once it scrolls into view (lazy), so an off-screen mount does not spend a request. */}
-      <Animated.View entering={FadeInDown.delay(185).duration(400).springify().damping(12)}>
-        <BannerAdSlot placement="home" isVisible={activeTab === 2} />
-      </Animated.View>
 
       {/* Location Permission / Fallback Banner */}
       {showLocationCard && (
@@ -1456,7 +1458,7 @@ export default function HomeScreen() {
       />
 
       <WelcomeOnboardingModal
-        visible={onboardingVisible}
+        visible={onboardingVisible && splashComplete}
         currentCity={location?.city}
         locationIsGuess={isFallbackLocation}
         onOpenCitySearch={() => setIsSearchVisible(true)}

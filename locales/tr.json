@@ -1,4 +1,6 @@
 {
-  "NSLocationWhenInUseUsageDescription": "Ezan vakitlerini ve kıble yönünü doğru hesaplayabilmek için konum izninize ihtiyaç duyulmaktadır.",
-  "NSUserTrackingUsageDescription": "Size kişiselleştirilmiş reklamlar gösterebilmek ve uygulama deneyimini iyileştirebilmek için izninizi istiyoruz."
+  "ios": {
+    "NSLocationWhenInUseUsageDescription": "Ezan vakitlerini ve kıble yönünü doğru hesaplayabilmek için konum izninize ihtiyaç duyulmaktadır.",
+    "NSUserTrackingUsageDescription": "Size kişiselleştirilmiş reklamlar gösterebilmek ve uygulama deneyimini iyileştirebilmek için izninizi istiyoruz."
+  }
 }

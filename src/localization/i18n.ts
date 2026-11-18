@@ -1,7 +1,9 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import * as Localization from 'expo-localization';
-import { applyLayoutDirection } from '../utils/rtl';
+import { I18nManager } from 'react-native';
+import { AppStorage } from '../services/storageService';
+import { applyLayoutDirection, isRtlLanguage } from '../utils/rtl';
 
 import en from './en.json';
 import tr from './tr.json';
@@ -67,36 +69,39 @@ export function ensureLanguageLoaded(lang: string): boolean {
   return true;
 }
 
+export function normalizeSupportedLanguage(code?: string | null): string | null {
+  if (!code) return null;
+  const raw = code.trim().toLowerCase();
+  if (SUPPORTED_LANGS.includes(raw)) return raw;
+  const base = raw.split(/[-_]/)[0];
+  if (base && SUPPORTED_LANGS.includes(base)) return base;
+  return null;
+}
+
 /**
  * Loads a language (if needed) and switches i18next to it. Resolves to true when the layout
- * direction has to change (to or from right-to-left): that only applies after an app restart.
+ * direction has to change (to or from right-to-left): that only applies after a runtime reload.
  */
 export async function changeAppLanguage(lang: string): Promise<boolean> {
-  ensureLanguageLoaded(lang);
-  await i18n.changeLanguage(lang);
-  return applyLayoutDirection(lang);
+  const normalized = normalizeSupportedLanguage(lang) ?? 'en';
+  ensureLanguageLoaded(normalized);
+  if (i18n.language !== normalized) {
+    await i18n.changeLanguage(normalized);
+  }
+  return applyLayoutDirection(normalized);
 }
 
 // Robust Auto-detection of system language
 // Normalizes regional codes (e.g., 'tr-TR' -> 'tr', 'zh-Hans' -> 'zh')
-const getInitialLanguage = (): string => {
+export const getSystemLanguage = (): string => {
   try {
     const locales = Localization.getLocales();
     if (locales && locales.length > 0) {
-      const rawCode = (locales[0].languageCode || '').toLowerCase();
-      // 1. Direct match
-      if (rawCode && SUPPORTED_LANGS.includes(rawCode)) {
-        return rawCode;
-      }
-      // 2. Base code (e.g. 'tr-TR' -> 'tr')
-      const baseCode = rawCode.split(/[-_]/)[0];
-      if (baseCode && SUPPORTED_LANGS.includes(baseCode)) {
-        return baseCode;
-      }
-      // 3. Fallback from languageTag
-      const tag = (locales[0].languageTag || '').toLowerCase().split(/[-_]/)[0];
-      if (tag && SUPPORTED_LANGS.includes(tag)) {
-        return tag;
+      for (const locale of locales) {
+        const fromCode = normalizeSupportedLanguage(locale.languageCode);
+        if (fromCode) return fromCode;
+        const fromTag = normalizeSupportedLanguage(locale.languageTag);
+        if (fromTag) return fromTag;
       }
     }
   } catch (e) {
@@ -105,10 +110,42 @@ const getInitialLanguage = (): string => {
   return 'en';
 };
 
-const defaultLanguage = getInitialLanguage();
-// Native layout direction follows the language from the first launch on (it applies from the
-// next start; a saved in-app language re-applies it through changeAppLanguage).
+export const hasExplicitLanguage = (): boolean => {
+  try {
+    const saved = AppStorage.getString('APP_LANG');
+    return !!normalizeSupportedLanguage(saved);
+  } catch {
+    return false;
+  }
+};
+
+/** Re-reads the device locale when the user has not pinned an in-app language. */
+export async function syncSystemLanguage(): Promise<{ language: string; needsReload: boolean }> {
+  const saved = normalizeSupportedLanguage(AppStorage.getString('APP_LANG'));
+  const target = saved ?? getSystemLanguage();
+  const needsReload = await changeAppLanguage(target);
+  return { language: target, needsReload };
+}
+
+/** Clears the manual language override so the app tracks the device language again. */
+export async function resetToSystemLanguage(): Promise<boolean> {
+  await AppStorage.removeItem('APP_LANG');
+  return changeAppLanguage(getSystemLanguage());
+}
+
+const savedLanguage = (() => {
+  try {
+    return normalizeSupportedLanguage(AppStorage.getString('APP_LANG'));
+  } catch {
+    return null;
+  }
+})();
+
+const defaultLanguage = savedLanguage ?? getSystemLanguage();
+// Native layout direction follows the active language from startup on.
 applyLayoutDirection(defaultLanguage);
+export const isLayoutDirectionMismatch = (): boolean =>
+  I18nManager.isRTL !== isRtlLanguage(i18n.language || defaultLanguage);
 
 // The device language's bundle must be part of the init() resources: calling
 // addResourceBundle before init() throws ("undefined is not a function") and crashed

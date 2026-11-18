@@ -40,7 +40,7 @@ import {
 import { audioManager } from '../../services/audioManager';
 import { getAnnouncementsEnabled, setAnnouncementsEnabled } from '../../services/pushNotificationService';
 import { openAdsPrivacyOptionsForm } from '../../services/adsConsentService';
-import { changeAppLanguage } from '../../localization/i18n';
+import { changeAppLanguage, getSystemLanguage, hasExplicitLanguage, resetToSystemLanguage } from '../../localization/i18n';
 import { getOrCreateReferralCode, getReferralShareMessage } from '../../services/referralService';
 import {
   logScreenView,
@@ -53,9 +53,9 @@ import { AppStorage as AsyncStorage } from '../../services/storageService';
 import { CitySearchModal } from '../../components/CitySearchModal';
 import { AppStorage, SecureLocationStorage } from '../../services/storageService';
 import { LOCATION_CHANGED_EVENT } from '../../hooks/useLocation';
-import { directionalIconStyle } from '../../utils/rtl';
+import { directionalIconStyle, isRtlLanguage, reloadForLayoutDirection } from '../../utils/rtl';
 import { getRecommendedCalculationMethod, METHOD_ANGLES, METHOD_USER_SET_KEY, updateMethodForLocation } from '../../utils/calcMethod';
-import { ASR_SCHOOL_KEY, getAsrSchool, getHijriOffset, setHijriOffset } from '../../services/api';
+import { ASR_SCHOOL_KEY, getAsrSchool, getHijriOffset, methodSupportsAsrSchool, setHijriOffset } from '../../services/api';
 import { isHttpsUrl, PLAY_STORE_APP_URL, PLAY_STORE_URL, PRIVACY_POLICY_URL } from '../../config/links';
 
 const SOUND_OPTIONS = [
@@ -351,18 +351,32 @@ export default function SettingsScreen() {
   };
 
   const toggleLanguage = async (newLang: string) => {
-    await AsyncStorage.setItem('APP_LANG', newLang);
-    const needsRestart = await changeAppLanguage(newLang);
     setLangModalVisible(false);
-    if (needsRestart) {
-      // Layout direction (right-to-left languages) is read at app start.
-      Alert.alert(
-        t('settings.language'),
-        t('settings.restartForDirection', 'Close and reopen the app to apply the new text direction.'),
-        [{ text: t('common.ok', 'OK') }]
-      );
+    try {
+      let needsRestart = false;
+      let targetRtl = false;
+      if (newLang === 'system') {
+        needsRestart = await resetToSystemLanguage();
+        targetRtl = isRtlLanguage(getSystemLanguage());
+      } else {
+        await AsyncStorage.setItem('APP_LANG', newLang);
+        needsRestart = await changeAppLanguage(newLang);
+        targetRtl = isRtlLanguage(newLang);
+      }
+      if (prefs) setTimeout(() => rescheduleFromCache(prefs), 100);
+      if (needsRestart) {
+        const reloaded = await reloadForLayoutDirection(targetRtl);
+        if (!reloaded) {
+          Alert.alert(
+            t('settings.language'),
+            t('settings.restartForDirection', 'Close and reopen the app to apply the new text direction.'),
+            [{ text: t('common.ok', 'OK') }]
+          );
+        }
+      }
+    } catch {
+      // Language state falls back cleanly via i18n
     }
-    if (prefs) setTimeout(() => rescheduleFromCache(prefs), 100);
   };
 
   const handleInviteFriend = async () => {
@@ -604,7 +618,12 @@ export default function SettingsScreen() {
               style={[styles.langChip, { borderColor: theme.colors.border }]}
             >
               <Text style={[styles.langLabel, { color: theme.colors.text, flex: 1, marginEnd: 8 }]} numberOfLines={1}>
-                {LANGUAGES.find(l => l.id === i18n.language)?.label || LANGUAGES[0].label}
+                {(() => {
+                  const activeLabel = LANGUAGES.find((l) => l.id === i18n.language)?.label || LANGUAGES[0].label;
+                  return hasExplicitLanguage()
+                    ? activeLabel
+                    : `${t('settings.systemLanguage', 'System Language')} (${activeLabel})`;
+                })()}
               </Text>
               <Feather name="chevron-down" size={20} color={theme.colors.textSecondary} />
             </LinearGradient>
@@ -637,14 +656,17 @@ export default function SettingsScreen() {
           <View style={[styles.card, { backgroundColor: theme.colors.surfaceStrong, borderColor: theme.colors.border, padding: 14 }]}>
             <View style={{ flexDirection: 'row', gap: 8 }}>
               {([0, 1] as const).map((school) => {
-                const active = asrSchool === school;
+                const schoolLocked = !methodSupportsAsrSchool(currentMethod);
+                const active = (schoolLocked ? 0 : asrSchool) === school;
                 return (
                   <Pressable
                     key={school}
                     onPress={() => selectAsrSchool(school)}
+                    disabled={schoolLocked}
                     accessibilityRole="button"
-                    accessibilityState={{ selected: active }}
+                    accessibilityState={{ selected: active, disabled: schoolLocked }}
                     style={{
+                      opacity: schoolLocked && !active ? 0.4 : 1,
                       flex: 1,
                       minHeight: 44,
                       paddingVertical: 10,
@@ -670,7 +692,13 @@ export default function SettingsScreen() {
               })}
             </View>
             <Text style={{ fontFamily: typography.fontFamily.regular, fontSize: 11, color: theme.colors.textSecondary, marginTop: 10, lineHeight: 15 }}>
-              {t('settings.asrSchoolDesc', 'Hanafi puts Asr later (shadow twice the object). It is the usual choice in South Asia.')}
+              {methodSupportsAsrSchool(currentMethod)
+                ? t('settings.asrSchoolDesc', 'Hanafi puts Asr later (shadow twice the object). It is the usual choice in South Asia.')
+                : tt(
+                    'settings.asrSchoolLocked',
+                    'Seçili hesaplama yöntemi kendi resmi Asr vaktini kullanır; bu ayar yalnızca ISNA, MWL ve Karaçi yöntemlerinde geçerlidir.',
+                    'The selected calculation method uses its own official Asr time; this setting only applies to ISNA, MWL and Karachi.',
+                  )}
             </Text>
           </View>
         </Animated.View>
@@ -1435,8 +1463,25 @@ export default function SettingsScreen() {
               </Pressable>
             </View>
             <ScrollView style={{ maxHeight: 400 }}>
+              {(() => {
+                const systemActive = !hasExplicitLanguage();
+                const systemLabel = LANGUAGES.find((l) => l.id === getSystemLanguage())?.label;
+                return (
+                  <Pressable
+                    key="system"
+                    style={[styles.modalLangRow, { borderBottomColor: theme.colors.border }]}
+                    onPress={() => toggleLanguage('system')}
+                  >
+                    <Text style={[styles.modalLangLabel, { color: systemActive ? theme.colors.primary : theme.colors.text }]}>
+                      {t('settings.systemLanguage', 'System Language')}
+                      {systemLabel ? ` (${systemLabel})` : ''}
+                    </Text>
+                    {systemActive && <Feather name="check" size={20} color={theme.colors.primary} />}
+                  </Pressable>
+                );
+              })()}
               {LANGUAGES.map((lang) => {
-                const active = i18n.language === lang.id;
+                const active = hasExplicitLanguage() && i18n.language === lang.id;
                 return (
                   <Pressable
                     key={lang.id}

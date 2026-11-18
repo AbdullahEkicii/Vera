@@ -1,5 +1,8 @@
 {
   "translation": {
+    "splash": {
+      "subtitle": "Compass of the Heart"
+    },
     "common": {
       "loading": "Loading...",
       "success": "Success",
@@ -124,6 +127,7 @@
       "inviteFriend": "Invite a Friend",
       "privacyOptions": "Privacy Options",
       "language": "Language",
+      "systemLanguage": "System Language",
       "theme": "Theme",
       "dark": "Dark",
       "light": "Light",

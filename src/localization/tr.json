@@ -1,5 +1,8 @@
 {
   "translation": {
+    "splash": {
+      "subtitle": "Gönül Pusulası"
+    },
     "common": {
       "loading": "Yükleniyor...",
       "success": "Başarılı",
@@ -124,6 +127,7 @@
       "inviteFriend": "Arkadaşını Davet Et",
       "privacyOptions": "Gizlilik Tercihleri",
       "language": "Dil",
+      "systemLanguage": "Sistem Dili",
       "theme": "Tema",
       "dark": "Koyu",
       "light": "Açık",

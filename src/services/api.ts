@@ -82,6 +82,16 @@ export const getAsrSchool = async (): Promise<0 | 1> => {
   }
 };
 
+// Only these general-purpose methods leave the Asr juristic choice open. Every national / authority
+// method (Diyanet, Umm al-Qura, Egypt, JAKIM, Kemenag, MUIS, ...) publishes its own fixed Asr time
+// (standard shadow), so applying Hanafi to them makes Asr ~40 min later than the official timetable.
+const HANAFI_CAPABLE_METHODS = [1, 2, 3];
+export const methodSupportsAsrSchool = (method: number): boolean => HANAFI_CAPABLE_METHODS.includes(method);
+
+/** The Asr school actually applied: the user's/region's choice, but only where the method allows it. */
+export const resolveAsrSchool = async (method: number): Promise<0 | 1> =>
+  methodSupportsAsrSchool(method) ? getAsrSchool() : 0;
+
 // A month of API data is only worth caching if it looks like one.
 const isUsableMonth = (data: unknown): data is DayData[] =>
   Array.isArray(data) &&
@@ -296,7 +306,7 @@ export const fetchPrayerTimes = async (latitude: number, longitude: number): Pro
   const month = date.getMonth() + 1; // 1-12
 
   const method = await resolveCalculationMethod(latitude, longitude);
-  const school = await getAsrSchool();
+  const school = await resolveAsrSchool(method);
   // Same Hijri calendar as the Ramadan / religious-day screens, or the home date can differ by a day.
   const hijriCalendarMethod = method === 13 ? 'DIYANET' : 'HJCoSA';
   const offsets = await getPrayerOffsets();
